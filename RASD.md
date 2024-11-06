@@ -105,3 +105,24 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 These questions require an answer reached by mutual agreement
 
 - La ricerca proattiva del tirocinio eseguita dallo studente consente allo stesso di proporsi o solo di scorrere le offerte disponibili?
+
+## User Scenario
+
+1. Student Sign-up
+Mario Rossi is a student that want to improve his ability and education by doing an internship before graduating. He opens the S&C platform and select "Student SignUp". He proved the required personal information such as his Name, Surname and Date of birth, an email and a password that he will use as login credential and he select from the list of available university the university he goes to. 
+If the email address has never been used on the site, Mario will receive an eMail for confirming the mail address and the registration of the account. Once the registration is confirmed the account is created.
+If the email address is already in use the platform will show an error that ask to insert a new email. 
+
+2. Company Sign-up
+FastRedCar SPA is a world-leading car company that aims to launch an internship program to train new mechanical engineers in their final year of a Bachelor’s or Master’s degree. The company open the S&C platform and select "Company SignUp" where they provide the required information such as the company name, company headquarters address, company VAT number and also an email address and a password that will be used as login credential.
+If the VAT number has never been used on the site, FastRedCar SPA will receive an eMail for confirming the mail address and the registration of the account. Once the registration is confirmed the account is created.
+If the VAT number is already in use the platform will show an error indicating the the company is already registered on the platform.
+
+3. University Sign-up
+The Technical University of Milan is a prestigious university that wants his students to complete an internship before graduating, believing this experience will enhance their skills and knowledge. The university opens the S&C platform and selects "University SignUp" where they provide the required information such as the university name, the university description, the university VAT number, the name of the university office that will manage the internship program and also an email address and a password that will be used as login credential.
+If the VAT number has never been used on the site, the Technical University of Milan will receive an eMail for confirming the mail address and the registration of the account. Once the registration is confirmed the account is created.
+If the VAT number is already in use the platform will show an error indicating the the university is already registered on the platform.
+
+4. Actor Login
+A platform user that has already registered an account can login by providing the email and password used during the registration. If the email and password are correct, matching and entry in the platform DB, the user is redirected to the platform home page. If the email or password are incorrect the platform will show an error message indicating that the login credentials are wrong.
+
