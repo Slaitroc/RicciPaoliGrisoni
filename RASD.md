@@ -68,7 +68,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 3. The Platform shows to Students the status of spontaneous applications
 4. The Platform shows to Students the current status of the recommendation process
 5. The Platform shows to Companies the current status of the recommendation process for a given internship
-6. The Platform shows to Companies information about interviews
+6. The Platform shows to Companies information about Interviews
 7. The Platform shows to Universities information about an ongoing internship
 8. The Platform notifies Students and Companies when a suitable recommendation is found
 9. The Platform provides Students and Companies suggestions about how to make their submissions
@@ -78,10 +78,10 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 2. The Platform presents the interface for Students' CV submission
 3. The Platform presents the interface for actively searching available internships
 4. The Platform presents the interface for monitoring recommendation
-5. The Platform presents the interface for a Company to set up an interview
-6. The Platform presents the interface for a Company to conduct previously set up interviews
-7. The Platform presents the interface for a Company to finalize previously conducted interviews
-8. The Platform displays the interface for a Student to answer interview questions
+5. The Platform presents the interface for a Company to set up an Interview
+6. The Platform presents the interface for a Company to conduct previously set up Interviews
+7. The Platform presents the interface for a Company to finalize previously conducted Interviews
+8. The Platform displays the interface for a Student to answer Interview questions
 9. The Platform presents the interface for complaining, communicating problems, providing information about an ongoing internship
 10. The Platform presents the interface for a University to handle complains
 11. The Platform presents the interface for a University to Monitor an ongoing internship
@@ -115,3 +115,40 @@ If the VAT number is already in use the platform will show an error indicating t
 4. Actor Login
 A platform user that has already registered an account can login by providing the email and password used during the registration. If the email and password are correct, matching and entry in the platform DB, the user is redirected to the platform home page. If the email or password are incorrect the platform will show an error message indicating that the login credentials are wrong.
 
+## Requirements
+<!--Login-->
+1. The system shall allow Students to register by providing personal information and selecting their university
+2. The system shall allow Companies to register by providing company information
+3. The system shall allow Universities to register by providing university information
+4. The system shall send a confirmation email upon registration (??)
+5. The system shall prevent duplicate registrations (??)
+6. The system shall allow registered Users to log in using their email and password. 
+7. The system shall provide error messages if login credentials are incorrect. (??)
+    <!-- Application advertisement and Applications-->
+8. The system shall allow registered Companies to create and publish Internship offers specifying details like application domain, tasks, adopted technologies, and terms.
+9. The system shall allow registered Companies to terminate their Internship offers at their own discretion. 
+10. The system shall provide registered Students a set of Internship offers they might find interesting.
+11. The system shall allow registered Students to view and navigate available internsihps (Unite 9 and 10??)
+12. The system shall enable registered Students to submit spontaneous applications to Internships they find interesting.
+13. The system shall allow registered Students to submit their CVs and maintain their profiles (Two different requirements??)
+14. The system shall allow registered Students to monitor the status of their applications.
+    <!--Recommendation System-->
+15. The system shall notify registered Students when an Internship that matches their profile becomes available.
+16. The system shall notify registered Companies when a registered Student’s CV matches an Internship requirement.
+17. The system shall display to registered Companies CVs of Students they are interested in. 
+18. The system shall allow registered Students and Companies to accept a Recommendation, starting an Interview process between them. (??)
+    <!--Selection and Interview Management-->
+19. The system shall allow registered Companies to create Interview questionnaires or structured questions for Students they have initiated and Interview process with.
+20. The system shall allow registered Students to answer Interview questions and submit them.
+21. The system shall allow registered Students to monitor the status of their Interviews.
+22. The system shall enable registered Companies to complete the Interview process by recording and submitting the final outcome for each candidate. 
+    <!--Feedback and Suggestions for Improvements-->
+23. The system shall collect feedback from both registered Students and Companies regarding the recommendation and Internship experience
+24. The system shall provide suggestions to registered Students on improving their CVs
+25. The system shall provide suggestions to registered Companies on improving project descriptions
+    <!--Universities Oversight and Complain Management-->
+26. The system shall allow registered Universities to access and monitor internship data related to their students.
+27. The system shall provide a platform to registered Students and Companies to  complain, communicate problems, or provide information about the current status of the ongoing internship. 
+28. The system shall notify registered Universities of any complaint or problem issued on their students
+29. The system shall allow registered Universities to handle complaints and to interrupt an internship at their own discretion.
+<!---->
