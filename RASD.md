@@ -97,23 +97,42 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 
 ## User Scenario
 
-1. Student Sign-up
+1. **Student Sign-up**
+
 Mario Rossi is a student that want to improve his ability and education by doing an internship before graduating. He opens the S&C platform and select "Student SignUp". He proved the required personal information such as his Name, Surname and Date of birth, an email and a password that he will use as login credential and he select from the list of available university the university he goes to. 
 If the email address has never been used on the site, Mario will receive an eMail for confirming the mail address and the registration of the account. Once the registration is confirmed the account is created.
 If the email address is already in use the platform will show an error that ask to insert a new email. 
 
-2. Company Sign-up
+2. **Company Sign-up**
+
 FastRedCar SPA is a world-leading car company that aims to launch an internship program to train new mechanical engineers in their final year of a Bachelor’s or Master’s degree. The company open the S&C platform and select "Company SignUp" where they provide the required information such as the company name, company headquarters address, company VAT number and also an email address and a password that will be used as login credential.
 If the VAT number has never been used on the site, FastRedCar SPA will receive an eMail for confirming the mail address and the registration of the account. Once the registration is confirmed the account is created.
 If the VAT number is already in use the platform will show an error indicating the the company is already registered on the platform.
 
-3. University Sign-up
+3. **University Sign-up**
+
 The Technical University of Milan is a prestigious university that wants his students to complete an internship before graduating, believing this experience will enhance their skills and knowledge. The university opens the S&C platform and selects "University SignUp" where they provide the required information such as the university name, the university description, the university VAT number, the name of the university office that will manage the internship program and also an email address and a password that will be used as login credential.
 If the VAT number has never been used on the site, the Technical University of Milan will receive an eMail for confirming the mail address and the registration of the account. Once the registration is confirmed the account is created.
 If the VAT number is already in use the platform will show an error indicating the the university is already registered on the platform.
 
-4. Actor Login
+4. **Actor Login**
+
 A platform user that has already registered an account can login by providing the email and password used during the registration. If the email and password are correct, matching and entry in the platform DB, the user is redirected to the platform home page. If the email or password are incorrect the platform will show an error message indicating that the login credentials are wrong.
+
+5. **User Load Curriculum** (Load a cv-file that is analyzed? Or simply ask a user a set of questions to fill in the profile?)
+
+Stefano is a student who has already registered an account on S&C and wants to complete his profile by uploading his CV. From the platform's homepage, he clicks on the "Upload CV" button. He is then redirected to a page where he can enter his curriculum information, including his current level of education, languages he knows, technical skills, and, optionally, details about past work experience along with contact information for previous employers. 
+He also add a photo of himself, a brief description of his interests and hobbies and, in a an apposite section of the page, he write all the thighs he would like to learn and improve during his internship as well as all the thighs he would like to avoid doing. Stefano is pretty thorough in filling this section because he knows that he is doing an internship to improve his skills and ability and he wants to avoid spending his "internship-time" doing task that will not help him in a future job. 
+As soon as (? non specifico abbastanza) he click on the "Submit CV" button the platform elaborate it and try to find some matching job internship based on the given information. 
+A list of five different internship, for which Stefano is a match, is shown to the student in the platform's homepage where he can decide to apply for one of them, starting the selection process.
+While computing the matching, the platform also provides Stefano with some suggestions on how to improve his CV based on the "missed internship" to which he cant apply because he miss some skills, or keywords, in his CV.
+
+6. **Company Submit an Internship Insertion**
+
+AnanasPhone is a major tech company, specialized in the production of smartphone and table, that has an account on the S&C company. They want to create an internship program aim to software engineers student in their final year of Master Degree. They open the S&C platform and select "Insert Internship" where they provide the required information such as the internship title, the internship description, the internship domain, a list of the required skills and a list of all the task that the student will have to do during the internship. 
+The company also define the selection process that will be used to select the student that will do the internship in the case in which they are match by the platform and in the case in which they manually apply to the insertion. 
+Once the internship is created by clicking on the "Submit Internship" button, the platform will match the internship with all the student that are a match for the internship based on the given information. 
+The platform will also provide AnanasPhone with some suggestion on how to improve the internship description, and matching probability, based on the "missed student" to which they are not match because they are require them to do task that are especially excluded by the student during they CV submission or because the Company cannot provide to the student a sufficient training on the required skills.
 
 ## Requirements
 <!--Login-->
