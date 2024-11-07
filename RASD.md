@@ -171,3 +171,6 @@ The platform will also provide AnanasPhone with some suggestion on how to improv
 28. The system shall notify registered Universities of any complaint or problem issued on their students
 29. The system shall allow registered Universities to handle complaints and to interrupt an internship at their own discretion.
 <!---->
+## Class Diagram
+
+![Class Diagram](./ClassDiagram.png)
