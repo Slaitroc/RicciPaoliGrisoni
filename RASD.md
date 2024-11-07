@@ -134,6 +134,27 @@ The company also define the selection process that will be used to select the st
 Once the internship is created by clicking on the "Submit Internship" button, the platform will match the internship with all the student that are a match for the internship based on the given information. 
 The platform will also provide AnanasPhone with some suggestion on how to improve the internship description, and matching probability, based on the "missed student" to which they are not match because they are require them to do task that are especially excluded by the student during they CV submission or because the Company cannot provide to the student a sufficient training on the required skills.
 
+7. **Student accept a matched internship**
+Sara is a economic major student that has already uploaded her CV on the S&C platform and is looking for an internship. She has received a notification and by clicking on it she see that a new internship is available for her. 
+Sara reads the internship description and the task that she will have to do during the internship, and knowing that she has required skills otherwise she would have been matched, she decide to apply for it. 
+She click on the "Apply" button and the platform notify the company that Sara has applied for the internship. The company will automatically start the application process and the platform will inform Sara when the selection question are available. (?)
+
+8. **Student proactively apply for an internship**
+
+Marco is a chemistry student that has already uploaded his CV on the S&C platform and is looking for an internship. Unfortunately the matching Internships provided by the platform do not fully satisfy his needs and he decide to proactively search for another internship.
+He opens the platform's homepage and click on the "Brows all Internship" button. Here he can see all the internship that are available on the platform and he can filter them by field of study, required skills, location and other parameters.
+He find an internship that is not in the matching list provided by the platform but that is perfect for him. and he click on the "manually apply" button. 
+The platform notify the company that Marco has applied for the internship and will inform the Student if and when the company will start the application process. Marco in fact knows that while with matched internship the interview process is automatic, with manually applied internship the company has a right to refuse his spontaneous application. (?) 
+
+9. **students & Company undergo the selection process**
+Anna, a physics major, was matched with CosmoX, a renowned rocket company specializing in rocket reuse. The selection process established by CosmoX for students matched through S&C consists of two questionnaires, each containing ten multiple-choice questions. One questionnaire is a behavioral assessment to determine if the candidate aligns with the company's vision, while the other tests the student's technical knowledge.   
+Tommaso a aerospace engineer about to graduate was not matched with CosmoX because, during his CV submission, he indicated certain tasks he preferred not to do, which are required by the company. Nevertheless Tommaso always wanted to do a work experience with CosmoX and decided to manual apply to the company. 
+After reviewing Tommaso's CV, the HR department of CosmoX decide to accept the Student application. The selection process established by the company for manually applied student is composed of the same two questionnaires sent to "matched student" and also a call with the HR department to get to know better the motivation of the candidate. The result of the call will be put on the S&C platform with a raking between 0 to 10.
+After the acceptance of Tommaso application by the Company and the accepting of the match by Sara, the Platform send to both students the questionnaire, collect their answers and, for Tommaso, the grade of the call he did with HR.
+
+10. **Student see his application status**
+Stefano is a student that has applied for an internship on the S&C platform. He is waiting for the company to start the selection process and he is anxious to know if he will be accepted. He opens the platform's homepage and click on the "My Application" button. Here he can see all the internship he has applied for and the status of each application
+
 ## Requirements
 <!--Login-->
 1. The system shall allow Students to register by providing personal information and selecting their university
