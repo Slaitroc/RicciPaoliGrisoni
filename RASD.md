@@ -5,7 +5,7 @@
 Students&Companies (S&C) is a platform that helps match university students looking for internships and companies offering them. The platform should ease the matching between students and companies based on:
 
 - the experiences, skills and attitudes of students, as listed in their CVs;
-- the projects (application domain, tasks to be performed, relevant adopted technologies-if any-etc.) and terms offered by companies (for example, some company might offer paid internships and/or provide both tangible and intangible benefits, such as training, mentorships, etc.).
+- the projects (application domain, tasks to be performed, relevant adopted technologies-if any-etc.) and terms offered by companies (for example, some company might offer paid internships and/or provide both tangible and intangible benefits, such as training, mentorship, etc.).
 
 The platform is used by companies to advertise the internships that they offer, and by students to look for internships. Students can be proactive when they look for internships (i.e., they initiate the process, go through the available internships, etc.). Moreover, the system also has mechanisms to inform students when an internship that might interest them becomes available and can inform companies about the availability of student CVs corresponding to their needs. We refer to this process as “recommendation”.
 
@@ -156,47 +156,50 @@ Stefano is a student who has applied for various internships through the S&C pla
 When Stefano logs into the platform, he navigates to the "My Applications" section. In this section, he can view the status of each of his applications, including whether the company has assigned him an interview, whether his interview has been reviewed, and whether he has been accepted or rejected for the position or if the platform is running the recommendation process.
 
 12. **Company see the status of the selection process**
-CosmoX, a renowned private space company that specialized in the reuse of rocket, has created an internship on the S&C platform for aspirants Aereospace engineer and has received multiple manual applications from students and different match. The company has already accepted all manual applications and all the matches for every student and has assigned structured interviews to everyone. 
+CosmoX, a renowned private space company that specialized in the reuse of rocket, has created an internship on the S&C platform for aspirants Aerospace engineer and has received multiple manual applications from students and different match. The company has already accepted all manual applications and all the matches for every student and has assigned structured interviews to everyone. 
 CosmoX is now waiting for the students to complete the interviews and for the platform to automatically evaluate the quiz answers  before company to manually review the open-ended questions and grading the different video calls.
 When CosmoX logs into the platform, they navigate to the "My Interview" section. In this section, they can view the status of each of their interview and the status of each student such as "SENT" if the student receive the interview but not opened it yet, "COMPLETED" if the student has completed the interview and "REVIEWED" if the company has started the review process of the non automatic part of the interview.
 
 13. **Company publish a complaint about a student**
 PlaneHearts is a company famous for its innovative and multiplatform IDE for the development of mobile application. The company has created an internship on the S&C platform for software engineering students and selected Giovanni, a computer science student, for the internship. However, after the internship started, PlaneHeart noticed that Giovanni was not performing as expected, did not have the required skills, and was not motivated to learn. The company decided to publish a complaint about Giovanni on the platform to inform the student's university
 To publish the complaint, PlaneHearts logs into the platform and navigates to the "Complaints" section. Here, they can view all the complaints they have published and can create a new complaint by providing the student's name, the internship title, and describe the problem that has arose. Once the complaint is submitted, the platform will notify Giovanni and his university.
-Giovanni will have the opportunity to respond to the complaint and provide his version of the events by navigating to the "Complaints" section of the platform. Here, he can view all the complaints published about him and can respond to each one by providing a description of the situation from his perspective.(?? altro user case)
 
-14. **University handle a complaint**
+14. **Student respond to a complaint**
+Giovanni has received a notification from the S&C platform that a complaint has been published about him by PlaneHearts, the company where he is currently doing an internship. The complaint states that Giovanni is not performing as expected, does not have the required skills, and is not motivated to learn during this experience.
+The Student will have the opportunity to respond to the complaint and provide his version of the events by navigating to the "Complaints" section of the platform. Here, he can view all the complaints published about him and can respond to each one by providing a description of the situation from his perspective.
+
+15. **University handle a complaint**
 The University of Rome, a prestigious university that has students enrolled in the S&C platform, has received a complaint from a about one of their students. The university open the S&C platform and navigate to the "Complaints" section. Here, they can view all the complaints published about their students and can handle each one by reviewing the complaint, contacting the student and the company involved, and taking appropriate action to resolve the issue. 
 In this particular case the university has decided to interrupt the internship of the student to protect the student and the company from further issues. The university do so by clicking on the "Interrupt Internship" button in the complaint page. The platform will notify the student and the company about the interruption of the internship and will close the complaint.
 
 ## Requirements
 <!--Login-->
-1. The system shall allow unregistered students to register by providing personal information and selecting their university (** unregitered student CON LA MINUSCOLA)
-2. The system shall allow Companies to register by providing company information
-3. The system shall allow Universities to register by providing university information
+1. The system shall allow any unregistered students to register by providing personal information and selecting their University (** unregistered student CON LA MINUSCOLA)
+2. The system shall allow any companies to register by providing company information
+3. The system shall allow any universities to register by providing university information
 4. The system shall send a confirmation email upon registration
 5. The system shall allow registered Users to log in using their email and password. 
 6. The system shall provide error messages if login credentials are incorrect.
     <!-- Application advertisement and Applications-->
 7. The system shall allow registered Companies to create and publish Internship offers specifying details.
 8. The system shall allow registered Companies to terminate their Internship offers at their own discretion.
-9. The system shall provide registered Students with automatically matched Internship obtained by the Recomendation Process.
-10. The system shall allow registered Students to view and navigate all available Internsihps
+9. The system shall provide registered Students with automatically matched Internship obtained by the Recommendation Process.
+10. The system shall allow registered Students to view and navigate all available Internships
 11. The system shall enable registered Students to submit Spontaneous Applications to Internships they find interesting.
 12. The system shall allow registered Students to submit their CV.
-13. the system shall allow registered Students to modify thier CV.
+13. the system shall allow registered Students to modify their CV.
 14. The system shall allow registered Students to monitor the status of their Spontaneous Applications.
-15. The system shall allow registered Students to monitor the status of their Recomendation.
+15. The system shall allow registered Students to monitor the status of their Recommendation.
     <!--Recommendation System-->
 16. The system shall notify registered Students when an Internship that matches their profile becomes available.
 17. The system shall notify registered Companies when a registered Student’s CV matches an Internship requirement.
-18. The system shall notify a registered Company and a Student whenthy both accepted a Recomendation
+18. The system shall notify a registered Company and a Student when they both accepted a Recommendation
 19. The system shall notify registered Students when their Spontaneous Application has been accepted by a Company.
 20. The system shall notify registered Students when the Selection Process has been initiated.
-21. The system shall display to registered Companies CVs of matched Students obtained by the Recomendation Process.
+21. The system shall display to registered Companies CVs of matched Students obtained by the Recommendation Process.
 22. The system shall allow registered Students and Companies to accept a Recommendation.
 23. The system shall allow registered Companies to accept a Spontaneous Application.
-24. The system shall start a Selection Process only if both the Company and the Student have accepted the Recomandation.
+24. The system shall start a Selection Process only if both the Company and the Student have accepted the Recommendation.
 25. The system shall start a Selection Process only if the Company has accepted the Spontaneous Application.
     <!--Selection and Interview Management-->
 26. The system shall allow registered Companies to create Template Interviews.
@@ -209,10 +212,10 @@ In this particular case the university has decided to interrupt the internship o
     <!--Feedback and Suggestions for Improvements-->
 33. The system shall collect feedback from both registered Students and Companies regarding the recommendation and Internship experience.
 34. The system shall provide suggestions to registered Students on improving their CVs.
-35. The system shall provide suggestions to registered Companies on improving Intership descriptions.
+35. The system shall provide suggestions to registered Companies on improving Internship descriptions.
     <!--Universities Oversight and Complain Management-->
 36. The system shall allow registered Universities to access and monitor Internship data related to their Students.
-37. The system shall provide a platform to registered Students and Companies to  complain, communicate problems, or provide information about the current status of an Ongoing Internship. (** Comunication) 
+37. The system shall provide a platform to registered Students and Companies to  complain, communicate problems, or provide information about the current status of an Ongoing Internship. (** Communication) 
 38. The system shall notify registered Universities of any complaint or problem issued on their students
 39. The system shall allow registered Universities to handle complaints and to interrupt an internship at their own discretion.
 <!---->
