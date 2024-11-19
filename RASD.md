@@ -178,44 +178,44 @@ In this particular case the university has decided to interrupt the internship o
 2. The system shall allow any companies to register by providing company information
 3. The system shall allow any universities to register by providing university information
 4. The system shall send a confirmation email upon registration
-5. The system shall allow registered Users to log in using their email and password. 
+5. The system shall allow Users to log in using their email and password. 
 6. The system shall provide error messages if login credentials are incorrect.
     <!-- Application advertisement and Applications-->
-7. The system shall allow registered Companies to create and publish Internship offers specifying details.
-8. The system shall allow registered Companies to terminate their Internship offers at their own discretion.
-9. The system shall provide registered Students with automatically matched Internship obtained by the Recommendation Process.
-10. The system shall allow registered Students to view and navigate all available Internships
-11. The system shall enable registered Students to submit Spontaneous Applications to Internships they find interesting.
-12. The system shall allow registered Students to submit their CV.
-13. the system shall allow registered Students to modify their CV.
-14. The system shall allow registered Students to monitor the status of their Spontaneous Applications.
-15. The system shall allow registered Students to monitor the status of their Recommendation.
+7. The system shall allow Companies to create and publish Internship offers specifying details.
+8. The system shall allow Companies to terminate their Internship offers at their own discretion.
+9. The system shall provide Students with automatically matched Internship obtained by the Recommendation Process.
+10. The system shall allow Students to view and navigate all available Internships
+11. The system shall enable Students to submit Spontaneous Applications to Internships they find interesting.
+12. The system shall allow Students to submit their CV.
+13. the system shall allow Students to modify their CV.
+14. The system shall allow Students to monitor the status of their Spontaneous Applications.
+15. The system shall allow Students to monitor the status of their Recommendation.
     <!--Recommendation System-->
-16. The system shall notify registered Students when an Internship that matches their profile becomes available.
-17. The system shall notify registered Companies when a registered Student’s CV matches an Internship requirement.
+16. The system shall notify Students when an Internship that matches their profile becomes available.
+17. The system shall notify Companies when a registered Student’s CV matches an Internship requirement.
 18. The system shall notify a registered Company and a Student when they both accepted a Recommendation
-19. The system shall notify registered Students when their Spontaneous Application has been accepted by a Company.
-20. The system shall notify registered Students when the Selection Process has been initiated.
-21. The system shall display to registered Companies CVs of matched Students obtained by the Recommendation Process.
-22. The system shall allow registered Students and Companies to accept a Recommendation.
-23. The system shall allow registered Companies to accept a Spontaneous Application.
+19. The system shall notify Students when their Spontaneous Application has been accepted by a Company.
+20. The system shall notify Students when the Selection Process has been initiated.
+21. The system shall display to Companies all of the CVs of matched Students obtained by the Recommendation Process.
+22. The system shall allow Students and Companies to accept a Recommendation.
+23. The system shall allow Companies to accept a Spontaneous Application.
 24. The system shall start a Selection Process only if both the Company and the Student have accepted the Recommendation.
 25. The system shall start a Selection Process only if the Company has accepted the Spontaneous Application.
     <!--Selection and Interview Management-->
-26. The system shall allow registered Companies to create Template Interviews.
-27. The system shall allow registered Companies to submit Template Interviews to Students they have initiated a Selection Process with.
-28. The system shall allow registered Students to answer Written Interview questions and submit them. (**)
-29. The system shall allow registered Companies to manually evaluate Interviews submissions.
-30. The system shall allow registered Companies to insert the correct answers to a Quiz with the corresponding score to enable automatic evaluation  
-31. The system shall allow registered Students and Companies to monitor the status of their Interviews.
-32. The system shall enable registered Companies to complete the Interview process by submitting the final outcome to each candidate. 
+26. The system shall allow Companies to create Template Interviews.
+27. The system shall allow Companies to submit Template Interviews to Students they have initiated a Selection Process with.
+28. The system shall allow Students to answer Written Interview questions and submit them. (**)
+29. The system shall allow Companies to manually evaluate Interviews submissions.
+30. The system shall allow Companies to insert the correct answers to a Quiz with the corresponding score to enable automatic evaluation  
+31. The system shall allow Students and Companies to monitor the status of their Interviews.
+32. The system shall enable Companies to complete the Interview process by submitting the final outcome to each candidate. 
     <!--Feedback and Suggestions for Improvements-->
-33. The system shall collect feedback from both registered Students and Companies regarding the recommendation and Internship experience.
-34. The system shall provide suggestions to registered Students on improving their CVs.
-35. The system shall provide suggestions to registered Companies on improving Internship descriptions.
+33. The system shall collect feedback from both Students and Companies regarding the recommendation and Internship experience.
+34. The system shall provide suggestions to Students on improving their CVs.
+35. The system shall provide suggestions to Companies on improving Internship descriptions.
     <!--Universities Oversight and Complain Management-->
 36. The system shall allow registered Universities to access and monitor Internship data related to their Students.
-37. The system shall provide a platform to registered Students and Companies to  complain, communicate problems, or provide information about the current status of an Ongoing Internship. (** Communication) 
+37. The system shall provide a platform to Students and Companies to  complain, communicate problems, or provide information about the current status of an Ongoing Internship. (** Communication) 
 38. The system shall notify registered Universities of any complaint or problem issued on their students
 39. The system shall allow registered Universities to handle complaints and to interrupt an internship at their own discretion.
 <!---->
