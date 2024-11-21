@@ -19,15 +19,15 @@ Moreover, S&C should be able to provide suggestions both to companies and to stu
 
 In general, S&C provides interested parties with mechanisms to keep track and monitor the execution and the outcomes of the matchmaking process and of the subsequent internships from the point of view of all interested parties. For example, it provides spaces where interested parties can complain, communicate problems, and provide information about the current status of the ongoing internship. The platform is used by students at different universities. Universities also need to monitor the situation of internships; in particular, they are responsible for handling complaints, especially ones that might require the interruption of the internship.
 
-## Goals
+## Goals 
 
-1. Companies can advertise the internship they offer
-2. Students can autonomously candidate for available internships
-3. Students are matched with internships they might be interested in
-4. Companies can perform interviews with matched students
-5. Students and Companies can complain, communicate problems, provide information about an ongoing internship
-6. Students and Companies are provided with suggestions about how to improve their submission
-7. Universities can handle complains about ongoing internships
+1. Companies would like to advertise the internship they offer
+2. Students would like to autonomously candidate for available internships
+3. Students would like to be matched with internships they might be interested in
+4. Companies would like to perform interviews with matched students
+5. Students and Companies would like to complain, communicate problems, provide information about an ongoing internship
+6. Students and Companies would like to be provided with suggestions about how to improve their submission
+7. Universities would like to handle complains about ongoing internships
 
 ## World Phenomena
 
