@@ -19,7 +19,7 @@ Moreover, S&C should be able to provide suggestions both to companies and to stu
 
 In general, S&C provides interested parties with mechanisms to keep track and monitor the execution and the outcomes of the matchmaking process and of the subsequent internships from the point of view of all interested parties. For example, it provides spaces where interested parties can complain, communicate problems, and provide information about the current status of the ongoing internship. The platform is used by students at different universities. Universities also need to monitor the situation of internships; in particular, they are responsible for handling complaints, especially ones that might require the interruption of the internship.
 
-## Goals
+## 1.1.1 Goals
 
 1. Companies would like to advertise the internship they offer
 2. Students would like to autonomously candidate for available internships
@@ -29,7 +29,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 6. Students and Companies would like to be provided with suggestions about how to improve their submission
 7. Universities would like to handle complains about ongoing internships
 
-## World Phenomena
+## 1.2.1 World Phenomena
 
 1. A Company wants to advertise its internship
 2. A Student wants to look for an internship
@@ -44,7 +44,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 11. A University wants to handle complains about an ongoing internship
 12. A University wants to interrupt an ongoing internship
 
-## Shared Phenomena
+## 1.2.2 Shared Phenomena
 
 ### Controlled By the World
 
@@ -87,7 +87,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 11. The Platform presents the interface for a University to Monitor an ongoing internship
 12. The Platform presents the interface for a University to interrupt an ongoing internship -->
 
-## Domain Assumption
+## 2.4.1 Domain Assumption
 
 1. Students and Companies provide the Platform with correct and truthful information
 2. Companies remove published internship if they are no longer available
@@ -95,7 +95,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 4. Students, Companies and Universities has a working internet connection
 5. Universities interrupt an ongoing internship only if no solution to complaints/problems are found
 
-## User Scenario
+## 2.1.1 User Scenario
 
 1. **Student Sign-up**
     Mario Rossi is a student that want to improve his ability and education by doing an internship before graduating. He opens the S&C platform and select "Student SignUp". He proved the required personal information such as his Name, Surname and Date of birth, an email and a password that he will use as login credential and he select from the list of available university the university he goes to.
@@ -165,58 +165,59 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 
 (?? non c'è alcun riferimento ai Feedback negli usercase)
 
-## Requirements
-<!--Login-->
-1. The system shall allow any unregistered students to register by providing personal information and selecting their University (** unregistered student CON LA MINUSCOLA)
-2. The system shall allow any companies to register by providing company information
-3. The system shall allow any universities to register by providing university information
-4. The system shall send a confirmation email upon registration
+## 2.2.1 Requirements
+<!-- Login -->
+1. The system shall allow any unregistered students to register by providing personal information and selecting their University.
+2. The system shall allow any companies to register by providing company information.
+3. The system shall allow any universities to register by providing university information.
+4. The system shall send a confirmation email upon registration.
 5. The system shall allow Users to log in using their email and password.
 6. The system shall provide error messages if login credentials are incorrect.
-    <!-- Application advertisement and Applications-->
+    <!-- Application advertisement and Applications -->
 7. The system shall allow Companies to create and publish Internship offers specifying details.
 8. The system shall allow Companies to terminate their Internship offers at their own discretion.
-9. The system shall provide Students with automatically matched Internship obtained by the Recommendation Process.
-10. The system shall allow Students to view and navigate all available Internships
+9. The system shall provide Students with automatically Matched Internships obtained by the Recommendation Process.
+10. The system shall allow Students to view and navigate all available Internships.
 11. The system shall enable Students to submit Spontaneous Applications to Internships they find interesting.
 12. The system shall allow Students to submit their CV.
-13. the system shall allow Students to modify their CV.
+13. The system shall allow Students to modify their CV.
 14. The system shall allow Students to monitor the status of their Spontaneous Applications.
 15. The system shall allow Students to monitor the status of their Recommendation.
-    <!--Recommendation System-->
-16. The system shall notify Students when an Internship that matches their profile becomes available.
-17. The system shall notify Companies when a registered Student’s CV matches an Internship requirement.
-18. The system shall notify a registered Company and a Student when they both accepted a Recommendation
+    <!-- Recommendation System -->
+16. The system shall notify Students when an Internship that suits their profile becomes available.
+17. The system shall notify Companies when a registered Student’s CV suits an Internship requirement.
+18. The system shall notify a registered Company and a Student when they both accept a Recommendation.
 19. The system shall notify Students when their Spontaneous Application has been accepted by a Company.
 20. The system shall notify Students when the Selection Process has been initiated.
-21. The system shall display to Companies all of the CVs of matched Students obtained by the Recommendation Process.
+21. The system shall display to Companies all the CVs of Matched Students obtained by the Recommendation Process.
 22. The system shall allow Students and Companies to accept a Recommendation.
 23. The system shall allow Companies to accept a Spontaneous Application.
 24. The system shall start a Selection Process only if both the Company and the Student have accepted the Recommendation.
 25. The system shall start a Selection Process only if the Company has accepted the Spontaneous Application.
-    <!--Selection and Interview Management-->
-26. The system shall allow Companies to create Template Interviews.
+    <!-- Selection and Interview Management -->
+26. The system shall allow Companies to create Template Interviews. 
 27. The system shall allow Companies to submit Template Interviews to Students they have initiated a Selection Process with.
-28. The system shall allow Students to answer Written Interview questions and submit them. (** - ??)
-29. The system shall allow Companies to manually evaluate Interviews submissions.
-30. The system shall allow Companies to insert the correct answers to a Quiz with the corresponding score to enable automatic evaluation  
+28. The system shall allow Students to answer Interview questions and submit them.
+29. The system shall allow Companies to manually evaluate Interview submissions.
+30. The system shall allow Companies to insert the correct answers to a Quiz with the corresponding score to enable automatic evaluation.
 31. The system shall allow Students and Companies to monitor the status of their Interviews.
 32. The system shall enable Companies to complete the Interview process by submitting the final outcome to each candidate.
-    <!--Feedback and Suggestions for Improvements-->
-33. The system shall collect Feedback from both Students and Companies regarding the recommendation and Internship experience.
+    <!-- Feedback and Suggestions for Improvements -->
+33. The system shall collect Feedback from both Students and Companies regarding the Recommendation Process.
 34. The system shall provide Suggestions to Students on improving their CVs.
 35. The system shall provide Suggestions to Companies on improving Internship descriptions.
-    <!--Universities Oversight and Complain Management-->
+    <!-- Universities Oversight and Complaint Management -->
 36. The system shall allow registered Universities to access and monitor Internship data related to their Students.
-37. The system shall provide a platform to Students and Companies to  complain, communicate problems, or provide information about the current status of an Ongoing Internship. (** Communication)
-38. The system shall notify registered Universities of any complaint or problem issued on their students
-39. The system shall allow registered Universities to handle complaints and to interrupt an internship at their own discretion.
-<!---->
-## Class Diagram
+37. The system shall provide a platform to Students and Companies to complain, communicate problems, or provide information about the current status of an ongoing Internship.
+38. The system shall notify registered Universities of any Complaint issued on their Students.
+39. The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
+
+
+## 2.1.2 Class Diagram
 
 ![Class Diagram](./ClassDiagram.png)
 
-## Definitions
+## 1.3.1 Definitions
 
 - **University**: An institution that is registered on the S&C platform
 - **Company**: A company that is registered on the S&C platform
@@ -226,8 +227,9 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 - **Recommendation Process**: The process of matching a Student with an Internship offered by a Company based on the Student's CV and the Internship's requirements made by the S&C platform.
 - **Recommendation/Match**: The result of the Recommendation Process. It's the match between a Student and an Internship.
 - **Spontaneous Application**: The process of a Student manually applying for an Internship that was not Match through the Recommendation Process.
-- **Template Interview**: A collection of open ended questions, quizzes and call that a Company can create. Each time a Company wants to interview a Student, they can select a Template Interview, or create a new one, and assign it to the Student.
+- **Template Interview**: A collection of open-ended questions, quizzes and call that a Company can create. Each time a Company wants to interview a Student, they can select a Template Interview, or create a new one, and assign it to the Student.
 - **Interview**: The process of evaluating a Student's application for an Internship, done through a Template Interview.
 - **Feedback**: Information provided by Students and Companies to the S&C platform to improve the Recommendation Process
 - **Suggestion**: Information provided by the S&C platform to Students and Companies to improve their CVs and Internship descriptions
 - **Complaint**: A report of a problem or issue that a Student or Company has with an ongoing Internship. It can be published on the platform and handled by the University.
+
