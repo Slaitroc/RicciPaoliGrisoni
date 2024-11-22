@@ -242,3 +242,24 @@ This document is composed of six sections:
 5. **Efford Spent**: This section provides an overview of the time spent by each group member on the project.
 6. **References**: This section provides a list of references used in the document.
    <!--(1.5h)-->
+
+
+## 2.2 Product Functions
+1. **User Management**
+   The platform allows Students, Companies, and Universities to register and log in. It also provides Students to upload and modify their CVs, and Companies to view and manage their internships.
+2. **Internship Creation and Management:**
+   Companies can create, publish, and manage internship offers on the platform. They define details such as job description, requirements, deadlines and benefits. Companies also have the ability to terminate internship offers when they are no longer needed.
+3. **Student Application Process:**
+   Students can browse available internships, and apply to internships either through automatic matching or by submitting spontaneous applications. They can also track the status of their applications throughout the process.
+4. **Automated Recommendations**
+   The platform matches Students with suitable internships based on their CVs and the specific requirements set by Companies. Once a match is found, both Students and Companies are notified, and they can accept or decline the recommendation.
+5. **Interview Management**
+   Companies can create and assign Template Interviews to Students, which include quizzes, questions, and calls to assess their suitability for an internship. Both Students and Companies can track the interview progress, and Companies can evaluate Student responses manually or automatically.
+6. **Feedback and Suggestions for Improvement**
+   The platform collects feedback from Students and Companies to improve the Recommendation Process. It also provides suggestions to Students on how to enhance their CVs and to Companies on how to improve their internship descriptions.
+7. **Complaint Management**
+   Students and Companies can publish complaints about ongoing internships, which are then handled by Universities. Universities can monitor complaints and interrupt internships if necessary.
+8. **Notification System**
+   Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new internships, matched recommendations, interview assignments, complaints and sign up confirmation.
+   <!-- (2.0h) -->
+
