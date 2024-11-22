@@ -263,3 +263,8 @@ This document is composed of six sections:
    Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new internships, matched recommendations, interview assignments, complaints and sign up confirmation.
    <!-- (2.0h) -->
 
+
+## 3.2 Functional Requirements
+This chapter provides a comprehensive overview of the system's use cases, detailing the various interactions between users and the system.
+Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Requirement Mapping are provided for each use case.
+<!-- (0.5h) -->
