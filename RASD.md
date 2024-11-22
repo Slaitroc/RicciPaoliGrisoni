@@ -233,3 +233,12 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 - **Suggestion**: Information provided by the S&C platform to Students and Companies to improve their CVs and Internship descriptions
 - **Complaint**: A report of a problem or issue that a Student or Company has with an ongoing Internship. It can be published on the platform and handled by the University.
 
+## 1.6 Document Structure
+This document is composed of six sections:
+1. **Introduction**: This section provides an overview of the document and the system. Here the purpose of the platform is explained, along with the goals and phenomena of the system. Finally essential definitions are provided.
+2. **Overall Description**: In this section it is provided a high-level perspective of the system, describing its overall purpose, functionality, and user interactions. It includes an outline of the system's intended features, user profiles, and assumptions about the domain.
+3. **Specific Requirements**: In this section we focussed on the technical and functional details of the system. Here are specified the external interfaces as well as the functional and non-functional requirements of the system. Diagrams, such as use case and sequence diagrams, have been used to provide a visual representation of the system's functionality.
+4. **Alloy**: This section illustrate code and diagrams of the Alloy formal specification language that has been used to ensure the consistency and correctness of the system's formalized requirements.
+5. **Efford Spent**: This section provides an overview of the time spent by each group member on the project.
+6. **References**: This section provides a list of references used in the document.
+   <!--(1.5h)-->
