@@ -11,7 +11,7 @@ const ListGroup = () => {
     return { text: item, id: crypto.randomUUID() };
   });
 
-  message = items.length === 0 ? <li>No element found</li> : null;
+  const message = items.length === 0 ? <li>No element found</li> : null;
 
   return (
     <>
