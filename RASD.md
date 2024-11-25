@@ -89,6 +89,8 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 11. The Platform presents the interface for a University to Monitor an ongoing internship
 12. The Platform presents the interface for a University to interrupt an ongoing internship -->
 
+## 1.5 Reference Documents
+<!-- 0.25 hours (Sam) -->
 ## 2.4.1 Domain Assumption
 
 1. Students and Companies provide the Platform with correct and truthful information
