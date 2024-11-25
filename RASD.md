@@ -1,7 +1,6 @@
 # RASD
 
 ## Assignment
-
 Students&Companies (S&C) is a platform that helps match university students looking for internships and companies offering them. The platform should ease the matching between students and companies based on:
 
 - the experiences, skills and attitudes of students, as listed in their CVs;
@@ -19,6 +18,11 @@ Moreover, S&C should be able to provide suggestions both to companies and to stu
 
 In general, S&C provides interested parties with mechanisms to keep track and monitor the execution and the outcomes of the matchmaking process and of the subsequent internships from the point of view of all interested parties. For example, it provides spaces where interested parties can complain, communicate problems, and provide information about the current status of the ongoing internship. The platform is used by students at different universities. Universities also need to monitor the situation of internships; in particular, they are responsible for handling complaints, especially ones that might require the interruption of the internship.
 
+## 1.1.1 Purpose
+The purpose of the Student&Company (S&C) Platform is to create a system that allows Students to find Internships to enhance their education and improve their curriculum, while allowing Companies to find suitable candidates for their internship programs. All of this is done in a simple and efficient way by providing a series of tools to help both parties in the process.
+S&C will support the entire lifecycle of the Internship process for both Students and Companies: from the initial matchmaking that can be done automatically by the system through a proprietary Recommendation Process, or obtained by a Student with a Spontaneous Application to a specific internship offer, to the final selection process done through structured interviews created and submitted by Companies directly on the platform.
+In the meantime, Student&Company will also provide a series of Suggestions to improve CVs published by Students and internship offers published by Companies. The platform will also allow the Universities of students who are actually doing an internship to monitor the progress of such activities and handle any Complaints if necessary.
+<!-- 0.5hours (Sam) -->
 ## 1.1.1 Goals
 
 1. Companies would like to advertise the internship they offer
@@ -48,9 +52,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 
 ### Controlled By the World
 
-1. A Company publish an internship offer
-2. A Student inserts his CV
-3. A Student sends a spontaneous application for an internship
+1. A Company publish an inte
 4. A Student or a Company accepts a suitable recommendation(swipe)
 5. A Company configures interviews for a specific internship
 6. A Company conducts a previously set up interview
@@ -163,6 +165,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 14. **University handle a complaint**
     The University of Rome, a prestigious university that has students enrolled in the S&C platform, has received a complaint from a about one of their students. The university open the S&C platform and navigate to the "Complaints" section. Here, they can view all the complaints published about their students and can handle each one by reviewing the complaint, contacting the student and the company involved, and taking appropriate action to resolve the issue.
     In this particular case the university has decided to interrupt the internship of the student to protect the student and the company from further issues. The university do so by clicking on the "Interrupt Internship" button in the complaint page. The platform will notify the student and the company about the interruption of the internship and will close the complaint.
+<!-- 5 hours (Sam) -->
 
 ## 2.2.1 Requirements
 <!-- Login -->
