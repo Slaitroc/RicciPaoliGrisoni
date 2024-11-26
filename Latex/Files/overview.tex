@@ -1,0 +1,140 @@
+\subsection{Product Prospective}
+
+\subsubsection{User Scenarios}
+
+\begin{enumerate}
+    \item \textbf{Student Sign-up}\\
+      Mario Rossi is a student that want to improve his ability and education by doing an internship before graduating. He opens the SC platform and select “Student SignUp”. He proved the required personal information such as his Name, Surname, Date of birth, an email, and a password that he will use as login credential. He also select from the list of available university the university he goes to.\\
+      If the email address has never been used on the site, Mario will receive an email for confirming the mail address and the registration of the account. Once the registration is confirmed the account is created. If the email address is already in use, the platform will show an error that ask to insert a new email.
+    \item \textbf{Company Sign-up}\\
+        FastRedCar SPA is a world-leading car company that aims to launch an internship program to train new mechanical engineers in their final year of a Bachelor’s or Master’s degree. The company opens the SC platform and select “Company SignUp” where they provide the required information such as the company name, company headquarters address, company VAT number and also an email address and a password that will be used as login credential.\\
+        If the VAT number has never been used on the site, FastRedCar SPA will receive an email for confirming the mail address and the registration of the account. Once the registration is confirmed the account is created.
+        If the VAT number is already in use the platform will show an error indicating the company is already registered on the platform.
+    \item \textbf{University Sign-up}\\
+        The Technical University of Milan is a prestigious university that wants his students to complete an internship before graduating, believing this experience will enhance their skills and knowledge. The university opens the SC platform and selects “University SignUp” where they provide the required information such as the university name, the university description, the university VAT number, the name of the university office that will manage the internship program and also an email address and a password that will be used as login credential.\\
+        If the VAT number has never been used on the site, the Technical University of Milan will receive an eMail for confirming the mail address and the registration of the account. Once the registration is confirmed the account is created.
+        If the VAT number is already in use the platform will show an error indicating the the university is already registered on the platform.
+    \item \textbf{User Login}\\
+        A platform user that has already registered an account can login by providing the email and password used during the registration. If the email and password are correct, matching and entry in the platform DB, the user is redirected to the platform home page. If the email or password are incorrect the platform will show an error message indicating that the login credentials are wrong.
+    \item \textbf{Student Load Curriculum}\\
+        Stefano is a student who has already registered an account on SC and wants to complete his profile by uploading his CV. From the platform's homepage, he clicks on the "Upload CV" button. He is then redirected to a page where he can enter his curriculum information, including his current level of education, languages he knows, technical skills, and, optionally, details about past work experience along with contact information for previous employers.
+        He also add a photo of himself, a brief description of his interests and hobbies and, as soon as he click on the "Submit CV" button the platform elaborate it and try to find some matching job internship based on the given information.\\
+        A list of five different internship, for which Stefano is a match, is shown to the student in the platform's homepage where he can decide to apply for one of them, starting the selection process.
+        While computing the matching, the platform also provides Stefano with some suggestions on how to improve his CV and matching probability, based on a grammar and lexical analyses and a direct comparing of Stefano's CV with other similar candidate
+    \item \textbf{Company Submit an Internship Insertion}\\
+        AnanasPhone is a major tech company, specialized in the production of smartphone and table, that has an account on the SC company. They want to create an internship program aim to software engineers student in their final year of Master Degree.\\
+        They open the SC platform and select "My Internship" where a list of all the internship already present on SC are shown and then they click on "Insert Internship" where they provide the required information such as the internship title, the internship description, the start date and duration, the office address, a list of the required skills student need to have in order to be considered for the internship and, possibly, a list of benefits offered to the intern.  Once the internship is created by clicking on the "Submit Internship" button, the platform will match the internship with all the student that are a match for the internship based on the given information.\\
+        The platform will also provide AnanasPhone with some suggestion on how to improve the internship description, and matching probability, based on a grammar and lexical analyses and a direct comparing of AnanasPhone's Internship proposal with other similar companies.
+    \item \textbf{Company create structured interview to submit to possible candidate}\\
+        MacroHard is a world-leading tech company, known for creating its secure and reliable operating system, "Door". The company has an account on the SC platform and has already set up an internship program for software engineering students pursuing a Master’s degree. The company wants to create a structured interview to evaluate the technical skills and motivation of the students who apply for the internship.\\
+        MacroHard opens the platform and, on the page displaying the lists of matched students and applicants, clicks on the "Create Interview" button. This option allows them to create structured interviews to submit to candidates. The company sets up an "InterviewTemplate," a collection of questions that includes both quizzes, which the platform can automatically evaluate, and open-ended questions that require manual review. They may also include one or more video calls in the template, with outcomes that can be recorded on the platform in the form of a grade. The InterviewTemplate tracks each interview’s outcomes in a global store, allowing both candidates and the company to monitor interview progress.\\
+        MacroHard create multiple InterviewTemplates for the same internship, allowing them to submit different templates to different students based on factors such as the student’s CV, method of application (matched or spontaneous), or other criteria. Each template is created only once and can be reused for different students or internship opportunities.\\
+        For this internship in particular, MacroHard has created two InterviewTemplates: one for matched students, which includes only a quiz to assess technical skills, and another for spontaneous applicants, which includes both a quiz and a video call to evaluate the student’s motivation.
+    \item \textbf{Student accept a matched internship}\\
+        Sara is a economic major student that has already uploaded her CV on the SC platform and is looking for an internship. She has received a notification and by clicking on it she see that a new internship is available for her.\\
+        Sara reads the internship information and description and she decide to accept it. A notification is sent to the company who has created the internship about the acceptance of the match by Sara. If the company also accept the match, the platform require the company to initiate the selection process by creating or assigning a structured interview to Sara who will be notified about it.
+        To both parties a Feedback is asked by the platform to improve the Recommendation Process by asking the both to rate the matching of the information and description provided by the other party.
+    \item \textbf{Student manually apply for an internship}  
+        Marco is a chemistry student that has already uploaded his CV on the SC platform and is looking for an internship. Unfortunately the matching Internships provided by the platform do not fully satisfy his needs and he decide to proactively search for another internship.\\
+        He opens the platform's homepage and click on the "Browse all Internship" button. Here he can see all the internship that are available on the platform and he can filter them by field of study, required skills, location and other parameters.
+        He find an internship that is not in the matching list provided by the platform but that is perfect for him. and he click on the "manually apply" button.\\
+        The platform notify the company that Marco has applied for the internship and will inform the Student if and when the company will start the application process by sending him a structured interview. There is no need for Marco to accept the interview as a spontaneous application is considered as an implicit acceptance of the match by the student.
+    \item \textbf{Student see his application  interview status}\\
+        Stefano is a student who has applied for various internships through the SC platform. He has submitted applications both by matching with companies through the platform's automated feature and by manually applying. He is currently waiting for updates from the different companies. For those where he has been matched and accepted, he is waiting to be assigned a structured interview while for others, he is waiting for the companies to manually review his interview answers and inform him whether he has been accepted or rejected for the position.\\
+        When Stefano logs into the platform, he navigates to the "My Applications" section. In this section, he can view the status of each of his applications, including whether the company has assigned him an interview, whether his interview has been reviewed, and whether he has been accepted or rejected for the position or if the platform is running the recommendation process.
+    \item \textbf{Company see the status of the selection process}\\
+        CosmoX, a renowned private space company that specialized in the reuse of rocket, has created an internship on the SC platform for aspirants Aerospace engineer and has received multiple manual applications from students and different match. The company has already accepted all manual applications and all the matches for every student and has assigned structured interviews to everyone.
+        CosmoX is now waiting for the students to complete the interviews and for the platform to automatically evaluate the quiz answers  before company to manually review the open-ended questions and grading the different video calls.\\
+        When CosmoX logs into the platform, they navigate to the "My Interview" section. In this section, they can view the status of each of their interview and the status of each student such as "SENT" if the student receive the interview but not opened it yet, "COMPLETED" if the student has completed the interview and "REVIEWED" if the company has started the review process of the non automatic part of the interview.
+    \item \textbf{Company publish a complaint about a student}\\
+        PlaneHearts is a company famous for its innovative and multi-platform IDE for the development of mobile application. The company has created an internship on the SC platform for software engineering students and selected Giovanni, a computer science student, for the internship. However, after the internship started, PlaneHeart noticed that Giovanni was not performing as expected, did not have the required skills, and was not motivated to learn. The company decided to publish a complaint about Giovanni on the platform to inform the student's university.\\
+        To publish the complaint, PlaneHearts logs into the platform and navigates to the "Complaints" section. Here, they can view all the complaints they have published and can create a new complaint by providing the student's name, the internship title, and describe the problem that has arose. Once the complaint is submitted, the platform will notify Giovanni and his university.
+    \item \textbf{Student respond to a complaint}\\
+        Giovanni has received a notification from the SC platform that a complaint has been published about him by PlaneHearts, the company where he is currently doing an internship. The complaint states that Giovanni is not performing as expected, does not have the required skills, and is not motivated to learn during this experience.\\
+        The Student will have the opportunity to respond to the complaint and provide his version of the events by navigating to the "Complaints" section of the platform. Here, he can view all the complaints published about him and can respond to each one by providing a description of the situation from his perspective.
+    \item \textbf{University handle a complaint}\\
+        The University of Rome, a prestigious university that has students enrolled in the SC platform, has received a complaint from a about one of their students. The university open the SC platform and navigate to the "Complaints" section. Here, they can view all the complaints published about their students and can handle each one by reviewing the complaint, contacting the student and the company involved, and taking appropriate action to resolve the issue.
+        In this particular case the university has decided to interrupt the internship of the student to protect the student and the company from further issues. The university do so by clicking on the "Interrupt Internship" button in the complaint page. The platform will notify the student and the company about the interruption of the internship and will close the complaint.
+\end{enumerate}
+
+
+\subsubsection{Class Diagrams}
+
+\subsubsection{State Charts}
+
+
+\subsection{Product Functions}
+\begin{enumerate}
+    \item \textbf{User Management}: The platform allows Students, Companies, and Universities to register and log in. It also provides Students the ability to upload and modify their CVs, and Companies the ability to view and manage their internships.
+    \item \textbf{Internship Creation and Management}: Companies can create, publish, and manage internship offers on the platform. They define details such as job description, requirements, deadlines, and benefits. Companies also have the ability to terminate internship offers when they are no longer needed.
+    \item \textbf{Student Application Process}: Students can browse available internships and apply to internships either through automatic matching or by submitting spontaneous applications. They can also track the status of their applications throughout the process.
+    \item \textbf{Automated Recommendations}: The platform matches Students with suitable internships based on their CVs and the specific requirements set by Companies. Once a match is found, both Students and Companies are notified, and they can accept or decline the recommendation.
+    \item \textbf{Interview Management}: Companies can create and assign Template Interviews to Students, which include quizzes, questions, and calls to assess their suitability for an internship. Both Students and Companies can track the interview progress, and Companies can evaluate Student responses manually or automatically.
+    \item \textbf{Feedback and Suggestions for Improvement}: The platform collects feedback from Students and Companies to improve the Recommendation Process. It also provides suggestions to Students on how to enhance their CVs and to Companies on how to improve their internship descriptions.
+    \item \textbf{Complaint Management}: Students and Companies can publish complaints about ongoing internships, which are then handled by Universities. Universities can monitor complaints and interrupt internships if necessary.
+    \item \textbf{Notification System}: Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new internships, matched recommendations, interview assignments, complaints, and sign-up confirmations.
+\end{enumerate}
+
+\subsubsection{Requirements}
+\begin{enumerate}[label={\color{titleColor}[R\arabic*]}]
+    % Login
+    \item The system shall allow any unregistered students to register by providing personal information and selecting their University.
+    \item The system shall allow any companies to register by providing company information.
+    \item The system shall allow any universities to register by providing university information.
+    \item The system shall send a confirmation email upon registration.
+    \item The system shall allow Users to log in using their email and password.
+    \item The system shall provide error messages if login credentials are incorrect.
+    
+    % Application advertisement and Applications
+    \item The system shall allow Companies to create and publish Internship offers specifying details.
+    \item The system shall allow Companies to terminate their Internship offers at their own discretion.
+    \item The system shall provide Students with automatically Matched Internships obtained by the Recommendation Process.
+    \item The system shall allow Students to view and navigate all available Internships.
+    \item The system shall enable Students to submit Spontaneous Applications to Internships they find interesting.
+    \item The system shall allow Students to submit their CV.
+    \item The system shall allow Students to modify their CV.
+    \item The system shall allow Students to monitor the status of their Spontaneous Applications.
+    \item The system shall allow Students to monitor the status of their Recommendation.
+    
+    % Recommendation System
+    \item The system shall notify Students when an Internship that suits their profile becomes available.
+    \item The system shall notify Companies when a registered Student’s CV suits an Internship requirement.
+    \item The system shall notify a registered Company and a Student when they both accept a Recommendation.
+    \item The system shall notify Students when their Spontaneous Application has been accepted by a Company.
+    \item The system shall notify Students when the Selection Process has been initiated.
+    \item The system shall display to Companies all the CVs of Matched Students obtained by the Recommendation Process.
+    \item The system shall allow Students and Companies to accept a Recommendation.
+    \item The system shall allow Companies to accept a Spontaneous Application.
+    \item The system shall start a Selection Process only if both the Company and the Student have accepted the Recommendation.
+    \item The system shall start a Selection Process only if the Company has accepted the Spontaneous Application.
+    
+    % Selection and Interview Management
+    \item The system shall allow Companies to create Template Interviews.
+    \item The system shall allow Companies to submit Template Interviews to Students they have initiated a Selection Process with.
+    \item The system shall allow Students to answer Interview questions and submit them.
+    \item The system shall allow Companies to manually evaluate Interview submissions.
+    \item The system shall allow Companies to insert the correct answers to a Quiz with the corresponding score to enable automatic evaluation.
+    \item The system shall allow Students and Companies to monitor the status of their Interviews.
+    \item The system shall enable Companies to complete the Interview process by submitting the final outcome to each candidate.
+    
+    % Feedback and Suggestions for Improvements
+    \item The system shall collect Feedback from both Students and Companies regarding the Recommendation Process.
+    \item The system shall provide Suggestions to Students on improving their CVs.
+    \item The system shall provide Suggestions to Companies on improving Internship descriptions.
+    
+    % Universities Oversight and Complaint Management
+    \item The system shall allow registered Universities to access and monitor Internship data related to their Students.
+    \item The system shall provide a platform to Students and Companies to complain, communicate problems, or provide information about the current status of an ongoing Internship.
+    \item The system shall notify registered Universities of any Complaint issued on their Students.
+    \item The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
+\end{enumerate}
+
+
+\subsection{User Characteristics}
+
+
+\subsection{Assumptions, dependencies and constraints}
+
+\subsubsection{Domain Assumption}
+
+\subsubsection{Dependencies}

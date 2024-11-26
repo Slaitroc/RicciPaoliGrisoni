@@ -24,8 +24,8 @@
 
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\color{Gray}{\small{Travlendar+ project by YOUR NAMES}}}
-\lfoot{\textcolor{Gray}{\small{Copyright © 2017, YOUR NAMES – All rights reserved}}}
+\lhead{\color{Gray}{\small{RASD project by Ricci, Paoli, Grisoni}}}
+\lfoot{\textcolor{Gray}{\small{Copyright © 2024, Ricci, Paoli, Grisoni – All rights reserved}}}
 \rfoot{\textcolor{Gray}{\thepage}}
 \renewcommand{\headrulewidth}{0pt}
 
@@ -50,64 +50,76 @@
 \usepackage{ltablex}
 \usepackage{longtable}
 \usepackage{float} % To allow the use of H modifier in long tables
-
 %landscape mode
 \usepackage{pdflscape}
 \usepackage{rotating}
 \usepackage{caption}
-
 %make landscape mode be sensitive to even and odd pages
-%start
-\def\myrotate{\ifodd\c@page\else-\fi 90}
-\makeatletter
-\global\let\orig@begin@landscape=\landscape%
-\global\let\orig@end@landscape=\endlandscape%
-\gdef\@true{1}
-\gdef\@false{0}
-\gdef\landscape{%
-    \global\let\within@landscape=\@true%
-    \orig@begin@landscape%
-}%
-\gdef\endlandscape{%
-    \orig@end@landscape%
-    \global\let\within@landscape=\@false%
-}%
-\@ifpackageloaded{pdflscape}{%
-    \gdef\pdf@landscape@rotate{\PLS@Rotate}%
-}{
-    \gdef\pdf@landscape@rotate#1{}%
-}
-\let\latex@outputpage\@outputpage
-\def\@outputpage{
-    \ifx\within@landscape\@true%
-        \if@twoside%
-            \ifodd\c@page%
-                \gdef\LS@rot{\setbox\@outputbox\vbox{%
-                    \pdf@landscape@rotate{-90}%
-                    \hbox{\rotatebox{90}{\hbox{\rotatebox{180}{\box\@outputbox}}}}}%
-                }%
-            \else%
-                \gdef\LS@rot{\setbox\@outputbox\vbox{%
-                    \pdf@landscape@rotate{+90}%
-                    \hbox{\rotatebox{90}{\hbox{\rotatebox{0}{\box\@outputbox}}}}}%
-                }%
+    %start
+        \def\myrotate{\ifodd\c@page\else-\fi 90}
+        \makeatletter
+        \global\let\orig@begin@landscape=\landscape%
+        \global\let\orig@end@landscape=\endlandscape%
+        \gdef\@true{1}
+        \gdef\@false{0}
+        \gdef\landscape{%
+            \global\let\within@landscape=\@true%
+            \orig@begin@landscape%
+        }%
+        \gdef\endlandscape{%
+            \orig@end@landscape%
+            \global\let\within@landscape=\@false%
+        }%
+        \@ifpackageloaded{pdflscape}{%
+            \gdef\pdf@landscape@rotate{\PLS@Rotate}%
+        }{
+            \gdef\pdf@landscape@rotate#1{}%
+        }
+        \let\latex@outputpage\@outputpage
+        \def\@outputpage{
+            \ifx\within@landscape\@true%
+                \if@twoside%
+                    \ifodd\c@page%
+                        \gdef\LS@rot{\setbox\@outputbox\vbox{%
+                            \pdf@landscape@rotate{-90}%
+                            \hbox{\rotatebox{90}{\hbox{\rotatebox{180}{\box\@outputbox}}}}}%
+                        }%
+                    \else%
+                        \gdef\LS@rot{\setbox\@outputbox\vbox{%
+                            \pdf@landscape@rotate{+90}%
+                            \hbox{\rotatebox{90}{\hbox{\rotatebox{0}{\box\@outputbox}}}}}%
+                        }%
+                    \fi%
+                \else%
+                    \gdef\LS@rot{\setbox\@outputbox\vbox{%
+                        \pdf@landscape@rotate{+90}%
+                        \hbox{\rotatebox{90}{\hbox{\rotatebox{0}{\box\@outputbox}}}}}%
+                    }%
+                \fi%
             \fi%
-        \else%
-            \gdef\LS@rot{\setbox\@outputbox\vbox{%
-                \pdf@landscape@rotate{+90}%
-                \hbox{\rotatebox{90}{\hbox{\rotatebox{0}{\box\@outputbox}}}}}%
-            }%
-        \fi%
-    \fi%
-    \latex@outputpage%
-}
-\makeatother
-%end
+            \latex@outputpage%
+        }
+        \makeatother
+    %end
 
 %graphics
 \usepackage{graphicx}
 \usepackage[dvipsnames, table]{xcolor}
 %If you upload images from PC, you need to insert code for the path here (different for Windows and Unix OS)
+
+\definecolor{titleColor}{RGB}{3,70,112} % Verde specifico
+
+
+\usepackage{titlesec} %per la definizione dello stile di default di titoli
+\titleformat{\chapter}[hang]{\color{titleColor}\Huge\bfseries}{\thechapter}{1em}{}
+\titleformat{\section}[hang]{\color{titleColor}\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}[hang]{\color{titleColor}\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}[hang]{\color{titleColor}\normalsize\bfseries}{\thesubsection}{1em}{}
+\titleformat{\paragraph}[runin]{\color{titleColor}\normalsize\bfseries}{}{1em}{}
+
+\usepackage{enumitem}
+\setlist[enumerate]{label=\textcolor{titleColor}{\arabic*.}}
+\setlist[itemize]{label=\textcolor{titleColor}{\textbullet}}
 
 %References
 %\usepackage{xpatch}
@@ -117,9 +129,9 @@
 %Other
 \usepackage{ifthen}
 \usepackage{xspace}
-\usepackage{enumitem}
 \usepackage{amssymb}
-\usepackage[pdftex, colorlinks]{hyperref}
+\usepackage[pdftex, colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=green]{hyperref}
+
 \newcommand{\comment}[1]{{\color{Red}$\blacktriangleright$ Comment: #1 $\blacktriangleleft$}}
 
 
