@@ -155,18 +155,23 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
     CosmoX is now waiting for the students to complete the interviews and for the platform to automatically evaluate the quiz answers,  while the company is manually reviewing the open-ended questions and grading the different video calls.\\
     When a CosmoX employee logs into the platform, he can navigate to the “My Interview” section. In this section, he can view the status of each interview and the status of each student such as: “SENT” if the student has received the interview but not opened yet, “COMPLETED” if the student has completed the interview and “REVIEWED” if the company has started the review process of the non-automatic part of the interview.
 
-12. **Company publish a complaint about a student**
+12. **Student refuse/accept an internship**
+    Paula is an Art Mayor that has been matched by S&C with different museums and private art galleries in the city of Florence. She happily accepted all the matched and completed the interviews with all the companies. She did not expect to pass all the interviews and now she has to choose between the different offers.\\
+    Paula open the platform and navigate to the “My Applications” section where she can see all of her internships and the status of each one. To refuse an internship from which she was accepted, Paula clicks on it and then clicks on the “Refuse” button and the platform will notify the company about the decision of the student. By doing the same process, but clicking on the “Accept” button, the platform will notify the company that Paula has accepted the internship and will and block any other interview process informing the respective company.\\ 
+    By navigating to the “My Interview” section, any company can see, between the different possible state of an application, if the internship of a particular student has been accepted or refused.
+
+13. **Company publish a complaint about a student**
     PlaneHearts is a company famous for its innovative and multi-platform IDE for the development of mobile application. The company has created an internship on the S&C platform for software engineering students and selected Giovanni, a computer science student, for the internship. However, after the internship started, employees at PlaneHearts noticed that Giovanni was not performing as expected, did not have the required skills, and was not motivated to learn. The company decided to publish a complaint about Giovanni on the platform to inform the student's university.\\
     For publish the complaint, the people managing PlaneHearts account on S&C, log into the platform and navigates to the “Complaints” section. Here, they can view all the complaints they have published and can create a new complaint by providing the student's name, the internship title, and describe the problem that has arisen. Once the complaint is submitted, the platform will notify Giovanni and his university.
 
-13. **Student respond to a complaint**
+14. **Student respond to a complaint**
     Giovanni has received a notification from the S&C platform that a complaint has been published about him by PlaneHearts, the company where he is currently doing an internship. The complaint states that Giovanni is not performing as expected, does not have the required skills, and is not motivated to learn during this experience.\\
     The Student will have the opportunity to respond to the complaint and provide his version of the events by navigating to the “Complaints” section of the platform. Here, he can view all the complaints published about him and can respond to each one by providing a description of the situation from his perspective.
 
-14. **University handle a complaint**
+15. **University handle a complaint**
     The University of Rome, a prestigious university that has students enrolled in the S&C platform, has received a complaint about one of their students. The carrier advisor at the university opens the S&C platform and navigate to the “Complaints” section. Here, he can view all the complaints published about his students and can handle each one by reviewing the complaint, contacting the student and the company involved, and taking appropriate action to resolve the issue.
     In this particular carrier advisor and the university have decided to interrupt the internship of the student to protect the student and the company from further issues. The university do so by clicking on the “Interrupt Internship” button in the complaint page. The platform will notify the student and the company about the interruption of the internship and will close the complaint.
-<!-- 6 hours (Sam) -->
+<!-- 6.5 hours (Sam) -->
 
 ## 2.2.1 Requirements
 <!-- Login -->
