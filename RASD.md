@@ -45,7 +45,8 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 3. Spontaneous Application: Students can autonomously apply for an available internship offer.
 4. Spontaneous Application Acceptance: Companies can accept a spontaneous application sent by a Student
 5. Recommendation Process: The platform automatically find matches between available CV and Internships. At the end of the process provide Students and Companies with a match they can accept or refuse.
-6. Recommendation Process Monitoring:
+6. Matches and Application Monitoring:
+    Students and Companies can see and interact with spontaneous applications and  matches concerning them.
 7. Match Acceptance: Students and Companies can accept a match proposed by the Recommendation Process
 8. Interview Management:
 
