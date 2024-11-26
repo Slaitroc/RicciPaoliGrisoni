@@ -1,7 +1,6 @@
 # RASD
 
 ## Assignment
-
 Students&Companies (S&C) is a platform that helps match university students looking for internships and companies offering them. The platform should ease the matching between students and companies based on:
 
 - the experiences, skills and attitudes of students, as listed in their CVs;
@@ -19,6 +18,11 @@ Moreover, S&C should be able to provide suggestions both to companies and to stu
 
 In general, S&C provides interested parties with mechanisms to keep track and monitor the execution and the outcomes of the matchmaking process and of the subsequent internships from the point of view of all interested parties. For example, it provides spaces where interested parties can complain, communicate problems, and provide information about the current status of the ongoing internship. The platform is used by students at different universities. Universities also need to monitor the situation of internships; in particular, they are responsible for handling complaints, especially ones that might require the interruption of the internship.
 
+## 1.1.1 Purpose
+The purpose of the Student&Company (S&C) Platform is to create a system that allows Students to find Internships to enhance their education and improve their curriculum, while allowing Companies to find suitable candidates for their internship programs. All of this is done in a simple and efficient way by providing a series of tools to help both parties in the process.
+S&C will support the entire lifecycle of the Internship process for both Students and Companies: from the initial matchmaking that can be done automatically by the system through a proprietary Recommendation Process, or obtained by a Student with a Spontaneous Application to a specific internship offer, to the final selection process done through structured interviews created and submitted by Companies directly on the platform.
+In the meantime, Student&Company will also provide a series of Suggestions to improve CVs published by Students and internship offers published by Companies. The platform will also allow the Universities of students who are actually doing an internship to monitor the progress of such activities and handle any Complaints if necessary.
+<!-- 0.5hours (Sam) -->
 ## 1.1.1 Goals
 
 1. Companies would like to advertise the internship they offer
@@ -48,9 +52,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 
 ### Controlled By the World
 
-1. A Company publish an internship offer
-2. A Student inserts his CV
-3. A Student sends a spontaneous application for an internship
+1. A Company publish an inte
 4. A Student or a Company accepts a suitable recommendation(swipe)
 5. A Company configures interviews for a specific internship
 6. A Company conducts a previously set up interview
@@ -124,7 +126,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 6. **Company Submit an Internship Insertion**
     AnanasPhone is a major tech company, specialized in the production of smartphone and table, that has an account on the S&C company. They want to create an internship program aim to software engineers student in their final year of Master Degree.
     They open the S&C platform and select "My Internship" where a list of all the internship already present on S&C are shown and then they click on "Insert Internship" where they provide the required information such as the internship title, the internship description, the start date and duration, the office address, a list of the required skills student need to have in order to be considered for the internship (??) and possibly a list of benefits offered to the intern.  Once the internship is created by clicking on the "Submit Internship" button, the platform will match the internship with all the student that are a match for the internship based on the given information.
-    The platform will also provide AnanasPhone with some suggestion on how to improve the internship description, and matching probability, based on a grammar and lexica analyses and a direct comparing of AnanasPhone's Internship proposal with other similar companies.
+    The platform will also provide AnanasPhone with some suggestion on how to improve the internship description, and matching probability, based on a grammar and lexical analyses and a direct comparing of AnanasPhone's Internship proposal with other similar companies.
 
 7. **Company create structured interview to submit to possible candidate**
     MacroHard is a world-leading tech company, known for creating its secure and reliable operating system, "Door". The company has an account on the S&C platform and has already set up an internship program for software engineering students pursuing a Master’s degree. The company wants to create a structured interview to evaluate the technical skills and motivation of the students who apply for the internship.
@@ -135,6 +137,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 8. **Student accept a matched internship**
     Sara is a economic major student that has already uploaded her CV on the S&C platform and is looking for an internship. She has received a notification and by clicking on it she see that a new internship is available for her.
     Sara reads the internship information and description and she decide to accept it. A notification is sent to the company who has created the internship about the acceptance of the match by Sara. If the company also accept the match, the platform require the company to initiate the selection process by creating or assigning a structured interview to Sara who will be notified about it.
+    To both parties a Feedback is asked by the platform to improve the Recommendation Process by asking the both to rate the matching of the information and description provided by the other party. 
 
 9. **Student manually apply for an internship**
     Marco is a chemistry student that has already uploaded his CV on the S&C platform and is looking for an internship. Unfortunately the matching Internships provided by the platform do not fully satisfy his needs and he decide to proactively search for another internship.
@@ -152,7 +155,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
     When CosmoX logs into the platform, they navigate to the "My Interview" section. In this section, they can view the status of each of their interview and the status of each student such as "SENT" if the student receive the interview but not opened it yet, "COMPLETED" if the student has completed the interview and "REVIEWED" if the company has started the review process of the non automatic part of the interview.
 
 12. **Company publish a complaint about a student**
-    PlaneHearts is a company famous for its innovative and multi-platform IDE for the development of mobile application. The company has created an internship on the S&C platform for software engineering students and selected Giovanni, a computer science student, for the internship. However, after the internship started, PlaneHeart noticed that Giovanni was not performing as expected, did not have the required skills, and was not motivated to learn. The company decided to publish a complaint about Giovanni on the platform to inform the student's university
+    PlaneHearts is a company famous for its innovative and multi-platform IDE for the development of mobile application. The company has created an internship on the S&C platform for software engineering students and selected Giovanni, a computer science student, for the internship. However, after the internship started, PlaneHeart noticed that Giovanni was not performing as expected, did not have the required skills, and was not motivated to learn. The company decided to publish a complaint about Giovanni on the platform to inform the student's university.
     To publish the complaint, PlaneHearts logs into the platform and navigates to the "Complaints" section. Here, they can view all the complaints they have published and can create a new complaint by providing the student's name, the internship title, and describe the problem that has arose. Once the complaint is submitted, the platform will notify Giovanni and his university.
 
 13. **Student respond to a complaint**
@@ -162,8 +165,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 14. **University handle a complaint**
     The University of Rome, a prestigious university that has students enrolled in the S&C platform, has received a complaint from a about one of their students. The university open the S&C platform and navigate to the "Complaints" section. Here, they can view all the complaints published about their students and can handle each one by reviewing the complaint, contacting the student and the company involved, and taking appropriate action to resolve the issue.
     In this particular case the university has decided to interrupt the internship of the student to protect the student and the company from further issues. The university do so by clicking on the "Interrupt Internship" button in the complaint page. The platform will notify the student and the company about the interruption of the internship and will close the complaint.
-
-(?? non c'è alcun riferimento ai Feedback negli usercase)
+<!-- 5 hours (Sam) -->
 
 ## 2.2.1 Requirements
 <!-- Login -->
@@ -232,6 +234,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 - **Feedback**: Information provided by Students and Companies to the S&C platform to improve the Recommendation Process
 - **Suggestion**: Information provided by the S&C platform to Students and Companies to improve their CVs and Internship descriptions
 - **Complaint**: A report of a problem or issue that a Student or Company has with an ongoing Internship. It can be published on the platform and handled by the University.
+<!--(1h)Sam-->
 
 ## 1.6 Document Structure
 This document is composed of six sections:
