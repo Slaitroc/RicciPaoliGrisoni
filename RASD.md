@@ -21,7 +21,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 ## 1.1.1 Purpose
 The purpose of the Student&Company (S&C) Platform is to create a system that allows Students to find Internships to enhance their education and improve their curriculum, while allowing Companies to find suitable candidates for their internship programs. All of this is done in a simple and efficient way by providing a series of tools to help both parties in the process.
 S&C will support the entire lifecycle of the Internship process for both Students and Companies: from the initial matchmaking that can be done automatically by the system through a proprietary Recommendation Process, or obtained by a Student with a Spontaneous Application to a specific internship offer, to the final selection process done through structured interviews created and submitted by Companies directly on the platform.
-In the meantime, Student&Company will also provide a series of Suggestions to improve CVs published by Students and internship offers published by Companies. The platform will also allow the Universities of students who are actually doing an internship to monitor the progress of such activities and handle any Complaints if necessary, even by terminating the internship if no other solution can be found.
+In the meantime, Student&Company will also provide a series of Suggestions to improve CVs published by Students and internship offers published by Companies. The platform will also allow the Universities of students who are actually doing an internship to monitor the progress of such activities and handle any Complaints if necessary, even by terminating the internship if no other solution to the complaint can be found.
 <!-- 0.5hours (Sam) -->
 ## 1.1.1 Goals
 
