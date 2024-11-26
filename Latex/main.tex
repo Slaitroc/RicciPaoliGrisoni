@@ -1,110 +1,90 @@
-%documentclass [11pt,twoside]{article}
-% \usepackage[utf8]{inputenc}
-% \usepackage[T1]{fontenc}
+\documentclass [11pt,twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \input{commandsFile}
-
 
 \begin{document}
 
-%TITLE PAGE
+    %TITLE PAGE
+    \begin{titlepage}
 
-\begin{titlepage}
-
-
-%LOGO
-
-{\begin{table}[t!]
-\centering
-\begin{tabularx}{\textwidth}{@{}X X@{}}
-        \textcolor{Blue}{\textbf{\small{Travlendar+ project YOUR NAMES}}} & \includegraphics[scale=0.5]{Images/PolimiLogo}
-        \end{tabularx}
-\end{table}}~\\ [7cm]
-
-%TITLE 
-
-\begin{flushleft}
-
-%Replace the text string with your title
-{\textcolor{Blue}{\textbf{\Huge{Requirement Analysis and Specification
-        Document}}}} \\ [1cm]
-
-\end{flushleft}
-
-\end{titlepage}
-
-%Define deliverable specific info
-%Replace cell contents where needed
-\begin{table}[h!]
-        \centering
-        \begin{tabular}{@{} l p{0.75\textwidth} @{}}
+        % LOGO e titolo sopra
+        \vspace*{-2cm} % (opzionale) aggiusta il margine superiore
+        \begin{center}
+            \begin{tabularx}{\textwidth}{>{\raggedleft\arraybackslash}p{0.30\textwidth}>{\raggedleft\arraybackslash}X}
+                \textcolor{titleColor}{\textbf{\small{RASD Ricci, Paoli, Grisoni}}} & \includegraphics[scale=0.5]{Images/PolimiLogo} \\
+            \end{tabularx}
+        \end{center}
+        % Spazio verticale tra logo e titolo
+        \vspace*{4cm} % Sostituito \vspace con \vspace* per garantire lo spazio anche all'inizio della pagina
+    
+        % TITLE
+        \begin{center}
+            % Titolo del documento
+            {\textcolor{titleColor}{\textbf{\Huge{RASD}}}} \\[2ex]
+            {\textcolor{titleColor}{\textbf{\Huge{Requirement Analysis and Specification Document}}}} \\[1cm]
+        \end{center}
+    \end{titlepage}
+    
+    %Define deliverable specific info
+    %Replace cell contents where needed
+    \begin{table}[h!]
+        \renewcommand{\arraystretch}{1}
+        \setlength{\extrarowheight}{2pt}
+        \begin{tabularx}{\textwidth}{>{\raggedleft\arraybackslash}p{0.3\textwidth}>{\raggedright\arraybackslash}X}
             \hline
             \textbf{Deliverable:} & RASD \\ 
-            \textbf{Title:} & Requirement Analysis and Verification Document \\
-            \textbf{Authors:} & YOUR NAMES \\
+            \textbf{Title:} & Requirement Analysis and Verification Document \\ 
+            \textbf{Authors:} & Lorenzo Ricci, Matteo Giovanni Paoli, Samuele Grisoni \\ 
             \textbf{Version:} & 1.0 \\ 
-            \textbf{Date:} & 31-January-2016 \\
-            \textbf{Download page:} & LINK TO YOUR REPOSITORY \\
-            \textbf{Copyright:} & Copyright © 2017, YOUR NAMES – All rights reserved \\
-            \hline
-        \end{tabular}
+            \textbf{Date:} & 31-January-2016 \\ 
+            \textbf{Download page:} & \url{https://github.com/Slaitroc/RicciPaoliGrisoni/} \\ 
+            \textbf{Copyright:} & Copyright © 2017, Ricci, Paoli, Grisoni – All rights reserved \\ \hline
+        \end{tabularx}
     \end{table}
-
-
-
-
-
-\setcounter{page}{2}
-
-
-%------------------------------------------------------------------------------------------------------------------------------------------------
-\newpage
-\addcontentsline{toc}{section}{Table of Contents}
-\tableofcontents
-\newpage
-\addcontentsline{toc}{section}{List of Figures}
-\listoffigures
-\addcontentsline{toc}{section}{List of Tables}
-\listoftables
-
-%------------------------------------------------------------------------------------------------------------------------------------------------
-\clearpage
-{\color{Blue}{\section{Introduction}}}
-\label{sect:introduction}
-\input{Files/introduction}
-
-%------------------------------------------------------------------------------------------------------------------------------------------------
-\clearpage
-{\color{Blue}{\section{Overall Description}}}
-\label{sect:overview}
-\input{Files/overview} 
-
-%------------------------------------------------------------------------------------------------------------------------------------------------
-\clearpage
-{\color{Blue}{\section{Specific Requirements}}}
-\label{sect:requirements}
-\input{Files/requirements}
-
-%------------------------------------------------------------------------------------------------------------------------------------------------
-\clearpage
-{\color{Blue}{\section{Formal Analysis Using Alloy}}}
-\label{sect:alloy}
-\input{Files/alloy}
-
-%------------------------------------------------------------------------------------------------------------------------------------------------
-\clearpage
-{\color{Blue}{\section{Effort Spent}}}
-\label{sect:effort}
-\input{Files/effort}
-
-
-%------------------------------------------------------------------------------------------------------------------------------------------------
-\clearpage
-\addcontentsline{toc}{section}{References}
-\bibliographystyle{plain}
-\bibliography{main}
-%------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
+    
+  
+    
+    \setcounter{page}{2}
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+    \newpage
+    \addcontentsline{toc}{section}{Table of Contents}
+    \tableofcontents
+    \newpage
+    \addcontentsline{toc}{section}{List of Figures}
+    \listoffigures
+    \addcontentsline{toc}{section}{List of Tables}
+    \listoftables
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+    \clearpage
+    \section{Introduction}
+    \label{sect:introduction}
+    \input{Files/introduction}
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+    \clearpage
+    \section{Overall Description}
+    \label{sect:overview}
+    \input{Files/overview} 
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+    \clearpage
+    \section{Specific Requirements}
+    \label{sect:requirements}
+    \input{Files/requirements}
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+    \clearpage
+    \section{Formal Analysis Using Alloy}
+    \label{sect:alloy}
+    \input{Files/alloy}
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+    \clearpage
+    \section{Effort Spent}
+    \label{sect:effort}
+    \input{Files/effort}
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+    \clearpage
+    \addcontentsline{toc}{section}{References}
+    \bibliographystyle{plain}
+    \bibliography{main}
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+    
 \end{document}
