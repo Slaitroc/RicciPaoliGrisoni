@@ -1,6 +1,7 @@
 # RASD
 
 ## Assignment
+
 Students&Companies (S&C) is a platform that helps match university students looking for internships and companies offering them. The platform should ease the matching between students and companies based on:
 
 - the experiences, skills and attitudes of students, as listed in their CVs;
@@ -19,6 +20,7 @@ Moreover, S&C should be able to provide suggestions both to companies and to stu
 In general, S&C provides interested parties with mechanisms to keep track and monitor the execution and the outcomes of the matchmaking process and of the subsequent internships from the point of view of all interested parties. For example, it provides spaces where interested parties can complain, communicate problems, and provide information about the current status of the ongoing internship. The platform is used by students at different universities. Universities also need to monitor the situation of internships; in particular, they are responsible for handling complaints, especially ones that might require the interruption of the internship.
 
 ## 1.1.1 Purpose
+
 The purpose of the Student&Company (S&C) Platform is to create a system that allows Students to find Internships to enhance their education and improve their curriculum, while allowing Companies to find suitable candidates for their internship programs. All of this is done in a simple and efficient way by providing a series of tools to help both parties in the process.
 S&C will support the entire lifecycle of the Internship process for both Students and Companies: from the initial matchmaking that can be done automatically by the system through a proprietary Recommendation Process, or obtained by a Student with a Spontaneous Application to a specific internship offer, to the final selection process done through structured interviews created and submitted by Companies directly on the platform.
 In the meantime, Student&Company will also provide a series of Suggestions to improve CVs published by Students and internship offers published by Companies. The platform will also allow the Universities of students who are actually doing an internship to monitor the progress of such activities and handle any Complaints if necessary.
@@ -32,6 +34,42 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 5. Students and Companies would like to complain, communicate problems, provide information about an ongoing internship
 6. Students and Companies would like to be provided with suggestions about how to improve their submission
 7. Universities would like to handle complains about ongoing internships
+
+## 1.2 Scope
+
+1. Advertise Internship: Companies can publish internships offers that:
+    - Students can spontaneously apply to
+    - Recommendation process consider while looking for matches
+2. Insert CV: Students can provide the platform with their CV that:
+    - Recommendation process will consider while looking for matches
+3. Spontaneous Application: Students can autonomously apply for an available internship offer.
+4. Spontaneous Application Acceptance: Companies can accept a spontaneous application sent by a Student
+5. Recommendation Process: The platform automatically find matches between available CV and Internships. At the end of the process provide Students and Companies with a match they can accept or refuse.
+6. Recommendation Process Monitoring:
+7. Match Acceptance: Students and Companies can accept a match proposed by the Recommendation Process
+8. Interview Management:
+
+    Companies can create template interviews and start the Interview process with:
+    - Students whose match with one of their Internship has been accepted by both the parties
+    - Students whose spontaneous application with one of their Internship has been accepted by both the parties
+    Companies can monitor the state of an interview:
+    - sent: means the Interview process concerning that student has started
+    - on-going: means that the student is answering the interview he/she received
+    - to-be-evaluated: means that the student has answered all the sections of the interview and the interview needs to be evaluated by the Company
+    - negatively-evaluated: means that the interview has been negatively evaluated by the Company and the interview will not lead to a confirmed internship.
+    - positively-evaluated: means that the interview has been positively evaluated by the Company and it is waiting to be accepted or refused by the Student
+    - refused: means that the Student refused the internship offer and the interview will not lead to a confirmed internship.
+    - accepted: means that the Student accepted the internship offer and the interview will lead to a confirmed internship. It also implies that all the other evaluated/to-be-evaluated/on-going/sent interviews states concerning that student will be imposed to refused.
+    Companies can delete previously created template-interviews only if all the interviews concerning that template are in a refused/accepted/negatively-evaluated state
+9. Internship Handling:
+
+    Students and Companies can complain, communicate problems, provide information about a confirmed internship.
+
+    University can monitor a confirmed Internship and handle complains, communicated problems and provided information.
+    Handling a complain, the University can decide to interrupt the Internship.
+10. Suggestion Mechanism:
+
+    The platform provide suggestion to both Students and Companies about the manner they respectively provide it with their CV and Internships. The suggestion achievement is to allow Students and Companies to perform better in Recommendation process.
 
 ## 1.2.1 World Phenomena
 
@@ -52,16 +90,16 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 
 ### Controlled By the World
 
-1. A Company publish an inte
-4. A Student or a Company accepts a suitable recommendation(swipe)
-5. A Company configures interviews for a specific internship
-6. A Company conducts a previously set up interview
-7. A Company finalizes a previously conducted interview
-8. A Student or Company complains, communicates problem, provides information about an ongoing internship
-9. A Student answers questions related to an interview
-10. A Students or Company monitors his Recommendation Process
-11. A University handles complaints about ongoing internships
-12. A University interrupts an internship
+1. A Company publish an internship
+2. A Student or a Company accepts a suitable recommendation(swipe)
+3. A Company configures interviews for a specific internship
+4. A Company conducts a previously set up interview
+5. A Company finalizes a previously conducted interview
+6. A Student or Company complains, communicates problem, provides information about an ongoing internship
+7. A Student answers questions related to an interview
+8. A Students or Company monitors his Recommendation Process
+9. A University handles complaints about ongoing internships
+10. A University interrupts an internship
 
 ### Controlled By the Machine
 
@@ -157,7 +195,7 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 
 12. **Student refuse/accept an internship**
     Paula is an Art Mayor that has been matched by S&C with different museums and private art galleries in the city of Florence. She happily accepted all the matched and completed the interviews with all the companies. She did not expect to pass all the interviews and now she has to choose between the different offers.\\
-    Paula open the platform and navigate to the “My Applications” section where she can see all of her internships and the status of each one. To refuse an internship from which she was accepted, Paula clicks on it and then clicks on the “Refuse” button and the platform will notify the company about the decision of the student. By doing the same process, but clicking on the “Accept” button, the platform will notify the company that Paula has accepted the internship and will and block any other interview process informing the respective company.\\ 
+    Paula open the platform and navigate to the “My Applications” section where she can see all of her internships and the status of each one. To refuse an internship from which she was accepted, Paula clicks on it and then clicks on the “Refuse” button and the platform will notify the company about the decision of the student. By doing the same process, but clicking on the “Accept” button, the platform will notify the company that Paula has accepted the internship and will and block any other interview process informing the respective company.\\
     By navigating to the “My Interview” section, any company can see, between the different possible state of an application, if the internship of a particular student has been accepted or refused.
 
 13. **Company publish a complaint about a student**
@@ -203,7 +241,7 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 24. The system shall start a Selection Process only if both the Company and the Student have accepted the Recommendation.
 25. The system shall start a Selection Process only if the Company has accepted the Spontaneous Application.
     <!-- Selection and Interview Management -->
-26. The system shall allow Companies to create Template Interviews. 
+26. The system shall allow Companies to create Template Interviews.
 27. The system shall allow Companies to submit Template Interviews to Students they have initiated a Selection Process with.
 28. The system shall allow Students to answer Interview questions and submit them.
 29. The system shall allow Companies to manually evaluate Interview submissions.
@@ -219,7 +257,6 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 37. The system shall provide a platform to Students and Companies to complain, communicate problems, or provide information about the current status of an ongoing Internship.
 38. The system shall notify registered Universities of any Complaint issued on their Students.
 39. The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
-
 
 ## 2.1.2 Class Diagram
 
@@ -243,7 +280,9 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 <!--(1h)Sam-->
 
 ## 1.6 Document Structure
+
 This document is composed of six sections:
+
 1. **Introduction**: This section provides an overview of the document and the system. Here the purpose of the platform is explained, along with the goals and phenomena of the system. Finally essential definitions are provided.
 2. **Overall Description**: In this section it is provided a high-level perspective of the system, describing its overall purpose, functionality, and user interactions. It includes an outline of the system's intended features, user profiles, and assumptions about the domain.
 3. **Specific Requirements**: In this section we focussed on the technical and functional details of the system. Here are specified the external interfaces as well as the functional and non-functional requirements of the system. Diagrams, such as use case and sequence diagrams, have been used to provide a visual representation of the system's functionality.
@@ -252,8 +291,8 @@ This document is composed of six sections:
 6. **References**: This section provides a list of references used in the document.
    <!--(1.5h)-->
 
-
 ## 2.2 Product Functions
+
 1. **User Management**
    The platform allows Students, Companies, and Universities to register and log in. It also provides Students to upload and modify their CVs, and Companies to view and manage their internships.
 2. **Internship Creation and Management:**
@@ -272,8 +311,8 @@ This document is composed of six sections:
    Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new internships, matched recommendations, interview assignments, complaints and sign up confirmation.
    <!-- (2.0h) -->
 
-
 ## 3.2 Functional Requirements
+
 This chapter provides a comprehensive overview of the system's use cases, detailing the various interactions between users and the system.
 Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Requirement Mapping are provided for each use case.
 <!-- (0.5h) -->
