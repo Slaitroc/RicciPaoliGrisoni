@@ -40,36 +40,18 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 1. Advertise Internship: Companies can publish internships offers that:
     - Students can spontaneously apply to
     - Recommendation process consider while looking for matches
-2. Insert CV: Students can provide the platform with their CV that:
-    - Recommendation process will consider while looking for matches
+2. Insert CV: Students can provide the platform with their CV that Recommendation process will consider while looking for matches
 3. Spontaneous Application: Students can autonomously apply for an available internship offer.
 4. Spontaneous Application Acceptance: Companies can accept a spontaneous application sent by a Student
 5. Recommendation Process: The platform automatically find matches between available CV and Internships. At the end of the process provide Students and Companies with a match they can accept or refuse.
-6. Matches and Application Monitoring:
-    Students and Companies can see and interact with spontaneous applications and  matches concerning them.
-7. Match Acceptance: Students and Companies can accept a match proposed by the Recommendation Process
-8. Interview Management:
-
-    Companies can create template interviews and start the Interview process with:
-    - Students whose match with one of their Internship has been accepted by both the parties
-    - Students whose spontaneous application with one of their Internship has been accepted by both the parties
-    Companies can monitor the state of an interview:
-    - sent: means the Interview process concerning that student has started
-    - on-going: means that the student is answering the interview he/she received
-    - to-be-evaluated: means that the student has answered all the sections of the interview and the interview needs to be evaluated by the Company
-    - negatively-evaluated: means that the interview has been negatively evaluated by the Company and the interview will not lead to a confirmed internship.
-    - positively-evaluated: means that the interview has been positively evaluated by the Company and it is waiting to be accepted or refused by the Student
-    - refused: means that the Student refused the internship offer and the interview will not lead to a confirmed internship.
-    - accepted: means that the Student accepted the internship offer and the interview will lead to a confirmed internship. It also implies that all the other evaluated/to-be-evaluated/on-going/sent interviews states concerning that student will be imposed to refused.
+6. Interview Management:
+    Companies can interview both Student whose Spontaneous Application has been accepted, and Students that accepted a match found by Recommendation Process the company has accepted too, by providing them with Interview. The outcome of the Interview finalizes the selection process that can lead to a confirmed internship experience.
     Companies can delete previously created template-interviews only if all the interviews concerning that template are in a refused/accepted/negatively-evaluated state
-9. Internship Handling:
-
+7. Internship Handling:
     Students and Companies can complain, communicate problems, provide information about a confirmed internship.
-
     University can monitor a confirmed Internship and handle complains, communicated problems and provided information.
     Handling a complain, the University can decide to interrupt the Internship.
-10. Suggestion Mechanism:
-
+8. Suggestion Mechanism:
     The platform provide suggestion to both Students and Companies about the manner they respectively provide it with their CV and Internships. The suggestion achievement is to allow Students and Companies to perform better in Recommendation process.
 
 ## 1.2.1 World Phenomena
