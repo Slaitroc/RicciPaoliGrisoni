@@ -299,3 +299,6 @@ This document is composed of six sections:
 This chapter provides a comprehensive overview of the system's use cases, detailing the various interactions between users and the system.
 Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Requirement Mapping are provided for each use case.
 <!-- (0.5h) -->
+## 3.2.1 Use Case Diagrams
+<!-- (3h) (Sam)>
+
