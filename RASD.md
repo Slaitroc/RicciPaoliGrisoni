@@ -300,5 +300,5 @@ This chapter provides a comprehensive overview of the system's use cases, detail
 Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Requirement Mapping are provided for each use case.
 <!-- (0.5h) -->
 ## 3.2.1 Use Case Diagrams
-<!-- (3h) (Sam)>
+<!-- (4h) (Sam)>
 
