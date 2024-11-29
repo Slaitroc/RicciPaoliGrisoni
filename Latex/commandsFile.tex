@@ -107,9 +107,20 @@
 
 \usepackage{titlesec} %per la definizione dello stile di default di titoli
 \titleformat{\chapter}[hang]{\color{titleColor}\Huge\bfseries}{\thechapter}{1em}{}
-\titleformat{\section}[hang]{\color{titleColor}\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\section} % Ridefinisci il formato della sezione
+  {\color{titleColor}\normalfont\Large\bfseries} % Stile del titolo
+  {} % Nessun numero della sezione
+  {0pt} % Spazio tra numero e titolo
+  {
+    {\color{titleColor}\rule{\linewidth}{0.1pt}} \\ % Linea sopra il titolo
+    \thesection\quad % Inserisce il numero della sezione (opzionale)
+  }
+  [ % Modifiche dopo il titolo
+    \vspace{-0.5em} % Spazio aggiuntivo dopo il titolo
+    {\color{titleColor}\rule{\linewidth}{0.1pt}} % Linea sotto il titolo
+  ]
 \titleformat{\subsection}[hang]{\color{titleColor}\large\bfseries}{\thesubsection}{1em}{}
-\titleformat{\subsubsection}[hang]{\color{titleColor}\normalsize\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}[hang]{\color{titleColor}\normalsize\bfseries}{\thesubsubsection}{1em}{}
 \titleformat{\paragraph}[runin]{\color{titleColor}\normalsize\bfseries}{}{1em}{}
 
 \usepackage{enumitem}
