@@ -1,19 +1,18 @@
-version: '3.8'
-
 services:
-  backend:
+  sc_server:
     build:
-      context: ./      # Directory dove si trova il Dockerfile
-      dockerfile: Dockerfile  # Nome del Dockerfile (opzionale, default: "Dockerfile")
+      context: ./      
+      dockerfile: Dockerfile  
     container_name: sc_server-container
     ports:
-      - "8080:8080"
+      - "8443:8443"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/sc_DB
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
     depends_on:
       - database
+
 
   database:
     image: mariadb:10.7
@@ -22,4 +21,8 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: sc_DB
     ports:
-      - "3306:3306"
+      - "3306:3306"  # Porta MariaDB esposta
+
+# secrets:
+#   keystore-password:
+#     file: ./secret/keystore-password.txt

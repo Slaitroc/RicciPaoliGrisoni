@@ -1,3 +1,6 @@
+secret/
+META-INF/
+
 /target/
 pom.xml.tag
 pom.xml.releaseBackup
