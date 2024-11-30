@@ -65,7 +65,25 @@
 \subsubsection{Class Diagrams}
 
 \subsubsection{State Charts}
+The following section provides a series of state diagrams that illustrate the evolution of the main phases of the Student\&Company platform. For this purpose, we propose three diagrams representing the Recommendation Process evolution with the corresponding Spontaneous Application variant and the Interview Process.
 
+\textbf{Raccomandation Process}\\
+%\includegraphics[width=1 \textwidth]{Diagrams/RaccomandationStateChart.png}
+\begin{itemize}
+    \item The Recommendation Process is the core of the Student\&Company platform. It is the process that matches Students with Internships based on the Student's CV and the Internship's requirements. It is initiated by the platform when it detects a potential Match. The process then evolves to a 'WaitingForConfirmation' state, where the system waits for the Student and the Company to accept the Match. If one of the two parties rejects the Match, the process is terminated. If both parties accept the Match, an Interview is initiated, and the process is terminated.
+\end{itemize}
+
+\textbf{Spontaneous Application Process}\\
+%\includegraphics[width=1 \textwidth]{Diagrams/SpontaneousApplicationStateChart.png}
+\begin{itemize}
+    \item Unlike the Recommendation Process, the Spontaneous Application process is initiated by the Student. When a Student submits a Spontaneous Application for an Internship, the process evolves to a 'WaitingForConfirmation' state, where the system waits for the Company to accept the Application. If the Company rejects the Application, the process is terminated. If the Company accepts the Application, an Interview Process is initiated, and the process is terminated.
+\end{itemize}
+
+\textbf{Interview Process}\\
+%\includegraphics[width=1 \textwidth]{Diagrams/InterviewStateChart.png}
+\begin{itemize}
+    \item The Interview Process is initiated when a Match is accepted by both the Student and the Company, or when a Spontaneous Application is accepted by the Company. The process starts in the 'Interview Creation' state, where the Company is asked to submit a Template Interview or create a new one. Here, the Company is required to specify a deadline for the Interview. The Interview process evolves into the 'InterviewSubmitted' state once the Company sends the Template to the Student, who answers the questions and submits the Interview. If the Student fails to submit the answers within the deadline, he will be considered rejected, and the process is terminated. Otherwise, if the Template includes open-ended questions that require manual evaluation, the process evolves to a 'ToManualReview' state before entering the 'Consolidation' state. If the Template is fully automatic, on the other hand, the process evolves directly to the 'Consolidation' state. In the 'Consolidation' state, if the Student successfully passes the Interview, he is required to specify if he wants to accept the Internship or reject it before the expiration of the deadline, after which he will be considered rejected. Either way, the process is terminated right after.
+\end{itemize}
 
 \subsection{Product Functions}
 \begin{enumerate}
