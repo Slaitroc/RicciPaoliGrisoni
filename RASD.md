@@ -19,12 +19,15 @@ Moreover, S&C should be able to provide suggestions both to companies and to stu
 
 In general, S&C provides interested parties with mechanisms to keep track and monitor the execution and the outcomes of the matchmaking process and of the subsequent internships from the point of view of all interested parties. For example, it provides spaces where interested parties can complain, communicate problems, and provide information about the current status of the ongoing internship. The platform is used by students at different universities. Universities also need to monitor the situation of internships; in particular, they are responsible for handling complaints, especially ones that might require the interruption of the internship.
 
+
 ## 1.1.1 Purpose
 
 The purpose of the Student&Company (S&C) Platform is to create a system that allows Students to find Internships to enhance their education and improve their curriculum, while allowing Companies to find suitable candidates for their internship programs. All of this is done in a simple and efficient way by providing a series of tools to help both parties in the process.
 S&C will support the entire lifecycle of the Internship process for both Students and Companies: from the initial matchmaking that can be done automatically by the system through a proprietary Recommendation Process, or obtained by a Student with a Spontaneous Application to a specific internship offer, to the final selection process done through structured interviews created and submitted by Companies directly on the platform.
 In the meantime, Student&Company will also provide a series of Suggestions to improve CVs published by Students and internship offers published by Companies. The platform will also allow the Universities of students who are actually doing an internship to monitor the progress of such activities and handle any Complaints if necessary, even by terminating the internship if no other solution to the complaint can be found.
 <!-- 0.5hours (Sam) -->
+
+
 ## 1.1.1 Goals
 
 1. Companies would like to advertise the Internship they offer
@@ -34,6 +37,7 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 5. Students and Companies would like to complain, communicate problems, provide information about an ongoing Internship
 6. Students and Companies would like to be provided with Suggestions about how to improve their submission
 7. Universities would like to handle Complaints about ongoing Internships
+
 
 ## 1.2 Scope
 
@@ -54,6 +58,7 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 8. Suggestion Mechanism:
     The platform provides suggestion to both Students and Companies about the manner they respectively provide it with their CV and Internships. The suggestion achievement is to allow Students and Companies to perform better in the Recommendation Process.
 
+
 ## 1.2.1 World Phenomena
 
 1. A Company wants to advertise its Internship
@@ -68,6 +73,7 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 10. A University wants to monitor an ongoing Internship
 11. A University wants to handle Complaints about an ongoing Internship
 12. A University wants to interrupt an ongoing Internship
+
 
 ## 1.2.2 Shared Phenomena
 
@@ -110,9 +116,9 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 11. The Platform presents the interface for a University to Monitor an ongoing Internship
 12. The Platform presents the interface for a University to interrupt an ongoing Internship -->
 
+
 ## 1.5 Reference Documents
 <!-- 0.25 hours (Sam) -->
-
 
 
 ## 1.3.1 Definitions
@@ -123,7 +129,7 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 - **User**: Any registered entity on the S&C platform
 - **Internship**: The offer of a position provided by a company to one or more students. The position for a single student is temporary, but the offer remains active until it is removed from the platform.
 - **Recommendation Process**: The process of matching a Student with an Internship offered by a Company based on the Student's CV and the Internship's requirements made by the S&C platform.
-- **Recommendation/Match**: The result of the Recommendation Process. It's the match between a Student and an Internship.
+- **Recommendation/Match**: The result of the Recommendation Process. It is the match between a Student and an Internship.
 - **Spontaneous Application**: The process of a Student manually applying for an Internship that was not Matched through the Recommendation Process.
 - **Template Interview**: A collection of open-ended questions, quizzes and call that a Company can create. Each time a Company wants to interview a Student, they can select a Template Interview, or create a new one, and assign it to the Student.
 - **Interview**: The process of evaluating a Student's application for an Internship, done through a Template Interview.
@@ -131,6 +137,7 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 - **Suggestion**: Information provided by the S&C platform to Students and Companies to improve their CVs and Internship descriptions
 - **Complaint**: A report of a problem or issue that a Student or Company has with an ongoing Internship. It can be published on the platform and handled by the University.
 <!--(1h)Sam-->
+
 
 ## 1.6 Document Structure
 
@@ -143,6 +150,7 @@ This document is composed of six sections:
 5. **Effort Spent**: This section provides an overview of the time spent by each group member on the project.
 6. **References**: This section provides a list of references used in the document.
    <!--[(1.5h) Matteo]-->
+
 
 ## 2.1.1 User Scenario
 
@@ -218,8 +226,10 @@ This document is composed of six sections:
     In this particular carrier advisor and the university have decided to interrupt the internship of the student to protect the student and the company from further issues. The university does so by clicking on the “Interrupt Internship” button in the complaint page. The platform will notify the student and the company about the interruption of the internship and will close the complaint.
 <!-- 6.5 hours (Sam) -->
 
+
 ## 2.1.2 Class Diagram
 ![Class Diagram](./Diagrams/ClassDiagram.png)
+
 
 ## 2.1.3 State Charts 
 The following section provides a series of state diagrams that illustrate the evolution of the main phases of the Student&Company platform. For this purpose, we propose three diagrams representing the Recommendation Process evolution with the corresponding Spontaneous Application variant and the Interview Process.
@@ -234,7 +244,9 @@ The following section provides a series of state diagrams that illustrate the ev
   - The Interview Process is initiated when a Match is accepted by both the Student and the Company, or when a Spontaneous Application is accepted by the Company. The process starts in the 'Interview Creation' state, where the Company is asked to submit a Template Interview or create a new one. Here, the Company is required to specify a deadline for the Interview. The Interview process evolves into the 'InterviewSubmitted' state once the Company sends the Template to the Student, who answers the questions and submits the Interview. If the Student fails to submit the answers within the deadline, he will be considered rejected, and the process is terminated. Otherwise, if the Template includes open-ended questions that require manual evaluation, the process evolves to a 'ToManualReview' state before entering the 'Consolidation' state. If the Template is fully automatic, on the other hand, the process evolves directly to the 'Consolidation' state. In the 'Consolidation' state, if the Student successfully passes the Interview, he is required to specify if he wants to accept the Internship or reject it before the expiration of the deadline, after which he will be considered rejected. Either way, the process is terminated right after.
     <!-- [(4.0h) Matteo] -->
 
+    
 ## 2.2 Product Functions
+
 1. **User Management**
    The platform allows Students, Companies, and Universities to register and log in. It also provides Students to upload and modify their CVs, and Companies to view and manage their Internships.
 2. **Internship Creation and Management:**
@@ -252,6 +264,7 @@ The following section provides a series of state diagrams that illustrate the ev
 8. **Notification System**
    Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new Internships, matched Recommendations, Interview assignments, Complaints and sign up confirmation.
    <!-- [(2.0h) Matteo] -->
+
 
 ## 2.2.1 Requirements
 <!-- Login -->
@@ -300,6 +313,7 @@ The following section provides a series of state diagrams that illustrate the ev
 38. The system shall notify registered Universities of any Complaint issued on their Students.
 39. The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
 
+
 ## 2.4.1 Domain Assumption
 
 1. Students and Companies provide the Platform with correct and truthful information
@@ -314,6 +328,7 @@ The following section provides a series of state diagrams that illustrate the ev
 This chapter provides a comprehensive overview of the system's use cases, detailing the various interactions between users and the system.
 Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Requirement Mapping are provided for each use case.
 <!-- [(0.5h) Matteo] -->
+
 ## 3.2.1 Use Case Diagrams
 <!-- (4h) (Sam)>
 
