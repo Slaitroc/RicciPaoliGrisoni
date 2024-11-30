@@ -330,5 +330,5 @@ Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Require
 <!-- [(0.5h) Matteo] -->
 
 ## 3.2.1 Use Case Diagrams
-<!-- (4h) (Sam)>
+<!-- (4.5h) (Sam)>
 
