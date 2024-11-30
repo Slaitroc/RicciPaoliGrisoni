@@ -243,7 +243,7 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 
 ## 2.1.2 Class Diagram
 
-![Class Diagram](./ClassDiagram.png)
+![Class Diagram](./Diagrams/ClassDiagram.png)
 
 ## 1.3.1 Definitions
 
@@ -272,8 +272,20 @@ This document is composed of six sections:
 4. **Alloy**: This section illustrate code and diagrams of the Alloy formal specification language that has been used to ensure the consistency and correctness of the system's formalized requirements.
 5. **Efford Spent**: This section provides an overview of the time spent by each group member on the project.
 6. **References**: This section provides a list of references used in the document.
-   <!--(1.5h)-->
+   <!--[(1.5h) Matteo]-->
 
+## 2.1.3 State Charts 
+The following section provides a series of state diagrams that illustrate the evolution of the main phases of the Student&Company platform. For this purpose, we propose two diagrams representing the Recommendation Process Evolution and the Internship Evolution combined with the Interview Process.
+    ![Raccomandation Process](./Diagrams/RaccomandationStateChart.png)
+- **Recommendation Process** 
+  - The Recommendation Process is the core of the Student&Company platform. It is the process that matches Students with Internships based on the Student's CV and the Internship's requirements. It is initiated by the platform when it detects a potential match. The Process then progress to a 'WaitingForConfirmation' state where the system waits for the Student and the Company to accept the match. If one of the two parties rejects the match, the process is terminated. If both parties accept the match, an Interview Process is initiated and the process is terminated.
+    ![Spontaneous Application Process](./Diagrams/SpontaneousApplicationStateChart.png)
+- **Spontaneous Application Process**
+  - Unlike the Recommendation Process, the Spontaneous Application Process is initiated by the Student. When a Student submit a Spontaneous Application to an Internship the process progress to a 'WaitingForConfirmation' state where the system waits for the Company to accept the application. If the Company reject the Application, the process is terminated. If the Company accepts the application, an Interview Process is initiated and the process is terminated.
+    ![Interview Process](./Diagrams/InterviewStateChart.png)
+- **Interview Process**
+  - The Interview Process is initiated when a match is accepted by both the Student and the Company, or when a Spontaneous Application is accepted by the Company. The process starts in the 'Interview Creation' state where the Company is asked to submit a Template Interview or create a new one. Here the company is required to specify a deadline to the Interview. The Interview process evolve into the 'InterviewSubmitted' state once the Company sends the Template to the Student, who answers the questions and submits the Interview. If the Student fails to submit the answers within the deadline he will be considered rejected and the process is terminated. If the Template includes open-ended questions that require manual evaluation the process progress to a 'ToManualReview' state before entering the 'Consolidation' state. If the Template is fully automatic, the process progress directly to the 'Consolidation' state. In the 'Consolidation' state, if the Student successfully passes the Interview, the Student is required to specify if he wants to accept the Internship or reject it. Either way, the process is terminated.
+    <!-- [(2.0h) Matteo] -->
 ## 2.2 Product Functions
 
 1. **User Management**
@@ -292,13 +304,13 @@ This document is composed of six sections:
    Students and Companies can publish complaints about ongoing internships, which are then handled by Universities. Universities can monitor complaints and interrupt internships if necessary.
 8. **Notification System**
    Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new internships, matched recommendations, interview assignments, complaints and sign up confirmation.
-   <!-- (2.0h) -->
+   <!-- [(2.0h) Matteo] -->
 
 ## 3.2 Functional Requirements
 
 This chapter provides a comprehensive overview of the system's use cases, detailing the various interactions between users and the system.
 Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Requirement Mapping are provided for each use case.
-<!-- (0.5h) -->
+<!-- [(0.5h) Matteo] -->
 ## 3.2.1 Use Case Diagrams
 <!-- (4h) (Sam)>
 
