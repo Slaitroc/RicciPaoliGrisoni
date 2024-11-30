@@ -123,20 +123,25 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 
 ## 1.3.1 Definitions
 
-- **University**: An institution that is registered on the S&C platform
-- **Company**: A company that is registered on the S&C platform
-- **Student**: A person who is currently enrolled in a University and is registered on the S&C platform.
-- **User**: Any registered entity on the S&C platform
-- **Internship**: The offer of a position provided by a company to one or more students. The position for a single student is temporary, but the offer remains active until it is removed from the platform.
-- **Recommendation Process**: The process of matching a Student with an Internship offered by a Company based on the Student's CV and the Internship's requirements made by the S&C platform.
-- **Recommendation/Match**: The result of the Recommendation Process. It is the match between a Student and an Internship.
-- **Spontaneous Application**: The process of a Student manually applying for an Internship that was not Matched through the Recommendation Process.
-- **Template Interview**: A collection of open-ended questions, quizzes and call that a Company can create. Each time a Company wants to interview a Student, they can select a Template Interview, or create a new one, and assign it to the Student.
-- **Interview**: The process of evaluating a Student's application for an Internship, done through a Template Interview.
-- **Feedback**: Information provided by Students and Companies to the S&C platform to improve the Recommendation Process
-- **Suggestion**: Information provided by the S&C platform to Students and Companies to improve their CVs and Internship descriptions
-- **Complaint**: A report of a problem or issue that a Student or Company has with an ongoing Internship. It can be published on the platform and handled by the University.
-<!--(1h)Sam-->
+- **University:** An institution that is registered on the S&C platform.
+- **Company:** A company that is registered on the S&C platform.
+- **Student:** A person who is currently enrolled in a University and is registered on the S&C platform.
+- **User: Any:** registered entity on the S&C platform.
+- **Internship:**: The offer of a position provided by a company to one or more students. The position for a single student is temporary, but the offer remains active until it is removed from the platform.
+- **Recommendation Process:** The process of matching a Student with an Internship offered by a Company based on the Student's CV and the Internship's requirements made by the S&C platform.
+- **Recommendation/Match:** The result of the Recommendation Process. It is the match between a Student and an Internship.
+- **Spontaneous Application:** The process of a Student manually applying for an Internship that was not matched through the Recommendation Process.
+- <!--**Template Interview:** A collection of open-ended questions, quizzes, and calls that a Company can create. Each time a Company wants to interview a Student, they can select a Template Interview, or create a new one, and assign it to the Student.-->
+- **Interview:** The process of evaluating a Student's application for an Internship done by a Company through the S&C platform. 
+- **Feedback:** Information provided by Students and Companies to the S&C platform to improve the Recommendation Process.
+- **Suggestion:** Information provided by the S&C platform to Students and Companies to improve their CVs and Internship descriptions.
+- **Complaint:** A report of a problem or issue that a Student or Company has with an ongoing Internship. It can be published on the platform and handled by the University.
+- **Confirmed Match:** A match that has been accepted by both a Student and a Company.
+- **Rejected Match:** A match that has been refused by either a Student or a Company.
+Pending Match: A match that has been accepted only by a Student or a Company, waiting for a response from the other party.
+- **Unaccepted Match:** A match that has been refused by either a Student or a Company.
+- **Confirmed Internship:** An Internship that has been accepted by the Student and the offering Company.
+<!--(1.5h)Sam-->
 
 
 ## 1.6 Document Structure
