@@ -246,14 +246,14 @@ The following section provides a series of state diagrams that illustrate the ev
   - Unlike the Recommendation Process, the Spontaneous Application process is initiated by the Student. When a Student submits a Spontaneous Application for an Internship, the process evolves to a 'WaitingForConfirmation' state, where the system waits for the Company to accept the Application. If the Company rejects the Application, the process is terminated. If the Company accepts the Application, an Interview Process is initiated, and the process is terminated.
     ![Interview Process](./Diagrams/InterviewStateChart.png)
 - **Interview Process**
-  - The Interview Process is initiated when a Match is accepted by both the Student and the Company, or when a Spontaneous Application is accepted by the Company. The process starts in the 'Interview Creation' state, where the Company is asked to submit a Template Interview or create a new one. Here, the Company is required to specify a deadline for the Interview. The Interview process evolves into the 'InterviewSubmitted' state once the Company sends the Template to the Student, who answers the questions and submits the Interview. If the Student fails to submit the answers within the deadline, he will be considered rejected, and the process is terminated. Otherwise, if the Template includes open-ended questions that require manual evaluation, the process evolves to a 'ToManualReview' state before entering the 'Consolidation' state. If the Template is fully automatic, on the other hand, the process evolves directly to the 'Consolidation' state. In the 'Consolidation' state, if the Student successfully passes the Interview, he is required to specify if he wants to accept the Internship or reject it before the expiration of the deadline, after which he will be considered rejected. Either way, the process is terminated right after.
+  - The Interview Process is initiated when a Match is accepted by both the Student and the Company, or when a Spontaneous Application is accepted by the Company. The process starts in the 'Interview Creation' state, where the Company is asked to submit a Template Interview or create a new one. Here, the Company is required to specify a deadline for the Interview. The Interview process evolves into the 'InterviewSubmitted' state once the Company sends the Template to the Student, who answers the questions and submits the Interview. If the Student fails to submit the answers within the deadline, he will be considered rejected, and the process is terminated. Otherwise, if the Template includes open-ended questions that require manual evaluation, the process evolves to a 'ToManualReview' state before entering the 'Consolidation' state. If the Template is fully automatic, on the other hand, the process evolves directly to the 'Consolidation' state. In the 'Consolidation' state, if the Student successfully passes the Interview, he is required to specify if he wants to accept the Internship or reject it before the expiration of the deadline, after which he will be considered rejected. In either way, the process ends immediately.
     <!-- [(4.0h) Matteo] -->
 
     
 ## 2.2 Product Functions
-
+This section outlines the essential functionalities and detailed requirements of the platform, structured to support the key objectives defined in the product scope.
 1. **User Management**
-   The platform allows Students, Companies, and Universities to register and log in. It also provides Students to upload and modify their CVs, and Companies to view and manage their Internships.
+   The platform allows Students, Companies, and Universities to register and log in. It also provides Students with the ability to upload and modify their CVs, and Companies with the ability to view and manage their internships.
 2. **Internship Creation and Management:**
    Companies can create, publish, and manage Internship offers on the platform. They define details such as job description, requirements, deadlines and benefits. Companies also have the ability to terminate Internship offers when they are no longer needed.
 3. **Student Application Process:**
@@ -270,16 +270,16 @@ The following section provides a series of state diagrams that illustrate the ev
    Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new Internships, matched Recommendations, Interview assignments, Complaints and sign up confirmation.
    <!-- [(2.0h) Matteo] -->
 
-
+<!-- OLD VERSION
 ## 2.2.1 Requirements
-<!-- Login -->
+<-- Login ->
 1. The system shall allow any unregistered students to register by providing personal information and selecting their University.
 2. The system shall allow any companies to register by providing company information.
 3. The system shall allow any universities to register by providing university information.
 4. The system shall send a confirmation email upon registration.
 5. The system shall allow Users to log in using their email and password.
 6. The system shall provide error messages if login credentials are incorrect.
-    <!-- Application advertisement and Applications -->
+    <-- Application advertisement and Applications ->
 7. The system shall allow Companies to create and publish Internship offers specifying details.
 8. The system shall allow Companies to terminate their Internship offers at their own discretion.
 9. The system shall provide Students with automatically Matched Internships obtained by the Recommendation Process.
@@ -289,7 +289,7 @@ The following section provides a series of state diagrams that illustrate the ev
 13. The system shall allow Students to modify their CV.
 14. The system shall allow Students to monitor the status of their Spontaneous Applications.
 15. The system shall allow Students to monitor the status of their Recommendation.
-    <!-- Recommendation System -->
+    <-- Recommendation System ->
 16. The system shall notify Students when an Internship that suits their profile becomes available.
 17. The system shall notify Companies when a registered Student’s CV suits an Internship requirement.
 18. The system shall notify a registered Company and a Student when they both accept a Recommendation.
@@ -300,24 +300,65 @@ The following section provides a series of state diagrams that illustrate the ev
 23. The system shall allow Companies to accept a Spontaneous Application.
 24. The system shall start a Selection Process only if both the Company and the Student have accepted the Recommendation.
 25. The system shall start a Selection Process only if the Company has accepted the Spontaneous Application.
-    <!-- Selection and Interview Management -->
+    <-- Selection and Interview Management ->
 26. The system shall allow Companies to create Template Interviews.
 27. The system shall allow Companies to submit Template Interviews to Students they have initiated a Selection Process with.
 28. The system shall allow Students to answer Interview questions and submit them.
 29. The system shall allow Companies to manually evaluate Interview submissions.
-30. The system shall allow Companies to insert the correct answers to a Quiz with the corresponding score to enable automatic evaluation.
+30. The system shall allow Companies to insert the correct answers to a Quiz with the corresponding score to enable automatic evaluation.    (For RASD2.0)
 31. The system shall allow Students and Companies to monitor the status of their Interviews.
 32. The system shall enable Companies to complete the Interview process by submitting the final outcome to each candidate.
-    <!-- Feedback and Suggestions for Improvements -->
+    <-- Feedback and Suggestions for Improvements ->
 33. The system shall collect Feedback from both Students and Companies regarding the Recommendation Process.
 34. The system shall provide Suggestions to Students on improving their CVs.
 35. The system shall provide Suggestions to Companies on improving Internship descriptions.
-    <!-- Universities Oversight and Complaint Management -->
+    <-- Universities Oversight and Complaint Management ->
 36. The system shall allow registered Universities to access and monitor Internship data related to their Students.
 37. The system shall provide a platform to Students and Companies to complain, communicate problems, or provide information about the current status of an ongoing Internship.
 38. The system shall notify registered Universities of any Complaint issued on their Students.
 39. The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
+-->
 
+<!-- Login -->
+1. The system shall allow any unregistered students to register by providing personal information and selecting their University.
+2. The system shall allow any companies to register by providing company information.
+3. The system shall allow any universities to register by providing university information.
+4. The system shall allow Users to log in using their email and password.
+5. The system shall send notifications to Users when relevant events occur.
+    <!-- Application advertisement and Applications -->
+6. The system shall allow Companies to create and publish Internship offers specifying details.
+7. The system shall allow Companies to terminate their Internship offers at their own discretion.
+8. The system shall provide Students with automatically Matched Internships obtained by the Recommendation Process.
+9. The system shall allow Students to view and navigate all available Internships.
+10. The system shall enable Students to submit Spontaneous Applications to Internships they find interesting.
+11. The system shall allow Students to submit their CV.
+12. The system shall allow Students to modify their CV.
+13. The system shall allow Students to monitor the status of their Spontaneous Applications.
+14. The system shall allow Students to monitor the status of their Recommendation.
+    <!-- Recommendation System -->
+15. The system shall display to Students all the Internships found by the Recommendation system.
+16. The system shall display to Companies all the CVs of Matched Students obtained by the Recommendation Process.
+17. The system shall allow Students and Companies to accept a Recommendation.
+18. The system shall allow Companies to accept a Spontaneous Application.
+19. The system shall start a Selection Process only if both the Company and the Student have accepted the Recommendation.
+20. The system shall start a Selection Process only if the Company has accepted the Spontaneous Application.
+    <!-- Selection and Interview Management -->
+21. The system shall allow Companies to create Template Interviews.
+22. The system shall allow Companies to submit Template Interviews to Students they have initiated a Selection Process with.
+23. The system shall allow Students to answer Interview questions and submit them.
+24. The system shall allow Companies to manually evaluate Interview submissions.
+25. The system shall allow Students and Companies to monitor the status of their Interviews.
+26. The system shall enable Companies to complete the Interview process by submitting the final outcome to each candidate.
+    <!-- Feedback and Suggestions for Improvements -->
+27. The system shall collect Feedback from both Students and Companies regarding the Recommendation Process.
+28. The system shall provide Suggestions to Students on improving their CVs.
+29. The system shall provide Suggestions to Companies on improving Internship descriptions.
+    <!-- Universities Oversight and Complaint Management -->
+30. The system shall allow registered Universities to access and monitor Internship data related to their Students.
+31. The system shall provide a platform to Students and Companies to complain, communicate problems, or provide information about the current status of an ongoing Internship.
+32. The system shall notify registered Universities of any Complaint issued on their Students.
+33. The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
+<!-- [(4.0h) Matteo] -->
 
 ## 2.4.1 Domain Assumption
 
@@ -335,5 +376,20 @@ Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Require
 <!-- [(0.5h) Matteo] -->
 
 ## 3.2.1 Use Case Diagrams
+<<<<<<< HEAD
 <!-- (4.5h) (Sam)>
+=======
+<!-- (4h) (Sam)-->
+
+## 3.2.3 Requirements Mapping
+### [G1] Companies would like to advertise the Internship they offer
+- [D] 
+### [G2] Students would like to autonomously candidate for available Internships
+### [G3] Students would like to be Matched with Companies that offer Internships they might be interested in
+### [G4] Companies would like to perform Interviews with Matched Students
+### [G5] Students and Companies would like to complain, communicate problems, provide information about an ongoing Internship
+### [G6] Students and Companies would like to be provided with Suggestions about how to improve their submission
+### [G7] Universities would like to handle Complaints about ongoing Internships
+
+>>>>>>> a5965314f95e805d24d3fca7be5f2c20a459f335
 
