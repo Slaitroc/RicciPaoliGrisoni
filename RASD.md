@@ -187,46 +187,46 @@ This document is composed of six sections:
    A Human Resource employee opens the S&C platform and selects “My Internship” where a list of all the internship already present on S&C is shown. Here he clicks on “Insert Internship” where he provides the required information such as the internship title, the internship description, the start date and duration, the office address, a list of the required skills student need to have in order to be considered for the internship and, possibly, a list of benefits offered to the future intern. Once the internship is created, by clicking on the “Submit Internship” button, the platform will start the recommendation process with the aim to match the internship with all the students that are compatible with such opportunity, based on the given information of both parties.\\
    The platform will also provide AnanasPhone with some suggestion on how to improve the internship description, and matching probability, based on a grammar and lexical analyses and a direct comparing of AnanasPhone's Internship proposal with other similar companies.
 
-7. **Company create structured interview to submit to possible candidate**
+<!--7. **Company create structured interview to submit to possible candidate**
    MacroHard is a world-leading tech company, known for creating its secure and reliable operating system, “Door”. The company has an account on the S&C platform and has already set up an internship program for software engineering students pursuing a Master’s degree. The company wants to create a structured interview to evaluate the technical skills and motivation of the students who apply for the internship.\\
    MacroHard opens the platform and, on the page displaying the lists of matched students, clicks on the “Create Interview” button. This option allows the company to create structured interviews that will be submitted to candidates. The business sets up an “InterviewTemplate”, a collection of questions that includes both quizzes, which the S&C platform can automatically evaluate, and open-ended questions that require manual review. They may also include one or more video calls in the template, the outcomes of which can be recorded on the platform as a grade. The InterviewTemplate tracks each interview’s outcomes, allowing both the candidate and the company to monitor the interview progress.\\
    MacroHard create multiple InterviewTemplates for the same internship, allowing them to submit different templates to different students based on factors such as the student’s CV, method of application (matched or spontaneous), or other criteria. Each template is created only once and can be reused for different students or internship opportunities.\\
-   For this internship in particular, MacroHard has created two InterviewTemplates: one for matched students, which includes only a quiz to assess technical skills, and another for spontaneous applicants, which includes both a quiz and a video call to evaluate the student’s motivation.
+   For this internship in particular, MacroHard has created two InterviewTemplates: one for matched students, which includes only a quiz to assess technical skills, and another for spontaneous applicants, which includes both a quiz and a video call to evaluate the student’s motivation.-->
 
-8. **Student accepts a matched internship**
+7. **Student accepts a matched internship**
    Sara is an economic major student that has already uploaded her CV on the S&C platform and is looking for an internship. She has received a notification and, by clicking on it, she sees that a new internship is available for her.\\
    Sara reads the internship information, and she decides to accept it. A notification is sent to the company who has created the internship about the acceptance of the match by Sara. If the company also accepts the match, the platform requires the company to initiate the selection process by creating or assigning a structured interview to Sara, who will be notified about it.
    To both parties, feedback is requested by the platform to improve the Recommendation Process by asking both to rate the matching
 
-9. **Student manually applies for an internship**
+8. **Student manually applies for an internship**
    Marco is a chemistry student that has already uploaded his CV on the S&C platform and is looking for an internship. Unfortunately, the matching internships provided by the platform do not fully satisfy his needs, and he decides to proactively search for another one.\\
    He opens the platform's homepage and click on the “Browse all Internships” button. Here he can see all the internships that are available on the platform, and he can filter them by field of study, required skills, location and other parameters.
    He finds an internship that is not in the matching list provided by the platform, but that is perfect for him, so he clicks on the “Spontaneous Application” button.\\
    The platform notify the company that Marco has applied for the internship and will inform the student if and when the company will start the application process by sending him a structured interview. There is no need for Marco to accept the interview, as a spontaneous application is considered as an implicit acceptance of the match by the student.
 
-10. **Student sees his application & interview status**
+9. **Student sees his application & interview status**
     Stefano is a student who has applied for various internships through the S&C platform. He has submitted applications both by matching with companies through the platform's automated feature and by manually applying, and with some of them he is already in a selection phase, and he is currently waiting for updates from the different companies.\\
-    When Stefano logs into the platform, he navigates to the “My Applications”. In this section, he can view the status of each of his applications, including whether the company has assigned him an interview, whether his interview has been reviewed, and whether he has been accepted or rejected for the position or if the platform is running the recommendation process.
+    When Stefano logs into the platform, he navigates to the “My Applications”. In this section, he can view the status of each of his applications like: if any company has accepted his match or his spontaneous application,
+    if some company has assigned him an interview and if any company has offered him an internship that he can accept or refuse.\\ 
 
-11. **Company see the status of the selection process**
+10. **Company see the status of the selection process and accept a Internship**
     CosmoX, a renowned private space company that specialized in the reuse of rocket, has created an internship on the S&C platform for aspirants Aerospace engineer, has received multiple manual applications from different students and has been matched numerous times. The company has already accepted all worthy manual applications and all the matches and has assigned structured interviews to everyone.
     CosmoX is now waiting for the students to complete the interviews and for the platform to automatically evaluate the quiz answers,  while the company is manually reviewing the open-ended questions and grading the different video calls.\\
-    When a CosmoX employee logs into the platform, he can navigate to the “My Interview” section. In this section, he can view the status of each interview and the status of each student such as: “SENT” if the student has received the interview but not opened yet, “COMPLETED” if the student has completed the interview and “REVIEWED” if the company has started the review process of the non-automatic part of the interview.
+    When a CosmoX employee logs into the platform, he can navigate to the “My Interview” section. In this section, he can view the status of each interview and the status of each student such as: “SENT” if the student has received the interview but not opened yet, “OPENED” if the student has opened the interview but not submitted the answer yet and, more importantly, if the student has accepted internship after being positively evaluated or if the interview has been reject either by the student itself or by the platform because the student has already accepted another internship with another company.\\
 
-12. **Student refuses/accepts an internship**
+11. **Student refuses/accepts an internship**
     Paula is an Art Mayor that has been matched by S&C with different museums and private art galleries in the city of Florence. She happily accepted all the matched and completed the interviews with all the companies. She did not expect to pass all the interviews, and now she has to choose between the different offers.\\
-    Paula open the platform and navigate to the “My Applications” section where she can see all of her internships and the status of each one. To refuse an internship from which she was accepted, Paula clicks on it and then clicks on the “Refuse” button and the platform will notify the company about the decision of the student. By doing the same process, but clicking on the “Accept” button, the platform will notify the company that Paula has accepted the internship and will and block any other interview process informing the respective company.\\
-    By navigating to the “My Interview” section, any company can see, between the different possible state of an application, if the internship of a particular student has been accepted or refused.
+    Paula open the platform and navigate to the “My Applications” section where she can see all of her internships and the status of each one. To refuse an internship, for which she passed the Interview, Paula clicks on it and then clicks on the “Refuse” button. The platform will notify the company about the decision of the student. By doing the same process, but clicking on the “Accept” button, the platform will notify the company that Paula has accepted the internship and will and block any other interview process that the student was undertaking, informing the respective companies. Paula can only accept an internship if she is not currently doing another internship with a different company, as the platform will inform her.\\ 
 
-13. **Company publish a complaint about a student**
+12. **Company publish a complaint about a student**
     PlaneHearts is a company famous for its innovative and multi-platform IDE for the development of mobile application. The company has created an internship on the S&C platform for software engineering students and selected Giovanni, a computer science student, for the internship. However, after the internship started, employees at PlaneHearts noticed that Giovanni was not performing as expected, did not have the required skills, and was not motivated to learn. The company decided to publish a complaint about Giovanni on the platform to inform the student's university.\\
     For publish the complaint, the people managing PlaneHearts account on S&C, log into the platform and navigates to the “Complaints” section. Here, they can view all the complaints they have published and can create a new complaint by providing the student's name, the internship title, and describe the problem that has arisen. Once the complaint is submitted, the platform will notify Giovanni and his university.
 
-14. **Student respond to a complaint**
+13. **Student respond to a complaint**
     Giovanni has received a notification from the S&C platform that a complaint has been published about him by PlaneHearts, the company where he is currently doing an internship. The complaint states that Giovanni is not performing as expected, does not have the required skills, and is not motivated to learn during this experience.\\
     The Student will have the opportunity to respond to the complaint and provide his version of the events by navigating to the “Complaints” section of the platform. Here, he can view all the complaints published about him and can respond to each one by providing a description of the situation from his perspective.
 
-15. **University handles a complaint**
+14. **University handles a complaint**
     The University of Rome, a prestigious university that has students enrolled in the S&C platform, has received a complaint about one of their students. The carrier advisor at the university opens the S&C platform and navigate to the “Complaints” section. Here, he can view all the complaints published about his students and can handle each one by reviewing the complaint, contacting the student and the company involved, and taking appropriate action to resolve the issue.
     In this particular carrier advisor and the university have decided to interrupt the internship of the student to protect the student and the company from further issues. The university does so by clicking on the “Interrupt Internship” button in the complaint page. The platform will notify the student and the company about the interruption of the internship and will close the complaint.
 <!-- 6.5 hours (Sam) -->
@@ -377,10 +377,7 @@ Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Require
 
 ## 3.2.1 Use Case Diagrams
 <<<<<<< HEAD
-<!-- (4.5h) (Sam)>
-=======
-<!-- (4h) (Sam)-->
-
+<!-- (4.5h) (Sam)-->
 ## 3.2.3 Requirements Mapping
 ### [G1] Companies would like to advertise the Internship they offer
 - [D] 
@@ -391,5 +388,4 @@ Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Require
 ### [G6] Students and Companies would like to be provided with Suggestions about how to improve their submission
 ### [G7] Universities would like to handle Complaints about ongoing Internships
 
->>>>>>> a5965314f95e805d24d3fca7be5f2c20a459f335
 
