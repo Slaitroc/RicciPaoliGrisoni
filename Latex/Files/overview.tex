@@ -104,9 +104,8 @@ This section outlines the essential functionalities and detailed requirements of
     \item The system shall allow any unregistered students to register by providing personal information and selecting their University.
     \item The system shall allow any companies to register by providing company information.
     \item The system shall allow any universities to register by providing university information.
-    \item The system shall send a confirmation email upon registration.
     \item The system shall allow Users to log in using their email and password.
-    \item The system shall provide error messages if login credentials are incorrect.
+    \item The system shall send notifications to Users when relevant events occur.
 
     % Application advertisement and Applications
     \item The system shall allow Companies to create and publish Internship offers specifying details.
@@ -120,11 +119,7 @@ This section outlines the essential functionalities and detailed requirements of
     \item The system shall allow Students to monitor the status of their Recommendation.
 
     % Recommendation System
-    \item The system shall notify Students when an Internship that suits their profile becomes available.
-    \item The system shall notify Companies when a registered Student’s CV suits an Internship requirement.
-    \item The system shall notify a registered Company and a Student when they both accept a Recommendation.
-    \item The system shall notify Students when a Company has accepted their Spontaneous Application.
-    \item The system shall notify Students when the Selection Process has been initiated.
+    \item The system shall display to Students all the Internships found by the Recommendation system.
     \item The system shall display to Companies all the CVs of Matched Students obtained by the Recommendation Process.
     \item The system shall allow Students and Companies to accept a Recommendation.
     \item The system shall allow Companies to accept a Spontaneous Application.
@@ -136,7 +131,6 @@ This section outlines the essential functionalities and detailed requirements of
     \item The system shall allow Companies to submit Template Interviews to Students they have initiated a Selection Process with.
     \item The system shall allow Students to answer Interview questions and submit them.
     \item The system shall allow Companies to manually evaluate Interview submissions.
-    \item The system shall allow Companies to insert the correct answers to a Quiz with the corresponding score to enable automatic evaluation.
     \item The system shall allow Students and Companies to monitor the status of their Interviews.
     \item The system shall enable Companies to complete the Interview process by submitting the final outcome to each candidate.
 
@@ -147,65 +141,10 @@ This section outlines the essential functionalities and detailed requirements of
 
     % Universities Oversight and Complaint Management
     \item The system shall allow registered Universities to access and monitor Internship data related to their Students.
-    \item The system shall provide a platform to Students and Companies to complain, communicate problems, or provide information about the current status of an ongoing Internship.
-    \item The system shall notify registered Universities of any Complaint issued on their Students.
+    \item The system shall provide a platform for Students and Companies to complain, communicate problems, or provide information about the current status of an ongoing Internship.
+    \item The system shall notify registered Universities of any Complaint issued to their Students.
     \item The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
 \end{enumerate}
-
-\subsubsection{Requirements}
-\begin{enumerate}[label={\color{titleColor}[R\arabic*]}]
-    % Login
-    \item The system shall allow any unregistered students to register by providing personal information and selecting their University.
-    \item The system shall allow any companies to register by providing company information.
-    \item The system shall allow any universities to register by providing university information.
-    \item The system shall send a confirmation email upon registration.
-    \item The system shall allow Users to log in using their email and password.
-    \item The system shall provide error messages if login credentials are incorrect.
-    
-    % Application advertisement and Applications
-    \item The system shall allow Companies to create and publish Internship offers specifying details.
-    \item The system shall allow Companies to terminate their Internship offers at their own discretion.
-    \item The system shall provide Students with automatically Matched Internships obtained by the Recommendation Process.
-    \item The system shall allow Students to view and navigate all available Internships.
-    \item The system shall enable Students to submit Spontaneous Applications to Internships they find interesting.
-    \item The system shall allow Students to submit their CV.
-    \item The system shall allow Students to modify their CV.
-    \item The system shall allow Students to monitor the status of their Spontaneous Applications.
-    \item The system shall allow Students to monitor the status of their Recommendation.
-    
-    % Recommendation System
-    \item The system shall notify Students when an Internship that suits their profile becomes available.
-    \item The system shall notify Companies when a registered Student’s CV suits an Internship requirement.
-    \item The system shall notify a registered Company and a Student when they both accept a Recommendation.
-    \item The system shall notify Students when their Spontaneous Application has been accepted by a Company.
-    \item The system shall notify Students when the Selection Process has been initiated.
-    \item The system shall display to Companies all the CVs of Matched Students obtained by the Recommendation Process.
-    \item The system shall allow Students and Companies to accept a Recommendation.
-    \item The system shall allow Companies to accept a Spontaneous Application.
-    \item The system shall start a Selection Process only if both the Company and the Student have accepted the Recommendation.
-    \item The system shall start a Selection Process only if the Company has accepted the Spontaneous Application.
-    
-    % Selection and Interview Management
-    \item The system shall allow Companies to create Template Interviews.
-    \item The system shall allow Companies to submit Template Interviews to Students they have initiated a Selection Process with.
-    \item The system shall allow Students to answer Interview questions and submit them.
-    \item The system shall allow Companies to manually evaluate Interview submissions.
-    \item The system shall allow Companies to insert the correct answers to a Quiz with the corresponding score to enable automatic evaluation.
-    \item The system shall allow Students and Companies to monitor the status of their Interviews.
-    \item The system shall enable Companies to complete the Interview process by submitting the final outcome to each candidate.
-    
-    % Feedback and Suggestions for Improvements
-    \item The system shall collect Feedback from both Students and Companies regarding the Recommendation Process.
-    \item The system shall provide Suggestions to Students on improving their CVs.
-    \item The system shall provide Suggestions to Companies on improving Internship descriptions.
-    
-    % Universities Oversight and Complaint Management
-    \item The system shall allow registered Universities to access and monitor Internship data related to their Students.
-    \item The system shall provide a platform to Students and Companies to complain, communicate problems, or provide information about the current status of an ongoing Internship.
-    \item The system shall notify registered Universities of any Complaint issued on their Students.
-    \item The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
-\end{enumerate}
-
 
 \subsection{User Characteristics}
 
@@ -219,7 +158,7 @@ This section outlines the basic assumptions about the environment and behaviour 
     \item Companies remove published Internship if they are no longer available
     \item Students, Companies, and Universities receive every notification
     \item Students, Companies, and Universities have a working internet connection
-    \item Universities interrupt an ongoing Internship only if no solution to complaints/problems are found
+    \item Universities interrupt an ongoing Internship only if no solution to complaints are found
 \end{enumerate}
 
 \subsubsection{Dependencies}

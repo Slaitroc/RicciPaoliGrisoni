@@ -9,8 +9,233 @@ Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Require
 \subsubsection{Use Case Diagrams}
 \subsubsection{Sequence Diagrams}
 \subsubsection{Requirements Mapping}
+
+\begin{table}[H]
+ \centering
+ \begin{tabular}{|p{7cm}|p{7cm}|}
+  \hline
+  \multicolumn{2}{|c|}{G1} \\
+  \hline
+  \begin{itemize}
+   \item[\texttt{[R2]}] The system shall allow any companies to register by providing company information.
+   \item[\texttt{[R4]}] The system shall allow Users to log in using their email and password.
+   \item[\texttt{[R6]}] The system shall allow Companies to create and publish Internship offers specifying details.
+   \item[\texttt{[R7]}]The system shall allow Companies to terminate their Internship offers at their own discretion.
+  \end{itemize} &
+  \begin{itemize}
+   \item[\texttt{[D1]}] Students and Companies provide the Platform with correct and truthful information.
+   \item[\texttt{[D2]}] Companies remove published Internship if they are no longer available.
+   \item[\texttt{[D4]}] Students, Companies, and Universities have a working internet connection.
+  \end{itemize} \\ \hline
+ \end{tabular}
+ \caption{Goal 1 mapping}
+ \label{tab:G1}
+\end{table}
+
+\begin{table}[H]
+ \centering
+ \begin{tabular}{|p{8cm}|p{8cm}|}
+  \hline
+  \multicolumn{2}{|c|}{G2} \\
+  \hline
+  \begin{itemize}
+   \item[\texttt{[R1]}] The system shall allow any unregistered students to register by providing personal information and selecting their University.
+   \item[\texttt{[R2]}] The system shall allow any companies to register by providing company information.
+   \item[\texttt{[R3]}] The system shall allow any universities to register by providing university information.
+   \item[\texttt{[R4]}] The system shall allow Users to log in using their email and password.
+   \item[\texttt{[R5]}] The system shall send notifications to Users when relevant events occur.
+   \item[\texttt{[R6]}] The system shall allow Companies to create and publish Internship offers specifying details.
+   \item[\texttt{[R9]}] The system shall allow Students to view and navigate all available Internships.
+   \item[\texttt{[R10]}] The system shall enable Students to submit Spontaneous Applications to Internships they find interesting.
+   \item[\texttt{[R18]}] The system shall allow Students to submit their CV.
+
+  \end{itemize} &
+  \begin{itemize}
+   \item[\texttt{[D2]}] Companies remove published Internship if they are no longer available.
+   \item[\texttt{[D4]}] Students, Companies, and Universities have a working internet connection.
+  \end{itemize} \\ \hline
+ \end{tabular}
+ \caption{Goal 2 mapping}
+ \label{tab:G2}
+\end{table}
+
+\begin{table}[H]
+ \centering
+ \begin{tabular}{|p{8cm}|p{8cm}|}
+  \hline
+  \multicolumn{2}{|c|}{G3} \\
+  \hline
+  \begin{itemize}
+   \item[\texttt{[R1]}] The system shall allow any unregistered students to register by providing personal information and selecting their University.
+   \item[\texttt{[R2]}] The system shall allow any companies to register by providing company information.
+   \item[\texttt{[R3]}] The system shall allow any universities to register by providing university information.
+   \item[\texttt{[R4]}] The system shall allow Users to log in using their email and password.
+   \item[\texttt{[R6]}] The system shall allow Companies to create and publish Internship offers specifying details.
+   \item[\texttt{[R8]}] The system shall provide Students with automatically Matched Internships obtained by the Recommendation Process.
+   \item[\texttt{[R15]}] The system shall display to Students all the Internships found by the Recommendation system.
+   \item[\texttt{[R16]}] The system shall display to Companies all the CVs of Matched Students obtained by the Recommendation Process.
+   \item[\texttt{[R17]}] The system shall allow Students and Companies to accept a Recommendation.
+  \end{itemize} &
+  \begin{itemize}
+   \item[\texttt{[D1]}] Students and Companies provide the Platform with correct and truthful information.
+   \item[\texttt{[D2]}] Companies remove published Internship if they are no longer available.
+   \item[\texttt{[D4]}] Students, Companies, and Universities have a working internet connection.
+  \end{itemize} \\ \hline
+ \end{tabular}
+ \caption{Goal 3 mapping}
+ \label{tab:G3}
+\end{table}
+
+\begin{table}[H]
+ \centering
+ \begin{tabular}{|p{8cm}|p{8cm}|}
+  \hline
+  \multicolumn{2}{|c|}{G4} \\
+  \hline
+  \begin{itemize}
+   \item[\texttt{[R1]}] The system shall allow any unregistered students to register by providing personal information and selecting their University.
+   \item[\texttt{[R2]}] The system shall allow any companies to register by providing company information.
+   \item[\texttt{[R3]}] The system shall allow any universities to register by providing university information.
+   \item[\texttt{[R4]}] The system shall allow Users to log in using their email and password.
+   \item[\texttt{[R19]}] The system shall start an Interview only if both the Company and the Student have accepted the Recommendation.
+   \item[\texttt{[R20]}] The system shall start an Interview only if the Company has accepted the Spontaneous Application.
+   \item[\texttt{[R21]}] The system shall allow Companies to create Template Interviews.
+   \item[\texttt{[R22]}] The system shall allow Companies to submit Template Interviews to Students they have initiated a Selection Process with.
+   \item[\texttt{[R23]}] The system shall allow Students to answer Interview questions and submit them.
+   \item[\texttt{[R24]}] The system shall allow Companies to manually evaluate Interview submissions.
+   \item[\texttt{[R25]}] The system shall allow Students and Companies to monitor the status of their Interviews.
+  \end{itemize} &
+  \begin{itemize}
+   \item[\texttt{[D3]}] Students, Companies, and Universities receive every notification.
+   \item[\texttt{[D4]}] Students, Companies, and Universities have a working internet connection.
+  \end{itemize} \\ \hline
+ \end{tabular}
+ \caption{Goal 4 mapping}
+ \label{tab:G4}
+\end{table}
+
+\begin{table}[H]
+ \centering
+ \begin{tabular}{|p{8cm}|p{8cm}|}
+  \hline
+  \multicolumn{2}{|c|}{G5} \\
+  \hline
+  \begin{itemize}
+   \item[\texttt{[R1]}] The system shall allow any unregistered students to register by providing personal information and selecting their University.
+   \item[\texttt{[R2]}] The system shall allow any companies to register by providing company information.
+   \item[\texttt{[R3]}] The system shall allow any universities to register by providing university information.
+   \item[\texttt{[R4]}] The system shall allow Users to log in using their email and password.
+   \item[\texttt{[R31]}] The system shall provide a platform for Students and Companies to complain, communicate problems, or provide information about the current status of an ongoing Internship.
+  \end{itemize} &
+  \begin{itemize}
+   \item[\texttt{[D1]}] Students and Companies provide the Platform with correct and truthful information.
+   \item[\texttt{[D3]}] Students, Companies, and Universities receive every notification.
+   \item[\texttt{[D4]}] Students, Companies, and Universities have a working internet connection.
+  \end{itemize} \\ \hline
+ \end{tabular}
+ \caption{Goal 5 mapping}
+ \label{tab:G5}
+\end{table}
+
+\begin{table}[H]
+ \centering
+ \begin{tabular}{|p{8cm}|p{8cm}|}
+  \hline
+  \multicolumn{2}{|c|}{G6} \\
+  \hline
+  \begin{itemize}
+   \item[\texttt{[R1]}] The system shall allow any unregistered students to register by providing personal information and selecting their University.
+   \item[\texttt{[R2]}] The system shall allow any companies to register by providing company information.
+   \item[\texttt{[R3]}] The system shall allow any universities to register by providing university information.
+   \item[\texttt{[R4]}] The system shall allow Users to log in using their email and password.
+   \item[\texttt{[R6]}] The system shall allow Companies to create and publish Internship offers specifying details.
+   \item[\texttt{[R7]}] The system shall allow Companies to terminate their Internship offers at their own discretion.
+   \item[\texttt{[R12]}] The system shall allow Students to modify their CV.
+   \item[\texttt{[R28]}] The system shall provide Suggestions to Students on improving their CVs.
+   \item[\texttt{[R29]}] The system shall provide Suggestions to Companies on improving Internship descriptions.
+  \end{itemize} &
+  \begin{itemize}
+   \item[\texttt{[D1]}] Students and Companies provide the Platform with correct and truthful information.
+  \end{itemize} \\ \hline
+ \end{tabular}
+ \caption{Goal 6 mapping}
+ \label{tab:G6}
+\end{table}
+
+\begin{table}[H]
+ \centering
+ \begin{tabular}{|p{8cm}|p{8cm}|}
+  \hline
+  \multicolumn{2}{|c|}{G7} \\
+  \hline
+  \begin{itemize}
+   \item[\texttt{[R1]}] The system shall allow any unregistered students to register by providing personal information and selecting their University.
+   \item[\texttt{[R2]}] The system shall allow any companies to register by providing company information.
+   \item[\texttt{[R3]}] The system shall allow any universities to register by providing university information.
+   \item[\texttt{[R30]}] The system shall allow registered Universities to access and monitor Internship data related to their Students.
+   \item[\texttt{[R31]}] The system shall provide a platform for Students and Companies to complain, communicate problems, or provide information about the current status of an ongoing Internship.
+   \item[\texttt{[R32]}] The system shall notify registered Universities of any Complaint issued to their Students.
+   \item[\texttt{[R33]}] The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
+  \end{itemize} &
+  \begin{itemize}
+   \item[\texttt{[D1]}] Students and Companies provide the Platform with correct and truthful information.
+   \item[\texttt{[D3]}] Students, Companies, and Universities receive every notification.
+   \item[\texttt{[D4]}] Students, Companies, and Universities have a working internet connection.
+   \item[\texttt{[D5]}] Universities interrupt an ongoing Internship only if no solution to complaints are found.
+  \end{itemize} \\ \hline
+ \end{tabular}
+ \caption{Goal 7 mapping}
+ \label{tab:G7}
+\end{table}
+
+
+\begin{table}[H] \centering \begin{tabular}{|c|c|c|c|c|c|c|c|} \hline &
+\textbf{G1} &
+\textbf{G2} &
+\textbf{G3} &
+\textbf{G4} &
+\textbf{G5} &
+\textbf{G6} &
+\textbf{G7} \\ \hline
+\textbf{R1}  &  & x & x & x & x & x & x \\ \hline
+\textbf{R2}  & x & x & x & x & x & x & x \\ \hline
+\textbf{R3}  & x & x & x & x & x & x & x \\ \hline
+\textbf{R4}  &  & x & x & x & x & × & x \\ \hline
+\textbf{R5}  &  & x &  &  &  &  &  \\ \hline
+\textbf{R6}  &  & x & x &  &  & x &  \\ \hline
+\textbf{R7}  & x &  &  &  &  & x &  \\ \hline
+\textbf{R8}  & x &  & x &  &  &  &  \\ \hline
+\textbf{R9}  &  & x &  &  &  &  &  \\ \hline
+\textbf{R10} &  & x &  &  &  &  &  \\ \hline
+\textbf{R11} &  &  &  &  &  &  &  \\ \hline
+\textbf{R12} &  &  &  &  &  & x &  \\ \hline
+\textbf{R13} &  &  &  &  &  &  &  \\ \hline
+\textbf{R14} &  &  &  &  &  &  &  \\ \hline
+\textbf{R15} &  &  & x &  &  &  &  \\ \hline
+\textbf{R16} &  &  & x &  &  &  &  \\ \hline
+\textbf{R17} &  &  & x &  &  &  &  \\ \hline
+\textbf{R18} &  & x &  &  &  &  &  \\ \hline
+\textbf{R19} &  &  &  & x &  &  &  \\ \hline
+\textbf{R20} &  &  &  & x &  &  &  \\ \hline
+\textbf{R21} &  &  &  & x &  &  &  \\ \hline
+\textbf{R22} &  &  &  & x &  &  &  \\ \hline
+\textbf{R23} &  &  &  & x &  &  &  \\ \hline
+\textbf{R24} &  &  &  & x &  &  &  \\ \hline
+\textbf{R25} &  &  &  &  &  &  &  \\ \hline
+\textbf{R26} &  &  &  & x &  &  &  \\ \hline
+\textbf{R27} &  &  &  &  &  &  &  \\ \hline
+\textbf{R28} &  &  &  &  &  & x &  \\ \hline
+\textbf{R29} &  &  &  &  &  & x &  \\ \hline
+\textbf{R30} &  &  &  &  &  &  & x \\ \hline
+\textbf{R31} &  &  &  &  & x &  & x \\ \hline
+\textbf{R32} &  &  &  &  &  &  & x \\ \hline
+\textbf{R33} &  &  &  &  &  &  & x \\ \hline
+\end{tabular}
+\caption{Goals and Requirements Mapping Table} \label{tab:reuirements_mapping}
+\end{table}
+
 \subsection{Performance Requirements}
- Given the system's noncritical nature, stringent performance criteria are unnecessary. However, to ensure an optimal User experience, the system should:
+ Given the system's non-critical nature, stringent performance criteria are unnecessary. However, to ensure an optimal User experience, the system should:
 
 \subsection{Design Constraints}
 \subsubsection{Standards Compliance}

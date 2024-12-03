@@ -279,7 +279,7 @@ This section outlines the essential functionalities and detailed requirements of
 4. The system shall send a confirmation email upon registration.
 5. The system shall allow Users to log in using their email and password.
 6. The system shall provide error messages if login credentials are incorrect.
-    <-- Application advertisement and Applications ->
+    <-- Internship advertisement and Applications ->
 7. The system shall allow Companies to create and publish Internship offers specifying details.
 8. The system shall allow Companies to terminate their Internship offers at their own discretion.
 9. The system shall provide Students with automatically Matched Internships obtained by the Recommendation Process.
@@ -325,7 +325,7 @@ This section outlines the essential functionalities and detailed requirements of
 3. The system shall allow any universities to register by providing university information.
 4. The system shall allow Users to log in using their email and password.
 5. The system shall send notifications to Users when relevant events occur.
-    <!-- Application advertisement and Applications -->
+    <!-- Internship advertisement and Applications -->
 6. The system shall allow Companies to create and publish Internship offers specifying details.
 7. The system shall allow Companies to terminate their Internship offers at their own discretion.
 8. The system shall provide Students with automatically Matched Internships obtained by the Recommendation Process.
@@ -340,8 +340,8 @@ This section outlines the essential functionalities and detailed requirements of
 16. The system shall display to Companies all the CVs of Matched Students obtained by the Recommendation Process.
 17. The system shall allow Students and Companies to accept a Recommendation.
 18. The system shall allow Companies to accept a Spontaneous Application.
-19. The system shall start a Selection Process only if both the Company and the Student have accepted the Recommendation.
-20. The system shall start a Selection Process only if the Company has accepted the Spontaneous Application.
+19. The system shall start an Interview only if both the Company and the Student have accepted the Recommendation.
+20. The system shall start an Interview only if the Company has accepted the Spontaneous Application.
     <!-- Selection and Interview Management -->
 21. The system shall allow Companies to create Template Interviews.
 22. The system shall allow Companies to submit Template Interviews to Students they have initiated a Selection Process with.
@@ -366,7 +366,7 @@ This section outlines the essential functionalities and detailed requirements of
 2. Companies remove published Internship if they are no longer available
 3. Students, Companies and Universities receive every notification
 4. Students, Companies and Universities have a working internet connection
-5. Universities interrupt an ongoing Internship only if no solution to complaints/problems are found
+5. Universities interrupt an ongoing Internship only if no solution to complaints are found
 
 
 ## 3.2 Functional Requirements
@@ -395,13 +395,27 @@ The platform uses standard internet communication protocols to interact with Use
 <!-- (4.5h) (Sam)-->
 ## 3.2.3 Requirements Mapping
 ### [G1] Companies would like to advertise the Internship they offer
-- [D] 
+- [D1], [D2], [D4]
+- [R2], [R3], [R7], [R8]
 ### [G2] Students would like to autonomously candidate for available Internships
+- [D2], [D4]
+- [R1], [R2], [R3], [R4], [R5], [R6], [R9], [R10], [R18]
 ### [G3] Students would like to be Matched with Companies that offer Internships they might be interested in
+- [D1], [D2], [D4]
+- [R1], [R2], [R3], [R4], [R6], [R8], [R15], [R16], [R17]
 ### [G4] Companies would like to perform Interviews with Matched Students
+- [D3], [D4]
+- [R1], [R2], [R3], [R4], [R19], [R20], [R21], [R22], [R23], [R24], [R26]
 ### [G5] Students and Companies would like to complain, communicate problems, provide information about an ongoing Internship
+- [D1], [D3], [D4]
+- [R1], [R2], [R3], [R4], [R31]
 ### [G6] Students and Companies would like to be provided with Suggestions about how to improve their submission
+- [D1]
+- [R1], [R2], [R3], [R4], [R6], [R7], [R12], [R28], [R29]
 ### [G7] Universities would like to handle Complaints about ongoing Internships
+- [D1], [D3], [D4], [D5]
+- [R1], [R2], [R3], [R4], [R30], [R31], [R32], [R33]
+<!-- [(4.5h) Matteo] -->
 
 ## 3.4.1 Standard Compliance
 Student&Company will handle and process highly sensitive data, including but not limited to personal information, CVs of Student and proprietary information of Company and University.\\
