@@ -375,12 +375,24 @@ Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Require
 
 ## 3.2.3 Requirements Mapping
 ### [G1] Companies would like to advertise the Internship they offer
-- [D] 
+- [D1], [D2], [D4]
+- [R2], [R3], [R7], [R8]
 ### [G2] Students would like to autonomously candidate for available Internships
+- [D2], [D4]
+- [R1], [R2], [R3], [R4], [R5], [R6], [R9], [R10], [R18]
 ### [G3] Students would like to be Matched with Companies that offer Internships they might be interested in
+- [D1], [D2], [D4]
+- [R1], [R2], [R3], [R4], [R6], [R8], [R15], [R16], [R17]
 ### [G4] Companies would like to perform Interviews with Matched Students
+- [D3], [D4]
+- [R1], [R2], [R3], [R4], [R19], [R20], [R21], [R22], [R23], [R24], [R26]
 ### [G5] Students and Companies would like to complain, communicate problems, provide information about an ongoing Internship
+- [D1], [D3], [D4]
+- [R1], [R2], [R3], [R4], [R31]
 ### [G6] Students and Companies would like to be provided with Suggestions about how to improve their submission
+- [D1]
+- [R1], [R2], [R3], [R4], [R6], [R7], [R12], [R28], [R29]
 ### [G7] Universities would like to handle Complaints about ongoing Internships
-
-
+- [D1], [D3], [D4], [D5]
+    - [R1], [R2], [R3], [R4], [R30], [R31], [R32], [R33]
+<!-- [(4.5h) Matteo] -->
