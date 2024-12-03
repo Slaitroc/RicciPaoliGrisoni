@@ -241,14 +241,14 @@ The following section provides a series of state diagrams that illustrate the ev
   - Unlike the Recommendation Process, the Spontaneous Application process is initiated by the Student. When a Student submits a Spontaneous Application for an Internship, the process evolves to a 'WaitingForConfirmation' state, where the system waits for the Company to accept the Application. If the Company rejects the Application, the process is terminated. If the Company accepts the Application, an Interview Process is initiated, and the process is terminated.
     ![Interview Process](./Diagrams/InterviewStateChart.png)
 - **Interview Process**
-  - The Interview Process is initiated when a Match is accepted by both the Student and the Company, or when a Spontaneous Application is accepted by the Company. The process starts in the 'Interview Creation' state, where the Company is asked to submit a Template Interview or create a new one. Here, the Company is required to specify a deadline for the Interview. The Interview process evolves into the 'InterviewSubmitted' state once the Company sends the Template to the Student, who answers the questions and submits the Interview. If the Student fails to submit the answers within the deadline, he will be considered rejected, and the process is terminated. Otherwise, if the Template includes open-ended questions that require manual evaluation, the process evolves to a 'ToManualReview' state before entering the 'Consolidation' state. If the Template is fully automatic, on the other hand, the process evolves directly to the 'Consolidation' state. In the 'Consolidation' state, if the Student successfully passes the Interview, he is required to specify if he wants to accept the Internship or reject it before the expiration of the deadline, after which he will be considered rejected. Either way, the process is terminated right after.
+  - The Interview Process is initiated when a Match is accepted by both the Student and the Company, or when a Spontaneous Application is accepted by the Company. The process starts in the 'Interview Creation' state, where the Company is asked to submit a Template Interview or create a new one. Here, the Company is required to specify a deadline for the Interview. The Interview process evolves into the 'InterviewSubmitted' state once the Company sends the Template to the Student, who answers the questions and submits the Interview. If the Student fails to submit the answers within the deadline, he will be considered rejected, and the process is terminated. Otherwise, if the Template includes open-ended questions that require manual evaluation, the process evolves to a 'ToManualReview' state before entering the 'Consolidation' state. If the Template is fully automatic, on the other hand, the process evolves directly to the 'Consolidation' state. In the 'Consolidation' state, if the Student successfully passes the Interview, he is required to specify if he wants to accept the Internship or reject it before the expiration of the deadline, after which he will be considered rejected. In either way, the process ends immediately.
     <!-- [(4.0h) Matteo] -->
 
     
 ## 2.2 Product Functions
-
+This section outlines the essential functionalities and detailed requirements of the platform, structured to support the key objectives defined in the product scope.
 1. **User Management**
-   The platform allows Students, Companies, and Universities to register and log in. It also provides Students to upload and modify their CVs, and Companies to view and manage their Internships.
+   The platform allows Students, Companies, and Universities to register and log in. It also provides Students with the ability to upload and modify their CVs, and Companies with the ability to view and manage their internships.
 2. **Internship Creation and Management:**
    Companies can create, publish, and manage Internship offers on the platform. They define details such as job description, requirements, deadlines and benefits. Companies also have the ability to terminate Internship offers when they are no longer needed.
 3. **Student Application Process:**
@@ -330,5 +330,16 @@ Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Require
 <!-- [(0.5h) Matteo] -->
 
 ## 3.2.1 Use Case Diagrams
-<!-- (4h) (Sam)>
+<!-- (4h) (Sam)-->
+
+## 3.2.3 Requirements Mapping
+### [G1] Companies would like to advertise the Internship they offer
+- [D] 
+### [G2] Students would like to autonomously candidate for available Internships
+### [G3] Students would like to be Matched with Companies that offer Internships they might be interested in
+### [G4] Companies would like to perform Interviews with Matched Students
+### [G5] Students and Companies would like to complain, communicate problems, provide information about an ongoing Internship
+### [G6] Students and Companies would like to be provided with Suggestions about how to improve their submission
+### [G7] Universities would like to handle Complaints about ongoing Internships
+
 
