@@ -98,7 +98,7 @@ export default function Navbar() {
 
   //Drawer is the menu itself compose of a list of element and either a "EditTwoIcon" or "BusinessCenterTwoToneIcon" based on the item index
   //Drawer is visible only when the field "open" is set to true by the component open created before and accesses with {open} 
-  //({variable} is mandatory to embed JS expression in a JSX component
+  //({variable} is mandatory to embed JS expression in a JSX component. See the last lines to understand js in JSX better
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
