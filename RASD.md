@@ -403,4 +403,7 @@ The platform uses standard internet communication protocols to interact with Use
 ### [G6] Students and Companies would like to be provided with Suggestions about how to improve their submission
 ### [G7] Universities would like to handle Complaints about ongoing Internships
 
-
+## 3.4.1 Standard Compliance
+Student&Company will handle and process highly sensitive data, including but not limited to personal information, CVs of Student and proprietary information of Company and University.\\
+Because of that the Platform must not only be able to comply with the General Data Protection Regulation (GDPR) and any other Data/Privacy Law present in the countries where the Platform will be used (e.g California Consumer Privacy Act "CCPA" or similar law), but also have to be flexible enough to adopt custom policy set by Companies and Universities to protect their data and the data of their own users.\\
+<!-- Sam 0.75h ->
