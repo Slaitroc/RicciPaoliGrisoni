@@ -274,7 +274,7 @@ This section outlines the essential functionalities and detailed requirements of
 4. The system shall send a confirmation email upon registration.
 5. The system shall allow Users to log in using their email and password.
 6. The system shall provide error messages if login credentials are incorrect.
-    <-- Application advertisement and Applications ->
+    <-- Internship advertisement and Applications ->
 7. The system shall allow Companies to create and publish Internship offers specifying details.
 8. The system shall allow Companies to terminate their Internship offers at their own discretion.
 9. The system shall provide Students with automatically Matched Internships obtained by the Recommendation Process.
@@ -320,7 +320,7 @@ This section outlines the essential functionalities and detailed requirements of
 3. The system shall allow any universities to register by providing university information.
 4. The system shall allow Users to log in using their email and password.
 5. The system shall send notifications to Users when relevant events occur.
-    <!-- Application advertisement and Applications -->
+    <!-- Internship advertisement and Applications -->
 6. The system shall allow Companies to create and publish Internship offers specifying details.
 7. The system shall allow Companies to terminate their Internship offers at their own discretion.
 8. The system shall provide Students with automatically Matched Internships obtained by the Recommendation Process.
@@ -335,8 +335,8 @@ This section outlines the essential functionalities and detailed requirements of
 16. The system shall display to Companies all the CVs of Matched Students obtained by the Recommendation Process.
 17. The system shall allow Students and Companies to accept a Recommendation.
 18. The system shall allow Companies to accept a Spontaneous Application.
-19. The system shall start a Selection Process only if both the Company and the Student have accepted the Recommendation.
-20. The system shall start a Selection Process only if the Company has accepted the Spontaneous Application.
+19. The system shall start an Interview only if both the Company and the Student have accepted the Recommendation.
+20. The system shall start an Interview only if the Company has accepted the Spontaneous Application.
     <!-- Selection and Interview Management -->
 21. The system shall allow Companies to create Template Interviews.
 22. The system shall allow Companies to submit Template Interviews to Students they have initiated a Selection Process with.
@@ -361,7 +361,7 @@ This section outlines the essential functionalities and detailed requirements of
 2. Companies remove published Internship if they are no longer available
 3. Students, Companies and Universities receive every notification
 4. Students, Companies and Universities have a working internet connection
-5. Universities interrupt an ongoing Internship only if no solution to complaints/problems are found
+5. Universities interrupt an ongoing Internship only if no solution to complaints are found
 
 
 ## 3.2 Functional Requirements
