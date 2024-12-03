@@ -79,17 +79,26 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function Navbar() {
+  //Use React Hook to load the used theme
   const theme = useTheme();
+  //Create a "open" variable and a "editing function" setOpen. Set the default as false
   const [open, setOpen] = React.useState(false);
 
+  //Declare constant variable that store the function to that change the state of "open". 
+  //yep u can save function in a variable in js.
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-
   const handleDrawerClose = () => {
     setOpen(false);
   };
 
+  //Return a Box containing children component like the menu Icon and the Drawer when the NavBar is open or the "top bar" of the site. 
+  //Toolbar is the top bar on the webpage (the one containing the Student&Company and the iconButton) contained inside 
+
+  //Drawer is the menu itself compose of a list of element and either a "EditTwoIcon" or "BusinessCenterTwoToneIcon" based on the item index
+  //Drawer is visible only when the field "open" is set to true by the component open created before and accesses with {open} 
+  //({variable} is mandatory to embed JS expression in a JSX component
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -177,7 +186,11 @@ export default function Navbar() {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <Typography sx={{ marginBottom: 2 }}>ciao</Typography>
+        {!open ? (
+          <Typography sx={{ marginBottom: 2 }}>MenuClosed</Typography>
+        ) : (
+          <Typography sx={{ marginBottom: 2 }}>MenuOpen</Typography>
+        )}
       </Main>
     </Box>
   );
