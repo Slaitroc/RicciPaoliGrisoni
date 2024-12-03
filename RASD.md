@@ -195,14 +195,14 @@ This document is composed of six sections:
 
 7. **Student accepts a matched internship**
    Sara is an economic major student that has already uploaded her CV on the S&C platform and is looking for an internship. She has received a notification and, by clicking on it, she sees that a new internship is available for her.\\
-   Sara reads the internship information, and she decides to accept it. A notification is sent to the company who has created the internship about the acceptance of the match by Sara. If the company also accepts the match, the platform requires the company to initiate the selection process by creating or assigning a structured interview to Sara, who will be notified about it.
+   Sara reads the internship information, and she decides to accept it. A notification is sent to the company who has created the internship about the acceptance of the match by Sara. If the company also accepts the match, the platform requires the company to initiate the selection process by assigning a interview to Sara, who will be notified about it.
    To both parties, feedback is requested by the platform to improve the Recommendation Process by asking both to rate the matching
 
 8. **Student manually applies for an internship**
    Marco is a chemistry student that has already uploaded his CV on the S&C platform and is looking for an internship. Unfortunately, the matching internships provided by the platform do not fully satisfy his needs, and he decides to proactively search for another one.\\
    He opens the platform's homepage and click on the “Browse all Internships” button. Here he can see all the internships that are available on the platform, and he can filter them by field of study, required skills, location and other parameters.
    He finds an internship that is not in the matching list provided by the platform, but that is perfect for him, so he clicks on the “Spontaneous Application” button.\\
-   The platform notify the company that Marco has applied for the internship and will inform the student if and when the company will start the application process by sending him a structured interview. There is no need for Marco to accept the interview, as a spontaneous application is considered as an implicit acceptance of the match by the student.
+   The platform notify the company that Marco has applied for the internship and will inform the student if and when the company will start the application process by sending him a interview. There is no need for Marco to accept the interview, as a spontaneous application is considered as an implicit acceptance of the match by the student.
 
 9. **Student sees his application & interview status**
     Stefano is a student who has applied for various internships through the S&C platform. He has submitted applications both by matching with companies through the platform's automated feature and by manually applying, and with some of them he is already in a selection phase, and he is currently waiting for updates from the different companies.\\
@@ -210,7 +210,7 @@ This document is composed of six sections:
     if some company has assigned him an interview and if any company has offered him an internship that he can accept or refuse.\\ 
 
 10. **Company see the status of the selection process and accept a Internship**
-    CosmoX, a renowned private space company that specialized in the reuse of rocket, has created an internship on the S&C platform for aspirants Aerospace engineer, has received multiple manual applications from different students and has been matched numerous times. The company has already accepted all worthy manual applications and all the matches and has assigned structured interviews to everyone.
+    CosmoX, a renowned private space company that specialized in the reuse of rocket, has created an internship on the S&C platform for aspirants Aerospace engineer, has received multiple manual applications from different students and has been matched numerous times. The company has already accepted all worthy manual applications and all the matches and has assigned an interview to everyone.
     CosmoX is now waiting for the students to complete the interviews and for the platform to automatically evaluate the quiz answers,  while the company is manually reviewing the open-ended questions and grading the different video calls.\\
     When a CosmoX employee logs into the platform, he can navigate to the “My Interview” section. In this section, he can view the status of each interview and the status of each student such as: “SENT” if the student has received the interview but not opened yet, “OPENED” if the student has opened the interview but not submitted the answer yet and, more importantly, if the student has accepted internship after being positively evaluated or if the interview has been reject either by the student itself or by the platform because the student has already accepted another internship with another company.\\
 
