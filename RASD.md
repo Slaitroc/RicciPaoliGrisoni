@@ -229,7 +229,7 @@ This document is composed of six sections:
 14. **University handles a complaint**
     The University of Rome, a prestigious university that has students enrolled in the S&C platform, has received a complaint about one of their students. The carrier advisor at the university opens the S&C platform and navigate to the “Complaints” section. Here, he can view all the complaints published about his students and can handle each one by reviewing the complaint, contacting the student and the company involved, and taking appropriate action to resolve the issue.
     In this particular carrier advisor and the university have decided to interrupt the internship of the student to protect the student and the company from further issues. The university does so by clicking on the “Interrupt Internship” button in the complaint page. The platform will notify the student and the company about the interruption of the internship and will close the complaint.
-<!-- 6.5 hours (Sam) -->
+<!-- 7 hours (Sam) -->
 
 
 ## 2.1.2 Class Diagram
@@ -374,6 +374,21 @@ This section outlines the essential functionalities and detailed requirements of
 This chapter provides a comprehensive overview of the system's use cases, detailing the various interactions between users and the system.
 Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Requirement Mapping are provided for each use case.
 <!-- [(0.5h) Matteo] -->
+
+<!-- This is a RASD document primarily read by non-technical stakeholder. My idea is not to mention in the PWA 
+implementation approach in this document as we will have a lot of occasion in later docs -->
+## 3.1.2 Hardware Interfaces
+The platform is a web application that can be accessed from any device with a web browser and an internet connection like a PC, a tablet, or a smartphone. No specific hardware requirements are needed to interact with the Student&Company platform.
+
+## 3.1.3 Software Interfaces
+<!-- if a notification Manager is used in other part of the Document, we need to put it here-->
+A Email Provider, thought its interface, is used by the platform to send a confirmation email to Users upon registration. At this stage of development, no other external software interfaces are required.
+
+<!-- Again, if not necessary I would avoid putting here the use of the REST protocol or PWA stuffs in a non-technical doc -->
+## 3.1.4 Communication Interfaces
+The platform uses standard internet communication protocols to interact with Users and the backend server. At this stage of development other specific communication interfaces are not defined yet.
+
+<!-- 0.5 hours (Sam) all 3 interface-->
 
 ## 3.2.1 Use Case Diagrams
 <<<<<<< HEAD
