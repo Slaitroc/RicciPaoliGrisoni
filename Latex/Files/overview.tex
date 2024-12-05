@@ -85,16 +85,17 @@ The following section provides a series of state diagrams that illustrate the ev
     \item The Interview Process is initiated when a Match is accepted by both the Student and the Company, or when a Spontaneous Application is accepted by the Company. The process starts in the 'Interview Creation' state, where the Company is asked to submit a Template Interview or create a new one. Here, the Company is required to specify a deadline for the Interview. The Interview process evolves into the 'InterviewSubmitted' state once the Company sends the Template to the Student, who answers the questions and submits the Interview. If the Student fails to submit the answers within the deadline, he will be considered rejected, and the process is terminated. Otherwise, if the Template includes open-ended questions that require manual evaluation, the process evolves to a 'ToManualReview' state before entering the 'Consolidation' state. If the Template is fully automatic, on the other hand, the process evolves directly to the 'Consolidation' state. In the 'Consolidation' state, if the Student successfully passes the Interview, he is required to specify if he wants to accept the Internship or reject it before the expiration of the deadline, after which he will be considered rejected. Either way, the process is terminated right after.
 \end{itemize}
 
-\subsection{Product Functions}
+\subsection{Product Functions}\\
+This section outlines the essential functionalities and detailed requirements of the platform, structured to support the key objectives defined in the scope of the product.
 \begin{enumerate}
-    \item \textbf{User Management}: The platform allows Students, Companies, and Universities to register and log in. It also provides Students the ability to upload and modify their CVs, and Companies the ability to view and manage their internships.
-    \item \textbf{Internship Creation and Management}: Companies can create, publish, and manage internship offers on the platform. They define details such as job description, requirements, deadlines, and benefits. Companies also have the ability to terminate internship offers when they are no longer needed.
-    \item \textbf{Student Application Process}: Students can browse available internships and apply to internships either through automatic matching or by submitting spontaneous applications. They can also track the status of their applications throughout the process.
-    \item \textbf{Automated Recommendations}: The platform matches Students with suitable internships based on their CVs and the specific requirements set by Companies. Once a match is found, both Students and Companies are notified, and they can accept or decline the recommendation.
-    \item \textbf{Interview Management}: Companies can create and assign Template Interviews to Students, which include quizzes, questions, and calls to assess their suitability for an internship. Both Students and Companies can track the interview progress, and Companies can evaluate Student responses manually or automatically.
-    \item \textbf{Feedback and Suggestions for Improvement}: The platform collects feedback from Students and Companies to improve the Recommendation Process. It also provides suggestions to Students on how to enhance their CVs and to Companies on how to improve their internship descriptions.
-    \item \textbf{Complaint Management}: Students and Companies can publish complaints about ongoing internships, which are then handled by Universities. Universities can monitor complaints and interrupt internships if necessary.
-    \item \textbf{Notification System}: Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new internships, matched recommendations, interview assignments, complaints, and sign-up confirmations.
+    \item \textbf{User Management}: The platform allows Students, Companies, and Universities to register and log in. It also provides Students with the ability to upload and modify their CVs, and Companies with the ability to view and manage their Internships.
+    \item \textbf{Internship Creation and Management}: Companies can create, publish, and manage Internship offers on the platform. They define details such as job description, requirements, deadlines, and benefits. Companies also have the ability to terminate Internship offers when they are no longer needed.
+    \item \textbf{Student Application Process}: Students can browse available Internships and apply to Internships either through automatic matching or by submitting Spontaneous Applications. They can also track the status of their Applications throughout the process.
+    \item \textbf{Automated Recommendations}: The platform matches Students with suitable Internships based on their CVs and the specific requirements set by Companies. Once a match is found, both Students and Companies are notified, and they can accept or decline the Recommendation.
+    \item \textbf{Interview Management}: Companies can create and assign Template Interviews to Students, which include quizzes, questions, and calls to assess their suitability for an Internship. Both Students and Companies can track the Interview progress, and Companies can evaluate Student responses manually or automatically.
+    \item \textbf{Feedback and Suggestions for Improvement}: The platform collects Feedback from Students and Companies to improve the Recommendation Process. It also provides Suggestions to Students on how to enhance their CVs and to Companies on how to improve their Internship descriptions.
+    \item \textbf{Complaint Management}: Students and Companies can publish Complaints about ongoing Internships, which are then handled by Universities. Universities can monitor Complaints and interrupt Internships if necessary.
+    \item \textbf{Notification System}: Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new Internships, matched Recommendations, Interview assignments, Complaints, and sign-up confirmation.
 \end{enumerate}
 
 \subsubsection{Requirements}
@@ -103,10 +104,9 @@ The following section provides a series of state diagrams that illustrate the ev
     \item The system shall allow any unregistered students to register by providing personal information and selecting their University.
     \item The system shall allow any companies to register by providing company information.
     \item The system shall allow any universities to register by providing university information.
-    \item The system shall send a confirmation email upon registration.
     \item The system shall allow Users to log in using their email and password.
-    \item The system shall provide error messages if login credentials are incorrect.
-    
+    \item The system shall send notifications to Users when relevant events occur.
+
     % Application advertisement and Applications
     \item The system shall allow Companies to create and publish Internship offers specifying details.
     \item The system shall allow Companies to terminate their Internship offers at their own discretion.
@@ -117,40 +117,34 @@ The following section provides a series of state diagrams that illustrate the ev
     \item The system shall allow Students to modify their CV.
     \item The system shall allow Students to monitor the status of their Spontaneous Applications.
     \item The system shall allow Students to monitor the status of their Recommendation.
-    
+
     % Recommendation System
-    \item The system shall notify Students when an Internship that suits their profile becomes available.
-    \item The system shall notify Companies when a registered Student’s CV suits an Internship requirement.
-    \item The system shall notify a registered Company and a Student when they both accept a Recommendation.
-    \item The system shall notify Students when their Spontaneous Application has been accepted by a Company.
-    \item The system shall notify Students when the Selection Process has been initiated.
+    \item The system shall display to Students all the Internships found by the Recommendation system.
     \item The system shall display to Companies all the CVs of Matched Students obtained by the Recommendation Process.
     \item The system shall allow Students and Companies to accept a Recommendation.
     \item The system shall allow Companies to accept a Spontaneous Application.
     \item The system shall start a Selection Process only if both the Company and the Student have accepted the Recommendation.
     \item The system shall start a Selection Process only if the Company has accepted the Spontaneous Application.
-    
+
     % Selection and Interview Management
     \item The system shall allow Companies to create Template Interviews.
     \item The system shall allow Companies to submit Template Interviews to Students they have initiated a Selection Process with.
     \item The system shall allow Students to answer Interview questions and submit them.
     \item The system shall allow Companies to manually evaluate Interview submissions.
-    \item The system shall allow Companies to insert the correct answers to a Quiz with the corresponding score to enable automatic evaluation.
     \item The system shall allow Students and Companies to monitor the status of their Interviews.
     \item The system shall enable Companies to complete the Interview process by submitting the final outcome to each candidate.
-    
+
     % Feedback and Suggestions for Improvements
     \item The system shall collect Feedback from both Students and Companies regarding the Recommendation Process.
     \item The system shall provide Suggestions to Students on improving their CVs.
     \item The system shall provide Suggestions to Companies on improving Internship descriptions.
-    
+
     % Universities Oversight and Complaint Management
     \item The system shall allow registered Universities to access and monitor Internship data related to their Students.
-    \item The system shall provide a platform to Students and Companies to complain, communicate problems, or provide information about the current status of an ongoing Internship.
-    \item The system shall notify registered Universities of any Complaint issued on their Students.
+    \item The system shall provide a platform for Students and Companies to complain, communicate problems, or provide information about the current status of an ongoing Internship.
+    \item The system shall notify registered Universities of any Complaint issued to their Students.
     \item The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
 \end{enumerate}
-
 
 \subsection{User Characteristics}
 
@@ -158,5 +152,13 @@ The following section provides a series of state diagrams that illustrate the ev
 \subsection{Assumptions, dependencies and constraints}
 
 \subsubsection{Domain Assumption}
+This section outlines the basic assumptions about the environment and behaviour of entities that interact with the system. These assumptions simplify the design and implementation by defining expectations about Students, Companies, Universities, and the platform, ensuring the system operates effectively within its intended context.
+\begin{enumerate}[label={\color{titleColor}[D\arabic*]}]
+    \item Students and Companies provide the Platform with correct and truthful information
+    \item Companies remove published Internship if they are no longer available
+    \item Students, Companies, and Universities receive every notification
+    \item Students, Companies, and Universities have a working internet connection
+    \item Universities interrupt an ongoing Internship only if no solution to complaints are found
+\end{enumerate}
 
 \subsubsection{Dependencies}

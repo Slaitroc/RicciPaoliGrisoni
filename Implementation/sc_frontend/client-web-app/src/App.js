@@ -21,6 +21,8 @@ if ("serviceWorker" in navigator) {
         );
       });
   });
+}else{
+  console.error("serviceWorker not supported in this browser. Try to update and run the app again")  
 }
 
 function App() {
