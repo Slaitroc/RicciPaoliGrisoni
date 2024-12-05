@@ -67,25 +67,27 @@
 \subsubsection{State Charts}
 The following section provides a series of state diagrams that illustrate the evolution of the main phases of the Student\&Company platform. For this purpose, we propose three diagrams representing the Recommendation Process evolution with the corresponding Spontaneous Application variant and the Interview Process.
 
-\textbf{Raccomandation Process}\\
-%\includegraphics[width=1 \textwidth]{Diagrams/RaccomandationStateChart.png}
+\textbf{Recommendation Process}\\
+\includegraphics[width=1 \textwidth]{Images/RaccomandationStateChart.png}
 \begin{itemize}
     \item The Recommendation Process is the core of the Student\&Company platform. It is the process that matches Students with Internships based on the Student's CV and the Internship's requirements. It is initiated by the platform when it detects a potential Match. The process then evolves to a 'WaitingForConfirmation' state, where the system waits for the Student and the Company to accept the Match. If one of the two parties rejects the Match, the process is terminated. If both parties accept the Match, an Interview is initiated, and the process is terminated.
 \end{itemize}
 
 \textbf{Spontaneous Application Process}\\
-%\includegraphics[width=1 \textwidth]{Diagrams/SpontaneousApplicationStateChart.png}
+\includegraphics[width=1 \textwidth]{Images/SpontaneousApplicationStateChart.png}
 \begin{itemize}
     \item Unlike the Recommendation Process, the Spontaneous Application process is initiated by the Student. When a Student submits a Spontaneous Application for an Internship, the process evolves to a 'WaitingForConfirmation' state, where the system waits for the Company to accept the Application. If the Company rejects the Application, the process is terminated. If the Company accepts the Application, an Interview Process is initiated, and the process is terminated.
-\end{itemize}
+\end{itemize} 
+\newpage 
 
 \textbf{Interview Process}\\
-%\includegraphics[width=1 \textwidth]{Diagrams/InterviewStateChart.png}
+\includegraphics[width=1 \textwidth]{Images/InterviewStateChart.png}
 \begin{itemize}
-    \item The Interview Process is initiated when a Match is accepted by both the Student and the Company, or when a Spontaneous Application is accepted by the Company. The process starts in the 'Interview Creation' state, where the Company is asked to submit a Template Interview or create a new one. Here, the Company is required to specify a deadline for the Interview. The Interview process evolves into the 'InterviewSubmitted' state once the Company sends the Template to the Student, who answers the questions and submits the Interview. If the Student fails to submit the answers within the deadline, he will be considered rejected, and the process is terminated. Otherwise, if the Template includes open-ended questions that require manual evaluation, the process evolves to a 'ToManualReview' state before entering the 'Consolidation' state. If the Template is fully automatic, on the other hand, the process evolves directly to the 'Consolidation' state. In the 'Consolidation' state, if the Student successfully passes the Interview, he is required to specify if he wants to accept the Internship or reject it before the expiration of the deadline, after which he will be considered rejected. Either way, the process is terminated right after.
+    \item The Interview Process is initiated when a Match is accepted by both the Student and the Company, or when a Spontaneous Application is accepted by the Company. The process starts in the 'InterviewCreation' state, where the Company is asked to submit a Template Interview or create a new one. Here, the Company is required to specify a deadline for the Interview. The Interview process evolves into the 'InterviewSubmitted' state once the Company sends the Template to the Student, who answers the questions and submits the Interview. If the Student fails to submit the answers within the deadline, he will be considered rejected, and the process is terminated. Otherwise, if the Template includes open-ended questions that require manual evaluation, the process evolves to a 'ToManualReview' state before entering the 'Consolidation' state. If the Template is fully automatic, on the other hand, the process evolves directly to the 'Consolidation' state. In the 'Consolidation' state, if the Student successfully passes the Interview, he is required to specify if he wants to accept the Internship or reject it before the expiration of the deadline, after which he will be considered rejected. In either way, the process ends immediately.
 \end{itemize}
 
-\subsection{Product Functions}\\
+
+\subsection{Product Functions}
 This section outlines the essential functionalities and detailed requirements of the platform, structured to support the key objectives defined in the scope of the product.
 \begin{enumerate}
     \item \textbf{User Management}: The platform allows Students, Companies, and Universities to register and log in. It also provides Students with the ability to upload and modify their CVs, and Companies with the ability to view and manage their Internships.
@@ -106,7 +108,7 @@ This section outlines the essential functionalities and detailed requirements of
     \item The system shall allow any universities to register by providing university information.
     \item The system shall allow Users to log in using their email and password.
     \item The system shall send notifications to Users when relevant events occur.
-
+    
     % Application advertisement and Applications
     \item The system shall allow Companies to create and publish Internship offers specifying details.
     \item The system shall allow Companies to terminate their Internship offers at their own discretion.
@@ -117,7 +119,7 @@ This section outlines the essential functionalities and detailed requirements of
     \item The system shall allow Students to modify their CV.
     \item The system shall allow Students to monitor the status of their Spontaneous Applications.
     \item The system shall allow Students to monitor the status of their Recommendation.
-
+    
     % Recommendation System
     \item The system shall display to Students all the Internships found by the Recommendation system.
     \item The system shall display to Companies all the CVs of Matched Students obtained by the Recommendation Process.
@@ -125,7 +127,7 @@ This section outlines the essential functionalities and detailed requirements of
     \item The system shall allow Companies to accept a Spontaneous Application.
     \item The system shall start a Selection Process only if both the Company and the Student have accepted the Recommendation.
     \item The system shall start a Selection Process only if the Company has accepted the Spontaneous Application.
-
+    
     % Selection and Interview Management
     \item The system shall allow Companies to create Template Interviews.
     \item The system shall allow Companies to submit Template Interviews to Students they have initiated a Selection Process with.
@@ -133,12 +135,12 @@ This section outlines the essential functionalities and detailed requirements of
     \item The system shall allow Companies to manually evaluate Interview submissions.
     \item The system shall allow Students and Companies to monitor the status of their Interviews.
     \item The system shall enable Companies to complete the Interview process by submitting the final outcome to each candidate.
-
+    
     % Feedback and Suggestions for Improvements
     \item The system shall collect Feedback from both Students and Companies regarding the Recommendation Process.
     \item The system shall provide Suggestions to Students on improving their CVs.
     \item The system shall provide Suggestions to Companies on improving Internship descriptions.
-
+    
     % Universities Oversight and Complaint Management
     \item The system shall allow registered Universities to access and monitor Internship data related to their Students.
     \item The system shall provide a platform for Students and Companies to complain, communicate problems, or provide information about the current status of an ongoing Internship.
@@ -146,19 +148,19 @@ This section outlines the essential functionalities and detailed requirements of
     \item The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
 \end{enumerate}
 
+
 \subsection{User Characteristics}
 
 
-\subsection{Assumptions, dependencies and constraints}
+\subsection{Assumptions, dependencies, and constraints}
 
 \subsubsection{Domain Assumption}
 This section outlines the basic assumptions about the environment and behaviour of entities that interact with the system. These assumptions simplify the design and implementation by defining expectations about Students, Companies, Universities, and the platform, ensuring the system operates effectively within its intended context.
 \begin{enumerate}[label={\color{titleColor}[D\arabic*]}]
-    \item Students and Companies provide the Platform with correct and truthful information
-    \item Companies remove published Internship if they are no longer available
-    \item Students, Companies, and Universities receive every notification
-    \item Students, Companies, and Universities have a working internet connection
-    \item Universities interrupt an ongoing Internship only if no solution to complaints are found
+\item Students and Companies provide the Platform with correct and truthful information
+\item Companies remove published Internship if they are no longer available
+\item Students, Companies, and Universities receive every notification
+\item Students, Companies, and Universities have a working internet connection
+\item Universities interrupt an ongoing Internship only if no solution to complaints are found
 \end{enumerate}
-
 \subsubsection{Dependencies}
