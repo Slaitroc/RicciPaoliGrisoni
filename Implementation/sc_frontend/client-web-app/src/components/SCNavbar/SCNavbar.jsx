@@ -22,6 +22,8 @@ import SCMain from "../SCMain/SCMain"
 import SCDrawerHeader from "../SCDrawerHeader/SCDrawerHeader"
 import SCAppBar from "../SCAppBar/SCAppBar"
 
+
+
 const drawerWidth = 240;
 
 export default function SCNavbar() {
@@ -61,7 +63,7 @@ export default function SCNavbar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ color: "#EEEEE" }}
+            sx={{ color: (theme) => theme.palette.text.primary }}
           >
             Student & Companies
           </Typography>
@@ -74,7 +76,7 @@ export default function SCNavbar() {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            bgcolor: "#31363F",
+            bgcolor: (theme)=>theme.palette.background.paper,
           },
         }}
         variant="persistent"
@@ -88,7 +90,7 @@ export default function SCNavbar() {
             variant="h4"
             noWrap
             component="div"
-            sx={{ color: "#EEEEEE" }}
+            sx={{ color: (theme)=>theme.palette.text.primary }}
           >
             Student
           </Typography></>
@@ -111,7 +113,7 @@ export default function SCNavbar() {
                       <BusinessCenterTwoToneIcon color='primary'/>
                     )}
                   </ListItemIcon>
-                  <ListItemText primary={text} sx={{ color: "#EEEEEE" }} />
+                  <ListItemText primary={text} sx={{ color: (theme)=>theme.palette.text.primary }} />
                 </ListItemButton>
               </ListItem>
             )
