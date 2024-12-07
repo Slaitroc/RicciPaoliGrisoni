@@ -37,7 +37,8 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 5. Students and Companies would like to complain, communicate problems, provide information about an ongoing Internship
 6. Students and Companies would like to be provided with Suggestions about how to improve their submission
 7. Universities would like to handle Complaints about ongoing Internships
-
+8. Students would like to choose which internship to attend from among those for which they passed the interview.
+9. Companies would like to select students for the internship position among those who passed the interview
 
 ## 1.2 Scope
 
@@ -235,27 +236,57 @@ This document is composed of six sections:
 
 
 ## 2.1.2 Class Diagram
-![Class Diagram](./Diagrams/ClassDiagram.png)
+![Class Diagram](./Diagrams/Class%20Diagrams/ClassDiagram1.1.png)
 
 
 ## 2.1.3 State Charts 
 
-The following section provides a series of state diagrams that illustrate the evolution of the main phases of the Student&Company platform. For this purpose, we propose three diagrams representing the Recommendation Process evolution with the corresponding Spontaneous Application variant and the Interview Process.
-![Raccomandation Process](./Diagrams/RecommendationStateChart.png)
+The following section presents a series of state diagrams illustrating the progression of the main phases of the Student&Company platform. These diagrams include representations of the Recommendation Process and its Spontaneous Application variant, the Interview Process that may result in an Internship Position Offer, and finally, a Selection Process diagram that highlights the relationship between the latter two processes.
+![Raccomandation Process](Diagrams/StateCharts/RecommendationStateChart.png)
 - **Recommendation Process** 
-  - The Recommendation Process is the core of the Student&Company platform. It is the process that matches Students with Internships based on the Student's CV and the Internship's requirements. It is initiated by the platform when it detects a potential Match. The process then evolves to a 'WaitingForConfirmation' state, where the system waits for the Student and the Company to accept the Match. If one of the two parties rejects the Match, the process is terminated. If both parties accept the Match, an Interview is initiated, and the process is terminated.
-![Spontaneous Application Process](./Diagrams/SpontaneousApplicationStateChart.png)
+  - The Recommendation Process is the core of the Student&Company platform. It is the process that matches Students with Internships 
+    based on the Student's CV and the Internship's requirements. It is initiated by the platform when it detects a potential Match. 
+    The process then evolves to a "WaitingForConfirmation" state, where the system waits for the Student and the Company to accept the Match. 
+    If one of the two parties rejects the Match, the process is terminated. If both parties accept the Match, an Interview is initiated, and the process is terminated.
+
+![Spontaneous Application Process](Diagrams/StateCharts/SpontaneousApplicationStateChart.png)
 - **Spontaneous Application Process**
-  - Unlike the Recommendation Process, the Spontaneous Application process is initiated by the Student. When a Student submits a Spontaneous Application for an Internship, the process evolves to a 'WaitingForConfirmation' state, where the system waits for the Company to accept the Application. If the Company rejects the Application, the process is terminated. If the Company accepts the Application, an Interview Process is initiated, and the process is terminated.
-![Interview Process](./Diagrams/InterviewProcessStateChart.png)
+  - Unlike the Recommendation Process, the Spontaneous Application process is initiated by the Student. 
+    When a Student submits a Spontaneous Application for an Internship, the process evolves to a "WaitingForConfirmation" state, 
+    where the system waits for the Company to accept the Application. If the Company rejects the Application, the process is terminated. 
+    If the Company accepts the Application, an Interview Process is initiated, and the process is terminated.
+
+![Interview Process](Diagrams/StateCharts/InterviewProcessStateChart.png)
 - **Interview Process**
-  - The Interview Process is initiated when a Match is accepted by both the Student and the Company, or when a Spontaneous Application is accepted by the Company. The process starts in the 'Interview Creation' state, where the Company is asked to submit a Template Interview or create a new one. Here, the Company is required to specify a deadline for the Interview. The Interview process evolves into the 'InterviewSubmitted' state once the Company sends the Template to the Student, who answers the questions and submits the Interview. If the Student fails to submit the answers within the deadline, he will be considered rejected, and the process is terminated. Otherwise, if the Template includes open-ended questions that require manual evaluation, the process evolves to a 'ToManualReview' state before entering the 'Consolidation' state. If the Template is fully automatic, on the other hand, the process evolves directly to the 'Consolidation' state. In the 'Consolidation' state, if the Student successfully passes the Interview, he is required to specify if he wants to accept the Internship or reject it before the expiration of the deadline, after which he will be considered rejected. In either way, the process ends immediately.
-![Internship Position Offer](./Diagrams/InternshipPositionOfferStateChart.png)
+  - The Interview Process is initiated when a Match is accepted by both the Student and the Company, or when the Company 
+    accepts a Spontaneous Application. The process starts in the "Interview Creation" state, where the Company is 
+    asked to create and submit an Interview. Here, the Company is required to specify a deadline for the Interview. 
+    The Interview process evolves into the "InterviewSubmitted" state once the Company sends the Interview to the Student, 
+    who answers the questions and submits the Interview. If the Student fails to submit the answers within the deadline, 
+    he will be considered rejected, and the process is progressed to an "Evaluated" state and terminates.
+    Otherwise, after the Interview has been sent back by the student, the process evolves to a "ToBeEvaluated" state. 
+    In this state, the Company can manually evaluate the Student's answers and mark the interview as "Accepted" or "Rejected".  
+    In case the Student has been rejected, he will be notified of the outcome, and the process is terminated. Otherwise,
+    if the Student has been accepted, an Internship Position Offer process is initiated and the process is terminated.
+    If anywhere in the process, the Student accepts another Internship, the process is terminated and the Student will be considered rejected.
+
+![Internship Position Offer](Diagrams/StateCharts/InternshipPositionOfferStateChart.png)
 - **Internship Position Offer**
-  - 
-![Selection Process](./Diagrams/SelectionProcessStateChart.png)
+  - The Internship Position Offer process begins when a student successfully completes the Interview Process. Initially, the process enters the "ToBeAcceptedByCompany" state.
+    This state allows companies to evaluate and select the most suitable candidates when more students than required have passed the interview.
+    If the company rejects the student or the deadline expires, the process concludes and the student will be considered rejected.
+    If the company accepts the student, the process transitions to the "ToBeAcceptedByStudent" state, where the student decides to either accept or reject the offer.
+    If the student rejects the offer or lets the deadline expire, the process concludes and the student will be considered rejected.
+    If the student accepts the offer, the process concludes, and all the student’s other ongoing interviews are terminated with the student being marked as rejected in those interviews.
+    If anywhere in the process, the Student accepts another Internship, the process is terminated and the Student will be considered rejected.
+    
+
+![Selection Process](Diagrams/StateCharts/SelectionProcessStateChart.png)
 - **Selection Process**
-  - 
+  - The Selection Process diagram illustrates the relationship between the Interview Process and the Internship Position Offer Process.
+    The Selection Process terminates if the Match is rejected, if the Student is rejected during the Interview Process or the Internship Position Offer Process, or if the Student accepts another Internship.
+    If the Student is accepted during the Interview Process, the process transitions to the Internship Position Offer Process.
+    If the Student accepts the Internship Position Offer, the process also concludes. 
   
     <!-- [(5.0h) Matteo] -->
 
@@ -278,7 +309,7 @@ This section outlines the essential functionalities and detailed requirements of
 7. **Complaint Management**
    Students and Companies can publish Complaints about ongoing Internships, which are then handled by Universities. Universities can monitor Complaints and interrupt Internships if necessary.
 8. **Notification System**
-   Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new Internships, matched Recommendations, Interview assignments, Complaints and sign up confirmation.
+   Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new Internships, matched Recommendations, Interview assignments, Internship Position Offers,Complaints, Sign-up confirmation or Communications.
    <!-- [(2.0h) Matteo] -->
 
 
@@ -322,9 +353,8 @@ This section outlines the essential functionalities and detailed requirements of
 31. The system shall provide Suggestions to Companies on improving Internship descriptions.
     <!-- Universities Oversight and Complaint Management -->
 32. The system shall allow registered Universities to access and monitor Internship Communications related to their Students.
-33. The system shall provide a platform for Students and Companies to exchange Communications about the current status of an ongoing Internship.
-34. The system shall notify registered Universities of any Complaint involving one of their Students.
-35. The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
+33. The system shall provide a dedicated space for Students and Companies to exchange Communications about the current status of an ongoing Internship.
+34. The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
 <!-- [(6.0h) Matteo] -->
 
 
@@ -336,12 +366,6 @@ This section outlines the essential functionalities and detailed requirements of
 4. Students, Companies and Universities have a working internet connection
 5. Universities interrupt an ongoing Internship only if no solution to complaints is found
 
-
-## 3.2 Functional Requirements
-
-This chapter provides a comprehensive overview of the system's use cases, detailing the various interactions between users and the system.
-Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Requirement Mapping are provided for each use case.
-<!-- [(0.5h) Matteo] -->
 
 <!-- This is a RASD document primarily read by non-technical stakeholder. My idea is not to mention in the PWA 
 implementation approach in this document as we will have a lot of occasion in later docs -->
@@ -358,11 +382,19 @@ The platform uses standard internet communication protocols to interact with Use
 
 <!-- 0.5 hours (Sam) all 3 interface-->
 
+
 ## 3.2.1 Use Case Diagrams
 ![User Registration UseCase](./Diagrams/UseDiagrams/UserRegistrationUseCase.png)
 ![Student and Company UseCase](./Diagrams/UseDiagrams/Student%20Company%20Use%20Case.png)
 ![University UseCase](./Diagrams/UseDiagrams/UniversityUseCaseDiagram.png)
 <!-- (4.5h) (Sam)-->
+
+
+## 3.2 Functional Requirements
+
+This chapter provides a comprehensive overview of the system's use cases, detailing the various interactions between users and the system.
+Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Requirement Mapping are provided for each use case.
+<!-- [(0.5h) Matteo] -->
 
 
 ## 3.2.2 Use Cases
@@ -379,31 +411,36 @@ The platform uses standard internet communication protocols to interact with Use
 ### AssignInterview
 
 
-
 ## 3.2.4 Requirements Mapping
 
 ### [G1] Companies would like to advertise the Internship they offer
-- [D1], [D2], [D4]
-- [R2], [R3], [R7], [R8]
+- [D1], [D2], [D3], [D4]
+- [R1], [R2], [R3], [R4], [R5], [R6], [R7], [R9]
 ### [G2] Students would like to autonomously candidate for available Internships
-- [D1], [D2], [D4]
-- [R1], [R2], [R3], [R4], [R5], [R6], [R9], [R10], [R18]
+- [D1], [D2], [D3], [D4]
+- [R1], [R2], [R3], [R4], [R5], [R6], [R7], [R9], [R10], [R13], [R18]
 ### [G3] Students would like to be Matched with Companies that offer Internships they might be interested in
-- [D1], [D2], [D4]
-- [R1], [R2], [R3], [R4], [R6], [R8], [R15], [R16], [R17]
-### [G4] Companies would like to perform Interviews with Matched Students
-- [D3], [D4]
-- [R1], [R2], [R3], [R4], [R19], [R20], [R21], [R22], [R23], [R24], [R26]
+- [D1], [D2], [D3], [D4]
+- [R1], [R2], [R3], [R4], [R5], [R6], [R7], [R8],[R11],[R14], [R15], [R16], [R17]
+### [G4] Companies would like to perform Interviews with suitable Students
+- [D1], [D2], [D3], [D4]
+- [R1], [R2], [R3], [R4], [R5], [R19], [R20], [R21], [R22], [R23], [R24], [R26]
 ### [G5] Students and Companies would like to complain, communicate problems, provide information about an ongoing Internship
-- [D1], [D3], [D4]
-- [R1], [R2], [R3], [R4], [R31]
+- [D1], [D2], [D3], [D4]
+- [R1], [R2], [R3], [R4], [R5], [R28], [R33]
 ### [G6] Students and Companies would like to be provided with Suggestions about how to improve their submission
-- [D1]
-- [R1], [R2], [R3], [R4], [R6], [R7], [R12], [R28], [R29]
+- [D1], [D4]
+- [R1], [R2], [R3], [R4], [R6], [R7], [R12], [R29], [R30], [R31]
 ### [G7] Universities would like to handle Complaints about ongoing Internships
-- [D1], [D3], [D4], [D5]
-- [R1], [R2], [R3], [R4], [R30], [R31], [R32], [R33]
-<!-- [(4.5h) Matteo] -->
+- [D1], [D2], [D3], [D4], [D5]
+- [R1], [R2], [R3], [R4], [R5], [R32], [R33], [R34]
+### [G8] Students would like to choose which internship to attend from among those for which they passed the interview.
+- [D1], [D2], [D4]
+- [R1], [R2], [R3], [R4], [R6], [R7], [R17], [R18], [R22], [R23], [R26], [R28]
+### [G9] Companies would like to select students for the internship position among those who passed the interview.
+- [D1], [D2], [D4]
+- [R1], [R2], [R3], [R4], [R6], [R7], [R17], [R18], [R22], [R23], [R26], [R27]
+<!-- [(7h) Matteo] -->
 
 ## 3.4.1 Standard Compliance
 Student&Company will handle and process highly sensitive data, including but not limited to personal information, CVs of Student and proprietary information of Company and University.\\
