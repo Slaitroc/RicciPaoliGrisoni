@@ -410,5 +410,5 @@ Student&Company will handle and process highly sensitive data, including but not
 Because of that the Platform must not only be able to comply with the General Data Protection Regulation (GDPR) and any other Data/Privacy Law present in the countries where the Platform will be used (e.g California Consumer Privacy Act "CCPA" or similar law), but also have to be flexible enough to adopt custom policy set by Companies and Universities to protect their data and the data of their own users.\\
 <!-- Sam 0.75h -->
 ## 3.4.2 Hardware limitations
-The platform is a web application that can be accessed from any device with a web browser and an internet connection like a PC, a tablet, or a smartphone. No specific hardware requirements are needed to interact with the Student&Company platform.
+The platform is a web application that can be accessed from any device with a web browser and an internet connection. No special hardware is required a part from a device with a network card
 
