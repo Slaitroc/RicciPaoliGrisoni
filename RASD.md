@@ -126,21 +126,23 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 - **University:** An institution that is registered on the S&C platform.
 - **Company:** A company that is registered on the S&C platform.
 - **Student:** A person who is currently enrolled in a University and is registered on the S&C platform.
-- **User: Any:** registered entity on the S&C platform.
-- **Internship:**: The offer of a position provided by a company to one or more students. The position for a single student is temporary, but the offer remains active until it is removed from the platform.
-- **Recommendation Process:** The process of matching a Student with an Internship offered by a Company based on the Student's CV and the Internship's requirements made by the S&C platform.
-- **Recommendation/Match:** The result of the Recommendation Process. It is the match between a Student and an Internship.
-- **Spontaneous Application:** The process of a Student manually applying for an Internship that was not matched through the Recommendation Process.
+- **User:** Any registered entity on the S&C platform.
+- **Internship Offer:** The offer of an opportunity to enroll in a internship provided by a Company. The offer remains active on the platform indefinitely until it is removed by the publishing Company and each Company can have publish multiple Internship Offers.
+- **Internship Position Offer:** The formal offer of an internship position presented to a student who has successfully passed the Interview Process, who can decide to accept or reject it.
+- **Recommendation Process:** The process of matching a Student with an Internship Offer publish by a Company based on the Student's CV and the Internship's requirements made by the S&C platform.
+- **Recommendation/Match:** The result of the Recommendation Process. It is the match between a Student and an Internship Offer.
+- **Spontaneous Application:** The process of a Student manually applying for an Internship Offer that was not matched through the Recommendation Process.
 - <!--**Template Interview:** A collection of open-ended questions, quizzes, and calls that a Company can create. Each time a Company wants to interview a Student, they can select a Template Interview, or create a new one, and assign it to the Student.-->
-- **Interview:** The process of evaluating a Student's application for an Internship done by a Company through the S&C platform. 
+- **Interview:** The process of evaluating a Student's application for an Internship Offer done by a Company through the S&C platform. 
 - **Feedback:** Information provided by Students and Companies to the S&C platform to improve the Recommendation Process.
-- **Suggestion:** Information provided by the S&C platform to Students and Companies to improve their CVs and Internship descriptions.
-- **Complaint:** A report of a problem or issue that a Student or Company has with an ongoing Internship. It can be published on the platform and handled by the University.
+- **Suggestion:** Information provided by the S&C platform to Students and Companies to improve their CVs and Internship Offer descriptions.
+- **Communication:** All of the interactions between Companies and University 
 - **Confirmed Match:** A match that has been accepted by both a Student and a Company.
 - **Rejected Match:** A match that has been refused by either a Student or a Company.
-Pending Match: A match that has been accepted only by a Student or a Company, waiting for a response from the other party.
+- **Pending Match:** A match that has been accepted only by a Student or a Company, and it's waiting for a response from the other party.
 - **Unaccepted Match:** A match that has been refused by either a Student or a Company.
-- **Confirmed Internship:** An Internship that has been accepted by the Student and the offering Company.
+- **Confirmed Internship:** An Internship Offer that has been accepted by the Student.
+- **Complaint:** A report of a problem or issue that a Student or Company has with an ongoing Confirmed Internship. It can be published on the platform and handled by the University.
 <!--(1.5h)Sam-->
 
 
@@ -406,4 +408,7 @@ The platform uses standard internet communication protocols to interact with Use
 ## 3.4.1 Standard Compliance
 Student&Company will handle and process highly sensitive data, including but not limited to personal information, CVs of Student and proprietary information of Company and University.\\
 Because of that the Platform must not only be able to comply with the General Data Protection Regulation (GDPR) and any other Data/Privacy Law present in the countries where the Platform will be used (e.g California Consumer Privacy Act "CCPA" or similar law), but also have to be flexible enough to adopt custom policy set by Companies and Universities to protect their data and the data of their own users.\\
-<!-- Sam 0.75h ->
+<!-- Sam 0.75h -->
+## 3.4.2 Hardware limitations
+The platform is a web application that can be accessed from any device with a web browser and an internet connection. No special hardware is required a part from a device with a network card
+
