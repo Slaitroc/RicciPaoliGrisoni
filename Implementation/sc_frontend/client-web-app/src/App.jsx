@@ -4,11 +4,15 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
+    customIcon: {
+      main: "#EEEEEE",
+      secondary: "#1976d2",
+    },
     primary: {
       main: "#1976d2", // Colore principale
     },
     secondary: {
-      main: "#dc004e", // Colore secondario
+      main: "#222831", // Colore secondario
     },
     background: {
       default: "#222831",
