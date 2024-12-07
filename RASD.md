@@ -143,7 +143,7 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 - **Unaccepted Match:** A match that has been refused by either a Student or a Company.
 - **Confirmed Internship:** An Internship Offer that has been accepted by the Student.
 - **Complaint:** A report of a problem or issue that a Student or Company has with an ongoing Confirmed Internship. It can be published on the platform and handled by the University.
-<!--(2h)Sam-->
+<!--(1.5h)Sam-->
 
 
 ## 1.6 Document Structure
@@ -408,4 +408,7 @@ The platform uses standard internet communication protocols to interact with Use
 ## 3.4.1 Standard Compliance
 Student&Company will handle and process highly sensitive data, including but not limited to personal information, CVs of Student and proprietary information of Company and University.\\
 Because of that the Platform must not only be able to comply with the General Data Protection Regulation (GDPR) and any other Data/Privacy Law present in the countries where the Platform will be used (e.g California Consumer Privacy Act "CCPA" or similar law), but also have to be flexible enough to adopt custom policy set by Companies and Universities to protect their data and the data of their own users.\\
-<!-- Sam 0.75h ->
+<!-- Sam 0.75h -->
+## 3.4.2 Hardware limitations
+The platform is a web application that can be accessed from any device with a web browser and an internet connection like a PC, a tablet, or a smartphone. No specific hardware requirements are needed to interact with the Student&Company platform.
+
