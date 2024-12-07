@@ -1,10 +1,14 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
+import SCDrawerHeader from "../SCDrawerHeader/SCDrawerHeader";
+
 
 const StyledMain = styled("main", { shouldForwardProp: (prop)=> prop!=="open" && prop!=="drawerWidht"})(
     ({theme, open, drawerWidth}) =>({
         flexGrow: 1,
         padding: theme.spacing(3),
+        paddingTop: theme.spacing(9), //altrimenti l'appbar copre il contenuto della pagina
         transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -21,7 +25,14 @@ const StyledMain = styled("main", { shouldForwardProp: (prop)=> prop!=="open" &&
 )
 
 const SCMain = ({open, drawerWidth, children})=> {
-    return <StyledMain open={open} drawerWidth={drawerWidth}>{children}</StyledMain>
+    return <StyledMain open={open} drawerWidth={drawerWidth}>
+        {!open ? (
+            <Typography sx={{ marginBottom: 2 }}>MenuClosed</Typography>
+          ) : (
+            <Typography sx={{ marginBottom: 2 }}>MenuOpen</Typography>
+          )}
+          {children}
+        </StyledMain>
 }
 
 export default SCMain;

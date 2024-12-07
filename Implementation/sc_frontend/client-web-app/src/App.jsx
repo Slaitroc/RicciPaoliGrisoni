@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import SCNavbar from "./components/SCNavbar/SCNavbar";
+import SCPage from "./components/SCPage/SCPage";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -27,7 +27,7 @@ function App() {
   });
   return (
     <ThemeProvider theme={theme}>
-      <SCNavbar />
+      <SCPage />
     </ThemeProvider>
   );
 }

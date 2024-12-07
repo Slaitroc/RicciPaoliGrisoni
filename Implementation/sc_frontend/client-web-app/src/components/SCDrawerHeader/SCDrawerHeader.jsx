@@ -1,5 +1,9 @@
-import { styled } from "@mui/material";
+import { styled, useTheme } from "@mui/material";
 import React from "react";
+import IconButton from "@mui/material/IconButton";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import Typography from "@mui/material/Typography";
 
 const DrawerHeaderStyled = styled("div")(({theme})=>({
     display: "flex",
@@ -10,8 +14,24 @@ const DrawerHeaderStyled = styled("div")(({theme})=>({
     justifyContent: "flex-end",
 }))
 
-const SCDrawerHeader = ({children}) =>{
-    return <DrawerHeaderStyled>{children}</DrawerHeaderStyled>
+const SCDrawerHeader = ({onDrawerClose}) =>{
+    const theme = useTheme();
+    return <DrawerHeaderStyled>
+        <IconButton onClick={onDrawerClose}>
+            {theme.direction === "ltr" ? (
+              <><ChevronLeftIcon color='primary'/><Typography
+            variant="h4"
+            noWrap
+            component="div"
+            sx={{ color: (theme)=>theme.palette.text.primary }}
+          >
+            Student
+          </Typography></>
+            ) : (
+              <ChevronRightIcon />
+            )}
+          </IconButton>
+    </DrawerHeaderStyled>
 }
 
 export default SCDrawerHeader;
