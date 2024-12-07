@@ -8,13 +8,12 @@ const SCDrawer = ({ drawerWidth, open, onDrawerClose }) => {
   return (
     <Drawer
       sx={{
-        width: drawerWidth,
         flexShrink: 0,
         "& .MuiDrawer-paper": {
-          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.6)",
+          bgcolor: (theme) => theme.palette.background.default,
+          boxShadow: (theme) => theme.shadows[2],
           width: drawerWidth,
           boxSizing: "border-box",
-          bgcolor: (theme) => theme.palette.background.default,
         },
       }}
       variant="persistent"

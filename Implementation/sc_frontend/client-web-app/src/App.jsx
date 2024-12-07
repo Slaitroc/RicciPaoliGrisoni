@@ -21,6 +21,19 @@ const theme = createTheme({
     text: {
       primary: "#EEEEEE",
     },
+    shadows: [
+      "none",
+      "0px 4px 10px rgba(0, 0, 0, 0.6)", // Ombra personalizzata
+      "0px 8px 15px rgba(0, 0, 0, 0.7)", // Ombra evidente per AppBar e Drawer
+    ],
+    mixins: {
+      toolbar: {
+        minHeight: 56, // Altezza predefinita
+        "@media (min-width:600px)": {
+          minHeight: 64, // Altezza per schermi grandi
+        },
+      },
+    },
   },
 });
 

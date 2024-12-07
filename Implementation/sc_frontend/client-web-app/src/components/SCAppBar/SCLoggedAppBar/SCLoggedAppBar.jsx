@@ -11,7 +11,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { useTheme } from "@mui/material";
 import SCDrawerIcon from "../../SCIcons/SCDrawerIcon";
 import SCMenuIcon from "../../SCIcons/SCMenuIcon";
 
@@ -59,16 +58,13 @@ function SCLoggedAppBar({ onLeftIconClick, open, drawerWidth }) {
     setAnchorElUser(null);
   };
 
-  const theme = useTheme();
-
   return (
     <AppBarStyled
       open={open}
       drawerWidth={drawerWidth}
       position="static"
-      elevation={4} // Usa un'ombra predefinita
       sx={{
-        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.6)", // Ombra evidente
+        boxShadow: (theme) => theme.shadows[2],
         bgcolor: "background.default",
       }}
     >

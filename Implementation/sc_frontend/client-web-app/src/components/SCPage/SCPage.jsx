@@ -32,14 +32,25 @@ export default function SCPage() {
       }}
     >
       <CssBaseline />
-      {/* <SCAppBar position="fixed" open={open} drawerWidth={drawerWidth} onLeftIconClick={handleDrawerOpen}></SCAppBar> */}
-      <SCLoggedAppBar open={open} drawerWidth={drawerWidth} onLeftIconClick={handleDrawerOpen}></SCLoggedAppBar>
+      {/* <SCAppBar
+        position="fixed"
+        open={open}
+        drawerWidth={drawerWidth}
+        onLeftIconClick={handleDrawerOpen}
+      ></SCAppBar> */}
+      <SCLoggedAppBar
+        open={open}
+        drawerWidth={drawerWidth}
+        onLeftIconClick={handleDrawerOpen}
+      ></SCLoggedAppBar>
       <SCDrawer
         open={open}
         drawerWidth={drawerWidth}
         onDrawerClose={handleDrawerClose}
       ></SCDrawer>
-      {/* <SCMain open={open} drawerWidth={drawerWidth}></SCMain> */}
+      <SCMain open={open} drawerWidth={drawerWidth}>
+        ciao
+      </SCMain>
     </Box>
   );
 }
