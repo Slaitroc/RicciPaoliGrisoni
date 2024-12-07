@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import SCMain from "../SCMain/SCMain"
-import SCDrawerHeader from "../SCDrawerHeader/SCDrawerHeader"
+import SCDrawerHeader from "../SCDrawer/SCDrawerHeader/SCDrawerHeader"
 import SCAppBar from "../SCAppBar/SCAppBar"
 import SCDrawer from "../SCDrawer/SCDrawer";
 

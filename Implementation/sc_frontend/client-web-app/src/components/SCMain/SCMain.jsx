@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-import SCDrawerHeader from "../SCDrawerHeader/SCDrawerHeader";
+import SCDrawerHeader from "../SCDrawer/SCDrawerHeader/SCDrawerHeader";
 
 
 const StyledMain = styled("main", { shouldForwardProp: (prop)=> prop!=="open" && prop!=="drawerWidht"})(
