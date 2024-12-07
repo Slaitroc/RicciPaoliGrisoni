@@ -6,12 +6,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
-import { useTheme } from "@mui/material";
 
 
 
 const SCDrawerList = () => {
-    const theme = useTheme();
     return (
         <List dense={true}>
           {["Curriculum Vitae", "Internships", "Recommendation", "Drafts"].map(

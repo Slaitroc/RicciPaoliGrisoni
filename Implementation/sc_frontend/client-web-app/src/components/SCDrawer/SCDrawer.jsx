@@ -1,13 +1,11 @@
 import React from "react";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
-import { useTheme } from "@mui/material";
 import SCDrawerHeader from "./SCDrawerHeader/SCDrawerHeader";
 import SCDrawerList from "./SCDrawerList/SCDrawerList"
 
 
 const SCDrawer = ({drawerWidth, open, onDrawerClose}) => {
-    const theme = useTheme();
     return (
         <Drawer
         sx={{
