@@ -357,6 +357,9 @@ The platform uses standard internet communication protocols to interact with Use
 <!-- 0.5 hours (Sam) all 3 interface-->
 
 ## 3.2.1 Use Case Diagrams
+![User Registration UseCase](./Diagrams/UseDiagrams/UserRegistrationUseCase.png)
+![Student and Company UseCase](./Diagrams/UseDiagrams/Student%20Company%20Use%20Case.png)
+![University UseCase](./Diagrams/UseDiagrams/UniversityUseCaseDiagram.png)
 <!-- (4.5h) (Sam)-->
 
 
