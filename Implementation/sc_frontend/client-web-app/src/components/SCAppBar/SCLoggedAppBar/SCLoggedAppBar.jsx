@@ -13,6 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import SCDrawerIcon from "../../SCIcons/SCDrawerIcon";
 import SCMenuIcon from "../../SCIcons/SCMenuIcon";
+import { TEXT } from "../../../constants/UIConstants";
 
 const AppBarStyled = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open" && prop !== "drawerWidth",
@@ -99,7 +100,7 @@ function SCLoggedAppBar({ onLeftIconClick, open, drawerWidth }) {
               textDecoration: "none",
             }}
           >
-            S&C
+            {TEXT.LOGO_NAME}
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -152,7 +153,7 @@ function SCLoggedAppBar({ onLeftIconClick, open, drawerWidth }) {
               textDecoration: "none",
             }}
           >
-            S&C
+            {TEXT.LOGO_NAME}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (

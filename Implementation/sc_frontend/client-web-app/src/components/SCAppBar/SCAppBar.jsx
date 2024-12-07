@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
 import SCMenuIcon from "../SCIcons/SCMenuIcon";
+import { TEXT } from "../../constants/UIConstants";
 
 const AppBarStyled = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open" && prop !== "drawerWidth",
@@ -67,7 +68,7 @@ const SCAppBar = ({ children, drawerWidth, open, onLeftIconClick }) => {
             component="div"
             sx={{ color: (theme) => theme.palette.text.primary }}
           >
-            Student & Companies
+            {TEXT.FULL_SIGN}
           </Typography>
         </Toolbar>
         {children}

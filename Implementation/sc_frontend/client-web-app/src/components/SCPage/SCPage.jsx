@@ -4,6 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import SCMain from "../SCMain/SCMain";
 import SCDrawer from "../SCDrawer/SCDrawer";
 import SCLoggedAppBar from "../SCAppBar/SCLoggedAppBar/SCLoggedAppBar";
+import SCAppBar from "../SCAppBar/SCAppBar";
 
 const drawerWidth = 240;
 
