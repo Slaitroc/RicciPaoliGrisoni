@@ -9,17 +9,18 @@ import SettingsSuggestRoundedIcon from "@mui/icons-material/SettingsSuggestRound
 import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
 
 import { SitemarkIcon } from "../Shared/SCCustomIcons";
+import { TEXT } from "../../constants/UIConstants";
 
 const items = [
   {
     icon: <SettingsSuggestRoundedIcon sx={{ color: "text.secondary" }} />,
-    title: "Adaptable performance",
+    title: `${TEXT.FULL_SIGN}`,
     description:
       "Our product effortlessly adjusts to your needs, boosting efficiency and simplifying your tasks.",
   },
   {
     icon: <ConstructionRoundedIcon sx={{ color: "text.secondary" }} />,
-    title: "Built to last",
+    title: "Adaptable performance",
     description:
       "Experience unmatched durability that goes above and beyond with lasting investment.",
   },
@@ -27,7 +28,7 @@ const items = [
     icon: <ThumbUpAltRoundedIcon sx={{ color: "text.secondary" }} />,
     title: "Great user experience",
     description:
-      "Integrate our product into your routine with an intuitive and easy-to-use interface.",
+      "Our product effortlessly adjusts to your needs, boosting efficiency and simplifying your tasks.",
   },
   {
     icon: <AutoFixHighRoundedIcon sx={{ color: "text.secondary" }} />,

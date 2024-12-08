@@ -20,6 +20,7 @@ import {
   SitemarkIcon,
 } from "../components/Shared/SCCustomIcons";
 import SCColorModeSelect from "../components/Shared/SCColorModeSelect";
+import SCBackHomeButton from "../components/Home/SCBackHomeButton";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -132,6 +133,9 @@ export default function SCSignUp(props) {
       <SCColorModeSelect
         sx={{ position: "fixed", top: "1rem", right: "1rem" }}
       />
+      <Box sx={{ padding: (theme) => theme.spacing(3) }}>
+        <SCBackHomeButton></SCBackHomeButton>
+      </Box>
       <SignUpContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
           <SitemarkIcon />

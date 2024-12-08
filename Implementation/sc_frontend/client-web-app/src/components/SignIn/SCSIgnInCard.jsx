@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import MuiCard from "@mui/material/Card";
 import Checkbox from "@mui/material/Checkbox";
-import Divider from "@mui/material/Divider";
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -12,11 +11,9 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import SCForgotPassword from "./SCForgotPassword";
-import {
-  GoogleIcon,
-  FacebookIcon,
-  SitemarkIcon,
-} from "../Templates/sign-in-side/CustomIcons";
+import { SitemarkIcon } from "../Templates/sign-in-side/CustomIcons";
+
+import SCSelectLogin from "./SCSelectLogin";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -108,6 +105,18 @@ export default function SCSignInCard() {
         noValidate
         sx={{ display: "flex", flexDirection: "column", width: "100%", gap: 2 }}
       >
+        <Box
+          sx={{
+            display: "flex", // Abilita il layout flexbox
+            justifyContent: "center", // Centra gli elementi orizzontalmente
+            alignItems: "center", // Centra gli elementi verticalmente
+            margin: "auto", // Per centrare il box nella pagina
+            boxShadow: 3, // Effetto ombra (opzionale)
+            borderRadius: 2, // Angoli arrotondati (opzionale)
+          }}
+        >
+          <SCSelectLogin />
+        </Box>
         <FormControl>
           <FormLabel htmlFor="email">Email</FormLabel>
           <TextField
@@ -178,25 +187,6 @@ export default function SCSignInCard() {
             </Link>
           </span>
         </Typography>
-      </Box>
-      <Divider>or</Divider>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={() => alert("Sign in with Google")}
-          startIcon={<GoogleIcon />}
-        >
-          Sign in with Google
-        </Button>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={() => alert("Sign in with Facebook")}
-          startIcon={<FacebookIcon />}
-        >
-          Sign in with Facebook
-        </Button>
       </Box>
     </Card>
   );

@@ -2,9 +2,11 @@ import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Stack from "@mui/material/Stack";
 import SCSignInCard from "../components/SignIn/SCSIgnInCard";
-import Content from "../components/Templates/sign-in-side/Content";
+import SCContentSignIn from "../components/SignIn/SCContentSignIn";
 import AppTheme from "../components/Shared/SCAppTheme";
 import SCColorModeSelect from "../components/Shared/SCColorModeSelect";
+import SCBackHomeButton from "../components/Home/SCBackHomeButton";
+import { Box } from "@mui/material";
 
 export default function SCSignInSide(props) {
   return (
@@ -13,6 +15,9 @@ export default function SCSignInSide(props) {
       <SCColorModeSelect
         sx={{ position: "fixed", top: "1rem", right: "1rem" }}
       />
+      <Box sx={{ padding: (theme) => theme.spacing(3) }}>
+        <SCBackHomeButton></SCBackHomeButton>
+      </Box>
       <Stack
         direction="column"
         component="main"
@@ -59,7 +64,7 @@ export default function SCSignInSide(props) {
               m: "auto",
             }}
           >
-            <Content />
+            <SCContentSignIn />
             <SCSignInCard />
           </Stack>
         </Stack>
