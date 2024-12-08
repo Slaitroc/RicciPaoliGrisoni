@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 import SCMenuContent from "./SCMenuContent";
-import CardAlert from "./Templates/dashboard/components/CardAlert";
+import CardAlert from "../Templates/dashboard/components/CardAlert";
 
 function SCSideMenuMobile({ open, toggleDrawer }) {
   return (

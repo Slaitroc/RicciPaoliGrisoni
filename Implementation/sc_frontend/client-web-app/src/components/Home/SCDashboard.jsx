@@ -5,16 +5,17 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import SCAppNavbar from "./SCAppNavbar";
-import MainGrid from "./Templates/dashboard/components/MainGrid";
+import MainGrid from "../Templates/dashboard/components/MainGrid";
 import SCSideMenu from "./SCSideMenu";
-import AppTheme from "./Templates/shared-theme/AppTheme";
+import AppTheme from "../Templates/shared-theme/AppTheme";
 import {
   chartsCustomizations,
   dataGridCustomizations,
   datePickersCustomizations,
   treeViewCustomizations,
-} from "./Templates/dashboard/theme/customizations";
+} from "../Templates/dashboard/theme/customizations";
 import SCHeader from "./SCHeader";
+import { Outlet } from "react-router-dom";
 
 const xThemeComponents = {
   ...chartsCustomizations,
@@ -51,6 +52,7 @@ const SCDashboard = (props) => {
             }}
           >
             <SCHeader />
+            <Outlet />
             {/* <MainGrid /> */}
           </Stack>
         </Box>

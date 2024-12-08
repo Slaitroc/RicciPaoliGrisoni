@@ -1,7 +1,9 @@
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { createTheme } from "@mui/material/styles";
-import SCDashboard from "./components/SCDashboard";
+import { RouterProvider } from "react-router-dom";
+import router from "./routers";
+import SCDashboard from "./components/Home/SCDashboard";
 
 const theme = createTheme({
   colorSchemes: {
@@ -42,6 +44,7 @@ const NAVIGATION = [
 ];
 
 function App() {
-  return <SCDashboard />;
+  // return <SCDashboard />;
+  return <RouterProvider router={router} />;
 }
 export default App;

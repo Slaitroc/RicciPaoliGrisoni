@@ -9,14 +9,13 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
-import MenuButton from "./Templates/dashboard/components/MenuButton";
-import Avatar from "@mui/material/Avatar";
+import MenuButton from "../Templates/dashboard/components/MenuButton";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0",
 });
 
-export default function SCUserOptionsMenu() {
+export default function SCOptionsMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -32,12 +31,7 @@ export default function SCUserOptionsMenu() {
         onClick={handleClick}
         sx={{ borderColor: "transparent" }}
       >
-        <Avatar
-          sizes="small"
-          alt="User Name"
-          src="/static/images/avatar/7.jpg"
-          sx={{ width: 36, height: 36 }}
-        />
+        <MoreVertRoundedIcon />
       </MenuButton>
       <Menu
         anchorEl={anchorEl}

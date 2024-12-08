@@ -13,13 +13,13 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
-import AppTheme from "../components/Templates/shared-theme/AppTheme";
+import SCAppTheme from "../components/Shared/SCAppTheme";
 import {
   GoogleIcon,
   FacebookIcon,
   SitemarkIcon,
-} from "../components/Templates/sign-up/CustomIcons";
-import ColorModeSelect from "../components/Templates/shared-theme/ColorModeSelect";
+} from "../components/Shared/SCCustomIcons";
+import SCColorModeSelect from "../components/Shared/SCColorModeSelect";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -127,9 +127,11 @@ export default function SCSignUp(props) {
   };
 
   return (
-    <AppTheme {...props}>
+    <SCAppTheme {...props}>
       <CssBaseline enableColorScheme />
-      <ColorModeSelect sx={{ position: "fixed", top: "1rem", right: "1rem" }} />
+      <SCColorModeSelect
+        sx={{ position: "fixed", top: "1rem", right: "1rem" }}
+      />
       <SignUpContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
           <SitemarkIcon />
@@ -236,6 +238,6 @@ export default function SCSignUp(props) {
           </Box>
         </Card>
       </SignUpContainer>
-    </AppTheme>
+    </SCAppTheme>
   );
 }

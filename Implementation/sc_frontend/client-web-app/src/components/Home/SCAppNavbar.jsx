@@ -11,7 +11,7 @@ import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import SCSideMenuMobile from "./SCSideMenuMobile";
 import SCMenuButton from "./SCMenuButton";
 import SCColorModeIconDropdown from "./SCColorModeIconDropdown";
-import { TEXT } from "../constants/UIConstants";
+import { TEXT } from "../../constants/UIConstants";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import SCUserOptionsMenu from "./SCUserOptionsMenu";
 

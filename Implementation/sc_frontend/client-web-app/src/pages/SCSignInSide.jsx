@@ -1,16 +1,18 @@
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Stack from "@mui/material/Stack";
-import SignInCard from "../components/Templates/sign-in-side/SignInCard";
+import SCSignInCard from "../components/SignIn/SCSIgnInCard";
 import Content from "../components/Templates/sign-in-side/Content";
-import AppTheme from "../components/Templates/shared-theme/AppTheme";
-import ColorModeSelect from "../components/Templates/shared-theme/ColorModeSelect";
+import AppTheme from "../components/Shared/SCAppTheme";
+import SCColorModeSelect from "../components/Shared/SCColorModeSelect";
 
 export default function SCSignInSide(props) {
   return (
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
-      <ColorModeSelect sx={{ position: "fixed", top: "1rem", right: "1rem" }} />
+      <SCColorModeSelect
+        sx={{ position: "fixed", top: "1rem", right: "1rem" }}
+      />
       <Stack
         direction="column"
         component="main"
@@ -58,7 +60,7 @@ export default function SCSignInSide(props) {
             }}
           >
             <Content />
-            <SignInCard />
+            <SCSignInCard />
           </Stack>
         </Stack>
       </Stack>

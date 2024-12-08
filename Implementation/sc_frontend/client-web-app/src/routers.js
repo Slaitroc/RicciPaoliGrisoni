@@ -1,32 +1,35 @@
-import { createBrowserRouter } from "react-router-dom";
-import App from "./App";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import SCDashboard from "./components/Home/SCDashboard";
 import SCSignInSide from "./pages/SCSignInSide";
 import SCSignUp from "./pages/SCSignUp";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Home from "./pages/Home";
 
+// Router Configuration
 const router = createBrowserRouter([
   {
-    path: "/", // Rotte che usano DashboardLayout
-    Component: App,
+    path: "/",
+    element: <Home />,
     children: [
       {
-        path: "/about",
-        Component: About,
+        path: "about",
+        element: <About />,
       },
       {
-        path: "/contact",
-        Component: Contact,
+        path: "contact",
+        element: <Contact />,
       },
     ],
   },
   {
-    path: "/signin", // Rotte che non usano DashboardLayout
-    Component: SCSignInSide,
+    path: "signin",
+    element: <SCSignInSide />, // Sostituisce completamente SCDashboard
   },
   {
-    path: "/signup", // Rotte che non usano DashboardLayout
-    Component: SCSignUp,
+    path: "signup",
+    element: <SCSignUp />, // Sostituisce completamente SCDashboard
   },
 ]);
 
