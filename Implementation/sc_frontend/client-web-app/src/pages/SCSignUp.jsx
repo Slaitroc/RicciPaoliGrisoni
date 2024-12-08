@@ -13,9 +13,13 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
-import AppTheme from "../shared-theme/AppTheme";
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from "./CustomIcons";
-import ColorModeSelect from "../shared-theme/ColorModeSelect";
+import AppTheme from "../components/Templates/shared-theme/AppTheme";
+import {
+  GoogleIcon,
+  FacebookIcon,
+  SitemarkIcon,
+} from "../components/Templates/sign-up/CustomIcons";
+import ColorModeSelect from "../components/Templates/shared-theme/ColorModeSelect";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -63,7 +67,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignUp(props) {
+export default function SCSignUp(props) {
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);

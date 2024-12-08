@@ -1,4 +1,4 @@
 export const TEXT = {
   LOGO_NAME: "S&C",
-  FULL_SIGN: "Student & Companies",
+  FULL_SIGN: "Students & Companies",
 };
