@@ -12,26 +12,60 @@ import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
+import { v4 as uuidv4 } from "uuid";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const mainListItems = [
-  { text: "Home", icon: <HomeRoundedIcon /> },
-  { text: "Dashboard", icon: <AnalyticsRoundedIcon /> },
-  { text: "Contact", icon: <AssignmentRoundedIcon /> },
+  { key: uuidv4(), text: "Home", icon: <HomeRoundedIcon />, route: "/" },
+  {
+    key: uuidv4(),
+    text: "Dashboard",
+    icon: <AnalyticsRoundedIcon />,
+    route: "/",
+  },
+  {
+    key: uuidv4(),
+    text: "Contact",
+    icon: <AssignmentRoundedIcon />,
+    route: "/contact",
+  },
 ];
 
 const secondaryListItems = [
-  { text: "Settings", icon: <SettingsRoundedIcon /> },
-  { text: "About", icon: <InfoRoundedIcon /> },
-  { text: "Feedback", icon: <HelpRoundedIcon /> },
+  {
+    key: uuidv4(),
+    text: "Settings",
+    icon: <SettingsRoundedIcon />,
+    route: "/",
+  },
+  { key: uuidv4(), text: "About", icon: <InfoRoundedIcon />, route: "/about" },
+  {
+    key: uuidv4(),
+    text: "Feedback",
+    icon: <HelpRoundedIcon />,
+    route: "/about",
+  },
 ];
 
 export default function SCMenuContent() {
+  const [selectedItem, setSelectedItem] = useState("home");
+  const navigate = useNavigate();
+
+  const handleItemClick = (item) => {
+    setSelectedItem(item.key);
+    navigate(item.route);
+  };
+
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: "space-between" }}>
       <List dense>
-        {mainListItems.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ display: "block" }}>
-            <ListItemButton selected={index === 0}>
+        {mainListItems.map((item) => (
+          <ListItem key={item.key} disablePadding sx={{ display: "block" }}>
+            <ListItemButton
+              onClick={() => handleItemClick(item)}
+              selected={selectedItem === item.key}
+            >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
@@ -40,9 +74,12 @@ export default function SCMenuContent() {
       </List>
 
       <List dense>
-        {secondaryListItems.map((item, index) => (
-          <ListItem key={index} disablePadding sx={{ display: "block" }}>
-            <ListItemButton>
+        {secondaryListItems.map((item) => (
+          <ListItem key={item.key} disablePadding sx={{ display: "block" }}>
+            <ListItemButton
+              onClick={() => handleItemClick(item)}
+              selected={selectedItem === item.key}
+            >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
