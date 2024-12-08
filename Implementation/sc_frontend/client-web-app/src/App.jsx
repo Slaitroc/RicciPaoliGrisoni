@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import SCPage from "./components/SCPage/SCPage";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import SCDashboardLayoutBasic from "./components/SCToolpad/SCDashboardLayoutBasic";
 
 const theme = createTheme({
   palette: {
@@ -44,7 +45,8 @@ function App() {
   });
   return (
     <ThemeProvider theme={theme}>
-      <SCPage />
+      {/* <SCPage /> */}
+      <SCDashboardLayoutBasic></SCDashboardLayoutBasic>
     </ThemeProvider>
   );
 }
