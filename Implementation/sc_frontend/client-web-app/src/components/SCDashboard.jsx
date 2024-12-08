@@ -23,7 +23,7 @@ const xThemeComponents = {
   ...treeViewCustomizations,
 };
 
-const Dashboard = (props) => {
+const SCDashboard = (props) => {
   return (
     <AppTheme {...props} themeComponents={xThemeComponents}>
       <CssBaseline enableColorScheme />
@@ -59,4 +59,4 @@ const Dashboard = (props) => {
   );
 };
 
-export default Dashboard;
+export default SCDashboard;

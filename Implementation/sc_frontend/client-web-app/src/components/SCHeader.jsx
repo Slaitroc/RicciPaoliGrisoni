@@ -1,11 +1,11 @@
 import * as React from "react";
 import Stack from "@mui/material/Stack";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
-import NavbarBreadcrumbs from "./Templates/dashboard/components/NavbarBreadcrumbs";
+import SCNavbarBreadcrumbs from "./SCNavbarBreadcrumbs";
 import SCUserOptionsMenu from "./SCUserOptionsMenu";
 
-import MenuButton from "./Templates/dashboard/components/MenuButton";
-import ColorModeIconDropdown from "./Templates/shared-theme/ColorModeIconDropdown";
+import SCMenuButton from "./SCMenuButton";
+import SCColorModeIconDropdown from "./SCColorModeIconDropdown";
 
 export default function SCHeader() {
   return (
@@ -21,12 +21,12 @@ export default function SCHeader() {
       }}
       spacing={2}
     >
-      <NavbarBreadcrumbs />
+      <SCNavbarBreadcrumbs />
       <Stack direction="row" sx={{ gap: 1 }}>
-        <ColorModeIconDropdown />
-        <MenuButton showBadge aria-label="Open notifications">
+        <SCColorModeIconDropdown />
+        <SCMenuButton showBadge aria-label="Open notifications">
           <NotificationsRoundedIcon />
-        </MenuButton>
+        </SCMenuButton>
         <SCUserOptionsMenu />
       </Stack>
     </Stack>

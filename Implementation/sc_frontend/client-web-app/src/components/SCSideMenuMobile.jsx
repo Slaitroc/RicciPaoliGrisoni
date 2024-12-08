@@ -11,7 +11,7 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import SCMenuContent from "./SCMenuContent";
 import CardAlert from "./Templates/dashboard/components/CardAlert";
 
-function SideMenuMobile({ open, toggleDrawer }) {
+function SCSideMenuMobile({ open, toggleDrawer }) {
   return (
     <Drawer
       anchor="left"
@@ -66,9 +66,9 @@ function SideMenuMobile({ open, toggleDrawer }) {
   );
 }
 
-SideMenuMobile.propTypes = {
+SCSideMenuMobile.propTypes = {
   open: PropTypes.bool,
   toggleDrawer: PropTypes.func.isRequired,
 };
 
-export default SideMenuMobile;
+export default SCSideMenuMobile;

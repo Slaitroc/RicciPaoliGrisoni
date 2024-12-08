@@ -3,13 +3,10 @@ import { styled } from "@mui/material/styles";
 import Avatar from "@mui/material/Avatar";
 import MuiDrawer, { drawerClasses } from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import SelectContent from "./Templates/dashboard/components/SelectContent";
 import SCMenuContent from "./SCMenuContent";
-import CardAlert from "./Templates/dashboard/components/CardAlert";
-import OptionsMenu from "./Templates/dashboard/components/OptionsMenu";
+import SCOptionsMenu from "./SCOptionsMenu";
 
 const drawerWidth = 240;
 
@@ -24,7 +21,7 @@ const Drawer = styled(MuiDrawer)({
   },
 });
 
-export default function SideMenu() {
+export default function SCSideMenu() {
   return (
     <>
       <Drawer
@@ -71,7 +68,7 @@ export default function SideMenu() {
               useremail@email.com
             </Typography>
           </Box>
-          <OptionsMenu />
+          <SCOptionsMenu />
         </Stack>
       </Drawer>
     </>

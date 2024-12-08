@@ -9,8 +9,8 @@ import Typography from "@mui/material/Typography";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import SCSideMenuMobile from "./SCSideMenuMobile";
-import MenuButton from "./Templates/dashboard/components/MenuButton";
-import ColorModeIconDropdown from "./Templates/shared-theme/ColorModeIconDropdown";
+import SCMenuButton from "./SCMenuButton";
+import SCColorModeIconDropdown from "./SCColorModeIconDropdown";
 import { TEXT } from "../constants/UIConstants";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import SCUserOptionsMenu from "./SCUserOptionsMenu";
@@ -31,7 +31,7 @@ const Toolbar = styled(MuiToolbar)({
   },
 });
 
-export default function AppNavbar() {
+export default function SCAppNavbar() {
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -62,9 +62,9 @@ export default function AppNavbar() {
             gap: 1,
           }}
         >
-          <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>
+          <SCMenuButton aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuRoundedIcon />
-          </MenuButton>
+          </SCMenuButton>
           <SCSideMenuMobile open={open} toggleDrawer={toggleDrawer} />
           <Stack
             direction="row"
@@ -80,10 +80,10 @@ export default function AppNavbar() {
               {TEXT.FULL_SIGN}
             </Typography>
           </Stack>
-          <ColorModeIconDropdown />
-          <MenuButton showBadge={false}>
+          <SCColorModeIconDropdown />
+          <SCMenuButton showBadge={false}>
             <NotificationsRoundedIcon />
-          </MenuButton>
+          </SCMenuButton>
           <SCUserOptionsMenu />
         </Stack>
       </Toolbar>
