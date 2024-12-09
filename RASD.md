@@ -134,7 +134,7 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 - **Recommendation/Match:** The result of the Recommendation Process. It is the match between a Student and an Internship Offer.
 - **Spontaneous Application:** The process of a Student manually applying for an Internship Offer that was not matched through the Recommendation Process.
 - <!--**Template Interview:** A collection of open-ended questions, quizzes, and calls that a Company can create. Each time a Company wants to interview a Student, they can select a Template Interview, or create a new one, and assign it to the Student.-->
-- **Interview:** The process of evaluating a Student's application for an Internship Offer done by a Company through the S&C platform. 
+- **Interview:** The process of evaluating a Student's application for an Internship Offer done by a Company through the S&C platform. It consists of a series of question that the Student has to answer and the Company has to evaluate. 
 - **Feedback:** Information provided by Students and Companies to the S&C platform to improve the Recommendation Process.
 - **Suggestion:** Information provided by the S&C platform to Students and Companies to improve their CVs and Internship Offer descriptions.
 - **Communication:** All of the interactions between Companies and University 
@@ -215,8 +215,8 @@ This section provides a high-level description of the Student&Company platform, 
     if some company has assigned him an interview and if any company has offered him an internship that he can accept or refuse.\\ 
 
 10. **Company see the status of the selection process and accept a Internship**
-    CosmoX, a renowned private space company that specialized in the reuse of rocket, has created an internship on the S&C platform for aspirants Aerospace engineer, has received multiple manual applications from different students and has been matched numerous times. The company has already accepted all worthy manual applications and all the matches and has assigned an interview to everyone.
-    CosmoX is now waiting for the students to complete the interviews and for the platform to automatically evaluate the quiz answers,  while the company is manually reviewing the open-ended questions and grading the different video calls.\\
+    CosmoX, a renowned private space company that specialized in the reuse of rocket, has created an internship on the S&C platform for aspirants Aerospace engineer, has received multiple manual applications from different students and has been matched numerous times by the S&C Platform. The company has already accepted all worthy manual applications and all the matches and has assigned an interview to everyone.
+    CosmoX is now waiting for the students to complete the interviews and is ready to evaluate the answers and select the best candidate for the internship.\\
     When a CosmoX employee logs into the platform, he can navigate to the “My Interview” section. In this section, he can view the status of each interview and the status of each student such as: “SENT” if the student has received the interview but not opened yet, “OPENED” if the student has opened the interview but not submitted the answer yet and, more importantly, if the student has accepted internship after being positively evaluated or if the interview has been reject either by the student itself or by the platform because the student has already accepted another internship with another company.\\
 
 11. **Student refuses/accepts an internship**
@@ -359,6 +359,28 @@ This section outlines the essential functionalities and detailed requirements of
 34. The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
 <!-- [(6.0h) Matteo] -->
 
+
+## 2.3 User Characteristics
+Student&Company is designed to be used by three main types of Users: Students, Companies, and Universities. Each User has a specific roles and can perform different action on the platform as described below:
+
+- **Students**
+    Student users are individuals currently enrolled in a University (which must be registered on the Platform) who are looking for Internship opportunities to enhance their education and their curriculum. \\
+    They can register on the platform, upload their CVs, and apply for Internships either through the Recommendation Process or by submitting a Spontaneous Applications to a Interview Offer to which they are particular interested. Students can also monitor the status of their Applications, Interviews, and Internship Position Offers thought dedicated section on the platform and can, eventually, report problems encountered during an ongoing Internship to their University by creating a Complaint.\\
+    The platform also provides Students with Suggestions on how to improve their CVs and matching probability based on a grammar and lexical analyses and a direct comparing of the Student's CV with another similar candidate while the Student can improve the platform by providing Feedback on the Recommendation Process once a Confirmed Match is found.
+
+- **Companies**
+    Company users are entities that are looking for interns to train and educate in their field of expertise. Each company account is created by a representative of the Company, usually a Human Resource employee or a manager that is in charge of the internship program. \\
+    Companies can register on the platform and create, publish, manage and delete different Internship Offers at the same time. They can also view and manage the CVs of Students that have been matched or have sent a Spontaneous Application to such offers and create and submit Interviews to evaluate them. If a Student passes the Interview, the Company can send an Internship Position Offer to the him while monitoring other Interview and Internship Position Offers and, moreover, each Company can report problem encountered during an ongoing Internship by creating a Complaint.\\
+    The platform also provides Companies with Suggestions on how to improve their Internship descriptions and matching probability based on a grammar and lexical analyses and a direct comparing of the Company's Internship Offer with other similar companies while they can help improve the platform by providing Feedback on the Recommendation Process once a Confirmed Match is found.
+
+- **Universities**
+    University users are institutions that are looking to provide their Students with Internship opportunities to enhance their education and curriculum. Each university account is created by a representative of the University, usually a carrier advisor or a professor that is in charge of the internship program.\\
+    Universities can register on the platform and monitor their Students by reciving Communication both from Student and Companies. Such Communication can be about the acceptance of a Internship Position Offer by a Student or some problem encountered during an ongoing Internship reported by a party trough a Complaint. \\
+    University can handle such Complaints and, eventually, interrupt an ongoing Internship if no solution to the problem is found to prevent further issues.\\
+
+While Student&Company is not specifically designed to accommodate users with special needs, the platform implements several basic accessibility features to improve usability for all users. These include different display modes such as dark mode, screen-reader compatible layouts and easily readable fonts.
+The web interface try to follows WCAG 2.1 Level A guidelines for basic accessibility compliance. However, users requiring specialized assistive technologies may need to rely on their own tools and software to interact with the platform optimally.
+<!-- [(1.5h) Sam] -->
 
 ## 2.4.1 Domain Assumption
 
