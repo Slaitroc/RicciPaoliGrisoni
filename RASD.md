@@ -466,6 +466,9 @@ Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Require
 - [R1], [R2], [R3], [R4], [R6], [R7], [R17], [R18], [R22], [R23], [R26], [R27]
 <!-- [(7h) Matteo] -->
 
+## 3.4 Design Constraints
+This section explain the different constraints that the platform must respect such as the standard compliance for the data protection, hardware and software limitations.
+
 ## 3.4.1 Standard Compliance
 Student&Company will handle and process highly sensitive data, including but not limited to personal information, CVs of Student and proprietary information of Company and University.\\
 Because of that the Platform must not only be able to comply with the General Data Protection Regulation (GDPR) and any other Data/Privacy Law present in the countries where the Platform will be used (e.g California Consumer Privacy Act "CCPA" or similar law), but also have to be flexible enough to adopt custom policy set by Companies and Universities to protect their data and the data of their own users.\\
