@@ -159,6 +159,8 @@ This document is composed of six sections:
 6. **References**: This section provides a list of references used in the document.
    <!--[(1.5h) Matteo]-->
 
+## 2.1 Product Perspective
+This section provides a high-level description of the Student&Company platform, outlining its main features and functionalities thought the use of Text Description such as User Scenarios, and a more in-depth analysis of the system's structure through the use of Class Diagrams and State Charts.
 
 ## 2.1.1 User Scenario
 
