@@ -420,6 +420,22 @@ This chapter provides a comprehensive overview of the system's use cases, detail
 Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Requirement Mapping are provided for each use case.
 <!-- [(0.5h) Matteo] -->
 
+## 3.3 Performance requirements
+Given the system's non-essential nature, overly rigid performance standards are costly and unnecessary. However, to ensure the best possible user experience, the system should:
+
+ - The system shall notifiy Users within 2 seconds after an even has occurred
+ - The system shall respond to User requests within 2 seconds under normal load conditions
+ - The system shall support at least 1000 concurrent Users
+ - Database queries shall complete within 1.5 seconds
+ - The system shall handle up to 10,000 internship listings simultaneously
+ - The system shall support up to 100,000 registered Users
+ - The system shall support up to 1000 registered Companies
+ - The system shall support up to 100 registered Universities
+ - The Raccomandation Process shall be completed within 300 seconds under normal load conditions
+ - The Suggestions computed by the platform shall be provided to the User within 180 seconds after that the CV or the Internship Offer has been submitted
+<!-- This performance requirements are estimated based on competing companies and the expected load of the platform. They are not based on any specific data or benchmark of our implementation and are subject to change in the future --> 
+<!-- [(0.5h) Sam]-->
+
 
 ## 3.2.2 Use Cases
 
