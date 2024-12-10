@@ -496,5 +496,16 @@ The platform is a web application that can be accessed from any device with a we
 This section provides an overview of the system's key attributes such as reliability and availability, security, maintainability, and portability explain in a technical and non-technical way.
 
 ## 3.5.1 Reliability and Availability
-The platform is designed to be highly reliable and available to Users, with a target uptime of 99.99%. This means that the system should be unreachable for Users for no more than 1 hours in a year. To achieve this, the platform will be hosted on redundant servers with automatic failover capabilities and a load balancer to distribute traffic evenly across the different machines. \\
+The platform is designed to be highly reliable and available to Users, with a target uptime of at lest 99.862%. This means that the system should be unreachable for Users for no more than 12 hours in a year. To achieve this, the platform will be hosted on redundant servers with automatic failover capabilities and a load balancer to distribute traffic evenly across the different machines. \\
 Furthermore to ensure the availability of the platform, scheduled maintenance will be schedule during low traffic days such as during winter or summer break. . This approach is intended to guarantee that the system remains fully operational at the start of each semester when the traffic expected to be much higher due to the increase in the number of Students and Companies looking for Internships.\\
+
+## 3.5.2 Security
+Due to the highly sensitive nature of the data processed by the platform, security is a top priority for S\&C. We will implement a multi-layered security approach to protect the data of our Users such as:
+- the use of HTTPS protocol to encrypt the data exchanged between the User and the Platform
+- Strong password requirements and email verification for all users
+- Failed login attempts shall be limited to 5 before temporary account lockout
+- Password encryption using using industry-standard hashing algorithms such as MD5 or SHA-256
+- Role-based access control to ensure that Users can only access the data they are authorized to see
+- Verification of Companies and Universities profile will be conducted using their VAT numbers, once the official governance API becomes available.
+<!--Sarebbe una gran figata, le API esistono, gratuite, raggiungibili con una banale GET ma al momento son in beta da tipo 3 anni. C'è un form per fare richiesta di accesso, vediamo se mi rispondono>
+<!-- 1h (Sam)>
