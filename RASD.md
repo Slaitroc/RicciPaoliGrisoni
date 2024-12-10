@@ -514,3 +514,7 @@ Due to the highly sensitive nature of the data processed by the platform, securi
 The system should be designed to be easily maintainable and scalable to accommodate future growth. This includes the use of modular code, clear documentation, and a well-defined architecture that allows for easy updates and modifications both on the front and the back end. \\
 The platform should also be designed to be easily scalable to accommodate an increase in the number of Users and Internship Offers and in a way where the need of adding new features or fixing bugs should not require a complete overhaul of the system.\\
 
+## 3.5.4 Portability
+As a web application, the platform is inherently portable by design, allowing access from any device equipped with a web browser and an internet connection. There are no additional portable constraints on the server-side infrastructure of the platform.
+<!-- 0.5h (Sam)>
+
