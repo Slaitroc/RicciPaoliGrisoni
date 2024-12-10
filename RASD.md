@@ -507,5 +507,10 @@ Due to the highly sensitive nature of the data processed by the platform, securi
 - Password encryption using using industry-standard hashing algorithms such as MD5 or SHA-256
 - Role-based access control to ensure that Users can only access the data they are authorized to see
 - Verification of Companies and Universities profile will be conducted using their VAT numbers, once the official governance API becomes available.
-<!--Sarebbe una gran figata, le API esistono, gratuite, raggiungibili con una banale GET ma al momento son in beta da tipo 3 anni. C'è un form per fare richiesta di accesso, vediamo se mi rispondono>
-<!-- 1h (Sam)>
+<!--Sarebbe una gran figata, le API esistono, gratuite, raggiungibili con una banale GET ma al momento son in beta da tipo 3 anni. C'è un form per fare richiesta di accesso, vediamo se mi rispondono-->
+<!-- 1h (Sam) for both section-->
+
+## 3.5.3 Maintainability
+The system should be designed to be easily maintainable and scalable to accommodate future growth. This includes the use of modular code, clear documentation, and a well-defined architecture that allows for easy updates and modifications both on the front and the back end. \\
+The platform should also be designed to be easily scalable to accommodate an increase in the number of Users and Internship Offers and in a way where the need of adding new features or fixing bugs should not require a complete overhaul of the system.\\
+
