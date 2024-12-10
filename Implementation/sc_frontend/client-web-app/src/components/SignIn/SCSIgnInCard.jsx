@@ -14,6 +14,7 @@ import SCForgotPassword from "./SCForgotPassword";
 import { SitemarkIcon } from "../Templates/sign-in-side/CustomIcons";
 
 import SCSelectLogin from "./SCSelectLogin";
+import { useGlobalContext } from "../../globalContext";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -34,6 +35,16 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 export default function SCSignInCard() {
+  const {
+    isAuthenticated,
+    profile,
+    loading,
+    error,
+    login,
+    logout,
+    fetchProfile,
+  } = useGlobalContext();
+
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -83,6 +94,8 @@ export default function SCSignInCard() {
       setPasswordError(false);
       setPasswordErrorMessage("");
     }
+    console.log("eseguo login in seguito a pressione bottone");
+    login(email, password);
 
     return isValid;
   };
