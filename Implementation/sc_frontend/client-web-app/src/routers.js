@@ -1,6 +1,5 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import SCDashboard from "./components/Home/SCDashboard";
+import { createBrowserRouter } from "react-router-dom";
 import SCSignInSide from "./pages/SCSignInSide";
 import SCSignUp from "./pages/SCSignUp";
 import About from "./pages/About";
