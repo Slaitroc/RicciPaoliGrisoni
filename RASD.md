@@ -423,7 +423,7 @@ Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Require
 ## 3.3 Performance requirements
 Given the system's non-essential nature, overly rigid performance standards are costly and unnecessary. However, to ensure the best possible user experience, the system should:
 
- - The system shall notifiy Users within 2 seconds after an even has occurred
+ - The system shall notify Users within 2 seconds after an even has occurred
  - The system shall respond to User requests within 2 seconds under normal load conditions
  - The system shall support at least 1000 concurrent Users
  - Database queries shall complete within 1.5 seconds
@@ -483,7 +483,7 @@ Given the system's non-essential nature, overly rigid performance standards are 
 <!-- [(7h) Matteo] -->
 
 ## 3.4 Design Constraints
-This section explain the different constraints that the platform must respect such as the standard compliance for the data protection, hardware and software limitations.
+This section explain the different constraints that the platform must respect such as the standard compliance for the data protection and hardware limitations.
 
 ## 3.4.1 Standard Compliance
 Student&Company will handle and process highly sensitive data, including but not limited to personal information, CVs of Student and proprietary information of Company and University.\\
@@ -492,3 +492,9 @@ Because of that the Platform must not only be able to comply with the General Da
 ## 3.4.2 Hardware limitations
 The platform is a web application that can be accessed from any device with a web browser and an internet connection. No special hardware is required a part from a device with a network card
 
+# 3.5 Software System Attributes
+This section provides an overview of the system's key attributes such as reliability and availability, security, maintainability, and portability explain in a technical and non-technical way.
+
+## 3.5.1 Reliability and Availability
+The platform is designed to be highly reliable and available to Users, with a target uptime of 99.99%. This means that the system should be unreachable for Users for no more than 1 hours in a year. To achieve this, the platform will be hosted on redundant servers with automatic failover capabilities and a load balancer to distribute traffic evenly across the different machines. \\
+Furthermore to ensure the availability of the platform, scheduled maintenance will be schedule during low traffic days such as during winter or summer break. . This approach is intended to guarantee that the system remains fully operational at the start of each semester when the traffic expected to be much higher due to the increase in the number of Students and Companies looking for Internships.\\
