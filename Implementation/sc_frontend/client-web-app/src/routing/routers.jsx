@@ -19,6 +19,8 @@ import Communications from "../pages/Communications";
 import ConfInternships from "../pages/ConfInternships";
 import University from "../pages/University";
 import InternshipOffers from "../pages/InternshipOffers";
+import Profile from "../pages/Profile";
+import Account from "../pages/Account";
 // Router Configurations
 const router = createBrowserRouter([
   {
@@ -98,6 +100,14 @@ const router = createBrowserRouter([
       {
         path: "communications",
         element: <Communications />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "account",
+        element: <Account />,
       },
     ],
   },
