@@ -14,7 +14,7 @@ import SCForgotPassword from "./SCForgotPassword";
 import { SitemarkIcon } from "../Templates/sign-in-side/CustomIcons";
 
 import SCSelectLogin from "./SCSelectLogin";
-import { useGlobalContext } from "../../globalContext";
+import { useGlobalContext } from "../../global/globalContext";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",

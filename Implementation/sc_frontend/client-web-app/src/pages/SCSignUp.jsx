@@ -20,7 +20,7 @@ import {
   SitemarkIcon,
 } from "../components/Shared/SCCustomIcons";
 import SCColorModeSelect from "../components/Shared/SCColorModeSelect";
-import SCBackHomeButton from "../components/Home/SCBackHomeButton";
+import SCBackHomeButton from "../components/Dashboard/SCBackHomeButton";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",

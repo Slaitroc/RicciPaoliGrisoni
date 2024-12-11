@@ -1,5 +1,5 @@
 import React from "react";
-import { useGlobalContext } from "../globalContext";
+import { useGlobalContext } from "../global/globalContext";
 import PropTypes from "prop-types";
 import { Navigate } from "react-router-dom";
 
@@ -12,7 +12,13 @@ import { Navigate } from "react-router-dom";
  * @param {string} props.navigateTo - The path to navigate to if the condition is not met.
  * @returns {React.ReactNode} - The children if the condition is met, otherwise a <Navigate /> component.
  */
-const RouteProtector = ({ children, equals, navigateTo }) => {
+const RouteProtector = ({
+  children,
+  equals = false,
+  navigateTo = "/dashboard",
+}) => {
+  // default behavior: if the user is authenticated (isAuthenticated === false) returns the children, otherwise navigate to Home
+  // if the user is already logged in he can't reach the signup/signin pages
   const { isAuthenticated } = useGlobalContext();
   return isAuthenticated === equals ? children : <Navigate to={navigateTo} />;
 };
@@ -20,14 +26,7 @@ const RouteProtector = ({ children, equals, navigateTo }) => {
 RouteProtector.propTypes = {
   children: PropTypes.node.isRequired,
   equals: PropTypes.bool,
-  navigateTo: PropTypes.string.isRequired,
-};
-
-// default behavior: if the user is authenticated (isAuthenticated === false) returns the children, otherwise navigate to Home
-// if the user is already logged in he can't reach the signup/signin pages
-RouteProtector.defaultProps = {
-  equals: false,
-  navigateTo: "/",
+  navigateTo: PropTypes.string,
 };
 
 export default RouteProtector;

@@ -17,18 +17,17 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const mainListItems = [
-  { key: uuidv4(), text: "Home", icon: <HomeRoundedIcon />, route: "/" },
   {
     key: uuidv4(),
     text: "Dashboard",
     icon: <AnalyticsRoundedIcon />,
-    route: "/",
+    route: "/dashboard",
   },
   {
     key: uuidv4(),
     text: "Contact",
     icon: <AssignmentRoundedIcon />,
-    route: "/contact",
+    route: "/dashboard/contacts",
   },
 ];
 
@@ -37,14 +36,25 @@ const secondaryListItems = [
     key: uuidv4(),
     text: "Settings",
     icon: <SettingsRoundedIcon />,
-    route: "/",
+    route: "/dashboard/settings",
   },
-  { key: uuidv4(), text: "About", icon: <InfoRoundedIcon />, route: "/about" },
+  {
+    key: uuidv4(),
+    text: "About",
+    icon: <InfoRoundedIcon />,
+    route: "/dashboard/about",
+  },
   {
     key: uuidv4(),
     text: "Feedback",
     icon: <HelpRoundedIcon />,
-    route: "/about",
+    route: "/dashboard/feedback",
+  },
+  {
+    key: uuidv4(),
+    text: "S&C Home",
+    icon: <HelpRoundedIcon />,
+    route: "/",
   },
 ];
 

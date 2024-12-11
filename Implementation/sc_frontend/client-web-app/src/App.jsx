@@ -1,6 +1,6 @@
 import { RouterProvider } from "react-router-dom";
 import router from "./routing/routers";
-import { GlobalProvider } from "./globalContext";
+import { GlobalProvider } from "./global/globalContext";
 
 function App() {
   //TODO creare i componenti visivi per testare il codice

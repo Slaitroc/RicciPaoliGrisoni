@@ -1,5 +1,11 @@
 import React, { useContext, useState, useEffect, useCallback } from "react";
-import { fakeFetchUserData, fakeLogin } from "./fake_backend/fakeBackend";
+import { fakeFetchUserData, fakeLogin } from "../fake_backend/fakeBackend";
+import {
+  INIT_ERROR,
+  INIT_IS_AUTHENTICATED,
+  INIT_LOADING,
+  INIT_PROFILE,
+} from "./globalStatesInit";
 
 const GlobalContext = React.createContext();
 
@@ -13,10 +19,10 @@ export const useGlobalContext = () => {
 };
 
 export const GlobalProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(INIT_IS_AUTHENTICATED);
+  const [profile, setProfile] = useState(INIT_PROFILE);
+  const [loading, setLoading] = useState(INIT_LOADING);
+  const [error, setError] = useState(INIT_ERROR);
 
   // #region Context Functions
   const login = useCallback(async (email, password) => {

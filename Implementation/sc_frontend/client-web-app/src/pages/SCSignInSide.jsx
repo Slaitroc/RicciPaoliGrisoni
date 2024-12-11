@@ -3,16 +3,14 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Stack from "@mui/material/Stack";
 import SCSignInCard from "../components/SignIn/SCSIgnInCard";
 import SCContentSignIn from "../components/SignIn/SCContentSignIn";
-import AppTheme from "../components/Shared/SCAppTheme";
+import SCAppTheme from "../components/Shared/SCAppTheme";
 import SCColorModeSelect from "../components/Shared/SCColorModeSelect";
-import SCBackHomeButton from "../components/Home/SCBackHomeButton";
+import SCBackHomeButton from "../components/Dashboard/SCBackHomeButton";
 import { Box } from "@mui/material";
-import { useGlobalContext } from "../globalContext";
-import { useNavigate } from "react-router-dom";
 
 export default function SCSignInSide(props) {
   return (
-    <AppTheme {...props}>
+    <SCAppTheme {...props}>
       <CssBaseline enableColorScheme />
       <SCColorModeSelect
         sx={{ position: "fixed", top: "1rem", right: "1rem" }}
@@ -71,6 +69,6 @@ export default function SCSignInSide(props) {
           </Stack>
         </Stack>
       </Stack>
-    </AppTheme>
+    </SCAppTheme>
   );
 }
