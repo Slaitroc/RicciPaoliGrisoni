@@ -35,16 +35,9 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 export default function SCSignInCard() {
-  const {
-    isAuthenticated,
-    profile,
-    loading,
-    error,
-    login,
-    logout,
-    fetchProfile,
-  } = useGlobalContext();
-
+  // #region
+  const { login } = useGlobalContext();
+  // #endregion
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -94,9 +87,9 @@ export default function SCSignInCard() {
       setPasswordError(false);
       setPasswordErrorMessage("");
     }
-    console.log("eseguo login in seguito a pressione bottone");
+    // #region
     login(email, password);
-
+    // #endregion
     return isValid;
   };
 

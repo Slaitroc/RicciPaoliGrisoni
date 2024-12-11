@@ -7,8 +7,17 @@ import AppTheme from "../components/Shared/SCAppTheme";
 import SCColorModeSelect from "../components/Shared/SCColorModeSelect";
 import SCBackHomeButton from "../components/Home/SCBackHomeButton";
 import { Box } from "@mui/material";
+import { useGlobalContext } from "../globalContext";
+import { useNavigate } from "react-router-dom";
 
 export default function SCSignInSide(props) {
+  // const { isAuthenticated } = useGlobalContext();
+  // const navigate = useNavigate();
+
+  // React.useEffect(() => {
+  //   if (isAuthenticated) navigate("/");
+  // }, [isAuthenticated, navigate]);
+
   return (
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />

@@ -1,10 +1,11 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
-import SCSignInSide from "./pages/SCSignInSide";
-import SCSignUp from "./pages/SCSignUp";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Home from "./pages/Home";
+import RouteProtector from "./RouteProtector";
+import SCSignInSide from "../pages/SCSignInSide";
+import SCSignUp from "../pages/SCSignUp";
+import About from "../pages/About";
+import Contact from "../pages/Contact";
+import Home from "../pages/Home";
 
 // Router Configuration
 const router = createBrowserRouter([
@@ -24,11 +25,19 @@ const router = createBrowserRouter([
   },
   {
     path: "signin",
-    element: <SCSignInSide />, // Sostituisce completamente SCDashboard
+    element: (
+      <RouteProtector>
+        <SCSignInSide />
+      </RouteProtector>
+    ),
   },
   {
     path: "signup",
-    element: <SCSignUp />, // Sostituisce completamente SCDashboard
+    element: (
+      <RouteProtector>
+        <SCSignUp />
+      </RouteProtector>
+    ),
   },
 ]);
 

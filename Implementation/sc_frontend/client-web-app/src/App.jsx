@@ -1,5 +1,5 @@
 import { RouterProvider } from "react-router-dom";
-import router from "./routers";
+import router from "./routing/routers";
 import { GlobalProvider } from "./globalContext";
 
 function App() {
