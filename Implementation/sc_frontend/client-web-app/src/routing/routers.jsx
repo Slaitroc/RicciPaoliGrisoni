@@ -8,8 +8,16 @@ import Contact from "../pages/Contact";
 import Main from "../pages/Main";
 import Dashboard from "../pages/Dashboard";
 import Home from "../pages/Home";
-
-// Router Configuration
+import Settings from "../pages/Settings";
+import Feedback from "../pages/Feedback";
+import CV from "../pages/CV";
+import Overview from "../pages/Overview";
+import Applications from "../pages/Applications";
+import Interviews from "../pages/Interviews";
+import Recommendations from "../pages/Recommandations";
+import Communications from "../pages/Communications";
+import ConfInternships from "../pages/ConfInternships";
+// Router Configurations
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,12 +46,48 @@ const router = createBrowserRouter([
     ),
     children: [
       {
+        path: "",
+        element: <Overview />,
+      },
+      {
         path: "about",
         element: <About />,
       },
       {
         path: "contacts",
         element: <Contact />,
+      },
+      {
+        path: "settings",
+        element: <Settings />,
+      },
+      {
+        path: "feedback",
+        element: <Feedback />,
+      },
+      {
+        path: "cv",
+        element: <CV />,
+      },
+      {
+        path: "applications",
+        element: <Applications />,
+      },
+      {
+        path: "recommendations",
+        element: <Recommendations />,
+      },
+      {
+        path: "interviews",
+        element: <Interviews />,
+      },
+      {
+        path: "confint",
+        element: <ConfInternships />,
+      },
+      {
+        path: "communications",
+        element: <Communications />,
       },
     ],
   },

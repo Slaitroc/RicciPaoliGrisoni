@@ -15,19 +15,56 @@ import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+//ICONS
+import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
+import JoinInnerIcon from "@mui/icons-material/JoinInner";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import SendIcon from "@mui/icons-material/Send";
+import HomeIcon from "@mui/icons-material/Home";
 
 const mainListItems = [
   {
     key: uuidv4(),
-    text: "Dashboard",
-    icon: <AnalyticsRoundedIcon />,
+    text: "Overview",
+    icon: <DashboardIcon />,
     route: "/dashboard",
   },
   {
     key: uuidv4(),
-    text: "Contact",
-    icon: <AssignmentRoundedIcon />,
-    route: "/dashboard/contacts",
+    text: "Cv",
+    icon: <AccountBoxIcon />,
+    route: "/dashboard/cv",
+  },
+  {
+    key: uuidv4(),
+    text: "Spontaneous Applications",
+    icon: <SendIcon />,
+    route: "/dashboard/applications",
+  },
+  {
+    key: uuidv4(),
+    text: "Recommendation Process",
+    icon: <JoinInnerIcon />,
+    route: "/dashboard/recommendations",
+  },
+  {
+    key: uuidv4(),
+    text: "Interviews",
+    icon: <CollectionsBookmarkIcon />,
+    route: "/dashboard/interviews",
+  },
+  {
+    key: uuidv4(),
+    text: "Confirmed Internship",
+    icon: <CollectionsBookmarkIcon />,
+    route: "/dashboard/confint",
+  },
+  {
+    key: uuidv4(),
+    text: "Communications",
+    icon: <CollectionsBookmarkIcon />,
+    route: "/dashboard/communications",
   },
 ];
 
@@ -40,20 +77,8 @@ const secondaryListItems = [
   },
   {
     key: uuidv4(),
-    text: "About",
-    icon: <InfoRoundedIcon />,
-    route: "/dashboard/about",
-  },
-  {
-    key: uuidv4(),
-    text: "Feedback",
-    icon: <HelpRoundedIcon />,
-    route: "/dashboard/feedback",
-  },
-  {
-    key: uuidv4(),
     text: "S&C Home",
-    icon: <HelpRoundedIcon />,
+    icon: <HomeIcon />,
     route: "/",
   },
 ];

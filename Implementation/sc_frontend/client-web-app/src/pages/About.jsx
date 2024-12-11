@@ -1,12 +1,8 @@
 import React from "react";
-import { styled } from "@mui/system";
-
-const StyledAbout = styled("main")(({ theme }) => ({
-  padding: theme.spacing(3),
-}));
+import SCAbout from "../components/About/SCAbout";
 
 const About = () => {
-  return <StyledAbout>About</StyledAbout>;
+  return <SCAbout></SCAbout>;
 };
 
 export default About;

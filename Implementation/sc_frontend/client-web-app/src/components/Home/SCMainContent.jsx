@@ -16,65 +16,60 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import { styled } from "@mui/material/styles";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import RssFeedRoundedIcon from "@mui/icons-material/RssFeedRounded";
+import { v4 as uuidv4 } from "uuid";
 
 const cardData = [
   {
-    img: "https://picsum.photos/800/450?random=1",
-    tag: "Engineering",
-    title: "Revolutionizing software development with cutting-edge tools",
+    key: uuidv4(),
+    image: "https://picsum.photos/800/450?random=1",
+    tag: "UserScenario",
+    title: "Student Sign-up",
     description:
-      "Our latest engineering tools are designed to streamline workflows and boost productivity. Discover how these innovations are transforming the software development landscape.",
-    authors: [
-      { name: "Remy Sharp", avatar: "/static/images/avatar/1.jpg" },
-      { name: "Travis Howard", avatar: "/static/images/avatar/2.jpg" },
-    ],
+      "Mario Rossi is a student that want to improve his ability and education by doing an internship before graduating. He opens the SC platform and select “Student SignUp”. He proved the required personal information such as his name, surname, date of birth, an email, and a password that he will use as login credential. He also select from the list of available university the university he goes to. If the email address has never been used on the site, Mario will receive an email for confirming the mail address and the registration of the account. Once the registration is confirmed by Mario, the account is created. If the email address is already in use, the platform will show an error that ask to insert a new email address.",
   },
   {
-    img: "https://picsum.photos/800/450?random=2",
-    tag: "Product",
-    title: "Innovative product features that drive success",
+    key: uuidv4(),
+    image: "https://picsum.photos/800/450?random=2",
+    tag: "UserScenario",
+    title: "Company Sign-up",
     description:
-      "Explore the key features of our latest product release that are helping businesses achieve their goals. From user-friendly interfaces to robust functionality, learn why our product stands out.",
-    authors: [{ name: "Erica Johns", avatar: "/static/images/avatar/6.jpg" }],
+      "FastRedCar SPA is a world-leading car company that aims to launch an internship program to train new mechanical engineers in their final year of a Bachelor’s or Master’s degree. The company opens the S&C platform and selects “Company SignUp” where they provide the required information such as the company name, company headquarters address, company VAT number, and also an email address and a password that will be used as login credentials.\n\nIf the VAT number has never been used on the site, FastRedCar SPA will receive an email for confirming the mail address and the registration of the account. Once the registration is confirmed, the account is created. If the VAT number is already in use on S&C, an error will be shown indicating that the company already has an account registered on the platform.",
   },
   {
-    img: "https://picsum.photos/800/450?random=3",
-    tag: "Design",
-    title: "Designing for the future: trends and insights",
+    key: uuidv4(),
+    image: "https://picsum.photos/800/450?random=3",
+    tag: "UserScenario",
+    title: "University Sign-up",
     description:
-      "Stay ahead of the curve with the latest design trends and insights. Our design team shares their expertise on creating intuitive and visually stunning user experiences.",
-    authors: [{ name: "Kate Morrison", avatar: "/static/images/avatar/7.jpg" }],
+      "The Technical University of Milan is a prestigious university that wants its students to complete an internship before graduating, believing this experience will enhance their skills and knowledge. The university opens the SC platform and selects “University SignUp” where they provide the required information such as the university name, the university description, the university VAT number, the name of the university office that will manage the internship program, and also an email address and a password that will be used as login credentials.\n\nIf the VAT number has never been used on the site, the Technical University of Milan will receive an email for confirming the mail address and the registration of the account. Once the registration is confirmed, the account is created. If the VAT number is already in use, the platform will show an error indicating the university is already registered on the platform.",
   },
   {
-    img: "https://picsum.photos/800/450?random=4",
-    tag: "Company",
-    title: "Our company's journey: milestones and achievements",
+    key: uuidv4(),
+    image: "https://picsum.photos/800/450?random=45",
+    tag: "UserScenario",
+    title: "User Login",
     description:
-      "Take a look at our company's journey and the milestones we've achieved along the way. From humble beginnings to industry leader, discover our story of growth and success.",
-    authors: [{ name: "Cindy Baker", avatar: "/static/images/avatar/3.jpg" }],
+      "A platform user that has already registered an account can log in by providing the email and password used during the registration. If the email and password are correct, matching an entry in the platform DB, the user is redirected to the platform home page. If the email or password are incorrect, the platform will show an error message indicating that the login credentials are wrong.",
   },
   {
-    img: "https://picsum.photos/800/450?random=45",
-    tag: "Engineering",
-    title: "Pioneering sustainable engineering solutions",
+    key: uuidv4(),
+    image: "https://picsum.photos/800/450?random=6",
+    tag: "UserScenario",
+    title: "Student Load Curriculum",
     description:
-      "Learn about our commitment to sustainability and the innovative engineering solutions we're implementing to create a greener future. Discover the impact of our eco-friendly initiatives.",
-    authors: [
-      { name: "Agnes Walker", avatar: "/static/images/avatar/4.jpg" },
-      { name: "Trevor Henderson", avatar: "/static/images/avatar/5.jpg" },
-    ],
+      "Stefano is a student who has already registered an account on SC and wants to complete his profile by uploading his CV. From the platform’s homepage, he clicks on the “Upload CV” button. He is then redirected to a page where he can enter his curriculum information, including his current level of education, languages he knows, technical skills, and, optionally, details about past work experience along with contact information for previous employers. He also adds a photo of himself, a brief description of his interests and hobbies and, as soon as he clicks on the “Submit CV” button, the platform elaborates it and tries to find some matching internships based on the given information.\n\nA list of five different internships, for which Stefano is a match, is shown to the student in the platform’s homepage where he can decide to apply for one of them, notifying the company. While computing the matching, the platform also provides Stefano with some suggestions on how to improve his CV and matching probability, based on a grammar and lexical analysis and a direct comparison of Stefano’s CV with other similar candidates.",
   },
   {
-    img: "https://picsum.photos/800/450?random=6",
-    tag: "Product",
-    title: "Maximizing efficiency with our latest product updates",
+    key: uuidv4(),
+    image: "https://picsum.photos/800/450?random=4",
+    tag: "UserScenario",
+    title: "Company Submit an Internship Insertion",
     description:
-      "Our recent product updates are designed to help you maximize efficiency and achieve more. Get a detailed overview of the new features and improvements that can elevate your workflow.",
-    authors: [{ name: "Travis Howard", avatar: "/static/images/avatar/2.jpg" }],
+      "AnanasPhone is a major tech company, specialized in the production of smartphones and tablets, that has an account on the S&C site. The company wants to create an internship program aimed at software engineering students in their final year of a Master’s degree. A Human Resource employee opens the S&C platform and selects “My Internship” where a list of all the internships already present on S&C is shown. Here, they click on “Insert Internship” where they provide the required information such as the internship title, the internship description, the start date and duration, the office address, a list of the required skills students need to have in order to be considered for the internship, and possibly, a list of benefits offered to the future intern.Once the internship is created, by clicking on the “Submit Internship” button, the platform starts the recommendation process to match the internship with all the students compatible with such an opportunity, based on the given information of both parties. The platform will also provide AnanasPhone with some suggestions on how to improve the internship description and matching probability, based on grammar and lexical analyses and a direct comparison of AnanasPhone’s internship proposal with other similar companies.",
   },
 ];
 
-const SyledCard = styled(Card)(({ theme }) => ({
+const StyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   padding: 0,
@@ -91,7 +86,7 @@ const SyledCard = styled(Card)(({ theme }) => ({
   },
 }));
 
-const SyledCardContent = styled(CardContent)({
+const StyledCardContent = styled(CardContent)({
   display: "flex",
   flexDirection: "column",
   gap: 4,
@@ -186,12 +181,12 @@ export default function MainContent() {
     setFocusedCardIndex(index);
   };
 
-  const handleBlur = () => {
-    setFocusedCardIndex(null);
+  const handleBlur = (index) => {
+    setFocusedCardIndex(index);
   };
 
   const handleClick = () => {
-    console.info("You clicked the filter chip.");
+    // console.info("You clicked the filter chip.");
   };
 
   return (
@@ -202,7 +197,7 @@ export default function MainContent() {
         </Typography>
         <Typography>Stay in the loop with the latest news</Typography>
       </div>
-      <Box
+      {/* <Box
         sx={{
           display: { xs: "flex", sm: "none" },
           flexDirection: "row",
@@ -212,11 +207,8 @@ export default function MainContent() {
         }}
       >
         <Search />
-        <IconButton size="small" aria-label="RSS feed">
-          <RssFeedRoundedIcon />
-        </IconButton>
-      </Box>
-      <Box
+      </Box> */}
+      {/* <Box
         sx={{
           display: "flex",
           flexDirection: { xs: "column-reverse", md: "row" },
@@ -282,236 +274,52 @@ export default function MainContent() {
             overflow: "auto",
           }}
         >
-          {/* <Search /> */}
-          {/* <IconButton size="small" aria-label="RSS feed">
+          <Search />
+          <IconButton size="small" aria-label="RSS feed">
             <RssFeedRoundedIcon />
-          </IconButton> */}
+          </IconButton>
         </Box>
-      </Box>
+      </Box> */}
       <Grid container spacing={2} columns={12}>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <SyledCard
-            variant="outlined"
-            onFocus={() => handleFocus(0)}
-            onBlur={handleBlur}
-            tabIndex={0}
-            className={focusedCardIndex === 0 ? "Mui-focused" : ""}
-          >
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              image={cardData[0].img}
-              sx={{
-                aspectRatio: "16 / 9",
-                borderBottom: "1px solid",
-                borderColor: "divider",
-              }}
-            />
-            <SyledCardContent>
-              <Typography gutterBottom variant="caption" component="div">
-                {cardData[0].tag}
-              </Typography>
-              <Typography gutterBottom variant="h6" component="div">
-                {cardData[0].title}
-              </Typography>
-              <StyledTypography
-                variant="body2"
-                color="text.secondary"
-                gutterBottom
+        {cardData.map((t, index) => {
+          return (
+            <Grid key={t.key} size={{ xs: 12, md: 6 }}>
+              <StyledCard
+                variant="outlined"
+                onFocus={() => handleFocus(t.key)}
+                onBlur={() => handleBlur(t.key)}
+                tabIndex={index}
+                className={focusedCardIndex === t.key ? "Mui-focused" : ""}
               >
-                {cardData[0].description}
-              </StyledTypography>
-            </SyledCardContent>
-            <Author authors={cardData[0].authors} />
-          </SyledCard>
-        </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
-          <SyledCard
-            variant="outlined"
-            onFocus={() => handleFocus(1)}
-            onBlur={handleBlur}
-            tabIndex={0}
-            className={focusedCardIndex === 1 ? "Mui-focused" : ""}
-          >
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              image={cardData[1].img}
-              aspect-ratio="16 / 9"
-              sx={{
-                borderBottom: "1px solid",
-                borderColor: "divider",
-              }}
-            />
-            <SyledCardContent>
-              <Typography gutterBottom variant="caption" component="div">
-                {cardData[1].tag}
-              </Typography>
-              <Typography gutterBottom variant="h6" component="div">
-                {cardData[1].title}
-              </Typography>
-              <StyledTypography
-                variant="body2"
-                color="text.secondary"
-                gutterBottom
-              >
-                {cardData[1].description}
-              </StyledTypography>
-            </SyledCardContent>
-            <Author authors={cardData[1].authors} />
-          </SyledCard>
-        </Grid>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <SyledCard
-            variant="outlined"
-            onFocus={() => handleFocus(2)}
-            onBlur={handleBlur}
-            tabIndex={0}
-            className={focusedCardIndex === 2 ? "Mui-focused" : ""}
-            sx={{ height: "100%" }}
-          >
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              image={cardData[2].img}
-              sx={{
-                height: { sm: "auto", md: "50%" },
-                aspectRatio: { sm: "16 / 9", md: "" },
-              }}
-            />
-            <SyledCardContent>
-              <Typography gutterBottom variant="caption" component="div">
-                {cardData[2].tag}
-              </Typography>
-              <Typography gutterBottom variant="h6" component="div">
-                {cardData[2].title}
-              </Typography>
-              <StyledTypography
-                variant="body2"
-                color="text.secondary"
-                gutterBottom
-              >
-                {cardData[2].description}
-              </StyledTypography>
-            </SyledCardContent>
-            <Author authors={cardData[2].authors} />
-          </SyledCard>
-        </Grid>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-              height: "100%",
-            }}
-          >
-            <SyledCard
-              variant="outlined"
-              onFocus={() => handleFocus(3)}
-              onBlur={handleBlur}
-              tabIndex={0}
-              className={focusedCardIndex === 3 ? "Mui-focused" : ""}
-              sx={{ height: "100%" }}
-            >
-              <SyledCardContent
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  height: "100%",
-                }}
-              >
-                <div>
+                <CardMedia
+                  component="img"
+                  alt="green iguana"
+                  image={t.image}
+                  sx={{
+                    aspectRatio: "16 / 9",
+                    borderBottom: "1px solid",
+                    borderColor: "divider",
+                  }}
+                />
+                <StyledCardContent>
                   <Typography gutterBottom variant="caption" component="div">
-                    {cardData[3].tag}
+                    {t.tag}
                   </Typography>
                   <Typography gutterBottom variant="h6" component="div">
-                    {cardData[3].title}
+                    {t.title}
                   </Typography>
                   <StyledTypography
                     variant="body2"
                     color="text.secondary"
                     gutterBottom
                   >
-                    {cardData[3].description}
+                    {t.description}
                   </StyledTypography>
-                </div>
-              </SyledCardContent>
-              <Author authors={cardData[3].authors} />
-            </SyledCard>
-            <SyledCard
-              variant="outlined"
-              onFocus={() => handleFocus(4)}
-              onBlur={handleBlur}
-              tabIndex={0}
-              className={focusedCardIndex === 4 ? "Mui-focused" : ""}
-              sx={{ height: "100%" }}
-            >
-              <SyledCardContent
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  height: "100%",
-                }}
-              >
-                <div>
-                  <Typography gutterBottom variant="caption" component="div">
-                    {cardData[4].tag}
-                  </Typography>
-                  <Typography gutterBottom variant="h6" component="div">
-                    {cardData[4].title}
-                  </Typography>
-                  <StyledTypography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                  >
-                    {cardData[4].description}
-                  </StyledTypography>
-                </div>
-              </SyledCardContent>
-              <Author authors={cardData[4].authors} />
-            </SyledCard>
-          </Box>
-        </Grid>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <SyledCard
-            variant="outlined"
-            onFocus={() => handleFocus(5)}
-            onBlur={handleBlur}
-            tabIndex={0}
-            className={focusedCardIndex === 5 ? "Mui-focused" : ""}
-            sx={{ height: "100%" }}
-          >
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              image={cardData[5].img}
-              sx={{
-                height: { sm: "auto", md: "50%" },
-                aspectRatio: { sm: "16 / 9", md: "" },
-              }}
-            />
-            <SyledCardContent>
-              <Typography gutterBottom variant="caption" component="div">
-                {cardData[5].tag}
-              </Typography>
-              <Typography gutterBottom variant="h6" component="div">
-                {cardData[5].title}
-              </Typography>
-              <StyledTypography
-                variant="body2"
-                color="text.secondary"
-                gutterBottom
-              >
-                {cardData[5].description}
-              </StyledTypography>
-            </SyledCardContent>
-            <Author authors={cardData[5].authors} />
-          </SyledCard>
-        </Grid>
+                </StyledCardContent>
+              </StyledCard>
+            </Grid>
+          );
+        })}
       </Grid>
     </Box>
   );
