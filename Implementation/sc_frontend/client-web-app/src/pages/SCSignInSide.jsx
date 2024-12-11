@@ -11,13 +11,6 @@ import { useGlobalContext } from "../globalContext";
 import { useNavigate } from "react-router-dom";
 
 export default function SCSignInSide(props) {
-  // const { isAuthenticated } = useGlobalContext();
-  // const navigate = useNavigate();
-
-  // React.useEffect(() => {
-  //   if (isAuthenticated) navigate("/");
-  // }, [isAuthenticated, navigate]);
-
   return (
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
