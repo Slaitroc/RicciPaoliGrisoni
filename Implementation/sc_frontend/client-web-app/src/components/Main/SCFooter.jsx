@@ -40,7 +40,7 @@ export default function Footer() {
           textAlign: { sm: "center", md: "left" },
         }}
       >
-        <Box
+        {/* <Box
           sx={{
             display: "flex",
             flexDirection: { xs: "column", sm: "row" },
@@ -57,7 +57,6 @@ export default function Footer() {
             }}
           >
             <Box sx={{ width: { xs: "100%", sm: "60%" } }}>
-              {/* <SitemarkIcon /> */}
               <Typography
                 variant="body2"
                 gutterBottom
@@ -166,7 +165,7 @@ export default function Footer() {
               Contact
             </Link>
           </Box>
-        </Box>
+        </Box> */}
         <Box
           sx={{
             display: "flex",

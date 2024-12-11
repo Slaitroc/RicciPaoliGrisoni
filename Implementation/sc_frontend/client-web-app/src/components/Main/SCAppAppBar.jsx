@@ -13,6 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import SCColorModeIconDropdown from "../Shared/SCColorModeIconDropdown";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
@@ -29,6 +30,25 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   boxShadow: (theme.vars || theme).shadows[1],
   padding: "8px 12px",
 }));
+
+const menuElements = [
+  { key: uuidv4(), text: "Home", handleOnClick: (navigate) => navigate("/") },
+  {
+    key: uuidv4(),
+    text: "Dashboard",
+    handleOnClick: (navigate) => navigate("/dashboard"),
+  },
+  {
+    key: uuidv4(),
+    text: "About",
+    handleOnClick: (navigate) => navigate("/about"),
+  },
+  {
+    key: uuidv4(),
+    text: "Contacts",
+    handleOnClick: (navigate) => navigate("/contacts"),
+  },
+];
 
 export default function AppAppBar() {
   const navigate = useNavigate();
@@ -56,38 +76,19 @@ export default function AppAppBar() {
           >
             {/* <Sitemark /> */}
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              <Button
-                onClick={() => navigate("/")}
-                variant="text"
-                color="info"
-                size="small"
-              >
-                Home
-              </Button>
-              <Button
-                onClick={() => navigate("/dashboard")}
-                variant="text"
-                color="info"
-                size="small"
-              >
-                Dashboard
-              </Button>
-              <Button
-                onClick={() => navigate("/about")}
-                variant="text"
-                color="info"
-                size="small"
-              >
-                About
-              </Button>
-              <Button
-                onClick={() => navigate("/contacts")}
-                variant="text"
-                color="info"
-                size="small"
-              >
-                Contacts
-              </Button>
+              {menuElements.map((e) => {
+                return (
+                  <Button
+                    key={e.key}
+                    onClick={() => e.handleOnClick(navigate)}
+                    variant="text"
+                    color="info"
+                    size="small"
+                  >
+                    {e.text}
+                  </Button>
+                );
+              })}
             </Box>
           </Box>
           <Box
@@ -141,20 +142,37 @@ export default function AppAppBar() {
                     <CloseRoundedIcon />
                   </IconButton>
                 </Box>
-                <MenuItem>Features</MenuItem>
-                <MenuItem>Testimonials</MenuItem>
-                <MenuItem>Highlights</MenuItem>
-                <MenuItem>Pricing</MenuItem>
-                <MenuItem>FAQ</MenuItem>
-                <MenuItem>Blog</MenuItem>
+                {menuElements.map((e) => {
+                  return (
+                    <MenuItem
+                      key={e.key}
+                      onClick={() => {
+                        toggleDrawer(false)();
+                        e.handleOnClick(navigate);
+                      }}
+                    >
+                      {e.text}
+                    </MenuItem>
+                  );
+                })}
                 <Divider sx={{ my: 3 }} />
                 <MenuItem>
-                  <Button color="primary" variant="contained" fullWidth>
+                  <Button
+                    onClick={() => navigate("/signup")}
+                    color="primary"
+                    variant="contained"
+                    fullWidth
+                  >
                     Sign up
                   </Button>
                 </MenuItem>
                 <MenuItem>
-                  <Button color="primary" variant="outlined" fullWidth>
+                  <Button
+                    onClick={() => navigate("/signin")}
+                    color="primary"
+                    variant="outlined"
+                    fullWidth
+                  >
                     Sign in
                   </Button>
                 </MenuItem>
