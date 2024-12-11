@@ -21,6 +21,7 @@ import {
 } from "../components/Shared/SCCustomIcons";
 import SCColorModeSelect from "../components/Shared/SCColorModeSelect";
 import SCBackHomeButton from "../components/Dashboard/SCBackHomeButton";
+import { useNavigate } from "react-router-dom";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -69,6 +70,8 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SCSignUp(props) {
+  const navigate = useNavigate();
+
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -213,26 +216,12 @@ export default function SCSignUp(props) {
             <Typography sx={{ color: "text.secondary" }}>or</Typography>
           </Divider>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => alert("Sign up with Google")}
-              startIcon={<GoogleIcon />}
-            >
-              Sign up with Google
-            </Button>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => alert("Sign up with Facebook")}
-              startIcon={<FacebookIcon />}
-            >
-              Sign up with Facebook
-            </Button>
             <Typography sx={{ textAlign: "center" }}>
               Already have an account?{" "}
               <Link
-                href="/material-ui/getting-started/templates/sign-in/"
+                onClick={() => {
+                  navigate("/signin");
+                }}
                 variant="body2"
                 sx={{ alignSelf: "center" }}
               >

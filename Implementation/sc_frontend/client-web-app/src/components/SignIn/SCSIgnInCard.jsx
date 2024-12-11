@@ -15,6 +15,7 @@ import { SitemarkIcon } from "../Templates/sign-in-side/CustomIcons";
 
 import SCSelectLogin from "./SCSelectLogin";
 import { useGlobalContext } from "../../global/globalContext";
+import { useNavigate } from "react-router-dom";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -37,6 +38,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 export default function SCSignInCard() {
   // #region
   const { login } = useGlobalContext();
+  const navigate = useNavigate();
   // #endregion
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
@@ -185,7 +187,9 @@ export default function SCSignInCard() {
           Don&apos;t have an account?{" "}
           <span>
             <Link
-              href="/material-ui/getting-started/templates/sign-in/"
+              onClick={() => {
+                navigate("/signup");
+              }}
               variant="body2"
               sx={{ alignSelf: "center" }}
             >
