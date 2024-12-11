@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from "uuid";
 const cardData = [
   {
     key: uuidv4(),
-    image: "https://picsum.photos/800/450?random=400",
+    image: "https://picsum.photos/800/450?random=654",
     tag: "Feedback",
     title: "Internship",
     description: "",

@@ -22,6 +22,8 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import SendIcon from "@mui/icons-material/Send";
 import HomeIcon from "@mui/icons-material/Home";
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import InboxIcon from "@mui/icons-material/Inbox";
 
 const mainListItems = [
   {
@@ -35,6 +37,18 @@ const mainListItems = [
     text: "Cv",
     icon: <AccountBoxIcon />,
     route: "/dashboard/cv",
+  },
+  {
+    key: uuidv4(),
+    text: "University",
+    icon: <AccountBoxIcon />,
+    route: "/dashboard/university",
+  },
+  {
+    key: uuidv4(),
+    text: "Internship Offers",
+    icon: <AccountBoxIcon />,
+    route: "/dashboard/internship-offers",
   },
   {
     key: uuidv4(),
@@ -57,13 +71,13 @@ const mainListItems = [
   {
     key: uuidv4(),
     text: "Confirmed Internship",
-    icon: <CollectionsBookmarkIcon />,
-    route: "/dashboard/confint",
+    icon: <ApartmentIcon />,
+    route: "/dashboard/confirmed-internships",
   },
   {
     key: uuidv4(),
     text: "Communications",
-    icon: <CollectionsBookmarkIcon />,
+    icon: <InboxIcon />,
     route: "/dashboard/communications",
   },
 ];

@@ -17,6 +17,8 @@ import Interviews from "../pages/Interviews";
 import Recommendations from "../pages/Recommandations";
 import Communications from "../pages/Communications";
 import ConfInternships from "../pages/ConfInternships";
+import University from "../pages/University";
+import InternshipOffers from "../pages/InternshipOffers";
 // Router Configurations
 const router = createBrowserRouter([
   {
@@ -70,6 +72,14 @@ const router = createBrowserRouter([
         element: <CV />,
       },
       {
+        path: "university",
+        element: <University />,
+      },
+      {
+        path: "internship-offers",
+        element: <InternshipOffers />,
+      },
+      {
         path: "applications",
         element: <Applications />,
       },
@@ -82,7 +92,7 @@ const router = createBrowserRouter([
         element: <Interviews />,
       },
       {
-        path: "confint",
+        path: "confirmed-internships",
         element: <ConfInternships />,
       },
       {

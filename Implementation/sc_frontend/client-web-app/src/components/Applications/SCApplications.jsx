@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from "uuid";
 const cardData = [
   {
     key: uuidv4(),
-    image: "https://picsum.photos/800/450?random=423",
+    image: "https://picsum.photos/800/450?random=5235",
     tag: "Feedback",
     title: "Send Feedback",
     description: "",
@@ -79,7 +79,7 @@ export function Search() {
   );
 }
 
-export default function SCCv() {
+export default function SCApplications() {
   const [focusedCardIndex, setFocusedCardIndex] = React.useState(null);
 
   const handleFocus = (index) => {
@@ -98,7 +98,7 @@ export default function SCCv() {
     <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
       <div>
         <Typography variant="h1" gutterBottom>
-          Curriculum Vitae
+          Spontaneous Applications
         </Typography>
       </div>
       <Grid container spacing={2} columns={12}>
