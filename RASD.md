@@ -440,16 +440,100 @@ Given the system's non-essential nature, overly rigid performance standards are 
 ## 3.2.2 Use Cases
 
 ### RegisterStudent
+**Actors:**  Student, Email Provider
+
+**Entry Conditions:** The user is not logged in
+
+**Flow of Events:** 
+1. The student selects the "Sign up" option.
+2. The Platform open the sign-up page.
+3. The student selects the "Student" option, provides the required information (name, surname, date of birth, institutional email, optionally personal email, password, University name among those available) and click the "Sign Up" button.
+4. The system validates the email and checks if it is unique.
+5. S&C registers the Student and send a confirmation email to the provided email address through the Email Provider.
+6. The Student confirms the registration by clicking on the link in the email.
+7. The Platform confirms the registration and activates the account.
+8. The Student is redirected to the platform's homepage.
+
+**Exit Conditions:** The Student is registered and logged in.
+
+**Exceptions:** 
+- The Student provides incorrect information
+- The Email Provider fails to send the confirmation email
+- The Student does not confirm the registration
+- The email is already in use
+
 ### RegisterCompany
+**Actors:**  Company, Email Provider
+
+**Entry Conditions:** The user is not logged in
+
+**Flow of Events:**
+1. The company selects the "Sign up" option.
+2. The Platform open the sign-up page.
+3. The company selects the "Company" option, provides the required information (Company name, Company headquarters address, VAT number, email and password) and click the "Sign Up" button.
+4. S&C sends a confirmation email to the provided email address through the Email Provider.
+5. The Company confirms the registration by clicking on the link in the email.
+6. The system validates the VAT number and checks if it is unique.
+7. The Platform confirms the registration and activates the account.
+8. The Company is redirected to the platform's homepage.
+
+**Exit Conditions:** The Company is registered and logged in.
+
+**Exceptions:** 
+- The Company provides incorrect information
+- The Email Provider fails to send the confirmation email 
+- The Company does not confirm the registration 
+- The VAT number is already in use
+
 ### RegisterUniversity
+**Actors:**  Company, Email Provider
+
+**Entry Conditions:** The user is not logged in
+
+**Flow of Events:**
+1. The university selects the "Sign up" option.
+2. The Platform open the sign-up page.
+3. The university selects the "University" option, provides the required information (University Name, University description, 
+VAT number, name of the University office that will manage the internship program, email and password) and click the "Sign Up" button.
+4. S&C sends a confirmation email to the provided email address through the Email Provider.
+5. The Company confirms the registration by clicking on the link in the email.
+6. The system validates the VAT number and checks if it is unique.
+7. The Platform confirms the registration and activates the account.
+8. The University is redirected to the platform's homepage.
+
+**Exit Conditions:** The University is registered and logged in.
+
+**Exceptions:** 
+- The University provides incorrect information
+- The Email Provider fails to send the confirmation email
+- The University does not confirm the registration
+- The VAT number is already in use
+
 ### LoginUser
+**Actors:**  User
+
+**Entry Conditions:** The user is not logged in
+
+**Flow of Events:**
+1. The User selects the "Sign in" option.
+2. The Platform open the sign-in page.
+3. The user provides their email and password.
+4. The system validates the credentials.
+5. The system confirms the credentials and logs in the User.
+6. The User is redirected to the platform's homepage.
+
+**Exit Conditions:** The User is logged in.
+
+**Exceptions:**
+- The User provides incorrect email or password
+
 ### LoadCurriculum
 ### AdvertiseInternships
 ### SpontaneousApplication
 ### AcceptMatch
 ### (SuggestionMechanism)
 ### AssignInterview
-
+<!-- [(2h) Matteo] -->
 
 ## 3.2.4 Requirements Mapping
 
