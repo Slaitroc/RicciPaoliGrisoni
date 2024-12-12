@@ -2,7 +2,7 @@ import * as React from "react";
 import Stack from "@mui/material/Stack";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import SCNavbarBreadcrumbs from "./SCNavbarBreadcrumbs";
-import SCUserOptionsMenu from "./SCUserOptionsMenu";
+import SCAvatarOptionsMenu from "../Shared/OptionMenu/SCAvatarOptionsMenu";
 
 import SCMenuButton from "./SCMenuButton";
 import SCColorModeIconDropdown from "./SCColorModeIconDropdown";
@@ -27,7 +27,7 @@ export default function SCHeader() {
         <SCMenuButton showBadge aria-label="Open notifications">
           <NotificationsRoundedIcon />
         </SCMenuButton>
-        <SCUserOptionsMenu />
+        <SCAvatarOptionsMenu />
       </Stack>
     </Stack>
   );

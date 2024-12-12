@@ -8,14 +8,14 @@ import { listClasses } from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import { useGlobalContext } from "../../global/globalContext";
+import { useGlobalContext } from "../../../global/globalContext";
 import { useNavigate } from "react-router-dom";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0",
 });
 
-const SCOptionMenuItems = ({ anchorEl, handleClose, open }) => {
+const SCUserItems = ({ anchorEl, handleClose, open }) => {
   const { logout } = useGlobalContext();
   const navigate = useNavigate();
 
@@ -78,4 +78,4 @@ const SCOptionMenuItems = ({ anchorEl, handleClose, open }) => {
   );
 };
 
-export default SCOptionMenuItems;
+export default SCUserItems;

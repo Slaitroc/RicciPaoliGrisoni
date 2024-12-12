@@ -1,9 +1,9 @@
 import * as React from "react";
 
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
-import MenuButton from "../Templates/dashboard/components/MenuButton";
-import { useGlobalContext } from "../../global/globalContext";
-import SCOptionMenuItems from "./SCOptionMenuItems";
+import MenuButton from "../../Templates/dashboard/components/MenuButton";
+import { useGlobalContext } from "../../../global/globalContext";
+import SCUserItems from "./SCUserItems";
 
 export default function SCOptionsMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -23,7 +23,7 @@ export default function SCOptionsMenu() {
       >
         <MoreVertRoundedIcon />
       </MenuButton>
-      <SCOptionMenuItems
+      <SCUserItems
         handleClose={handleClose}
         anchorEl={anchorEl}
         open={open}

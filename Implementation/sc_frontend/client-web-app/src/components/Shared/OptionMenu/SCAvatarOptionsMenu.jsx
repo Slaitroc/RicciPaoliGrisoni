@@ -9,15 +9,15 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
-import MenuButton from "../Templates/dashboard/components/MenuButton";
+import MenuButton from "../../Templates/dashboard/components/MenuButton";
 import Avatar from "@mui/material/Avatar";
-import SCOptionMenuItems from "./SCOptionMenuItems";
+import SCUserItems from "./SCUserItems";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0",
 });
 
-export default function SCUserOptionsMenu() {
+export default function SCAvatarOptionsMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -40,11 +40,7 @@ export default function SCUserOptionsMenu() {
           sx={{ width: 36, height: 36 }}
         />
       </MenuButton>
-      <SCOptionMenuItems
-        open={open}
-        anchorEl={anchorEl}
-        handleClose={handleClose}
-      />
+      <SCUserItems open={open} anchorEl={anchorEl} handleClose={handleClose} />
     </React.Fragment>
   );
 }

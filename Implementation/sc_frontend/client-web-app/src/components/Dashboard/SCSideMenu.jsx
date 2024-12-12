@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import SCMenuContent from "./SCMenuContent";
-import SCOptionsMenu from "./SCOptionsMenu";
+import SCOptionsMenu from "../Shared/OptionMenu/SCOptionsMenu";
 
 const drawerWidth = 240;
 

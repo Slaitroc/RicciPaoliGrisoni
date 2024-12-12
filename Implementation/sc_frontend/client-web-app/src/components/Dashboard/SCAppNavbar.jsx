@@ -13,7 +13,7 @@ import SCMenuButton from "./SCMenuButton";
 import SCColorModeIconDropdown from "./SCColorModeIconDropdown";
 import { TEXT } from "../../constants/UIConstants";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
-import SCUserOptionsMenu from "./SCUserOptionsMenu";
+import SCAvatarOptionsMenu from "../Shared/OptionMenu/SCAvatarOptionsMenu";
 
 const Toolbar = styled(MuiToolbar)({
   width: "100%",
@@ -84,7 +84,7 @@ export default function SCAppNavbar() {
           <SCMenuButton showBadge={false}>
             <NotificationsRoundedIcon />
           </SCMenuButton>
-          <SCUserOptionsMenu />
+          <SCAvatarOptionsMenu />
         </Stack>
       </Toolbar>
     </AppBar>
