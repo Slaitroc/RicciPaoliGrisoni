@@ -7,9 +7,9 @@ import { paperClasses } from "@mui/material/Paper";
 import { listClasses } from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import { useGlobalContext } from "../../../global/globalContext";
 import { useNavigate } from "react-router-dom";
+import * as SCIcons from "../../Shared/SCIcons";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0",
@@ -71,7 +71,7 @@ const SCUserItems = ({ anchorEl, handleClose, open }) => {
       >
         <ListItemText>Logout</ListItemText>
         <ListItemIcon>
-          <LogoutRoundedIcon fontSize="small" />
+          <SCIcons.SCLogoutRoundedIcon fontSize="small" />
         </ListItemIcon>
       </MenuItem>
     </Menu>

@@ -10,6 +10,7 @@ import DevicesRoundedIcon from "@mui/icons-material/DevicesRounded";
 import SmartphoneRoundedIcon from "@mui/icons-material/SmartphoneRounded";
 import FormControl from "@mui/material/FormControl";
 import { InputLabel } from "@mui/material";
+import { useGlobalContext } from "../../global/globalContext";
 
 const Avatar = styled(MuiAvatar)(({ theme }) => ({
   width: 28,
@@ -25,11 +26,39 @@ const ListItemAvatar = styled(MuiListItemAvatar)({
 });
 
 export default function SCSelectLogin() {
-  const [login, setLogin] = React.useState("");
-
+  const [login, setLogin] = React.useState("10");
+  const { setUserType } = useGlobalContext();
   const handleChange = (event) => {
-    setLogin(event.target.value);
+    const selectedValue = event.target.value;
+    const selectedType = options.find(
+      (option) => option.value === selectedValue
+    )?.type;
+    if (selectedType) {
+      setUserType(selectedType);
+    }
+    setLogin(selectedValue);
   };
+
+  const options = [
+    {
+      value: "",
+      label: "Company Login",
+      icon: <DevicesRoundedIcon />,
+      type: "company",
+    },
+    {
+      value: 10,
+      label: "Student Login",
+      icon: <SmartphoneRoundedIcon />,
+      type: "student",
+    },
+    {
+      value: 20,
+      label: "University Login",
+      icon: <DevicesRoundedIcon />,
+      type: "university",
+    },
+  ];
 
   return (
     <>
@@ -69,30 +98,14 @@ export default function SCSelectLogin() {
           }}
         >
           <ListSubheader sx={{ pt: 0 }}>Select Login</ListSubheader>
-          <MenuItem value="">
-            <ListItemAvatar>
-              <Avatar alt="Sitemark web">
-                <DevicesRoundedIcon sx={{ fontSize: "1rem" }} />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Company Login" />
-          </MenuItem>
-          <MenuItem value={10}>
-            <ListItemAvatar>
-              <Avatar alt="Sitemark App">
-                <SmartphoneRoundedIcon sx={{ fontSize: "1rem" }} />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Student Login" />
-          </MenuItem>
-          <MenuItem value={20}>
-            <ListItemAvatar>
-              <Avatar alt="Sitemark Store">
-                <DevicesRoundedIcon sx={{ fontSize: "1rem" }} />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="University Login" />
-          </MenuItem>
+          {options.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              <ListItemAvatar>
+                <Avatar alt={option.label}>{option.icon}</Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={option.label} />
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </>
