@@ -174,7 +174,7 @@ This section provides a high-level description of the Student&Company platform, 
    If the VAT number is already in use on S&C an error will be shown indicating that the company already has an account registered on the platform.
 
 3. **University Sign-up**
-   The Technical University of Milan is a prestigious university that wants his students to complete an internship before graduating, believing this experience will enhance their skills and knowledge. The university opens the SC platform and selects “University SignUp” where they provide the required information such as the university name, the university description, the university VAT number, the name of the university office that will manage the internship program and also an email address and a password that will be used as login credential.\\
+   The Technical University of Milan is a prestigious university that wants his students to complete an internship before graduating, believing this experience will enhance their skills and knowledge. The university opens the SC platform and selects “University SignUp” where they provide the required information such as the university name, the university description, the university VAT number, the email of the university office that will manage the internship program and a password that will be used as login credential.\\
    If the VAT number has never been used on the site, the Technical University of Milan will receive an email for confirming the mail address and the registration of the account. Once the registration is confirmed, the account is created.
    If the VAT number is already in use, the platform will show an error indicating the university is already registered on the platform.
 
@@ -449,7 +449,7 @@ Given the system's non-essential nature, overly rigid performance standards are 
 2. The platform open the sign-up page.
 3. The student selects the "Student" option, provides the required information (name, surname, date of birth, institutional email, optionally personal email, password, University name among those available) and click the "Sign Up" button.
 4. The platform validates the email and checks if it is unique.
-5. S&C registers the Student and send a confirmation email to the provided email address through the Email Provider.
+5. The platform registers the Student and send a confirmation email to the provided email address through the Email Provider.
 6. The Student confirms the registration by clicking on the link in the email.
 7. The platform confirms the registration and activates the account.
 8. The Student is redirected to the platform's homepage.
@@ -471,7 +471,7 @@ Given the system's non-essential nature, overly rigid performance standards are 
 1. The company selects the "Sign up" option.
 2. The platform open the sign-up page.
 3. The company selects the "Company" option, provides the required information (Company name, Company headquarters address, VAT number, email and password) and click the "Sign Up" button.
-4. S&C sends a confirmation email to the provided email address through the Email Provider.
+4. The platform sends a confirmation email to the provided email address through the Email Provider.
 5. The Company confirms the registration by clicking on the link in the email.
 6. The platform validates the VAT number and checks if it is unique.
 7. The platform confirms the registration and activates the account.
@@ -493,9 +493,8 @@ Given the system's non-essential nature, overly rigid performance standards are 
 **Flow of Events:**
 1. The university selects the "Sign up" option.
 2. The platform open the sign-up page.
-3. The university selects the "University" option, provides the required information (University Name, University description, 
-VAT number, name of the University office that will manage the internship program, email and password) and click the "Sign Up" button.
-4. S&C sends a confirmation email to the provided email address through the Email Provider.
+3. The university selects the "University" option, provides the required information (University Name, University description, VAT number, email of the University office that will manage the internship program, and password) and click the "Sign Up" button.
+4. The platform sends a confirmation email to the provided email address through the Email Provider.
 5. The platform confirms the registration by clicking on the link in the email.
 6. The platform validates the VAT number and checks if it is unique.
 7. The platform confirms the registration and activates the account.
@@ -635,7 +634,10 @@ VAT number, name of the University office that will manage the internship progra
 - The Company tries to submit an empty Interview.
 - The Company exits the page before submitting the Interview.
 
-<!-- [(5h) Matteo] -->
+### PublishComplaint
+### HandleComplaint
+### TerminateInternship
+<!-- [(6h) Matteo] -->
 
 ## 3.2.4 Requirements Mapping
 
