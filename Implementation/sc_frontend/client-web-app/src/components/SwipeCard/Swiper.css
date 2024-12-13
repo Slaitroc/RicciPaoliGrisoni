@@ -1,0 +1,24 @@
+.mainContainer{
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* center items horizontally wrt main direction */
+    align-items: center; /* center items vertically wrt column (x)*/
+    padding: 3rem 0; /*3rem top and bottom, 0 left and right, internal margins*/
+}
+
+.cardContainer{
+    width: 40vh; /* 40% of the viewport height vh*/
+    height: 60vh;
+    background-color: rgb(255, 0, 0);
+    position: relative;
+}
+
+.swipeableCard{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 255, 0);
+    position: absolute;
+}

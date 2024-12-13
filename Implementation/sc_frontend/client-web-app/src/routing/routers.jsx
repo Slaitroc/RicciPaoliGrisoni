@@ -21,6 +21,7 @@ import University from "../pages/University";
 import InternshipOffers from "../pages/InternshipOffers";
 import Profile from "../pages/Profile";
 import Account from "../pages/Account";
+import SwipeManager from "../pages/SwipeManager";
 // Router Configurations
 const router = createBrowserRouter([
   {
@@ -109,6 +110,10 @@ const router = createBrowserRouter([
         path: "account",
         element: <Account />,
       },
+      {
+        path: "swipe-card",
+        element: <SwipeManager />,
+      }
     ],
   },
   {
