@@ -1,19 +1,16 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import MuiToolbar from "@mui/material/Toolbar";
 import { tabsClasses } from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
-import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import SCSideMenuMobile from "./SCSideMenuMobile";
 import SCMenuButton from "./SCMenuButton";
 import SCColorModeIconDropdown from "./SCColorModeIconDropdown";
 import { TEXT } from "../../constants/UIConstants";
-import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import SCAvatarOptionsMenu from "../Shared/OptionMenu/SCAvatarOptionsMenu";
+import * as SCIcons from "../Shared/SCIcons";
 
 const Toolbar = styled(MuiToolbar)({
   width: "100%",
@@ -63,7 +60,7 @@ export default function SCAppNavbar() {
           }}
         >
           <SCMenuButton aria-label="menu" onClick={toggleDrawer(true)}>
-            <MenuRoundedIcon />
+            <SCIcons.SCMenuRoundedIcon />
           </SCMenuButton>
           <SCSideMenuMobile open={open} toggleDrawer={toggleDrawer} />
           <Stack
@@ -82,36 +79,11 @@ export default function SCAppNavbar() {
           </Stack>
           <SCColorModeIconDropdown />
           <SCMenuButton showBadge={false}>
-            <NotificationsRoundedIcon />
+            <SCIcons.SCNotificationsRoundedIcon />
           </SCMenuButton>
           <SCAvatarOptionsMenu />
         </Stack>
       </Toolbar>
     </AppBar>
-  );
-}
-
-export function CustomIcon() {
-  return (
-    <Box
-      sx={{
-        width: "1.5rem",
-        height: "1.5rem",
-        bgcolor: "black",
-        borderRadius: "999px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        alignSelf: "center",
-        backgroundImage:
-          "linear-gradient(135deg, hsl(210, 98%, 60%) 0%, hsl(210, 100%, 35%) 100%)",
-        color: "hsla(210, 100%, 95%, 0.9)",
-        border: "1px solid",
-        borderColor: "hsl(210, 100%, 55%)",
-        boxShadow: "inset 0 2px 5px rgba(255, 255, 255, 0.3)",
-      }}
-    >
-      <DashboardRoundedIcon color="inherit" sx={{ fontSize: "1rem" }} />
-    </Box>
   );
 }

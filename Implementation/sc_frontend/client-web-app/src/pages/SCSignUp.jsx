@@ -12,16 +12,19 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
-import { styled } from "@mui/material/styles";
 import SCAppTheme from "../components/Shared/SCAppTheme";
-import {
-  GoogleIcon,
-  FacebookIcon,
-  SitemarkIcon,
-} from "../components/Shared/SCCustomIcons";
+import { styled } from "@mui/material/styles";
 import SCColorModeSelect from "../components/Shared/SCColorModeSelect";
 import SCBackHomeButton from "../components/Dashboard/SCBackHomeButton";
 import { useNavigate } from "react-router-dom";
+import SCSelectLogin from "../components/Shared/SCSelectLogin";
+import { useGlobalContext } from "../global/globalContext";
+import * as global from "../global/globalStatesInit";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Autocomplete from "@mui/material/Autocomplete";
+import { Input } from "@mui/material";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -71,7 +74,8 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 
 export default function SCSignUp(props) {
   const navigate = useNavigate();
-
+  //TODO implementare logica per la verifica delle password
+  const { userType } = useGlobalContext();
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -130,6 +134,334 @@ export default function SCSignUp(props) {
     });
   };
 
+  const formType = () => {
+    console.log(userType);
+    if (userType == global.student)
+      return (
+        <>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Box display="flex" justifyContent="center" gap={3}>
+              <FormControl>
+                <FormLabel htmlFor="name">Name</FormLabel>
+                <TextField
+                  autoComplete="name"
+                  name="name"
+                  required
+                  fullWidth
+                  id="name"
+                  placeholder="Name"
+                  error={nameError}
+                  helperText={nameErrorMessage}
+                  color={nameError ? "error" : "primary"}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="name">Surname</FormLabel>
+                <TextField
+                  autoComplete="name"
+                  name="name"
+                  required
+                  fullWidth
+                  id="surname"
+                  placeholder="Surname"
+                  error={nameError}
+                  helperText={nameErrorMessage}
+                  color={nameError ? "error" : "primary"}
+                />
+              </FormControl>
+            </Box>
+            <FormControl>
+              <FormLabel htmlFor="name">Date</FormLabel>
+              <DatePicker views={["year", "month", "day"]} />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="email">Email</FormLabel>
+              <TextField
+                required
+                fullWidth
+                id="email"
+                placeholder="your@email.com"
+                name="email"
+                autoComplete="email"
+                variant="outlined"
+                error={emailError}
+                helperText={emailErrorMessage}
+                color={passwordError ? "error" : "primary"}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="email">Personal Email</FormLabel>
+              <TextField
+                fullWidth
+                id="email"
+                placeholder="your@personalemail.com"
+                name="email"
+                autoComplete="email"
+                variant="outlined"
+                error={emailError}
+                helperText={emailErrorMessage}
+                color={passwordError ? "error" : "primary"}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="universities">University</FormLabel>
+              <Autocomplete
+                disablePortal
+                options={global.universities}
+                sx={{ width: 300 }}
+                renderInput={(params) => <TextField {...params} label="" />}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="password">Password</FormLabel>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                placeholder="••••••"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+                variant="outlined"
+                error={passwordError}
+                helperText={passwordErrorMessage}
+                color={passwordError ? "error" : "primary"}
+              />
+            </FormControl>
+            <FormControl>
+              {/* TODO implementare la logica per la verifica tra le due password */}
+              <FormLabel htmlFor="password">Confirm Password</FormLabel>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                placeholder="••••••"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+                variant="outlined"
+                error={passwordError}
+                helperText={passwordErrorMessage}
+                color={passwordError ? "error" : "primary"}
+              />
+            </FormControl>
+            {/* <FormControlLabel
+              control={<Checkbox value="allowExtraEmails" color="primary" />}
+              label="I want to receive updates via email."
+            /> */}
+          </LocalizationProvider>
+        </>
+      );
+    else if (userType == global.company)
+      return (
+        <>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <FormControl>
+              <FormLabel htmlFor="name">Company Name</FormLabel>
+              <TextField
+                autoComplete="name"
+                name="name"
+                required
+                fullWidth
+                id="name"
+                placeholder="Name"
+                error={nameError}
+                helperText={nameErrorMessage}
+                color={nameError ? "error" : "primary"}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="name">Headquarter</FormLabel>
+              <TextField
+                autoComplete="name"
+                name="name"
+                required
+                fullWidth
+                id="name"
+                placeholder="Headquarter location"
+                error={nameError}
+                helperText={nameErrorMessage}
+                color={nameError ? "error" : "primary"}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="email">Email</FormLabel>
+              <TextField
+                required
+                fullWidth
+                id="email"
+                placeholder="your@email.com"
+                name="email"
+                autoComplete="email"
+                variant="outlined"
+                error={emailError}
+                helperText={emailErrorMessage}
+                color={passwordError ? "error" : "primary"}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="email">VAT number</FormLabel>
+              <TextField
+                required
+                fullWidth
+                id="VAT"
+                placeholder="VAT"
+                name="VAT"
+                autoComplete="VAT"
+                variant="outlined"
+                error={emailError}
+                helperText={emailErrorMessage}
+                color={passwordError ? "error" : "primary"}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="password">Password</FormLabel>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                placeholder="••••••"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+                variant="outlined"
+                error={passwordError}
+                helperText={passwordErrorMessage}
+                color={passwordError ? "error" : "primary"}
+              />
+            </FormControl>
+            <FormControl>
+              {/* TODO implementare la logica per la verifica tra le due password */}
+              <FormLabel htmlFor="password">Confirm Password</FormLabel>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                placeholder="••••••"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+                variant="outlined"
+                error={passwordError}
+                helperText={passwordErrorMessage}
+                color={passwordError ? "error" : "primary"}
+              />
+            </FormControl>
+            {/* <FormControlLabel
+              control={<Checkbox value="allowExtraEmails" color="primary" />}
+              label="I want to receive updates via email."
+            /> */}
+          </LocalizationProvider>
+        </>
+      );
+    else if (userType == global.university)
+      return (
+        <>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <FormControl>
+              <FormLabel htmlFor="name">University Name</FormLabel>
+              <TextField
+                autoComplete="name"
+                name="name"
+                required
+                fullWidth
+                id="name"
+                placeholder="Name"
+                error={nameError}
+                helperText={nameErrorMessage}
+                color={nameError ? "error" : "primary"}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="name">University Description</FormLabel>
+              <Input multiline variant="outlined" />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="name">Internship Office Name</FormLabel>
+              <TextField
+                autoComplete="name"
+                name="name"
+                required
+                fullWidth
+                id="name"
+                placeholder="Internship Office Name"
+                error={nameError}
+                helperText={nameErrorMessage}
+                color={nameError ? "error" : "primary"}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="email">Email</FormLabel>
+              <TextField
+                required
+                fullWidth
+                id="email"
+                placeholder="your@email.com"
+                name="email"
+                autoComplete="email"
+                variant="outlined"
+                error={emailError}
+                helperText={emailErrorMessage}
+                color={passwordError ? "error" : "primary"}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="email">VAT number</FormLabel>
+              <TextField
+                required
+                fullWidth
+                id="VAT"
+                placeholder="VAT"
+                name="VAT"
+                autoComplete="VAT"
+                variant="outlined"
+                error={emailError}
+                helperText={emailErrorMessage}
+                color={passwordError ? "error" : "primary"}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="password">Password</FormLabel>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                placeholder="••••••"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+                variant="outlined"
+                error={passwordError}
+                helperText={passwordErrorMessage}
+                color={passwordError ? "error" : "primary"}
+              />
+            </FormControl>
+            <FormControl>
+              {/* TODO implementare la logica per la verifica tra le due password */}
+              <FormLabel htmlFor="password">Confirm Password</FormLabel>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                placeholder="••••••"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+                variant="outlined"
+                error={passwordError}
+                helperText={passwordErrorMessage}
+                color={passwordError ? "error" : "primary"}
+              />
+            </FormControl>
+            {/* <FormControlLabel
+              control={<Checkbox value="allowExtraEmails" color="primary" />}
+              label="I want to receive updates via email."
+            /> */}
+          </LocalizationProvider>
+        </>
+      );
+  };
+
   return (
     <SCAppTheme {...props}>
       <CssBaseline enableColorScheme />
@@ -153,55 +485,10 @@ export default function SCSignUp(props) {
             onSubmit={handleSubmit}
             sx={{ display: "flex", flexDirection: "column", gap: 2 }}
           >
-            <FormControl>
-              <FormLabel htmlFor="name">Full name</FormLabel>
-              <TextField
-                autoComplete="name"
-                name="name"
-                required
-                fullWidth
-                id="name"
-                placeholder="Jon Snow"
-                error={nameError}
-                helperText={nameErrorMessage}
-                color={nameError ? "error" : "primary"}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                placeholder="your@email.com"
-                name="email"
-                autoComplete="email"
-                variant="outlined"
-                error={emailError}
-                helperText={emailErrorMessage}
-                color={passwordError ? "error" : "primary"}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                placeholder="••••••"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                variant="outlined"
-                error={passwordError}
-                helperText={passwordErrorMessage}
-                color={passwordError ? "error" : "primary"}
-              />
-            </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="allowExtraEmails" color="primary" />}
-              label="I want to receive updates via email."
-            />
+            <Box justifyContent="center" display="flex">
+              <SCSelectLogin />
+            </Box>
+            {formType()}
             <Button
               type="submit"
               fullWidth

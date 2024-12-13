@@ -13,7 +13,7 @@ import { styled } from "@mui/material/styles";
 import SCForgotPassword from "./SCForgotPassword";
 import { SitemarkIcon } from "../Templates/sign-in-side/CustomIcons";
 
-import SCSelectLogin from "./SCSelectLogin";
+import SCSelectLogin from "../Shared/SCSelectLogin";
 import { useGlobalContext } from "../../global/globalContext";
 import { useNavigate } from "react-router-dom";
 

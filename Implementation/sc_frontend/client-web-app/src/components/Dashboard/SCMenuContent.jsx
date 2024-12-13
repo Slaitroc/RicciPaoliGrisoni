@@ -5,79 +5,64 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Stack from "@mui/material/Stack";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import AnalyticsRoundedIcon from "@mui/icons-material/AnalyticsRounded";
-import PeopleRoundedIcon from "@mui/icons-material/PeopleRounded";
-import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
-import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
-import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
-import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-//ICONS
-import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
-import JoinInnerIcon from "@mui/icons-material/JoinInner";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import SendIcon from "@mui/icons-material/Send";
-import HomeIcon from "@mui/icons-material/Home";
-import ApartmentIcon from "@mui/icons-material/Apartment";
-import InboxIcon from "@mui/icons-material/Inbox";
+import * as SCIcons from "../Shared/SCIcons";
 
 const mainListItems = [
   {
     key: uuidv4(),
     text: "Overview",
-    icon: <DashboardIcon />,
+    icon: <SCIcons.SCDashboardIcon />,
     route: "/dashboard",
   },
   {
     key: uuidv4(),
     text: "Cv",
-    icon: <AccountBoxIcon />,
+    icon: <SCIcons.SCAccountBoxIcon />,
     route: "/dashboard/cv",
   },
   {
     key: uuidv4(),
     text: "University",
-    icon: <AccountBoxIcon />,
+    icon: <SCIcons.SCAccountBoxIcon />,
     route: "/dashboard/university",
   },
   {
     key: uuidv4(),
     text: "Internship Offers",
-    icon: <AccountBoxIcon />,
+    icon: <SCIcons.SCAccountBoxIcon />,
     route: "/dashboard/internship-offers",
   },
   {
     key: uuidv4(),
     text: "Spontaneous Applications",
-    icon: <SendIcon />,
+    icon: <SCIcons.SCSendIcon />,
     route: "/dashboard/applications",
   },
   {
     key: uuidv4(),
     text: "Recommendation Process",
-    icon: <JoinInnerIcon />,
+    icon: <SCIcons.SCJoinInnerIcon />,
     route: "/dashboard/recommendations",
   },
   {
     key: uuidv4(),
     text: "Interviews",
-    icon: <CollectionsBookmarkIcon />,
+    icon: <SCIcons.SCCollectionsBookmarkIcon />,
     route: "/dashboard/interviews",
   },
   {
     key: uuidv4(),
     text: "Confirmed Internship",
-    icon: <ApartmentIcon />,
+    icon: <SCIcons.SCApartmentIcon />,
     route: "/dashboard/confirmed-internships",
   },
   {
     key: uuidv4(),
     text: "Communications",
-    icon: <InboxIcon />,
+    icon: <SCIcons.SCInboxIcon />,
     route: "/dashboard/communications",
   },
 ];
@@ -86,13 +71,13 @@ const secondaryListItems = [
   {
     key: uuidv4(),
     text: "Settings",
-    icon: <SettingsRoundedIcon />,
+    icon: <SCIcons.SCSettingsRoundedIcon />,
     route: "/dashboard/settings",
   },
   {
     key: uuidv4(),
     text: "S&C Home",
-    icon: <HomeIcon />,
+    icon: <SCIcons.SCHomeIcon />,
     route: "/",
   },
 ];
