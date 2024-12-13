@@ -261,15 +261,15 @@ The following section presents a series of state diagrams illustrating the progr
 ![Interview Process](Diagrams/StateCharts/InterviewProcessStateChart.png)
 - **Interview Process**
   - The Interview Process is initiated when a Match is accepted by both the Student and the Company, or when the Company 
-    accepts a Spontaneous Application. The process starts in the "Interview Creation" state, where the Company is 
+    accepts a Spontaneous Application. The process starts in the "ToBeSubmitted" state, where the Company is 
     asked to create and submit an Interview. Here, the Company is required to specify a deadline for the Interview. 
-    The Interview process evolves into the "InterviewSubmitted" state once the Company sends the Interview to the Student, 
+    The Interview process evolves into the "Submitted" state once the Company sends the Interview to the Student, 
     who answers the questions and submits the Interview. If the Student fails to submit the answers within the deadline, 
     he will be considered rejected, and the process is progressed to an "Evaluated" state and terminates.
     Otherwise, after the Interview has been sent back by the student, the process evolves to a "ToBeEvaluated" state. 
-    In this state, the Company can manually evaluate the Student's answers and mark the interview as "Accepted" or "Rejected".  
+    In this state, the Company can manually evaluate the Student's answers and mark the interview as accepted or rejected.  
     In case the Student has been rejected, he will be notified of the outcome, and the process is terminated. Otherwise,
-    if the Student has been accepted, an Internship Position Offer process is initiated and the process is terminated.
+    if the Student has been accepted, an Internship Position Offer process is initiated and the Interview Process is terminated.
     If anywhere in the process, the Student accepts another Internship, the process is terminated and the Student will be considered rejected.
 
 ![Internship Position Offer](Diagrams/StateCharts/InternshipPositionOfferStateChart.png)
