@@ -440,74 +440,74 @@ Given the system's non-essential nature, overly rigid performance standards are 
 ## 3.2.2 Use Cases
 
 ### RegisterStudent
-**Actors:**  Student, Email Provider
+**Actors:**  Student, Email Provider.
 
-**Entry Conditions:** The user is not logged in
+**Entry Conditions:** The user is not logged in.
 
 **Flow of Events:** 
 1. The student selects the "Sign up" option.
-2. The Platform open the sign-up page.
+2. The platform open the sign-up page.
 3. The student selects the "Student" option, provides the required information (name, surname, date of birth, institutional email, optionally personal email, password, University name among those available) and click the "Sign Up" button.
-4. The system validates the email and checks if it is unique.
+4. The platform validates the email and checks if it is unique.
 5. S&C registers the Student and send a confirmation email to the provided email address through the Email Provider.
 6. The Student confirms the registration by clicking on the link in the email.
-7. The Platform confirms the registration and activates the account.
+7. The platform confirms the registration and activates the account.
 8. The Student is redirected to the platform's homepage.
 
 **Exit Conditions:** The Student is registered and logged in.
 
 **Exceptions:** 
-- The Student provides incorrect information
-- The Email Provider fails to send the confirmation email
-- The Student does not confirm the registration
-- The email is already in use
+- The Student provides incorrect information.
+- The Email Provider fails to send the confirmation email.
+- The Student does not confirm the registration.
+- The email is already in use.
 
 ### RegisterCompany
-**Actors:**  Company, Email Provider
+**Actors:**  Company, Email Provider.
 
-**Entry Conditions:** The user is not logged in
+**Entry Conditions:** The user is not logged in.
 
 **Flow of Events:**
 1. The company selects the "Sign up" option.
-2. The Platform open the sign-up page.
+2. The platform open the sign-up page.
 3. The company selects the "Company" option, provides the required information (Company name, Company headquarters address, VAT number, email and password) and click the "Sign Up" button.
 4. S&C sends a confirmation email to the provided email address through the Email Provider.
 5. The Company confirms the registration by clicking on the link in the email.
-6. The system validates the VAT number and checks if it is unique.
-7. The Platform confirms the registration and activates the account.
+6. The platform validates the VAT number and checks if it is unique.
+7. The platform confirms the registration and activates the account.
 8. The Company is redirected to the platform's homepage.
 
 **Exit Conditions:** The Company is registered and logged in.
 
 **Exceptions:** 
-- The Company provides incorrect information
-- The Email Provider fails to send the confirmation email 
-- The Company does not confirm the registration 
-- The VAT number is already in use
+- The Company provides incorrect information.
+- The Email Provider fails to send the confirmation email.
+- The Company does not confirm the registration.
+- The VAT number is already in use.
 
 ### RegisterUniversity
-**Actors:**  Company, Email Provider
+**Actors:**  Company, Email Provider.
 
-**Entry Conditions:** The user is not logged in
+**Entry Conditions:** The user is not logged in.
 
 **Flow of Events:**
 1. The university selects the "Sign up" option.
-2. The Platform open the sign-up page.
+2. The platform open the sign-up page.
 3. The university selects the "University" option, provides the required information (University Name, University description, 
 VAT number, name of the University office that will manage the internship program, email and password) and click the "Sign Up" button.
 4. S&C sends a confirmation email to the provided email address through the Email Provider.
-5. The Company confirms the registration by clicking on the link in the email.
-6. The system validates the VAT number and checks if it is unique.
-7. The Platform confirms the registration and activates the account.
+5. The platform confirms the registration by clicking on the link in the email.
+6. The platform validates the VAT number and checks if it is unique.
+7. The platform confirms the registration and activates the account.
 8. The University is redirected to the platform's homepage.
 
 **Exit Conditions:** The University is registered and logged in.
 
 **Exceptions:** 
-- The University provides incorrect information
-- The Email Provider fails to send the confirmation email
-- The University does not confirm the registration
-- The VAT number is already in use
+- The University provides incorrect information.
+- The Email Provider fails to send the confirmation email.
+- The University does not confirm the registration.
+- The VAT number is already in use.
 
 ### LoginUser
 **Actors:**  User
@@ -516,24 +516,126 @@ VAT number, name of the University office that will manage the internship progra
 
 **Flow of Events:**
 1. The User selects the "Sign in" option.
-2. The Platform open the sign-in page.
+2. The platform open the sign-in page.
 3. The user provides their email and password.
-4. The system validates the credentials.
-5. The system confirms the credentials and logs in the User.
+4. The platform validates the credentials.
+5. The platform confirms the credentials and logs in the User.
 6. The User is redirected to the platform's homepage.
 
 **Exit Conditions:** The User is logged in.
 
 **Exceptions:**
-- The User provides incorrect email or password
+- The User provides incorrect email or password.
 
 ### LoadCurriculum
+**Actors:**  Student
+
+**Entry Conditions:** The Student is logged in
+
+**Flow of Events:**
+1. The Student selects the "Upload CV" option.
+2. The platform open the Curriculum page.
+3. The Student fills the form with the required information (current level of education, known languages, technical skills, a photo of himself, a brief description of his interests and hobbies etc...) and click the "Submit CV" button.
+4. The platform publishes the CV.
+5. The platform generates a list of matching internships based on the CV.
+6. The platform provides feedback and suggestions to improve the CV.
+7. The Student is redirected to his account page.
+
+**Exit Conditions:** The Student's CV is uploaded and the Student is redirected to his account page.
+
+**Exceptions:** 
+- The Student provides invalid or partial information.
+- The Student exits the page before submitting the CV.
+
 ### AdvertiseInternships
+**Actors:**  Company
+
+**Entry Conditions:** The Company is logged in
+
+**Flow of Events:**
+1. The Company selects the "My Internships" option.
+2. The Platform open the Internships page.
+3. The Company selects the "Create Internship" option.
+4. The platform shows the Internship creation form.
+5. The Company fills the form with the required information (Internship title, description, start date and duration, office address, required skills and benefits offered) and click the “Submit Internship” button.
+6. The platform publishes the Internship.
+7. The system provides feedback and suggestions to improve the internship description.
+8. The platform generates a list of matching Students based on the Internship.
+9. The Company is redirected to the Internships page.
+
+**Exit Conditions:** The Internship is created and published and the Company is redirected to the Internships page.
+
+**Exceptions:**
+- The Company provides invalid or partial information.
+- The Company exits the page before submitting the Internship.
+ 
 ### SpontaneousApplication
+**Actors:**  Student, Company
+
+**Entry Conditions:** The Student is logged in and has his CV uploaded.
+
+**Flow of Events:**
+1. The Student selects the "Browse all Internships" option.
+2. The platform open the global Internships page.
+3. The Student selects the "Apply" option on one of the available Internships.
+4. The platform notifies the Company of the Spontaneous Application.
+5. The platform adds the student application to the company's list of applicants.
+
+**Exit Conditions:** The application is successfully submitted to the company.
+
+**Exceptions:** 
+- Internship is no longer available.
+
 ### AcceptMatch
-### (SuggestionMechanism)
+**Actors:**  Student, Company
+
+**Entry Conditions:** A Match is generated between the student and the Company's Internship and the Student has his CV uploaded.
+
+**Flow of Events:**
+1. The platform notifies the Student and the Company of the Match.
+2. The platform adds the Match to the Student and the Company's list of Matches.
+3. The Student and the Company press the "My Recommendations" button.
+4. The platform opens the respective Recommendations pages.
+5. The Student and the Company press the "Accept" button on the Match.
+6. ??
+
+### SuggestionMechanism
+**Actors:**  Student, Company
+
+**Entry Conditions:** A Student has uploaded his CV or a Company has created an Internship.
+
+**Flow of Events:**
+1. The platform analyses the Student's CV or the Company's Internship.
+2. The platform generates a list of suggestions to improve the CV or the Internship description.
+3. The platform displays a notification in the Student or Company's account page.
+4. The Student or the Company open the notification.
+5. The platform display the suggestions.
+
+**Exit Conditions:** Suggestions are successfully provided.
+
+**Exceptions:**
+- No valuable suggestions are found.
 ### AssignInterview
-<!-- [(2h) Matteo] -->
+**Actors:**  Company, Student
+
+**Entry Conditions:** A Match between the Student and the Company's Internship is accepted by both parties or the Company has accepted a Spontaneous Application.
+
+**Flow of Events:** 
+1. The Company selects the "My Interviews" option.
+2. The platform open the Interviews page.
+3. The Company selects an Interview in the "ToBeSubmitted" state.
+4. The platform shows the Interview creation form.
+5. The Company fills the form with the required information (open questions, quizzes, deadline and additional infos) and click the “Submit Interview” button.
+6. The platform sends the form to the Student, update his Interview status and notifies him.
+7. The Company is redirected to the homepage.
+
+**Exit Conditions:** The Interview is created and sent to the Student.
+
+**Exceptions:**
+- The Company tries to submit an empty Interview.
+- The Company exits the page before submitting the Interview.
+
+<!-- [(5h) Matteo] -->
 
 ## 3.2.4 Requirements Mapping
 
