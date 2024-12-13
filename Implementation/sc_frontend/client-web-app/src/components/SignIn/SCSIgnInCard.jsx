@@ -113,18 +113,6 @@ export default function SCSignInCard() {
         noValidate
         sx={{ display: "flex", flexDirection: "column", width: "100%", gap: 2 }}
       >
-        <Box
-          sx={{
-            display: "flex", // Abilita il layout flexbox
-            justifyContent: "center", // Centra gli elementi orizzontalmente
-            alignItems: "center", // Centra gli elementi verticalmente
-            margin: "auto", // Per centrare il box nella pagina
-            boxShadow: 3, // Effetto ombra (opzionale)
-            borderRadius: 2, // Angoli arrotondati (opzionale)
-          }}
-        >
-          <SCSelectLogin />
-        </Box>
         <FormControl>
           <FormLabel htmlFor="email">Email</FormLabel>
           <TextField
@@ -145,15 +133,6 @@ export default function SCSignInCard() {
         <FormControl>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <FormLabel htmlFor="password">Password</FormLabel>
-            <Link
-              component="button"
-              type="button"
-              onClick={handleClickOpen}
-              variant="body2"
-              sx={{ alignSelf: "baseline" }}
-            >
-              Forgot your password?
-            </Link>
           </Box>
           <TextField
             error={passwordError}
@@ -170,10 +149,20 @@ export default function SCSignInCard() {
             color={passwordError ? "error" : "primary"}
           />
         </FormControl>
+        <Link
+          component="button"
+          type="button"
+          onClick={handleClickOpen}
+          variant="body2"
+          sx={{ alignSelf: "baseline" }}
+        >
+          Forgot your password?
+        </Link>
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
         />
+
         <SCForgotPassword open={open} handleClose={handleClose} />
         <Button
           type="submit"
