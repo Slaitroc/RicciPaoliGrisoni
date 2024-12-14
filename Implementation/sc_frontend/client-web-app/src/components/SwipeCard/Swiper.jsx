@@ -3,7 +3,7 @@ import './Swiper.css';
 import CardTemplate from './CardTemplate';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 
-function SwipeCard({ items }) {
+function SwipeCardHolder({ items }) {
     return (
         <div className="mainContainer">
             <div className="cardContainer">
@@ -35,4 +35,4 @@ function SwipeCard({ items }) {
     );
 }
 
-export default SwipeCard;
+export default SwipeCardHolder;
