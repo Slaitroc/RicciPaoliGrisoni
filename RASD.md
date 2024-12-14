@@ -137,7 +137,7 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 - **Interview:** The process of evaluating a Student's application for an Internship Offer done by a Company through the S&C platform. It consists of a series of question that the Student has to answer and the Company has to evaluate. 
 - **Feedback:** Information provided by Students and Companies to the S&C platform to improve the Recommendation Process.
 - **Suggestion:** Information provided by the S&C platform to Students and Companies to improve their CVs and Internship Offer descriptions.
-- **Communication:** All of the interactions between Companies and University 
+- **Communication:** All the interactions between Companies and University 
 - **Confirmed Match:** A match that has been accepted by both a Student and a Company.
 - **Rejected Match:** A match that has been refused by either a Student or a Company.
 - **Pending Match:** A match that has been accepted only by a Student or a Company, and it's waiting for a response from the other party.
@@ -593,39 +593,64 @@ Given the system's non-essential nature, overly rigid performance standards are 
 **Flow of Events:**
 1. The platform notifies the Student and the Company of the Match.
 2. The platform adds the Match to the Student and the Company's list of Matches.
-3. The Student and the Company press the "My Recommendations" button.
+3. The Student or the Company press the "My Recommendations" button.
 4. The platform opens the respective Recommendations pages.
-5. The Student and the Company press the "Accept" button on the Match.
-6. ??
+5. The Student or the Company accepts the Match.
+6. The platform stores the result.
+7. If the other party has already accepted the Match, the platform adds the Interview to the Student and the Company's list of Interviews and notifies both parties.
+
+**Exit Conditions:** The Match is successfully accepted.
+
+**Exceptions:**
+- None
+
+### FeedbackMechanism
+**Actors:**  Student, Company
+
+**Entry Conditions:** A Match is accepted or declined by the Student or the Company.
+
+**Flow of Events:**
+1. The Student or the Company press the "My Recommendations" button.
+2. The platform opens the respective Recommendations pages.
+3. The Student or the Company accept or decline the Match.
+4. The platform asks for feedback about the Match.
+5. The Student or the Company provide feedback.
+6. The platform stores the feedback.
+
+**Exit Conditions:** Feedback is successfully provided.
+
+**Exceptions:**
+- The platform is closed before providing feedback.
 
 ### SuggestionMechanism
-**Actors:**  Student, Company
+**Actors:** Student, Company
 
 **Entry Conditions:** A Student has uploaded his CV or a Company has created an Internship.
 
 **Flow of Events:**
-1. The platform analyses the Student's CV or the Company's Internship.
+1. The platform analyzes the Student's CV or the Company's Internship.
 2. The platform generates a list of suggestions to improve the CV or the Internship description.
 3. The platform displays a notification in the Student or Company's account page.
 4. The Student or the Company open the notification.
-5. The platform display the suggestions.
+5. The platform displays the suggestions.
 
 **Exit Conditions:** Suggestions are successfully provided.
 
 **Exceptions:**
 - No valuable suggestions are found.
+
 ### AssignInterview
 **Actors:**  Company, Student
 
 **Entry Conditions:** A Match between the Student and the Company's Internship is accepted by both parties or the Company has accepted a Spontaneous Application.
 
-**Flow of Events:** 
+**Flow of Events:**
 1. The Company selects the "My Interviews" option.
-2. The platform open the Interviews page.
+2. The platform opens the Interviews page.
 3. The Company selects an Interview in the "ToBeSubmitted" state.
 4. The platform shows the Interview creation form.
 5. The Company fills the form with the required information (open questions, quizzes, deadline and additional infos) and click the “Submit Interview” button.
-6. The platform sends the form to the Student, update his Interview status and notifies him.
+6. The platform sends the form to the Student, updates his Interview status and notifies him.
 7. The Company is redirected to the homepage.
 
 **Exit Conditions:** The Interview is created and sent to the Student.
@@ -634,10 +659,85 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - The Company tries to submit an empty Interview.
 - The Company exits the page before submitting the Interview.
 
+<!-- In my opinion, this does not work
 ### PublishComplaint
+**Actors:** Company, Student
+**Entry Conditions:** An Internship is ongoing between the relative Company and Student.
+**Flow of Events:**
+1. The Company selects the "Complaints" option.
+2. The platform open the Complaints page.
+3. The Company selects the "Create Complaint" option.
+4. The platform shows the Complaint creation form.
+5. The Company fills the form with the required information (Student's name, Internship title, description of the problem) and click the “Submit Complaint” button.
+6. The Company is redirected to the homepage.
+7. The platform publishes the Complaint which is added to all the involved users Complaints list.
+8. The platform notifies the Student and the University.
+9. The Student or the Company press the "Complaints" button.
+10. The platform opens the Complaints page.
+11. The Student or the Company press a complaint.
+12. The platform shows the relative Complaint page.
+13. The Student or the Company respond to the Complaint.
+**Exit Conditions:** The Complaint is created and a comunication between the Company, Student and University is created.
+**Exceptions:**
+- The Company exits the page before submitting the Complaint.
+
+To me this is more clear
+### RespondToComplaint
+**Actors:** Student, Company
+
+**Entry Conditions:** The Student and the Company have an active Complaint.
+
+**Flow of Events:**
+1. The Student or the Company press the "Complaints" button.
+2. The platform opens the Complaints page.
+3. The Student or the Company press a complaint.
+4. The platform shows the relative Complaint page.
+5. The Student or the Company respond to the Complaint.
+6. The platform notifies the other party about the response.
+
+**Exit Conditions:** The response is successfully provided.
+
+**Exceptions:**
+- None
+-->
+
+### PublishComplaint
+**Actors:** Company, Student
+
+**Entry Conditions:** An Internship is ongoing between the relative Company and Student.
+
+**Flow of Events:**
+1. The Company selects the "Complaints" option.
+2. The platform opens the Complaints page.
+3. The Company selects the "Create Complaint" option.
+4. The platform shows the Complaint creation form.
+5. The Company fills the form with the required information (Student's name, Internship title, description of the problem) and click the “Submit Complaint” button.
+6. The Company is redirected to the homepage.
+7. The platform publishes the Complaint.
+8. The platform notifies the Student and the University.
+
+**Exit Conditions:** The Complaint is created and published.
+
+**Exceptions:**
+- The Company exits the page before submitting the Complaint.
+
 ### HandleComplaint
 ### TerminateInternship
-<!-- [(6h) Matteo] -->
+**Actors:** University, Student, Company
+
+**Entry Conditions:** A Complaint is published by a Company regarding a Student of the University.
+
+**Flow of Events:**
+1. The University selects the "Complaints" option.
+2. The platform opens the Complaints page.
+3. The University selects the "Interrupt Internship" option.
+4. The platform will notify the Student and the Company about the interruption of the Internship and close the relative Complaint.
+
+**Exit Conditions:** The Internship is interrupted and the Complaint is closed.
+
+**Exceptions:**
+- None
+<!-- [(8.5h) Matteo] -->
 
 ## 3.2.4 Requirements Mapping
 
