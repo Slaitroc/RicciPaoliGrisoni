@@ -1,64 +1,72 @@
-import { useMotionValue, useTransform, motion } from 'framer-motion';
+import { useMotionValue, useTransform, motion, color } from 'framer-motion';
 import CardTemplate from './CardTemplate';
+import {useState} from 'react';
 import './Swiper.css';
 
-const LIMIT = 200;
+const LIMIT = 80;
 
-function SwipeableCard({ card, index, items, setItems }) {
-  const x = useMotionValue(0);
-  const opacity = useTransform(x, [-LIMIT, 0, LIMIT], [0, 1, 0]);
-  const rotate = useTransform(x, [-LIMIT, -40, 0, 40, LIMIT], [-18, 0, 0, 0, 18]);
+function SwipeableCard({ content, index, items, setItems }) {
+    const x = useMotionValue(0);
+    //const opacity = useTransform(x, [-LIMIT, 0, LIMIT], [0, 1, 0]);
+    const rotate = useTransform(x, [-LIMIT, -10, 0, 10, LIMIT], [-10, 0, 0, 0, 10]);
+    const borderColor = useTransform(x, [-LIMIT, -LIMIT + 1, 0, LIMIT - 1, LIMIT], ["#ff0000", "#000000", "#000000", "#000000", "#00ff00"]);
+    const scale = useTransform(x, [-LIMIT, 0, LIMIT], [1.1, 1, 1.1]);
 
-  function handleDragEnd(event, info) {
-    if (info.offset.x > LIMIT) {
-      console.log("Swiped right");
-    } else if (info.offset.x < -LIMIT) {
-      console.log("Swiped left");
-    } else {
-      return;
+    function handleDragEnd(event, info) {
+        console.log("Info: ", info);
+        console.log("Event: ", event);
+        if (x.get() > LIMIT) {
+            console.log("Swiped right");
+        } else if (x.get() < -LIMIT) {
+            console.log("Swiped left");
+        } else {
+            return;
+        }
+        setItems(prevItems => prevItems.filter((_, i) => i !== index));
     }
-    setItems(prevItems => prevItems.filter((_, i) => i !== index));
-  }
 
-  return (
-    <motion.div
-      key={index}
-      className="swipeableCard"
-      style={{
-        zIndex: items.length - index,
-        x,
-        opacity,
-        rotate
-      }}
-      drag="x"
-      dragConstraints={{ left: 0, right: 0 }}
-      onDragEnd={handleDragEnd}
-    >
-      <CardTemplate
-        companyName={card.companyName}
-        position={card.position}
-        description={card.description}
-      />
-    </motion.div>
-  );
+    return (
+        <motion.div
+            key={index}
+            className="swipeableCard"
+            style={{
+                zIndex: items.length - index,
+                x,
+                //opacity,
+                rotate,
+                borderColor,
+                scale
+            }}
+            drag={true}
+            dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+            onDragEnd={handleDragEnd}
+        >
+            <CardTemplate
+                companyName={content.companyName}
+                position={content.position}
+                description={content.description}
+                />
+        </motion.div>
+    );
 }
 
-function SwipeCardManager({ items, setItems }) {
-  return (
-    <div className="mainContainer">
-      <div className="cardContainer">
-        {items.map((card, index) => (
-          <SwipeableCard
-            key={index}
-            card={card}
-            index={index}
-            items={items}
-            setItems={setItems}
-          />
-        ))}
-      </div>
-    </div>
-  );
+function SwipeCardManager({ data }) {
+    const [items, setItems] = useState(data);
+    return (
+        <div className="mainContainer">
+            <div className="cardContainer">
+                {items.map((item, index) => (
+                    <SwipeableCard
+                        key={index}
+                        content={item}
+                        index={index}
+                        items={items}
+                        setItems={setItems}
+                    />
+                ))}
+            </div>
+        </div>
+    );
 }
 
 export default SwipeCardManager;

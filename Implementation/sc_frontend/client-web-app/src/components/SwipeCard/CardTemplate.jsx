@@ -3,7 +3,7 @@ import "./CardTemplate.css";
 
 function MatchCard(props) {
   return (
-    <div className="card">
+    <div className="card" style={{...props.style}}>
       {createCardHeader({name: props.companyName, position: props.position })}
       <hr className="divider" />
       <p className="description"> 
