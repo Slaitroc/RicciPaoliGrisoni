@@ -7,6 +7,7 @@
     justify-content: center; /* center items horizontally wrt main direction */
     align-items: center; /* center items vertically wrt column (x)*/
     padding: 3rem 0; /*3rem top and bottom, 0 left and right, internal margins*/
+    overflow: hidden;
 }
 
 .cardContainer{

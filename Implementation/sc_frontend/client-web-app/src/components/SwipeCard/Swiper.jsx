@@ -1,20 +1,19 @@
-import { useMotionValue, useTransform, motion, color } from 'framer-motion';
+import { useMotionValue, useTransform, motion, animate } from 'framer-motion';
 import CardTemplate from './CardTemplate';
-import {useState} from 'react';
+import { useState } from 'react';
 import './Swiper.css';
 
 const LIMIT = 80;
 
 function SwipeableCard({ content, index, items, setItems }) {
     const x = useMotionValue(0);
+    const y = useMotionValue(0);
     //const opacity = useTransform(x, [-LIMIT, 0, LIMIT], [0, 1, 0]);
     const rotate = useTransform(x, [-LIMIT, -10, 0, 10, LIMIT], [-10, 0, 0, 0, 10]);
     const borderColor = useTransform(x, [-LIMIT, -LIMIT + 1, 0, LIMIT - 1, LIMIT], ["#ff0000", "#000000", "#000000", "#000000", "#00ff00"]);
     const scale = useTransform(x, [-LIMIT, 0, LIMIT], [1.1, 1, 1.1]);
 
-    function handleDragEnd(event, info) {
-        console.log("Info: ", info);
-        console.log("Event: ", event);
+    function handleDragEnd() {
         if (x.get() > LIMIT) {
             console.log("Swiped right");
         } else if (x.get() < -LIMIT) {
@@ -22,7 +21,13 @@ function SwipeableCard({ content, index, items, setItems }) {
         } else {
             return;
         }
+        animate(x, x.get() * 5, { duration: 0.2, ease: "easeOut" }).then(() => removeCard());
+    }
+
+    function removeCard() {
         setItems(prevItems => prevItems.filter((_, i) => i !== index));
+        x.set(0);
+        y.set(0);
     }
 
     return (
@@ -30,7 +35,7 @@ function SwipeableCard({ content, index, items, setItems }) {
             key={index}
             className="swipeableCard"
             style={{
-                zIndex: items.length - index,
+                zIndex: index,
                 x,
                 //opacity,
                 rotate,
@@ -45,7 +50,7 @@ function SwipeableCard({ content, index, items, setItems }) {
                 companyName={content.companyName}
                 position={content.position}
                 description={content.description}
-                />
+            />
         </motion.div>
     );
 }
@@ -53,8 +58,10 @@ function SwipeableCard({ content, index, items, setItems }) {
 function SwipeCardManager({ data }) {
     const [items, setItems] = useState(data);
     return (
+
         <div className="mainContainer">
             <div className="cardContainer">
+                {items.length === 0 ? <button onClick={() => setItems(data)}>Reset</button> : null}
                 {items.map((item, index) => (
                     <SwipeableCard
                         key={index}
