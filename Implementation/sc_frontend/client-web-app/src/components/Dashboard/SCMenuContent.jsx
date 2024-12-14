@@ -65,6 +65,12 @@ const mainListItems = [
     icon: <SCIcons.SCInboxIcon />,
     route: "/dashboard/communications",
   },
+  {
+    key: uuidv4(),
+    text: "Swipe",
+    icon: <SCIcons.SCHomeIcon />,
+    route: "/dashboard/swipe-card",
+  },
 ];
 
 const secondaryListItems = [
