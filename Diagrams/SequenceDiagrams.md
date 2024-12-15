@@ -336,13 +336,13 @@ sequenceDiagram
 sequenceDiagram
     actor University
     participant Student&Company
-    actor Company and Student
+    actor Company/Student
     activate University
     activate Student&Company
     University ->> Student&Company: press(Complaints)
     Student&Company -->> University: showPage(ComplaintsPage)
     University ->> Student&Company: press(TerminateInternship)
-    Student&Company ->> Company and Student: notify(InternshipTermination)
+    Student&Company ->> Company/Student: notify(InternshipTermination)
     deactivate Student&Company
     deactivate University
 ```
