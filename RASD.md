@@ -426,7 +426,7 @@ Given the system's non-essential nature, overly rigid performance standards are 
  - The system shall notify Users within 2 seconds after an even has occurred
  - The system shall respond to User requests within 2 seconds under normal load conditions
  - The system shall support at least 1000 concurrent Users
- - Database queries shall complete within 1.5 seconds
+ - Database queries shall be completed within 1.5 seconds
  - The system shall handle up to 10,000 internship listings simultaneously
  - The system shall support up to 100,000 registered Users
  - The system shall support up to 1000 registered Companies
@@ -440,19 +440,20 @@ Given the system's non-essential nature, overly rigid performance standards are 
 ## 3.2.2 Use Cases
 
 ### RegisterStudent
-**Actors:**  Student, Email Provider.
+**Actors:** Student, Email Provider.
 
 **Entry Conditions:** The user is not logged in.
 
 **Flow of Events:** 
 1. The student selects the "Sign up" option.
-2. The platform open the sign-up page.
+2. The platform opens the sign-up page.
 3. The student selects the "Student" option, provides the required information (name, surname, date of birth, institutional email, optionally personal email, password, University name among those available) and click the "Sign Up" button.
 4. The platform validates the email and checks if it is unique.
-5. The platform registers the Student and send a confirmation email to the provided email address through the Email Provider.
-6. The Student confirms the registration by clicking on the link in the email.
-7. The platform confirms the registration and activates the account.
-8. The Student is redirected to the platform's homepage.
+5. The platform registers the Student and sends a confirmation email to the provided email address through the Email Provider.
+6. The platform shows a message to the Student to confirm the registration.
+7. The Student confirms the registration by clicking on the link in the email.
+8. The platform confirms the registration and activates the account.
+9. The Student is redirected to the platform's homepage.
 
 **Exit Conditions:** The Student is registered and logged in.
 
@@ -463,19 +464,20 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - The email is already in use.
 
 ### RegisterCompany
-**Actors:**  Company, Email Provider.
+**Actors:** Company, Email Provider.
 
 **Entry Conditions:** The user is not logged in.
 
 **Flow of Events:**
 1. The company selects the "Sign up" option.
-2. The platform open the sign-up page.
+2. The platform opens the sign-up page.
 3. The company selects the "Company" option, provides the required information (Company name, Company headquarters address, VAT number, email and password) and click the "Sign Up" button.
 4. The platform sends a confirmation email to the provided email address through the Email Provider.
-5. The Company confirms the registration by clicking on the link in the email.
-6. The platform validates the VAT number and checks if it is unique.
-7. The platform confirms the registration and activates the account.
-8. The Company is redirected to the platform's homepage.
+5. The platform shows a message to the Company to confirm the registration.
+6. The Company confirms the registration by clicking on the link in the email.
+7. The platform validates the VAT number and checks if it is unique.
+8. The platform confirms the registration and activates the account.
+9. The Company is redirected to the platform's homepage.
 
 **Exit Conditions:** The Company is registered and logged in.
 
@@ -486,19 +488,20 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - The VAT number is already in use.
 
 ### RegisterUniversity
-**Actors:**  Company, Email Provider.
+**Actors:** Company, Email Provider.
 
 **Entry Conditions:** The user is not logged in.
 
 **Flow of Events:**
 1. The university selects the "Sign up" option.
-2. The platform open the sign-up page.
+2. The platform opens the sign-up page.
 3. The university selects the "University" option, provides the required information (University Name, University description, VAT number, email of the University office that will manage the internship program, and password) and click the "Sign Up" button.
 4. The platform sends a confirmation email to the provided email address through the Email Provider.
-5. The platform confirms the registration by clicking on the link in the email.
-6. The platform validates the VAT number and checks if it is unique.
-7. The platform confirms the registration and activates the account.
-8. The University is redirected to the platform's homepage.
+5. The platform shows a message to the University to confirm the registration.
+6. The University confirms the registration by clicking on the link in the email.
+7. The platform validates the VAT number and checks if it is unique.
+8. The platform confirms the registration and activates the account.
+9. The University is redirected to the platform's homepage.
 
 **Exit Conditions:** The University is registered and logged in.
 
@@ -509,13 +512,13 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - The VAT number is already in use.
 
 ### LoginUser
-**Actors:**  User
+**Actors:** User
 
 **Entry Conditions:** The user is not logged in
 
 **Flow of Events:**
 1. The User selects the "Sign in" option.
-2. The platform open the sign-in page.
+2. The platform opens the sign-in page.
 3. The user provides their email and password.
 4. The platform validates the credentials.
 5. The platform confirms the credentials and logs in the User.
@@ -526,14 +529,15 @@ Given the system's non-essential nature, overly rigid performance standards are 
 **Exceptions:**
 - The User provides incorrect email or password.
 
-### LoadCurriculum
-**Actors:**  Student
+<!--(Button to place in account's menu probably, wait for UI)--> TODO 
+### LoadCurriculum 
+**Actors:** Student
 
 **Entry Conditions:** The Student is logged in
 
 **Flow of Events:**
 1. The Student selects the "Upload CV" option.
-2. The platform open the Curriculum page.
+2. The platform opens the Curriculum page.
 3. The Student fills the form with the required information (current level of education, known languages, technical skills, a photo of himself, a brief description of his interests and hobbies etc...) and click the "Submit CV" button.
 4. The platform publishes the CV.
 5. The platform generates a list of matching internships based on the CV.
@@ -547,13 +551,13 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - The Student exits the page before submitting the CV.
 
 ### AdvertiseInternships
-**Actors:**  Company
+**Actors:** Company
 
 **Entry Conditions:** The Company is logged in
 
 **Flow of Events:**
 1. The Company selects the "My Internships" option.
-2. The Platform open the Internships page.
+2. The Platform opens the Internships page.
 3. The Company selects the "Create Internship" option.
 4. The platform shows the Internship creation form.
 5. The Company fills the form with the required information (Internship title, description, start date and duration, office address, required skills and benefits offered) and click the “Submit Internship” button.
@@ -569,16 +573,16 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - The Company exits the page before submitting the Internship.
  
 ### SpontaneousApplication
-**Actors:**  Student, Company
+**Actors:** Student, Company
 
 **Entry Conditions:** The Student is logged in and has his CV uploaded.
 
 **Flow of Events:**
 1. The Student selects the "Browse all Internships" option.
-2. The platform open the global Internships page.
+2. The platform opens the global Internships page.
 3. The Student selects the "Apply" option on one of the available Internships.
 4. The platform notifies the Company of the Spontaneous Application.
-5. The platform adds the student application to the company's list of applicants.
+5. The platform adds the Student application to the Company's list of applicants.
 
 **Exit Conditions:** The application is successfully submitted to the company.
 
@@ -586,9 +590,9 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - Internship is no longer available.
 
 ### AcceptMatch
-**Actors:**  Student, Company
+**Actors:** Student, Company
 
-**Entry Conditions:** A Match is generated between the student and the Company's Internship and the Student has his CV uploaded.
+**Entry Conditions:** A Match is generated between the Student and the Company's Internship and the Student has his CV uploaded.
 
 **Flow of Events:**
 1. The platform notifies the Student and the Company of the Match.
@@ -599,15 +603,15 @@ Given the system's non-essential nature, overly rigid performance standards are 
 6. The platform stores the result.
 7. If the other party has already accepted the Match, the platform adds the Interview to the Student and the Company's list of Interviews and notifies both parties.
 
-**Exit Conditions:** The Match is successfully accepted.
+**Exit Conditions:** The Match is successfully accepted by one of the parties.
 
 **Exceptions:**
 - None
 
 ### FeedbackMechanism
-**Actors:**  Student, Company
+**Actors:** Student, Company
 
-**Entry Conditions:** A Match is accepted or declined by the Student or the Company.
+**Entry Conditions:** The Student or the Company is logged in.
 
 **Flow of Events:**
 1. The Student or the Company press the "My Recommendations" button.
@@ -640,7 +644,7 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - No valuable suggestions are found.
 
 ### AssignInterview
-**Actors:**  Company, Student
+**Actors:** Company, Student
 
 **Entry Conditions:** A Match between the Student and the Company's Internship is accepted by both parties or the Company has accepted a Spontaneous Application.
 
