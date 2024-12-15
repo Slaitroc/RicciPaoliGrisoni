@@ -1,9 +1,10 @@
 import React from "react";
 import "./CardTemplate.css";
 
-function MatchCard(props) {
+// return a CardTemplate component that contains the card header (computed) and the description (pass by props) separated by a divider
+function CardTemplate(props) {
   return (
-    <div className="card" style={{...props.style}}>
+    <div className="card">
       {createCardHeader({name: props.companyName, position: props.position })}
       <hr className="divider" />
       <p className="description"> 
@@ -12,7 +13,7 @@ function MatchCard(props) {
   );
 }
 
-
+//return a div that contains the logo (color choose dynamically) and the content of the card header
 function createCardHeader({ name, position }) {
   return (
     <div className="card-header">
@@ -41,4 +42,5 @@ function logoBackgroundColor(initial) {
       return "rgb(204, 0, 0)";
   }
 }
-export default MatchCard;
+
+export default CardTemplate;
