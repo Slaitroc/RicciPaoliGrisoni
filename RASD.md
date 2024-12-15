@@ -34,9 +34,9 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 2. Students would like to autonomously candidate for available Internships
 3. Students would like to be Matched with Companies that offer Internships they might be interested in
 4. Companies would like to perform Interviews with Matched Students
-5. Students and Companies would like to complain, communicate problems, provide information about an ongoing Internship
+5. Students and Companies would like to complain, communicate problems, provide information about an Ongoing Internship
 6. Students and Companies would like to be provided with Suggestions about how to improve their submission
-7. Universities would like to handle Complaints about ongoing Internships
+7. Universities would like to handle Complaints about Ongoing Internships
 8. Students would like to choose which internship to attend from among those for which they passed the interview.
 9. Companies would like to select students for the internship position among those who passed the interview
 
@@ -69,11 +69,11 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 5. A Company wants to interview a Student during a selection process
 6. A Company wants to manage Interviews
 7. A Student wants to answer questions concerning a selection process
-8. A Company wants to complain, communicate problems, provide information about an ongoing Internship
-9. A Students wants to complain, communicate problems, provide information about an ongoing Internship
-10. A University wants to monitor an ongoing Internship
-11. A University wants to handle Complaints about an ongoing Internship
-12. A University wants to interrupt an ongoing Internship
+8. A Company wants to complain, communicate problems, provide information about an  Ongoing Internship
+9. A Students wants to complain, communicate problems, provide information about an   Ongoing Internship
+10. A University wants to monitor an  Ongoing Internship
+11. A University wants to handle Complaints about an  Ongoing Internship
+12. A University wants to interrupt an  Ongoing Internship
 
 
 ## 1.2.2 Shared Phenomena
@@ -85,10 +85,10 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 3. A Company configures Interviews for a specific Internship
 4. A Company conducts a previously set up Interview
 5. A Company finalizes a previously conducted Interview
-6. A Student or Company complains, communicates problems, provides information about an ongoing Internship
+6. A Student or Company complains, communicates problems, provides information about an  Ongoing Internship
 7. A Student answers questions related to an Interview
 8. A Student or Company monitors his Recommendation Process
-9. A University handles Complaints about ongoing Internships
+9. A University handles Complaints about  Ongoing Internships
 10. A University interrupts an Internship
 
 ### Controlled By the Machine
@@ -99,7 +99,7 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 4. The Platform shows to Students the current status of the Recommendation Process
 5. The Platform shows to Companies the current status of the Recommendation Process for a given Internship
 6. The Platform shows to Companies information about Interviews
-7. The Platform shows to Universities information about an ongoing Internship
+7. The Platform shows to Universities information about an  Ongoing Internship
 8. The Platform notifies Students and Companies when a suitable Recommendation is found
 9. The Platform provides Students and Companies Suggestions about how to make their submissions
 10. The Platform asks for Feedback to improve the Recommendation Process
@@ -112,10 +112,10 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 6. The Platform presents the interface for a Company to conduct previously set-up Interviews
 7. The Platform presents the interface for a Company to finalize previously conducted Interviews
 8. The Platform displays the interface for a Student to answer Interview questions
-9. The Platform presents the interface for complaining, communicating problems, providing information about an ongoing Internship
+9. The Platform presents the interface for complaining, communicating problems, providing information about an  Ongoing Internship
 10. The Platform presents the interface for a University to handle Complaints
-11. The Platform presents the interface for a University to Monitor an ongoing Internship
-12. The Platform presents the interface for a University to interrupt an ongoing Internship -->
+11. The Platform presents the interface for a University to Monitor an  Ongoing Internship
+12. The Platform presents the interface for a University to interrupt an  Ongoing Internship -->
 
 
 ## 1.5 Reference Documents
@@ -144,6 +144,7 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 - **Unaccepted Match:** A match that has been refused by either a Student or a Company.
 - **Confirmed Internship:** An Internship Offer that has been accepted by the Student.
 - **Complaint:** A report of a problem or issue that a Student or Company has with an ongoing Confirmed Internship. It can be published on the platform and handled by the University.
+- **Ongoing Internship:** A internship that is currently in progress. All Ongoing Internships are Confirmed Internships but the vice versa is not always true.
 <!--(1.5h)Sam-->
 
 
@@ -309,7 +310,7 @@ This section outlines the essential functionalities and detailed requirements of
 6. **Feedback and Suggestions for Improvement**
    The platform collects Feedback from Students and Companies to improve the Recommendation Process. It also provides Suggestions to Students on how to enhance their CVs and to Companies on how to improve their Internship descriptions.
 7. **Complaint Management**
-   Students and Companies can publish Complaints about ongoing Internships, which are then handled by Universities. Universities can monitor Complaints and interrupt Internships if necessary.
+   Students and Companies can publish Complaints about Ongoing Internships, which are then handled by Universities. Universities can monitor Complaints and interrupt Internships if necessary.
 8. **Notification System**
    Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new Internships, matched Recommendations, Interview assignments, Internship Position Offers,Complaints, Sign-up confirmation or Communications.
    <!-- [(2.0h) Matteo] -->
@@ -355,7 +356,7 @@ This section outlines the essential functionalities and detailed requirements of
 31. The system shall provide Suggestions to Companies on improving Internship descriptions.
     <!-- Universities Oversight and Complaint Management -->
 32. The system shall allow registered Universities to access and monitor Internship Communications related to their Students.
-33. The system shall provide a dedicated space for Students and Companies to exchange Communications about the current status of an ongoing Internship.
+33. The system shall provide a dedicated space for Students and Companies to exchange Communications about the current status of an Ongoing Internship.
 34. The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
 <!-- [(6.0h) Matteo] -->
 
@@ -365,18 +366,18 @@ Student&Company is designed to be used by three main types of Users: Students, C
 
 - **Students**
     Student users are individuals currently enrolled in a University (which must be registered on the Platform) who are looking for Internship opportunities to enhance their education and their curriculum. \\
-    They can register on the platform, upload their CVs, and apply for Internships either through the Recommendation Process or by submitting a Spontaneous Applications to a Interview Offer to which they are particular interested. Students can also monitor the status of their Applications, Interviews, and Internship Position Offers thought dedicated section on the platform and can, eventually, report problems encountered during an ongoing Internship to their University by creating a Complaint.\\
+    They can register on the platform, upload their CVs, and apply for Internships either through the Recommendation Process or by submitting a Spontaneous Applications to a Interview Offer to which they are particular interested. Students can also monitor the status of their Applications, Interviews, and Internship Position Offers thought dedicated section on the platform and can, eventually, report problems encountered during an Ongoing Internship to their University by creating a Complaint.\\
     The platform also provides Students with Suggestions on how to improve their CVs and matching probability based on a grammar and lexical analyses and a direct comparing of the Student's CV with another similar candidate while the Student can improve the platform by providing Feedback on the Recommendation Process once a Confirmed Match is found.
 
 - **Companies**
     Company users are entities that are looking for interns to train and educate in their field of expertise. Each company account is created by a representative of the Company, usually a Human Resource employee or a manager that is in charge of the internship program. \\
-    Companies can register on the platform and create, publish, manage and delete different Internship Offers at the same time. They can also view and manage the CVs of Students that have been matched or have sent a Spontaneous Application to such offers and create and submit Interviews to evaluate them. If a Student passes the Interview, the Company can send an Internship Position Offer to the him while monitoring other Interview and Internship Position Offers and, moreover, each Company can report problem encountered during an ongoing Internship by creating a Complaint.\\
+    Companies can register on the platform and create, publish, manage and delete different Internship Offers at the same time. They can also view and manage the CVs of Students that have been matched or have sent a Spontaneous Application to such offers and create and submit Interviews to evaluate them. If a Student passes the Interview, the Company can send an Internship Position Offer to the him while monitoring other Interview and Internship Position Offers and, moreover, each Company can report problem encountered during an Ongoing Internship by creating a Complaint.\\
     The platform also provides Companies with Suggestions on how to improve their Internship descriptions and matching probability based on a grammar and lexical analyses and a direct comparing of the Company's Internship Offer with other similar companies while they can help improve the platform by providing Feedback on the Recommendation Process once a Confirmed Match is found.
 
 - **Universities**
     University users are institutions that are looking to provide their Students with Internship opportunities to enhance their education and curriculum. Each university account is created by a representative of the University, usually a carrier advisor or a professor that is in charge of the internship program.\\
-    Universities can register on the platform and monitor their Students by reciving Communication both from Student and Companies. Such Communication can be about the acceptance of a Internship Position Offer by a Student or some problem encountered during an ongoing Internship reported by a party trough a Complaint. \\
-    University can handle such Complaints and, eventually, interrupt an ongoing Internship if no solution to the problem is found to prevent further issues.\\
+    Universities can register on the platform and monitor their Students by reciving Communication both from Student and Companies. Such Communication can be about the acceptance of a Internship Position Offer by a Student or some problem encountered during an Ongoing Internship reported by a party trough a Complaint. \\
+    University can handle such Complaints and, eventually, interrupt an Ongoing Internship if no solution to the problem is found to prevent further issues.\\
 
 While Student&Company is not specifically designed to accommodate users with special needs, the platform implements several basic accessibility features to improve usability for all users. These include different display modes such as dark mode, screen-reader compatible layouts and easily readable fonts.
 The web interface try to follows WCAG 2.1 Level A guidelines for basic accessibility compliance. However, users requiring specialized assistive technologies may need to rely on their own tools and software to interact with the platform optimally.
@@ -388,7 +389,7 @@ The web interface try to follows WCAG 2.1 Level A guidelines for basic accessibi
 2. Companies remove published Internship if they are no longer available
 3. Students, Companies and Universities receive every notification
 4. Students, Companies and Universities have a working internet connection
-5. Universities interrupt an ongoing Internship only if no solution to complaints is found
+5. Universities interrupt an Ongoing Internship only if no solution to complaints is found
 
 
 <!-- This is a RASD document primarily read by non-technical stakeholder. My idea is not to mention in the PWA 
@@ -411,7 +412,7 @@ The platform uses standard internet communication protocols to interact with Use
 ![User Registration UseCase](./Diagrams/UseDiagrams/UserRegistrationUseCase.png)
 ![Student and Company UseCase](./Diagrams/UseDiagrams/Student%20Company%20Use%20Case.png)
 ![University UseCase](./Diagrams/UseDiagrams/UniversityUseCaseDiagram.png)
-<!-- (4.5h) (Sam)-->
+<!-- (5.5h) (Sam)-->
 
 
 ## 3.2 Functional Requirements
@@ -761,13 +762,13 @@ To me, this is clearer-->
 ### [G4] Companies would like to perform Interviews with suitable Students
 - [D1], [D2], [D3], [D4]
 - [R1], [R2], [R3], [R4], [R5], [R19], [R20], [R21], [R22], [R23], [R24], [R26]
-### [G5] Students and Companies would like to complain, communicate problems, provide information about an ongoing Internship
+### [G5] Students and Companies would like to complain, communicate problems, provide information about an Ongoing Internship
 - [D1], [D2], [D3], [D4]
 - [R1], [R2], [R3], [R4], [R5], [R28], [R33]
 ### [G6] Students and Companies would like to be provided with Suggestions about how to improve their submission
 - [D1], [D4]
 - [R1], [R2], [R3], [R4], [R6], [R7], [R12], [R29], [R30], [R31]
-### [G7] Universities would like to handle Complaints about ongoing Internships
+### [G7] Universities would like to handle Complaints about Ongoing Internships
 - [D1], [D2], [D3], [D4], [D5]
 - [R1], [R2], [R3], [R4], [R5], [R32], [R33], [R34]
 ### [G8] Students would like to choose which internship to attend from among those for which they passed the interview.
