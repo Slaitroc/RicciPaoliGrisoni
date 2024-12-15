@@ -32,6 +32,7 @@ function SwipeableCard({ content, index, items, setItems }) {
         }
         //animate the card to the right or left and then call the removeCard function
         animate(x, x.get() * 5, { duration: 0.2, ease: "easeOut" }).then(() => removeCard());
+        
     }
 
     //remove the card from the array, reset the x position

@@ -7,12 +7,15 @@
     justify-content: center; /* center items horizontally wrt main direction */
     align-items: center; /* center items vertically wrt column (x)*/
     padding: 3rem 0; /*3rem top and bottom, 0 left and right, internal margins*/
+    margin-top: min(10vh, 1rem); /* 10% of the viewport height vh or 5rem, whichever is smaller */
     overflow: hidden;
 }
 
 .cardContainer{
     width: 40vh; /* 40% of the viewport height vh*/
     height: 60vh;
+    min-width: 1rem;
+    min-height: 1.5rem;
     background-color: transparent;
     position: relative;
 }
