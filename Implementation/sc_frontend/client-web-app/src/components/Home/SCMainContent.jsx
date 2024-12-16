@@ -17,11 +17,13 @@ import { styled } from "@mui/material/styles";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import RssFeedRoundedIcon from "@mui/icons-material/RssFeedRounded";
 import { v4 as uuidv4 } from "uuid";
+import { TEXT } from "../../constants/UIConstants";
 
 const cardData = [
   {
     key: uuidv4(),
-    image: "https://picsum.photos/800/450?random=1",
+    image:
+      "https://images.unsplash.com/photo-1697545806181-c2604e075a2a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     tag: "UserScenario",
     title: "Student Sign-up",
     description:
@@ -29,7 +31,8 @@ const cardData = [
   },
   {
     key: uuidv4(),
-    image: "https://picsum.photos/800/450?random=2",
+    image:
+      "https://plus.unsplash.com/premium_photo-1661420059005-46f59e62e478?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     tag: "UserScenario",
     title: "Company Sign-up",
     description:
@@ -37,7 +40,8 @@ const cardData = [
   },
   {
     key: uuidv4(),
-    image: "https://picsum.photos/800/450?random=3",
+    image:
+      "https://images.unsplash.com/photo-1560264418-c4445382edbc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     tag: "UserScenario",
     title: "University Sign-up",
     description:
@@ -45,7 +49,8 @@ const cardData = [
   },
   {
     key: uuidv4(),
-    image: "https://picsum.photos/800/450?random=45",
+    image:
+      "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     tag: "UserScenario",
     title: "User Login",
     description:
@@ -53,7 +58,8 @@ const cardData = [
   },
   {
     key: uuidv4(),
-    image: "https://picsum.photos/800/450?random=6",
+    image:
+      "https://plus.unsplash.com/premium_photo-1661288470388-c5006797bdff?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     tag: "UserScenario",
     title: "Student Load Curriculum",
     description:
@@ -61,7 +67,8 @@ const cardData = [
   },
   {
     key: uuidv4(),
-    image: "https://picsum.photos/800/450?random=4",
+    image:
+      "https://images.pexels.com/photos/3184416/pexels-photo-3184416.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     tag: "UserScenario",
     title: "Company Submit an Internship Insertion",
     description:
@@ -193,93 +200,10 @@ export default function MainContent() {
     <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
       <div>
         <Typography variant="h1" gutterBottom>
-          Home
+          {TEXT.FULL_SIGN}
         </Typography>
         <Typography>Stay in the loop with the latest news</Typography>
       </div>
-      {/* <Box
-        sx={{
-          display: { xs: "flex", sm: "none" },
-          flexDirection: "row",
-          gap: 1,
-          width: { xs: "100%", md: "fit-content" },
-          overflow: "auto",
-        }}
-      >
-        <Search />
-      </Box> */}
-      {/* <Box
-        sx={{
-          display: "flex",
-          flexDirection: { xs: "column-reverse", md: "row" },
-          width: "100%",
-          justifyContent: "space-between",
-          alignItems: { xs: "start", md: "center" },
-          gap: 4,
-          overflow: "auto",
-        }}
-      >
-        <Box
-          sx={{
-            display: "inline-flex",
-            flexDirection: "row",
-            gap: 3,
-            overflow: "auto",
-          }}
-        >
-          <Chip onClick={handleClick} size="medium" label="All categories" />
-          <Chip
-            onClick={handleClick}
-            size="medium"
-            label="User Scenarios"
-            sx={{
-              backgroundColor: "transparent",
-              border: "none",
-            }}
-          />
-          <Chip
-            onClick={handleClick}
-            size="medium"
-            label="Companies"
-            sx={{
-              backgroundColor: "transparent",
-              border: "none",
-            }}
-          />
-          <Chip
-            onClick={handleClick}
-            size="medium"
-            label="Students"
-            sx={{
-              backgroundColor: "transparent",
-              border: "none",
-            }}
-          />
-          <Chip
-            onClick={handleClick}
-            size="medium"
-            label="Universities"
-            sx={{
-              backgroundColor: "transparent",
-              border: "none",
-            }}
-          />
-        </Box>
-        <Box
-          sx={{
-            display: { xs: "none", sm: "flex" },
-            flexDirection: "row",
-            gap: 1,
-            width: { xs: "100%", md: "fit-content" },
-            overflow: "auto",
-          }}
-        >
-          <Search />
-          <IconButton size="small" aria-label="RSS feed">
-            <RssFeedRoundedIcon />
-          </IconButton>
-        </Box>
-      </Box> */}
       <Grid container spacing={2} columns={12}>
         {cardData.map((t, index) => {
           return (
