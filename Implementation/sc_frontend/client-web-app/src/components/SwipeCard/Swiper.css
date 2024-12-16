@@ -9,6 +9,7 @@
     padding: 3rem 0; /*3rem top and bottom, 0 left and right, internal margins*/
     margin-top: min(10vh, 1rem); /* 10% of the viewport height vh or 5rem, whichever is smaller */
     overflow: hidden;
+    position: relative;
 }
 
 .cardContainer{
@@ -28,4 +29,9 @@
     border: 0.5rem outset transparent;
     border-radius: 2.4rem;
     overflow: hidden;
+}
+
+.blur{
+    filter: blur(4px);
+    transition: filter 0.5s ease;
 }

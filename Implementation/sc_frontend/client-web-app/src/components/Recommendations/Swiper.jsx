@@ -2,8 +2,6 @@ import { useMotionValue, useTransform, motion, animate } from 'framer-motion';
 import CardTemplate from './CardTemplate';
 import { useState } from 'react';
 import './Swiper.css';
-import { useEffect } from 'react';
-import MatchOverlay from './MatchOverlay';
 
 const SWIPELIMIT = 80; 
 const ZOOMLIMIT = 1.1; 
@@ -14,7 +12,7 @@ const REJECTBORDERCOLOR = "#ff0000";
 
 
 
-function SwipeableCard({ content, index, setItems, setMatch, setMatchName }) {
+function SwipeableCard({ content, index, items, setItems, setMatch }) {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
 
@@ -24,12 +22,9 @@ function SwipeableCard({ content, index, setItems, setMatch, setMatchName }) {
     const scale = useTransform(x, [-SWIPELIMIT, 0, SWIPELIMIT], [ZOOMLIMIT, 1, ZOOMLIMIT]);
 
     //handle the end of the drag event (will call the back and and remove the swipped card)
-    //fake call to the back end to check if the card is a match
     function handleDragEnd() {
-        let swipedRight;
         if (x.get() > SWIPELIMIT) {
             console.log("Swiped right");
-            swipedRight = true;
         } else if (x.get() < -SWIPELIMIT) {
             console.log("Swiped left");
         } else {
@@ -37,10 +32,7 @@ function SwipeableCard({ content, index, setItems, setMatch, setMatchName }) {
         }
         //animate the card to the right or left and then call the removeCard function
         animate(x, x.get() * 5, { duration: 0.2, ease: "easeOut" }).then(() => removeCard());
-        if(swipedRight && Math.random() > 0.5) {
-            setMatch(true);
-            setMatchName(content.companyName);
-        }
+        setMatch(true);
     }
 
     //remove the card from the array, reset the x position
@@ -83,32 +75,26 @@ For each item in the item array, a SwipeableCard component is created with a ind
 function SwipeCardManager({ data }) {
     const [items, setItems] = useState(data);
     const [isMatch, setMatch] = useState(false)
-    const [matchName, setMatchName] = useState("")
-    //if we want to introduce an autoclose of the match overlay we need useEffect to start a thread that start when the overlay is rendered and close it after 2 seconds
-    /*useEffect(() => {
-        if (isMatch) {
-            const timer = setTimeout(() => {
-                setMatch(false);
-            }, 2000);
-            return () => clearTimeout(timer);
-        }
-    }, [isMatch]);*/
-
     return (
         <div className="mainContainer">
-            {isMatch ?  
-                <MatchOverlay zIndex={items.length+1} name={matchName} setMatch={setMatch}/> :   
-                null}
-            <div className={"cardContainer" + (isMatch ? ' blur' : '')}>
+            {isMatch ?  <div style={{backgroundColor: "#00ff00", width: "100%", height: "100%", zIndex: items.length,                     position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,}}>
+                <h1>Match!</h1>
+            </div> : null}
+
+            <div className="cardContainer">
                 {items.length === 0 ? <button onClick={() => setItems(data)}>Reset</button> : null}
                 {items.map((item, index) => (
                     <SwipeableCard
                         key={index}
                         content={item}
                         index={index}
+                        items={items}
                         setItems={setItems}
                         setMatch={setMatch}
-                        setMatchName={setMatchName}
                     />
                 ))}
             </div>
