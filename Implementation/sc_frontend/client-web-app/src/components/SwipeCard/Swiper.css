@@ -19,6 +19,9 @@
     min-height: 1.5rem;
     background-color: transparent;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .swipeableCard{
@@ -34,4 +37,20 @@
 .blur{
     filter: blur(4px);
     transition: filter 0.5s ease;
+}
+
+.resetButton{
+    position: absolute;
+    background-color: #007bff; 
+    color: white; 
+    border: none; 
+    border-radius: 25px; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+.resetButton:hover {
+    background-color: #0056b3; 
 }

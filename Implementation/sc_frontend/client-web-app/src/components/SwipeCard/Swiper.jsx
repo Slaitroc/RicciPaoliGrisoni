@@ -100,7 +100,7 @@ function SwipeCardManager({ data }) {
                 <MatchOverlay zIndex={items.length+1} name={matchName} setMatch={setMatch}/> :   
                 null}
             <div className={"cardContainer" + (isMatch ? ' blur' : '')}>
-                {items.length === 0 ? <button onClick={() => setItems(data)}>Reset</button> : null}
+                {items.length === 0 ? <button onClick={() => setItems(data)} className='resetButton'>Reset</button> : null}
                 {items.map((item, index) => (
                     <SwipeableCard
                         key={index}
