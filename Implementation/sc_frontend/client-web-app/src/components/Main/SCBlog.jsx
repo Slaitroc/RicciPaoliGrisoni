@@ -14,7 +14,7 @@ export default function Blog(props) {
       <Container
         maxWidth="lg"
         component="main"
-        sx={{ display: "flex", flexDirection: "column", my: 16, gap: 4 }}
+        sx={{ display: "flex", flexDirection: "column", marginTop: 16, marginBottom: 2, gap: 4 }}
       >
         <Outlet />
       </Container>
