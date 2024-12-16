@@ -16,6 +16,31 @@ import AutoFixHighRoundedIcon from "@mui/icons-material/AutoFixHighRounded";
 import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
 import SettingsSuggestRoundedIcon from "@mui/icons-material/SettingsSuggestRounded";
 import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
+import XIcon from "@mui/icons-material/X";
+
+export const SCInstagramIcon = () => {
+  return <InstagramIcon />;
+};
+
+export const SCXIcon = () => {
+  return <XIcon />;
+};
+
+export const SCFacebookIcon = () => {
+  return <FacebookIcon />;
+};
+
+export const SCLinkedInIcon = () => {
+  return <LinkedInIcon />;
+};
+
+export const SCMailIcon = () => {
+  return <AlternateEmailIcon />;
+};
 
 export const SCDashboardIcon = () => {
   return <DashboardIcon />;

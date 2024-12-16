@@ -2,46 +2,58 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { v4 as uuidv4 } from "uuid";
+import * as SCIcons from "../Shared/SCIcons";
 
 const cardData = [
   {
     key: uuidv4(),
-    image: "https://picsum.photos/800/450?random=400",
+    icon: <SCIcons.SCMailIcon />,
     tag: "contacts",
     title: "Email",
-    description: "contact@studentandcompanies.com",
+    link: "mailto:contact@studentandcompanies.com",
+    description: "Send an email",
   },
   {
     key: uuidv4(),
-    image: "https://picsum.photos/800/450?random=400",
+    icon: <SCIcons.SCLinkedInIcon />,
     tag: "contacts",
     title: "Linkedin",
-    description: "link",
+    link: "https://www.linkedin.com",
+    description: "LinkedIn profile",
   },
   {
     key: uuidv4(),
-    image: "https://picsum.photos/800/450?random=400",
+    icon: <SCIcons.SCInstagramIcon />,
     tag: "contacts",
     title: "Instagram",
-    description: "link",
+    link: "https://www.instagram.com",
+    description: "Instagram profile",
   },
   {
     key: uuidv4(),
-    image: "https://picsum.photos/800/450?random=400",
+    icon: <SCIcons.SCFacebookIcon />,
     tag: "contacts",
     title: "Facebook",
-    description: "link",
+    link: "https://www.facebook.com",
+    description: "Facebook profile",
+  },
+  {
+    key: uuidv4(),
+    icon: <SCIcons.SCXIcon />,
+    tag: "contacts",
+    title: "X",
+    link: "https://www.X.com",
+    description: "X profile",
   },
 ];
 
 const StyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
-  flexDirection: "column",
+  //flexDirection: "column",
   padding: 0,
   height: "100%",
   backgroundColor: (theme.vars || theme).palette.background.paper,
@@ -99,43 +111,38 @@ export default function SCContacts() {
       </div>
       <Grid container spacing={2} columns={12}>
         {cardData.map((t, index) => {
-          return (
-            <Grid key={t.key} size={{ xs: 12, md: 6 }}>
-              <StyledCard
-                variant="outlined"
-                onFocus={() => handleFocus(t.key)}
-                onBlur={() => handleBlur(t.key)}
-                tabIndex={index}
-                className={focusedCardIndex === t.key ? "Mui-focused" : ""}
-              >
-                <CardMedia
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderBottom: "1px solid",
-                    borderColor: "divider",
-                    backgroundColor: "background.default",
-                  }}
-                />
-                <StyledCardContent>
-                  <Typography gutterBottom variant="caption" component="div">
-                    {t.tag}
-                  </Typography>
-                  <Typography gutterBottom variant="h6" component="div">
-                    {t.title}
-                  </Typography>
-                  <StyledTypography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                  >
-                    {t.description}
-                  </StyledTypography>
-                </StyledCardContent>
-              </StyledCard>
-            </Grid>
+          const component = (
+            <>
+              <Grid key={t.key} size={{ xs: 12, md: 6 }}>
+                <StyledCard
+                  variant="outlined"
+                  onFocus={() => handleFocus(t.key)}
+                  onBlur={() => handleBlur(t.key)}
+                  tabIndex={index}
+                  className={focusedCardIndex === t.key ? "Mui-focused" : ""}
+                >
+                  <StyledCardContent>
+                    <Typography gutterBottom variant="caption" component="div">
+                      {t.icon}
+                    </Typography>
+                    <Typography gutterBottom variant="h6" component="div">
+                      {t.title}
+                    </Typography>
+                    <StyledTypography
+                      variant="body2"
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      <a href={t.link} target="_blank">
+                        {t.description}
+                      </a>
+                    </StyledTypography>
+                  </StyledCardContent>
+                </StyledCard>
+              </Grid>
+            </>
           );
+          return component;
         })}
       </Grid>
     </Box>
