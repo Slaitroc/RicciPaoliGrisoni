@@ -170,10 +170,22 @@ export default function SCSignUp(props) {
                 />
               </FormControl>
             </Box>
-            <FormControl>
-              <FormLabel htmlFor="name">Date</FormLabel>
-              <DatePicker views={["year", "month", "day"]} />
-            </FormControl>
+            <Box display="flex" justifyContent="center">
+              <FormControl>
+                <FormLabel htmlFor="name">Date of Birth</FormLabel>
+                <DatePicker
+                  views={["year", "month", "day"]}
+                  sx={{
+                    "& .MuiIconButton-root": {
+                      width: "30px", // Modifica la larghezza del pulsante
+                      height: "30px", // Modifica l'altezza del pulsante
+                      padding: "4px", // Diminuisce lo spazio interno
+                      border: "none",
+                    },
+                  }}
+                />
+              </FormControl>
+            </Box>
             <FormControl>
               <FormLabel htmlFor="email">Email</FormLabel>
               <TextField
@@ -203,15 +215,25 @@ export default function SCSignUp(props) {
                 color={passwordError ? "error" : "primary"}
               />
             </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="universities">University</FormLabel>
-              <Autocomplete
-                disablePortal
-                options={global.universities}
-                sx={{ width: 300 }}
-                renderInput={(params) => <TextField {...params} label="" />}
-              />
-            </FormControl>
+            <Box display="flex" justifyContent="center">
+              <FormControl>
+                <FormLabel htmlFor="universities">University</FormLabel>
+                <Autocomplete
+                  disablePortal
+                  options={global.universities}
+                  sx={{
+                    width: 220,
+                    "& .MuiAutocomplete-endAdornment .MuiIconButton-root": {
+                      width: "30px", // Riduce larghezza del contenitore
+                      height: "30px", // Riduce altezza del contenitore
+                      padding: "4px", // Opzionale: diminuisce lo spazio interno
+                      border: "none",
+                    },
+                  }}
+                  renderInput={(params) => <TextField {...params} label="" />}
+                />
+              </FormControl>
+            </Box>
             <FormControl>
               <FormLabel htmlFor="password">Password</FormLabel>
               <TextField
@@ -374,7 +396,17 @@ export default function SCSignUp(props) {
             </FormControl>
             <FormControl>
               <FormLabel htmlFor="name">University Description</FormLabel>
-              <Input multiline variant="outlined" />
+              <TextField
+                multiline
+                variant="outlined"
+                placeholder="Description"
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    minHeight: "auto", // Altezza minima dinamica
+                    height: "auto", // Altezza complessiva non fissa
+                  },
+                }}
+              />
             </FormControl>
             <FormControl>
               <FormLabel htmlFor="name">Internship Office Name</FormLabel>
@@ -426,7 +458,7 @@ export default function SCSignUp(props) {
                 required
                 fullWidth
                 name="password"
-                placeholder="••••••"
+                placeholder="••••••••"
                 type="password"
                 id="password"
                 autoComplete="new-password"
@@ -443,7 +475,7 @@ export default function SCSignUp(props) {
                 required
                 fullWidth
                 name="password"
-                placeholder="••••••"
+                placeholder="••••••••"
                 type="password"
                 id="password"
                 autoComplete="new-password"
@@ -468,10 +500,8 @@ export default function SCSignUp(props) {
       <SCColorModeSelect
         sx={{ position: "fixed", top: "1rem", right: "1rem" }}
       />
-      <Box sx={{ padding: (theme) => theme.spacing(3) }}>
-        <SCBackHomeButton></SCBackHomeButton>
-      </Box>
       <SignUpContainer direction="column" justifyContent="space-between">
+        <SCBackHomeButton></SCBackHomeButton>
         <Card variant="outlined">
           <Typography
             component="h1"
