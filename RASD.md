@@ -34,9 +34,9 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 2. Students would like to autonomously candidate for available Internships
 3. Students would like to be Matched with Companies that offer Internships they might be interested in
 4. Companies would like to perform Interviews with Matched Students
-5. Students and Companies would like to complain, communicate problems, provide information about an ongoing Internship
+5. Students and Companies would like to complain, communicate problems, provide information about an Ongoing Internship
 6. Students and Companies would like to be provided with Suggestions about how to improve their submission
-7. Universities would like to handle Complaints about ongoing Internships
+7. Universities would like to handle Complaints about Ongoing Internships
 8. Students would like to choose which internship to attend from among those for which they passed the interview.
 9. Companies would like to select students for the internship position among those who passed the interview
 
@@ -69,11 +69,11 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 5. A Company wants to interview a Student during a selection process
 6. A Company wants to manage Interviews
 7. A Student wants to answer questions concerning a selection process
-8. A Company wants to complain, communicate problems, provide information about an ongoing Internship
-9. A Students wants to complain, communicate problems, provide information about an ongoing Internship
-10. A University wants to monitor an ongoing Internship
-11. A University wants to handle Complaints about an ongoing Internship
-12. A University wants to interrupt an ongoing Internship
+8. A Company wants to complain, communicate problems, provide information about an  Ongoing Internship
+9. A Students wants to complain, communicate problems, provide information about an   Ongoing Internship
+10. A University wants to monitor an  Ongoing Internship
+11. A University wants to handle Complaints about an  Ongoing Internship
+12. A University wants to interrupt an  Ongoing Internship
 
 
 ## 1.2.2 Shared Phenomena
@@ -85,10 +85,10 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 3. A Company configures Interviews for a specific Internship
 4. A Company conducts a previously set up Interview
 5. A Company finalizes a previously conducted Interview
-6. A Student or Company complains, communicates problems, provides information about an ongoing Internship
+6. A Student or Company complains, communicates problems, provides information about an  Ongoing Internship
 7. A Student answers questions related to an Interview
 8. A Student or Company monitors his Recommendation Process
-9. A University handles Complaints about ongoing Internships
+9. A University handles Complaints about  Ongoing Internships
 10. A University interrupts an Internship
 
 ### Controlled By the Machine
@@ -99,7 +99,7 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 4. The Platform shows to Students the current status of the Recommendation Process
 5. The Platform shows to Companies the current status of the Recommendation Process for a given Internship
 6. The Platform shows to Companies information about Interviews
-7. The Platform shows to Universities information about an ongoing Internship
+7. The Platform shows to Universities information about an  Ongoing Internship
 8. The Platform notifies Students and Companies when a suitable Recommendation is found
 9. The Platform provides Students and Companies Suggestions about how to make their submissions
 10. The Platform asks for Feedback to improve the Recommendation Process
@@ -112,10 +112,10 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 6. The Platform presents the interface for a Company to conduct previously set-up Interviews
 7. The Platform presents the interface for a Company to finalize previously conducted Interviews
 8. The Platform displays the interface for a Student to answer Interview questions
-9. The Platform presents the interface for complaining, communicating problems, providing information about an ongoing Internship
+9. The Platform presents the interface for complaining, communicating problems, providing information about an  Ongoing Internship
 10. The Platform presents the interface for a University to handle Complaints
-11. The Platform presents the interface for a University to Monitor an ongoing Internship
-12. The Platform presents the interface for a University to interrupt an ongoing Internship -->
+11. The Platform presents the interface for a University to Monitor an  Ongoing Internship
+12. The Platform presents the interface for a University to interrupt an  Ongoing Internship -->
 
 
 ## 1.5 Reference Documents
@@ -137,13 +137,14 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 - **Interview:** The process of evaluating a Student's application for an Internship Offer done by a Company through the S&C platform. It consists of a series of question that the Student has to answer and the Company has to evaluate. 
 - **Feedback:** Information provided by Students and Companies to the S&C platform to improve the Recommendation Process.
 - **Suggestion:** Information provided by the S&C platform to Students and Companies to improve their CVs and Internship Offer descriptions.
-- **Communication:** All of the interactions between Companies and University 
+- **Communication:** All the interactions between Companies and University 
 - **Confirmed Match:** A match that has been accepted by both a Student and a Company.
 - **Rejected Match:** A match that has been refused by either a Student or a Company.
 - **Pending Match:** A match that has been accepted only by a Student or a Company, and it's waiting for a response from the other party.
 - **Unaccepted Match:** A match that has been refused by either a Student or a Company.
 - **Confirmed Internship:** An Internship Offer that has been accepted by the Student.
 - **Complaint:** A report of a problem or issue that a Student or Company has with an ongoing Confirmed Internship. It can be published on the platform and handled by the University.
+- **Ongoing Internship:** A internship that is currently in progress. All Ongoing Internships are Confirmed Internships but the vice versa is not always true.
 <!--(1.5h)Sam-->
 
 
@@ -309,7 +310,7 @@ This section outlines the essential functionalities and detailed requirements of
 6. **Feedback and Suggestions for Improvement**
    The platform collects Feedback from Students and Companies to improve the Recommendation Process. It also provides Suggestions to Students on how to enhance their CVs and to Companies on how to improve their Internship descriptions.
 7. **Complaint Management**
-   Students and Companies can publish Complaints about ongoing Internships, which are then handled by Universities. Universities can monitor Complaints and interrupt Internships if necessary.
+   Students and Companies can publish Complaints about Ongoing Internships, which are then handled by Universities. Universities can monitor Complaints and interrupt Internships if necessary.
 8. **Notification System**
    Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new Internships, matched Recommendations, Interview assignments, Internship Position Offers,Complaints, Sign-up confirmation or Communications.
    <!-- [(2.0h) Matteo] -->
@@ -355,7 +356,7 @@ This section outlines the essential functionalities and detailed requirements of
 31. The system shall provide Suggestions to Companies on improving Internship descriptions.
     <!-- Universities Oversight and Complaint Management -->
 32. The system shall allow registered Universities to access and monitor Internship Communications related to their Students.
-33. The system shall provide a dedicated space for Students and Companies to exchange Communications about the current status of an ongoing Internship.
+33. The system shall provide a dedicated space for Students and Companies to exchange Communications about the current status of an Ongoing Internship.
 34. The system shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
 <!-- [(6.0h) Matteo] -->
 
@@ -365,18 +366,18 @@ Student&Company is designed to be used by three main types of Users: Students, C
 
 - **Students**
     Student users are individuals currently enrolled in a University (which must be registered on the Platform) who are looking for Internship opportunities to enhance their education and their curriculum. \\
-    They can register on the platform, upload their CVs, and apply for Internships either through the Recommendation Process or by submitting a Spontaneous Applications to a Interview Offer to which they are particular interested. Students can also monitor the status of their Applications, Interviews, and Internship Position Offers thought dedicated section on the platform and can, eventually, report problems encountered during an ongoing Internship to their University by creating a Complaint.\\
+    They can register on the platform, upload their CVs, and apply for Internships either through the Recommendation Process or by submitting a Spontaneous Applications to a Interview Offer to which they are particular interested. Students can also monitor the status of their Applications, Interviews, and Internship Position Offers thought dedicated section on the platform and can, eventually, report problems encountered during an Ongoing Internship to their University by creating a Complaint.\\
     The platform also provides Students with Suggestions on how to improve their CVs and matching probability based on a grammar and lexical analyses and a direct comparing of the Student's CV with another similar candidate while the Student can improve the platform by providing Feedback on the Recommendation Process once a Confirmed Match is found.
 
 - **Companies**
     Company users are entities that are looking for interns to train and educate in their field of expertise. Each company account is created by a representative of the Company, usually a Human Resource employee or a manager that is in charge of the internship program. \\
-    Companies can register on the platform and create, publish, manage and delete different Internship Offers at the same time. They can also view and manage the CVs of Students that have been matched or have sent a Spontaneous Application to such offers and create and submit Interviews to evaluate them. If a Student passes the Interview, the Company can send an Internship Position Offer to the him while monitoring other Interview and Internship Position Offers and, moreover, each Company can report problem encountered during an ongoing Internship by creating a Complaint.\\
+    Companies can register on the platform and create, publish, manage and delete different Internship Offers at the same time. They can also view and manage the CVs of Students that have been matched or have sent a Spontaneous Application to such offers and create and submit Interviews to evaluate them. If a Student passes the Interview, the Company can send an Internship Position Offer to the him while monitoring other Interview and Internship Position Offers and, moreover, each Company can report problem encountered during an Ongoing Internship by creating a Complaint.\\
     The platform also provides Companies with Suggestions on how to improve their Internship descriptions and matching probability based on a grammar and lexical analyses and a direct comparing of the Company's Internship Offer with other similar companies while they can help improve the platform by providing Feedback on the Recommendation Process once a Confirmed Match is found.
 
 - **Universities**
     University users are institutions that are looking to provide their Students with Internship opportunities to enhance their education and curriculum. Each university account is created by a representative of the University, usually a carrier advisor or a professor that is in charge of the internship program.\\
-    Universities can register on the platform and monitor their Students by reciving Communication both from Student and Companies. Such Communication can be about the acceptance of a Internship Position Offer by a Student or some problem encountered during an ongoing Internship reported by a party trough a Complaint. \\
-    University can handle such Complaints and, eventually, interrupt an ongoing Internship if no solution to the problem is found to prevent further issues.\\
+    Universities can register on the platform and monitor their Students by reciving Communication both from Student and Companies. Such Communication can be about the acceptance of a Internship Position Offer by a Student or some problem encountered during an Ongoing Internship reported by a party trough a Complaint. \\
+    University can handle such Complaints and, eventually, interrupt an Ongoing Internship if no solution to the problem is found to prevent further issues.\\
 
 While Student&Company is not specifically designed to accommodate users with special needs, the platform implements several basic accessibility features to improve usability for all users. These include different display modes such as dark mode, screen-reader compatible layouts and easily readable fonts.
 The web interface try to follows WCAG 2.1 Level A guidelines for basic accessibility compliance. However, users requiring specialized assistive technologies may need to rely on their own tools and software to interact with the platform optimally.
@@ -388,7 +389,7 @@ The web interface try to follows WCAG 2.1 Level A guidelines for basic accessibi
 2. Companies remove published Internship if they are no longer available
 3. Students, Companies and Universities receive every notification
 4. Students, Companies and Universities have a working internet connection
-5. Universities interrupt an ongoing Internship only if no solution to complaints is found
+5. Universities interrupt an Ongoing Internship only if no solution to complaints is found
 
 
 <!-- This is a RASD document primarily read by non-technical stakeholder. My idea is not to mention in the PWA 
@@ -411,7 +412,7 @@ The platform uses standard internet communication protocols to interact with Use
 ![User Registration UseCase](./Diagrams/UseDiagrams/UserRegistrationUseCase.png)
 ![Student and Company UseCase](./Diagrams/UseDiagrams/Student%20Company%20Use%20Case.png)
 ![University UseCase](./Diagrams/UseDiagrams/UniversityUseCaseDiagram.png)
-<!-- (4.5h) (Sam)-->
+<!-- (5.5h) (Sam)-->
 
 
 ## 3.2 Functional Requirements
@@ -426,12 +427,12 @@ Given the system's non-essential nature, overly rigid performance standards are 
  - The system shall notify Users within 2 seconds after an even has occurred
  - The system shall respond to User requests within 2 seconds under normal load conditions
  - The system shall support at least 1000 concurrent Users
- - Database queries shall complete within 1.5 seconds
+ - Database queries shall be completed within 1.5 seconds
  - The system shall handle up to 10,000 internship listings simultaneously
  - The system shall support up to 100,000 registered Users
  - The system shall support up to 1000 registered Companies
  - The system shall support up to 100 registered Universities
- - The Raccomandation Process shall be completed within 300 seconds under normal load conditions
+ - The Recommendation Process shall be completed within 300 seconds under normal load conditions
  - The Suggestions computed by the platform shall be provided to the User within 180 seconds after that the CV or the Internship Offer has been submitted
 <!-- This performance requirements are estimated based on competing companies and the expected load of the platform. They are not based on any specific data or benchmark of our implementation and are subject to change in the future --> 
 <!-- [(0.5h) Sam]-->
@@ -440,19 +441,20 @@ Given the system's non-essential nature, overly rigid performance standards are 
 ## 3.2.2 Use Cases
 
 ### RegisterStudent
-**Actors:**  Student, Email Provider.
+**Actors:** Student, Email Provider.
 
 **Entry Conditions:** The user is not logged in.
 
 **Flow of Events:** 
 1. The student selects the "Sign up" option.
-2. The platform open the sign-up page.
+2. The platform opens the sign-up page.
 3. The student selects the "Student" option, provides the required information (name, surname, date of birth, institutional email, optionally personal email, password, University name among those available) and click the "Sign Up" button.
 4. The platform validates the email and checks if it is unique.
-5. The platform registers the Student and send a confirmation email to the provided email address through the Email Provider.
-6. The Student confirms the registration by clicking on the link in the email.
-7. The platform confirms the registration and activates the account.
-8. The Student is redirected to the platform's homepage.
+5. The platform registers the Student and sends a confirmation email to the provided email address through the Email Provider.
+6. The platform shows a message to the Student to confirm the registration.
+7. The Student confirms the registration by clicking on the link in the email.
+8. The platform confirms the registration and activates the account.
+9. The Student is redirected to the platform's homepage.
 
 **Exit Conditions:** The Student is registered and logged in.
 
@@ -463,19 +465,20 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - The email is already in use.
 
 ### RegisterCompany
-**Actors:**  Company, Email Provider.
+**Actors:** Company, Email Provider.
 
 **Entry Conditions:** The user is not logged in.
 
 **Flow of Events:**
 1. The company selects the "Sign up" option.
-2. The platform open the sign-up page.
+2. The platform opens the sign-up page.
 3. The company selects the "Company" option, provides the required information (Company name, Company headquarters address, VAT number, email and password) and click the "Sign Up" button.
 4. The platform sends a confirmation email to the provided email address through the Email Provider.
-5. The Company confirms the registration by clicking on the link in the email.
-6. The platform validates the VAT number and checks if it is unique.
-7. The platform confirms the registration and activates the account.
-8. The Company is redirected to the platform's homepage.
+5. The platform shows a message to the Company to confirm the registration.
+6. The Company confirms the registration by clicking on the link in the email.
+7. The platform validates the VAT number and checks if it is unique.
+8. The platform confirms the registration and activates the account.
+9. The Company is redirected to the platform's homepage.
 
 **Exit Conditions:** The Company is registered and logged in.
 
@@ -486,19 +489,20 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - The VAT number is already in use.
 
 ### RegisterUniversity
-**Actors:**  Company, Email Provider.
+**Actors:** Company, Email Provider.
 
 **Entry Conditions:** The user is not logged in.
 
 **Flow of Events:**
 1. The university selects the "Sign up" option.
-2. The platform open the sign-up page.
+2. The platform opens the sign-up page.
 3. The university selects the "University" option, provides the required information (University Name, University description, VAT number, email of the University office that will manage the internship program, and password) and click the "Sign Up" button.
 4. The platform sends a confirmation email to the provided email address through the Email Provider.
-5. The platform confirms the registration by clicking on the link in the email.
-6. The platform validates the VAT number and checks if it is unique.
-7. The platform confirms the registration and activates the account.
-8. The University is redirected to the platform's homepage.
+5. The platform shows a message to the University to confirm the registration.
+6. The University confirms the registration by clicking on the link in the email.
+7. The platform validates the VAT number and checks if it is unique.
+8. The platform confirms the registration and activates the account.
+9. The University is redirected to the platform's homepage.
 
 **Exit Conditions:** The University is registered and logged in.
 
@@ -509,13 +513,13 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - The VAT number is already in use.
 
 ### LoginUser
-**Actors:**  User
+**Actors:** User
 
 **Entry Conditions:** The user is not logged in
 
 **Flow of Events:**
 1. The User selects the "Sign in" option.
-2. The platform open the sign-in page.
+2. The platform opens the sign-in page.
 3. The user provides their email and password.
 4. The platform validates the credentials.
 5. The platform confirms the credentials and logs in the User.
@@ -526,14 +530,15 @@ Given the system's non-essential nature, overly rigid performance standards are 
 **Exceptions:**
 - The User provides incorrect email or password.
 
-### LoadCurriculum
-**Actors:**  Student
+<!--(Button to place in account's menu probably, wait for UI)--> TODO 
+### LoadCurriculum 
+**Actors:** Student
 
 **Entry Conditions:** The Student is logged in
 
 **Flow of Events:**
 1. The Student selects the "Upload CV" option.
-2. The platform open the Curriculum page.
+2. The platform opens the Curriculum page.
 3. The Student fills the form with the required information (current level of education, known languages, technical skills, a photo of himself, a brief description of his interests and hobbies etc...) and click the "Submit CV" button.
 4. The platform publishes the CV.
 5. The platform generates a list of matching internships based on the CV.
@@ -547,13 +552,13 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - The Student exits the page before submitting the CV.
 
 ### AdvertiseInternships
-**Actors:**  Company
+**Actors:** Company
 
 **Entry Conditions:** The Company is logged in
 
 **Flow of Events:**
 1. The Company selects the "My Internships" option.
-2. The Platform open the Internships page.
+2. The Platform opens the Internships page.
 3. The Company selects the "Create Internship" option.
 4. The platform shows the Internship creation form.
 5. The Company fills the form with the required information (Internship title, description, start date and duration, office address, required skills and benefits offered) and click the “Submit Internship” button.
@@ -569,16 +574,16 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - The Company exits the page before submitting the Internship.
  
 ### SpontaneousApplication
-**Actors:**  Student, Company
+**Actors:** Student, Company
 
 **Entry Conditions:** The Student is logged in and has his CV uploaded.
 
 **Flow of Events:**
 1. The Student selects the "Browse all Internships" option.
-2. The platform open the global Internships page.
+2. The platform opens the global Internships page.
 3. The Student selects the "Apply" option on one of the available Internships.
-4. The platform notifies the Company of the Spontaneous Application.
-5. The platform adds the student application to the company's list of applicants.
+4. The platform adds the application to the Company and Student list of applications.
+5. The platform notifies the Company of the Spontaneous Application.
 
 **Exit Conditions:** The application is successfully submitted to the company.
 
@@ -586,46 +591,69 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - Internship is no longer available.
 
 ### AcceptMatch
-**Actors:**  Student, Company
+**Actors:** Student, Company
 
-**Entry Conditions:** A Match is generated between the student and the Company's Internship and the Student has his CV uploaded.
+**Entry Conditions:** A Match is generated between the Student and the Company's Internship and the Student has his CV uploaded.
 
 **Flow of Events:**
-1. The platform notifies the Student and the Company of the Match.
-2. The platform adds the Match to the Student and the Company's list of Matches.
-3. The Student and the Company press the "My Recommendations" button.
-4. The platform opens the respective Recommendations pages.
-5. The Student and the Company press the "Accept" button on the Match.
-6. ??
+1. The Student or the Company press the "My Recommendations" button.
+2. The platform opens the respective Recommendations pages.
+3. The Student or the Company accepts the Match.
+4. The platform stores the result.
+5. If the other party has already accepted the Match, the platform adds the Interview to the Student and the Company's list of Interviews and notifies both parties.
+
+**Exit Conditions:** The Match is successfully accepted by one of the parties.
+
+**Exceptions:**
+- None
+
+### FeedbackMechanism
+**Actors:** Student, Company
+
+**Entry Conditions:** The Student or the Company is logged in.
+
+**Flow of Events:**
+1. The Student or the Company press the "My Recommendations" button.
+2. The platform opens the respective Recommendations pages.
+3. The Student or the Company accept or decline the Match.
+4. The platform asks for feedback about the Match.
+5. The Student or the Company provide feedback.
+6. The platform stores the feedback.
+
+**Exit Conditions:** Feedback is successfully provided.
+
+**Exceptions:**
+- The platform is closed before providing feedback.
 
 ### SuggestionMechanism
-**Actors:**  Student, Company
+**Actors:** Student, Company
 
 **Entry Conditions:** A Student has uploaded his CV or a Company has created an Internship.
 
 **Flow of Events:**
-1. The platform analyses the Student's CV or the Company's Internship.
+1. The platform analyzes the Student's CV or the Company's Internship.
 2. The platform generates a list of suggestions to improve the CV or the Internship description.
-3. The platform displays a notification in the Student or Company's account page.
+3. The platform displays a notification on the Student or Company's account page.
 4. The Student or the Company open the notification.
-5. The platform display the suggestions.
+5. The platform displays the suggestions.
 
 **Exit Conditions:** Suggestions are successfully provided.
 
 **Exceptions:**
 - No valuable suggestions are found.
+
 ### AssignInterview
-**Actors:**  Company, Student
+**Actors:** Company, Student
 
-**Entry Conditions:** A Match between the Student and the Company's Internship is accepted by both parties or the Company has accepted a Spontaneous Application.
+**Entry Conditions:** A Match is accepted by both parties or the Company has accepted a Spontaneous Application.
 
-**Flow of Events:** 
+**Flow of Events:**
 1. The Company selects the "My Interviews" option.
-2. The platform open the Interviews page.
+2. The platform opens the Interviews page.
 3. The Company selects an Interview in the "ToBeSubmitted" state.
 4. The platform shows the Interview creation form.
 5. The Company fills the form with the required information (open questions, quizzes, deadline and additional infos) and click the “Submit Interview” button.
-6. The platform sends the form to the Student, update his Interview status and notifies him.
+6. The platform sends the form to the Student, updates his Interview status and notifies him.
 7. The Company is redirected to the homepage.
 
 **Exit Conditions:** The Interview is created and sent to the Student.
@@ -634,10 +662,91 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - The Company tries to submit an empty Interview.
 - The Company exits the page before submitting the Interview.
 
+<!-- In my opinion, this does not work
 ### PublishComplaint
+**Actors:** Company, Student
+**Entry Conditions:** An Internship is ongoing between the relative Company and Student.
+**Flow of Events:**
+1. The Company selects the "Complaints" option.
+2. The platform open the Complaints page.
+3. The Company selects the "Create Complaint" option.
+4. The platform shows the Complaint creation form.
+5. The Company fills the form with the required information (Student's name, Internship title, description of the problem) and click the “Submit Complaint” button.
+6. The Company is redirected to the homepage.
+7. The platform publishes the Complaint which is added to all the involved users Complaints list.
+8. The platform notifies the Student and the University.
+9. The Student or the Company press the "Complaints" button.
+10. The platform opens the Complaints page.
+11. The Student or the Company press a complaint.
+12. The platform shows the relative Complaint page.
+13. The Student or the Company respond to the Complaint.
+**Exit Conditions:** The Complaint is created and a comunication between the Company, Student and University is created.
+**Exceptions:**
+- The Company exits the page before submitting the Complaint.
+
+To me, this is clearer-->
+
+### PublishComplaint
+**Actors:** Company, Student, University
+
+**Entry Conditions:** There is an Ongoing Internship between the relative Company and Student.
+
+**Flow of Events:**
+1. The Company selects the "Complaints" option.
+2. The platform opens the Complaints page.
+3. The Company selects the "Create Complaint" option.
+4. The platform shows the Complaint creation form.
+5. The Company fills the form with the required information (Student's name, Internship title, description of the problem) and click the “Submit Complaint” button.
+6. The Company is redirected to the homepage.
+7. The platform publishes the Complaint.
+8. The platform notifies the Student and the University.
+
+**Exit Conditions:** The Complaint is created and published.
+
+**Exceptions:**
+- The Company exits the page before submitting the Complaint.
+
+### RespondToComplaint
+**Actors:** User
+
+**Entry Conditions:** The User has an active Complaint.
+
+**Flow of Events:**
+1. The Student or the Company press the "Complaints" button.
+2. The platform opens the Complaints page.
+3. The User presses the target complaint.
+4. The platform shows the relative Complaint page.
+5. The User responds to the Complaint and submits the message.
+6. The platform notifies the other Users involved in the Complaint about the response.
+
+**Exit Conditions:** The response is successfully published and involved Users are notified.
+
+**Exceptions:**
+- None
+
+
 ### HandleComplaint
 ### TerminateInternship
-<!-- [(6h) Matteo] -->
+**Actors:** University, Student, Company
+
+**Entry Conditions:** There is an active Complaint regarding the Company and a Student of the University.
+
+**Flow of Events:**
+1. The University selects the "Complaints" option.
+2. The platform opens the Complaints page.
+3. The University selects the "Interrupt Internship" option.
+4. The platform will notify the Student and the Company about the interruption of the Internship and close the relative Complaint.
+
+**Exit Conditions:** The Internship is interrupted and the Complaint is closed.
+
+**Exceptions:**
+- None
+<!-- [(9h) Matteo] -->
+
+
+## 3.2.3 Sequence Diagrams
+<!-- [(2h) Matteo] -->
+
 
 ## 3.2.4 Requirements Mapping
 
@@ -653,13 +762,13 @@ Given the system's non-essential nature, overly rigid performance standards are 
 ### [G4] Companies would like to perform Interviews with suitable Students
 - [D1], [D2], [D3], [D4]
 - [R1], [R2], [R3], [R4], [R5], [R19], [R20], [R21], [R22], [R23], [R24], [R26]
-### [G5] Students and Companies would like to complain, communicate problems, provide information about an ongoing Internship
+### [G5] Students and Companies would like to complain, communicate problems, provide information about an Ongoing Internship
 - [D1], [D2], [D3], [D4]
 - [R1], [R2], [R3], [R4], [R5], [R28], [R33]
 ### [G6] Students and Companies would like to be provided with Suggestions about how to improve their submission
 - [D1], [D4]
 - [R1], [R2], [R3], [R4], [R6], [R7], [R12], [R29], [R30], [R31]
-### [G7] Universities would like to handle Complaints about ongoing Internships
+### [G7] Universities would like to handle Complaints about Ongoing Internships
 - [D1], [D2], [D3], [D4], [D5]
 - [R1], [R2], [R3], [R4], [R5], [R32], [R33], [R34]
 ### [G8] Students would like to choose which internship to attend from among those for which they passed the interview.
