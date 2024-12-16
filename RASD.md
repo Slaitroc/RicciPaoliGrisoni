@@ -582,8 +582,8 @@ Given the system's non-essential nature, overly rigid performance standards are 
 1. The Student selects the "Browse all Internships" option.
 2. The platform opens the global Internships page.
 3. The Student selects the "Apply" option on one of the available Internships.
-4. The platform notifies the Company of the Spontaneous Application.
-5. The platform adds the Student application to the Company's list of applicants.
+4. The platform adds the application to the Company and Student list of applications.
+5. The platform notifies the Company of the Spontaneous Application.
 
 **Exit Conditions:** The application is successfully submitted to the company.
 
@@ -596,13 +596,11 @@ Given the system's non-essential nature, overly rigid performance standards are 
 **Entry Conditions:** A Match is generated between the Student and the Company's Internship and the Student has his CV uploaded.
 
 **Flow of Events:**
-1. The platform notifies the Student and the Company of the Match.
-2. The platform adds the Match to the Student and the Company's list of Matches.
-3. The Student or the Company press the "My Recommendations" button.
-4. The platform opens the respective Recommendations pages.
-5. The Student or the Company accepts the Match.
-6. The platform stores the result.
-7. If the other party has already accepted the Match, the platform adds the Interview to the Student and the Company's list of Interviews and notifies both parties.
+1. The Student or the Company press the "My Recommendations" button.
+2. The platform opens the respective Recommendations pages.
+3. The Student or the Company accepts the Match.
+4. The platform stores the result.
+5. If the other party has already accepted the Match, the platform adds the Interview to the Student and the Company's list of Interviews and notifies both parties.
 
 **Exit Conditions:** The Match is successfully accepted by one of the parties.
 
@@ -635,7 +633,7 @@ Given the system's non-essential nature, overly rigid performance standards are 
 **Flow of Events:**
 1. The platform analyzes the Student's CV or the Company's Internship.
 2. The platform generates a list of suggestions to improve the CV or the Internship description.
-3. The platform displays a notification in the Student or Company's account page.
+3. The platform displays a notification on the Student or Company's account page.
 4. The Student or the Company open the notification.
 5. The platform displays the suggestions.
 
@@ -647,7 +645,7 @@ Given the system's non-essential nature, overly rigid performance standards are 
 ### AssignInterview
 **Actors:** Company, Student
 
-**Entry Conditions:** A Match between the Student and the Company's Internship is accepted by both parties or the Company has accepted a Spontaneous Application.
+**Entry Conditions:** A Match is accepted by both parties or the Company has accepted a Spontaneous Application.
 
 **Flow of Events:**
 1. The Company selects the "My Interviews" option.
@@ -686,30 +684,12 @@ Given the system's non-essential nature, overly rigid performance standards are 
 **Exceptions:**
 - The Company exits the page before submitting the Complaint.
 
-To me this is more clear
-### RespondToComplaint
-**Actors:** Student, Company
-
-**Entry Conditions:** The Student and the Company have an active Complaint.
-
-**Flow of Events:**
-1. The Student or the Company press the "Complaints" button.
-2. The platform opens the Complaints page.
-3. The Student or the Company press a complaint.
-4. The platform shows the relative Complaint page.
-5. The Student or the Company respond to the Complaint.
-6. The platform notifies the other party about the response.
-
-**Exit Conditions:** The response is successfully provided.
-
-**Exceptions:**
-- None
--->
+To me, this is clearer-->
 
 ### PublishComplaint
-**Actors:** Company, Student
+**Actors:** Company, Student, University
 
-**Entry Conditions:** An Internship is ongoing between the relative Company and Student.
+**Entry Conditions:** There is an Ongoing Internship between the relative Company and Student.
 
 **Flow of Events:**
 1. The Company selects the "Complaints" option.
@@ -726,11 +706,30 @@ To me this is more clear
 **Exceptions:**
 - The Company exits the page before submitting the Complaint.
 
+### RespondToComplaint
+**Actors:** User
+
+**Entry Conditions:** The User has an active Complaint.
+
+**Flow of Events:**
+1. The Student or the Company press the "Complaints" button.
+2. The platform opens the Complaints page.
+3. The User presses the target complaint.
+4. The platform shows the relative Complaint page.
+5. The User responds to the Complaint and submits the message.
+6. The platform notifies the other Users involved in the Complaint about the response.
+
+**Exit Conditions:** The response is successfully published and involved Users are notified.
+
+**Exceptions:**
+- None
+
+
 ### HandleComplaint
 ### TerminateInternship
 **Actors:** University, Student, Company
 
-**Entry Conditions:** A Complaint is published by a Company regarding a Student of the University.
+**Entry Conditions:** There is an active Complaint regarding the Company and a Student of the University.
 
 **Flow of Events:**
 1. The University selects the "Complaints" option.
@@ -742,7 +741,12 @@ To me this is more clear
 
 **Exceptions:**
 - None
-<!-- [(8.5h) Matteo] -->
+<!-- [(9h) Matteo] -->
+
+
+## 3.2.3 Sequence Diagrams
+<!-- [(2h) Matteo] -->
+
 
 ## 3.2.4 Requirements Mapping
 
