@@ -1,3 +1,7 @@
+<!--Warning Mermeid is not case-sensitive, so it will give 
+problems when trying to name an actor Participant. to fix, copy&paste an 
+invisible character before and after the name:  THIS->(ㅤ)<-THIS    -->
+
 # StudentSignup
 ```mermaid
 sequenceDiagram
@@ -33,13 +37,13 @@ sequenceDiagram
             deactivate Email Provider
             activate Student&Company
             Student&Company ->> Student&Company: Activate(Student)
-            Student&Company -->> Student: showPage(HomePage)
+            Student&Company -->> Student: showPage(DashBoard)
             deactivate Student&Company
+        end
     else Unsuccessful Authentication
         activate Student&Company
         Student&Company -->> Student: showError(InvalidCredentials)
         deactivate Student&Company
-        end
     end
     deactivate Student
 ```
@@ -79,13 +83,13 @@ sequenceDiagram
             deactivate Email Provider
             activate Student&Company
             Student&Company ->> Student&Company: Activate(Company)
-            Student&Company -->> Company: showPage(HomePage)
+            Student&Company -->> Company: showPage(DashBoard)
             deactivate Student&Company
+        end
         else Unsuccessful Authentication
             activate Student&Company
             Student&Company -->> Company: showError(InvalidCredentials)
             deactivate Student&Company
-        end
     end
     deactivate Company
 ```
@@ -125,13 +129,13 @@ sequenceDiagram
             deactivate Email Provider
             activate Student&Company
             Student&Company ->> Student&Company: Activate(University)
-            Student&Company -->> University: showPage(HomePage)
+            Student&Company -->> University: showPage(DashBoard)
             deactivate Student&Company
+        end
         else Unsuccessful Authentication
             activate Student&Company
             Student&Company -->> University: showError(InvalidCredentials)
             deactivate Student&Company
-        end
     end
     deactivate University
 ```
@@ -151,7 +155,7 @@ sequenceDiagram
     Student&Company ->> Student&Company: Authenticate(Credentials)
     alt Successful Authentication
         Student&Company ->> Student&Company: SignIn(User)
-        Student&Company -->> User: showPage(HomePage)
+        Student&Company -->> User: showPage(DashBoard)
         deactivate Student&Company
     else Unsuccessful Authentication
         activate Student&Company
@@ -166,16 +170,35 @@ sequenceDiagram
 sequenceDiagram
     actor Student
     participant Student&Company
+    participant NotificationManager
+    actor Company
     activate Student
     activate Student&Company
-    Student ->> Student&Company: press(LoadCurriculumMenu)
+    Student ->> Student&Company: press(AccountMenu)
+    Student ->> Student&Company: press(LoadCurriculum)
     Student&Company -->> Student: showPage(CurriculumPage)
     Student ->> Student&Company: submit(Curriculum)
-    Student&Company ->> Student&Company: publish(Curriculum)
-    Student&Company ->> Student&Company: generate(Matches)
-    Student&Company -->> Student: showPage(AccountPage)
-    deactivate Student&Company
-    deactivate Student
+    Student&Company ->> Student&Company: Check(Curriculum)
+    alt Missing Informations
+        Student&Company -->> Student: showError(EmptyCurriculum)
+        deactivate Student&Company
+    else Successful Check
+        activate Student&Company
+        Student&Company ->> Student&Company: publish(Curriculum)
+        Student&Company ->> Student&Company: generate(Matches)
+        Student&Company ->> Student: provideSuggestions()
+        Student&Company -->> Student: showPage(AccountPage)
+        loop For Each New Match
+            Student&Company ->> NotificationManager: notify(Match, Company)
+            activate NotificationManager
+            NotificationManager -->> Company: SendNotification()
+            NotificationManager -->> Student&Company: confirmation()
+            deactivate NotificationManager 
+        end
+    end
+        deactivate Student&Company
+        deactivate Student
+    
 ```
 
 # AdvertiseInternship
@@ -183,6 +206,8 @@ sequenceDiagram
 sequenceDiagram
     actor Company
     participant Student&Company
+    participant NotificationManager
+    actor Student
     activate Company
     activate Student&Company
     Company ->> Student&Company: press(MyInternships)
@@ -198,8 +223,15 @@ sequenceDiagram
         activate Student&Company
         Student&Company ->> Student&Company: publish(Internship)
         Student&Company ->> Student&Company: generate(Matches)
-        Student&Company ->> Company: showMessage(Suggestions)
-        Student&Company -->> Company: showPage(homePage)
+        Student&Company ->> Company: provideSuggestions()
+        Student&Company -->> Company: showPage(MyInternshipsPage)
+        loop For Each New Match
+        Student&Company ->> NotificationManager: notify(Match, Company)
+        activate NotificationManager
+        NotificationManager -->> Student: SendNotification()
+        NotificationManager -->> Student&Company: confirmation()
+        end
+        deactivate NotificationManager
         deactivate Student&Company
         deactivate Company
     end
@@ -210,59 +242,75 @@ sequenceDiagram
 sequenceDiagram
     actor Student
     participant Student&Company
+    participant NotificationManager
     actor Company
     activate Student
     activate Student&Company
     Student ->> Student&Company: press(BrowseInternships)
     Student&Company -->> Student: showPage(InternshipsPage)
     Student ->> Student&Company: press(Apply)
-    Student&Company ->> Student&Company: update(CompanyApplications)
-    Student&Company ->> Student&Company: update(StudentApplications)
-    Student&Company ->> Company: notify(Application)
-    Student&Company -->> Student: showMessage(Confirmation)
+    alt Internship No Longer Available
+        Student&Company -->> Student: showError(NoLongerAvailable)
+        deactivate Student&Company
+    else Successful Application
+        activate Student&Company
+    Student&Company ->> Student&Company: update(Applications)
+    Student&Company ->> NotificationManager: notify(Application)
+    activate NotificationManager
+    NotificationManager -->> Company: SendNotification()
+    NotificationManager -->> Student&Company: confirmation()
+    deactivate NotificationManager
+    Student&Company -->> Student: showMessage(Success)
+    end
     deactivate Student
     deactivate Student&Company
 ```
-%% Should Company be active or not?
-%% Do the update functions make sense?
 
 # AcceptMatch
 ```mermaid
 sequenceDiagram
-    actor Student/Company
+    actor Participant1
     participant Student&Company
-    actor Company/Student
-    activate Student/Company
+    participant NotificationManager
+    actor Participant2
+    activate Participant1
     activate Student&Company
-    
-    Student/Company ->> Student&Company: press(MyRecommendations)
-    Student&Company -->> Student/Company: showPage(RecommendationsPage)
-    Student/Company ->> Student&Company: press(Accept)
+    Participant1 ->> Student&Company: press(MyRecommendations)
+    Student&Company -->> Participant1: showPage(RecommendationsPage)
+    Participant1 ->> Student&Company: press(Accept)
     Student&Company ->> Student&Company: update(Matches)
-    alt Other party has already accepted
-        Student&Company ->> Student&Company: update(Interview)
-        Student&Company ->> Company/Student: notify(Interview)
-        Student&Company ->> Student/Company: notify(Interview)
+    alt Other Party Has Already Accepted
+        Student&Company ->> Student&Company: update(Interviews)
+        Student&Company -->> Participant1: showMessage(Interview)
+        Student&Company ->> NotificationManager: notify(Interview, Company/Student)
+        activate NotificationManager
+        NotificationManager ->> Participant2: SendNotification()
+        NotificationManager -->> Student&Company: confirmation()
+        deactivate NotificationManager
+        deactivate Student&Company
+    else Other Party Has Not Accepted
+        activate Student&Company
+        Student&Company -->> Participant1: showMessage(Wait)
     end
     deactivate Student&Company
-    deactivate Student/Company
+    deactivate Participant1
 ```
 
 # FeedbackMechanism
 ```mermaid
 sequenceDiagram
-    actor Student/Company
+    actor ㅤParticipantㅤ
     participant Student&Company
-    activate Student/Company
+    activate ㅤParticipantㅤ
     activate Student&Company
-    Student/Company ->> Student&Company: press(MyRecommendations)
-    Student&Company -->> Student/Company: showPage(RecommendationsPage)
-    Student/Company ->> Student&Company: press(Accept)/press(Reject)
-    Student&Company -->> Student/Company: showMessage(AskFeedback)
-    Student/Company ->> Student&Company: submit(Feedback)
+    ㅤParticipantㅤ ->> Student&Company: press(MyRecommendations)
+    Student&Company -->> ㅤParticipantㅤ: showPage(RecommendationsPage)
+    ㅤParticipantㅤ ->> Student&Company: press(Accept)/press(Reject)
+    Student&Company -->> ㅤParticipantㅤ: showMessage(AskFeedback)
+    ㅤParticipantㅤ ->> Student&Company: submit(Feedback)
     Student&Company ->> Student&Company: update(Feedback)
     deactivate Student&Company
-    deactivate Student/Company
+    deactivate ㅤParticipantㅤ
 ```
 
 # AssignInterview
@@ -270,6 +318,7 @@ sequenceDiagram
 sequenceDiagram
     actor Company
     participant Student&Company
+    participant NotificationManager
     actor Student
     activate Company
     activate Student&Company
@@ -279,13 +328,18 @@ sequenceDiagram
     Student&Company -->> Company: showPage(InterviewCreationPage)
     Company ->> Student&Company: submit(ToCompileInterview)
     Student&Company ->> Student&Company: check(Interview)
-    alt Empty Interview
-        Student&Company -->> Company: showError(EmptyInterview)
+    alt Missing Informations
+        Student&Company -->> Company: showError(MissingInformation)
         deactivate Student&Company
     else Successful Check
         activate Student&Company
-        Student&Company ->> Student: submit(Interview)
-        Student&Company -->> Company: showPage(InterviewsPage)
+        Student&Company ->> Student&Company: update(InterviewStatus)
+        Student&Company ->> NotificationManager: notify(Interview, Student)
+        activate NotificationManager
+        NotificationManager -->> Student: SendNotification()
+        NotificationManager -->> Student&Company: confirmation()
+        deactivate NotificationManager
+        Student&Company -->> Company: showPage(MyInterviewsPage)
         deactivate Student&Company
     end
     deactivate Company
@@ -296,6 +350,7 @@ sequenceDiagram
 sequenceDiagram
     actor Company
     participant Student&Company
+    participant NotificationManager
     actor Student
     actor University
     activate Company
@@ -306,9 +361,13 @@ sequenceDiagram
     Student&Company -->> Company: showPage(ComplaintCreationPage)
     Company ->> Student&Company: submit(Complaint)
     Student&Company ->> Student&Company: update(Complaints)
-    Student&Company -->> Company: showPage(homepage)
-    Student&Company ->> Student: notify(Complaint)
-    Student&Company ->> University: notify(Complaint)
+    Student&Company ->> NotificationManager: notify(Complaint, Student, University)
+    activate NotificationManager
+    NotificationManager -->> Student: SendNotification()
+    NotificationManager -->> University: SendNotification()
+    NotificationManager -->> Student&Company: confirmation()
+    deactivate NotificationManager
+    Student&Company -->> Company: showMessage(Success)
     deactivate Student&Company
     deactivate Company
 ```
@@ -316,19 +375,51 @@ sequenceDiagram
 # RespondToComplaint
 ```mermaid
 sequenceDiagram
-    actor User
+    actor User1
     participant Student&Company
-    actor OtherUser
-    activate User
+    participant NotificationManager 
+    actor User2
+    activate User1
     activate Student&Company
-    User ->> Student&Company: press(Complaints)
-    Student&Company -->> User: showPage(ComplaintsPage)
-    User ->> Student&Company: press(TargetComplaint)
-    Student&Company -->> User: showPage(ComplaintPage)
-    User ->> Student&Company: submit(Message)
-    Student&Company -->> OtherUser: notify(Message)
+    User1 ->> Student&Company: press(Complaints)
+    Student&Company -->> User1: showPage(ComplaintsPage)
+    User1 ->> Student&Company: press(TargetComplaint)
+    Student&Company -->> User1: showPage(ComplaintPage)
+    User1 ->> Student&Company: submit(Message)
+    Student&Company ->> NotificationManager: notify(Message, User2)
+    activate NotificationManager
+    NotificationManager -->> User2: SendNotification()
+    NotificationManager -->> Student&Company: confirmation()
+    deactivate NotificationManager
+    Student&Company -->> User1: showMessage(Success)
     deactivate Student&Company
-    deactivate User
+    deactivate User1
+```
+# HandleComplaint
+```mermaid
+sequenceDiagram
+    actor University
+    participant Student&Company
+    participant NotificationManager
+    actor Student
+    actor Company
+    activate University
+    activate Student&Company
+    University ->> Student&Company: press(Complaints)
+    Student&Company -->> University: showPage(ComplaintsPage)
+    University ->> Student&Company: press(TargetComplaint)
+    Student&Company -->> University: showPage(ComplaintPage)
+    University ->> Student&Company: submit(Message)
+    Student&Company ->> Student&Company: update(Complaints)
+    Student&Company ->> NotificationManager: notify(InternshipTermination, Student, University)
+    activate NotificationManager
+    NotificationManager -->> Student: SendNotification()
+    NotificationManager -->> Company: SendNotification()
+    NotificationManager -->> Student&Company: confirmation()
+    deactivate NotificationManager
+    Student&Company -->> University: showMessage(Success)
+    deactivate Student&Company
+    deactivate University
 ```
 
 # TerminateInternship
@@ -336,13 +427,25 @@ sequenceDiagram
 sequenceDiagram
     actor University
     participant Student&Company
-    actor Company/Student
+    participant NotificationManager
+    actor Student
+    actor Company
     activate University
     activate Student&Company
     University ->> Student&Company: press(Complaints)
     Student&Company -->> University: showPage(ComplaintsPage)
+    University ->> Student&Company: press(TargetComplaint)
+    Student&Company -->> University: showPage(ComplaintPage)
     University ->> Student&Company: press(TerminateInternship)
-    Student&Company ->> Company/Student: notify(InternshipTermination)
+    Student&Company ->> Student&Company: update(Complaints)
+    Student&Company ->> Student&Company: update(Internships)
+    Student&Company ->> NotificationManager: notify(InternshipTermination, Student, University)
+    activate NotificationManager
+    NotificationManager -->> Student: SendNotification()
+    NotificationManager -->> Company: SendNotification()
+    NotificationManager -->> Student&Company: confirmation()
+    deactivate NotificationManager
+    Student&Company -->> University: showMessage(Success)
     deactivate Student&Company
     deactivate University
 ```

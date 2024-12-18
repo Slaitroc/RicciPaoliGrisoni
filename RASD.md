@@ -454,13 +454,12 @@ Given the system's non-essential nature, overly rigid performance standards are 
 6. The platform shows a message to the Student to confirm the registration.
 7. The Student confirms the registration by clicking on the link in the email.
 8. The platform confirms the registration and activates the account.
-9. The Student is redirected to the platform's homepage.
+9. The Student is redirected to the platform's Dashboard.
 
 **Exit Conditions:** The Student is registered and logged in.
 
 **Exceptions:** 
 - The Student provides incorrect information.
-- The Email Provider fails to send the confirmation email.
 - The Student does not confirm the registration.
 - The email is already in use.
 
@@ -478,13 +477,12 @@ Given the system's non-essential nature, overly rigid performance standards are 
 6. The Company confirms the registration by clicking on the link in the email.
 7. The platform validates the VAT number and checks if it is unique.
 8. The platform confirms the registration and activates the account.
-9. The Company is redirected to the platform's homepage.
+9. The Company is redirected to the platform's Dashboard.
 
 **Exit Conditions:** The Company is registered and logged in.
 
 **Exceptions:** 
 - The Company provides incorrect information.
-- The Email Provider fails to send the confirmation email.
 - The Company does not confirm the registration.
 - The VAT number is already in use.
 
@@ -502,13 +500,12 @@ Given the system's non-essential nature, overly rigid performance standards are 
 6. The University confirms the registration by clicking on the link in the email.
 7. The platform validates the VAT number and checks if it is unique.
 8. The platform confirms the registration and activates the account.
-9. The University is redirected to the platform's homepage.
+9. The University is redirected to the platform's Dashboard.
 
 **Exit Conditions:** The University is registered and logged in.
 
 **Exceptions:** 
 - The University provides incorrect information.
-- The Email Provider fails to send the confirmation email.
 - The University does not confirm the registration.
 - The VAT number is already in use.
 
@@ -523,7 +520,7 @@ Given the system's non-essential nature, overly rigid performance standards are 
 3. The user provides their email and password.
 4. The platform validates the credentials.
 5. The platform confirms the credentials and logs in the User.
-6. The User is redirected to the platform's homepage.
+6. The User is redirected to the platform's Dashboard.
 
 **Exit Conditions:** The User is logged in.
 
@@ -531,8 +528,9 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - The User provides incorrect email or password.
 
 <!--(Button to place in account's menu probably, wait for UI)--> TODO 
+
 ### LoadCurriculum 
-**Actors:** Student
+**Actors:** Student, Notification Manager, Company
 
 **Entry Conditions:** The Student is logged in
 
@@ -544,15 +542,15 @@ Given the system's non-essential nature, overly rigid performance standards are 
 5. The platform generates a list of matching internships based on the CV.
 6. The platform provides feedback and suggestions to improve the CV.
 7. The Student is redirected to his account page.
+8. The platform notifies the new matching Companies through the Notification Manager.
 
-**Exit Conditions:** The Student's CV is uploaded and the Student is redirected to his account page.
+**Exit Conditions:** The Student's CV is uploaded.
 
 **Exceptions:** 
 - The Student provides invalid or partial information.
-- The Student exits the page before submitting the CV.
 
 ### AdvertiseInternships
-**Actors:** Company
+**Actors:** Company, Notification Manager, Student
 
 **Entry Conditions:** The Company is logged in
 
@@ -563,18 +561,18 @@ Given the system's non-essential nature, overly rigid performance standards are 
 4. The platform shows the Internship creation form.
 5. The Company fills the form with the required information (Internship title, description, start date and duration, office address, required skills and benefits offered) and click the “Submit Internship” button.
 6. The platform publishes the Internship.
-7. The system provides feedback and suggestions to improve the internship description.
-8. The platform generates a list of matching Students based on the Internship.
+7. The platform generates a list of matching Students based on the Internship.
+8. The system provides feedback and suggestions to improve the internship description.
 9. The Company is redirected to the Internships page.
+10. The platform notifies the new matching Students through the Notification Manager.
 
-**Exit Conditions:** The Internship is created and published and the Company is redirected to the Internships page.
+**Exit Conditions:** The Internship is created and published.
 
 **Exceptions:**
 - The Company provides invalid or partial information.
-- The Company exits the page before submitting the Internship.
  
 ### SpontaneousApplication
-**Actors:** Student, Company
+**Actors:** Student, Company, Notification Manager
 
 **Entry Conditions:** The Student is logged in and has his CV uploaded.
 
@@ -583,7 +581,7 @@ Given the system's non-essential nature, overly rigid performance standards are 
 2. The platform opens the global Internships page.
 3. The Student selects the "Apply" option on one of the available Internships.
 4. The platform adds the application to the Company and Student list of applications.
-5. The platform notifies the Company of the Spontaneous Application.
+5. The platform notifies the Company of the Spontaneous Application through the Notification Manager.
 
 **Exit Conditions:** The application is successfully submitted to the company.
 
@@ -591,50 +589,50 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - Internship is no longer available.
 
 ### AcceptMatch
-**Actors:** Student, Company
+**Actors:** Participant, Notification Manager
 
 **Entry Conditions:** A Match is generated between the Student and the Company's Internship and the Student has his CV uploaded.
 
 **Flow of Events:**
-1. The Student or the Company press the "My Recommendations" button.
+1. The Participant press the "My Recommendations" button.
 2. The platform opens the respective Recommendations pages.
-3. The Student or the Company accepts the Match.
+3. The Participant accepts the Match.
 4. The platform stores the result.
-5. If the other party has already accepted the Match, the platform adds the Interview to the Student and the Company's list of Interviews and notifies both parties.
+5. If the other party has already accepted the Match, the platform adds the Interview to the Student and the Company's list of Interviews and notifies both parties through the Notification Manager.
 
-**Exit Conditions:** The Match is successfully accepted by one of the parties.
+**Exit Conditions:** The Match is successfully accepted by the participant.
 
 **Exceptions:**
 - None
 
 ### FeedbackMechanism
-**Actors:** Student, Company
+**Actors:** Participant
 
-**Entry Conditions:** The Student or the Company is logged in.
+**Entry Conditions:** The Participant is logged in.
 
 **Flow of Events:**
-1. The Student or the Company press the "My Recommendations" button.
+1. The Participant presses the "My Recommendations" button.
 2. The platform opens the respective Recommendations pages.
-3. The Student or the Company accept or decline the Match.
+3. The Participant accept or decline the Match.
 4. The platform asks for feedback about the Match.
-5. The Student or the Company provide feedback.
+5. The Participant submits the feedback.
 6. The platform stores the feedback.
 
 **Exit Conditions:** Feedback is successfully provided.
 
 **Exceptions:**
-- The platform is closed before providing feedback.
+- None
 
 ### SuggestionMechanism
-**Actors:** Student, Company
+**Actors:** Participant
 
 **Entry Conditions:** A Student has uploaded his CV or a Company has created an Internship.
 
 **Flow of Events:**
 1. The platform analyzes the Student's CV or the Company's Internship.
 2. The platform generates a list of suggestions to improve the CV or the Internship description.
-3. The platform displays a notification on the Student or Company's account page.
-4. The Student or the Company open the notification.
+3. The platform displays a notification on the Participant's account page.
+4. The Participant open the notification.
 5. The platform displays the suggestions.
 
 **Exit Conditions:** Suggestions are successfully provided.
@@ -643,7 +641,7 @@ Given the system's non-essential nature, overly rigid performance standards are 
 - No valuable suggestions are found.
 
 ### AssignInterview
-**Actors:** Company, Student
+**Actors:** Company, Student, Notification Manager
 
 **Entry Conditions:** A Match is accepted by both parties or the Company has accepted a Spontaneous Application.
 
@@ -652,15 +650,14 @@ Given the system's non-essential nature, overly rigid performance standards are 
 2. The platform opens the Interviews page.
 3. The Company selects an Interview in the "ToBeSubmitted" state.
 4. The platform shows the Interview creation form.
-5. The Company fills the form with the required information (open questions, quizzes, deadline and additional infos) and click the “Submit Interview” button.
-6. The platform sends the form to the Student, updates his Interview status and notifies him.
-7. The Company is redirected to the homepage.
+5. The Company fills the form with the required information (open and close questions, deadline and additional infos) and click the “Submit Interview” button.
+6. The platform sends the form to the Student, updates his Interview status and notifies him thorough the Notification Manager.
+7. The Company is redirected to the Interviews page.
 
-**Exit Conditions:** The Interview is created and sent to the Student.
+**Exit Conditions:** The Interview is created and submitted to the Student.
 
 **Exceptions:**
-- The Company tries to submit an empty Interview.
-- The Company exits the page before submitting the Interview.
+- None
 
 <!-- In my opinion, this does not work
 ### PublishComplaint
@@ -672,7 +669,7 @@ Given the system's non-essential nature, overly rigid performance standards are 
 3. The Company selects the "Create Complaint" option.
 4. The platform shows the Complaint creation form.
 5. The Company fills the form with the required information (Student's name, Internship title, description of the problem) and click the “Submit Complaint” button.
-6. The Company is redirected to the homepage.
+6. The Company is redirected to the Dashboard.
 7. The platform publishes the Complaint which is added to all the involved users Complaints list.
 8. The platform notifies the Student and the University.
 9. The Student or the Company press the "Complaints" button.
@@ -687,7 +684,7 @@ Given the system's non-essential nature, overly rigid performance standards are 
 To me, this is clearer-->
 
 ### PublishComplaint
-**Actors:** Company, Student, University
+**Actors:** Company, Student, University, Notification Manager
 
 **Entry Conditions:** There is an Ongoing Internship between the relative Company and Student.
 
@@ -697,17 +694,16 @@ To me, this is clearer-->
 3. The Company selects the "Create Complaint" option.
 4. The platform shows the Complaint creation form.
 5. The Company fills the form with the required information (Student's name, Internship title, description of the problem) and click the “Submit Complaint” button.
-6. The Company is redirected to the homepage.
-7. The platform publishes the Complaint.
-8. The platform notifies the Student and the University.
+6. The platform publishes the Complaint.
+7. The platform notifies the Student and the University through the Notification Manager.
 
 **Exit Conditions:** The Complaint is created and published.
 
 **Exceptions:**
-- The Company exits the page before submitting the Complaint.
+- None
 
 ### RespondToComplaint
-**Actors:** User
+**Actors:** User, Notification Manager
 
 **Entry Conditions:** The User has an active Complaint.
 
@@ -717,35 +713,54 @@ To me, this is clearer-->
 3. The User presses the target complaint.
 4. The platform shows the relative Complaint page.
 5. The User responds to the Complaint and submits the message.
-6. The platform notifies the other Users involved in the Complaint about the response.
+6. The platform notifies the other Users involved in the Complaint about the response through the Notification Manager.
 
-**Exit Conditions:** The response is successfully published and involved Users are notified.
+**Exit Conditions:** The response is successfully published, and involved Users are notified.
 
 **Exceptions:**
 - None
 
-
 ### HandleComplaint
-### TerminateInternship
-**Actors:** University, Student, Company
+**Actors:** University, Student, Company, Notification Manager
 
 **Entry Conditions:** There is an active Complaint regarding the Company and a Student of the University.
 
 **Flow of Events:**
 1. The University selects the "Complaints" option.
 2. The platform opens the Complaints page.
-3. The University selects the "Interrupt Internship" option.
-4. The platform will notify the Student and the Company about the interruption of the Internship and close the relative Complaint.
+3. The University presses the target complaint.
+4. The platform shows the relative Complaint page.
+5. The University selects the "Close Complaint" option, writes a final message and submits.
+6. The platform will close the relative Complaint.
+7. The platform notifies the Student and the Company about the resolution of the Complaint through the Notification Manager.
+
+**Exit Conditions:** The Complaint is closed.
+
+**Exceptions:**
+- None
+
+### TerminateInternship
+**Actors:** University, Student, Company, Notification Manager
+
+**Entry Conditions:** There is an active Complaint regarding the Company and a Student of the University.
+
+**Flow of Events:**
+1. The University selects the "Complaints" option.
+2. The platform opens the Complaints page.
+3. The University presses the target complaint.
+4. The platform shows the relative Complaint page.
+5. The University selects the "Interrupt Internship" option.
+6. The platform will notify the Student and the Company about the interruption of the Internship through the Notification Manager and close the relative Complaint.
 
 **Exit Conditions:** The Internship is interrupted and the Complaint is closed.
 
 **Exceptions:**
 - None
-<!-- [(9h) Matteo] -->
+<!-- [(10h) Matteo] -->
 
 
 ## 3.2.3 Sequence Diagrams
-<!-- [(5h) Matteo] -->
+<!-- [(6h) Matteo] -->
 
 
 ## 3.2.4 Requirements Mapping
