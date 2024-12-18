@@ -123,29 +123,28 @@ In the meantime, Student&Company will also provide a series of Suggestions to im
 
 
 ## 1.3.1 Definitions
-
-- **University:** An institution that is registered on the S&C platform.
-- **Company:** A company that is registered on the S&C platform.
-- **Student:** A person who is currently enrolled in a University and is registered on the S&C platform.
-- **User:** Any registered entity on the S&C platform.
-- **Internship Offer:** The offer of an opportunity to enroll in a internship provided by a Company. The offer remains active on the platform indefinitely until it is removed by the publishing Company and each Company can have publish multiple Internship Offers.
-- **Internship Position Offer:** The formal offer of an internship position presented to a student who has successfully passed the Interview Process, who can decide to accept or reject it.
-- **Recommendation Process:** The process of matching a Student with an Internship Offer publish by a Company based on the Student's CV and the Internship's requirements made by the S&C platform.
-- **Recommendation/Match:** The result of the Recommendation Process. It is the match between a Student and an Internship Offer.
-- **Spontaneous Application:** The process of a Student manually applying for an Internship Offer that was not matched through the Recommendation Process.
-- <!--**Template Interview:** A collection of open-ended questions, quizzes, and calls that a Company can create. Each time a Company wants to interview a Student, they can select a Template Interview, or create a new one, and assign it to the Student.-->
-- **Interview:** The process of evaluating a Student's application for an Internship Offer done by a Company through the S&C platform. It consists of a series of question that the Student has to answer and the Company has to evaluate. 
-- **Feedback:** Information provided by Students and Companies to the S&C platform to improve the Recommendation Process.
-- **Suggestion:** Information provided by the S&C platform to Students and Companies to improve their CVs and Internship Offer descriptions.
-- **Communication:** All the interactions between Companies and University 
-- **Confirmed Match:** A match that has been accepted by both a Student and a Company.
-- **Rejected Match:** A match that has been refused by either a Student or a Company.
-- **Pending Match:** A match that has been accepted only by a Student or a Company, and it's waiting for a response from the other party.
-- **Unaccepted Match:** A match that has been refused by either a Student or a Company.
-- **Confirmed Internship:** An Internship Offer that has been accepted by the Student.
-- **Complaint:** A report of a problem or issue that a Student or Company has with an ongoing Confirmed Internship. It can be published on the platform and handled by the University.
-- **Ongoing Internship:** A internship that is currently in progress. All Ongoing Internships are Confirmed Internships but the vice versa is not always true.
-<!--(1.5h)Sam-->
+- **University**: An institution that is registered on the S&C platform.  
+- **Company**: A company that is registered on the S&C platform.  
+- **Student**: A person who is currently enrolled in a University and is registered on the S&C platform.  
+- **User**: Any registered entity on the S&C platform.  
+- **Internship Offer**: The offer of an opportunity to enroll in an internship provided by a Company. The offer remains active on the platform indefinitely until the publishing Company removes it.  
+- **Participant**: An entity that interacts with the platform for the purpose of finding or offering an Internship Position Offer, like Students and Companies.  
+- **Recommendation Process**: The process of matching a Student with an Internship offered by a Company based on the Student's CV and the Internship's requirements made by the S&C platform.  
+- **Recommendation/Match**: The result of the Recommendation Process. It is the match between a Student and an Internship.  
+- **Spontaneous Application**: The process of a Student manually applying for an Internship that was not matched through the Recommendation Process.  
+- **Interview**: The process of evaluating a Student's application for an Internship done by a Company through the S&C platform.  
+- **Feedback**: Information provided by Participant to the S&C platform to improve the Recommendation Process.  
+- **Internship Position Offer**: The formal offer of an internship position presented to a Student who has successfully passed the Interview, who can decide to accept or reject it.  
+- **Suggestion**: Information provided by the S&C platform to Participant to improve their CVs and Internship descriptions.  
+- **Confirmed Internship**: An Internship that has been accepted by the Student and the offering Company.  
+- **Ongoing Internship**: An internship that is currently in progress. All Ongoing Internships are Confirmed Internships, but the vice versa is not always true.  
+- **Complaint**: A report of a problem or issue that a Student or Company has with an Ongoing Internship. It can be published on the platform and handled by the University.  
+- **Confirmed Match**: A match that has been accepted by both a Student and a Company.  
+- **Rejected Match**: A match that has been refused by either a Student or a Company.  
+- **Pending Match**: A match that has been accepted only by a Student or a Company, waiting for a response from the other party.  
+- **Unaccepted Match**: A match that has been refused by either a Student or a Company.  
+<!--**Template Interview:** A collection of open-ended questions, quizzes, and calls that a Company can create. Each time a Company wants to interview a Student, they can select a Template Interview, or create a new one, and assign it to the Student.-->
+<!--(2h)Sam-->
 
 
 ## 1.6 Document Structure
@@ -391,6 +390,10 @@ The web interface try to follows WCAG 2.1 Level A guidelines for basic accessibi
 4. Students, Companies and Universities have a working internet connection
 5. Universities interrupt an Ongoing Internship only if no solution to complaints is found
 
+## 3.1 External Interface Requirements
+This chapter provides a detailed description of the system's external interfaces such as the User, Hardware, Software, and Communication interfaces. 
+
+## 3.1.1 User Interfaces
 
 <!-- This is a RASD document primarily read by non-technical stakeholder. My idea is not to mention in the PWA 
 implementation approach in this document as we will have a lot of occasion in later docs -->
@@ -398,8 +401,9 @@ implementation approach in this document as we will have a lot of occasion in la
 The platform is a web application that can be accessed from any device with a web browser and an internet connection like a PC, a tablet, or a smartphone. No specific hardware requirements are needed to interact with the Student&Company platform.
 
 ## 3.1.3 Software Interfaces
-<!-- if a notification Manager is used in other part of the Document, we need to put it here-->
-A Email Provider, thought its interface, is used by the platform to send a confirmation email to Users upon registration. At this stage of development, no other external software interfaces are required.
+An Email Provider, thought its interface, is used by the Platform to send a confirmation email to Users upon registration. \\
+A notification manager is used to send notification to Users when relevant events occur. Using notifications instead of email allows the platform to provide a more immediate and interactive experience to the Users without generating spam that can be seen as annoying by the Users.\\
+At this stage of development, no other external software interfaces are required.
 
 <!-- Again, if not necessary I would avoid putting here the use of the REST protocol or PWA stuffs in a non-technical doc -->
 ## 3.1.4 Communication Interfaces
@@ -410,9 +414,12 @@ The platform uses standard internet communication protocols to interact with Use
 
 ## 3.2.1 Use Case Diagrams
 ![User Registration UseCase](./Diagrams/UseDiagrams/UserRegistrationUseCase.png)
+This diagram illustrates the User Registration and Login process, for all User. It shows how the different use case for the registration, based on the User type, and how the login process is generic and common for all User.
 ![Student and Company UseCase](./Diagrams/UseDiagrams/Student%20Company%20Use%20Case.png)
+This diagram illustrates the main functionalities of the platform, such as the loading of CV or the creation of an Internship Offer. This diagram both shows the different use cases that are specific to Students or Companies, and the common ones such as the Acceptance of a Match. In such cases the use case can be initiated by both actors.
 ![University UseCase](./Diagrams/UseDiagrams/UniversityUseCaseDiagram.png)
-<!-- (5.5h) (Sam)-->
+This diagram concentrates on the functionality offered to Universities. It show how Participant can create a Complaint, and how the University can handle it. More importantly it show that a complaint can be handle "as is" by the University or it can extended either by the other Participants how respond to such complaint or by the University itself that can interrupt an Ongoing Internship.
+<!-- (7.5h) (Sam)-->
 
 
 ## 3.2 Functional Requirements

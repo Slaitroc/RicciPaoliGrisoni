@@ -9,8 +9,10 @@ import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as SCIcons from "../Shared/SCIcons";
+import { useGlobalContext } from "../../global/globalContext";
+import * as Global from "../../global/globalStatesInit";
 
-const mainListItems = [
+const studentListItems = [
   {
     key: uuidv4(),
     text: "Overview",
@@ -25,9 +27,87 @@ const mainListItems = [
   },
   {
     key: uuidv4(),
+    text: "Spontaneous Applications",
+    icon: <SCIcons.SCSendIcon />,
+    route: "/dashboard/applications",
+  },
+  {
+    key: uuidv4(),
+    text: "Recommendation Process",
+    icon: <SCIcons.SCJoinInnerIcon />,
+    route: "/dashboard/recommendations",
+  },
+  {
+    key: uuidv4(),
+    text: "Interviews",
+    icon: <SCIcons.SCCollectionsBookmarkIcon />,
+    route: "/dashboard/interviews",
+  },
+  {
+    key: uuidv4(),
+    text: "Confirmed Internship",
+    icon: <SCIcons.SCApartmentIcon />,
+    route: "/dashboard/confirmed-internships",
+  },
+  {
+    key: uuidv4(),
+    text: "Communications",
+    icon: <SCIcons.SCInboxIcon />,
+    route: "/dashboard/communications",
+  },
+  {
+    key: uuidv4(),
+    text: "Swipe",
+    icon: <SCIcons.SCHomeIcon />,
+    route: "/dashboard/swipe-card",
+  },
+];
+
+const univesityListItems = [
+  {
+    key: uuidv4(),
+    text: "Overview",
+    icon: <SCIcons.SCDashboardIcon />,
+    route: "/dashboard",
+  },
+  {
+    key: uuidv4(),
     text: "University",
     icon: <SCIcons.SCAccountBoxIcon />,
     route: "/dashboard/university",
+  },
+  {
+    key: uuidv4(),
+    text: "Recommendation Process",
+    icon: <SCIcons.SCJoinInnerIcon />,
+    route: "/dashboard/recommendations",
+  },
+  {
+    key: uuidv4(),
+    text: "Interviews",
+    icon: <SCIcons.SCCollectionsBookmarkIcon />,
+    route: "/dashboard/interviews",
+  },
+  {
+    key: uuidv4(),
+    text: "Confirmed Internship",
+    icon: <SCIcons.SCApartmentIcon />,
+    route: "/dashboard/confirmed-internships",
+  },
+  {
+    key: uuidv4(),
+    text: "Communications",
+    icon: <SCIcons.SCInboxIcon />,
+    route: "/dashboard/communications",
+  },
+];
+
+const companyListItems = [
+  {
+    key: uuidv4(),
+    text: "Overview",
+    icon: <SCIcons.SCDashboardIcon />,
+    route: "/dashboard",
   },
   {
     key: uuidv4(),
@@ -38,7 +118,7 @@ const mainListItems = [
   {
     key: uuidv4(),
     text: "Spontaneous Applications",
-    icon: <SCIcons.SCSendIcon />,
+    icon: <SCIcons.SCInboxIcon />,
     route: "/dashboard/applications",
   },
   {
@@ -97,10 +177,25 @@ export default function SCMenuContent() {
     navigate(item.route);
   };
 
+  const { userType } = useGlobalContext();
+
+  const userListItems = () => {
+    switch (userType) {
+      case Global.student:
+        return studentListItems;
+      case Global.university:
+        return univesityListItems;
+      case Global.company:
+        return companyListItems;
+      default:
+        return [];
+    }
+  };
+
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: "space-between" }}>
       <List dense>
-        {mainListItems.map((item) => (
+        {userListItems().map((item) => (
           <ListItem key={item.key} disablePadding sx={{ display: "block" }}>
             <ListItemButton
               onClick={() => handleItemClick(item)}
