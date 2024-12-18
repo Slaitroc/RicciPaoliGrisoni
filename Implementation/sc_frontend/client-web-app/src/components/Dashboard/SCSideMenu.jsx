@@ -7,6 +7,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import SCMenuContent from "./SCMenuContent";
 import SCOptionsMenu from "../Shared/OptionMenu/SCOptionsMenu";
+import { useGlobalContext } from "../../global/globalContext";
 
 const drawerWidth = 240;
 
@@ -22,6 +23,8 @@ const Drawer = styled(MuiDrawer)({
 });
 
 export default function SCSideMenu() {
+  const { previewUrl } = useGlobalContext();
+
   return (
     <>
       <Drawer
@@ -54,7 +57,7 @@ export default function SCSideMenu() {
           <Avatar
             sizes="small"
             alt="User Name"
-            src="/static/images/avatar/7.jpg"
+            src={previewUrl}
             sx={{ width: 36, height: 36 }}
           />
           <Box sx={{ mr: "auto" }}>

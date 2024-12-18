@@ -12,12 +12,14 @@ import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import MenuButton from "../../Templates/dashboard/components/MenuButton";
 import Avatar from "@mui/material/Avatar";
 import SCUserItems from "./SCUserItems";
+import { useGlobalContext } from "../../../global/globalContext";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0",
 });
 
 export default function SCAvatarOptionsMenu() {
+  const { previewUrl } = useGlobalContext();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -36,7 +38,7 @@ export default function SCAvatarOptionsMenu() {
         <Avatar
           sizes="small"
           alt="User Name"
-          src="/static/images/avatar/7.jpg"
+          src={previewUrl}
           sx={{ width: 36, height: 36 }}
         />
       </MenuButton>
