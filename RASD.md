@@ -306,13 +306,13 @@ This section outlines the essential functionalities and detailed requirements of
 4. **Automated Recommendations**
    The platform matches Students with suitable Internships based on their CVs and the specific requirements set by Companies. Once a match is found, both Students and Companies are notified, and they can accept or decline the Recommendation.
 5. **Interview Management**
-   Companies can create and assign Template Interviews to Students, which include quizzes, questions, and calls to assess their suitability for an Internship. Both Students and Companies can track the Interview progress, and Companies can evaluate Student responses manually or automatically.
+   Companies can create and assign Interviews to Students, which include closed and open questions to assess their suitability for an Internship. Both Students and Companies can track the Interview progress, and Companies can evaluate Student responses. Companies can also select among students who have passed the interview those to whom they will propose an Internship Position Offer
 6. **Feedback and Suggestions for Improvement**
    The platform collects Feedback from Students and Companies to improve the Recommendation Process. It also provides Suggestions to Students on how to enhance their CVs and to Companies on how to improve their Internship descriptions.
 7. **Complaint Management**
-   Students and Companies can publish Complaints about Ongoing Internships, which are then handled by Universities. Universities can monitor Complaints and interrupt Internships if necessary.
+   Students and Companies can publish Complaints about Ongoing Internships, which are then handled by Universities. Universities can monitor Complaints and interrupt Ongoing Internships if necessary.
 8. **Notification System**
-   Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new Internships, matched Recommendations, Interview assignments, Internship Position Offers,Complaints, Sign-up confirmation or Communications.
+   Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new Internships, matched Recommendations, Interview assignments, Internship Position Offers, Complaints, Sign-up confirmation, Complains or Communications.
    <!-- [(2.0h) Matteo] -->
 
 
@@ -745,7 +745,7 @@ To me, this is clearer-->
 
 
 ## 3.2.3 Sequence Diagrams
-<!-- [(2h) Matteo] -->
+<!-- [(5h) Matteo] -->
 
 
 ## 3.2.4 Requirements Mapping
