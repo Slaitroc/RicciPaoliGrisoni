@@ -1,147 +1,234 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Grid from "@mui/material/Grid2";
+import { useState } from "react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  FormControl,
+  FormLabel,
+  TextField,
+} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import FormControl from "@mui/material/FormControl";
-import InputAdornment from "@mui/material/InputAdornment";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import { styled } from "@mui/material/styles";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { v4 as uuidv4 } from "uuid";
+import { useGlobalContext } from "../../global/globalContext";
 
-const cardData = [
-  {
-    key: uuidv4(),
-    image: "https://picsum.photos/800/450?random=543542",
-    tag: "Feedback",
-    title: "Send Feedback",
-    description: "",
-  },
-];
-
-const StyledCard = styled(Card)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  padding: 0,
-  height: "100%",
-  backgroundColor: (theme.vars || theme).palette.background.paper,
-  "&:hover": {
-    backgroundColor: "transparent",
-    cursor: "pointer",
-  },
-  "&:focus-visible": {
-    outline: "3px solid",
-    outlineColor: "hsla(210, 98%, 48%, 0.5)",
-    outlineOffset: "2px",
-  },
-}));
-
-const StyledCardContent = styled(CardContent)({
-  display: "flex",
-  flexDirection: "column",
-  gap: 4,
-  padding: 16,
-  flexGrow: 1,
-  "&:last-child": {
-    paddingBottom: 16,
-  },
-});
-
-const StyledTypography = styled(Typography)({
-  display: "-webkit-box",
-  WebkitBoxOrient: "vertical",
-  WebkitLineClamp: 2,
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-});
-
-export function Search() {
-  return (
-    <FormControl sx={{ width: { xs: "100%", md: "25ch" } }} variant="outlined">
-      <OutlinedInput
-        size="small"
-        id="search"
-        placeholder="Search…"
-        sx={{ flexGrow: 1 }}
-        startAdornment={
-          <InputAdornment position="start" sx={{ color: "text.primary" }}>
-            <SearchRoundedIcon fontSize="small" />
-          </InputAdornment>
-        }
-        inputProps={{
-          "aria-label": "search",
-        }}
-      />
-    </FormControl>
-  );
-}
+const key = uuidv4();
 
 export default function SCIntOffers() {
-  const [focusedCardIndex, setFocusedCardIndex] = React.useState(null);
+  const { previewUrl } = useGlobalContext();
 
-  const handleFocus = (index) => {
-    setFocusedCardIndex(index);
+  const [offerData, setOfferData] = useState([
+    {
+      id: 0,
+      title: "Internship Details",
+      content: [
+        { id: 0, title: "Title", content: "" },
+        { id: 1, title: "Description", content: "" },
+        { id: 2, title: "Duration", content: "" },
+        { id: 3, title: "Work Mode", content: "" },
+        { id: 4, title: "Preferred Start Date", content: "" },
+        { id: 5, title: "Workplace", content: "" },
+      ],
+    },
+    {
+      id: 1,
+      title: "Student Requirements",
+      content: [
+        { id: 0, title: "Required Skills", content: "" },
+        { id: 1, title: "Education Level", content: "" },
+        { id: 2, title: "Languages", content: "" },
+        { id: 3, title: "Previous Experience", content: "" },
+        { id: 4, title: "Preferred Start Date", content: "" },
+        { id: 5, title: "Workplace", content: "" },
+      ],
+    },
+    {
+      id: 2,
+      title: "Benefit and Conditions",
+      content: [
+        { id: 0, title: "Compensation", content: "" },
+        { id: 1, title: "Additional Benefits", content: "" },
+        { id: 2, title: "Working Hours", content: "" },
+      ],
+    },
+    {
+      id: 3,
+      title: "Additional Information",
+      content: [
+        { id: 0, title: "Attachments", content: "" },
+        { id: 1, title: "Notes", content: "" },
+      ],
+    },
+    {
+      id: 4,
+      title: "Review and Publication",
+      content: [
+        { id: 0, title: "Terms and Conditions", content: "" },
+        { id: 1, title: "Offer Status", content: "" },
+      ],
+    },
+  ]);
+
+  const [temporalData, setTemporalData] = useState(
+    offerData.map((item) => ({
+      id: item.id,
+      content: item.content.map((subitem) => ({
+        id: subitem.id,
+        content: subitem.content,
+      })),
+    }))
+  );
+
+  const [showEdit, setShowEdit] = useState(false);
+
+  const onEditClick = (bool) => {
+    return () => setShowEdit(bool);
   };
 
-  const handleBlur = (index) => {
-    setFocusedCardIndex(index);
+  const updateTemporalData = (itemID, subItemID, event) => {
+    const newContent = event.target.value;
+    const updatedOfferData = temporalData.map((item) =>
+      item.id === itemID
+        ? {
+            ...item,
+            content: item.content.map((subitem) =>
+              subitem.id === subItemID
+                ? { ...subitem, content: newContent }
+                : subitem
+            ),
+          }
+        : item
+    );
+    setTemporalData(updatedOfferData);
   };
 
-  const handleClick = () => {
-    // console.info("You clicked the filter chip.");
+  const updateOfferData = (itemID, subItemID) => {
+    const updatedOfferData = offerData.map((item) =>
+      item.id === itemID
+        ? {
+            ...item,
+            content: item.content.map((subitem) =>
+              subitem.id === subItemID
+                ? {
+                    ...subitem,
+                    content: temporalData
+                      .find((tempItem) => tempItem.id === itemID)
+                      .content.find(
+                        (tempSubItem) => tempSubItem.id === subItemID
+                      ).content,
+                  }
+                : subitem
+            ),
+          }
+        : item
+    );
+    setOfferData(updatedOfferData);
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      <div>
-        <Typography variant="h1" gutterBottom>
-          Internship Offers
-        </Typography>
-      </div>
-      <Grid container spacing={2} columns={12}>
-        {cardData.map((t, index) => {
-          return (
-            <Grid key={t.key} size={{ xs: 12, md: 6 }}>
-              <StyledCard
-                variant="outlined"
-                onFocus={() => handleFocus(t.key)}
-                onBlur={() => handleBlur(t.key)}
-                tabIndex={index}
-                className={focusedCardIndex === t.key ? "Mui-focused" : ""}
-              >
-                <CardMedia
-                  component="img"
-                  alt="green iguana"
-                  image={t.image}
-                  sx={{
-                    aspectRatio: "16 / 9",
-                    borderBottom: "1px solid",
-                    borderColor: "divider",
-                  }}
-                />
-                <StyledCardContent>
-                  <Typography gutterBottom variant="caption" component="div">
-                    {t.tag}
+    <>
+      <Box display="flex" flexDirection="column" height="100%" gap={2}>
+        <Box sx={{ mt: 4, p: 2, border: "1px solid gray", borderRadius: 2 }}>
+          <Box gap={1} display="flex" flexDirection="row" paddingBottom={3}>
+            <Avatar src={previewUrl} alt="Preview" />
+            <Typography variant="h3" gutterBottom>
+              Internship Offer Summary
+            </Typography>
+          </Box>
+          {offerData.map((item) => (
+            <Box>
+              <Typography variant="h4">{item.title}</Typography>
+              {item.content.map((subitem) => (
+                <Box key={uuidv4()} id={subitem.id} sx={{ mb: 0 }} padding={1}>
+                  <Typography variant="h6">{subitem.title}</Typography>
+                  <Typography variant="body1" whiteSpace="pre-line">
+                    {subitem.content || "No content provided."}
                   </Typography>
-                  <Typography gutterBottom variant="h6" component="div">
-                    {t.title}
-                  </Typography>
-                  <StyledTypography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                  >
-                    {t.description}
-                  </StyledTypography>
-                </StyledCardContent>
-              </StyledCard>
-            </Grid>
-          );
-        })}
-      </Grid>
-    </Box>
+                </Box>
+              ))}
+            </Box>
+          ))}
+        </Box>
+        <Box display="flex" justifyContent="center">
+          <Button
+            variant="contained"
+            onClick={onEditClick(!showEdit)}
+            sx={{
+              width: "20%",
+            }}
+          >
+            Edit Internship Offer
+          </Button>
+        </Box>
+
+        {showEdit && (
+          <>
+            {offerData.map((item) => {
+              return (
+                <React.Fragment key={key}>
+                  <Typography variant="h4">{item.title}</Typography>
+                  <Box display="flex" flexDirection="column" gap={6}>
+                    {item.content.map((subitem) => {
+                      return (
+                        <Box display="flex" flexDirection="row" gap={6}>
+                          <FormControl sx={{ width: "100%" }}>
+                            <FormLabel>{subitem.title}</FormLabel>
+                            <TextField
+                              multiline
+                              variant="outlined"
+                              placeholder={subitem.title}
+                              onChange={(e) =>
+                                updateTemporalData(item.id, subitem.id, e)
+                              }
+                              sx={{
+                                "& .MuiOutlinedInput-root": {
+                                  minHeight: "auto", // Altezza minima dinamica
+                                  height: "auto", // Altezza complessiva non fissa
+                                },
+                              }}
+                            />
+                            <Box
+                              display="flex"
+                              justifyContent="left"
+                              padding={2}
+                            >
+                              <Button
+                                onClick={() =>
+                                  updateOfferData(item.id, subitem.id)
+                                }
+                                variant="outlined"
+                                sx={{
+                                  width: "20%",
+                                  height: "60%",
+                                  // "&.MuiButton-root": {
+                                  //   border: "1px solid grey", // Modifica solo questo bottone
+                                  // },
+                                }}
+                              >
+                                Update
+                              </Button>
+                            </Box>
+                          </FormControl>
+                          <FormControl sx={{ width: "100%" }}>
+                            <FormLabel>{subitem.title}</FormLabel>
+                            <Card
+                              sx={{ width: "100%", whiteSpace: "pre-line" }}
+                            >
+                              {" "}
+                              {subitem.content}
+                            </Card>
+                          </FormControl>
+                        </Box>
+                      );
+                    })}
+                  </Box>
+                </React.Fragment>
+              );
+            })}
+          </>
+        )}
+      </Box>
+    </>
   );
 }
