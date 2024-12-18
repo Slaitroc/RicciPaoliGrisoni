@@ -412,7 +412,7 @@ The platform uses standard internet communication protocols to interact with Use
 ![User Registration UseCase](./Diagrams/UseDiagrams/UserRegistrationUseCase.png)
 ![Student and Company UseCase](./Diagrams/UseDiagrams/Student%20Company%20Use%20Case.png)
 ![University UseCase](./Diagrams/UseDiagrams/UniversityUseCaseDiagram.png)
-<!-- (5.5h) (Sam)-->
+<!-- (6.5h) (Sam)-->
 
 
 ## 3.2 Functional Requirements
