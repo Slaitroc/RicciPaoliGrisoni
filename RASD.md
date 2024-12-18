@@ -414,7 +414,7 @@ This diagram illustrates the User Registration and Login process, for all User. 
 This diagram illustrates the main functionalities of the platform, such as the loading of CV or the creation of an Internship Offer. This diagram both shows the different use cases that are specific to Students or Companies, and the common ones such as the Acceptance of a Match. In such cases the use case can be initiated by both actors.
 ![University UseCase](./Diagrams/UseDiagrams/UniversityUseCaseDiagram.png)
 This diagram concentrates on the functionality offered to Universities. It show how Participant can create a Complaint, and how the University can handle it. More importantly it show that a complaint can be handle "as is" by the University or it can extended either by the other Participants how respond to such complaint or by the University itself that can interrupt an Ongoing Internship.
-<!-- (7h) (Sam)-->
+<!-- (7.5h) (Sam)-->
 
 
 ## 3.2 Functional Requirements
