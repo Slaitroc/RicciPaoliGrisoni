@@ -14,6 +14,7 @@ export const useGlobalContext = () => {
 };
 
 export const GlobalProvider = ({ children }) => {
+  // #region AuthContext
   const [isAuthenticated, setIsAuthenticated] = useState(
     global.INIT_IS_AUTHENTICATED
   );
@@ -21,25 +22,7 @@ export const GlobalProvider = ({ children }) => {
   const [loading, setLoading] = useState(global.INIT_LOADING);
   const [error, setError] = useState(global.INIT_ERROR);
   const [userType, setUserType] = useState(global.INIT_USER_TYPE);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState("");
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      // Crea un URL temporaneo per visualizzare l'immagine
-      setPreviewUrl(URL.createObjectURL(file));
-    }
-  };
-
-  // Funzione per rimuovere la foto caricata
-  const removePhoto = () => {
-    setSelectedFile(null);
-    setPreviewUrl("");
-  };
-
-  // #region Context Functions
   const login = useCallback(async (email, password) => {
     setLoading(true);
     setError(null);
@@ -89,7 +72,27 @@ export const GlobalProvider = ({ children }) => {
     }
   }, []);
 
-  // #endregion Context Functions
+  // #endregion AuthContext
+
+  // #region FileUploadContext
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
+
+  const handleFileChange = useCallback((event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      // Crea un URL temporaneo per visualizzare l'immagine
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  }, []);
+
+  const removePhoto = useCallback(() => {
+    setSelectedFile(null);
+    setPreviewUrl("");
+  }, []);
+
+  // #endregion FileUploadContext
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -115,7 +118,7 @@ export const GlobalProvider = ({ children }) => {
         logout,
         fetchProfile,
         handleFileChange,
-        removePhoto
+        removePhoto,
       }}
     >
       {children}
