@@ -390,6 +390,10 @@ The web interface try to follows WCAG 2.1 Level A guidelines for basic accessibi
 4. Students, Companies and Universities have a working internet connection
 5. Universities interrupt an Ongoing Internship only if no solution to complaints is found
 
+## 3.1 External Interface Requirements
+This chapter provides a detailed description of the system's external interfaces such as the User, Hardware, Software, and Communication interfaces. 
+
+## 3.1.1 User Interfaces
 
 <!-- This is a RASD document primarily read by non-technical stakeholder. My idea is not to mention in the PWA 
 implementation approach in this document as we will have a lot of occasion in later docs -->
@@ -397,8 +401,9 @@ implementation approach in this document as we will have a lot of occasion in la
 The platform is a web application that can be accessed from any device with a web browser and an internet connection like a PC, a tablet, or a smartphone. No specific hardware requirements are needed to interact with the Student&Company platform.
 
 ## 3.1.3 Software Interfaces
-<!-- if a notification Manager is used in other part of the Document, we need to put it here-->
-A Email Provider, thought its interface, is used by the platform to send a confirmation email to Users upon registration. At this stage of development, no other external software interfaces are required.
+An Email Provider, thought its interface, is used by the Platform to send a confirmation email to Users upon registration. \\
+A notification manager is used to send notification to Users when relevant events occur. Using notifications instead of email allows the platform to provide a more immediate and interactive experience to the Users without generating spam that can be seen as annoying by the Users.\\
+At this stage of development, no other external software interfaces are required.
 
 <!-- Again, if not necessary I would avoid putting here the use of the REST protocol or PWA stuffs in a non-technical doc -->
 ## 3.1.4 Communication Interfaces
