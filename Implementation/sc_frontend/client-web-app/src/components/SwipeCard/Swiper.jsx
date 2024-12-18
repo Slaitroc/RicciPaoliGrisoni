@@ -14,7 +14,7 @@ const REJECTBORDERCOLOR = "#ff0000";
 
 
 
-function SwipeableCard({ content, index, setItems, setMatch, setMatchName }) {
+function SwipeableCard({ content, index, setItems, setMatch, setMatchName, isMatch }) {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
 
@@ -62,7 +62,7 @@ function SwipeableCard({ content, index, setItems, setMatch, setMatchName }) {
                 borderColor,
                 scale
             }}
-            drag="x"
+            drag={!isMatch ? "x" : false}
             dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
             onDragEnd={handleDragEnd}
         >
@@ -84,6 +84,7 @@ function SwipeCardManager({ data }) {
     const [items, setItems] = useState(data);
     const [isMatch, setMatch] = useState(false)
     const [matchName, setMatchName] = useState("")
+
     //if we want to introduce an autoclose of the match overlay we need useEffect to start a thread that start when the overlay is rendered and close it after 2 seconds
     /*useEffect(() => {
         if (isMatch) {
@@ -108,7 +109,8 @@ function SwipeCardManager({ data }) {
                         index={index}
                         setItems={setItems}
                         setMatch={setMatch}
-                        setMatchName={setMatchName}
+                        setMatchName={setMatchName}l
+                        isMatch={isMatch}
                     />
                 ))}
             </div>
