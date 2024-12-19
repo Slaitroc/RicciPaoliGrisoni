@@ -1,3 +1,7 @@
+
+// Visualization styles are not directly supported in Alloy syntax.
+// Use Alloy's built-in visualization options in the Alloy Analyzer tool.
+
 /*
 Students&Companies (S&C) is a platform that helps match university students looking for internships and companies offering them. The platform should ease the matching between students and companies based on:
 
@@ -18,9 +22,8 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 
 */
 
-sig Email, Name, VatNumber, CV{}{
+sig Email, VatNumber, CV{}{
     Email = User.userEmail
-    Name = User.userName
     VatNumber = (Company.CompanyVatNumber + University.UniversityVatNumber)
     CV = Student.cv
 }
@@ -42,7 +45,6 @@ sig Recommendation{
 }
 
 abstract sig User {
-    userName: one Name,
     userEmail: one Email,
 }
 
@@ -77,6 +79,10 @@ fact StudentEnrolledInUniversity{
     all s: Student | s.enrolledIn != none
 }
 
+fact CurriculumUniqueness{
+    all s1, s2: Student | (s1 != s2 and s1.cv != none and s2.cv != none) => s1.cv != s2.cv
+}
+
 //Only a student with a Cv and a Company with an OfferedInternshipPosition can be matched
 fact MatchedStudentAndInternship{
     all r: Recommendation | r.matchedStudent.cv != none && r.matchedInternship != none
@@ -87,9 +93,13 @@ fact SingleRecommendation{
 
 }
 
-fact UniqueInternshipOffer{
-    all i1, i2: InternshipsOffer | i1 != i2 =>  ((i1.recommendations & i2.recommendations) = none)
+fact InternshipsOfferReflexivity{
     all r: Recommendation, i: InternshipsOffer | r in i.recommendations => r.matchedInternship = i
+    all r: Recommendation, s: Student | r in s.recommendations => r.matchedStudent = s
 }
 
-run {} for 5 but exactly 3 Student, exactly 1 Company
+fact InternshipsOfferUniqueness{
+    all i1, i2: InternshipsOffer | i1 != i2 =>  ((i1.recommendations & i2.recommendations) = none)
+}
+
+run {} for 5 but exactly 2 Student, exactly 1 CV
