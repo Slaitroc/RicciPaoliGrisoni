@@ -35,8 +35,8 @@ sig InternshipsOffer{
 sig Recommendation{
     matchedStudent: one Student,
     matchedInternship: one InternshipsOffer,
-    var StudentAcceptance: lone Student,
-    var CompanyAcceptance: lone Company
+    var studentAcceptance: lone Student,
+    var companyAcceptance: lone Company
 }{
     (InternshipsOffer.recommendations & Student.recommendations) = Recommendation
 }
@@ -119,25 +119,19 @@ fun FindInternshipPositionCompany[i: InternshipsOffer]: lone Company {
 
 //At step 0 the acceptance of the recommendation is none by both parties
 fact InitializeAcceptance{
-    Recommendation.StudentAcceptance = none
-    Recommendation.CompanyAcceptance = none
+    // Recommendation.studentAcceptance = none
+    // Recommendation.companyAcceptance = none
 }
 
 fact StudentAcceptance{
-
-}
-
-fact RecommendationAcceptance{
+    some r: Recommendation | after ( r.studentAcceptance = r.matchedStudent or no r.studentAcceptance)  
     
 }
 
-//Some recommendations are accepted by both parties
-fact Acceptance{
-    some r: Recommendation | (r.CompanyAcceptance = none) and always (after r.CompanyAcceptance = FindInternshipPositionCompany[r.matchedInternship] and )
-
-
-    some r: Recommendation | (r.StudentAcceptance = none) and always (after r.StudentAcceptance = r.matchedStudent)
+fact CompanyAcceptance{
+    some r: Recommendation | after (r.companyAcceptance = FindInternshipPositionCompany[r.matchedInternship] or no r.companyAcceptance)
 }
+
 
 
 run {} for 3 but exactly 1 Student, exactly 1 University, exactly 1 Company, exactly 1 SpontaneousApplication, exactly 2 Recommendation, exactly 2 InternshipsOffer,  10 steps
