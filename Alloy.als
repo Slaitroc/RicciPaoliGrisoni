@@ -28,13 +28,12 @@ sig Email, VatNumber, CV{}{
     CV = Student.cv
 }
 
-
 sig InternshipsOffer{
-    recommendations: set Recommendation
+    recommendations: set Recommendation,
+    spontaneousApplications: set SpontaneousApplication
 }{
     InternshipsOffer = Company.OfferedInternshipPosition
 }
-
 
 
 sig Recommendation{
@@ -44,6 +43,13 @@ sig Recommendation{
     (InternshipsOffer.recommendations & Student.recommendations) = Recommendation
 }
 
+sig SpontaneousApplication{
+    spontaneousApplicant : one Student,
+    interestedInternshipOffer: one InternshipsOffer,
+}{
+    SpontaneousApplication = Student.spontaneousApplications
+}
+
 abstract sig User {
     userEmail: one Email,
 }
@@ -51,7 +57,8 @@ abstract sig User {
 sig Student extends User {
     enrolledIn: one University,
     cv: lone CV,
-    recommendations: set Recommendation
+    recommendations: set Recommendation,
+    spontaneousApplications: set SpontaneousApplication
 }
 sig University extends User {
     UniversityVatNumber: one VatNumber,
@@ -83,23 +90,29 @@ fact CurriculumUniqueness{
     all s1, s2: Student | (s1 != s2 and s1.cv != none and s2.cv != none) => s1.cv != s2.cv
 }
 
-//Only a student with a Cv and a Company with an OfferedInternshipPosition can be matched
-fact MatchedStudentAndInternship{
+//Only a student with a Cv and a Company with an OfferedInternshipPosition can be matched.
+//Only a student with a Cv can send a spontaneous application
+fact StudentWithCVInteraction{
     all r: Recommendation | r.matchedStudent.cv != none && r.matchedInternship != none
+    all s: SpontaneousApplication | s.spontaneousApplicant.cv != none && s.interestedInternshipOffer != none
 }
 
-fact SingleRecommendation{
+
+fact SingleApplicationSource{
     all r1, r2: Recommendation | r1 != r2 => r1.matchedStudent != r2.matchedStudent or r1.matchedInternship != r2.matchedInternship 
-
+    all sa1, sa2: SpontaneousApplication | sa1 != sa2 => sa1.spontaneousApplicant != sa2.spontaneousApplicant or sa1.interestedInternshipOffer != sa2.interestedInternshipOffer
 }
 
-fact InternshipsOfferReflexivity{
-    all r: Recommendation, i: InternshipsOffer | r in i.recommendations => r.matchedInternship = i
+fact ApplicationReflexivity{
+    all r: Recommendation, i: InternshipsOffer | r in i.recommendations iff r.matchedInternship = i
     all r: Recommendation, s: Student | r in s.recommendations => r.matchedStudent = s
+    all sa: SpontaneousApplication, i: InternshipsOffer | sa in i.spontaneousApplications iff sa.interestedInternshipOffer = i
+    all sa: SpontaneousApplication, s: Student | sa in s.spontaneousApplications => sa.spontaneousApplicant = s
 }
 
-fact InternshipsOfferUniqueness{
+fact ApplicationUniqueness{
     all i1, i2: InternshipsOffer | i1 != i2 =>  ((i1.recommendations & i2.recommendations) = none)
+    all sa1, sa2: SpontaneousApplication | sa1 != sa2 =>  ((sa1.interestedInternshipOffer & sa2.interestedInternshipOffer) = none)
 }
 
-run {} for 5 but exactly 2 Student, exactly 1 CV
+run{} for 3 but exactly 1 Student, exactly 1 University, exactly 1 Company, exactly 1 SpontaneousApplication, exactly 1 Recommendation, exactly 2 InternshipsOffer
