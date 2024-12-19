@@ -39,8 +39,6 @@ sig Recommendation{
     var CompanyAcceptance: lone Company
 }{
     (InternshipsOffer.recommendations & Student.recommendations) = Recommendation
-    //StudentAcceptance = none
-    //CompanyAcceptance = none
 }
 
 sig SpontaneousApplication{
@@ -115,13 +113,31 @@ fact ApplicationUniqueness{
     all sa1, sa2: SpontaneousApplication | sa1 != sa2 =>  ((sa1.interestedInternshipOffer & sa2.interestedInternshipOffer) = none)
 }
 
-fun FindInternshipPositionCompany[i: InternshipsOffer]: one Company {
+fun FindInternshipPositionCompany[i: InternshipsOffer]: lone Company {
     { c: Company | i in c.offeredInternshipPosition }
 }
 
+//At step 0 the acceptance of the recommendation is none by both parties
+fact InitializeAcceptance{
+    Recommendation.StudentAcceptance = none
+    Recommendation.CompanyAcceptance = none
+}
+
+fact StudentAcceptance{
+
+}
+
+fact RecommendationAcceptance{
+    
+}
+
+//Some recommendations are accepted by both parties
 fact Acceptance{
-    all r: Recommendation | r.CompanyAcceptance != none => r.CompanyAcceptance' = FindInternshipPositionCompany[r.matchedInternship]
+    some r: Recommendation | (r.CompanyAcceptance = none) and always (after r.CompanyAcceptance = FindInternshipPositionCompany[r.matchedInternship] and )
+
+
+    some r: Recommendation | (r.StudentAcceptance = none) and always (after r.StudentAcceptance = r.matchedStudent)
 }
 
 
-run {} for 3 but exactly 1 Student, exactly 1 University, exactly 1 Company, exactly 1 SpontaneousApplication, exactly 1 Recommendation, exactly 2 InternshipsOffer,  10 steps
+run {} for 3 but exactly 1 Student, exactly 1 University, exactly 1 Company, exactly 1 SpontaneousApplication, exactly 2 Recommendation, exactly 2 InternshipsOffer,  10 steps
