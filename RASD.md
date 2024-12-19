@@ -691,18 +691,18 @@ Given the system's non-essential nature, overly rigid performance standards are 
 To me, this is clearer-->
 
 ### PublishComplaint
-**Actors:** Company, Student, University, Notification Manager
+**Actors:** Participant, University, Notification Manager
 
 **Entry Conditions:** There is an Ongoing Internship between the relative Company and Student.
 
 **Flow of Events:**
-1. The Company selects the "Complaints" option.
+1. The Participant selects the "Complaints" option.
 2. The platform opens the Complaints page.
-3. The Company selects the "Create Complaint" option.
+3. The Participant selects the "Create Complaint" option.
 4. The platform shows the Complaint creation form.
-5. The Company fills the form with the required information (Student's name, Internship title, description of the problem) and click the “Submit Complaint” button.
+5. The Participant fills the form with the required information and click the “Submit Complaint” button.
 6. The platform publishes the Complaint.
-7. The platform notifies the Student and the University through the Notification Manager.
+7. The platform notifies the involved Participants and the University through the Notification Manager.
 
 **Exit Conditions:** The Complaint is created and published.
 

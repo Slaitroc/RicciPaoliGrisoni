@@ -348,28 +348,28 @@ sequenceDiagram
 # PublishComplaint
 ```mermaid
 sequenceDiagram
-    actor Company
+    actor Participant1
     participant Student&Company
     participant NotificationManager
-    actor Student
+    actor Participant2
     actor University
-    activate Company
+    activate Participant1
     activate Student&Company
-    Company ->> Student&Company: press(Complaints)
-    Student&Company -->> Company: showPage(ComplaintsPage)
-    Company ->> Student&Company: press(CreateComplaint)
-    Student&Company -->> Company: showPage(ComplaintCreationPage)
-    Company ->> Student&Company: submit(Complaint)
+    Participant1 ->> Student&Company: press(Complaints)
+    Student&Company -->> Participant1: showPage(ComplaintsPage)
+    Participant1 ->> Student&Company: press(CreateComplaint)
+    Student&Company -->> Participant1: showPage(ComplaintCreationPage)
+    Participant1 ->> Student&Company: submit(Complaint)
     Student&Company ->> Student&Company: update(Complaints)
-    Student&Company ->> NotificationManager: notify(Complaint, Student, University)
+    Student&Company ->> NotificationManager: notify(Complaint, Participant2, University)
     activate NotificationManager
-    NotificationManager -->> Student: SendNotification()
+    NotificationManager -->> Participant2: SendNotification()
     NotificationManager -->> University: SendNotification()
     NotificationManager -->> Student&Company: confirmation()
     deactivate NotificationManager
-    Student&Company -->> Company: showMessage(Success)
+    Student&Company -->> Participant1: showMessage(Success)
     deactivate Student&Company
-    deactivate Company
+    deactivate Participant1
 ```
 
 # RespondToComplaint
