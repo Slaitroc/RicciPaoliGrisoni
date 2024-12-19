@@ -1,7 +1,3 @@
-
-// Visualization styles are not directly supported in Alloy syntax.
-// Use Alloy's built-in visualization options in the Alloy Analyzer tool.
-
 /*
 Students&Companies (S&C) is a platform that helps match university students looking for internships and companies offering them. The platform should ease the matching between students and companies based on:
 
@@ -24,7 +20,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 
 sig Email, VatNumber, CV{}{
     Email = User.userEmail
-    VatNumber = (Company.CompanyVatNumber + University.UniversityVatNumber)
+    VatNumber = (Company.companyVatNumber + University.universityVatNumber)
     CV = Student.cv
 }
 
@@ -32,15 +28,19 @@ sig InternshipsOffer{
     recommendations: set Recommendation,
     spontaneousApplications: set SpontaneousApplication
 }{
-    InternshipsOffer = Company.OfferedInternshipPosition
+    InternshipsOffer = Company.offeredInternshipPosition
 }
 
 
 sig Recommendation{
     matchedStudent: one Student,
     matchedInternship: one InternshipsOffer,
+    var StudentAcceptance: lone Student,
+    var CompanyAcceptance: lone Company
 }{
     (InternshipsOffer.recommendations & Student.recommendations) = Recommendation
+    //StudentAcceptance = none
+    //CompanyAcceptance = none
 }
 
 sig SpontaneousApplication{
@@ -61,19 +61,19 @@ sig Student extends User {
     spontaneousApplications: set SpontaneousApplication
 }
 sig University extends User {
-    UniversityVatNumber: one VatNumber,
+    universityVatNumber: one VatNumber,
 }
 sig Company extends User {
-    CompanyVatNumber: one VatNumber,
-    OfferedInternshipPosition: set InternshipsOffer,
+    companyVatNumber: one VatNumber,
+    offeredInternshipPosition: set InternshipsOffer,
 }
 
 fact UniqueVatNumber{
     //Vat number for companies and universities should be different from each other
-    Company.CompanyVatNumber != University.UniversityVatNumber
+    Company.companyVatNumber != University.universityVatNumber
     //Different companies and universities should have different vat numbers
-    all c1, c2: Company | c1 != c2 => c1.CompanyVatNumber != c2.CompanyVatNumber
-    all u1, u2: University | u1 != u2 => u1.UniversityVatNumber != u2.UniversityVatNumber
+    all c1, c2: Company | c1 != c2 => c1.companyVatNumber != c2.companyVatNumber
+    all u1, u2: University | u1 != u2 => u1.universityVatNumber != u2.universityVatNumber
 }
 
 //Different users should have different emails
@@ -115,4 +115,13 @@ fact ApplicationUniqueness{
     all sa1, sa2: SpontaneousApplication | sa1 != sa2 =>  ((sa1.interestedInternshipOffer & sa2.interestedInternshipOffer) = none)
 }
 
-run{} for 3 but exactly 1 Student, exactly 1 University, exactly 1 Company, exactly 1 SpontaneousApplication, exactly 1 Recommendation, exactly 2 InternshipsOffer
+fun FindInternshipPositionCompany[i: InternshipsOffer]: one Company {
+    { c: Company | i in c.offeredInternshipPosition }
+}
+
+fact Acceptance{
+    all r: Recommendation | r.CompanyAcceptance != none => r.CompanyAcceptance' = FindInternshipPositionCompany[r.matchedInternship]
+}
+
+
+run {} for 3 but exactly 1 Student, exactly 1 University, exactly 1 Company, exactly 1 SpontaneousApplication, exactly 1 Recommendation, exactly 2 InternshipsOffer,  10 steps
