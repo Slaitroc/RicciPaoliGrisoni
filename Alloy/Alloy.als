@@ -35,7 +35,7 @@ sig InternshipsOffer{
 sig Recommendation{
     matchedStudent: one Student,
     matchedInternship: one InternshipsOffer,
-    var status: one Status
+    var status: one recommendationStatus
 }{
     //A recommendation exists only if a student and an internship have been matched
     (InternshipsOffer.recommendations & Student.recommendations) = Recommendation
@@ -44,6 +44,7 @@ sig Recommendation{
 sig SpontaneousApplication{
     spontaneousApplicant : one Student,
     interestedInternshipOffer: one InternshipsOffer,
+    var status: one spontaneousApplicantStatus
 }{
     //A spontaneous application exists only if a student has sent it
     SpontaneousApplication = Student.spontaneousApplications
@@ -70,12 +71,19 @@ sig Company extends User {
 }
 
 /*
-Define the status of a Recommendation.
+Define the possible status of a Recommendation.
 - toBeAccepted represents a match by the Platform 
 - acceptedByStudent and acceptedByCompany are refer in the document as "PendingMatch"
 - acceptedMatch and rejectedMatch have the same definition as in the document
 */
-enum Status{toBeAccepted, acceptedByStudent, acceptedByCompany, acceptedMatch, rejectedMatch}
+enum recommendationStatus{toBeAccepted, acceptedByStudent, acceptedByCompany, acceptedMatch, rejectedMatch}
+
+/*
+Define the possible status of a SpontaneousApplication.
+- toBeEvaluated represents the sending of a spontaneous application that has not been evaluated by the Company yet
+- acceptedApplication and rejectedApplication are the possible outcomes of the evaluation of a spontaneous application
+*/
+enum spontaneousApplicantStatus{toBeEvaluated, acceptedApplication, rejectedApplication}
 
 //A function that returns the company that has offered a specific InternshipsOffer
 fun FindInternshipPositionCompany[i: InternshipsOffer]: lone Company {
@@ -85,7 +93,7 @@ fun FindInternshipPositionCompany[i: InternshipsOffer]: lone Company {
 //Ensure that VatNumbers and unique for Company and University
 fact UniqueVatNumber{
     //The set of VatNumbers for companies and universities should be different from each other
-    Company.companyVatNumber != University.universityVatNumber
+    Company.companyVatNumber & University.universityVatNumber = none
     //Different companies and universities should have different vat numbers
     all c1, c2: Company | c1 != c2 => c1.companyVatNumber != c2.companyVatNumber
     all u1, u2: University | u1 != u2 => u1.universityVatNumber != u2.universityVatNumber
@@ -134,11 +142,10 @@ fact ApplicationUniqueness{
     all sa1, sa2: SpontaneousApplication | sa1 != sa2 =>  ((sa1.interestedInternshipOffer & sa2.interestedInternshipOffer) = none)
 }
 
-
-
-//The status of a Recommendation is initially set to toBeAccepted
+//Define the initial status of a Recommendation and a SpontaneousApplication
 fact initAcceptance {
     Recommendation.status = toBeAccepted
+    SpontaneousApplication.status = toBeEvaluated
 }
 
 //Constraints that define the evolution of the status of a Recommendation
@@ -153,4 +160,10 @@ fact RecommendationEvolutionRules{
     all r: Recommendation | always ((r.status = acceptedMatch) => always (r.status = acceptedMatch))
 }
 
-run {} for 5 but exactly 3 Recommendation, exactly 1 SpontaneousApplication, exactly 7 steps
+fact SpontaneousApplicationEvolutionRules{
+    //Once a spontaneous application has been accepted or rejected, it cannot change its status
+    all sa: SpontaneousApplication | always ((sa.status = acceptedApplication) => always (sa.status = acceptedApplication))
+    all sa: SpontaneousApplication | always ((sa.status = rejectedApplication) => always (sa.status = rejectedApplication))
+}
+
+run {} for 5 but exactly 3 Recommendation, exactly 1 SpontaneousApplication, exactly 3 steps
