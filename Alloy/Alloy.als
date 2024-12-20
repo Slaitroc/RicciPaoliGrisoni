@@ -41,6 +41,8 @@ sig Recommendation{
     (InternshipsOffer.recommendations & Student.recommendations) = Recommendation
 }
 
+
+
 sig SpontaneousApplication{
     spontaneousApplicant : one Student,
     interestedInternshipOffer: one InternshipsOffer,
@@ -70,6 +72,7 @@ sig Company extends User {
     offeredInternshipPosition: set InternshipsOffer,
 }
 
+
 /*
 Define the possible status of a Recommendation.
 - toBeAccepted represents a match by the Platform 
@@ -84,6 +87,8 @@ Define the possible status of a SpontaneousApplication.
 - acceptedApplication and rejectedApplication are the possible outcomes of the evaluation of a spontaneous application
 */
 enum spontaneousApplicantStatus{toBeEvaluated, acceptedApplication, rejectedApplication}
+
+
 
 //A function that returns the company that has offered a specific InternshipsOffer
 fun FindInternshipPositionCompany[i: InternshipsOffer]: lone Company {
@@ -166,4 +171,42 @@ fact SpontaneousApplicationEvolutionRules{
     all sa: SpontaneousApplication | always ((sa.status = rejectedApplication) => always (sa.status = rejectedApplication))
 }
 
-run {} for 5 but exactly 3 Recommendation, exactly 1 SpontaneousApplication, exactly 3 steps
+//An Interview can only be scheduled if the Recommendation has been accepted by both parties
+fact InterviewIFRecommendationAccepted{
+    all r: Recommendation | always ((r.status = acceptedMatch) => (one i: Interview | i.recommendation = r))
+    //#fix
+    //all sa: SpontaneousApplication | always ((sa.status = acceptedApplication) => (one i: Interview | i.spontaneousApplication = sa))
+}
+
+var sig Interview{
+    //#fix
+    var recommendation: one Recommendation,
+    //var spontaneousApplication: one SpontaneousApplication,
+    //var status: one interviewStatus
+}{
+    //#fix
+    recommendation.status = acceptedMatch /*and spontaneousApplication = none*/
+    //spontaneousApplication.status = acceptedApplication
+}
+
+/*TO FIX: 
+-If interview has a status, then only one can be spawned
+-Interview status evolution crash the program if written like RecommendationEvolutionRules
+
+
+enum interviewStatus{toBeSubmitted, submitted, passed, failed}
+
+fact InterviewEvolutionRules{
+    //Before evaluating the interview, it must be submitted to the Student
+    all i: Interview | always ((i.status = toBeSubmitted) => (i.status' != passed and i.status' != failed))
+    //Once the interview has been submitted, it cannot be submitted again
+    all i: Interview | always ((i.status = submitted) => (i.status' != toBeSubmitted) and once (i.status = toBeSubmitted and i.status' = submitted))
+    //Once the interview has been evaluated, it cannot change its status
+    all i: Interview | always ((i.status = passed) => always (i.status = passed))
+    all i: Interview | always ((i.status = failed) => always (i.status = failed))    
+}*/
+
+
+
+
+run {} for 5 but exactly 5 Recommendation, exactly 5 steps
