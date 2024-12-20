@@ -11,7 +11,6 @@ Recommendation in S&C can employ mechanisms of various levels of sophistication 
 When suitable recommendations are identified and accepted by the two parties, a contact is established. After a contact is established, a selection process starts. During this process, companies interview students (and collect answers from them, possibly through structured questionnaires) to gauge their fit with the company and the internship. S&C supports this selection process by helping manage (set-up, conduct, etc.) interviews and also finalize the selections.
 
 To feed statistical analysis applied during recommendation, S&C collects various kinds of information regarding the internships, for example, by asking students and companies to provide feedback and suggestions.
-
 Moreover, S&C should be able to provide suggestions both to companies and to students regarding how to make their submissions (project descriptions for companies and CVs for students) more appealing for their counterparts.
 
 In general, S&C provides interested parties with mechanisms to keep track and monitor the execution and the outcomes of the matchmaking process and of the subsequent internships from the point of view of all interested parties. For example, it provides spaces where interested parties can complain, communicate problems, and provide information about the current status of the ongoing internship. The platform is used by students at different universities. Universities also need to monitor the situation of internships; in particular, they are responsible for handling complaints, especially ones that might require the interruption of the internship.
@@ -31,12 +30,10 @@ sig InternshipsOffer{
     InternshipsOffer = Company.offeredInternshipPosition
 }
 
-
 sig Recommendation{
     matchedStudent: one Student,
     matchedInternship: one InternshipsOffer,
-    var studentAcceptance: lone Student,
-    var companyAcceptance: lone Company
+    var status: one Status
 }{
     (InternshipsOffer.recommendations & Student.recommendations) = Recommendation
 }
@@ -65,6 +62,9 @@ sig Company extends User {
     companyVatNumber: one VatNumber,
     offeredInternshipPosition: set InternshipsOffer,
 }
+enum Status{acceptedByStudent, acceptedByCompany, toBeAccepted, rejectedMatch, acceptedMatch}
+
+
 
 fact UniqueVatNumber{
     //Vat number for companies and universities should be different from each other
@@ -117,21 +117,20 @@ fun FindInternshipPositionCompany[i: InternshipsOffer]: lone Company {
     { c: Company | i in c.offeredInternshipPosition }
 }
 
-//At step 0 the acceptance of the recommendation is none by both parties
-fact InitializeAcceptance{
-    // Recommendation.studentAcceptance = none
-    // Recommendation.companyAcceptance = none
+//A match is initially toBeAccepted
+fact initAcceptance {
+    Recommendation.status = toBeAccepted
 }
 
-fact StudentAcceptance{
-    some r: Recommendation | after ( r.studentAcceptance = r.matchedStudent or no r.studentAcceptance)  
-    
+fact RecommendationEvolutionRules{
+    //A Match need to be accepted by both parties before it can be considered accepted. It can't become accepted in one-step
+    all r: Recommendation | always ((r.status = toBeAccepted) => (r.status' != acceptedMatch))
+    //A party cannot retract its acceptance of a match. Once accepted, it remains accepted.
+    all r: Recommendation | always ((r.status = acceptedByStudent) => (r.status' != acceptedByCompany and r.status' != toBeAccepted))
+    all r: Recommendation | always ((r.status = acceptedByCompany) => (r.status' != acceptedByStudent and r.status' != toBeAccepted))
+    //Rejected and accepted matches remain rejected and accepted forever
+    all r: Recommendation | always ((r.status = rejectedMatch) => always (r.status = rejectedMatch))
+    all r: Recommendation | always ((r.status = acceptedMatch) => always (r.status = acceptedMatch))
 }
 
-fact CompanyAcceptance{
-    some r: Recommendation | after (r.companyAcceptance = FindInternshipPositionCompany[r.matchedInternship] or no r.companyAcceptance)
-}
-
-
-
-run {} for 3 but exactly 1 Student, exactly 1 University, exactly 1 Company, exactly 1 SpontaneousApplication, exactly 2 Recommendation, exactly 2 InternshipsOffer,  10 steps
+run {} for 5 but exactly 3 Recommendation, exactly 7 steps
