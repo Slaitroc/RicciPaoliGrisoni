@@ -1,5 +1,5 @@
 \subsection{Product Prospective}
-
+This section provides a high-level description of the Student\&Company platform, outlining its main features and functionalities thought the use of Text Description such as User Scenarios, and a more in-depth analysis of the system's structure through the use of Class Diagrams and State Charts.
 \subsubsection{User Scenarios}
 
 \begin{enumerate}
@@ -60,23 +60,23 @@
         The University of Rome, a prestigious university that has students enrolled in the S\&C platform, has received a complaint about one of their students. The carrier advisor at the university opens the S\&C platform and navigate to the “Complaints” section. Here, he can view all the complaints published about his students and can handle each one by reviewing the complaint, contacting the student and the company involved, and taking appropriate action to resolve the issue.
         In this particular carrier advisor and the university have decided to interrupt the internship of the student to protect the student and the company from further issues. The university do so by clicking on the “Interrupt Internship” button in the complaint page. The platform will notify the student and the company about the interruption of the internship and will close the complaint.
 \end{enumerate}
-
-
+\clearpage
 \subsubsection{Class Diagrams}
+The following UML class diagram describes the domain of our interest with the entities involved in it and the main relations between them. It includes the main attributes and a limited set of methods that represent the core functionalities of the system. These entities capture the essence of the platform's domain.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{Images/ClassDiagram1.1.png}
+    \includegraphics[width=\linewidth]{Latex/Images/ClassDiagram1.1.png}
     \caption{Class Diagram}
     \label{fig:ClassDiagram}
 \end{figure}
-\newpage
+\clearpage
 \subsubsection{State Charts}
 The following section provides a series of state diagrams that illustrate the evolution of the main phases of the Student\&Company platform. For this purpose, we propose three diagrams representing the Recommendation Process evolution with the corresponding Spontaneous Application variant and the Interview Process.
 \newline\newline
-\noindent\textbf{Recommendation Process}\\
+\noindent\textbf{\color{titleColor}Recommendation Process}\\
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=1 \textwidth]{Diagrams/StateCharts/RecommendationStateChart.png}
+    \includegraphics[width=1 \textwidth]{Latex/Images/RecommendationStateChart.png}
     \caption{Recommendation State Chart}
     \label{fig:RecommendationProcess}
 \end{figure}
@@ -84,21 +84,21 @@ The following section provides a series of state diagrams that illustrate the ev
     \item The Recommendation Process is the core of the Student\&Company platform. It is the process that matches Students with Internships based on the Student's CV and the Internship's requirements. It is initiated by the platform when it detects a potential Match. The process then evolves to a "WaitingForConfirmation" state, where the system waits for the Student and the Company to accept the Match. If one of the two parties rejects the Match, the process is terminated. If both parties accept the Match, an Interview is initiated, and the process is terminated.
 \end{itemize}
 
-\noindent\textbf{Spontaneous Application Process}\\
+\noindent\textbf{\color{titleColor}Spontaneous Application Process}\\
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=1 \textwidth]{Diagrams/StateCharts/SpontaneousApplicationStateChart.png}
+    \includegraphics[width=1 \textwidth]{Latex/Images/SpontaneousApplicationStateChart.png}
     \caption{Spontaneous Application State Chart}
     \label{fig:SpontaneousApplication}
 \end{figure}
 \begin{itemize}
     \item Unlike the Recommendation Process, the Spontaneous Application process is initiated by the Student. When a Student submits a Spontaneous Application for an Internship, the process evolves to a "WaitingForConfirmation" state, where the system waits for the Company to accept the Application. If the Company rejects the Application, the process is terminated. If the Company accepts the Application, an Interview Process is initiated, and the process is terminated.
 \end{itemize} 
-
-\noindent\textbf{Interview Process}\\
+\clearpage
+\noindent\textbf{\color{titleColor}Interview Process}\\
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1 \textwidth]{Diagrams/StateCharts/InterviewProcessStateChart.png}
+    \includegraphics[width=1 \textwidth]{Latex/Images/InterviewProcessStateChart.png}
     \caption{Interview State Chart}
     \label{fig:InterviewProcess}
 \end{figure}
@@ -106,10 +106,10 @@ The following section provides a series of state diagrams that illustrate the ev
     \item The Interview Process is initiated when a Match is accepted by both the Student and the Company, or when the Company accepts a Spontaneous Application. The process starts in the "ToBeSubmitted" state, where the Company is asked to create and submit an Interview. Here, the Company is required to specify a deadline for the Interview. The Interview process evolves into the "Submitted" state once the Company sends the Interview to the Student, who answers the questions and submits the Interview. If the Student fails to submit the answers within the deadline, he will be considered rejected, and the process is progressed to an "Evaluated" state and terminates. Otherwise, after the Interview has been sent back by the student, the process evolves to a "ToBeEvaluated" state. In this state, the Company can manually evaluate the Student's answers and mark the interview as accepted or rejected. In case the Student has been rejected, he will be notified of the outcome, and the process is terminated. Otherwise, if the Student has been accepted, an Internship Position Offer process is initiated and the Interview Process is terminated. If anywhere in the process, the Student accepts another Internship, the process is terminated and the Student will be considered rejected.
 \end{itemize}
 
-\noindent\textbf{Internship Position Offer process}\\
+\noindent\textbf{\color{titleColor}Internship Position Offer process}\\
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1 \textwidth]{Diagrams/StateCharts/InternshipPositionOfferStateChart.png}    
+    \includegraphics[width=1 \textwidth]{Latex/Images/InternshipPositionOfferStateChart.png}    
     \caption{Internship Position Offer State Chart}
     \label{fig:InternshipPositionOffer}
 \end{figure}
@@ -123,10 +123,10 @@ The following section provides a series of state diagrams that illustrate the ev
     If anywhere in the process, the Student accepts another Internship, the process is terminated and the Student will be considered rejected.
 \end{itemize}
 
-\noindent\textbf{Selection Process}\\
+\noindent\textbf{\color{titleColor}Selection Process}\\
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1 \textwidth]{Diagrams/StateCharts/SelectionProcessStateChart.png}
+    \includegraphics[width=1 \textwidth]{Latex/Images/SelectionProcessStateChart.png}
     \caption{Selection Process State Chart}
     \label{fig:SelectionProcess}
 \end{figure}
@@ -136,18 +136,18 @@ The following section provides a series of state diagrams that illustrate the ev
     If the Student is accepted during the Interview Process, the process transitions to the Internship Position Offer Process.
     If the Student accepts the Internship Position Offer, the process also concludes.
 \end{itemize}
-
+\clearpage
 \subsection{Product Functions}
 This section outlines the essential functionalities and detailed requirements of the platform, structured to support the key objectives defined in the scope of the product.
 \begin{enumerate}
-    \item \textbf{User Management}: The platform allows Students, Companies, and Universities to register and log in. It also provides Students with the ability to upload and modify their CVs, and Companies with the ability to view and manage their Internships.
-    \item \textbf{Internship Creation and Management}: Companies can create, publish, and manage Internship offers on the platform. They define details such as job description, requirements, deadlines, and benefits. Companies also have the ability to terminate Internship offers when they are no longer needed.
-    \item \textbf{Student Application Process}: Students can browse available Internships and apply to Internships either through automatic matching or by submitting Spontaneous Applications. They can also track the status of their Applications throughout the process.
-    \item \textbf{Automated Recommendations}: The platform matches Students with suitable Internships based on their CVs and the specific requirements set by Companies. Once a match is found, both Students and Companies are notified, and they can accept or decline the Recommendation.
-    \item \textbf{Interview Management}: Companies can create and assign Template Interviews to Students, which include quizzes, questions, and calls to assess their suitability for an Internship. Both Students and Companies can track the Interview progress, and Companies can evaluate Student responses manually or automatically.
-    \item \textbf{Feedback and Suggestions for Improvement}: The platform collects Feedback from Students and Companies to improve the Recommendation Process. It also provides Suggestions to Students on how to enhance their CVs and to Companies on how to improve their Internship descriptions.
-    \item \textbf{Complaint Management}: Students and Companies can publish Complaints about ongoing Internships, which are then handled by Universities. Universities can monitor Complaints and interrupt Internships if necessary.
-    \item \textbf{Notification System}: Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new Internships, matched Recommendations, Interview assignments,  Internship Position Offers, Complaints, Sign-up confirmation, or Communications.
+    \item \textbf{\color{titleColor}User Management}: The platform allows Students, Companies, and Universities to register and log in. It also provides Students with the ability to upload and modify their CVs, and Companies with the ability to view and manage their Internships.
+    \item \textbf{\color{titleColor}Internship Creation and Management}: Companies can create, publish, and manage Internship offers on the platform. They define details such as job description, requirements, deadlines, and benefits. Companies also have the ability to terminate Internship offers when they are no longer available.
+    \item \textbf{\color{titleColor}Student Application Process}: Students can browse available Internships and apply to Internships either through automatic matching or by submitting Spontaneous Applications. They can also track the status of their Applications throughout the process.
+    \item \textbf{\color{titleColor}Automated Recommendations}: The platform matches Students with suitable Internships based on their CVs and the specific requirements set by Companies. Once a match is found, both Students and Companies are notified, and they can accept or decline the Recommendation.
+    \item \textbf{\color{titleColor}Interview Management}: Companies can create and assign Interviews to Students, which include closed and open questions to assess their suitability for an Internship. Both Students and Companies can track the Interview progress, and Companies can evaluate Student responses. Companies can also select among students who have passed the interview those to whom they will propose an Internship Position Offer.
+    \item \textbf{\color{titleColor}Feedback and Suggestions for Improvement}: The platform collects Feedback from Students and Companies to improve the Recommendation Process. It also provides Suggestions to Students on how to enhance their CVs and to Companies on how to improve their Internship descriptions.
+    \item \textbf{\color{titleColor}Complaint Management}: Students and Companies can publish Complaints about Ongoing Internships, which are then handled by Universities. Universities can monitor Complaints and interrupt Ongoing Internships if necessary.
+    \item \textbf{\color{titleColor}Notification System}: Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new Internships, matched Recommendations, Interview assignments,  Internship Position Offers, Complaints, Sign-up confirmation, Complains or Communications.
 \end{enumerate}
 
 \subsubsection{Requirements}
@@ -197,23 +197,40 @@ This section outlines the essential functionalities and detailed requirements of
     
     % Universities Oversight and Complaint Management
     \item The platform shall allow registered Universities to access and monitor Internship Communications related to their Students.
-    \item The platform shall provide a dedicated space for Students and Companies to exchange Communications about the current status of an ongoing Internship.
+    \item The platform shall provide a dedicated space for Students and Companies to exchange Communications about the current status of an Ongoing Internship.
     \item The platform shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.
 \end{enumerate}
 
 
 \subsection{User Characteristics}
-
+Student\&Company is designed to be used by three main types of Users: Students, Companies, and Universities. Each User has a specific roles and can perform different action on the platform as described below:
+\begin{itemize}
+  \item \textbf{Students}: \\
+    Student users are individuals currently enrolled in a University (which must be registered on the Platform) who are looking for Internship opportunities to enhance their education and their curriculum. \\
+    They can register on the platform, upload their CVs, and apply for Internships either through the Recommendation Process or by submitting a Spontaneous Applications to a Interview Offer to which they are particular interested. Students can also monitor the status of their Applications, Interviews, and Internship Position Offers thought dedicated section on the platform and can, eventually, report problems encountered during an Ongoing Internship to their University by creating a Complaint.\\
+    The platform also provides Students with Suggestions on how to improve their CVs and matching probability based on a grammar and lexical analyses and a direct comparing of the Student's CV with another similar candidate while the Student can improve the platform by providing Feedback on the Recommendation Process once a Confirmed Match is found.
+  \item \textbf{Companies}:\\
+    Company users are entities that are looking for interns to train and educate in their field of expertise. Each company account is created by a representative of the Company, usually a Human Resource employee or a manager that is in charge of the internship program. \\
+    Companies can register on the platform and create, publish, manage and delete different Internship Offers at the same time. They can also view and manage the CVs of Students that have been matched or have sent a Spontaneous Application to such offers, and create and submit Interviews to evaluate them. If a Student passes the Interview, the Company can send an Internship Position Offer to him while monitoring other Interview and Internship Position Offers and, moreover, each Company can report problem encountered during an Ongoing Internship by creating a Complaint.\\
+    The platform also provides Companies with Suggestions on how to improve their Internship descriptions and matching probability based on a grammar and lexical analyses and a direct comparing of the Company's Internship Offer with other similar companies while they can help improve the platform by providing Feedback on the Recommendation Process once a Confirmed Match is found.
+  \item \textbf{Universities}:\\
+    University users are institutions that are looking to provide their Students with Internship opportunities to enhance their education and curriculum. Each university account is created by a representative of the University, usually a carrier advisor or a professor that is in charge of the internship program.\\
+    Universities can register on the platform and monitor their Students by receiving Communication both from Student and Companies. Such Communication can be about the acceptance of an Internship Position Offer by a Student or some problem encountered during an Ongoing Internship reported by a party trough a Complaint. \\
+    University can handle such Complaints and, eventually, interrupt an Ongoing Internship if no solution to the problem is found to prevent further issues.
+\end{itemize}
+While Student\&Company is not specifically designed to accommodate users with special needs, the platform implements several basic accessibility features to improve usability for all users. These include different display modes such as dark mode, screen-reader compatible layouts and easily readable fonts.
+The web interface try to follows WCAG 2.1 Level A guidelines for basic accessibility compliance. However, users requiring specialized assistive technologies may need to rely on their own tools and software to interact with the platform optimally.
 
 \subsection{Assumptions, dependencies, and constraints}
 
 \subsubsection{Domain Assumption}
 This section outlines the basic assumptions about the environment and behavior of entities that interact with the system. These assumptions simplify the design and implementation by defining expectations about Students, Companies, Universities, and the platform, ensuring the system operates effectively within its intended context.
 \begin{enumerate}[label={\color{titleColor}[D\arabic*]}]
-\item Students and Companies provide the Platform with correct and truthful information.
-\item Companies remove published Internships if they are no longer available.
-\item Students, Companies, and Universities receive and visualize every notification.
-\item Students, Companies, and Universities have a working internet connection.
-\item Universities interrupt an ongoing Internship only if no solution is found to the Complaints.
+    \item Students and Companies provide the Platform with correct and truthful information.
+    \item Companies remove published Internships if they are no longer available.
+    \item The Email Provider and Notification Manager services are reliable, and the Users visualize every notification
+    \item Students, Companies, and Universities have a working internet connection.
+    \item Universities interrupt an Ongoing Internship only if no solution is found to the Complaints.
 \end{enumerate}
+
 \subsubsection{Dependencies}
