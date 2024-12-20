@@ -173,40 +173,74 @@ fact SpontaneousApplicationEvolutionRules{
 
 //An Interview can only be scheduled if the Recommendation has been accepted by both parties
 fact InterviewIFRecommendationAccepted{
-    all r: Recommendation | always ((r.status = acceptedMatch) => (one i: Interview | i.recommendation = r))
-    //#fix
-    //all sa: SpontaneousApplication | always ((sa.status = acceptedApplication) => (one i: Interview | i.spontaneousApplication = sa))
+    always all r: Recommendation | ((r.status = acceptedMatch) => always (one i: Interview | i.recommendation = r and  (i.spontaneousApplication = none)))
+    always all sa: SpontaneousApplication | ((sa.status = acceptedApplication) => always (one i: Interview | i.spontaneousApplication = sa and  (i.recommendation = none)))
+
+    always all i: Interview, r:Recommendation | ((i.recommendation = r) => always (i.recommendation = r))
+    always all i: Interview, r:SpontaneousApplication | ((i.spontaneousApplication = r) => always (i.spontaneousApplication = r))
 }
 
 var sig Interview{
     //#fix
-    var recommendation: one Recommendation,
-    //var spontaneousApplication: one SpontaneousApplication,
-    //var status: one interviewStatus
+    var recommendation: lone Recommendation,
+    var spontaneousApplication: lone SpontaneousApplication,
+    var status: one interviewStatus
 }{
     //#fix
-    recommendation.status = acceptedMatch /*and spontaneousApplication = none*/
-    //spontaneousApplication.status = acceptedApplication
+    recommendation.status = acceptedMatch or spontaneousApplication.status = acceptedApplication
+    #recommendation > 0 => #spontaneousApplication = 0
+    #spontaneousApplication > 0 => #recommendation = 0
+    //(Interview.recommendation != none & Interview.spontaneousApplication != none) = none
 }
 
 /*TO FIX: 
 -If interview has a status, then only one can be spawned
 -Interview status evolution crash the program if written like RecommendationEvolutionRules
 
-
+*/
 enum interviewStatus{toBeSubmitted, submitted, passed, failed}
 
+fact InterviewStatusEvolution{
+    //A Match need to be accepted by both parties before it can be considered accepted. It can't become accepted in one-step
+    all i: Interview | eventually ((i.status = toBeSubmitted) => (i.status' != passed and i.status' != failed))
+    //A party cannot retract its acceptance of a match. Once accepted, it remains accepted.
+    all i: Interview | eventually ((i.status = submitted) => (i.status' != toBeSubmitted))
+    //Rejected and accepted matches remain rejected and accepted forever
+    all i: Interview | eventually ((i.status = failed) => always (i.status = failed))
+    all i: Interview | eventually ((i.status = passed) => always (i.status = passed))
+}
+/*
 fact InterviewEvolutionRules{
     //Before evaluating the interview, it must be submitted to the Student
-    all i: Interview | always ((i.status = toBeSubmitted) => (i.status' != passed and i.status' != failed))
+    all i: Interview | always ((i.status = toBeSubmitted) => eventually always (i.status' != passed and i.status' != failed))
     //Once the interview has been submitted, it cannot be submitted again
-    all i: Interview | always ((i.status = submitted) => (i.status' != toBeSubmitted) and once (i.status = toBeSubmitted and i.status' = submitted))
+    all i: Interview | always ((i.status = submitted) => eventually always (i.status' != toBeSubmitted))
+    all i: Interview | always ((i.status = passed) => historically (i.status = toBeSubmitted and i.status' = submitted))
     //Once the interview has been evaluated, it cannot change its status
     all i: Interview | always ((i.status = passed) => always (i.status = passed))
-    all i: Interview | always ((i.status = failed) => always (i.status = failed))    
+    all i: Interview | always ((i.status = failed) => always (i.status = failed))
+
+    all i: Interview | always ((i.status' != toBeSubmitted) => once (i.status = toBeSubmitted))
 }*/
 
+/*fact{
+    always all i: Interview | (i.recommendation != none and i.spontaneousApplication = none) or (i.recommendation = none and i.spontaneousApplication != none) or (i.recommendation = none and i.spontaneousApplication = none)
+}*/
+
+fact InterviewStatusEvolution{
+    // Should be fine, if interview is submitted, then sometime in the past it had to be toBeSubmitted
+    all i: Interview | always ((i.status = submitted) => once (i.status = toBeSubmitted and i.status' = submitted)) 
+    // If interview is failed, then sometime in the past it had to be submitted
+    all i: Interview | always ((i.status = failed) => once (i.status = submitted and i.status' = failed)) 
+    // If interview is passed, then sometime in the past it had to be submitted
+    all i: Interview | always ((i.status = passed) => once (i.status = submitted and i.status' = passed)) 
+    all i: Interview | always ((i.status = submitted) => after always (i.status != toBeSubmitted))
+    all i: Interview | always ((i.status = passed) => after always (i.status != submitted))
+    all i: Interview | always ((i.status = failed) => after always (i.status != submitted))
+    all i: Interview | always ((i.status' != toBeSubmitted) => once (i.status = toBeSubmitted))
+}
 
 
 
-run {} for 5 but exactly 5 Recommendation, exactly 5 steps
+
+run {} for 5 but exactly 3 Recommendation,exactly 1 SpontaneousApplication, exactly 3 InternshipsOffer, exactly 5 steps
