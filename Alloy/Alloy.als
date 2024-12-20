@@ -18,6 +18,7 @@ In general, S&C provides interested parties with mechanisms to keep track and mo
 */
 
 sig Email, VatNumber, CV{}{
+    //No Email, VatNumber or CV can be created without an associated user
     Email = User.userEmail
     VatNumber = (Company.companyVatNumber + University.universityVatNumber)
     CV = Student.cv
@@ -27,6 +28,7 @@ sig InternshipsOffer{
     recommendations: set Recommendation,
     spontaneousApplications: set SpontaneousApplication
 }{
+    //A InternshipOffer exists only if a company has offered it
     InternshipsOffer = Company.offeredInternshipPosition
 }
 
@@ -35,6 +37,7 @@ sig Recommendation{
     matchedInternship: one InternshipsOffer,
     var status: one Status
 }{
+    //A recommendation exists only if a student and an internship have been matched
     (InternshipsOffer.recommendations & Student.recommendations) = Recommendation
 }
 
@@ -42,6 +45,7 @@ sig SpontaneousApplication{
     spontaneousApplicant : one Student,
     interestedInternshipOffer: one InternshipsOffer,
 }{
+    //A spontaneous application exists only if a student has sent it
     SpontaneousApplication = Student.spontaneousApplications
 }
 
@@ -55,35 +59,49 @@ sig Student extends User {
     recommendations: set Recommendation,
     spontaneousApplications: set SpontaneousApplication
 }
+
 sig University extends User {
     universityVatNumber: one VatNumber,
 }
+
 sig Company extends User {
     companyVatNumber: one VatNumber,
     offeredInternshipPosition: set InternshipsOffer,
 }
-enum Status{acceptedByStudent, acceptedByCompany, toBeAccepted, rejectedMatch, acceptedMatch}
 
+/*
+Define the status of a Recommendation.
+- toBeAccepted represents a match by the Platform 
+- acceptedByStudent and acceptedByCompany are refer in the document as "PendingMatch"
+- acceptedMatch and rejectedMatch have the same definition as in the document
+*/
+enum Status{toBeAccepted, acceptedByStudent, acceptedByCompany, acceptedMatch, rejectedMatch}
 
+//A function that returns the company that has offered a specific InternshipsOffer
+fun FindInternshipPositionCompany[i: InternshipsOffer]: lone Company {
+    { c: Company | i in c.offeredInternshipPosition }
+}
 
+//Ensure that VatNumbers and unique for Company and University
 fact UniqueVatNumber{
-    //Vat number for companies and universities should be different from each other
+    //The set of VatNumbers for companies and universities should be different from each other
     Company.companyVatNumber != University.universityVatNumber
     //Different companies and universities should have different vat numbers
     all c1, c2: Company | c1 != c2 => c1.companyVatNumber != c2.companyVatNumber
     all u1, u2: University | u1 != u2 => u1.universityVatNumber != u2.universityVatNumber
 }
 
-//Different users should have different emails
+//Different Users shall have different emails
 fact UniqueEmailEndEnrollment{
     all u1, u2: User | u1 != u2 => u1.userEmail != u2.userEmail
 }
 
-//All students should be enrolled in a university
+//All students shall be enrolled in a university
 fact StudentEnrolledInUniversity{
     all s: Student | s.enrolledIn != none
 }
 
+//Different students shall have different CVs
 fact CurriculumUniqueness{
     all s1, s2: Student | (s1 != s2 and s1.cv != none and s2.cv != none) => s1.cv != s2.cv
 }
@@ -96,11 +114,13 @@ fact StudentWithCVInteraction{
 }
 
 
+//Define how one Recommendation differs from another Recommendation and similarly for SpontaneousApplications
 fact SingleApplicationSource{
     all r1, r2: Recommendation | r1 != r2 => r1.matchedStudent != r2.matchedStudent or r1.matchedInternship != r2.matchedInternship 
     all sa1, sa2: SpontaneousApplication | sa1 != sa2 => sa1.spontaneousApplicant != sa2.spontaneousApplicant or sa1.interestedInternshipOffer != sa2.interestedInternshipOffer
 }
 
+//Define the reflexive property Recommendation and SpontaneousApplication
 fact ApplicationReflexivity{
     all r: Recommendation, i: InternshipsOffer | r in i.recommendations iff r.matchedInternship = i
     all r: Recommendation, s: Student | r in s.recommendations => r.matchedStudent = s
@@ -108,20 +128,20 @@ fact ApplicationReflexivity{
     all sa: SpontaneousApplication, s: Student | sa in s.spontaneousApplications => sa.spontaneousApplicant = s
 }
 
+//An Application is unique and cannot be shared between two different Students or InternshipOffers
 fact ApplicationUniqueness{
     all i1, i2: InternshipsOffer | i1 != i2 =>  ((i1.recommendations & i2.recommendations) = none)
     all sa1, sa2: SpontaneousApplication | sa1 != sa2 =>  ((sa1.interestedInternshipOffer & sa2.interestedInternshipOffer) = none)
 }
 
-fun FindInternshipPositionCompany[i: InternshipsOffer]: lone Company {
-    { c: Company | i in c.offeredInternshipPosition }
-}
 
-//A match is initially toBeAccepted
+
+//The status of a Recommendation is initially set to toBeAccepted
 fact initAcceptance {
     Recommendation.status = toBeAccepted
 }
 
+//Constraints that define the evolution of the status of a Recommendation
 fact RecommendationEvolutionRules{
     //A Match need to be accepted by both parties before it can be considered accepted. It can't become accepted in one-step
     all r: Recommendation | always ((r.status = toBeAccepted) => (r.status' != acceptedMatch))
@@ -133,4 +153,4 @@ fact RecommendationEvolutionRules{
     all r: Recommendation | always ((r.status = acceptedMatch) => always (r.status = acceptedMatch))
 }
 
-run {} for 5 but exactly 3 Recommendation, exactly 7 steps
+run {} for 5 but exactly 3 Recommendation, exactly 1 SpontaneousApplication, exactly 7 steps
