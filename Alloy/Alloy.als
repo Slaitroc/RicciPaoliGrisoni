@@ -191,7 +191,7 @@
     }
 
     fact SpontaneousApplicationEvolutionRules{
-        all sa: SpontaneousApplication | (sa.status = toBeEvaluated) => ( always ( (sa.status' = acceptedApplication) or (sa.status' = rejectedApplication)) or (sa.status' = toBeEvaluated))
+        always all sa: SpontaneousApplication | (sa.status = toBeEvaluated) => ((sa.status' = acceptedApplication) or (sa.status' = rejectedApplication) or (sa.status' = toBeEvaluated))
         //Once a spontaneous application has been accepted or rejected, it cannot change its status
         all sa: SpontaneousApplication | always ((sa.status = acceptedApplication) => always (sa.status = acceptedApplication))
         all sa: SpontaneousApplication | always ((sa.status = rejectedApplication) => always (sa.status = rejectedApplication))
@@ -203,43 +203,10 @@
     fact InterviewIFRecommendationAccepted{
         always all r: Recommendation | ((r.status = acceptedMatch) => (one i: Interview |  i.recommendation = r ))
         always all sa: SpontaneousApplication | ((sa.status = acceptedApplication) => (one i: Interview | i.spontaneousApplication = sa))
-
         always all i: Interview, r:Recommendation | ((i.recommendation = r) => always (i.recommendation = r))
         always all i: Interview, r:SpontaneousApplication | ((i.spontaneousApplication = r) => always (i.spontaneousApplication = r))
-
         always (all i: Interview | once (i.status = toBeSubmitted))
     }
-
-
-    /*pred SpawnInterview[i: Interview, r: Recommendation]{
-        i.recommendation = r 
-        i.spontaneousApplication = none
-        (i.status = toBeSubmitted)
-        (InterviewEvolutionRules[i])
-    }
-
-    pred InterviewEvolutionRules[i: Interview]{
-        ((i.status = toBeSubmitted) =>  (i.status' != passed and i.status' != failed))
-        ((i.status = submitted) => (i.status' != toBeSubmitted))
-        ((i.status = passed) => always (i.status = passed))
-        ((i.status = failed) => always (i.status = failed))
-    }*/
-
-    /*
-    fact InterviewEvolutionRules{
-        //Before evaluating the interview, it must be submitted to the Student
-        all i: Interview | always ((i.status = toBeSubmitted) => eventually always (i.status' != passed and i.status' != failed))
-        //Once the interview has been submitted, it cannot be submitted again
-        all i: Interview | always ((i.status = submitted) => eventually always (i.status' != toBeSubmitted))
-        all i: Interview | always ((i.status = passed) => historically (i.status = toBeSubmitted and i.status' = submitted))
-        //Once the interview has been evaluated, it cannot change its status
-        all i: Interview | always ((i.status = passed) => always (i.status = passed))
-        all i: Interview | always ((i.status = failed) => always (i.status = failed))
-
-        all i: Interview | always ((i.status' != toBeSubmitted) => once (i.status = toBeSubmitted))
-    }*/
-
-
 
     fact InterviewStatusEvolution{
         // If interview is submitted, then sometime in the past it had to be toBeSubmitted
@@ -254,4 +221,4 @@
         always all i: Interview | always ((i.status' != toBeSubmitted) => once (i.status = toBeSubmitted))
     }
 
-    run {} for 5 but exactly 3 Recommendation, exactly 2 SpontaneousApplication, exactly 3 InternshipsOffer, exactly 5 steps
+    run {} for 5 but exactly 3 Recommendation, exactly 1 SpontaneousApplication, exactly 3 InternshipsOffer, exactly 10 steps
