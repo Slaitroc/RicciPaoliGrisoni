@@ -7,6 +7,9 @@ import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { v4 as uuidv4 } from "uuid";
+import SCMessage from "./SCMessage";
+import { SCCollectionsBookmarkIcon } from "../Shared/SCIcons";
+import SCComplaintsList from "./SCComplaintsList";
 
 const cardData = [
   {
@@ -83,49 +86,50 @@ export default function SCCommunications() {
   };
 
   return (
-    <Box
-      sx={{ display: "flex", flexDirection: "column", gap: 4, width: "100%" }}
-    >
-      <div>
-        <Typography variant="h1" gutterBottom>
-          Communications
-        </Typography>
-      </div>
-      <Grid container spacing={2} columns={12}>
-        {cardData.map((t, index) => {
-          return (
-            <Grid key={t.key} size={{ xs: 12, md: 12 }}>
-              <StyledCard
-                variant="outlined"
-                onFocus={() => handleFocus(t.key)}
-                onBlur={() => handleBlur(t.key)}
-                tabIndex={index}
-                className={focusedCardIndex === t.key ? "Mui-focused" : ""}
-                sx={{ width: "100%" }}
-              >
-                <CardMedia
-                  sx={{
-                    borderBottom: "1px solid",
-                    borderColor: "divider",
-                  }}
-                />
-                <StyledCardContent>
-                  <Typography gutterBottom variant="h6" component="div">
-                    {t.title}
-                  </Typography>
-                  <StyledTypography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                  >
-                    {t.description}
-                  </StyledTypography>
-                </StyledCardContent>
-              </StyledCard>
-            </Grid>
-          );
-        })}
-      </Grid>
-    </Box>
+    // <Box
+    //   sx={{ display: "flex", flexDirection: "column", gap: 4, width: "100%" }}
+    // >
+    //   <div>
+    //     <Typography variant="h1" gutterBottom>
+    //       Communications
+    //     </Typography>
+    //   </div>
+    //   <Grid container spacing={2} columns={12}>
+    //     {cardData.map((t, index) => {
+    //       return (
+    //         <Grid key={t.key} size={{ xs: 12, md: 12 }}>
+    //           <StyledCard
+    //             variant="outlined"
+    //             onFocus={() => handleFocus(t.key)}
+    //             onBlur={() => handleBlur(t.key)}
+    //             tabIndex={index}
+    //             className={focusedCardIndex === t.key ? "Mui-focused" : ""}
+    //             sx={{ width: "100%" }}
+    //           >
+    //             <CardMedia
+    //               sx={{
+    //                 borderBottom: "1px solid",
+    //                 borderColor: "divider",
+    //               }}
+    //             />
+    //             <StyledCardContent>
+    //               <Typography gutterBottom variant="h6" component="div">
+    //                 {t.title}
+    //               </Typography>
+    //               <StyledTypography
+    //                 variant="body2"
+    //                 color="text.secondary"
+    //                 gutterBottom
+    //               >
+    //                 {t.description}
+    //               </StyledTypography>
+    //             </StyledCardContent>
+    //           </StyledCard>
+    //         </Grid>
+    //       );
+    //     })}
+    //   </Grid>
+    // </Box>
+    <SCComplaintsList></SCComplaintsList>
   );
 }

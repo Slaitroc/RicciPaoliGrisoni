@@ -21,6 +21,11 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import XIcon from "@mui/icons-material/X";
+import LinkIcon from "@mui/icons-material/Link";
+
+export const SCLinkIcon = () => {
+  return <LinkIcon />;
+};
 
 export const SCInstagramIcon = () => {
   return <InstagramIcon />;
