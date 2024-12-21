@@ -1,0 +1,87 @@
+sig Email, VatNumber, CV{}{
+        //No Email, VatNumber or CV can be created without an associated user
+        Email = User.userEmail
+        VatNumber = (Company.companyVatNumber + University.universityVatNumber)
+        CV = Student.cv
+    }
+
+    abstract sig User {
+        userEmail: one Email,
+    }
+
+    sig Student extends User {
+        enrolledIn: one University,
+        cv: lone CV,
+        recommendations: set Recommendation,
+        spontaneousApplications: set SpontaneousApplication
+    }
+
+    sig University extends User {
+        universityVatNumber: one VatNumber,
+    }
+
+    sig Company extends User {
+        companyVatNumber: one VatNumber,
+        offeredInternshipPosition: set InternshipsOffer,
+    }
+
+    sig InternshipsOffer{
+        recommendations: set Recommendation,
+        spontaneousApplications: set SpontaneousApplication
+    }{
+        //A InternshipOffer exists only if a company has offered it
+        InternshipsOffer = Company.offeredInternshipPosition
+    }
+
+    /*
+    Define the possible status of a Recommendation.
+    - toBeAccepted represents a match by the Platform 
+    - acceptedByStudent and acceptedByCompany are refer in the document as "PendingMatch"
+    - acceptedMatch and rejectedMatch have the same definition as in the document
+    */
+    enum recommendationStatus{toBeAccepted, acceptedByStudent, acceptedByCompany, acceptedMatch, rejectedMatch}
+
+    /*
+    Define the possible status of a SpontaneousApplication.
+    - toBeEvaluated represents the sending of a spontaneous application that has not been evaluated by the Company yet
+    - acceptedApplication and rejectedApplication are the possible outcomes of the evaluation of a spontaneous application
+    */
+    enum spontaneousApplicantStatus{toBeEvaluated, acceptedApplication, rejectedApplication}
+
+    /*
+    Define the possible status of an Interview.
+    - toBeSubmitted represents the creation of an interview that has not been submitted yet
+    - submitted represents the submission of the interview
+    - passed and failed are the possible outcomes of the interview
+    */
+    enum interviewStatus{toBeSubmitted, submitted, passed, failed}
+
+    sig Recommendation{
+        matchedStudent: one Student,
+        matchedInternship: one InternshipsOffer,
+        var status: one recommendationStatus
+    }{
+        //A recommendation exists only if a student and an internship have been matched
+        (InternshipsOffer.recommendations & Student.recommendations) = Recommendation
+    }
+
+    sig SpontaneousApplication{
+        spontaneousApplicant : one Student,
+        interestedInternshipOffer: one InternshipsOffer,
+        var status: one spontaneousApplicantStatus
+    }{
+        //A spontaneous application exists only if a student has sent it
+        (SpontaneousApplication & Student.spontaneousApplications) = SpontaneousApplication
+    }
+
+    //The signature Interview is variable as it is created only when a Recommendation or a SpontaneousApplication is accepted
+    var sig Interview{
+        var recommendation: lone Recommendation,
+        var spontaneousApplication: lone SpontaneousApplication,
+        var status: one interviewStatus
+    }{
+        //An interview can only be assign to a recommendation or a spontaneous application
+        recommendation.status = acceptedMatch <=> !spontaneousApplication.status = acceptedApplication
+        one recommendation => no spontaneousApplication
+        one spontaneousApplication => no recommendation
+    }

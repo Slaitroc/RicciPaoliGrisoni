@@ -1,0 +1,109 @@
+// Two distinct interview cannot share the same reccomendation or spontaneous application
+    fact interviewUniqueness{
+        always all i1, i2: Interview | i1 != i2 => ((i1.recommendation & i2.recommendation) = none) and ((i1.spontaneousApplication & i2.spontaneousApplication) = none)
+    }
+
+    //Ensure that VatNumbers and unique for Company and University
+    fact UniqueVatNumber{
+        //The set of VatNumbers for companies and universities should be different from each other
+        Company.companyVatNumber & University.universityVatNumber = none
+        //Different companies and universities should have different vat numbers
+        all c1, c2: Company | c1 != c2 => c1.companyVatNumber != c2.companyVatNumber
+        all u1, u2: University | u1 != u2 => u1.universityVatNumber != u2.universityVatNumber
+    }
+
+    //Different Users shall have different emails
+    fact UniqueEmailEndEnrollment{
+        all u1, u2: User | u1 != u2 => u1.userEmail != u2.userEmail
+    }
+
+    //All students shall be enrolled in a university
+    fact StudentEnrolledInUniversity{
+        all s: Student | s.enrolledIn != none
+    }
+
+    //Different students shall have different CVs
+    fact CurriculumUniqueness{
+        all s1, s2: Student | (s1 != s2 and s1.cv != none and s2.cv != none) => s1.cv != s2.cv
+    }
+
+    //Different companies shall have different offeredInternshipPositions
+    fact UniqueInternshipOffer{
+        all c1, c2: Company | (c1 != c2 and c1.offeredInternshipPosition != none and c2.offeredInternshipPosition != none) => c1.offeredInternshipPosition != c2.offeredInternshipPosition
+    }
+
+    //Only a student with a Cv and a Company with an OfferedInternshipPosition can be matched.
+    //Only a student with a Cv can send a spontaneous application
+    fact StudentWithCVInteraction{
+        all r: Recommendation | r.matchedStudent.cv != none && r.matchedInternship != none
+        all s: SpontaneousApplication | s.spontaneousApplicant.cv != none && s.interestedInternshipOffer != none
+    }
+
+    //Define how one Recommendation differs from another Recommendation and similarly for SpontaneousApplications
+    fact SingleApplicationSource{
+        all r1, r2: Recommendation | r1 != r2 => r1.matchedStudent != r2.matchedStudent or r1.matchedInternship != r2.matchedInternship 
+        all sa1, sa2: SpontaneousApplication | sa1 != sa2 => sa1.spontaneousApplicant != sa2.spontaneousApplicant or sa1.interestedInternshipOffer != sa2.interestedInternshipOffer
+    }
+
+    //Define the reflexive property Recommendation and SpontaneousApplication
+    fact ApplicationReflexivity{
+        all r: Recommendation, i: InternshipsOffer | r in i.recommendations <=> r.matchedInternship = i
+        all r: Recommendation, s: Student | r in s.recommendations => r.matchedStudent = s
+        all sa: SpontaneousApplication, i: InternshipsOffer | sa in i.spontaneousApplications <=> sa.interestedInternshipOffer = i
+        all sa: SpontaneousApplication, s: Student | sa in s.spontaneousApplications => sa.spontaneousApplicant = s
+    }
+
+    //An Application is unique and cannot be shared between two different Students or InternshipOffers
+    fact ApplicationUniqueness{
+        all i1, i2: InternshipsOffer | i1 != i2 =>  ((i1.recommendations & i2.recommendations) = none)
+        all sa1, sa2: SpontaneousApplication | sa1 != sa2 =>  ((sa1.interestedInternshipOffer & sa2.interestedInternshipOffer) = none)
+    }
+
+    //Define the initial status of a Recommendation and a SpontaneousApplication
+    fact initAcceptance {
+        Recommendation.status = toBeAccepted
+        SpontaneousApplication.status = toBeEvaluated
+    }
+
+    //Constraints that define the evolution of the status of a Recommendation
+    fact RecommendationEvolutionRules{
+        //A Match need to be accepted by both parties before it can be considered accepted. It can't become accepted in one-step
+        all r: Recommendation | always ((r.status = toBeAccepted) => (r.status' != acceptedMatch))
+        //A party cannot retract its acceptance of a match. Once accepted, it remains accepted.
+        all r: Recommendation | always ((r.status = acceptedByStudent) => (r.status' != acceptedByCompany and r.status' != toBeAccepted))
+        all r: Recommendation | always ((r.status = acceptedByCompany) => (r.status' != acceptedByStudent and r.status' != toBeAccepted))
+        //Rejected and accepted matches remain rejected and accepted forever
+        all r: Recommendation | always ((r.status = rejectedMatch) => always (r.status = rejectedMatch))
+        all r: Recommendation | always ((r.status = acceptedMatch) => always (r.status = acceptedMatch))
+    }
+
+    //Constraints that define the evolution of the status of a SpontaneousApplication
+    fact SpontaneousApplicationEvolutionRules{
+        always all sa: SpontaneousApplication | (sa.status = toBeEvaluated) => ((sa.status' = acceptedApplication) or (sa.status' = rejectedApplication) or (sa.status' = toBeEvaluated))
+        //Once a spontaneous application has been accepted or rejected, it cannot change its status
+        all sa: SpontaneousApplication | always ((sa.status = acceptedApplication) => always (sa.status = acceptedApplication))
+        all sa: SpontaneousApplication | always ((sa.status = rejectedApplication) => always (sa.status = rejectedApplication))
+        
+    }
+
+    //Here the Interviews are created and for now the starting status is toBeSubmitted
+    fact InterviewIFRecommendationAccepted{
+        always all r: Recommendation | ((r.status = acceptedMatch) => (one i: Interview |  i.recommendation = r ))
+        always all sa: SpontaneousApplication | ((sa.status = acceptedApplication) => (one i: Interview | i.spontaneousApplication = sa))
+        always all i: Interview, r:Recommendation | ((i.recommendation = r) => always (i.recommendation = r))
+        always all i: Interview, r:SpontaneousApplication | ((i.spontaneousApplication = r) => always (i.spontaneousApplication = r))
+        always (all i: Interview | once (i.status = toBeSubmitted))
+    }
+
+    fact InterviewStatusEvolution{
+        // If interview is submitted, then sometime in the past it had to be toBeSubmitted
+        always all i: Interview | always ((i.status = submitted) => once (i.status = toBeSubmitted and i.status' = submitted)) 
+        // If interview is failed, then sometime in the past it had to be submitted
+        always all i: Interview | always ((i.status = failed) => once (i.status = submitted and i.status' = failed))
+        // If interview is passed, then sometime in the past it had to be submitted
+        always all i: Interview | always ((i.status = passed) => once (i.status = submitted and i.status' = passed)) 
+        always all i: Interview | always ((i.status = submitted) => after always (i.status != toBeSubmitted))
+        always all i: Interview | always ((i.status = passed) => after always (i.status != submitted))
+        always all i: Interview | always ((i.status = failed) => after always (i.status != submitted))
+        always all i: Interview | always ((i.status' != toBeSubmitted) => once (i.status = toBeSubmitted))
+    }
