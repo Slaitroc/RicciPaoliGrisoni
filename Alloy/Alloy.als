@@ -49,7 +49,7 @@ sig SpontaneousApplication{
     var status: one spontaneousApplicantStatus
 }{
     //A spontaneous application exists only if a student has sent it
-    SpontaneousApplication = Student.spontaneousApplications
+    (SpontaneousApplication & Student.spontaneousApplications) = SpontaneousApplication
 }
 
 abstract sig User {
@@ -166,18 +166,22 @@ fact RecommendationEvolutionRules{
 }
 
 fact SpontaneousApplicationEvolutionRules{
+    all sa: SpontaneousApplication | always ((sa.status = toBeEvaluated) => (sa.status' = acceptedApplication))
     //Once a spontaneous application has been accepted or rejected, it cannot change its status
     all sa: SpontaneousApplication | always ((sa.status = acceptedApplication) => always (sa.status = acceptedApplication))
     all sa: SpontaneousApplication | always ((sa.status = rejectedApplication) => always (sa.status = rejectedApplication))
+    
 }
 
 //Here the Interviews are created and for now the starting status is toBeSubmitted
 fact InterviewIFRecommendationAccepted{
-    always all r: Recommendation | ((r.status = acceptedMatch) => (one i: Interview | i.recommendation = r ))
-    always all sa: SpontaneousApplication | ((sa.status = acceptedApplication) => always (one i: Interview | i.spontaneousApplication = sa and (i.recommendation = none)))
+    always all r: Recommendation | ((r.status = acceptedMatch) => (one i: Interview |  i.recommendation = r ))
+    always all sa: SpontaneousApplication | ((sa.status = acceptedApplication) => (one i: Interview | i.spontaneousApplication = sa))
 
     always all i: Interview, r:Recommendation | ((i.recommendation = r) => always (i.recommendation = r))
     always all i: Interview, r:SpontaneousApplication | ((i.spontaneousApplication = r) => always (i.spontaneousApplication = r))
+
+    always (all i: Interview | once (i.status = toBeSubmitted))
 }
 
 var sig Interview{
@@ -185,11 +189,19 @@ var sig Interview{
     var spontaneousApplication: lone SpontaneousApplication,
     var status: one interviewStatus
 }{
+    //An interview can only be assign to a recommendation or a spontaneous application
     recommendation.status = acceptedMatch or spontaneousApplication.status = acceptedApplication
-    #recommendation > 0 => #spontaneousApplication = 0
-    #spontaneousApplication > 0 => #recommendation = 0
-
+    one recommendation => no spontaneousApplication
+    one spontaneousApplication => no recommendation
 }
+
+/*fact InterviewNeedToBeSubmitted{
+    always (all i: Interview | once (i.status = toBeSubmitted))
+}*/
+
+fact interviewUniqueness{
+    always all i1, i2: Interview | i1 != i2 => ((i1.recommendation & i2.recommendation) = none) and ((i1.spontaneousApplication & i2.spontaneousApplication) = none)
+} 
 
 /*TO FIX: 
 -If interview has a status, then only one can be spawned
@@ -226,9 +238,7 @@ fact InterviewEvolutionRules{
     all i: Interview | always ((i.status' != toBeSubmitted) => once (i.status = toBeSubmitted))
 }*/
 
-fact interviewUniqueness{
-    always all i1, i2: Interview | i1 != i2 => ((i1.recommendation & i2.recommendation) = none) and ((i1.spontaneousApplication & i2.spontaneousApplication) = none)
-} 
+
 
 /*fact InterviewStatusEvolution{
     // If interview is submitted, then sometime in the past it had to be toBeSubmitted
@@ -243,7 +253,4 @@ fact interviewUniqueness{
     all i: Interview | always ((i.status' != toBeSubmitted) => once (i.status = toBeSubmitted))
 } */
 
-
-
-
-run {} for 5 but exactly 3 Recommendation, exactly 0 SpontaneousApplication, exactly 3 InternshipsOffer, exactly 5 steps
+run {} for 5 but exactly 3 Recommendation, exactly 1 SpontaneousApplication, exactly 3 InternshipsOffer, exactly 5 steps
