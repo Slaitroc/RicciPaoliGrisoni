@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import SCMenuContent from "./SCMenuContent";
 import SCOptionsMenu from "../Shared/OptionMenu/SCOptionsMenu";
 import { useGlobalContext } from "../../global/globalContext";
+import { TEXT } from "../../constants/UIConstants";
 
 const drawerWidth = 240;
 
@@ -65,7 +66,7 @@ export default function SCSideMenu() {
               variant="body2"
               sx={{ fontWeight: 500, lineHeight: "16px" }}
             >
-              Name Surname
+              {TEXT.USER_NAME}
             </Typography>
             <Typography variant="caption" sx={{ color: "text.secondary" }}>
               useremail@email.com
