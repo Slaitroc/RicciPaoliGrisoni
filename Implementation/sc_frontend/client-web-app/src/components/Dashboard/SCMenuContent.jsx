@@ -55,12 +55,12 @@ const studentListItems = [
     icon: <SCIcons.SCInboxIcon />,
     route: "/dashboard/communications",
   },
-  {
-    key: uuidv4(),
-    text: "Swipe",
-    icon: <SCIcons.SCHomeIcon />,
-    route: "/dashboard/swipe-card",
-  },
+  // {
+  //   key: uuidv4(),
+  //   text: "Swipe",
+  //   icon: <SCIcons.SCHomeIcon />,
+  //   route: "/dashboard/swipe-card",
+  // },
 ];
 
 const univesityListItems = [
@@ -78,13 +78,13 @@ const univesityListItems = [
   },
   {
     key: uuidv4(),
-    text: "Recommendation Process",
+    text: "Recommendations Stats",
     icon: <SCIcons.SCJoinInnerIcon />,
     route: "/dashboard/recommendations",
   },
   {
     key: uuidv4(),
-    text: "Interviews",
+    text: "Interviews Stats",
     icon: <SCIcons.SCCollectionsBookmarkIcon />,
     route: "/dashboard/interviews",
   },
