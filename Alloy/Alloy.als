@@ -96,10 +96,6 @@
         one spontaneousApplication => no recommendation
     }
 
-    /*fact InterviewNeedToBeSubmitted{
-        always (all i: Interview | once (i.status = toBeSubmitted))
-    }*/
-
     fact interviewUniqueness{
         always all i1, i2: Interview | i1 != i2 => ((i1.recommendation & i2.recommendation) = none) and ((i1.spontaneousApplication & i2.spontaneousApplication) = none)
     } 
@@ -107,18 +103,8 @@
     /*TO FIX: 
     -If interview has a status, then only one can be spawned
     -Interview status evolution crash the program if written like RecommendationEvolutionRules
-
     */
     enum interviewStatus{toBeSubmitted, submitted, passed, failed}
-
-
-
-
-
-    //A function that returns the company that has offered a specific InternshipsOffer
-    fun FindInternshipPositionCompany[i: InternshipsOffer]: lone Company {
-        { c: Company | i in c.offeredInternshipPosition }
-    }
 
     //Ensure that VatNumbers and unique for Company and University
     fact UniqueVatNumber{
@@ -144,13 +130,17 @@
         all s1, s2: Student | (s1 != s2 and s1.cv != none and s2.cv != none) => s1.cv != s2.cv
     }
 
+    //Different companies shall have different offeredInternshipPositions
+    fact UniqueInternshipOffer{
+        all c1, c2: Company | (c1 != c2 and c1.offeredInternshipPosition != none and c2.offeredInternshipPosition != none) => c1.offeredInternshipPosition != c2.offeredInternshipPosition
+    }
+
     //Only a student with a Cv and a Company with an OfferedInternshipPosition can be matched.
     //Only a student with a Cv can send a spontaneous application
     fact StudentWithCVInteraction{
         all r: Recommendation | r.matchedStudent.cv != none && r.matchedInternship != none
         all s: SpontaneousApplication | s.spontaneousApplicant.cv != none && s.interestedInternshipOffer != none
     }
-
 
     //Define how one Recommendation differs from another Recommendation and similarly for SpontaneousApplications
     fact SingleApplicationSource{
@@ -198,7 +188,6 @@
         
     }
 
-
     //Here the Interviews are created and for now the starting status is toBeSubmitted
     fact InterviewIFRecommendationAccepted{
         always all r: Recommendation | ((r.status = acceptedMatch) => (one i: Interview |  i.recommendation = r ))
@@ -219,6 +208,53 @@
         always all i: Interview | always ((i.status = passed) => after always (i.status != submitted))
         always all i: Interview | always ((i.status = failed) => after always (i.status != submitted))
         always all i: Interview | always ((i.status' != toBeSubmitted) => once (i.status = toBeSubmitted))
+    }
+
+    //A function that returns the company that has offered a specific InternshipsOffer
+    fun FindInternshipPositionCompany[i: InternshipsOffer]: lone Company {
+        { c: Company | i in c.offeredInternshipPosition }
+    }
+
+    //If a student has no CV, then it cannot be matched with a recommendation or send a spontaneous application
+    //If a company has no offeredInternshipPosition, then it cannot be matched with a recommendation
+    assert NoInfoProvided{
+        all s: Student, r: Recommendation | (s.cv = none) => (r.matchedStudent != s)
+        all s: Student, sa: SpontaneousApplication | (s.cv = none) => (sa.spontaneousApplicant != s)
+        all c: Company, r: Recommendation | (c.offeredInternshipPosition = none) => (FindInternshipPositionCompany[r.matchedInternship] != c)
+    }
+
+    //If a student did not accept a recommendation, then the recommendation cannot be accepted
+    assert BothPartyNeedToAct{
+        always all r: Recommendation | (r.status' = acceptedMatch) => (r.status = acceptedByStudent or r.status = acceptedByCompany or r.status = acceptedMatch)
+        always all sa: SpontaneousApplication | (sa.status' = acceptedApplication) => (sa.status = toBeEvaluated or sa.status = acceptedApplication)
+    }
+
+    //If a student has multiple recommendations, then the recommendations are different
+    //If a InternshipOffer has multiple recommendations, then the students recommended are different
+    assert UniqueRecommendation{
+        all s: Student, r1, r2: Recommendation | (r1 != r2 and r1.matchedStudent = s and r2.matchedStudent = s) => r1.matchedInternship != r2.matchedInternship
+        all i: InternshipsOffer, r1, r2: Recommendation | (r1 != r2 and r1.matchedInternship = i and r2.matchedInternship = i) => r1.matchedStudent != r2.matchedStudent
+    }
+
+    //Two companies cannot offer the same InternshipOffer
+    assert internshipsOfferUniqueness{
+        all c1, c2: Company | (c1 != c2 and c1.offeredInternshipPosition != none and c2.offeredInternshipPosition != none) => c1.offeredInternshipPosition != c2.offeredInternshipPosition
+    }
+
+    //Two students cannot have the same CV
+    assert CVUniqueness{
+        all s1, s2: Student | (s1 != s2 and s1.cv != none and s2.cv != none) => s1.cv != s2.cv
+    }
+
+    //An interview can be assigned to a recommendation or a spontaneous application only if they have been accepted
+    assert InterviewAssignment{
+        always all i: Interview | (i.recommendation.status = acceptedMatch or i.spontaneousApplication.status = acceptedApplication)
+    }
+
+    //An interview can be assigned only to a student with a CV
+    assert StudentWithInterviewHasCV{
+        //(A <=> !B) equivalent to (A = !B and B = !A) equivalent to (A XOR B)
+        always all i: Interview | (i.recommendation.matchedStudent.cv != none) <=> !(i.spontaneousApplication.spontaneousApplicant.cv != none)
     }
 
     run {} for 5 but exactly 3 Recommendation, exactly 1 SpontaneousApplication, exactly 3 InternshipsOffer, exactly 10 steps
