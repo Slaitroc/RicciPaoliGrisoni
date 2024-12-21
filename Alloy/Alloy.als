@@ -67,6 +67,14 @@
     */
     enum spontaneousApplicantStatus{toBeEvaluated, acceptedApplication, rejectedApplication}
 
+    /*
+    Define the possible status of an Interview.
+    - toBeSubmitted represents the creation of an interview that has not been submitted yet
+    - submitted represents the submission of the interview
+    - passed and failed are the possible outcomes of the interview
+    */
+    enum interviewStatus{toBeSubmitted, submitted, passed, failed}
+
     sig Recommendation{
         matchedStudent: one Student,
         matchedInternship: one InternshipsOffer,
@@ -85,26 +93,22 @@
         (SpontaneousApplication & Student.spontaneousApplications) = SpontaneousApplication
     }
 
+    //The signature Interview is variable as it is created only when a Recommendation or a SpontaneousApplication is accepted
     var sig Interview{
         var recommendation: lone Recommendation,
         var spontaneousApplication: lone SpontaneousApplication,
         var status: one interviewStatus
     }{
         //An interview can only be assign to a recommendation or a spontaneous application
-        recommendation.status = acceptedMatch or spontaneousApplication.status = acceptedApplication
+        recommendation.status = acceptedMatch <=> !spontaneousApplication.status = acceptedApplication
         one recommendation => no spontaneousApplication
         one spontaneousApplication => no recommendation
     }
 
+    // Two distinct interview cannot share the same reccomendation or spontaneous application
     fact interviewUniqueness{
         always all i1, i2: Interview | i1 != i2 => ((i1.recommendation & i2.recommendation) = none) and ((i1.spontaneousApplication & i2.spontaneousApplication) = none)
-    } 
-
-    /*TO FIX: 
-    -If interview has a status, then only one can be spawned
-    -Interview status evolution crash the program if written like RecommendationEvolutionRules
-    */
-    enum interviewStatus{toBeSubmitted, submitted, passed, failed}
+    }
 
     //Ensure that VatNumbers and unique for Company and University
     fact UniqueVatNumber{
@@ -150,9 +154,9 @@
 
     //Define the reflexive property Recommendation and SpontaneousApplication
     fact ApplicationReflexivity{
-        all r: Recommendation, i: InternshipsOffer | r in i.recommendations iff r.matchedInternship = i
+        all r: Recommendation, i: InternshipsOffer | r in i.recommendations <=> r.matchedInternship = i
         all r: Recommendation, s: Student | r in s.recommendations => r.matchedStudent = s
-        all sa: SpontaneousApplication, i: InternshipsOffer | sa in i.spontaneousApplications iff sa.interestedInternshipOffer = i
+        all sa: SpontaneousApplication, i: InternshipsOffer | sa in i.spontaneousApplications <=> sa.interestedInternshipOffer = i
         all sa: SpontaneousApplication, s: Student | sa in s.spontaneousApplications => sa.spontaneousApplicant = s
     }
 
@@ -180,6 +184,7 @@
         all r: Recommendation | always ((r.status = acceptedMatch) => always (r.status = acceptedMatch))
     }
 
+    //Constraints that define the evolution of the status of a SpontaneousApplication
     fact SpontaneousApplicationEvolutionRules{
         always all sa: SpontaneousApplication | (sa.status = toBeEvaluated) => ((sa.status' = acceptedApplication) or (sa.status' = rejectedApplication) or (sa.status' = toBeEvaluated))
         //Once a spontaneous application has been accepted or rejected, it cannot change its status
@@ -223,13 +228,14 @@
         all c: Company, r: Recommendation | (c.offeredInternshipPosition = none) => (FindInternshipPositionCompany[r.matchedInternship] != c)
     }
 
-    //If a student did not accept a recommendation, then the recommendation cannot be accepted
+    //For a recommendation to be accepted, both the student and the company need to accept it
+    //For a spontaneous application to be accepted, it needs to be evaluated
     assert BothPartyNeedToAct{
         always all r: Recommendation | (r.status' = acceptedMatch) => (r.status = acceptedByStudent or r.status = acceptedByCompany or r.status = acceptedMatch)
         always all sa: SpontaneousApplication | (sa.status' = acceptedApplication) => (sa.status = toBeEvaluated or sa.status = acceptedApplication)
     }
 
-    //If a student has multiple recommendations, then the recommendations are different
+    //If a student has multiple recommendations, then the recommendations are for different InternshipOffers
     //If a InternshipOffer has multiple recommendations, then the students recommended are different
     assert UniqueRecommendation{
         all s: Student, r1, r2: Recommendation | (r1 != r2 and r1.matchedStudent = s and r2.matchedStudent = s) => r1.matchedInternship != r2.matchedInternship
@@ -256,5 +262,6 @@
         //(A <=> !B) equivalent to (A = !B and B = !A) equivalent to (A XOR B)
         always all i: Interview | (i.recommendation.matchedStudent.cv != none) <=> !(i.spontaneousApplication.spontaneousApplicant.cv != none)
     }
+    check StudentWithInterviewHasCV for 5 but 5 steps
 
-    run {} for 5 but exactly 3 Recommendation, exactly 1 SpontaneousApplication, exactly 3 InternshipsOffer, exactly 10 steps
+    run {} for 5 but exactly 1 Recommendation, exactly 1 SpontaneousApplication, exactly 3 InternshipsOffer, exactly 5 steps
