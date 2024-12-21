@@ -171,10 +171,13 @@ fact SpontaneousApplicationEvolutionRules{
     all sa: SpontaneousApplication | always ((sa.status = rejectedApplication) => always (sa.status = rejectedApplication))
 }
 
-//An Interview can only be scheduled if the Recommendation has been accepted by both parties
+//Here the Interviews are created and for now the starting status is toBeSubmitted
 fact InterviewIFRecommendationAccepted{
-    always all r: Recommendation | ((r.status = acceptedMatch) => always (one i: Interview | i.recommendation = r and  (i.spontaneousApplication = none)))
-    always all sa: SpontaneousApplication | ((sa.status = acceptedApplication) => always (one i: Interview | i.spontaneousApplication = sa and  (i.recommendation = none)))
+    always all r: Recommendation | ((r.status = acceptedMatch) => always (one i: Interview |i.recommendation = r and (i.spontaneousApplication = none)))
+    always all sa: SpontaneousApplication | ((sa.status = acceptedApplication) => always (one i: Interview | i.spontaneousApplication = sa and (i.recommendation = none)))
+
+    all i: Interview | i.status = toBeSubmitted => historically i.status = toBeSubmitted
+    
 
     always all i: Interview, r:Recommendation | ((i.recommendation = r) => always (i.recommendation = r))
     always all i: Interview, r:SpontaneousApplication | ((i.spontaneousApplication = r) => always (i.spontaneousApplication = r))
@@ -190,7 +193,7 @@ var sig Interview{
     recommendation.status = acceptedMatch or spontaneousApplication.status = acceptedApplication
     #recommendation > 0 => #spontaneousApplication = 0
     #spontaneousApplication > 0 => #recommendation = 0
-    //(Interview.recommendation != none & Interview.spontaneousApplication != none) = none
+
 }
 
 /*TO FIX: 
@@ -223,22 +226,22 @@ fact InterviewEvolutionRules{
     all i: Interview | always ((i.status' != toBeSubmitted) => once (i.status = toBeSubmitted))
 }*/
 
-/*fact{
-    always all i: Interview | (i.recommendation != none and i.spontaneousApplication = none) or (i.recommendation = none and i.spontaneousApplication != none) or (i.recommendation = none and i.spontaneousApplication = none)
-}*/
+ fact interviewUniqueness{
+    always all i1, i2: Interview | i1 != i2 => ((i1.recommendation & i2.recommendation) = none) and ((i1.spontaneousApplication & i2.spontaneousApplication) = none)
+} 
 
 fact InterviewStatusEvolution{
-    // Should be fine, if interview is submitted, then sometime in the past it had to be toBeSubmitted
+    // If interview is submitted, then sometime in the past it had to be toBeSubmitted
     all i: Interview | always ((i.status = submitted) => once (i.status = toBeSubmitted and i.status' = submitted)) 
     // If interview is failed, then sometime in the past it had to be submitted
-    all i: Interview | always ((i.status = failed) => once (i.status = submitted and i.status' = failed)) 
+    all i: Interview | always ((i.status = failed) => once (i.status = submitted and i.status' = failed))
     // If interview is passed, then sometime in the past it had to be submitted
     all i: Interview | always ((i.status = passed) => once (i.status = submitted and i.status' = passed)) 
     all i: Interview | always ((i.status = submitted) => after always (i.status != toBeSubmitted))
     all i: Interview | always ((i.status = passed) => after always (i.status != submitted))
     all i: Interview | always ((i.status = failed) => after always (i.status != submitted))
     all i: Interview | always ((i.status' != toBeSubmitted) => once (i.status = toBeSubmitted))
-}
+} 
 
 
 
