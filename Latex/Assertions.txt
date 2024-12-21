@@ -6,33 +6,33 @@
     //If a student has no CV, then it cannot be matched with a recommendation or send a spontaneous application
     //If a company has no offeredInternshipPosition, then it cannot be matched with a recommendation
     assert NoInfoProvided{
-        all s: Student, r: Recommendation | (s.cv = none) => (r.matchedStudent != s)
-        all s: Student, sa: SpontaneousApplication | (s.cv = none) => (sa.spontaneousApplicant != s)
-        all c: Company, r: Recommendation | (c.offeredInternshipPosition = none) => (FindInternshipPositionCompany[r.matchedInternship] != c)
+        all s: Student, r: Recommendation | (s.cv = none) implies (r.matchedStudent != s)
+        all s: Student, sa: SpontaneousApplication | (s.cv = none) implies (sa.spontaneousApplicant != s)
+        all c: Company, r: Recommendation | (c.offeredInternshipPosition = none) implies (FindInternshipPositionCompany[r.matchedInternship] != c)
     }
 
     //For a recommendation to be accepted, both the student and the company need to accept it
     //For a spontaneous application to be accepted, it needs to be evaluated
     assert BothPartyNeedToAct{
-        always all r: Recommendation | (r.status' = acceptedMatch) => (r.status = acceptedByStudent or r.status = acceptedByCompany or r.status = acceptedMatch)
-        always all sa: SpontaneousApplication | (sa.status' = acceptedApplication) => (sa.status = toBeEvaluated or sa.status = acceptedApplication)
+        always all r: Recommendation | (r.status' = acceptedMatch) implies (r.status = acceptedByStudent or r.status = acceptedByCompany or r.status = acceptedMatch)
+        always all sa: SpontaneousApplication | (sa.status' = acceptedApplication) implies (sa.status = toBeEvaluated or sa.status = acceptedApplication)
     }
 
     //If a student has multiple recommendations, then the recommendations are for different InternshipOffers
     //If a InternshipOffer has multiple recommendations, then the students recommended are different
     assert UniqueRecommendation{
-        all s: Student, r1, r2: Recommendation | (r1 != r2 and r1.matchedStudent = s and r2.matchedStudent = s) => r1.matchedInternship != r2.matchedInternship
-        all i: InternshipsOffer, r1, r2: Recommendation | (r1 != r2 and r1.matchedInternship = i and r2.matchedInternship = i) => r1.matchedStudent != r2.matchedStudent
+        all s: Student, r1, r2: Recommendation | (r1 != r2 and r1.matchedStudent = s and r2.matchedStudent = s) implies r1.matchedInternship != r2.matchedInternship
+        all i: InternshipsOffer, r1, r2: Recommendation | (r1 != r2 and r1.matchedInternship = i and r2.matchedInternship = i) implies r1.matchedStudent != r2.matchedStudent
     }
 
     //Two companies cannot offer the same InternshipOffer
     assert internshipsOfferUniqueness{
-        all c1, c2: Company | (c1 != c2 and c1.offeredInternshipPosition != none and c2.offeredInternshipPosition != none) => c1.offeredInternshipPosition != c2.offeredInternshipPosition
+        all c1, c2: Company | (c1 != c2 and c1.offeredInternshipPosition != none and c2.offeredInternshipPosition != none) implies c1.offeredInternshipPosition != c2.offeredInternshipPosition
     }
 
     //Two students cannot have the same CV
     assert CVUniqueness{
-        all s1, s2: Student | (s1 != s2 and s1.cv != none and s2.cv != none) => s1.cv != s2.cv
+        all s1, s2: Student | (s1 != s2 and s1.cv != none and s2.cv != none) implies s1.cv != s2.cv
     }
 
     //An interview can be assigned to a recommendation or a spontaneous application only if they have been accepted
@@ -42,6 +42,6 @@
 
     //An interview can be assigned only to a student with a CV
     assert StudentWithInterviewHasCV{
-        //(A <=> !B) equivalent to (A = !B and B = !A) equivalent to (A XOR B)
-        always all i: Interview | (i.recommendation.matchedStudent.cv != none) <=> !(i.spontaneousApplication.spontaneousApplicant.cv != none)
+        //(A <implies !B) equivalent to (A = !B and B = !A) equivalent to (A XOR B)
+        always all i: Interview | (i.recommendation.matchedStudent.cv != none) <implies !(i.spontaneousApplication.spontaneousApplicant.cv != none)
     }
