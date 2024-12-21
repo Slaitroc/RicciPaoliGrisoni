@@ -1,24 +1,22 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import InputLabel from "@mui/material/InputLabel";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import FacebookIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/X";
+import { TEXT } from "../../constants/UIConstants";
+import * as SCIcons from "../Shared/SCIcons";
 
 function Copyright() {
   return (
     <Typography variant="body2" sx={{ color: "text.secondary", mt: 1 }}>
       {"Copyright © "}
       <Link color="text.secondary" href="https://mui.com/">
-        Sitemark
+        {TEXT.FULL_SIGN}
       </Link>
       &nbsp;
       {new Date().getFullYear()}
@@ -71,11 +69,11 @@ export default function Footer() {
             <IconButton
               color="inherit"
               size="small"
-              href="https://github.com"
+              href="https://facebook.com"
               aria-label="GitHub"
               sx={{ alignSelf: "center" }}
             >
-              <FacebookIcon />
+              <SCIcons.SCFacebookIcon />
             </IconButton>
             <IconButton
               color="inherit"
@@ -84,7 +82,7 @@ export default function Footer() {
               aria-label="X"
               sx={{ alignSelf: "center" }}
             >
-              <TwitterIcon />
+              <SCIcons.SCXIcon />
             </IconButton>
             <IconButton
               color="inherit"
@@ -93,7 +91,25 @@ export default function Footer() {
               aria-label="LinkedIn"
               sx={{ alignSelf: "center" }}
             >
-              <LinkedInIcon />
+              <SCIcons.SCLinkedInIcon />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              size="small"
+              href="https://www.instagram.com"
+              aria-label="Instagram"
+              sx={{ alignSelf: "center" }}
+            >
+              <SCIcons.SCInstagramIcon />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              size="small"
+              href="mailto:contact@studentandcompanies.com"
+              aria-label="Send Email"
+              sx={{ alignSelf: "center" }}
+            >
+              <SCIcons.SCMailIcon />
             </IconButton>
           </Stack>
         </Box>
