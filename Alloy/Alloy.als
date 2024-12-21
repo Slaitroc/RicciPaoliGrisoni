@@ -173,23 +173,18 @@ fact SpontaneousApplicationEvolutionRules{
 
 //Here the Interviews are created and for now the starting status is toBeSubmitted
 fact InterviewIFRecommendationAccepted{
-    always all r: Recommendation | ((r.status = acceptedMatch) => always (one i: Interview |i.recommendation = r and (i.spontaneousApplication = none)))
+    always all r: Recommendation | ((r.status = acceptedMatch) => (one i: Interview | i.recommendation = r ))
     always all sa: SpontaneousApplication | ((sa.status = acceptedApplication) => always (one i: Interview | i.spontaneousApplication = sa and (i.recommendation = none)))
-
-    all i: Interview | i.status = toBeSubmitted => historically i.status = toBeSubmitted
-    
 
     always all i: Interview, r:Recommendation | ((i.recommendation = r) => always (i.recommendation = r))
     always all i: Interview, r:SpontaneousApplication | ((i.spontaneousApplication = r) => always (i.spontaneousApplication = r))
 }
 
 var sig Interview{
-    //#fix
     var recommendation: lone Recommendation,
     var spontaneousApplication: lone SpontaneousApplication,
     var status: one interviewStatus
 }{
-    //#fix
     recommendation.status = acceptedMatch or spontaneousApplication.status = acceptedApplication
     #recommendation > 0 => #spontaneousApplication = 0
     #spontaneousApplication > 0 => #recommendation = 0
@@ -203,15 +198,20 @@ var sig Interview{
 */
 enum interviewStatus{toBeSubmitted, submitted, passed, failed}
 
-fact InterviewStatusEvolution{
-    //A Match need to be accepted by both parties before it can be considered accepted. It can't become accepted in one-step
-    all i: Interview | eventually ((i.status = toBeSubmitted) => (i.status' != passed and i.status' != failed))
-    //A party cannot retract its acceptance of a match. Once accepted, it remains accepted.
-    all i: Interview | eventually ((i.status = submitted) => (i.status' != toBeSubmitted))
-    //Rejected and accepted matches remain rejected and accepted forever
-    all i: Interview | eventually ((i.status = failed) => always (i.status = failed))
-    all i: Interview | eventually ((i.status = passed) => always (i.status = passed))
+/*pred SpawnInterview[i: Interview, r: Recommendation]{
+    i.recommendation = r 
+    i.spontaneousApplication = none
+    (i.status = toBeSubmitted)
+    (InterviewEvolutionRules[i])
 }
+
+pred InterviewEvolutionRules[i: Interview]{
+    ((i.status = toBeSubmitted) =>  (i.status' != passed and i.status' != failed))
+    ((i.status = submitted) => (i.status' != toBeSubmitted))
+    ((i.status = passed) => always (i.status = passed))
+    ((i.status = failed) => always (i.status = failed))
+}*/
+
 /*
 fact InterviewEvolutionRules{
     //Before evaluating the interview, it must be submitted to the Student
@@ -226,11 +226,11 @@ fact InterviewEvolutionRules{
     all i: Interview | always ((i.status' != toBeSubmitted) => once (i.status = toBeSubmitted))
 }*/
 
- fact interviewUniqueness{
+fact interviewUniqueness{
     always all i1, i2: Interview | i1 != i2 => ((i1.recommendation & i2.recommendation) = none) and ((i1.spontaneousApplication & i2.spontaneousApplication) = none)
 } 
 
-fact InterviewStatusEvolution{
+/*fact InterviewStatusEvolution{
     // If interview is submitted, then sometime in the past it had to be toBeSubmitted
     all i: Interview | always ((i.status = submitted) => once (i.status = toBeSubmitted and i.status' = submitted)) 
     // If interview is failed, then sometime in the past it had to be submitted
@@ -241,9 +241,9 @@ fact InterviewStatusEvolution{
     all i: Interview | always ((i.status = passed) => after always (i.status != submitted))
     all i: Interview | always ((i.status = failed) => after always (i.status != submitted))
     all i: Interview | always ((i.status' != toBeSubmitted) => once (i.status = toBeSubmitted))
-} 
+} */
 
 
 
 
-run {} for 5 but exactly 3 Recommendation,exactly 1 SpontaneousApplication, exactly 3 InternshipsOffer, exactly 5 steps
+run {} for 5 but exactly 3 Recommendation, exactly 0 SpontaneousApplication, exactly 3 InternshipsOffer, exactly 5 steps
