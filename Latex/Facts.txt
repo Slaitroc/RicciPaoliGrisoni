@@ -47,9 +47,9 @@
 
     //Define the reflexive property Recommendation and SpontaneousApplication
     fact ApplicationReflexivity{
-        all r: Recommendation, i: InternshipsOffer | r in i.recommendations <implies r.matchedInternship = i
+        all r: Recommendation, i: InternshipsOffer | r in i.recommendations iff r.matchedInternship = i
         all r: Recommendation, s: Student | r in s.recommendations implies r.matchedStudent = s
-        all sa: SpontaneousApplication, i: InternshipsOffer | sa in i.spontaneousApplications <implies sa.interestedInternshipOffer = i
+        all sa: SpontaneousApplication, i: InternshipsOffer | sa in i.spontaneousApplications iff sa.interestedInternshipOffer = i
         all sa: SpontaneousApplication, s: Student | sa in s.spontaneousApplications implies sa.spontaneousApplicant = s
     }
 

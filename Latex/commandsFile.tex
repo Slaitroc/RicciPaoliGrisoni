@@ -128,15 +128,18 @@
 \setlist[itemize]{label=\textcolor{titleColor}{\textbullet}}
 
 %References
-%\usepackage{xpatch}
-%\usepackage[backend=biber, style=numeric, citestyle=numeric, sorting=none]{biblatex}
-%\addbibresource{main.bib}
+\usepackage{xpatch}
+\usepackage[backend=biber, style=numeric, sorting=none]{biblatex}
+\addbibresource{main.bib}
+\nocite{*}
+\DeclareFieldFormat{annotation}{\par\textit{#1}}
+\renewbibmacro*{begentry}{\printfield{annotation}}
 
 %Other
 \usepackage{ifthen}
 \usepackage{xspace}
 \usepackage{amssymb}
-\usepackage[pdftex, colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=green]{hyperref}
+\usepackage[pdftex, colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black]{hyperref}
 \usepackage{listings}
 
 \newcommand{\comment}[1]{{\color{Red}$\blacktriangleright$ Comment: #1 $\blacktriangleleft$}}
