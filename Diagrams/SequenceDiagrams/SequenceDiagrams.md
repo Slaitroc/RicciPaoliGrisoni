@@ -209,8 +209,8 @@ sequenceDiagram
     actor Student
     activate Company
     activate Student&Company
-    Company ->> Student&Company: press(MyInternships)
-    Student&Company -->> Company: showPage(MyInternshipsOffersPage)
+    Company ->> Student&Company: press(InternshipOffers)
+    Student&Company -->> Company: showPage(InternshipsOffersPage)
     Company ->> Student&Company: press(CreateInternship)
     Student&Company -->> Company: showPage(InternshipCreationPage)
     Company ->> Student&Company: submit(Internship)
@@ -223,7 +223,7 @@ sequenceDiagram
         Student&Company ->> Student&Company: publish(Internship)
         Student&Company ->> Student&Company: generate(Matches)
         Student&Company ->> Company: provideSuggestions()
-        Student&Company -->> Company: showPage(MyInternshipsPage)
+        Student&Company -->> Company: showPage(InternshipsPage)
         loop For Each New Match
         Student&Company ->> NotificationManager: notify(Match, Company)
         activate NotificationManager
@@ -274,7 +274,7 @@ sequenceDiagram
     actor Participant2
     activate Participant1
     activate Student&Company
-    Participant1 ->> Student&Company: press(MyRecommendations)
+    Participant1 ->> Student&Company: press(RecommendationProcess)
     Student&Company -->> Participant1: showPage(RecommendationsPage)
     Participant1 ->> Student&Company: press(Accept)
     Student&Company ->> Student&Company: update(Matches)
@@ -302,7 +302,7 @@ sequenceDiagram
     participant Student&Company
     activate ㅤParticipantㅤ
     activate Student&Company
-    ㅤParticipantㅤ ->> Student&Company: press(MyRecommendations)
+    ㅤParticipantㅤ ->> Student&Company: press(RecommendationProcess)
     Student&Company -->> ㅤParticipantㅤ: showPage(RecommendationsPage)
     ㅤParticipantㅤ ->> Student&Company: press(Accept)/press(Reject)
     Student&Company -->> ㅤParticipantㅤ: showMessage(AskFeedback)
@@ -321,8 +321,8 @@ sequenceDiagram
     actor Student
     activate Company
     activate Student&Company
-    Company ->> Student&Company: press(MyInterviews)
-    Student&Company -->> Company: showPage(MyInterviewsPage)
+    Company ->> Student&Company: press(Interviews)
+    Student&Company -->> Company: showPage(InterviewsPage)
     Company ->> Student&Company: press(Student)
     Student&Company -->> Company: showPage(InterviewCreationPage)
     Company ->> Student&Company: submit(ToCompileInterview)
@@ -338,7 +338,7 @@ sequenceDiagram
         NotificationManager -->> Student: SendNotification()
         NotificationManager -->> Student&Company: confirmation()
         deactivate NotificationManager
-        Student&Company -->> Company: showPage(MyInterviewsPage)
+        Student&Company -->> Company: showPage(InterviewsPage)
         deactivate Student&Company
     end
     deactivate Company
