@@ -81,7 +81,7 @@ sig Email, VatNumber, CV{}{
         var status: one interviewStatus
     }{
         //An interview can only be assign to a recommendation or a spontaneous application
-        recommendation.status = acceptedMatch <implies !spontaneousApplication.status = acceptedApplication
+        recommendation.status = acceptedMatch iff !spontaneousApplication.status = acceptedApplication
         one recommendation implies no spontaneousApplication
         one spontaneousApplication implies no recommendation
     }

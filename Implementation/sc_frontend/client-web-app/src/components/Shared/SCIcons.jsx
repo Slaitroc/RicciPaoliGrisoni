@@ -22,6 +22,16 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import XIcon from "@mui/icons-material/X";
 import LinkIcon from "@mui/icons-material/Link";
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import AddIcon from "@mui/icons-material/Add";
+
+export const SCAddIcon = () => {
+  return <AddIcon />;
+};
+
+export const SCManageSearchIcon = () => {
+  return <ManageSearchIcon />;
+};
 
 export const SCLinkIcon = () => {
   return <LinkIcon />;

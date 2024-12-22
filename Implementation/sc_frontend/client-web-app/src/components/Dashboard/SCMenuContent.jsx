@@ -27,6 +27,12 @@ const studentListItems = [
   },
   {
     key: uuidv4(),
+    text: "Browse Internships",
+    icon: <SCIcons.SCManageSearchIcon />,
+    route: "/dashboard/internship-offers",
+  },
+  {
+    key: uuidv4(),
     text: "Spontaneous Applications",
     icon: <SCIcons.SCSendIcon />,
     route: "/dashboard/applications",
@@ -78,6 +84,12 @@ const univesityListItems = [
   },
   {
     key: uuidv4(),
+    text: "Browse Internship",
+    icon: <SCIcons.SCManageSearchIcon />,
+    route: "/dashboard/internship-offers",
+  },
+  {
+    key: uuidv4(),
     text: "Recommendations Stats",
     icon: <SCIcons.SCJoinInnerIcon />,
     route: "/dashboard/recommendations",
@@ -108,6 +120,12 @@ const companyListItems = [
     text: "Overview",
     icon: <SCIcons.SCDashboardIcon />,
     route: "/dashboard",
+  },
+  {
+    key: uuidv4(),
+    text: "Browse Internship",
+    icon: <SCIcons.SCManageSearchIcon />,
+    route: "/dashboard/internship-offers",
   },
   {
     key: uuidv4(),
@@ -145,12 +163,12 @@ const companyListItems = [
     icon: <SCIcons.SCInboxIcon />,
     route: "/dashboard/communications",
   },
-  {
-    key: uuidv4(),
-    text: "Swipe",
-    icon: <SCIcons.SCHomeIcon />,
-    route: "/dashboard/swipe-card",
-  },
+  // {
+  //   key: uuidv4(),
+  //   text: "Swipe",
+  //   icon: <SCIcons.SCHomeIcon />,
+  //   route: "/dashboard/swipe-card",
+  // },
 ];
 
 const secondaryListItems = [

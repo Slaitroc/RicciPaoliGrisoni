@@ -8,8 +8,9 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { v4 as uuidv4 } from "uuid";
 import SCMessage from "./SCMessage";
-import { SCCollectionsBookmarkIcon } from "../Shared/SCIcons";
+import { SCAddIcon, SCCollectionsBookmarkIcon } from "../Shared/SCIcons";
 import SCComplaintsList from "./SCComplaintsList";
+import { Button } from "@mui/material";
 
 const cardData = [
   {
@@ -130,6 +131,16 @@ export default function SCCommunications() {
     //     })}
     //   </Grid>
     // </Box>
-    <SCComplaintsList></SCComplaintsList>
+    <>
+      <Box padding={2} display="flex" flexDirection="row" gap={4}>
+        <Button variant="outlined" startIcon={<SCAddIcon />}>
+          Create New Commmunication
+        </Button>
+        <Button variant="outlined" startIcon={<SCAddIcon />}>
+          Create New Complaint
+        </Button>
+      </Box>
+      <SCComplaintsList></SCComplaintsList>
+    </>
   );
 }
