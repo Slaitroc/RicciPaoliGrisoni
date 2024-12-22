@@ -42,6 +42,6 @@
 
     //An interview can be assigned only to a student with a CV
     assert StudentWithInterviewHasCV{
-        //(A <implies !B) equivalent to (A = !B and B = !A) equivalent to (A XOR B)
-        always all i: Interview | (i.recommendation.matchedStudent.cv != none) <implies !(i.spontaneousApplication.spontaneousApplicant.cv != none)
+        //(A iff !B) equivalent to (A = !B and B = !A) equivalent to (A XOR B)
+        always all i: Interview | (i.recommendation.matchedStudent.cv != none) iff !(i.spontaneousApplication.spontaneousApplicant.cv != none)
     }

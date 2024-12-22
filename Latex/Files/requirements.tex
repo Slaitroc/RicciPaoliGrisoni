@@ -1,62 +1,65 @@
 \subsection{External Interface Requirements}
 This chapter provides a detailed description of the system's external interfaces such as the User, Hardware, Software, and Communication interfaces. 
 \subsubsection{User Interfaces}
-The user interface will be designed to improve intuitiveness and simplicity. The platform root page is the Home Page from which every non-registered user can find information about the platform such as the latest news. The Home page is linked to other pages such as Dashboard, Contacts, and About by an App Bar. 
+The user interface will be designed to improve intuitiveness and simplicity. The platform root page is the Home Page from which every non-registered user can find information about S\&C such as the latest news. The Home page is linked to other pages, such as the Dashboard, Contacts, and About page, using an app bar. 
+In the Contacts page, the user can find useful links to get in touch with S\&C. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Latex/Images/HomePage.png}
-    \caption{UI Home Page}
+    \caption{UI Home Page: as an example, UI cards containing some user scenarios described in the \ref{subsec: user scenarios}  are shown}
     \label{fig:homepage}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Latex/Images/ContactPage.png}
+    \includegraphics[width=\textwidth]{Latex/Images/New Ui/Contacts.png}
     \caption{UI Contacts Page}
     \label{fig:contactpage}
 \end{figure}
-\noindent Thanks to the app bar link buttons users can also reach the Sign-Up and Sign-in pages. The Sign-Up page allows for different types of sign-up according to the new user type.
+\noindent Thanks to the app bar link buttons, users can also reach the Sign-Up and Sign-in pages. The Sign-Up page allows for different types of sign-up according to the new user type. This allows the user to provide the platform with the correct information.
 \begin{figure}[H]
-    \includegraphics[width=0.33\textwidth]{Latex/Images/StudentSignUp.png}
-    \includegraphics[width=0.33\textwidth]{Latex/Images/CompanySignUp.png}
-    \includegraphics[width=0.33\textwidth]{Latex/Images/UniversitySignUp.png}
+    \includegraphics[width=0.33\textwidth]{Latex/Images/New Ui/SignUp Student.png}
+    \includegraphics[width=0.33\textwidth]{Latex/Images/New Ui/SignUp Company.png}
+    \includegraphics[width=0.33\textwidth]{Latex/Images/New Ui/SignUp University.png}
     \caption{UI Sign-Up Page}
     \label{fig:signuppage}
 \end{figure}
+To be able to log into the platform, the user shall provide his email and password. 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Latex/Images/SignInPage.png}
+    \includegraphics[width=\textwidth]{Latex/Images/New Ui/SignInPage.png}
     \caption{UI Sign-In Page}
     \label{fig:signinpage}
 \end{figure}
-The Dashboard page will be the central hub for logged-in users. From the left-hand panel of the dashboard, all the pages associated with the core functionality of the platform are reachable. Therefore, this page is provided after a successful log-in.
+\noindent The Dashboard page will be the central hub for logged-in users. From the left-hand panel of the dashboard, all the pages associated with the core functionalities of the platform are reachable. Therefore, this page is provided after a successful log-in. The side panel contains different elements according to the user needs.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Latex/Images/Dashboard.png}
-    \caption{UI Dashboard Page}
-    \label{fig:dashboardpage}
+    \includegraphics[width=\textwidth]{Latex/Images/New Ui/Company-Dashboard.png}
+    \caption{UI Company Dashboard Page}
+    \label{fig:companyDashboard}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Latex/Images/Communication.png}
-    \caption{UI Communications Page}
-    \label{fig:comunicationspage}
+    \includegraphics[width=\textwidth]{Latex/Images/New Ui/Student-Dashboard.png}
+    \caption{UI Students Dashboard Page}
+    \label{fig:studentDashboard}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Latex/Images/SpontaneousApplication.png}
-    \caption{UI Spontaneous Application Page}
-    \label{fig:applicationspage}
+    \includegraphics[width=\textwidth]{Latex/Images/New Ui/Uni-Dashboard.png}
+    \caption{UI University Dashboard Page}
+    \label{fig:universityDashboard}
 \end{figure}
 
 \subsubsection{Hardware Interfaces}
 The platform is a web application that can be accessed from any device with a web browser and an internet connection like a PC, a tablet, or a smartphone. No specific hardware requirements are needed to interact with the Student\&Company platform.
 \subsubsection{Software Interfaces}
-An Email Provider, thought its interface, is used by the Platform to send a confirmation email to Users upon registration. \\
+\label{subsec:SWInteface}
+An Email Provider, through its interface, is used by the Platform to send a confirmation email to Users upon registration. \\
 A notification manager is used to send notification to Users when relevant events occur. Using notifications instead of email allows the platform to provide a more immediate and interactive experience to the Users without generating spam that can be seen as annoying by the Users.\\
 At this stage of development, no other external software interfaces are required.
 \subsubsection{Communication Interfaces}
 The platform uses standard internet communication protocols to interact with Users and the backend server. At this stage of development other specific communication interfaces are not defined yet.
-\clearpage
+
 \subsection{Functional Requirements}
 This chapter provides a comprehensive overview of the system's use cases, detailing the various interactions between Users and the system.
 Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Requirement Mapping are provided for each use case.
@@ -67,7 +70,7 @@ Use Case Diagrams, detailed Use Case Descriptions, Sequence Diagrams and Require
     \caption{User Registration Use Case Diagram}
     \label{fig:UserRegistrationUseCaseDiagram}
 \end{figure}
-This diagram illustrates the User Registration and Login process, for all User. It shows how the different use case for the registration, based on the User type, and how the login process is generic and common for all User
+This diagram illustrates the User Registration and Login process, for all Users. It shows how the different use case for the registration, based on the User type, and how the login process is generic and common for all Users
 \clearpage.
 \begin{figure}[H]
     \centering
@@ -84,8 +87,8 @@ This diagram both shows the different use cases that are specific to Students or
     \caption{University and Complaint Use Case Diagram}
     \label{fig:UniveristyUseCaseDiagram}
 \end{figure}
-This diagram concentrates on the functionality offered to Universities. It show how Participant can create a Complaint, and how the University can handle it. \\
-More importantly it show that a complaint can be handle "as is" by the University or it can extended either by the other Participants how respond to such complaint or by the University itself that can interrupt an Ongoing Internship.
+This diagram concentrates on the functionalities offered to Universities. It shows how Participant can create a Complaint, and how the University can handle it. \\
+More importantly, it shows that a complaint can be handled “as is” by the University, or it can be extended either by the other Participants how respond to such complaint or by the University itself that can interrupt an Ongoing Internship.
 \clearpage
 
 \subsubsection{Use Cases}
@@ -103,15 +106,15 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     Entry Condition & The user is not logged in. \\ \hline
     Event Flow & 
     \begin{enumerate}         
-        \item The student selects the “Sign up” option.
+        \item The Student presses the “Sign up” button situated on the dashboard.
         \item The platform opens the sign-up page.
-        \item The student selects the “Student” option, provides the required information (name, surname, date of birth, institutional email, optionally personal email, password, University name among those available) and click the “Sign Up” button.
+        \item The Student selects the “Student” option, provides the required information (name, surname, date of birth, institutional email, optionally personal email, password, University name among those available) and click the “Sign Up” button.
         \item The platform validates the email and checks if it is unique.
         \item The platform registers the Student and sends a confirmation email to the provided email address through the Email Provider.
         \item The platform shows a message to the Student to confirm the registration.
         \item The Student confirms the registration by clicking on the link in the email.
         \item The platform confirms the registration and activates the account.
-        \item The Student is redirected to the platform's homepage.
+        \item The Student is redirected to the platform's dashboard.
     \end{enumerate} \\ \hline
     Exit Condition & The Student is registered and logged in. \\ \hline
     Exception & 
@@ -138,13 +141,13 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     Entry Condition & The user is not logged in \\ \hline
     Event Flow &
     \begin{enumerate}         
-        \item The company selects the “Sign up” option.
+        \item The Company presses the “Sign up” button situated on the dashboard.
         \item The platform open the sign-up page.
-        \item The company selects the “Company” option, provides the required information (Company name, Company headquarters address, VAT number, email, and password) and click the “Sign Up” button.
+        \item The Company selects the “Company” option, provides the required information (Company name, Company headquarters address, VAT number, email, and password) and click the “Sign Up” button.
+        \item The platform checks if the VAT number and the email are unique
         \item The platform sends a confirmation email to the provided email address through the Email Provider.
         \item The platform shows a message to the Company to confirm the registration.
         \item The Company confirms the registration by clicking on the link in the email.
-        \item The platform validates the VAT number and checks if it is unique.
         \item The platform confirms the registration and activates the account.
         \item The Company is redirected to the platform's Dashboard.
     \end{enumerate} \\ \hline
@@ -153,7 +156,7 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     \begin{itemize}
         \item The Company provides incorrect information.
         \item The Company does not confirm the registration.
-        \item The VAT number is already in use.
+        \item The VAT number or the email is already in use.
     \end{itemize} \\ \hline
     \end{tabular}
     \caption{[UC2]: Company registration use case}
@@ -173,13 +176,13 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     Entry Condition & The user is not logged in. \\ \hline
     Event Flow &
     \begin{enumerate}         
-        \item The university selects the “Sign up” option.
+        \item The University presses the “Sign up” button situated on the dashboard.
         \item The platform open the sign-up page.
-        \item The university selects the “University” option, provides the required information (University Name, University description, VAT number, email of the University office that will manage the internship program, and password) and click the “Sign Up” button.
+        \item The University selects the “University” option, provides the required information (University Name, University description, VAT number, email of the University office that will manage the internship program, and password) and click the “Sign Up” button.
+        \item The platform checks if the VAT number and the email are unique
         \item The platform sends a confirmation email to the provided email address through the Email Provider.
         \item The platform shows a message to the University to confirm the registration.
         \item The University confirms the registration by clicking on the link in the email.
-        \item The platform validates the VAT number and checks if it is unique.
         \item The platform confirms the registration and activates the account.
         \item The University is redirected to the platform's Dashboard.
     \end{enumerate} \\ \hline
@@ -188,7 +191,7 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     \begin{itemize}
         \item The University provides incorrect information.
         \item The University does not confirm the registration.
-        \item The VAT number is already in use.
+        \item The VAT number or the email is already in use.
     \end{itemize} \\ \hline
     \end{tabular}
     \caption{[UC3]: University registration use case}
@@ -207,7 +210,7 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     Entry Condition & The user is not logged in \\ \hline
     Event Flow &
     \begin{enumerate}         
-        \item The User selects the “Sign in” option.
+        \item The User presses the “Sign in” button situated on the dashboard.
         \item The platform open the sign-in page.
         \item The user provides their email and password.
         \item The platform validates the credentials.
@@ -238,7 +241,7 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     Entry Condition & The Student is logged in \\ \hline
     Event Flow &
     \begin{enumerate}         
-        \item The Student selects the “Upload CV” option.
+        \item The Student presses the “CV” menu button situated on the dashboard.
         \item The platform opens the Curriculum page.
         \item The Student fills the form with the required information (current level of education, known languages, technical skills, a photo of himself, a brief description of his interests and hobbies etc...) and click the “Submit CV” button.
         \item The platform publishes the CV.
@@ -271,9 +274,9 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     Entry Condition & The Company is logged in\\ \hline
     Event Flow &
     \begin{enumerate}         
-        \item The Company selects the “My Internships” option.
+        \item The Company presses the “My Internships” button situated on the dashboard.
         \item The Platform opens the Internships page.
-        \item The Company selects the “Create Internship” option.
+        \item The Company presses the “Create Internship” button.
         \item The platform shows the Internship creation form.
         \item The Company fills the form with the required information (Internship title, description, start date and duration, office address, required skills and benefits offered) and click the “Submit Internship” button.
         \item The platform publishes the Internship.
@@ -306,13 +309,13 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     Entry Condition & The Student is logged in and has his CV uploaded. \\ \hline
     Event Flow &
     \begin{enumerate}         
-        \item The Student selects the “Browse all Internships” option.
+        \item The Student presses the “Browse Internships” button situated on the dashboard.
         \item The platform opens the global Internships page.
-        \item The Student selects the “Apply” option on one of the available Internships.
+        \item The Student presses the “Apply” button on one of the available Internships.
         \item The platform adds the application to the Company and Student list of applications.
         \item The platform notifies the Company of the Spontaneous Application through the Notification Manager.
     \end{enumerate} \\ \hline
-    Exit Condition & The application is successfully submitted to the company.\\ \hline
+    Exit Condition & The application is successfully submitted to the Company.\\ \hline
     Exception & 
     \begin{itemize}       
         \item Internship is no longer available.
@@ -335,7 +338,7 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     Entry Condition & A Match is generated between the Student and the Company's Internship and the Student has his CV uploaded. \\ \hline
     Event Flow &  
     \begin{enumerate}
-        \item The Participant press the “My Recommendations” button.
+        \item The Participant presses the “My Recommendations” button situated on the dashboard.
         \item The platform opens the respective Recommendations pages.
         \item The Participant accepts the Match.
         \item The platform stores the result.
@@ -363,7 +366,7 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     Entry Condition & The Participant is logged in. \\ \hline
     Event Flow &      
     \begin{enumerate}         
-        \item The Participant presses the "My Recommendations" button.
+        \item The Participant presses the “My Recommendations” button situated on the dashboard.
         \item The platform opens the respective Recommendations pages.
         \item The Participant accept or decline the Match.
         \item The platform asks for feedback about the Match.
@@ -392,9 +395,9 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     Entry Condition & A Student has uploaded his CV or a Company has created an Internship.\\ \hline
     Event Flow & 
     \begin{enumerate}         
-        \item The platform analyzes the Student's CV or the Company's Internship.
+        \item The platform analyses the Student's CV or the Company's Internship.
         \item The platform generates a list of suggestions to improve the CV or the Internship description.
-        \item The platform displays a notification on the Participant's account page.
+        \item The platform displays a notification on the Participant's dashboard page.
         \item The Participant open the notification.
         \item The platform displays the suggestions.
     \end{enumerate} \\ \hline
@@ -422,7 +425,7 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     Entry Condition & A Match is accepted by both parties or the Company has accepted a Spontaneous Application. \\ \hline
     Event Flow &      
     \begin{enumerate}         
-        \item The Company selects the “My Interviews” option.
+        \item The Company presses the “My Interviews” button situated on the dashboard.
         \item The platform opens the Interviews page.
         \item The Company selects an Interview in the “ToBeSubmitted” state.
         \item The platform shows the Interview creation form.
@@ -455,9 +458,9 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     Entry Condition & There is an Ongoing Internship between the relative Company and Student.\\ \hline
     Event Flow &      
     \begin{enumerate}         
-        \item The Company selects the "Complaints" option.
-        \item The platform opens the Complaints page.
-        \item The Company selects the "Create Complaint" option.
+        \item The Company presses the “Communications” button situated on the dashboard.
+        \item The platform opens the Communications page.
+        \item The Company presses the “Create Complaint” button.
         \item The platform shows the Complaint creation form.
         \item The Company fills the form with the required information (Student's name, Internship title, description of the problem) and click the “Submit Complaint” button.
         \item The platform publishes the Complaint.
@@ -486,8 +489,8 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     Entry Condition & The User has an active Complaint.\\ \hline
     Event Flow &      
     \begin{enumerate}         
-        \item The Student or the Company press the "Complaints" button.
-        \item The platform opens the Complaints page.
+        \item The Student or the Company presses the “Communications” button situated on the dashboard.
+        \item The platform opens the Communications page.
         \item The User presses the target complaint.
         \item The platform shows the relative Complaint page.
         \item The User responds to the Complaint and submits the message.
@@ -518,11 +521,11 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     Entry Condition & There is an active Complaint regarding the Company and a Student of the University.\\ \hline
     Event Flow &      
     \begin{enumerate}         
-        \item The University selects the “Complaints” option.
-        \item The platform opens the Complaints page.
+        \item The University presses the “Communications” button situated on the dashboard.
+        \item The platform opens the Communications page.
         \item The University presses the target complaint.
         \item The platform shows the relative Complaint page.
-        \item The University selects the “Close Complaint” option, writes a final message and submits.
+        \item The University presses the “Close Complaint” button, writes a final message and submits.
         \item The platform will close the relative Complaint.
         \item The platform notifies the Student and the Company about the resolution of the Complaint through the Notification Manager.
     \end{enumerate} \\ \hline
@@ -551,11 +554,11 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     Entry Condition & There is an active Complaint regarding the Company and a Student of the University. \\ \hline
     Event Flow & 
     \begin{enumerate}         
-        \item The University selects the “Complaints” option.
-        \item The platform opens the Complaints page.
+        \item The University presses the “Communications” button situated on the dashboard.
+        \item The platform opens the Communications page.
         \item The University presses the target complaint.
         \item The platform shows the relative Complaint page.
-        \item The University selects the “Interrupt Internship” option.
+        \item The University presses the “Interrupt Internship” button.
         \item The platform will notify the Student and the Company about the interruption of the Internship through the Notification Manager and close the relative Complaint.
     \end{enumerate} \\ \hline
     Exit Condition & The Internship is interrupted, and the Complaint is closed. \\ \hline
@@ -567,9 +570,21 @@ More importantly it show that a complaint can be handle "as is" by the Universit
     \caption{[UC15]: University terminates Internship use case}
     \label{tab:UC15}
 \end{table}
-\clearpage
 
 \subsubsection{Sequence Diagrams}
+The functions used in the sequence diagrams follow these conventional meanings:
+\begin{itemize}
+    \item \textbf{press(Button)}: Represents the action of a user pressing Button.
+    \item \textbf{submit(Content)}: Indicates a user uploading Content to the platform.
+    \item \textbf{showPage(Page)}: Displays the content of a specific Page.
+    \item \textbf{showError(Error)}: Displays an error message indicating an issue that occurred.
+    \item \textbf{showMessage(Message)}: Displays a generic message to the user.
+    \item \textbf{notify(What, Who)}: Represents a notification forwarded to the NotificationManager regarding What and intended for Who.
+    \item \textbf{check()}: Verifies the validity of the information provided by the user.
+    \item \textbf{update(Data)}: Refers to internal processes that update database records with Data.
+\end{itemize}
+For readability, in all diagrams except the first four, the user login process is omitted. It is assumed that the user is already logged in and navigating the dashboard. Accordingly, the S\&C processes are depicted as already in progress.\\
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{Latex/Images/StudentSignUpSequenceDiagram.png}
