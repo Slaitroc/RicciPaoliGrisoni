@@ -42,19 +42,19 @@ export default function SCSelectLogin() {
   const options = [
     {
       value: "",
-      label: "Company Login",
+      label: "Company SignUp",
       icon: <DevicesRoundedIcon />,
       type: "company",
     },
     {
       value: 10,
-      label: "Student Login",
+      label: "Student SignUp",
       icon: <SmartphoneRoundedIcon />,
       type: "student",
     },
     {
       value: 20,
-      label: "University Login",
+      label: "University SignUp",
       icon: <DevicesRoundedIcon />,
       type: "university",
     },

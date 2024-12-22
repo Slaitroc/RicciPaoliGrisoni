@@ -26,7 +26,7 @@ export default function SCNavbarBreadcrumbs() {
         variant="body1"
         sx={{ color: "text.primary", fontWeight: 600 }}
       >
-        Home
+        Internship Offers
       </Typography>
     </StyledBreadcrumbs>
   );
