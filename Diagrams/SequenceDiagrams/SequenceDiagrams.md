@@ -37,7 +37,7 @@ sequenceDiagram
             deactivate Email Provider
             activate Student&Company
             Student&Company ->> Student&Company: Activate(Student)
-            Student&Company -->> Student: showPage(DashBoard)
+            Student&Company -->> Student: showPage(Dashboard)
             deactivate Student&Company
         end
     else Unsuccessful Authentication
@@ -61,7 +61,7 @@ sequenceDiagram
     Company ->> Student&Company: press(SignUpMenu)
     Student&Company -->> Company: showPage(SignUpPage)
     Company ->> Student&Company: submit(CompanyInfo)
-    Student&Company ->> Student&Company: Check(VAC)
+    Student&Company ->> Student&Company: Check(VAC, email)
     alt Successful Authentication
         Student&Company ->> Student&Company: Register(Company)
         Student&Company ->> Email Provider: send(ConfirmationEmail)
@@ -83,7 +83,7 @@ sequenceDiagram
             deactivate Email Provider
             activate Student&Company
             Student&Company ->> Student&Company: Activate(Company)
-            Student&Company -->> Company: showPage(DashBoard)
+            Student&Company -->> Company: showPage(Dashboard)
             deactivate Student&Company
         end
         else Unsuccessful Authentication
@@ -107,7 +107,7 @@ sequenceDiagram
     University ->> Student&Company: press(SignUpMenu)
     Student&Company -->> University: showPage(SignUpPage)
     University ->> Student&Company: submit(UniversityInfo)
-    Student&Company ->> Student&Company: Check(VAC)
+    Student&Company ->> Student&Company: Check(VAC, email)
     alt Successful Authentication
         Student&Company ->> Student&Company: Register(University)
         Student&Company ->> Email Provider: send(ConfirmationEmail)
@@ -129,7 +129,7 @@ sequenceDiagram
             deactivate Email Provider
             activate Student&Company
             Student&Company ->> Student&Company: Activate(University)
-            Student&Company -->> University: showPage(DashBoard)
+            Student&Company -->> University: showPage(Dashboard)
             deactivate Student&Company
         end
         else Unsuccessful Authentication
@@ -155,7 +155,7 @@ sequenceDiagram
     Student&Company ->> Student&Company: Authenticate(Credentials)
     alt Successful Authentication
         Student&Company ->> Student&Company: SignIn(User)
-        Student&Company -->> User: showPage(DashBoard)
+        Student&Company -->> User: showPage(Dashboard)
         deactivate Student&Company
     else Unsuccessful Authentication
         activate Student&Company
@@ -174,8 +174,7 @@ sequenceDiagram
     actor Company
     activate Student
     activate Student&Company
-    Student ->> Student&Company: press(AccountMenu)
-    Student ->> Student&Company: press(LoadCurriculum)
+    Student ->> Student&Company: press(CVMenu)
     Student&Company -->> Student: showPage(CurriculumPage)
     Student ->> Student&Company: submit(Curriculum)
     Student&Company ->> Student&Company: Check(Curriculum)
@@ -211,7 +210,7 @@ sequenceDiagram
     activate Company
     activate Student&Company
     Company ->> Student&Company: press(MyInternships)
-    Student&Company -->> Company: showPage(MyInternshipPage)
+    Student&Company -->> Company: showPage(MyInternshipsOffersPage)
     Company ->> Student&Company: press(CreateInternship)
     Student&Company -->> Company: showPage(InternshipCreationPage)
     Company ->> Student&Company: submit(Internship)
@@ -355,8 +354,8 @@ sequenceDiagram
     actor University
     activate Participant1
     activate Student&Company
-    Participant1 ->> Student&Company: press(Complaints)
-    Student&Company -->> Participant1: showPage(ComplaintsPage)
+    Participant1 ->> Student&Company: press(Communications)
+    Student&Company -->> Participant1: showPage(CommunicationsPage)
     Participant1 ->> Student&Company: press(CreateComplaint)
     Student&Company -->> Participant1: showPage(ComplaintCreationPage)
     Participant1 ->> Student&Company: submit(Complaint)
@@ -381,8 +380,8 @@ sequenceDiagram
     actor User2
     activate User1
     activate Student&Company
-    User1 ->> Student&Company: press(Complaints)
-    Student&Company -->> User1: showPage(ComplaintsPage)
+    User1 ->> Student&Company: press(Communications)
+    Student&Company -->> User1: showPage(CommunicationsPage)
     User1 ->> Student&Company: press(TargetComplaint)
     Student&Company -->> User1: showPage(ComplaintPage)
     User1 ->> Student&Company: submit(Message)
@@ -405,8 +404,8 @@ sequenceDiagram
     actor Company
     activate University
     activate Student&Company
-    University ->> Student&Company: press(Complaints)
-    Student&Company -->> University: showPage(ComplaintsPage)
+    University ->> Student&Company: press(Communications)
+    Student&Company -->> University: showPage(CommunicationsPage)
     University ->> Student&Company: press(TargetComplaint)
     Student&Company -->> University: showPage(ComplaintPage)
     University ->> Student&Company: submit(Message)
@@ -432,8 +431,8 @@ sequenceDiagram
     actor Company
     activate University
     activate Student&Company
-    University ->> Student&Company: press(Complaints)
-    Student&Company -->> University: showPage(ComplaintsPage)
+    University ->> Student&Company: press(Communications)
+    Student&Company -->> University: showPage(CommunicationsPage)
     University ->> Student&Company: press(TargetComplaint)
     Student&Company -->> University: showPage(ComplaintPage)
     University ->> Student&Company: press(TerminateInternship)

@@ -479,10 +479,10 @@ Given the system's non-essential nature, overly rigid performance standards are 
 1. The company selects the "Sign up" option.
 2. The platform opens the sign-up page.
 3. The company selects the "Company" option, provides the required information (Company name, Company headquarters address, VAT number, email and password) and click the "Sign Up" button.
-4. The platform sends a confirmation email to the provided email address through the Email Provider.
-5. The platform shows a message to the Company to confirm the registration.
-6. The Company confirms the registration by clicking on the link in the email.
-7. The platform validates the VAT number and checks if it is unique.
+4. The platform validates the VAT number and the email and checks if it is unique.
+5. The platform sends a confirmation email to the provided email address through the Email Provider.
+6. The platform shows a message to the Company to confirm the registration.
+7. The Company confirms the registration by clicking on the link in the email.
 8. The platform confirms the registration and activates the account.
 9. The Company is redirected to the platform's Dashboard.
 
@@ -491,7 +491,7 @@ Given the system's non-essential nature, overly rigid performance standards are 
 **Exceptions:** 
 - The Company provides incorrect information.
 - The Company does not confirm the registration.
-- The VAT number is already in use.
+- The VAT number or the email is already in use.
 
 ### RegisterUniversity
 **Actors:** Company, Email Provider.
@@ -502,10 +502,10 @@ Given the system's non-essential nature, overly rigid performance standards are 
 1. The university selects the "Sign up" option.
 2. The platform opens the sign-up page.
 3. The university selects the "University" option, provides the required information (University Name, University description, VAT number, email of the University office that will manage the internship program, and password) and click the "Sign Up" button.
-4. The platform sends a confirmation email to the provided email address through the Email Provider.
-5. The platform shows a message to the University to confirm the registration.
-6. The University confirms the registration by clicking on the link in the email.
-7. The platform validates the VAT number and checks if it is unique.
+4. The platform validates the VAT number and the email and checks if it is unique.
+5. The platform sends a confirmation email to the provided email address through the Email Provider.
+6. The platform shows a message to the University to confirm the registration.
+7. The University confirms the registration by clicking on the link in the email.
 8. The platform confirms the registration and activates the account.
 9. The University is redirected to the platform's Dashboard.
 
@@ -514,7 +514,7 @@ Given the system's non-essential nature, overly rigid performance standards are 
 **Exceptions:** 
 - The University provides incorrect information.
 - The University does not confirm the registration.
-- The VAT number is already in use.
+- The VAT number or the email is already in use.
 
 ### LoginUser
 **Actors:** User
@@ -763,11 +763,11 @@ To me, this is clearer-->
 
 **Exceptions:**
 - None
-<!-- [(10h) Matteo] -->
+<!-- [(13h) Matteo] -->
 
 
 ## 3.2.3 Sequence Diagrams
-<!-- [(6h) Matteo] -->
+<!-- [(8h) Matteo] -->
 
 
 ## 3.2.4 Requirements Mapping
