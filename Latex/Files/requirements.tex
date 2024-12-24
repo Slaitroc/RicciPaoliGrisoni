@@ -2,7 +2,7 @@
 This chapter provides a detailed description of the system's external interfaces such as the User, Hardware, Software, and Communication interfaces. 
 \subsubsection{User Interfaces}
 The user interface will be designed to improve intuitiveness and simplicity. The platform root page is the Home Page from which every non-registered user can find information about S\&C such as the latest news. The Home page is linked to other pages, such as the Dashboard, Contacts, and About page, using an app bar. 
-In the Contacts page, the user can find useful links to get in touch with S\&C. 
+In the Contacts page, the user can find useful links to get in touch with S\&C.\\
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Latex/Images/HomePage.png}
@@ -87,8 +87,8 @@ This diagram both shows the different use cases that are specific to Students or
     \caption{University and Complaint Use Case Diagram}
     \label{fig:UniveristyUseCaseDiagram}
 \end{figure}
-This diagram concentrates on the functionalities offered to Universities. It shows how Participant can create a Complaint, and how the University can handle it. \\
-More importantly, it shows that a complaint can be handled “as is” by the University, or it can be extended either by the other Participants how respond to such complaint or by the University itself that can interrupt an Ongoing Internship.
+This diagram concentrates on the functionalities offered to Universities. It shows how a Participant can create a Complaint, and how the University can handle it. \\
+More importantly, it shows that a complaint can be handled “as is” by the University, or it can be extended either by the other Participants that respond to such complaint or by the University itself that can interrupt an Ongoing Internship.
 \clearpage
 
 \subsubsection{Use Cases}
@@ -274,7 +274,7 @@ More importantly, it shows that a complaint can be handled “as is” by the Un
     Entry Condition & The Company is logged in\\ \hline
     Event Flow &
     \begin{enumerate}         
-        \item The Company presses the “My Internships” button situated on the dashboard.
+        \item The Company presses the “Internship Offers” button situated on the dashboard.
         \item The Platform opens the Internships page.
         \item The Company presses the “Create Internship” button.
         \item The platform shows the Internship creation form.
@@ -338,7 +338,7 @@ More importantly, it shows that a complaint can be handled “as is” by the Un
     Entry Condition & A Match is generated between the Student and the Company's Internship and the Student has his CV uploaded. \\ \hline
     Event Flow &  
     \begin{enumerate}
-        \item The Participant presses the “My Recommendations” button situated on the dashboard.
+        \item The Participant presses the “Recommendations Process” button situated on the dashboard.
         \item The platform opens the respective Recommendations pages.
         \item The Participant accepts the Match.
         \item The platform stores the result.
@@ -366,7 +366,7 @@ More importantly, it shows that a complaint can be handled “as is” by the Un
     Entry Condition & The Participant is logged in. \\ \hline
     Event Flow &      
     \begin{enumerate}         
-        \item The Participant presses the “My Recommendations” button situated on the dashboard.
+        \item The Participant presses the “Recommendations Process” button situated on the dashboard.
         \item The platform opens the respective Recommendations pages.
         \item The Participant accept or decline the Match.
         \item The platform asks for feedback about the Match.
@@ -425,7 +425,7 @@ More importantly, it shows that a complaint can be handled “as is” by the Un
     Entry Condition & A Match is accepted by both parties or the Company has accepted a Spontaneous Application. \\ \hline
     Event Flow &      
     \begin{enumerate}         
-        \item The Company presses the “My Interviews” button situated on the dashboard.
+        \item The Company presses the “Interviews” button situated on the dashboard.
         \item The platform opens the Interviews page.
         \item The Company selects an Interview in the “ToBeSubmitted” state.
         \item The platform shows the Interview creation form.
@@ -650,7 +650,7 @@ For readability, in all diagrams except the first four, the user login process i
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.6\textwidth]{Latex/Images/FeedbackMechanismSequenceDiagram.png}
+    \includegraphics[width=0.55\textwidth]{Latex/Images/FeedbackMechanismSequenceDiagram.png}
     \caption{[SD9]: Feedback mechanism Sequence Diagram}
     \label{fig:SD9}
 \end{figure}
@@ -665,7 +665,7 @@ For readability, in all diagrams except the first four, the user login process i
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{Latex/Images/PublishComplaintSequenceDiagram.png}
+    \includegraphics[width=1\textwidth]{Latex/Images/PublishComplaintSequenceDiagram.png}
     \caption{[SD11]: Publish Complaint Sequence Diagram}
     \label{fig:SD11}
 \end{figure}
@@ -679,14 +679,14 @@ For readability, in all diagrams except the first four, the user login process i
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{Latex/Images/HandleComplaintSequenceDiagram.png}
+    \includegraphics[width=1\textwidth]{Latex/Images/HandleComplaintSequenceDiagram.png}
     \caption{[SD13]: Handle Complaint Sequence Diagram}
     \label{fig:SD13}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{Latex/Images/TerminateInternshipSequenceDiagram.png}
+    \includegraphics[width=1\textwidth]{Latex/Images/TerminateInternshipSequenceDiagram.png}
     \caption{[SD14]: Terminate Internship Sequence Diagram}
     \label{fig:SD14}
 \end{figure}
@@ -1011,7 +1011,7 @@ For readability, in all diagrams except the first four, the user login process i
 \end{table}
 \clearpage 
 \subsection{Performance Requirements}
- Given the system's non-critical nature, stringent performance criteria are unnecessary. However, to ensure an optimal User experience, the system should:
+ Given the system's non-critical nature, stringent performance criteria are unnecessary. However, to ensure an optimal User experience:
 \begin{itemize}
   \item The system shall notify Users within 2 seconds after an event has occurred
   \item The system shall respond to User requests within 2 seconds under normal load conditions
@@ -1027,19 +1027,20 @@ For readability, in all diagrams except the first four, the user login process i
 \subsection{Design Constraints}
 This section explain the different constraints that the platform must respect such as the standard compliance for the data protection and hardware limitations.
 \subsubsection{Standards Compliance}
-Student\&Company will handle and process highly sensitive data, including but not limited to personal information, CVs of Student and proprietary information of Company and University.\\
-Because of that the Platform must not only be able to comply with the General Data Protection Regulation (GDPR) and any other Data/Privacy Law present in the countries where the Platform will be used (e.g California Consumer Privacy Act "CCPA" or similar law), but also have to be flexible enough to adopt custom policy set by Companies and Universities to protect their data and the data of their own users.
+Student\&Company will handle and process highly sensitive data, including but not limited to personal information, Student's CVs and proprietary information of Company and University.\\
+Because of that the Platform must not only be able to comply with the General Data Protection Regulation (GDPR) and any other Data/Privacy Law present in the countries where the Platform will be used (e.g California Consumer Privacy Act "CCPA" or similar law), but also have to be flexible enough to adopt custom policies set by Companies and Universities to protect their data and the data of their own users.
 \subsubsection{Hardware limitations}
 The platform is a web application that can be accessed from any device with a web browser and an internet connection. No special hardware is required a part from a device with a network card
 \subsection{Software System Attributes}
-This section provides an overview of the system's key attributes such as reliability and availability, security, maintainability, and portability explain in a technical and non-technical way.
+This section provides an overview of the system's key attributes such as reliability and availability, security, maintainability, and portability explained in a technical and non-technical way.
 \subsubsection{Reliability \& Availability}
 The platform is designed to be highly reliable and available to Users, with a target uptime of at lest 99.862\%. This means that the system should be unreachable for Users for no more than 12 hours in a year. To achieve this, the platform will be hosted on redundant servers with automatic failover capabilities and a load balancer to distribute traffic evenly between the different machines. \\
-Furthermore, to ensure the availability of the platform, scheduled maintenance will be schedule during low traffic days such as during winter or summer break. . This approach is intended to guarantee that the system remains fully operational at the start of each semester when the traffic expected to be much higher due to the increase in the number of Students and Companies looking for Internships.\\
+Furthermore, to ensure the availability of the platform, scheduled maintenance will be schedule during low traffic days such as during winter or summer break.\\
+This approach is intended to guarantee that the system remains fully operational at the start of each semester, when the traffic expected to be much higher due to the increase in the number of Students and Companies looking for Internships.\\
 \subsubsection{Security}
 Due to the highly sensitive nature of the data processed by the platform, security is a top priority for S\&C. We will implement a multi-layered security approach to protect the data of our Users such as:
 \begin{itemize}
-  \item The use of HTTPS protocol to encrypt the data exchanged between the User and the Platform
+  \item The use of HTTPS protocol to encrypt data exchanged between the User and the Platform
   \item Strong password requirements and email verification for all users
   \item Failed login attempts shall be limited to 5 before temporary account lockout
   \item Password encryption using industry-standard hashing algorithms such as MD5 or SHA-256
