@@ -1,10 +1,10 @@
-sig Email, VatNumber, CV{}{
+    sig Email, VatNumber, CV{}{
         //No Email, VatNumber or CV can be created without an associated user
         Email = User.userEmail
         VatNumber = (Company.companyVatNumber + University.universityVatNumber)
         CV = Student.cv
     }
-
+    
     abstract sig User {
         userEmail: one Email,
     }
