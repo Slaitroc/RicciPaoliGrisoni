@@ -1,7 +1,27 @@
 \documentclass [11pt,twoside]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{import}
 \input{commandsFile}
+%References
+\usepackage{xpatch}
+\usepackage[backend=biber, style=numeric, sorting=none]{biblatex}
+\addbibresource{DD.bib}
+\nocite{*}
+\DeclareFieldFormat{annotation}{\par\textit{#1}}
+\renewbibmacro*{begentry}{\printfield{annotation}}
+%%%
+
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\color{Gray}{\small{DD by Ricci, Paoli, Grisoni}}}
+\lfoot{\textcolor{Gray}{\small{Copyright © 2025, Ricci, Paoli, Grisoni – All rights reserved}}}
+\rfoot{\textcolor{Gray}{\thepage}}
+\renewcommand{\headrulewidth}{0pt}
+%%
+
 \usepackage[dvipsnames]{xcolor}
 \usepackage{listings}
 \usepackage{alloy-style}
@@ -18,7 +38,7 @@
         \vspace*{-2cm} % (opzionale) aggiusta il margine superiore
         \begin{center}
             \begin{tabularx}{\textwidth}{>{\raggedleft\arraybackslash}p{0.30\textwidth}>{\raggedleft\arraybackslash}X}
-                \textcolor{titleColor}{\textbf{\small{RASD Ricci, Paoli, Grisoni}}} & \includegraphics[scale=0.5]{Images/PolimiLogo} \\
+                \textcolor{titleColor}{\textbf{\small{DD Ricci, Paoli, Grisoni}}} & \includegraphics[scale=0.5]{Images/PolimiLogo} \\
             \end{tabularx}
         \end{center}
         % Spazio verticale tra logo e titolo
@@ -27,8 +47,8 @@
         % TITLE
         \begin{center}
             % Titolo del documento
-            {\textcolor{titleColor}{\textbf{\Huge{RASD}}}} \\[2ex]
-            {\textcolor{titleColor}{\textbf{\Huge{Requirement Analysis and Specification Document}}}} \\[1cm]
+            {\textcolor{titleColor}{\textbf{\Huge{DD}}}} \\[2ex]
+            {\textcolor{titleColor}{\textbf{\Huge{Design Document}}}} \\[1cm]
         \end{center}
     \end{titlepage}
     
@@ -39,13 +59,13 @@
         \setlength{\extrarowheight}{2pt}
         \begin{tabularx}{\textwidth}{>{\raggedleft\arraybackslash}p{0.3\textwidth}>{\raggedright\arraybackslash}X}
             \hline
-            \textbf{Deliverable:} & RASD \\ 
-            \textbf{Title:} & Requirement Analysis and Specification Document \\ 
+            \textbf{Deliverable:} & DD \\ 
+            \textbf{Title:} & Design Document \\ 
             \textbf{Authors:} & Lorenzo Ricci, Matteo Giovanni Paoli, Samuele Grisoni \\ 
             \textbf{Version:} & 1.0 \\ 
-            \textbf{Date:} & 22-12-2024 \\ 
+            \textbf{Date:} & 7-01-2025 \\ 
             \textbf{Download page:} & \url{https://github.com/Slaitroc/RicciPaoliGrisoni/} \\ 
-            \textbf{Copyright:} & Copyright © 2024, Ricci, Paoli, Grisoni – All rights reserved \\ \hline
+            \textbf{Copyright:} & Copyright © 2025, Ricci, Paoli, Grisoni – All rights reserved \\ \hline
         \end{tabularx}
     \end{table}
     
@@ -65,27 +85,32 @@
     \clearpage
     \section{Introduction}
     \label{sect:introduction}
-    \input{Files/introduction}
+    \input{Latex/DD_Chapters/1introduction}
     %------------------------------------------------------------------------------------------------------------------------------------------------
     \clearpage
-    \section{Overall Description}
-    \label{sect:overview}
-    \input{Files/overview} 
+    \section{Architectural Design}
+    \label{sect:architecturaldesign}
+    \input{Latex/DD_Chapters/2architectural_design} 
     %------------------------------------------------------------------------------------------------------------------------------------------------
     \clearpage
-    \section{Specific Requirements}
-    \label{sect:requirements}
-    \input{Files/requirements}
+    \section{User Interface Design}
+    \label{sect:UIdesign}
+    \input{Latex/DD_Chapters/3user_interface_design}
     %------------------------------------------------------------------------------------------------------------------------------------------------
     \clearpage
-    \section{Formal Analysis Using Alloy}
-    \label{sect:alloy}
-    \input{Files/alloy}
+    \section{Requirements Traceability}
+    \label{sect:req_traceability}
+    \input{Latex/DD_Chapters/4requirements_traceability}
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+    \clearpage
+    \section{Implementation, Integration and Test Plan}
+    \label{sect:impinttest}
+    \input{Latex/DD_Chapters/5imp_int_test}
     %------------------------------------------------------------------------------------------------------------------------------------------------
     \clearpage
     \section{Effort Spent}
     \label{sect:effort}
-    \input{Files/effort}
+    \input{Latex/DD_Chapters/6effort}
     %------------------------------------------------------------------------------------------------------------------------------------------------
     \clearpage
     \section{References} % Sezione numerata per la bibliografia
