@@ -1,78 +1,71 @@
 # Requirements and Analysis Specification Document
 
-### Markdown Versions
+## Markdown Versions
+
 | **PDF Version** | **Up to Date** |
 |-----------------|----------------|
-[RASDv1.pdf](./DeliveryFolder/RASDv1.pdf)| [✔️] |
+| [RASDv1.pdf](./DeliveryFolder/RASDv1.pdf) | [✔️] |
 
 ➕: means the md contains some extra information that will lead to a new version of the pdf file
 
-
-
-
-
 ## Table of Contents
 
-1. [Introduction](#introduction)
-    - [Purpose](#purpose)
-    - [Goals](#goals)
-    - [Scope](#scope)
-    - [World Phenomena](#world-phenomena)
-    - [Shared Phenomena](#shared-phenomena)
-    - [Definitions, Acronyms, Abbreviations](#definitions-acronyms-abbreviations)
-      - [Definition](#definition)
-      - [Acronyms](#acronyms)
-      - [Abbreviations](#abbreviations)
-    - [Revision History](#revision-history)
-    - [Reference Documents](#reference-documents)
-    - [Document Structure](#document-structure)
+- [1 Introduction](#1-introduction)
+  - [1.1 Purpose](#11-purpose)
+    - [1.1.1 Goals](#111-goals)
+  - [1.2 Scope](#12-scope)
+    - [1.2.1 World Phenomena](#121-world-phenomena)
+    - [1.2.2 Shared Phenomena](#122-shared-phenomena)
+  - [1.3 Definitions, Acronyms, Abbreviations](#13-definitions-acronyms-abbreviations)
+    - [1.3.1 Definition](#131-definition)
+    - [1.3.2 Acronyms](#132-acronyms)
+    - [1.3.3 Abbreviations](#133-abbreviations)
+  - [1.4 Revision History](#14-revision-history)
+  - [1.5 Reference Documents](#15-reference-documents)
+  - [1.6 Document Structure](#16-document-structure)
+- [2 Overall Description](#2-overall-description)
+  - [2.1 Product Prospective](#21-product-prospective)
+    - [2.1.1 User Scenarios](#211-user-scenarios)
+    - [2.1.2 Class Diagrams](#212-class-diagrams)
+    - [2.1.3 State Charts](#213-state-charts)
+  - [2.2 Product Functions](#22-product-functions)
+    - [2.2.1 Requirements](#221-requirements)
+  - [2.3 User Characteristics](#23-user-characteristics)
+  - [2.4 Assumptions, Dependencies, and Constraints](#24-assumptions-dependencies-and-constraints)
+    - [2.4.1 Domain Assumptions](#241-domain-assumptions)
+    - [2.4.2 Dependencies](#242-dependencies)
+- [3 Specific Requirements](#3-specific-requirements)
+  - [3.1 External Interface Requirements](#31-external-interface-requirements)
+    - [3.1.1 User Interfaces](#311-user-interfaces)
+    - [3.1.2 Hardware Interfaces](#312-hardware-interfaces)
+    - [3.1.3 Software Interfaces](#313-software-interfaces)
+    - [3.1.4 Communication Interfaces](#314-communication-interfaces)
+  - [3.2 Functional Requirements](#32-functional-requirements)
+    - [3.2.1 Use Case Diagrams](#321-use-case-diagrams)
+    - [3.2.2 Use Cases](#322-use-cases)
+    - [3.2.3 Sequence Diagrams](#323-sequence-diagrams)
+    - [3.2.4 Requirements Mapping](#324-requirements-mapping)
+  - [3.3 Performance Requirements](#33-performance-requirements)
+  - [3.4 Design Constraints](#34-design-constraints)
+    - [3.4.1 Standards Compliance](#341-standards-compliance)
+    - [3.4.2 Hardware Limitations](#342-hardware-limitations)
+  - [3.5 Software System Attributes](#35-software-system-attributes)
+    - [3.5.1 Reliability & Availability](#351-reliability--availability)
+    - [3.5.2 Security](#352-security)
+    - [3.5.3 Maintainability](#353-maintainability)
+    - [3.5.4 Portability](#354-portability)
+- [4 Formal Analysis Using Alloy](#4-formal-analysis-using-alloy)
+  - [4.1 Signatures](#41-signatures)
+  - [4.2 Facts](#42-facts)
+  - [4.3 Assertions](#43-assertions)
+  - [4.4 Model Visualization](#44-model-visualization)
+- [5 Effort Spent](#5-effort-spent)
 
-2. [Overall Description](#overall-description)
-    - [Product Prospective](#product-prospective)
-        - [User Scenarios](#user-scenarios)
-        - [Class Diagrams](#class-diagrams)
-        - [State Charts](#state-charts)
-    - [Product Functions](#product-functions)
-        - [Requirements](#requirements)   
-    - [User Characteristics](#user-characteristics)
-    - [Assumptions, dependencies and constraints](#assumptions-dependencies-and-constraints)
-        - [Domain Assumptions](#domain-assumptions)
-        - [Dependencies](#dependencies)
+A. [Assignment Description](#a-assignment-description)
 
-3. [Specific Requirements](#specific-requirements)
-    - [External Interface Requirements](#external-interface-requirements)
-      - [User Interfaces](#user-interfaces)
-      - [Hardware Interfaces](#hardware-interfaces)
-      - [Software Interfaces](#software-interfaces)
-      - [Communication Interfaces](#communication-interfaces)
-    - [Functional Requirements](#functional-requirements)
-      - [Use Case Diagrams](#use-case-diagrams)
-      - [Use Cases](#use-cases)
-      - [Sequence Diagrams](#sequence-diagrams)
-      - [Requirements Mapping](#requirements-mapping)
-    - [Performance Requirements](#performance-requirements)
-    - [Design Constraints](#design-constraints)
-      - [Standards Compliance](#standards-compliance)
-      - [Hardware Limitations](#hardware-limitations)
-    - [Software System Attributes](#software-system-attributes)
-      - [Reliability & Availability](#reliability--availability)
-      - [Security](#security)
-      - [Maintainability](#maintainability)
-      - [Portability](#portability)
+## 1 Introduction
 
-4. [Formal Analysis Using Alloy](#formal-analysis-using-alloy)
-    - [Signatures](#signatures)
-    - [Facts](#facts)
-    - [Assertions](#assertions)
-    - [Model Visualization](#model-visualization)
-
-5. [Effort Spent](#effort-spent)
-
-A. [Assignment Description](#assignment-description)
-
-## Introduction
-
-### Purpose
+### 1.1 Purpose
 
 The purpose of the Student&Company (S&C) Platform is to create a system that allows Students to find
 Internships to enhance their education and improve their curriculum, while allowing Companies to find
@@ -88,7 +81,7 @@ Universities whose Students are actually doing an internship to monitor the prog
 and handle any Complaints that may arise, even by terminating the internship if no other solution to the
 problem can be found.
 
-### Goals
+### 1.1.1 Goals
 
 | **Goal ID** | **Goal Description** |
 |-------------|-----------------------|
@@ -102,7 +95,7 @@ problem can be found.
 | **G8**      | Students would like to choose which internship to attend from among those for which they passed the interview. |
 | **G9**      | Companies would like to select students for the internship position among those who passed the interview. |
 
-### Scope
+### 1.2 Scope
 
 The S&C platform enables interactions among students, companies, and universities through the following features:
 
@@ -133,7 +126,7 @@ The S&C platform enables interactions among students, companies, and universitie
   - The platform provides suggestions to both students and companies on improving CVs and internship offers.
   - These suggestions aim to improve performance in the Recommendation Process.
 
-### World Phenomena
+### 1.2.1 World Phenomena
 
 | **Phenomenon ID** | **Phenomenon Description** |
 |--------------------|-----------------------------|
@@ -155,7 +148,7 @@ The S&C platform enables interactions among students, companies, and universitie
 | **WP16**          | A company wants to choose from the students they are interested in the ones to whom they will offer the internship position. |
 | **WP17**          | A student wants to choose an internship position offer. |
 
-### Shared Phenomena
+### 1.2.2 Shared Phenomena
 
 #### Shared Phenomena by World
 
@@ -197,10 +190,9 @@ The S&C platform enables interactions among students, companies, and universitie
 | **SPM15**         | The platform notifies the involved student and the company when a university terminates their internship. |
 | **SPM16**         | The platform notifies the university when there is a new complaint or problem about an ongoing internship regarding one of their students. |
 
+### 1.3 Definitions, Acronyms, Abbreviations
 
-### Definitions, Acronyms, Abbreviations
-
-#### Definition
+#### 1.3.1 Definition
 
 | **Term**                    | **Definition**                                                                                             |
 |-----------------------------|----------------------------------------------------------------------------------------------------------|
@@ -225,32 +217,32 @@ The S&C platform enables interactions among students, companies, and universitie
 | **Pending Match**           | A match that has been accepted only by a Student or a Company, waiting for a response from the other party. |
 | **Unaccepted Match**        | A match that has been refused by either a Student or a Company.                                          |
 
-#### Acronyms
+#### 1.3.2 Acronyms
 
 | **Acronym** | **Definition**                                   |
 |-------------|-------------------------------------------------|
 | **RASD**    | Requirements Analysis & Specification Document  |
 | **CV**      | Curriculum Vitae                                |
 
-#### Abbreviations
+#### 1.3.3 Abbreviations
 
 | **Abbreviation** | **Definition**        |
 |-------------------|----------------------|
 | **S&C**          | Students & Companies |
 
-### Revision History
+### 1.4 Revision History
 
 | **Date**       | **Version** | **Description**                     |
 |----------------|-------------|-------------------------------------|
 | **22-12-2024** | 1.0         | Initial release of the document.    |
 
-### Reference Documents
+### 1.5 Reference Documents
 
 - **Assignment RDD AY 2024-2025**: Provided assignment description.
 - **Software Engineering 2 A.Y. 2024/2025 Slides**: "Creating RASD."
 - **IEEE Software Requirements Specification Template**: [IEEE Std 830-1998](https://doi.org/10.1109/IEEESTD.1998.88286).
 
-### Document Structure
+### 1.6 Document Structure
 
 1. **Introduction**: This section provides an overview of the document and the system. Here the purpose of the platform is explained, along with the goals and phenomena of the system. Finally, essential definitions are provided.
 
@@ -264,14 +256,14 @@ The S&C platform enables interactions among students, companies, and universitie
 
 6. **References**: This section provides a list of references used in the document.
 
-## Overall Description
+## 2 Overall Description
 
-### Product Prospective
+### 2.1 Product Prospective
 
 This section provides a high-level description of the Student&Company platform, outlining its main features and functionalities through the use of text descriptions such as User Scenarios, and a more in-depth analysis of the system’s structure through the use of Class Diagrams and State Charts.
 
 
-#### User Scenarios
+#### 2.1.1 User Scenarios
 
 1. **Student Sign-up**
    Mario Rossi is a student that wants to improve his abilities and education by doing an internship before graduating. He opens the SC root page and selects "SignUp". He provides the required personal information such as his name, surname, date of birth, an email, and a password that he will use as login credentials. He also selects from the list of available universities the one he is attending. If the email address has never been used on the site, Mario will receive an email for confirming the mail address and the registration of the account. Once the registration is confirmed by Mario, the account is created. If the email address is already in use, the platform will show an error asking to insert a new email address.
@@ -319,7 +311,7 @@ This section provides a high-level description of the Student&Company platform, 
     The University of Rome, a prestigious university that has students enrolled in the S&C platform, has received a complaint about one of their students. The career advisor at the university opens the S&C platform and navigates to the “Complaints” section. Here, they can view all the complaints published about their students and can handle each one by reviewing the complaint, contacting the student and the company involved, and taking appropriate actions to resolve the issue. In this particular case, the advisor and the university have decided to interrupt the internship of the student to protect both the student and the company from further issues. The university does so by clicking on the “Interrupt Internship” button on the complaint page. The platform will notify the student and the company about the interruption of the internship and will close the complaint.
 
 
-#### Class Diagrams
+#### 2.1.2 Class Diagrams
 
 The following UML class diagram describes the domain of our interest with the entities involved in it and the main relations between them. It includes the main attributes and a limited set of methods that represent the core functionalities of the system. These entities capture the essence of the platform’s domain.
 
@@ -335,7 +327,7 @@ Other methods have been omitted for simplicity, as the relations are sufficient 
 
 ![Class Diagram](./Diagrams/Class%20Diagrams/ClassDiagram2.1.png)
 
-#### State Charts
+#### 2.1.3 State Charts
 
 The following section presents a series of state diagrams illustrating the progression of the main phases of the Student&Company platform. These diagrams include representations of the Recommendation Process and its Spontaneous Application variant, the Interview Process that may result in an Internship Position Offer, and finally, a Selection Process diagram that highlights the relationship between the latter two processes. These diagrams represent the possible states that the object **Interview** can be in, without detailing all possible outcomes explicitly. For example, the case of the interview being accepted or rejected is represented in a single state, `InternshipEnded`, without loss of generality.
 
@@ -364,7 +356,7 @@ The following section presents a series of state diagrams illustrating the progr
   ![State Chart](./Diagrams/StateCharts/SelectionProcessStateChart.png)
   The Selection Process diagram illustrates the relationship between the Interview Process and the Internship Position Offer Process. The Selection Process terminates if the Match is rejected, if the Student is rejected during the Interview Process or the Internship Position Offer Process, or if the Student accepts another Internship. If the Student is accepted during the Interview Process, the process transitions to the Internship Position Offer Process. If the Student accepts the Internship Position Offer, the process also concludes.
 
-### Product Functions
+### 2.2 Product Functions
 
 This section outlines the essential functionalities and detailed requirements of the platform, structured to support the key objectives defined in the scope of the product.
 
@@ -393,7 +385,7 @@ This section outlines the essential functionalities and detailed requirements of
    Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new Internships, matched Recommendations, Interview assignments, Internship Position Offers, Sign-up confirmations, Complaints, or Communications.
 
 
-#### Requirements
+#### 2.2.1 Requirements
 
 | **Requirement ID** | **Requirement Description** |
 |---------------------|-----------------------------|
@@ -432,7 +424,7 @@ This section outlines the essential functionalities and detailed requirements of
 | **R33**            | The platform shall provide a dedicated space for Students and Companies to exchange Communications about the current status of an Ongoing Internship. |
 | **R34**            | The platform shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion. |
 
-### User Characteristics
+### 2.3 User Characteristics
 
 Student&Company is designed to be used by three main types of Users: Students, Companies, and Universities. Each User has a specific role and can perform different actions on the platform as described below:
 
@@ -447,9 +439,9 @@ Student&Company is designed to be used by three main types of Users: Students, C
 
 While Student&Company is not specifically designed to accommodate users with special needs, the platform implements several basic accessibility features to improve usability for all users. These include different display modes such as dark mode, screen-reader compatible layouts and easily readable fonts. The web interface try to follow WCAG 2.1 Level A guidelines for basic accessibility compliance. However, users requiring specialized assistive technologies may need to rely on their own tools and software to interact with the platform optimally.
 
-### Assumptions, dependencies and constraints
+### 2.4 Assumptions, dependencies and constraints
 
-#### Domain Assumptions
+#### 2.4.1 Domain Assumptions
 
 This section outlines the basic assumptions about the environment and behavior of entities that interact
 with the system. These assumptions simplify the design and implementation by defining expectations
@@ -464,19 +456,19 @@ within its intended context.
 | **D4**            | Students, Companies, and Universities have a working internet connection. |
 | **D5**            | Universities interrupt an Ongoing Internship only if no solution is found to the Complaints. |
 
-#### Dependencies
+#### 2.4.2 Dependencies
 
 The platform depends on only two external actors: the Notification Provider and the Email Service. The
 former is responsible for correctly handling notifications to ensure they are sent to Users. The latter is
 responsible for sending emails, mainly for users’ email verification. For more details, see [Software Interfaces section](#software-interfaces)
 
-## Specific Requirements
+## 3 Specific Requirements
 
-### External Interface Requirements
+### 3.1 External Interface Requirements
 
 This chapter provides a detailed description of the system’s external interfaces such as the User, Hardware, Software, and Communication interfaces.
 
-#### User Interfaces
+#### 3.1.1 User Interfaces
 
 The user interface will be designed to improve intuitiveness and simplicity. The platform root page is
 the Home Page from which every non-registered user can find information about S&C such as the latest
@@ -508,13 +500,13 @@ user needs.
 ![UI](./Latex/Images/New%20Ui/Student-Dashboard.png)
 ![UI](./Latex/Images/New%20Ui/Uni-Dashboard.png)
 
-#### Hardware Interfaces
+#### 3.1.2 Hardware Interfaces
 
 The platform is a web application that can be accessed from any device with a web browser and an
 internet connection like a PC, a tablet, or a smartphone. No specific hardware requirements are needed
 to interact with the Student&Company platform.
 
-#### Software Interfaces
+#### 3.1.3 Software Interfaces
 
 An Email Provider, through its interface, is used by the Platform to send a confirmation email to Users
 upon registration.
@@ -522,17 +514,17 @@ A notification manager is used to send notification to Users when relevant event
 Users without generating spam that can be seen as annoying by the Users.
 At this stage of development, no other external software interfaces are required.
 
-#### Communication Interfaces
+#### 3.1.4 Communication Interfaces
 
 The platform uses standard internet communication protocols to interact with Users and the backend
 server. At this stage of development other specific communication interfaces are not defined yet.
 
-### Functional Requirements
+### 3.2 Functional Requirements
 
 This chapter provides a comprehensive overview of the system’s use cases, detailing the various interactions between Users and the system. Use Case Diagrams, detailed Use Case Descriptions, Sequence
 Diagrams and Requirement Mapping are provided for each use case.
 
-#### Use Case Diagrams
+#### 3.2.1 Use Case Diagrams
 
 ![UI](./Diagrams/UseDiagrams/UserRegistrationUseCase.png)
 This diagram illustrates the User Registration and Login process, for all Users. It shows how the different
@@ -552,7 +544,9 @@ More importantly, it shows that a complaint can be handled “as is” by the Un
 either by the other Participants that respond to such complaint or by the University itself that can interrupt
 an Ongoing Internship.
 
-#### Use Cases
+#### 3.2.2 Use Cases
+
+##### **Student Registration Use Case**
 
 | **[UC1]**                                  | **Register Student**                    |
 |--------------------------------------------|---------------------------------------------|
@@ -573,6 +567,8 @@ an Ongoing Internship.
 |                                            | - The Student does not confirm the registration. |
 |                                            | - The email is already in use.             |
 
+##### **Company Registration Use Case**
+
 | **[UC2]**                                  | **Register Company**                    |
 |--------------------------------------------|---------------------------------------------|
 | **Use Case ID**                            | UC2                                         |
@@ -591,6 +587,8 @@ an Ongoing Internship.
 | **Exception**                              | - The Company provides incorrect information. |
 |                                            | - The Company does not confirm the registration. |
 |                                            | - The VAT number or the email is already in use. |
+
+##### **University Registration Use Case**
 
 | **[UC3]**                                  | **Register University**                 |
 |--------------------------------------------|---------------------------------------------|
@@ -611,7 +609,7 @@ an Ongoing Internship.
 |                                            | - The University does not confirm the registration. |
 |                                            | - The VAT number or the email is already in use. |
 
-
+##### **User Login Use Case**
 
 | **[UC4]**                                  | **Login User**                     |
 |--------------------------------------------|---------------------------------------------|
@@ -625,6 +623,8 @@ an Ongoing Internship.
 |                                            | 6. The User is redirected to the platform’s Dashboard.                  |
 | **Exit Condition**                         | The User is logged in.                     |
 | **Exception**                              | - The User provides incorrect email or password.                        |
+
+##### **Load Curriculum Use Case**
 
 | **[UC5]**                                  | **Load Curriculum**     |
 |--------------------------------------------|---------------------------------------------|
@@ -640,6 +640,8 @@ an Ongoing Internship.
 |                                            | 8. The platform notifies the new matching Companies through the Notification Manager. |
 | **Exit Condition**                         | The Student’s CV is uploaded.             |
 | **Exception**                              | - The Student provides invalid or partial information.                   |
+
+##### **Advertise Internship Use Case**
 
 | **[UC6]**                                  | **Advertise Internship** |
 |--------------------------------------------|-----------------------------------------------|
@@ -658,6 +660,8 @@ an Ongoing Internship.
 | **Exit Condition**                         | The Internship is created and published.      |
 | **Exception**                              | - The Company provides invalid or partial information.                     |
 
+##### **Spontaneous Application Use Case**
+
 | **[UC7]**                                  | **Spontaneous Application** |
 |--------------------------------------------|-----------------------------------------------------|
 | **Actor**                                  | Student, Company, Notification Manager             |
@@ -670,6 +674,8 @@ an Ongoing Internship.
 | **Exit Condition**                         | The application is successfully submitted to the Company. |
 | **Exception**                              | - The Internship is no longer available.          |
 
+##### **Accept Match Use Case**
+
 | **[UC8]**                                  | **Accept Match** |
 |--------------------------------------------|-----------------------------------------------|
 | **Actor**                                  | Participant, Notification Manager             |
@@ -681,6 +687,8 @@ an Ongoing Internship.
 |                                            | 5. If the other party has already accepted the Match, the platform adds the Interview to the Student and the Company’s list of Interviews and notifies both parties through the Notification Manager. |
 | **Exit Condition**                         | The Match is successfully accepted by the Participant. |
 | **Exception**                              | None                                        |
+
+##### **Feedback Mechanism Use Case**
 
 | **[UC9]**                                  | **Feedback Mechanism** |
 |--------------------------------------------|-------------------------------------------------|
@@ -695,6 +703,8 @@ an Ongoing Internship.
 | **Exit Condition**                         | Feedback is successfully provided.             |
 | **Exception**                              | None                                           |
 
+##### **Suggestion Mechanism Use Case**
+
 | **[UC10]**                                 | **Suggestion Mechanism**           |
 |--------------------------------------------|---------------------------------------------|
 | **Actor**                                  | Participant                                 |
@@ -706,6 +716,8 @@ an Ongoing Internship.
 |                                            | 5. The platform displays the suggestions.                          |
 | **Exit Condition**                         | Suggestions are successfully provided.       |
 | **Exception**                              | - No valuable suggestions are found.         |
+
+##### **Assign Interview Use Case**
 
 | **[UC11]**                                 | **Assign Interview** |
 |--------------------------------------------|---------------------------------------------------|
@@ -721,6 +733,8 @@ an Ongoing Internship.
 | **Exit Condition**                         | The Interview is created and submitted to the Student. |
 | **Exception**                              | None                                          |
 
+##### **Publish Complaint Use Case**
+
 | **[UC12]**                                 | **Publish Complaint**    |
 |--------------------------------------------|---------------------------------------------|
 | **Actor**                                  | Company, Student, University, Notification Manager |
@@ -735,6 +749,7 @@ an Ongoing Internship.
 | **Exit Condition**                         | The Complaint is created and published.      |
 | **Exception**                              | None                                       |
 
+##### **Respond to Complaint Use Case**
 
 | **[UC13]**                                 | **Respond to Complaint**   |
 |--------------------------------------------|---------------------------------------------|
@@ -748,6 +763,8 @@ an Ongoing Internship.
 |                                            | 6. The platform notifies the other Users involved in the Complaint about the response through the Notification Manager. |
 | **Exit Condition**                         | The response is successfully published, and involved Users are notified.   |
 | **Exception**                              | None                                       |
+
+##### **Handle Complaint Use Case**
 
 | **[UC14]**                                 | **Handle Complaint**   |
 |--------------------------------------------|---------------------------------------------|
@@ -763,6 +780,8 @@ an Ongoing Internship.
 | **Exit Condition**                         | The Complaint is closed.                    |
 | **Exception**                              | None                                       |
 
+##### **Terminate Internship Use Case**
+
 | **[UC15]**                                 | **Terminate Internship** |
 |--------------------------------------------|-----------------------------------------------|
 | **Actor**                                  | Student, Company, University, Notification Manager |
@@ -776,7 +795,7 @@ an Ongoing Internship.
 | **Exit Condition**                         | The Internship is interrupted, and the Complaint is closed. |
 | **Exception**                              | None                                       |
 
-#### Sequence Diagrams
+#### 3.2.3 Sequence Diagrams
 
 The functions used in the sequence diagrams follow these conventional meanings:
 
@@ -833,7 +852,7 @@ as already in progress.
 14. **[SD14] Terminate Internship Sequence Diagram**
 ![Terminate Internship Sequence Diagram](./Diagrams/SequenceDiagrams/TerminateInternshipSequenceDiagram.png)
 
-#### Requirements Mapping
+#### 3.2.4 Requirements Mapping
 
 **Goal 1 mapping**
 
@@ -1071,7 +1090,7 @@ as already in progress.
 | **R33** | | | | | x | | x | | |
 | **R34** | | | | | | | x | | |
 
-### Performance Requirements
+### 3.3 Performance Requirements
 
 Given the system's non-critical nature, stringent performance criteria are unnecessary. However, to ensure an optimal User experience:
 
@@ -1086,11 +1105,11 @@ Given the system's non-critical nature, stringent performance criteria are unnec
 - The Recommendation Process shall be completed within 300 seconds under normal load conditions.
 - The Suggestions computed by the platform shall be provided to the User within 180 seconds after the CV or the Internship Offer has been submitted.
 
-### Design Constraints
+### 3.4 Design Constraints
 
 This section explain the different constraints that the platform must respect such as the standard compliance for the data protection and hardware limitations.
 
-#### Standards Compliance
+#### 3.4.1 Standards Compliance
 
 Student&Company will handle and process highly sensitive data, including but not limited to personal
 information, Student's CVs and proprietary information of Company and University.
@@ -1099,16 +1118,16 @@ Because of that the Platform must not only be able to comply with the General Da
 California Consumer Privacy Act "CCPA" or similar law), but also have to be flexible enough to adopt
 custom policies set by Companies and Universities to protect their data and the data of their own users.
 
-#### Hardware Limitations
+#### 3.4.2 Hardware Limitations
 
 The platform is a web application that can be accessed from any device with a web browser and an
 internet connection. No special hardware is required a part from a device with a network card
 
-### Software System Attributes
+### 3.5 Software System Attributes
 
 This section provides an overview of the system's key attributes such as reliability and availability, security, maintainability, and portability explained in a technical and non-technical way.
 
-#### Reliability & Availability
+#### 3.5.1 Reliability & Availability
 
 The platform is designed to be highly reliable and available to Users, with a target uptime of at lest
 99.862%. This means that the system should be unreachable for Users for no more than 12 hours in a
@@ -1119,7 +1138,7 @@ This approach is intended to guarantee that the system remains fully operational
 semester, when the traffic expected to be much higher due to the increase in the number of Students and
 Companies looking for Internships.
 
-#### Security
+#### 3.5.2 Security
 
 Due to the highly sensitive nature of the data processed by the platform, security is a top priority for S&C. We will implement a multi-layered security approach to protect the data of our Users such as:
 
@@ -1130,7 +1149,7 @@ Due to the highly sensitive nature of the data processed by the platform, securi
 - Role-based access control to ensure that Users can only access the data they are authorized to see
 - Verification of Companies and Universities profile will be conducted using their VAT numbers, once the official governance API becomes available.
 
-#### Maintainability
+#### 3.5.3 Maintainability
 
 The system should be designed to be easily maintainable and scalable to accommodate future growth.
 This includes the use of modular code, clear documentation, and a well-defined architecture that allows
@@ -1139,13 +1158,13 @@ The platform should also be designed to be easily scalable to accommodate an inc
 Users and Internship Offers and in a way where the need of adding new features or fixing bugs should
 not require a complete overhaul of the system.
 
-#### Portability
+#### 3.5.4 Portability
 
 As a web application, the platform is inherently portable by design, allowing access from any device
 equipped with a web browser and an internet connection. There are no additional portable constraints on
 the server-side infrastructure of the platform.
 
-## Formal Analysis Using Alloy
+## 4 Formal Analysis Using Alloy
 
 In this section, we will provide a formal analysis of the system using the Alloy language. Alloy is a
 lightweight formal specification language that allowed us to model the system’s structure and behavior
@@ -1157,7 +1176,7 @@ in the code. Additionally, we will provide a visual representation of the model 
 its evolution over time, as the model represents a dynamic system. This will be accompanied by a brief
 textual explanation of the events occurring at each specific step.
 
-### Signatures
+### 4.1 Signatures
 
 The signature part of the code defines the different entities present in the system and their relationships.
 In this case, we will define the main entities of S&C such as Students, Companies, Universities, InternshipsOffer, Recommendation, and Interview.
@@ -1252,7 +1271,7 @@ In this case, we will define the main entities of S&C such as Students, Companie
     }
 ```
 
-### Facts
+### 4.2 Facts
 
 Facts represent the constraints that the system must respect and are always true in the model. For this
 application we defined numerous facts such as the necessity of a Student to have a CV to be matched
@@ -1370,8 +1389,7 @@ with an Internship as well as the various stages of progression for an Internshi
     }
 ```
 
-
-### Assertions
+### 4.3 Assertions
 
 Assertions are the properties that we want to verify in the model. Such properties must hold to avoid
 unwanted behavior by the Platform. For this scenario we verified different aspects such as the necessity
@@ -1428,8 +1446,7 @@ Student, with a CV uploaded to the Platform, can have completed an interview.
     }
 ```
 
-
-### Model Visualization
+### 4.4 Model Visualization
 
 The following model was obtained with the following run:
 
@@ -1464,8 +1481,7 @@ Recommendation
 ![Alloy Model Step 5](./Alloy/5.png)
  Interview1 has been passed by Student2, while Company1 has sent him the remaining Interview
 
-
-## Effort Spent
+## 5 Effort Spent
 
 ### Lorenzo Ricci
 
@@ -1498,7 +1514,7 @@ Recommendation
 | Formal Analysis Using Alloy | 16 |
 | Misc Activities | 7 |
 
-## Assignment Description
+## A Assignment Description
 
 Students&Companies (S&C) is a platform that helps match university students looking for internships and companies offering them. The platform should ease the matching between students and companies based on:
 
@@ -1516,4 +1532,3 @@ To feed statistical analysis applied during recommendation, S&C collects various
 Moreover, S&C should be able to provide suggestions both to companies and to students regarding how to make their submissions (project descriptions for companies and CVs for students) more appealing for their counterparts.
 
 In general, S&C provides interested parties with mechanisms to keep track and monitor the execution and the outcomes of the matchmaking process and of the subsequent internships from the point of view of all interested parties. For example, it provides spaces where interested parties can complain, communicate problems, and provide information about the current status of the ongoing internship. The platform is used by students at different universities. Universities also need to monitor the situation of internships; in particular, they are responsible for handling complaints, especially ones that might require the interruption of the internship.
-
