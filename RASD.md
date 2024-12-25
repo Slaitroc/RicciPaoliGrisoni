@@ -3,7 +3,7 @@
 ### Markdown Versions
 | **PDF Version** | **Up to Date** |
 |-----------------|----------------|
-[RASDv1.pdf](../DeliveryFolder/RASDv1.pdf)| [✔️] |
+[RASDv1.pdf](./DeliveryFolder/RASDv1.pdf)| [✔️] |
 
 ➕: means the md contains some extra information that will lead to a new version of the pdf file
 
