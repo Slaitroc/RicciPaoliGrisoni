@@ -5,7 +5,7 @@
 \input{commandsFile}
 %References
 \usepackage{xpatch}
-\usepackage[backend=biber, style=numeric, sorting=none]{biblatex}
+\usepackage[backend=biber, style=numeric, sorting=none, defernumbers=true]{biblatex}
 \addbibresource{DD.bib}
 \nocite{*}
 \DeclareFieldFormat{annotation}{\par\textit{#1}}
@@ -113,9 +113,9 @@
     \input{Latex/DD_Chapters/6effort}
     %------------------------------------------------------------------------------------------------------------------------------------------------
     \clearpage
-    \section{References} % Sezione numerata per la bibliografia
-    \printbibliography[heading=none]
-
+    \section{References}
+    \label{sect:references}
+    \input{Latex/DD_Chapters/7references}
     %------------------------------------------------------------------------------------------------------------------------------------------------
     \clearpage
     \appendix
