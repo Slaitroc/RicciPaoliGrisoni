@@ -1,26 +1,33 @@
-# 1 Introduction
-## 1.1 Purpose
-The purpose of the Student&Company (S\&C) platform is to enable students to enroll into internships that will enhance their education and strengthen their CVs while letting companies publish internship offers and select the best candidates thought 
-interviews. More over S\&C allow students' universities to monitor each of their students' progress and intervene if needed.\\
-The platform support and aid the users throughout the entire process by provide suggestion to the uploaded CVs and internship offers, automatically matches students and companies thanks to a proprietary algorithm, manage the distribution and collection of interviews and provides a space for filing and resolving complaints. The reader can find more information about the platform in the RASD document.\\ <!-- non so se lasciare questa ultima frase, feedback? -->
-In the remaining part of this chapter we will present a summary of the technical choice made for the creation of the platform, along with different tables including the Goals we are try to fullfil with this software and the Definition, Acronyms, Abbreviations used in this document.\\
+# Design Document
 
+## 1 Introduction
 
-## 1.2 Scope
+### 1.1 Purpose
+
+The purpose of the Student&Company (S\&C) platform is to enable students to enroll into internships that will enhance their education and strengthen their CVs while letting companies publish internship offers and select the best candidates thought interviews. More over S\&C allow students' universities to monitor each of their students' progress and intervene if needed.
+The platform support and aid the users throughout the entire process by provide suggestion to the uploaded CVs and internship offers, automatically matches students and companies thanks to a proprietary algorithm, manage the distribution and collection of interviews and provides a space for filing and resolving complaints. The reader can find more information about the platform in the RASD document. <!-- non so se lasciare questa ultima frase, feedback? -->
+In the remaining part of this chapter we will present a summary of the technical choice made for the creation of the platform, along with different tables including the Goals we are try to fullfil with this software and the Definition, Acronyms, Abbreviations used in this document.
+
+### 1.2 Scope
+
 This document, Design Document (DD), will provide a detailed description of the architecture of the S\&C platform from a more technical point of view. In particular it will provide a thorough description of the software with a special emphasis on its interfaces, system module, and architectural framework.
-This document will also discuss the implementation, integration and testing plan describing the tools and methodologies that will be used during the development of the platform.\\
+This document will also discuss the implementation, integration and testing plan describing the tools and methodologies that will be used during the development of the platform.
 <!-- (Sam 1h)-->
-## 1.2.1 Product domain
+#### 1.2.1 Product domain
 
-## 1.2.2 Main architectural choices
-The architecture of the platform adopt a 3-tier architecture where the front-end is implemented using a web application that communicates with the back-end through a RESTful API.\\
-The back-end, implemented using the Spring framework, will be responsible for the business logic of the platform, as well as the communication to the database, as it will be described in the following chapters while the front-end, following a lightweight architecture, is responsible only for the presentation of the data and the interaction with the user and will be implemented using the React framework.\\
+#### 1.2.2 Main architectural choices
 
-## 1.3 Definitions, Acronyms, Abbreviations
-## 1.3.1 Definitions
-The definition shared between this document and the RASD document are reported in the following table.\\
-|----------------------------------------------------------------------------------------------------------|
-| **Term**                    | **Definition**|
+The architecture of the platform adopt a 3-tier architecture where the front-end is implemented using a web application that communicates with the back-end through a RESTful API.
+The back-end, implemented using the Spring framework, will be responsible for the business logic of the platform, as well as the communication to the database, as it will be described in the following chapters while the front-end, following a lightweight architecture, is responsible only for the presentation of the data and the interaction with the user and will be implemented using the React framework.
+
+### 1.3 Definitions, Acronyms, Abbreviations
+
+#### 1.3.1 Definitions
+
+The definition shared between this document and the RASD document are reported in the following table.
+
+| **Term**                    | **Definition**                                                                                           |
+|-----------------------------|----------------------------------------------------------------------------------------------------------|
 | **University**              | A university that is registered on the S&C platform.                                                    |
 | **Company**                 | A company that is registered on the S&C platform.                                                       |
 | **Student**                 | A person who is currently enrolled in a University and is registered on the S&C platform.               |
@@ -40,24 +47,28 @@ The definition shared between this document and the RASD document are reported i
 | **Confirmed Match**         | A match that has been accepted by both a Student and a Company.                                          |
 | **Rejected Match**          | A match that has been refused by either a Student or a Company.                                          |
 | **Pending Match**           | A match that has been accepted only by a Student or a Company, waiting for a response from the other party. |
-| **Unaccepted Match**        | A match that has been refused by either a Student or a Company.   
-The definition specific to this document are reported in the following table.\\
-|----------------------------------------------------------------------------------------------------------|
-| **Term**                    | **Definition**|
+| **Unaccepted Match**        | A match that has been refused by either a Student or a Company.|
+
+The definition specific to this document are reported in the following table.
+
+| **Term**                    | **Definition**                                                                                           |
+|-----------------------------|----------------------------------------------------------------------------------------------------------|
 | **Front-end**               | The part of the software that is responsible for the presentation of the data and the interaction with the user. It is what the user sees and interacts with. |
 | **Back-end**                | The part of the software that is responsible for the business logic of the platform and the storage and retrieval of data. It is composed by the servers and the database. It is what the user does not see. |
 | **RESTful API**             | A set of rules that software engineer follow when creating an API that allows different software to communicate with each other. |
 | **3-tier architecture**     | A software architecture that divides the software into three different layers: presentation layer that contains the logic for displaying data and retrieve input from the user, application layer where the main logic of the software is present, and data layer that contains the data and the logic to access it. |
 
-## 1.3.2 Acronyms
-The acronyms shared between this document and the RASD document are reported in the following table.\\
+### 1.3.2 Acronyms
+
+The acronyms shared between this document and the RASD document are reported in the following table.
 
 | **Acronym** | **Definition**                                  |
 |-------------|-------------------------------------------------|
 | **RASD**    | Requirements Analysis & Specification Document  |
 | **CV**      | Curriculum Vitae                                |
 
-The acronyms specific to this document are reported in the following table.\\
+The acronyms specific to this document are reported in the following table.
+
 | **Acronym** | **Definition**                                  |
 |-------------|-------------------------------------------------|
 | **DD**      | Design Document                                 |
@@ -67,27 +78,36 @@ The acronyms specific to this document are reported in the following table.\\
 | **DB**      | Database                                        |
 | **API**     | Application Programming Interface               |
 
-## 1.3.3 Abbreviations
-The abbreviations shared between this document and the RASD document are reported in the following table.\\
+### 1.3.3 Abbreviations
+
+The abbreviations shared between this document and the RASD document are reported in the following table.
 
 | **Abbreviation** | **Definition**        |
 |-------------------|----------------------|
 | **S&C**          | Students & Companies |
 
-The abbreviations specific to this document are reported in the following table.\\
+The abbreviations specific to this document are reported in the following table.
+
 | **Abbreviation** | **Definition**        |
 |-------------------|----------------------|
 
-## 1.4 Revision history
+### 1.4 Revision history
 
 | **Version** | **Date** | **Description** |
 |-------------|----------|-----------------|
 | 1.0         | ?-01-2025| Initial release of the document. |
 
-## 1.5 Reference documents
+### 1.5 Reference documents
 
 - **Assignment RDD AY 2024-2025**: Provided assignment description.
 - **Software Engineering 2 A.Y. 2024/2025 Slides**: "Creating DD."
 - **RASD document**: The Requirements Analysis & Specification Document of the S&C platform.
 <!-- (Sam 1h)-->
 
+## 2 Architectural Design
+
+![Overview](./Diagrams/DD/DD-Overview2.png)
+
+The system employs a simple microservices architecture initially structured to emulate classical three-tier layer division consisting of the Presentation, Logic, and Data layers. The choice of a microservices structure enables the system to be scalable and to adapt to increasing demand. Additionally, this approach supports deeper decoupling and modularization in the future to handle growing service complexity.
+
+The client access to server content is handled by the proxy, which routes the requests to the right service. In order to make development easier in its early stages, the data layer is meant to be shared between the servers. However, the microservices architecture enables the easy implementation of patterns that allow multiple DB services and ensure their data consistency.
