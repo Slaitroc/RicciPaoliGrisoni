@@ -434,3 +434,39 @@ Possible Components at the moment:
 
 *Table: Requirement R34 - Traceability for Handling Complaints and Internship Termination.*
 <!-- (Matteo [2hr])-->
+
+
+## 6 Effort Spent
+
+### Lorenzo Ricci
+
+| **Section** | **Hours** |
+|-------------|-----------|
+| Introduction | X |
+| Architectural Design | X |
+| User Interface Design | X |
+| Requirements Traceability | X |
+| Implementation, Integration and Test Plan | X |
+| Misc Activities | 5 |
+
+### Matteo Giovanni Paoli
+
+| **Section** | **Hours** |
+|-------------|-----------|
+| Introduction | X |
+| Architectural Design | 2 |
+| User Interface Design | X |
+| Requirements Traceability | 2 |
+| Implementation, Integration and Test Plan | X |
+| Misc Activities | X |
+
+### Samuele Grisoni
+
+| **Section** | **Hours** |
+|-------------|-----------|
+| Introduction | X |
+| Architectural Design | X |
+| User Interface Design | X |
+| Requirements Traceability | X |
+| Implementation, Integration and Test Plan | X |
+| Misc Activities | X |
