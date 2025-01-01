@@ -17,8 +17,10 @@ This document will also discuss the implementation, integration and testing plan
 
 #### 1.2.2 Main architectural choices
 
+The chosen architectural style is a microservices architecture as it allows a scalable and modular approach to the development. The three main services are Presentation service, Application service and Authenticator service that are responsible for the user interface, the business logic and the authentication respectively. Also different database services to manage services' data are included. Autonomous services for DBs is a good prerequisite for data modularity and scalability. The Presentation service will provide the client with a single page application (SPA) for a smoother user experience. The Application service contains modules that provide different platform specific logic services that could be exported into new independent services in the future. This set up it is also a good starting point to manage reliability and fault tolerance, as each service can be easily scaled vertically or horizontally through the use of some cloud orchestration tools during deployment. ??? More to add. This should be a sort of summary
+<!-- 
 The architecture of the platform adopt a 3-tier architecture where the front-end is implemented using a web application that communicates with the back-end through a RESTful API.
-The back-end, implemented using the Spring framework, will be responsible for the business logic of the platform, as well as the communication to the database, as it will be described in the following chapters while the front-end, following a lightweight architecture, is responsible only for the presentation of the data and the interaction with the user and will be implemented using the React framework.
+The back-end, implemented using the Spring framework, will be responsible for the business logic of the platform, as well as the communication to the database, as it will be described in the following chapters while the front-end, following a lightweight architecture, is responsible only for the presentation of the data and the interaction with the user and will be implemented using the React framework. -->
 
 ### 1.3 Definitions, Acronyms, Abbreviations
 
@@ -106,8 +108,76 @@ The abbreviations specific to this document are reported in the following table.
 
 ## 2 Architectural Design
 
-![Overview](./Diagrams/DD/DD-Overview2.png)
+The purpose of this chapter is to present a top-down description of the S&C architectural design, covering and justifying every design decision.
+We first introduce the high level components and their interactions, then we further describe these components in more detail through the component view.
+Next we focus on the deployment and finally on some main runtime views represented through sequence diagrams.
 
-The system employs a simple microservices architecture initially structured to emulate classical three-tier layer division consisting of the Presentation, Logic, and Data layers. The choice of a microservices structure enables the system to be scalable and to adapt to increasing demand. Additionally, this approach supports deeper decoupling and modularization in the future to handle growing service complexity.
 
-The client access to server content is handled by the proxy, which routes the requests to the right service. In order to make development easier in its early stages, the data layer is meant to be shared between the servers. However, the microservices architecture enables the easy implementation of patterns that allow multiple DB services and ensure their data consistency.
+### 2.1 Overview: High-level components and their interaction
+
+The system employs a simple microservices architecture composed of the Presentation, Application, Authenticator service and some DBs to handle the Application Data. The choice of a microservices structure enables the system to be scalable and to adapt to increasing demand. Additionally, this approach supports deeper decoupling and modularization in the future to handle growing service complexity.
+The client access to servers content is handled by the proxy, which routes the requests to the right service. Using a browser and navigating to the platform's main domain, the proxy routes the users to the web interface, which is provided by the Presentation service, responsible for the user interface and experience. The web interface communicates with the Application service through a RESTful API, which is responsible for the business logic. The Application service communicates with the DBs through an API that handles the ORM, the data life cycles and the querying.
+The Authenticator service is responsible for the authentication of the users and the management of the sessions. All the non-public API calls are routed by the proxy, that acts as an API gateway, through the Authenticator service to ensure that the user is authenticated and authorized to access the requested resource.
+
+![Overview](./Diagrams/DD/Overview0.png)
+
+#### 2.1.1 Presentation Service
+
+The Presentation static content is served to the client when they connect to the web interface. This service also provides the client with the web scripts that calls the APIs of the Application service, obtaining the right user's data and triggering the platform logic. So at runtime, the calls to other services' APIs are not directly forwarded from the Presentation service but from the client's Endpoints.
+
+#### 2.1.2 Authenticator Service
+
+API calls can be public or private. While public calls are reachable by non-authenticated user, private ones handles the user's personal data or logic and need authentication to be forwarded and executed. Every API call pass through the proxy that, according to the call type, delivers it to the right service: Authenticator service if it is private; the final target service otherwise. This service allows a common and centralized place for all services authentication, instead of letting each service 
+autonomously handling this process.
+
+#### 2.1.3 Application Service
+
+The Application service contains the platform core functionalities such as the platform logic, the interaction with the database and the notification handling. It exposes different APIs for all the different services it offers.
+
+### 2.2 Component view
+
+This section presents a more in depth view of the software components part of the designed architecture and the needed interfaces between them.
+![Overview](./Diagrams/DD/Component0.png)
+
+#### 2.2.1 Entity Manager
+
+This Entity Manager act as an API that enables the communication with a DBMS, simplifying ORM, querying, and data life cycles. It provides standard methods, independents from the specific DBMS used to handle the data. As shown by the diagram there are two entity managers. The \emph{Platform Entity Manager} provides its interface to the Platform Logic Module to let it interact with the \emph{Platform DBMS}. The \emph{Notification Entity Manager} act analogously with the \emph{Notification DBMS}.
+
+#### 2.2.2 Platform Logic
+
+This component exposes all the necessary interfaces to interact with the platform logic and also maintains up to date the database interacting with the Entity Manager. Its inner components are software pieces that enable managing every logic area of the platform, providing the right interfaces to other pieces that depend on them. Every \emph{Manager Component} autonomously operates the persistence and consistence of the relative relevant data within the DB using the interface provided by the Entity Manager. They also provide the \emph{API Controller} a set of methods to execute the logic without the need to care about the database interaction.
+ 
+![PlatformComponent](./Diagrams/DD/Component1.png)
+
+#### 2.2.3 API Controller
+
+The API Controller contains a set of controllers whose methods, triggered by the user, interact and execute the platform logic. More information about the inner components and methods in section ADD LABEL
+
+#### 2.2.4 Notification Manager
+
+This component handles every need concerning the notifications, no matter what kind they are. It works as an adapter for external push notification provider and email service and provide an interface to fluently provide other service with those external features. It also creates and manage the corresponding in-app notifications that can be fetched by the user through a service specific API. This Component is a clear example of a service that could be easily exported to its own container in future by, for example, by providing its own RESTful API to the Platform logic instead of an interface object like the actual setup. 
+
+![NotificationComponent](./Diagrams/DD/Component2.png)
+ 
+### 2.3 Deployment view
+
+Each service will be hosted on its own container being able to run independently on the same or on different machines. Containers, in addiction to make the development and deployment easier, also provide a good level of isolation and security.
+The system will be hosted on the cloud and its container based nature allows to easily integrate orchestrator tools to decouple it from the cloud hosting provider and automatically manage scalability, reliability, fault tolerance and global security of the microservices cluster.
+
+
+
+
+
+![NotificationComponent](./Diagrams/DD/Deployment.png)
+ 
+### 2.4 Runtime view
+ 
+### 2.5 Component interfaces (maybe before Runtime View)
+ 
+### 2.6 Selected architectural styles and patterns
+ 
+### 2.7 Other design decisions
+
+## 3 User Interface Design
+
+The web interface is a single page application (SPA) that allows a wide number of interaction without the need of refreshing the page, providing a smoother user experience.  
