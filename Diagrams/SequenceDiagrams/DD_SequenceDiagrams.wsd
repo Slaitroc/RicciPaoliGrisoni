@@ -2,7 +2,7 @@
 @startuml Registration
 skinparam sequenceMessageAlign center
 actor       User
-actor       EmailClient
+participant EmailClient #99FF99
 participant Presentation
 entity      Proxy
 participant Authenticator
@@ -11,15 +11,14 @@ participant AccountManager
 participant PlatformEntityManager
 participant NotificationManager
 database    PlatformDBMS
-entity      EmailServiceAPI
 activate User
 activate Presentation
 User -> Presentation : clickSignUpButton()
-Presentation -> Proxy : POST api/user/register
+Presentation -> Proxy : POST api/account/public/register
 activate Proxy
 activate User
 
-Proxy -> APIController : POST api/user/register
+Proxy -> APIController : POST api/account/public/register
 activate APIController
 APIController -> AccountManager : createUser(UserData, UserType)
 activate AccountManager
@@ -45,25 +44,33 @@ PlatformDBMS --> PlatformEntityManager : UserID
 deactivate PlatformDBMS
 PlatformEntityManager --> AccountManager : UserID
 deactivate PlatformEntityManager
-AccountManager -> Proxy : POST api/user/createToken
-Proxy -> Authenticator : POST api/user/createToken
+AccountManager --> APIController : UserID
+deactivate AccountManager
+APIController --> Proxy : 201 Created
+deactivate APIController
+Proxy --> Presentation : 201 Created
+deactivate Proxy
+Presentation -> Proxy : POST api/auth/public/createToken
+activate Proxy
+Proxy -> Authenticator: POST api/user/createToken
 activate Authenticator
 Authenticator -> Authenticator : generateToken(UserID)
 Authenticator --> Proxy : 201 Created
 deactivate Authenticator
-Proxy --> AccountManager : 201 Created
-AccountManager -> NotificationManager : send(confirmEmail)
+Proxy --> Presentation : 201 Created
+deactivate Proxy
+Presentation -> Presentation : saveToken(token)
+Presentation -> Proxy : POST api/notify/private/sendEmail
+activate Proxy
+Proxy -> Authenticator : GET api/auth/vaidate
+activate Authenticator
+Authenticator -> Authenticator : validateToken()
+Authenticator --> Proxy : 200 OK
+deactivate Authenticator
+Proxy -> NotificationManager : POST api/notify/private/sendEmail
 activate NotificationManager
-NotificationManager ->> EmailServiceAPI : sendEmail(verificationEmail)
-activate EmailServiceAPI
-EmailServiceAPI --> NotificationManager : emailSent
-deactivate EmailServiceAPI
-NotificationManager --> AccountManager : emailSent
+NotificationManager --> Proxy : 200 OK
 deactivate NotificationManager
-AccountManager --> APIController : successMessage
-deactivate AccountManager
-APIController --> Proxy : 201 Created
-deactivate APIController
 Proxy --> Presentation : 201 Created
 deactivate Proxy
 Presentation --> User : emailSentMessage
@@ -94,6 +101,7 @@ deactivate AccountManager
 APIController --> Proxy : 200 OK
 deactivate APIController
 Proxy --> EmailClient :  200 OK
+deactivate Proxy
 EmailClient --> User : emailConfirmedMessage
 deactivate EmailClient
 deactivate Proxy
