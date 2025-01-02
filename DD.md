@@ -3,29 +3,39 @@
 ## 1 Introduction
 
 ### 1.1 Purpose
+The purpose of the Student\&Company (S\&C) platform is to enable students to enroll into internships that will enhance their education and strengthen their CVs while letting companies publish internship offers and select the best candidates thought interviews. More over, S\&C allow students' universities to monitor each of their students' progress and intervene if needed.
+The platform support and aid the users throughout the entire process by provide suggestion to the uploaded CVs and internship offers, automatically matches students and companies thanks to a proprietary algorithm, manage the distribution and collection of interviews and provides a space for filing and resolving complaints. The reader can find more information about the platform in the RASD document. 
+In the remaining part of this chapter we will present a summary of the technical choice made for the creation of the platform and different bullet point lists and table including the Goals that we are trying to accomplish with this software and the Definition, Acronyms, Abbreviations used in this document.
 
-The purpose of the Student&Company (S\&C) platform is to enable students to enroll into internships that will enhance their education and strengthen their CVs while letting companies publish internship offers and select the best candidates thought interviews. More over S\&C allow students' universities to monitor each of their students' progress and intervene if needed.
-The platform support and aid the users throughout the entire process by provide suggestion to the uploaded CVs and internship offers, automatically matches students and companies thanks to a proprietary algorithm, manage the distribution and collection of interviews and provides a space for filing and resolving complaints. The reader can find more information about the platform in the RASD document. <!-- non so se lasciare questa ultima frase, feedback? -->
-In the remaining part of this chapter we will present a summary of the technical choice made for the creation of the platform, along with different tables including the Goals we are try to fullfil with this software and the Definition, Acronyms, Abbreviations used in this document.
+#### 1.1.1 Goals
+
+| **Goal ID** | **Goal Description** |
+|-------------|-----------------------|
+| **G1**      | Companies would like to advertise the internships they offer. |
+| **G2**      | Students would like to autonomously candidate for available internships. |
+| **G3**      | Students would like to be matched with internships they might be interested in. |
+| **G4**      | Companies would like to perform interviews with suitable students. |
+| **G5**      | Students and companies would like to complain, communicate problems, and provide information about an ongoing internship. |
+| **G6**      | Students and companies would like to be provided with suggestions about how to improve their submission. |
+| **G7**      | Universities would like to handle complaints about ongoing internships. |
+| **G8**      | Students would like to choose which internship to attend from among those for which they passed the interview. |
+| **G9**      | Companies would like to select students for the internship position among those who passed the interview. |
 
 ### 1.2 Scope
-
 This document, Design Document (DD), will provide a detailed description of the architecture of the S\&C platform from a more technical point of view. In particular it will provide a thorough description of the software with a special emphasis on its interfaces, system module, and architectural framework.
 This document will also discuss the implementation, integration and testing plan describing the tools and methodologies that will be used during the development of the platform.
 <!-- (Sam 1h)-->
-#### 1.2.1 Product domain
 
-#### 1.2.2 Main architectural choices
+#### 1.2.1 Main architectural choices
 
-The chosen architectural style is a microservices architecture as it allows a scalable and modular approach to the development. The three main services are Presentation service, Application service and Authenticator service that are responsible for the user interface, the business logic and the authentication respectively. Also different database services to manage services' data are included. Autonomous services for DBs is a good prerequisite for data modularity and scalability. The Presentation service will provide the client with a single page application (SPA) for a smoother user experience. The Application service contains modules that provide different platform specific logic services that could be exported into new independent services in the future. This set up it is also a good starting point to manage reliability and fault tolerance, as each service can be easily scaled vertically or horizontally through the use of some cloud orchestration tools during deployment. ??? More to add. This should be a sort of summary
+The chosen architectural style is a "*microservices architecture*" as it allows a scalable and modular approach to the development. The three main services are Presentation service, Application service and Authenticator service that are responsible for the user interface, the business logic and the authentication respectively. Different database services to manage services' data are included because autonomous services for DBs is a good prerequisite for data modularity and scalability. The Presentation service will provide the client with a single page application (SPA) for a smoother user experience. The Application service contains modules that provide different platform specific logic services that could be exported into new independent services in the future. This set up it is also a good starting point to manage reliability and fault tolerance, as each service can be easily scaled vertically or horizontally through the use of some cloud orchestration tools during deployment. 
 <!-- 
 The architecture of the platform adopt a 3-tier architecture where the front-end is implemented using a web application that communicates with the back-end through a RESTful API.
 The back-end, implemented using the Spring framework, will be responsible for the business logic of the platform, as well as the communication to the database, as it will be described in the following chapters while the front-end, following a lightweight architecture, is responsible only for the presentation of the data and the interaction with the user and will be implemented using the React framework. -->
 
 ### 1.3 Definitions, Acronyms, Abbreviations
-
+This section provides definitions and explanations of the terms, acronyms, and abbreviations used throughout the document, making it easier for readers to understand and reference them.
 #### 1.3.1 Definitions
-
 The definition shared between this document and the RASD document are reported in the following table.
 
 | **Term**                    | **Definition**                                                                                           |
@@ -59,6 +69,7 @@ The definition specific to this document are reported in the following table.
 | **Back-end**                | The part of the software that is responsible for the business logic of the platform and the storage and retrieval of data. It is composed by the servers and the database. It is what the user does not see. |
 | **RESTful API**             | A set of rules that software engineer follow when creating an API that allows different software to communicate with each other. |
 | **3-tier architecture**     | A software architecture that divides the software into three different layers: presentation layer that contains the logic for displaying data and retrieve input from the user, application layer where the main logic of the software is present, and data layer that contains the data and the logic to access it. |
+| **Proxy**                   | A server that acts as an intermediary for requests from clients seeking resources from other servers. It can redirect information based on different criteria. |
 
 ### 1.3.2 Acronyms
 
