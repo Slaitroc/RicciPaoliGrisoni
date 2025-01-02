@@ -1,0 +1,101 @@
+
+@startuml Registration
+skinparam sequenceMessageAlign center
+actor       User
+actor       EmailClient
+participant Presentation
+entity      Proxy
+participant Authenticator
+participant APIController
+participant AccountManager
+participant PlatformEntityManager
+participant NotificationManager
+database    PlatformDBMS
+entity      EmailServiceAPI
+activate User
+activate Presentation
+User -> Presentation : clickSignUpButton()
+Presentation -> Proxy : POST api/user/register
+activate Proxy
+activate User
+
+Proxy -> APIController : POST api/user/register
+activate APIController
+APIController -> AccountManager : createUser(UserData, UserType)
+activate AccountManager
+AccountManager -> PlatformEntityManager : buildAndExecuteQuery(Query, Class)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : executeQuery(Query)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : queryResult
+deactivate PlatformDBMS
+PlatformEntityManager --> AccountManager : queryResult
+deactivate PlatformEntityManager
+alt failure: accountFound
+AccountManager --> APIController : failureMessage
+APIController --> Proxy : 409 Conflict
+Proxy --> Presentation : 409 Conflict
+Presentation --> User !! : displayErrorMessage()
+end
+AccountManager -> PlatformEntityManager : insert(User)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : insert(User, TmpFlag = true)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : UserID
+deactivate PlatformDBMS
+PlatformEntityManager --> AccountManager : UserID
+deactivate PlatformEntityManager
+AccountManager -> Proxy : POST api/user/createToken
+Proxy -> Authenticator : POST api/user/createToken
+activate Authenticator
+Authenticator -> Authenticator : generateToken(UserID)
+Authenticator --> Proxy : 201 Created
+deactivate Authenticator
+Proxy --> AccountManager : 201 Created
+AccountManager -> NotificationManager : send(confirmEmail)
+activate NotificationManager
+NotificationManager ->> EmailServiceAPI : sendEmail(verificationEmail)
+activate EmailServiceAPI
+EmailServiceAPI --> NotificationManager : emailSent
+deactivate EmailServiceAPI
+NotificationManager --> AccountManager : emailSent
+deactivate NotificationManager
+AccountManager --> APIController : successMessage
+deactivate AccountManager
+APIController --> Proxy : 201 Created
+deactivate APIController
+Proxy --> Presentation : 201 Created
+deactivate Proxy
+Presentation --> User : emailSentMessage
+deactivate Presentation
+User -> EmailClient : clickEmailLink(token)
+activate EmailClient
+EmailClient -> Proxy : POST api/user/confirmEmail
+activate Proxy
+Proxy -> Authenticator : GET api/user/confirmEmail
+activate Authenticator
+Authenticator --> Proxy : UserID
+deactivate Authenticator
+Proxy -> APIController : POST api/user/confirmEmail
+activate APIController
+APIController -> AccountManager : confirmEmail(UserID)
+deactivate Authenticator
+activate AccountManager
+AccountManager -> PlatformEntityManager : valid(UserID) 
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : insert(UserID, TmpFlag = false)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : insertSuccess
+deactivate PlatformDBMS
+PlatformEntityManager --> AccountManager : insertSuccess
+deactivate PlatformEntityManager
+AccountManager --> APIController : successMessage
+deactivate AccountManager
+APIController --> Proxy : 200 OK
+deactivate APIController
+Proxy --> EmailClient :  200 OK
+EmailClient --> User : emailConfirmedMessage
+deactivate EmailClient
+deactivate Proxy
+deactivate User 
+@enduml
