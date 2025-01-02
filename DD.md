@@ -106,6 +106,17 @@ The abbreviations specific to this document are reported in the following table.
 - **RASD document**: The Requirements Analysis & Specification Document of the S&C platform.
 <!-- (Sam 1h)-->
 
+### 1.6 Document structure
+This document is structured as follows:
+- Section 1: *Introduction*: P a short summary of the RASD, the purpose, definition and acronyms used in this document and a non-technical description of the technical choices made for the platform's implementation.
+- Section 2: *Architectural Design*: presents a top-down description of the S&C architectural design starting from a high-level description of groups of components and their interactions, explaining the different areas of the platform and the design decisions made to realize them. \\
+Following this, it offers a more detailed view of these groups, describing the components they consist of, their interfaces, and the architectural styles and patterns applied. \\
+Finally, we present a deployment view of a full system deployment with redundant service and a different runtime views represented through sequence diagrams.
+- Section 3: *User Interface Design*: Provides images and description of the user interface design of the platform. With respect to the RASD, this section will provide a more technical description of the user interface design.ù
+- Section 4: *Requirements Traceability*: Contains a traceability matrix linking the requirements defined previously in the RASD to the components of the system that will implement them.
+- Section 5: *Implementation, Integration and Test Plan*: Details the tools and methodologies that will be used during the development of the platform to test the correctness and ensure the quality of the software.
+- Section 6: *Effort Spent*: Contains a table with the hours spent by each member of the group to develop this document. 
+<!-- (Sam 0.5h)-->
 ## 2 Architectural Design
 
 The purpose of this chapter is to present a top-down description of the S&C architectural design, covering and justifying every design decision.
