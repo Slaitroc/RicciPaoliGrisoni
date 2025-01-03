@@ -1,0 +1,53 @@
+@startuml StudentSubmitInterview
+skinparam sequenceMessageAlign center
+actor       Company
+participant Presentation
+entity      Proxy
+participant Authenticator
+participant APIController
+participant InterviewsManager
+participant PlatformEntityManager
+participant NotificationManager 
+database    PlatformDBMS
+
+activate Company
+Company -> Presentation : clickSendInterview()
+activate Presentation
+Presentation -> Proxy : POST api/interviews/private/sendInterview/{InterviewID}/full?<params>
+activate Proxy
+Proxy -> Authenticator : GET api/auth/validate
+activate Authenticator
+Authenticator -> Authenticator : validateToken()
+Authenticator --> Proxy : 200 OK : UserID
+deactivate Authenticator
+Proxy -> APIController : POST api/interviews/private/sendInterview/{InterviewID}/full?<params>
+activate APIController
+APIController -> APIController : verifyCallParameters()
+APIController -> InterviewsManager : submitInterview(InterviewID, Params, UserID)
+activate InterviewsManager
+InterviewsManager -> PlatformEntityManager : submitInterview(InterviewID, Params, UserID)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : result
+deactivate PlatformDBMS
+PlatformEntityManager --> InterviewsManager : result
+deactivate PlatformEntityManager
+InterviewsManager --> APIController : result(InterviewID, CompanyID, StudentID, InterviewStatus)
+deactivate InterviewsManager
+APIController --> NotificationManager : notifyUser(InterviewID, CompanyID, StudentID, InterviewStatus)
+activate NotificationManager
+NotificationManager -> NotificationManager : sendInterviewNotification\n(InterviewID, CompanyID, StudentID, InterviewStatus)
+NotificationManager --> APIController : result
+deactivate NotificationManager
+APIController --> Proxy : 200 OK
+deactivate APIController
+Proxy --> Presentation : 200 OK
+deactivate Proxy
+Presentation --> Company : displayInterviewSendedMsg()
+deactivate Presentation
+
+
+
+
+
