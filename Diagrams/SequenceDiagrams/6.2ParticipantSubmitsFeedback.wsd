@@ -1,0 +1,32 @@
+@startuml SubmitFeedback
+skinparam sequenceMessageAlign center
+actor       Participant
+participant  Presentation
+entity      Proxy
+participant APIController
+participant FeedbackMechanism
+participant PlatformEntityManager
+participant NotificationManager
+database    PlatformDBMS
+
+activate Participant
+activate Presentation
+Participant -> Presentation  : pressSubmitFeedback()
+Presentation -> Proxy ++ : POST api/feedback/private/{FeedbackID}/submit
+Proxy -> Proxy : <color:purple> Authentication()
+Proxy -> APIController ++ : POST api/feedback/private/{FeedbackID}/submit
+APIController -> FeedbackMechanism ++ : submitFeedback(FeedbackID, UserID)
+FeedbackMechanism -> PlatformEntityManager ++ : retreiveUserInfo(UserID)
+PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, Class)
+PlatformDBMS --> PlatformEntityManager -- : UserInfo
+PlatformEntityManager --> FeedbackMechanism -- : UserInfo
+FeedbackMechanism -> FeedbackMechanism : updateRecommendationParameters()
+FeedbackMechanism -> PlatformEntityManager ++ : updateRecommendationParameters(Parameters)
+PlatformEntityManager -> PlatformDBMS ++ : update(Parameters)
+PlatformDBMS --> PlatformEntityManager -- : Update Success
+PlatformEntityManager --> FeedbackMechanism -- : Update Success
+FeedbackMechanism --> APIController -- : successMessage
+APIController --> Proxy -- : 200 OK : Feedback Submitted
+Proxy --> Presentation -- : 200 OK : Feedback Submitted
+Presentation --> Participant -- : displaySuccessMessage()
+@enduml
