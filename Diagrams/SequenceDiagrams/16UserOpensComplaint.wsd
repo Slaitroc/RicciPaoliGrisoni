@@ -7,7 +7,6 @@ participant Authenticator
 participant APIController
 participant CommunicationManager
 participant PlatformEntityManager
-participant NotificationManager
 database    PlatformDBMS
 
 activate User
@@ -22,9 +21,9 @@ Authenticator --> Proxy : 200 OK
 deactivate Authenticator
 Proxy -> APIController : GET api/comm/private/communications
 activate APIController
-APIController -> CommunicationManager : getComplaints()
+APIController -> CommunicationManager : getCommunications(UserID)
 activate CommunicationManager
-CommunicationManager -> PlatformEntityManager : getComplaints()
+CommunicationManager -> PlatformEntityManager : getCommunications(UserID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
@@ -32,13 +31,13 @@ PlatformDBMS --> PlatformEntityManager : result
 deactivate PlatformDBMS
 PlatformEntityManager --> CommunicationManager : result
 deactivate PlatformEntityManager
-CommunicationManager --> APIController : Complaints
+CommunicationManager --> APIController : Communications
 deactivate CommunicationManager
-APIController --> Proxy : 200 OK : Complaints
+APIController --> Proxy : 200 OK : Communications
 deactivate APIController
-Proxy --> Presentation : 200 OK : Complaints
+Proxy --> Presentation : 200 OK : Communications
 deactivate Proxy
-Presentation --> User : displayComplaints()
+Presentation --> User : displayCommunications()
 deactivate Presentation
 User -> Presentation : clickComplaint(ComplaintID)
 activate Presentation
