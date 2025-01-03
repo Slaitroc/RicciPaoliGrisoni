@@ -1,0 +1,41 @@
+@startuml Company Accepts Spontaneous Application
+skinparam sequenceMessageAlign center
+
+actor       Company
+participant Presentation
+entity      Proxy
+participant APIController
+participant Someone
+participant NotificationManager
+participant InterviewManager
+participant PlatformEntityManager
+database    PlatformDBMS
+
+activate Company
+activate Presentation
+Company -> Presentation : clickAcceptSpontaneousApplication()
+Presentation -> Proxy ++ : POST api/comm/private/application\n/{ApplicationID}/accept
+Proxy -> Proxy : <color:purple> Authentication()
+Proxy -> APIController ++ : POST api/comm/private/application\n/{ApplicationID}/accept
+APIController -> Someone ++ : acceptApplication(ApplicationID)
+Someone -> PlatformEntityManager ++ : updateApplicationStatus(ApplicationID)
+PlatformEntityManager -> PlatformDBMS ++ : update(ApplicationID)
+PlatformDBMS --> PlatformEntityManager -- : StudentID
+PlatformEntityManager --> Someone -- : StudentID
+Someone --> APIController -- : StudentID
+
+APIController -> NotificationManager ++ : notify(StudentID, AcceptedApplicationTag)
+NotificationManager -> NotificationManager : notify(User)
+NotificationManager --> APIController -- : notificationSent
+APIController -> InterviewManager ++ : createInterview(StudentID, CompanyID)
+InterviewManager -> PlatformEntityManager ++ : createInterview(StudentID, CompanyID)
+PlatformEntityManager -> PlatformDBMS ++ : insert(StudentID, CompanyID)
+PlatformDBMS --> PlatformEntityManager -- : Insert Success
+PlatformEntityManager --> InterviewManager -- : Insert Success
+InterviewManager --> APIController -- : Interview Created
+APIController --> Proxy : 200 OK : Application Accepted
+deactivate APIController
+Proxy --> Presentation : 200 OK : Application Accepted
+deactivate Proxy
+Presentation --> Company : displaySuccessMessage()
+@enduml
