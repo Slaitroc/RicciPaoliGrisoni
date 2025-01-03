@@ -1,4 +1,4 @@
-@startuml StudentSubmitInterview
+@startuml CompanySaveInterview
 skinparam sequenceMessageAlign center
 actor       Company
 participant Presentation

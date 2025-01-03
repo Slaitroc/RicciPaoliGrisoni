@@ -1,4 +1,4 @@
-@startuml StudentSubmitInterview
+@startuml CompanySubmitsInterview
 skinparam sequenceMessageAlign center
 actor       Company
 participant Presentation
@@ -23,6 +23,7 @@ deactivate Authenticator
 Proxy -> APIController : POST api/interviews/private/sendInterview/{InterviewID}/full?<params>
 activate APIController
 APIController -> APIController : verifyCallParameters()
+'need I to insert the alt box for the failed verification?
 APIController -> InterviewsManager : submitInterview(InterviewID, Params, UserID)
 activate InterviewsManager
 InterviewsManager -> PlatformEntityManager : submitInterview(InterviewID, Params, UserID)
