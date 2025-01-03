@@ -1,0 +1,55 @@
+@startuml UserOpensComplaint
+skinparam sequenceMessageAlign center
+actor       Participant
+participant  Presentation
+entity      Proxy
+participant Authenticator
+participant APIController
+participant CommunicationManager
+participant PlatformEntityManager
+participant NotificationManager
+database    PlatformDBMS
+
+' I'm assuming the user has already typed the text of the complaint
+' and the api call contains the text of the complaint
+
+activate Participant
+Participant -> Presentation : clickCreateNewComplaint()
+activate Presentation
+Presentation -> Proxy : POST api/comm/private/create?isComplaint=true
+activate Proxy
+Proxy -> Authenticator : GET api/auth/validate
+activate Authenticator
+Authenticator -> Authenticator : validateToken()
+Authenticator --> Proxy : 200 OK
+deactivate Authenticator
+Proxy -> APIController : POST api/comm/private/create?isComplaint=true
+activate APIController
+APIController -> CommunicationManager : createCommunication(isComplaint, UserID, Text)
+activate CommunicationManager
+CommunicationManager -> PlatformEntityManager : insert(Communication, UserID)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : insert(Communication, UserID)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : success
+deactivate PlatformDBMS
+PlatformEntityManager --> CommunicationManager : success
+deactivate PlatformEntityManager
+CommunicationManager --> APIController : Communication
+note right of APIController : UserIDs obtained from the Communication Obj
+deactivate CommunicationManager
+APIController -> NotificationManager : notifyUser(Communication, UserIDs)
+activate NotificationManager
+NotificationManager -> NotificationManager : sendNotification(UserIDs)
+NotificationManager --> APIController : success
+deactivate NotificationManager
+deactivate CommunicationManager
+APIController --> Proxy : 200 OK
+deactivate APIController
+Proxy --> Presentation : 200 OK
+deactivate Proxy
+Presentation --> Participant : displayNewComplaints()
+deactivate Presentation
+
+
+

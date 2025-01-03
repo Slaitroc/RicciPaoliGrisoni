@@ -10,36 +10,7 @@ participant PlatformEntityManager
 database    PlatformDBMS
 
 activate User
-User -> Presentation : clickDashboardCommunicationPage()
-activate Presentation
-Presentation -> Proxy : GET api/comm/private/communications
-activate Proxy
-Proxy -> Authenticator : GET api/auth/validate
-activate Authenticator
-Authenticator -> Authenticator : validateToken()
-Authenticator --> Proxy : 200 OK
-deactivate Authenticator
-Proxy -> APIController : GET api/comm/private/communications
-activate APIController
-APIController -> CommunicationManager : getCommunications(UserID)
-activate CommunicationManager
-CommunicationManager -> PlatformEntityManager : getCommunications(UserID)
-activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
-activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : result
-deactivate PlatformDBMS
-PlatformEntityManager --> CommunicationManager : result
-deactivate PlatformEntityManager
-CommunicationManager --> APIController : Communications
-deactivate CommunicationManager
-APIController --> Proxy : 200 OK : Communications
-deactivate APIController
-Proxy --> Presentation : 200 OK : Communications
-deactivate Proxy
-Presentation --> User : displayCommunications()
-deactivate Presentation
-User -> Presentation : clickComplaint(ComplaintID)
+User -> Presentation : clickComplaint(CommunicationID)
 activate Presentation
 Presentation -> Proxy : GET api/comm/private/communications/{CommunicationID}/full?<params>
 activate Proxy
@@ -55,13 +26,26 @@ alt Wrong API Call Parameters
 APIController --> Proxy : 400 Bad Request : Error
 Proxy --> Presentation : 400 Bad Request : Error
 Presentation --> User : displayErrorMessage()
-end 
-APIController -> CommunicationManager : getCommunication(CommunicationID, Params)
+end
+note right of APIController : Alternatives to let the Presentation easily handle different data 
+alt <param> to only get the communication type
+APIController -> CommunicationManager : getType(CommunicationID)
 activate CommunicationManager
-CommunicationManager -> PlatformEntityManager : getCommunication(CommunicationID, Params)
+CommunicationManager -> PlatformEntityManager : getType(CommunicationID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
+end
+alt <param> to only get the communication messages
+APIController -> CommunicationManager : getMessages(CommunicationID)
+CommunicationManager -> PlatformEntityManager : getMessages(CommunicationID)
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+end
+alt <param> to get all communication data
+APIController -> CommunicationManager : getCommunication(CommunicationID)
+CommunicationManager -> PlatformEntityManager : getCommunication(CommunicationID)
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+end
 PlatformDBMS --> PlatformEntityManager : result
 deactivate PlatformDBMS
 PlatformEntityManager --> CommunicationManager : result
@@ -72,7 +56,7 @@ APIController --> Proxy : 200 OK : Result
 deactivate APIController
 Proxy --> Presentation : 200 OK : Result
 deactivate Proxy
-Presentation --> User : displayComplaint(Complaint)
+Presentation --> User : displayResult(Result)
 deactivate Presentation
 
 

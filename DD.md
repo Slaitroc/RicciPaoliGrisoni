@@ -193,6 +193,11 @@ The system will be hosted on the cloud and its container based nature allows to 
 ![NotificationComponent](./Diagrams/DD/Deployment.png)
  
 ### 2.4 Runtime view
+
+#### Note for Runtime view
+
+- The authenticator creates, updates, validates the token. A unique userID is obtained through the token after Authenticator validation.
+- Notifications can be sent only by the user 
  
 ### 2.5 Component interfaces (maybe before Runtime View)
  
