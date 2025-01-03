@@ -1,0 +1,51 @@
+@startuml AcceptRecommendation
+skinparam sequenceMessageAlign center
+actor       Participant
+participant  Presentation
+entity      Proxy
+participant APIController
+participant RecommendationManager
+participant InterviewManager
+participant PlatformEntityManager
+participant NotificationManager
+database    PlatformDBMS
+
+activate Participant
+Participant -> Presentation : pressAcceptRecommendation()
+activate Presentation
+Presentation -> Proxy : POST api/recommendations/private/{RecommendationID}/accept
+activate Proxy
+Proxy -> Proxy : <color:purple> Authentication()
+
+Proxy -> APIController ++ : POST api/recommendations/private/{RecommendationID}/accept
+APIController -> RecommendationManager ++ : acceptRecommendation(RecommendationID, UserID1)
+RecommendationManager -> PlatformEntityManager ++ : updateRecommendationStatus(RecommendationID, UserID1)
+PlatformEntityManager -> PlatformDBMS ++ : update(RecommendationID, UserID1)
+PlatformDBMS --> PlatformEntityManager -- : recommendationDatas
+PlatformEntityManager --> RecommendationManager -- : recommendationDatas
+RecommendationManager --> APIController -- : recommendationDatas
+
+alt Other Party Already Accepted
+    APIController -> NotificationManager ++ : notify(UserID2, MatchFoundTag)
+    NotificationManager -> NotificationManager : notify(User)
+    NotificationManager --> APIController -- : notificationSent
+    APIController -> InterviewManager ++ : createInterview(UserID1, UserID2)
+    InterviewManager -> PlatformEntityManager ++ : createInterview(UserID1, UserID2)
+    PlatformEntityManager -> PlatformDBMS ++ : insert(UserID1, UserID2)
+    PlatformDBMS --> PlatformEntityManager -- : Insert Success
+    PlatformEntityManager --> InterviewManager -- : Insert Success
+    InterviewManager --> APIController -- : Interview Created
+end
+alt FeedbackMechanism triggered
+    APIController --> Proxy : 200 OK : askFeedback
+    Proxy --> Presentation : 200 OK : askFeedback
+    Presentation --> Participant : displayFeedbackForm()
+end
+
+APIController --> Proxy : 200 OK : Recommendation Accepted
+deactivate APIController
+Proxy --> Presentation : 200 OK : Recommendation Accepted
+deactivate Proxy
+Presentation --> Participant : displaySuccessMessage()
+
+@enduml
