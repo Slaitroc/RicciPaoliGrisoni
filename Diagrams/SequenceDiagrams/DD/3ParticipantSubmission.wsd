@@ -3,7 +3,6 @@ skinparam sequenceMessageAlign center
 actor       Participant
 participant Presentation
 entity      Proxy
-participant Authenticator
 participant APIController
 participant SubmissionManager
 participant SuggestionMechanism
@@ -14,28 +13,14 @@ participant NotificationManager
 database    PlatformDBMS
 
 activate Participant
-Participant -> Presentation : clickSubmitButton()
 activate Presentation
-Presentation -> Proxy : POST api/comm/private/{SubmissionType}/full?<param>
-activate Proxy
-
-Proxy -> Authenticator : GET api/auth/validateToken
-activate Authenticator
-Authenticator -> Authenticator : validateToken()
-Authenticator --> Proxy : 200 OK : UserID
-deactivate Authenticator
-
-Proxy -> APIController ++ : POST api/comm/private/{SubmissionType}/full?<param>
-APIController -> APIController : verifyCallParameters()
+Participant -> Presentation : clickSubmitButton()
+Presentation -> Proxy ++ : POST api/comm/private/{SubmissionType}
+Proxy -> Proxy  : <color:purple> Authentication()
+Proxy -> APIController ++ : POST api/comm/private/{SubmissionType}
 APIController -> SubmissionManager : handleSubmission(UserID, SubmissionData)
 activate SubmissionManager
 SubmissionManager -> SubmissionManager : check(submission)
-'alt failure: missingData
-'    SubmissionManager --> APIController : failureMessage
-'    APIController --> Proxy : 412 Precondition Failed
-'    Proxy --> Presentation : 412 Precondition Failed
-'    Presentation --> Participant : showMissingDataMessage())
-'end
 SubmissionManager -> PlatformEntityManager : update(UserID, Submission)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : insertSubmission(SubmissionData)
@@ -47,10 +32,10 @@ deactivate PlatformEntityManager
 SubmissionManager --> APIController : successMessage
 deactivate SubmissionManager
 APIController -> SuggestionMechanism ++ : createSuggestions(UserID, SubmissionData)
-SuggestionMechanism -> PlatformEntityManager ++ : retriveUsefulSubmissions(UserID, param)
+SuggestionMechanism -> PlatformEntityManager ++ : retriveRecommendationParameters()
 PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, class)
-PlatformDBMS --> PlatformEntityManager -- : queryResults
-PlatformEntityManager --> SuggestionMechanism -- : queryResult
+PlatformDBMS --> PlatformEntityManager -- : RecommendationParameters
+PlatformEntityManager --> SuggestionMechanism -- : RecommendationParameters
 SuggestionMechanism -> SuggestionMechanism : generateSuggestions()
 SuggestionMechanism -> PlatformEntityManager ++ : insertSuggestion(UserID, Suggestion)
 PlatformEntityManager -> PlatformDBMS ++ : insert(UserID, Suggestion)
@@ -63,17 +48,17 @@ RecommendationProcess -> UserManager ++ : retreiveUsers(Parameters)
 UserManager -> PlatformEntityManager ++ : retreiveUsers(Parameters)
 PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, class)
 PlatformDBMS --> PlatformEntityManager -- : queryResult
-PlatformEntityManager --> UserManager -- : userList
-UserManager --> RecommendationProcess -- : userList
-RecommendationProcess -> PlatformEntityManager ++ : insertRecommendations(User, userList)
-PlatformEntityManager -> PlatformDBMS ++ : insert(userList, Recommendations)
+PlatformEntityManager --> UserManager -- : UserList
+UserManager --> RecommendationProcess -- : UserList
+RecommendationProcess -> PlatformEntityManager ++ : insertRecommendations(User, UserList)
+PlatformEntityManager -> PlatformDBMS ++ : insert(UserList, Recommendations)
 PlatformDBMS --> PlatformEntityManager -- : queryResult
 PlatformEntityManager -->  RecommendationProcess -- : queryResult
 RecommendationProcess --> APIController -- : successMessage
-APIController -> UserManager ++ : notifyUsers(userList, Recommendation)
-UserManager ->> NotificationManager ++ : notifyRecommendation(userList)
+APIController -> UserManager ++ : notifyUsers(UserList, NewRecommendationTag)
+UserManager ->> NotificationManager ++ : notifyRecommendation(UserList)
 loop for every user
-    NotificationManager -> NotificationManager : notify(user)
+    NotificationManager -> NotificationManager : notify(User)
 end
 NotificationManager --> UserManager -- : result
 UserManager --> APIController -- : result
