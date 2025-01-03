@@ -3,42 +3,38 @@ skinparam sequenceMessageAlign center
 actor       User
 participant  Presentation
 entity      Proxy
-participant Authenticator
 participant APIController
 participant SubmissionManager
 participant PlatformEntityManager
 database    PlatformDBMS
 
 activate User
-User -> Presentation : clickViewCompanyInternships(CompanyID)
+User -> Presentation : clickViewStudentCV()
 activate Presentation
 Presentation -> Proxy : GET api/comm/private/cv/full?<param>
 activate Proxy
-Proxy -> Authenticator : GET api/auth/validate
-activate Authenticator
-Authenticator -> Authenticator : validateToken()
-Authenticator --> Proxy : 200 OK
-deactivate Authenticator
+Proxy -> Proxy  : <color:purple> Authentication()
+
 Proxy -> APIController : GET api/comm/private/cv/full?<param>
 activate APIController
 APIController -> APIController : verifyCallParameters()
-APIController -> SubmissionManager : getInternshipsByCompany(CompanyID)
+APIController -> SubmissionManager : getCVByStudent(StudentID)
 activate SubmissionManager
-SubmissionManager -> PlatformEntityManager : getInternshipsByCompany(CompanyID)
+SubmissionManager -> PlatformEntityManager : getCVByStudent(StudentID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : List of Internships
+PlatformDBMS --> PlatformEntityManager : studentCV
 deactivate PlatformDBMS
-PlatformEntityManager --> SubmissionManager : List of Internships
+PlatformEntityManager --> SubmissionManager : studentCV
 deactivate PlatformEntityManager
-SubmissionManager --> APIController : List of Internships
+SubmissionManager --> APIController : studentCV
 deactivate SubmissionManager
-APIController --> Proxy : 200 OK : List of Internships
+APIController --> Proxy : 200 OK : studentCV
 deactivate APIController
-Proxy --> Presentation : 200 OK : List of Internships
+Proxy --> Presentation : 200 OK : studentCV
 deactivate Proxy
-Presentation --> User : displayInternships()
+Presentation --> User : displayCV()
 deactivate Presentation
 deactivate User
 @enduml
