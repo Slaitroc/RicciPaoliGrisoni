@@ -1,0 +1,83 @@
+@startuml AcceptRecommendation
+skinparam sequenceMessageAlign center
+actor       Participant
+participant  Presentation
+entity      Proxy
+participant Authenticator
+participant APIController
+participant RecommendationManager
+participant FeedbackMechanism
+participant InterviewManager
+participant PlatformEntityManager
+participant NotificationManager
+database    PlatformDBMS
+actor OtherParticipant
+
+activate Participant
+Participant -> Presentation : pressAcceptRecommendation(RecommendationID)
+activate Presentation
+Presentation -> Proxy : POST api/recommendation/{RecommendationID}/accept
+activate Proxy
+Proxy -> Authenticator : GET api/auth/validate
+activate Authenticator
+Authenticator -> Authenticator : validateToken()
+Authenticator --> Proxy : 200 OK
+deactivate Authenticator
+
+Proxy -> APIController : POST api/recommendation/{RecommendationID}/accept
+activate APIController
+APIController -> RecommendationManager : acceptRecommendation(RecommendationID, ParticipantID)
+activate RecommendationManager
+RecommendationManager -> PlatformEntityManager : updateRecommendationStatus(RecommendationID, acceptedByParticipant)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(UpdateQuery, Recommendation)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : Update Success
+deactivate PlatformDBMS
+PlatformEntityManager --> RecommendationManager : Update Success
+deactivate PlatformEntityManager
+
+alt Other Party Already Accepted
+    RecommendationManager -> NotificationManager : notify(OtherParticipant, RecommendationAccepted)
+    activate NotificationManager
+    NotificationManager --> OtherParticipant : Recommendation Accepted Notification
+    deactivate NotificationManager
+    RecommendationManager -> InterviewManager : createInterview(RecommendationID)
+    activate InterviewManager
+    InterviewManager -> PlatformEntityManager : saveInterview(RecommendationID)
+    activate PlatformEntityManager
+    PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(InsertQuery, Interview)
+    activate PlatformDBMS
+    PlatformDBMS --> PlatformEntityManager : Insert Success
+    deactivate PlatformDBMS
+    PlatformEntityManager --> InterviewManager : Insert Success
+    deactivate PlatformEntityManager
+    InterviewManager --> RecommendationManager : Interview Created
+    deactivate InterviewManager
+else Only One Party Accepted
+    RecommendationManager --> APIController : Partial Acceptance Registered
+end
+RecommendationManager --> APIController : Success
+deactivate RecommendationManager
+
+APIController -> FeedbackMechanism : processFeedback(ParticipantID, RecommendationID)
+activate FeedbackMechanism
+FeedbackMechanism -> PlatformEntityManager : saveFeedback(ParticipantID, Feedback)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(InsertQuery, Feedback)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : Insert Success
+deactivate PlatformDBMS
+PlatformEntityManager --> FeedbackMechanism : Insert Success
+deactivate PlatformEntityManager
+FeedbackMechanism --> APIController : Feedback Processed
+deactivate FeedbackMechanism
+
+APIController --> Proxy : 200 OK : Recommendation Accepted
+deactivate APIController
+Proxy --> Presentation : 200 OK : Recommendation Accepted
+deactivate Proxy
+Presentation --> Participant : displaySuccessMessage()
+deactivate Presentation
+deactivate Participant
+@enduml

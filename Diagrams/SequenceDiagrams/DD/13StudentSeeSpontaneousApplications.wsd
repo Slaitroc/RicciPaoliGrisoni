@@ -1,0 +1,54 @@
+@startuml 13StudentSeeSpontaneousApplications
+skinparam sequenceMessageAlign center
+actor       Student
+participant Presentation
+entity      Proxy
+participant Authenticator
+participant APIController
+participant SubmissionsManager
+participant UserManager
+participant PlatformEntityManager
+database    PlatformDBMS
+
+activate Student
+Student -> Presentation : clickDashboardSpontaneousApplicationsPage()
+activate Presentation
+Presentation -> Proxy : GET api/applications/private/getSpontaneousApplications
+activate Proxy
+Proxy -> Authenticator : GET api/auth/validate
+activate Authenticator
+Authenticator -> Authenticator : validateToken()
+Authenticator --> Proxy : 200 OK : UserID
+deactivate Authenticator
+Proxy -> APIController : GET api/applications/private/getSpontaneousApplications
+APIController -> SubmissionsManager : getSpontaneousApplications(UserID)
+activate SubmissionsManager
+SubmissionsManager -> UserManager : verifyStudent(UserID)
+activate UserManager
+UserManager -> PlatformEntityManager : getUser(UserID)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : result
+deactivate PlatformDBMS
+PlatformEntityManager --> UserManager : result
+deactivate PlatformEntityManager
+UserManager --> SubmissionsManager : StudentID
+deactivate UserManager
+SubmissionsManager -> PlatformEntityManager : getSpontaneousApplications(StudentID)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : result
+deactivate PlatformDBMS
+PlatformEntityManager --> SubmissionsManager : result
+deactivate PlatformEntityManager
+SubmissionsManager --> APIController : Applications
+deactivate SubmissionsManager
+APIController --> Proxy : 200 OK : Applications
+deactivate APIController
+Proxy --> Presentation : 200 OK : Applications
+deactivate Proxy
+Presentation --> Student : displaySpontaneousApplications()
+deactivate Presentation
+@enduml
