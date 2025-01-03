@@ -21,20 +21,9 @@ Authenticator -> Authenticator : validateToken()
 Authenticator --> Proxy : 200 OK : UserID
 deactivate Authenticator
 Proxy -> APIController : GET api/applications/private/getSpontaneousApplications
-APIController -> SubmissionsManager : getSpontaneousApplications(UserID)
+activate APIController
+APIController -> SubmissionsManager : getSpontaneousApplications(StudentID)
 activate SubmissionsManager
-SubmissionsManager -> UserManager : verifyStudent(UserID)
-activate UserManager
-UserManager -> PlatformEntityManager : getUser(UserID)
-activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
-activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : result
-deactivate PlatformDBMS
-PlatformEntityManager --> UserManager : result
-deactivate PlatformEntityManager
-UserManager --> SubmissionsManager : StudentID
-deactivate UserManager
 SubmissionsManager -> PlatformEntityManager : getSpontaneousApplications(StudentID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
