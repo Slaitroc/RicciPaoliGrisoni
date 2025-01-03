@@ -3,22 +3,17 @@ skinparam sequenceMessageAlign center
 actor       User
 participant  Presentation
 entity      Proxy
-participant Authenticator
 participant APIController
 participant SubmissionManager
 participant PlatformEntityManager
 database    PlatformDBMS
 
 activate User
-User -> Presentation : clickViewCompanyInternships(CompanyID)
+User -> Presentation : clickViewCompanyInternships()
 activate Presentation
 Presentation -> Proxy : GET api/comm/private/internships/full?<param>
 activate Proxy
-Proxy -> Authenticator : GET api/auth/validate
-activate Authenticator
-Authenticator -> Authenticator : validateToken()
-Authenticator --> Proxy : 200 OK
-deactivate Authenticator
+Proxy -> Proxy  : <color:purple> Authentication()
 Proxy -> APIController : GET api/comm/private/internships/full?<param>
 activate APIController
 APIController -> APIController : verifyCallParameters()
