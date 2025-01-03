@@ -14,9 +14,9 @@ database    PlatformDBMS
 activate User
 activate Presentation
 User -> Presentation : clickSignUpButton()
+activate User
 Presentation -> Proxy : POST api/account/public/register
 activate Proxy
-activate User
 
 Proxy -> APIController : POST api/account/public/register
 activate APIController
@@ -40,24 +40,24 @@ AccountManager -> PlatformEntityManager : insert(User)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : insert(User, TmpFlag = true)
 activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : UserID
+PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
-PlatformEntityManager --> AccountManager : UserID
+PlatformEntityManager --> AccountManager : success
 deactivate PlatformEntityManager
 AccountManager --> APIController : UserID
 deactivate AccountManager
-APIController --> Proxy : 201 Created
+APIController --> Proxy : 201 Created : UserID
 deactivate APIController
-Proxy --> Presentation : 201 Created
+Proxy --> Presentation : 201 Created : UserID
 deactivate Proxy
 Presentation -> Proxy : POST api/auth/public/createToken
 activate Proxy
 Proxy -> Authenticator: POST api/user/createToken
 activate Authenticator
 Authenticator -> Authenticator : generateToken(UserID)
-Authenticator --> Proxy : 201 Created
+Authenticator --> Proxy : 201 Created : Token
 deactivate Authenticator
-Proxy --> Presentation : 201 Created
+Proxy --> Presentation : 201 Created : Token
 deactivate Proxy
 Presentation -> Presentation : saveToken(token)
 Presentation -> Proxy : POST api/notify/private/sendEmail
@@ -90,17 +90,17 @@ deactivate Authenticator
 activate AccountManager
 AccountManager -> PlatformEntityManager : valid(UserID) 
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : insert(UserID, TmpFlag = false)
+PlatformEntityManager -> PlatformDBMS : update(UserID, TmpFlag = false)
 activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : insertSuccess
+PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
-PlatformEntityManager --> AccountManager : insertSuccess
+PlatformEntityManager --> AccountManager : success
 deactivate PlatformEntityManager
 AccountManager --> APIController : successMessage
 deactivate AccountManager
-APIController --> Proxy : 200 OK
+APIController --> Proxy : 200 OK : successMessage
 deactivate APIController
-Proxy --> EmailClient :  200 OK
+Proxy --> EmailClient :  200 OK : successMessage
 deactivate Proxy
 EmailClient --> User : emailConfirmedMessage
 deactivate EmailClient
