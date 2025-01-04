@@ -1,0 +1,60 @@
+@startuml UserOpensComplaint
+skinparam sequenceMessageAlign center
+actor       User
+participant Presentation
+entity      Proxy
+participant APIController
+participant CommunicationManager
+participant PlatformEntityManager
+participant NotificationManager
+database    PlatformDBMS
+
+' Assuming the user has already typed the answer of the complaint
+' and the api call contains the complaintID, the answer and the user's token
+
+activate User
+User -> Presentation : clickPublishAnswer(ComplaintID)
+activate Presentation
+Presentation -> Proxy : POST api/comm/private/{commID}/answer/full?<params>
+activate Proxy
+Proxy -> Proxy : <color:purple> Authentication
+Proxy -> APIController : POST api/comm/private/{commID}/answer/full?<params>
+activate APIController
+APIController -> CommunicationManager : answerComplaint(ComplaintID, Answer)
+activate CommunicationManager
+CommunicationManager -> PlatformEntityManager : isComplaint(commID)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : result
+deactivate PlatformDBMS
+PlatformEntityManager --> CommunicationManager : result
+deactivate PlatformEntityManager
+alt result == false
+    CommunicationManager --> APIController : error
+    APIController --> Proxy : 400 BadRequest : Error
+    Proxy --> Presentation : 400 BadRequest : Error
+    Presentation --> User : displayErrorMessage()
+end
+CommunicationManager -> PlatformEntityManager : addComplaintAnswer(ComplaintID, UserID, Answer)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : success
+deactivate PlatformDBMS
+PlatformEntityManager --> CommunicationManager : success
+deactivate PlatformEntityManager
+CommunicationManager --> APIController : success
+deactivate CommunicationManager
+APIController -> NotificationManager : notifyUser(UserIDs, Data)
+activate NotificationManager
+NotificationManager -> NotificationManager : <color:purple> sendNotification(UserIDs, Data)
+NotificationManager --> APIController : success
+deactivate NotificationManager
+APIController --> Proxy : 200 OK
+deactivate APIController
+Proxy --> Presentation : 200 OK
+deactivate Proxy
+Presentation --> User : displayComplaintAnswer()
+deactivate Presentation
+@enduml

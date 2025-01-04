@@ -9,35 +9,11 @@ participant PlatformEntityManager
 participant NotificationManager 
 database    PlatformDBMS
 
-activate Company
-Company -> Presentation : clickDashboardInterviewsPage()
-activate Presentation
-Presentation -> Proxy : GET api/interviews/private/getInterviews
-Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : GET api/interviews/private/getInterviews
-activate APIController
-APIController -> InterviewsManager : getInterviews(UserID)
-activate InterviewsManager
-InterviewsManager -> PlatformEntityManager : getInterviews(UserID)
-activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
-activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : result
-deactivate PlatformDBMS
-PlatformEntityManager --> InterviewsManager : result
-deactivate PlatformEntityManager
-InterviewsManager --> APIController : Interviews
-deactivate InterviewsManager
-APIController --> Proxy : 200 OK : Interviews
-deactivate APIController
-Proxy --> Presentation : 200 OK : Interviews
-deactivate Proxy
-Presentation --> Company : displayInterviews()
-Company -> Presentation : clickInterview(InterviewID)
-Presentation --> Company : displayInterview(InterviewID)
-Company -> Presentation : clickEvaluateInterview(InterviewID)
-'params are the evaluations for each question like 
+'Assuming Company has already evaluated each question of the interview 
+'params of the call can be something like like 
 '{ "answer": [ { "questionID": 1}, {"evaluation": 5}, { "questionID": 2}, {"evaluation": 4} }
+activate Company
+Company -> Presentation : clickEvaluateInterview(InterviewID)
 Presentation -> Proxy : POST api/interviews/private/evaluateInterview/{InterviewID}/full?<params>
 Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : POST api/interviews/private/evaluateInterview/{InterviewID}/full?<params>
@@ -66,10 +42,34 @@ Proxy --> Presentation : 200 OK
 deactivate Proxy
 Presentation --> Company : displayInterviewEvaluatedMsg()
 deactivate Presentation
-
-
-
-
-
-
 @enduml
+
+'If the company has not evaluated each question of the interview
+'here is the sequence diagram to reach the page where the company can evaluate the interview
+
+/'activate Company
+Company -> Presentation : clickDashboardInterviewsPage()
+activate Presentation
+Presentation -> Proxy : GET api/interviews/private/getInterviews
+Proxy -> Proxy : <color:purple> Authentication
+Proxy -> APIController : GET api/interviews/private/getInterviews
+activate APIController
+APIController -> InterviewsManager : getInterviews(UserID)
+activate InterviewsManager
+InterviewsManager -> PlatformEntityManager : getInterviews(UserID)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : result
+deactivate PlatformDBMS
+PlatformEntityManager --> InterviewsManager : result
+deactivate PlatformEntityManager
+InterviewsManager --> APIController : Interviews
+deactivate InterviewsManager
+APIController --> Proxy : 200 OK : Interviews
+deactivate APIController
+Proxy --> Presentation : 200 OK : Interviews
+deactivate Proxy
+Presentation --> Company : displayInterviews()
+Company -> Presentation : clickInterview(InterviewID)
+Presentation --> Company : displayInterview(InterviewID)'/
