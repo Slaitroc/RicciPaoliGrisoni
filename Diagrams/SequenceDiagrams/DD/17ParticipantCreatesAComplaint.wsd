@@ -30,8 +30,7 @@ PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
 PlatformEntityManager --> CommunicationManager : success
 deactivate PlatformEntityManager
-CommunicationManager --> APIController : Communication
-note right of APIController : notifyUser params derived from Communication Obj
+CommunicationManager --> APIController : success
 deactivate CommunicationManager
 APIController -> NotificationManager : notifyUser(Data, UserIDs)
 activate NotificationManager
