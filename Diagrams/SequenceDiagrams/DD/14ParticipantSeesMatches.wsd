@@ -13,10 +13,10 @@ database    PlatformDBMS
 activate Participant
 Participant -> Presentation : clickDashboardRecommendationPage()
 activate Presentation
-Presentation -> Proxy : GET api/applications/private/getMatches
+Presentation -> Proxy : GET api/applications/private/get-matches
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : GET api/applications/private/getMatches
+Proxy -> APIController : GET api/applications/private/get-matches
 activate APIController
 APIController -> RecommendationManager : getMatches(UserID)
 activate RecommendationManager
