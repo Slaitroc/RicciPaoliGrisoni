@@ -11,27 +11,26 @@ database    PlatformDBMS
 activate User
 User -> Presentation : clickViewCompanyInternships()
 activate Presentation
-Presentation -> Proxy : GET api/comm/private/internships/full?<param>
+Presentation -> Proxy : GET api/sub/private/internships\n/{CompanyID}
 activate Proxy
 Proxy -> Proxy  : <color:purple> Authentication()
-Proxy -> APIController : GET api/comm/private/internships/full?<param>
+Proxy -> APIController : GET api/sub/private/internships\n/{CompanyID}
 activate APIController
-APIController -> APIController : verifyCallParameters()
 APIController -> SubmissionManager : getInternshipsByCompany(CompanyID)
 activate SubmissionManager
 SubmissionManager -> PlatformEntityManager : getInternshipsByCompany(CompanyID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : List of Internships
+PlatformDBMS --> PlatformEntityManager : result
 deactivate PlatformDBMS
-PlatformEntityManager --> SubmissionManager : List of Internships
+PlatformEntityManager --> SubmissionManager : result
 deactivate PlatformEntityManager
-SubmissionManager --> APIController : List of Internships
+SubmissionManager --> APIController : InternshipsList
 deactivate SubmissionManager
-APIController --> Proxy : 200 OK : List of Internships
+APIController --> Proxy : 200 OK : InternshipsList
 deactivate APIController
-Proxy --> Presentation : 200 OK : List of Internships
+Proxy --> Presentation : 200 OK : InternshipsList
 deactivate Proxy
 Presentation --> User : displayInternships()
 deactivate Presentation
