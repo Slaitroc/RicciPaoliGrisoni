@@ -4,48 +4,41 @@ actor       User
 participant  Presentation
 entity      Proxy
 participant Authenticator
-participant APIController
-participant AccountManager
-participant PlatformEntityManager
-database    PlatformDBMS
+entity AuthProvider
 
 activate User
 User -> Presentation : enterCredentials(username, password)
-activate User
 activate Presentation
 Presentation -> Proxy : POST api/auth/login
 activate Proxy
-Proxy -> Authenticator : POST api/auth/validateCredentials
+group <color:purple> validateCredentials(UserCredentials)
+Proxy -> Authenticator : POST api/auth/validate-credentials
 activate Authenticator
-Authenticator -> Authenticator : validateCredentials(username, password)
-alt Credentials Invalid
-    Authenticator --> Proxy : 401 Unauthorized : Invalid Credentials
-    Proxy --> Presentation : 401 Unauthorized : Error Message
-    Presentation --> User !! : displayErrorMessage()
-end
-Authenticator -> Authenticator : GenerateToken()
-Authenticator --> Proxy : 200 OK : UserID, Token
+Authenticator -> AuthProvider : validateCredentials(UserCredentials)
+activate AuthProvider
+AuthProvider --> Authenticator : isValid
+deactivate AuthProvider
+Authenticator --> Proxy : 200 OK : isValid
 deactivate Authenticator
-Proxy -> APIController : POST api/common/account/session
-activate APIController
-APIController -> AccountManager : startSession(UserID)
-activate AccountManager
-AccountManager -> PlatformEntityManager : getUserDetails(UserID)
-activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : BuildAndExecuteQuery(Query, Class)
-activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : User Details
-deactivate PlatformDBMS
-PlatformEntityManager -->  AccountManager : User Details
-deactivate PlatformEntityManager
-AccountManager --> APIController : Session Started
-deactivate AccountManager
-APIController --> Proxy : 200 OK : SessionInfo
-deactivate APIController
-Proxy --> Presentation : 200 OK : SessionInfo, Token
+end
+alt isValid==false
+Proxy --> Presentation : 401 Unauthorized : Error Message
+Presentation --> User : displayErrorMessage()
+end
+group <color:purple> generateToken(UserCredentials)
+Proxy -> Authenticator : POST api/auth/generate-token
+activate Authenticator
+Authenticator -> AuthProvider : generateToken(UserCredentials)
+activate AuthProvider
+AuthProvider --> Authenticator : Token
+deactivate AuthProvider
+Authenticator --> Proxy : 201 Created : Token
+deactivate Authenticator
+end
+Proxy --> Presentation : 201 Created : Token
 deactivate Proxy
-Presentation -> Presentation : SaveToken()
-Presentation --> User : displayDashboard()
+Presentation -> Presentation : saveToken(Token)
+Presentation --> User : redirectDashboard()
 deactivate Presentation
 deactivate User
 @enduml
