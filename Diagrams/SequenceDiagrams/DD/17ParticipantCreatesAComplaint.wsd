@@ -35,7 +35,7 @@ note right of APIController : notifyUser params derived from Communication Obj
 deactivate CommunicationManager
 APIController -> NotificationManager : notifyUser(Data, UserIDs)
 activate NotificationManager
-NotificationManager -> NotificationManager : <color:purple> sendNotification(Data, UserIDs)
+NotificationManager -> NotificationManager : <color:purple> sendNotification(UserIDs, Data)
 NotificationManager --> APIController : success
 deactivate NotificationManager
 deactivate CommunicationManager
