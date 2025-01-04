@@ -55,10 +55,10 @@ PlatformEntityManager -> PlatformDBMS ++ : insert(UserList, Recommendations)
 PlatformDBMS --> PlatformEntityManager -- : queryResult
 PlatformEntityManager -->  RecommendationProcess -- : queryResult
 RecommendationProcess --> APIController -- : successMessage
-APIController -> UserManager ++ : notifyUsers(UserList, NewRecommendationTag)
-UserManager ->> NotificationManager ++ : notifyRecommendation(UserList)
+APIController -> UserManager ++ : notifyUsers(UserIDList, Data)
+UserManager ->> NotificationManager ++ : notifyUsers(UserIDList, Data)
 loop for every user
-    NotificationManager -> NotificationManager : notify(User)
+    NotificationManager -> NotificationManager : <color:purple> sentNotification(UserIDList, Data)
 end
 NotificationManager --> UserManager -- : result
 UserManager --> APIController -- : result

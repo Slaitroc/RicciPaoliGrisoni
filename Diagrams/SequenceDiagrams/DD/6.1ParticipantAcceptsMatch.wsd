@@ -26,8 +26,8 @@ PlatformEntityManager --> RecommendationManager -- : recommendationDatas
 RecommendationManager --> APIController -- : recommendationDatas
 
 alt Other Party Already Accepted
-    APIController -> NotificationManager ++ : notify(UserID2, MatchFoundTag)
-    NotificationManager -> NotificationManager : notify(User)
+    APIController -> NotificationManager ++ : notifyUser(UserID2, Data)
+    NotificationManager -> NotificationManager : <color:purple> sendNotification(UserID2, Data)
     NotificationManager --> APIController -- : notificationSent
     APIController -> InterviewManager ++ : createInterview(UserID1, UserID2)
     InterviewManager -> PlatformEntityManager ++ : createInterview(UserID1, UserID2)

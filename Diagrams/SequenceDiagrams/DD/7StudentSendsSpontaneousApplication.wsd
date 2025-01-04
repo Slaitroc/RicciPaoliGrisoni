@@ -23,8 +23,8 @@ PlatformEntityManager -> PlatformDBMS ++ : insert(StudentID, CompanyID)
 PlatformDBMS --> PlatformEntityManager -- : SpontaneousApplicationID
 PlatformEntityManager --> Someone -- : SpontaneousApplicationID
 Someone -> APIController -- : SpontaneousApplicationID
-APIController -> NotificationManager ++ : notify(CompanyID, SpontaneousApplicationTag)
-NotificationManager -> NotificationManager : notify(CompanyID)
+APIController -> NotificationManager ++ : notifyUser(CompanyID, Data)
+NotificationManager -> NotificationManager : <color:purple> sendNotification(CompanyID, Data)
 NotificationManager --> APIController -- : notificationSent
 APIController --> Proxy -- : 200 OK : Spontaneous Application Submitted
 Proxy --> Presentation -- : 200 OK : Spontaneous Application Submitted

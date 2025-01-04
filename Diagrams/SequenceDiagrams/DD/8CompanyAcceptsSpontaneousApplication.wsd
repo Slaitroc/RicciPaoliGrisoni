@@ -24,8 +24,8 @@ PlatformDBMS --> PlatformEntityManager -- : StudentID
 PlatformEntityManager --> Someone -- : StudentID
 Someone --> APIController -- : StudentID
 
-APIController -> NotificationManager ++ : notify(StudentID, AcceptedApplicationTag)
-NotificationManager -> NotificationManager : notify(User)
+APIController -> NotificationManager ++ : notifyUser(StudentID, Data)
+NotificationManager -> NotificationManager : <color:purple> sendNotification(StudentID, Data)
 NotificationManager --> APIController -- : notificationSent
 APIController -> InterviewManager ++ : createInterview(StudentID, CompanyID)
 InterviewManager -> PlatformEntityManager ++ : createInterview(StudentID, CompanyID)

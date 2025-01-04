@@ -6,7 +6,6 @@ entity      Proxy
 participant APIController
 participant FeedbackMechanism
 participant PlatformEntityManager
-participant NotificationManager
 database    PlatformDBMS
 
 activate Participant
@@ -20,7 +19,7 @@ FeedbackMechanism -> PlatformEntityManager ++ : retreiveUserInfo(UserID)
 PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, Class)
 PlatformDBMS --> PlatformEntityManager -- : UserInfo
 PlatformEntityManager --> FeedbackMechanism -- : UserInfo
-FeedbackMechanism -> FeedbackMechanism : updateRecommendationParameters()
+FeedbackMechanism -> FeedbackMechanism : computeRecommendationParameters()
 FeedbackMechanism -> PlatformEntityManager ++ : updateRecommendationParameters(Parameters)
 PlatformEntityManager -> PlatformDBMS ++ : update(Parameters)
 PlatformDBMS --> PlatformEntityManager -- : Update Success
