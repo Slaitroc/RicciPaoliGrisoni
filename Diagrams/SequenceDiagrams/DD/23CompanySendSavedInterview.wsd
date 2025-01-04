@@ -1,0 +1,53 @@
+@startuml 23CompanySendSavedInterview
+skinparam sequenceMessageAlign center
+actor Company
+participant Presentation
+entity Proxy
+participant APIController
+participant InterviewManager
+participant PlatformEntityManager
+participant NotificationManager
+database PlatformDBMS
+
+activate Company
+Company -> Presentation : clickSendSavedInterview()
+activate Presentation
+Presentation -> Proxy : POST api/interview/private/sendSavedInterview/{SavedInterviewID, InterviewID}
+activate Proxy
+Proxy -> Proxy : <color:purple> Authentication
+Proxy -> APIController : POST api/interview/private/sendSavedInterview/{SavedInterviewID, InterviewID}
+activate APIController
+APIController -> InterviewManager : retrieveSavedInterview(SavedInterviewID)
+activate InterviewManager
+InterviewManager -> PlatformEntityManager : retrieveSavedInterview(SavedInterviewID)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : result
+deactivate PlatformDBMS
+PlatformEntityManager --> InterviewManager : SavedInterview
+deactivate PlatformEntityManager
+InterviewManager -> InterviewManager : computeParams(SavedInterview)
+InterviewManager -> PlatformEntityManager : submitInterview(InterviewID, Params, UserID)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : success
+deactivate PlatformDBMS
+PlatformEntityManager --> InterviewManager : success
+deactivate PlatformEntityManager
+InterviewManager --> APIController : success
+deactivate InterviewManager
+APIController -> NotificationManager : notifyUser(UserIDs, Data)
+activate NotificationManager
+NotificationManager -> NotificationManager : <color:purple> sendNotification(UserIDs, Data)
+note left of NotificationManager : Notify user that the interview has been sent to him
+NotificationManager --> APIController : success
+deactivate NotificationManager
+APIController --> Proxy : 200 OK
+deactivate APIController
+Proxy --> Presentation : 200 OK
+deactivate Proxy
+Presentation --> Company : displayInterviewSendedMsg()
+deactivate Presentation
+@enduml

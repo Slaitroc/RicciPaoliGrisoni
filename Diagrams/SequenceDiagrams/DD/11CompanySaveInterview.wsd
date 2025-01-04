@@ -12,7 +12,7 @@ database    PlatformDBMS
 activate Company
 Company -> Presentation : clickSaveInterview()
 activate Presentation
-Presentation -> Proxy : POST api/interviews/private/saveInterview/{InterviewID}/full?<params>
+Presentation -> Proxy : POST api/interviews/private/sendInterview/{SavedInterviewID}/full?<params>
 activate Proxy
 Proxy -> Authenticator : GET api/auth/validate
 activate Authenticator
@@ -27,7 +27,7 @@ alt Expired Token
         Authenticator --> Proxy : 200 OK : Token
         Proxy --> Presentation : 200 OK : Token
         Presentation --> Presentation : saveToken()
-        Presentation -> Proxy : POST api/interviews/private/sendInterview/{InterviewID}/full?<params>
+        Presentation -> Proxy : POST api/interviews/private/sendInterview/{SavedInterviewID}/full?<params>
         Proxy -> Authenticator : GET api/auth/validate
     else Refresh Token Expired
         Presentation --> Presentation : saveCurrentPage()
@@ -42,17 +42,17 @@ alt Expired Token
         Proxy --> Presentation : 200 OK : Token
         Presentation --> Presentation : saveToken()
         Presentation --> Presentation : redirectToLastPage() 
-        Presentation -> Proxy : POST api/interviews/private/sendInterview/{InterviewID}/full?<params>
+        Presentation -> Proxy : POST api/interviews/private/sendInterview/{SavedInterviewID}/full?<params>
         Proxy -> Authenticator : GET api/auth/validate
 end
 Authenticator --> Proxy : 200 OK : UserID
 deactivate Authenticator
-Proxy -> APIController : POST api/interviews/private/saveInterview/{InterviewID}/full?<params>
+Proxy -> APIController : POST api/interviews/private/sendInterview/{SavedInterviewID}/full?<params>
 activate APIController
 APIController -> APIController : verifyCallParameters()
-APIController -> InterviewsManager : saveInterview(InterviewID, Params, UserID)
+APIController -> InterviewsManager : saveInterview(SavedInterviewID, Params, UserID)
 activate InterviewsManager
-InterviewsManager -> PlatformEntityManager : saveInterview(InterviewID, Params, UserID)
+InterviewsManager -> PlatformEntityManager : saveInterview(SavedInterviewID, Params, UserID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
@@ -62,7 +62,8 @@ PlatformEntityManager --> InterviewsManager : result
 deactivate PlatformEntityManager
 InterviewsManager --> APIController : result
 deactivate InterviewsManager
-APIController --> Proxy : 200 OK : InterviewID
+APIController --> Proxy : 200 OK
 deactivate APIController
+Proxy --> Presentation : 200 OK
 Presentation --> Company : displayInterviewSavedMsg()
 deactivate Presentation

@@ -2,13 +2,12 @@
 skinparam sequenceMessageAlign center
 actor       Company
 participant Presentation
-entity      Prox
+entity      Proxy
 participant APIController
 participant InterviewsManager
 participant PlatformEntityManager
 participant NotificationManager 
 database    PlatformDBMS
-
 activate Company
 Company -> Presentation : clickSendInterview()
 activate Presentation

@@ -23,7 +23,7 @@ APIController -> InterviewManager : acceptIntPosOff(IntPosOffID, UserID)
 activate InterviewManager
 InterviewManager -> PlatformEntityManager : acceptIntPosOff(IntPosOffID, UserID)
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : update(IntPosOff, Status)
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : result
 deactivate PlatformDBMS
@@ -39,7 +39,7 @@ alt result == BadRequest
     APIController --> Proxy : 400 BadRequest : Error
     Proxy --> Presentation : 400 BadRequest : Error
     Presentation --> Student : displayErrorMessage()
-else result == Unautorized
+else result == Unauthorized
     note right of Presentation
         The student tried to accept an internship position offer that does not belong to him
         A Interview do not belong to the Student if the entry (IntPosOffID, UserID) is not found in the database
@@ -60,7 +60,7 @@ APIController -> InterviewManager : stopOtherInterviews(UserID)
 activate InterviewManager
 InterviewManager -> PlatformEntityManager : getInterviews(UserID)
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : getInterviews(UserID)
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : result
 deactivate PlatformDBMS
@@ -69,7 +69,7 @@ deactivate PlatformEntityManager
 loop for each Interview in Interviews
     InterviewManager -> PlatformEntityManager : updateInterview(Interview, Status)
     activate PlatformEntityManager
-    PlatformEntityManager -> PlatformDBMS : updateInterview(Interview, Status)
+    PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
     activate PlatformDBMS
     PlatformDBMS --> PlatformEntityManager : success
     deactivate PlatformDBMS
