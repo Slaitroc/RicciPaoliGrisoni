@@ -31,9 +31,10 @@ NotificationEntityManager --> NotificationManager : success
 deactivate NotificationEntityManager
 NotificationManager --> APIController : success
 deactivate NotificationManager
-APIController --> Proxy : success
+APIController --> Proxy : 201 Created : DeviceToken
 deactivate APIController
-Proxy --> Presentation : success
+Proxy --> Presentation : 201 Created : DeviceToken
 deactivate Proxy
+Presentation -> Presentation : saveDeviceToken(DeviceToken)
 
 @enduml
