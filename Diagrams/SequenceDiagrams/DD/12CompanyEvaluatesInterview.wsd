@@ -9,21 +9,17 @@ participant PlatformEntityManager
 participant NotificationManager 
 database    PlatformDBMS
 
-'Assuming Company has already evaluated each question of the interview 
-'params of the call can be something like like 
-'{ "answer": [ { "questionID": 1}, {"evaluation": 5}, { "questionID": 2}, {"evaluation": 4} }
 activate Company
 Company -> Presentation : clickEvaluateInterview(InterviewID)
-Presentation -> Proxy : POST api/interviews/private/evaluateInterview/{InterviewID}/full?<params>
+Presentation -> Proxy : POST api/interviews/private/evaluate-interview/{InterviewID}
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/interviews/private/evaluateInterview/{InterviewID}/full?<params>
+Proxy -> APIController : POST api/interviews/private/evaluateInterview/{InterviewID}
 activate APIController
-APIController -> APIController : verifyCallParameters()
-APIController -> InterviewsManager : evaluateInterview(InterviewID, Params)
+APIController -> InterviewsManager : evaluateInterview(InterviewID, EvaluationData)
 activate InterviewsManager
-InterviewsManager -> PlatformEntityManager : evaluateInterview(InterviewID, Params)
+InterviewsManager -> PlatformEntityManager : evaluateInterview(InterviewID, EvaluationData)
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+PlatformEntityManager -> PlatformDBMS : insertOrUpdate(Query, Class)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
