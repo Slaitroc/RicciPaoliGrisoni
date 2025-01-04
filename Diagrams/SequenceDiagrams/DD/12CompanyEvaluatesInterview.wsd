@@ -14,12 +14,7 @@ activate Company
 Company -> Presentation : clickDashboardInterviewsPage()
 activate Presentation
 Presentation -> Proxy : GET api/interviews/private/getInterviews
-activate Proxy
-Proxy -> Authenticator : GET api/auth/validate
-activate Authenticator
-Authenticator -> Authenticator : validateToken()
-Authenticator --> Proxy : 200 OK : UserID
-deactivate Authenticator
+Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : GET api/interviews/private/getInterviews
 activate APIController
 APIController -> InterviewsManager : getInterviews(UserID)
@@ -42,14 +37,11 @@ Presentation --> Company : displayInterviews()
 Company -> Presentation : clickInterview(InterviewID)
 Presentation --> Company : displayInterview(InterviewID)
 Company -> Presentation : clickEvaluateInterview(InterviewID)
-Presentation -> Proxy : GET api/interviews/private/evaluateInterview/{InterviewID}/full?<params>
-activate Proxy
-Proxy -> Authenticator : GET api/auth/validate
-activate Authenticator
-Authenticator -> Authenticator : validateToken()
-Authenticator --> Proxy : 200 OK : UserID
-deactivate Authenticator
-Proxy -> APIController : GET api/interviews/private/evaluateInterview/{InterviewID}/full?<params>
+'params are the evaluations for each question like 
+'{ "answer": [ { "questionID": 1}, {"evaluation": 5}, { "questionID": 2}, {"evaluation": 4} }
+Presentation -> Proxy : POST api/interviews/private/evaluateInterview/{InterviewID}/full?<params>
+Proxy -> Proxy : <color:purple> Authentication
+Proxy -> APIController : POST api/interviews/private/evaluateInterview/{InterviewID}/full?<params>
 activate APIController
 APIController -> APIController : verifyCallParameters()
 APIController -> InterviewsManager : evaluateInterview(InterviewID, Params)
@@ -58,16 +50,16 @@ InterviewsManager -> PlatformEntityManager : evaluateInterview(InterviewID, Para
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : result
+PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
-PlatformEntityManager --> InterviewsManager : result
+PlatformEntityManager --> InterviewsManager : success
 deactivate PlatformEntityManager
-InterviewsManager --> APIController : result(InterviewID, CompanyID, StudentID, InterviewStatus)
+InterviewsManager --> APIController : success
 deactivate InterviewsManager
-APIController --> NotificationManager : notifyUser(InterviewID, CompanyID, StudentID, InterviewStatus)
+APIController -> NotificationManager : notifyUser(UserIDs, Data)
 activate NotificationManager
-NotificationManager -> NotificationManager : sendInterviewNotification\n(InterviewID, CompanyID, StudentID, InterviewStatus)
-NotificationManager --> APIController : result
+NotificationManager -> NotificationManager : <color:purple> sendNotification(UserIDs, Data)
+NotificationManager --> APIController : success
 deactivate NotificationManager
 APIController --> Proxy : 200 OK
 deactivate APIController

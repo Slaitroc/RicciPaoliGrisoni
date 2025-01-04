@@ -14,32 +14,26 @@ activate Company
 Company -> Presentation : clickSendInterview()
 activate Presentation
 Presentation -> Proxy : POST api/interviews/private/sendInterview/{InterviewID}/full?<params>
-activate Proxy
-Proxy -> Authenticator : GET api/auth/validate
-activate Authenticator
-Authenticator -> Authenticator : validateToken()
-Authenticator --> Proxy : 200 OK : UserID
-deactivate Authenticator
+Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : POST api/interviews/private/sendInterview/{InterviewID}/full?<params>
 activate APIController
 APIController -> APIController : verifyCallParameters()
-'need I to insert the alt box for the failed verification?
 APIController -> InterviewsManager : submitInterview(InterviewID, Params, UserID)
 activate InterviewsManager
 InterviewsManager -> PlatformEntityManager : submitInterview(InterviewID, Params, UserID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : result
+PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
-PlatformEntityManager --> InterviewsManager : result
+PlatformEntityManager --> InterviewsManager : success
 deactivate PlatformEntityManager
-InterviewsManager --> APIController : result(InterviewID, CompanyID, StudentID, InterviewStatus)
+InterviewsManager --> APIController : success
 deactivate InterviewsManager
-APIController --> NotificationManager : notifyUser(InterviewID, CompanyID, StudentID, InterviewStatus)
+APIController --> NotificationManager : notifyUser(UserIDs, Data)
 activate NotificationManager
-NotificationManager -> NotificationManager : sendInterviewNotification\n(InterviewID, CompanyID, StudentID, InterviewStatus)
-NotificationManager --> APIController : result
+NotificationManager -> NotificationManager : <color:purple> sendNotification(UserIDs, Data)
+NotificationManager --> APIController : success
 deactivate NotificationManager
 APIController --> Proxy : 200 OK
 deactivate APIController
