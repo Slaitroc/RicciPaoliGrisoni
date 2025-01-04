@@ -12,10 +12,10 @@ database    PlatformDBMS
 activate Student
 Student -> Presentation : clickDashboardSpontaneousApplicationsPage()
 activate Presentation
-Presentation -> Proxy : GET api/applications/private/getSpontaneousApplications
+Presentation -> Proxy : GET api/applications/private/get-spontaneous-applications
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : GET api/applications/private/getSpontaneousApplications
+Proxy -> APIController : GET api/applications/private/get-spontaneous-applications
 activate APIController
 APIController -> SubmissionsManager : getSpontaneousApplications(StudentID)
 activate SubmissionsManager
