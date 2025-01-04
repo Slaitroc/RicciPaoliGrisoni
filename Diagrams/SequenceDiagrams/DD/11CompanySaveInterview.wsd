@@ -3,7 +3,6 @@ skinparam sequenceMessageAlign center
 actor       Company
 participant Presentation
 entity      Proxy
-participant Authenticator
 participant APIController
 participant InterviewsManager
 participant PlatformEntityManager
@@ -12,58 +11,25 @@ database    PlatformDBMS
 activate Company
 Company -> Presentation : clickSaveInterview()
 activate Presentation
-Presentation -> Proxy : POST api/interviews/private/sendInterview/{SavedInterviewID}/full?<params>
+Presentation -> Proxy : POST api/interviews/private/\nsend-interview/{InterviewID}
 activate Proxy
-Proxy -> Authenticator : GET api/auth/validate
-activate Authenticator
-Authenticator -> Authenticator : validateToken()
-alt Expired Token
-    Authenticator --> Proxy : 401 Unauthorized : Token is expired
-    Proxy --> Presentation : 401 Unauthorized : Token is expired
-    else Refresh Token is Available
-        Presentation --> Proxy : POST api/auth/refreshToken
-        Proxy -> Authenticator : POST api/auth/refreshToken
-        Authenticator -> Authenticator : refreshToken(token)
-        Authenticator --> Proxy : 200 OK : Token
-        Proxy --> Presentation : 200 OK : Token
-        Presentation --> Presentation : saveToken()
-        Presentation -> Proxy : POST api/interviews/private/sendInterview/{SavedInterviewID}/full?<params>
-        Proxy -> Authenticator : GET api/auth/validate
-    else Refresh Token Expired
-        Presentation --> Presentation : saveCurrentPage()
-        Presentation --> Presentation : redirectToLogin()
-        Presentation --> Company : displayErrorMessage()
-        Company -> Presentation : enterCredentials(username, password)
-        Presentation -> Proxy : POST api/auth/login
-        Proxy -> Authenticator : POST api/auth/validateCredentials
-        Authenticator -> Authenticator : validateCredentials(username, password)
-        Authenticator -> Authenticator : generateToken()
-        Authenticator --> Proxy : 200 OK : Token
-        Proxy --> Presentation : 200 OK : Token
-        Presentation --> Presentation : saveToken()
-        Presentation --> Presentation : redirectToLastPage() 
-        Presentation -> Proxy : POST api/interviews/private/sendInterview/{SavedInterviewID}/full?<params>
-        Proxy -> Authenticator : GET api/auth/validate
-end
-Authenticator --> Proxy : 200 OK : UserID
-deactivate Authenticator
-Proxy -> APIController : POST api/interviews/private/sendInterview/{SavedInterviewID}/full?<params>
+Proxy -> Proxy : <color:purple> Authentication
+Proxy -> APIController : POST api/interviews/private/\nsend-interview/{InterviewID}
 activate APIController
-APIController -> APIController : verifyCallParameters()
-APIController -> InterviewsManager : saveInterview(SavedInterviewID, Params, UserID)
+APIController -> InterviewsManager : saveInterview\n(InterviewID, InterviewData, UserID)
 activate InterviewsManager
-InterviewsManager -> PlatformEntityManager : saveInterview(SavedInterviewID, Params, UserID)
+InterviewsManager -> PlatformEntityManager : saveInterview\n(InterviewID, InterviewData, UserID)
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+PlatformEntityManager -> PlatformDBMS : update(Query, Class)
 activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : result
+PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
-PlatformEntityManager --> InterviewsManager : result
+PlatformEntityManager --> InterviewsManager : success
 deactivate PlatformEntityManager
-InterviewsManager --> APIController : result
+InterviewsManager --> APIController : success
 deactivate InterviewsManager
-APIController --> Proxy : 200 OK
+APIController --> Proxy : 201 Created
 deactivate APIController
-Proxy --> Presentation : 200 OK
+Proxy --> Presentation : 201 Created
 Presentation --> Company : displayInterviewSavedMsg()
 deactivate Presentation
