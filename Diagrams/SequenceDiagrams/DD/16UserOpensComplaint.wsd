@@ -9,12 +9,12 @@ participant PlatformEntityManager
 database    PlatformDBMS
 
 activate User
-User -> Presentation : clickComplaint(CommunicationID)
+User -> Presentation : clickComplaint(CommID)
 activate Presentation
-Presentation -> Proxy : GET api/comm/private/communications/{CommunicationID}/full?<params>
+Presentation -> Proxy : GET api/comm/private/communications/{CommID}?<params>
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : GET api/comm/private/communications/{CommunicationID}/full?<params>
+Proxy -> APIController : GET api/comm/private/communications/{CommID}?<params>
 activate APIController
 APIController -> APIController : verifyCallParameters()
 alt Wrong API Call Parameters
@@ -23,22 +23,21 @@ Proxy --> Presentation : 400 Bad Request : Error
 Presentation --> User : displayErrorMessage()
 end
 note right of APIController : Alternatives to let the Presentation easily handle different data 
-alt <param> to only get the communication type
-APIController -> CommunicationManager : getType(CommunicationID)
+group alternatives url parameters 
+else <param> to only get the communication type
+APIController -> CommunicationManager : getType(CommID)
 activate CommunicationManager
-CommunicationManager -> PlatformEntityManager : getType(CommunicationID)
+CommunicationManager -> PlatformEntityManager : getType(CommID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
-end
-alt <param> to only get the communication messages
-APIController -> CommunicationManager : getMessages(CommunicationID)
-CommunicationManager -> PlatformEntityManager : getMessages(CommunicationID)
+else <param> to only get the communication messages
+APIController -> CommunicationManager : getMessages(CommID)
+CommunicationManager -> PlatformEntityManager : getMessages(CommID)
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
-end
-alt <param> to get all communication data
-APIController -> CommunicationManager : getCommunication(CommunicationID)
-CommunicationManager -> PlatformEntityManager : getCommunication(CommunicationID)
+else <param> to get all communication data
+APIController -> CommunicationManager : getCommunication(CommID)
+CommunicationManager -> PlatformEntityManager : getCommunication(CommID)
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 end
 PlatformDBMS --> PlatformEntityManager : result
