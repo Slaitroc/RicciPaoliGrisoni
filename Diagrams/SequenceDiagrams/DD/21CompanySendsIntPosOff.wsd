@@ -13,10 +13,10 @@ database PlatformDBMS
 activate Company
 Company -> Presentation : clickSendIntPosOff()
 activate Presentation
-Presentation -> Proxy : POST api/interview/private/sendIntPosOff
+Presentation -> Proxy : POST api/interviews/private/\n{InterviewID}/send-int-pos-off
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/interview/private/sendIntPosOff
+Proxy -> APIController : POST api/interviews/private/\n{InterviewID}/send-int-pos-off
 activate APIController
 APIController -> InterviewManager : isOwner(InterviewID, CompanyID)
 activate InterviewManager
@@ -37,11 +37,11 @@ end
 APIController -> InterviewManager : sendIntPosOff(InterviewID)
 InterviewManager -> PlatformEntityManager : getStudentID(InterviewID)
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : getStudentID(InterviewID)
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : StudentID
+PlatformDBMS --> PlatformEntityManager : result
 deactivate PlatformDBMS
-PlatformEntityManager --> InterviewManager : StudentID
+PlatformEntityManager --> InterviewManager : result
 deactivate PlatformEntityManager
 InterviewManager -> PlatformEntityManager : createIntPosOff(IntPosOff, StudentID, CompanyID)
 activate PlatformEntityManager
@@ -51,9 +51,9 @@ PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
 PlatformEntityManager --> InterviewManager : success
 deactivate PlatformEntityManager
-InterviewManager --> APIController : IntPosOff
+InterviewManager --> APIController : success
 deactivate InterviewManager
-APIController -> NotificationManager : notifyUser(Data, UserIDs)
+APIController -> NotificationManager : notifyUser(UserIDs, Data)
 activate NotificationManager
 NotificationManager -> NotificationManager : <color:purple> sendNotification(UserIDs, Data)
 NotificationManager --> APIController : success
