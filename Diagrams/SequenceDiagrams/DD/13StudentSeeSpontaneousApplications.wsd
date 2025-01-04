@@ -3,7 +3,6 @@ skinparam sequenceMessageAlign center
 actor       Student
 participant Presentation
 entity      Proxy
-participant Authenticator
 participant APIController
 participant SubmissionsManager
 participant UserManager
@@ -15,11 +14,7 @@ Student -> Presentation : clickDashboardSpontaneousApplicationsPage()
 activate Presentation
 Presentation -> Proxy : GET api/applications/private/getSpontaneousApplications
 activate Proxy
-Proxy -> Authenticator : GET api/auth/validate
-activate Authenticator
-Authenticator -> Authenticator : validateToken()
-Authenticator --> Proxy : 200 OK : UserID
-deactivate Authenticator
+Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : GET api/applications/private/getSpontaneousApplications
 activate APIController
 APIController -> SubmissionsManager : getSpontaneousApplications(StudentID)

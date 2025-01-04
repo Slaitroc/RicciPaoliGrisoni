@@ -3,7 +3,6 @@ skinparam sequenceMessageAlign center
 actor       Student
 participant Presentation
 entity      Proxy
-participant Authenticator
 participant APIController
 participant InterviewsManager
 participant PlatformEntityManager

@@ -1,0 +1,41 @@
+@startuml 14ParticipantSeesMatches
+skinparam sequenceMessageAlign center
+actor       Participant
+participant Presentation
+entity      Proxy
+participant Authenticator
+participant APIController
+participant RecommendationManager
+participant UserManager
+participant PlatformEntityManager
+database    PlatformDBMS
+
+activate Participant
+Participant -> Presentation : clickDashboardRecommendationPage()
+activate Presentation
+Presentation -> Proxy : GET api/applications/private/getMatches
+activate Proxy
+Proxy -> Proxy : <color:purple> Authentication
+Proxy -> APIController : GET api/applications/private/getMatches
+activate APIController
+APIController -> RecommendationManager : getMatches(UserID)
+activate RecommendationManager
+RecommendationManager -> PlatformEntityManager : getMatches(UserID)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : result
+deactivate PlatformDBMS
+PlatformEntityManager --> RecommendationManager : result
+deactivate PlatformEntityManager
+RecommendationManager --> APIController : Matches
+deactivate RecommendationManager
+APIController --> Proxy : 200 OK : Matches
+deactivate APIController
+Proxy --> Presentation : 200 OK : Matches
+deactivate Proxy
+Presentation --> Participant : displayMatches()
+deactivate Presentation
+@enduml
+
+
