@@ -13,14 +13,14 @@ database PlatformDBMS
 activate University
 University -> Presentation : clickCloseComplaint()
 activate Presentation
-Presentation -> Proxy : POST api/comm/private/{commID}/closeComplaint
+Presentation -> Proxy : POST api/comm/private/{CommID}/close-complaint
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/comm/private/{commID}/closeComplaint
+Proxy -> APIController : POST api/comm/private/{CommID}/close-complaint
 activate APIController
-APIController -> CommunicationManager : closeComplaint(commID)
+APIController -> CommunicationManager : closeComplaint(CommID)
 activate CommunicationManager
-CommunicationManager -> PlatformEntityManager : isComplaint(commID)
+CommunicationManager -> PlatformEntityManager : isComplaint(CommID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
@@ -41,7 +41,7 @@ activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
 PlatformEntityManager --> CommunicationManager : success
-CommunicationManager --> APIController : Complaint
+CommunicationManager --> APIController : success
 deactivate CommunicationManager
 APIController -> NotificationManager : notifyUser(UserIDs, Data)
 activate NotificationManager
