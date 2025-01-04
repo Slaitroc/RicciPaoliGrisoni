@@ -1,0 +1,74 @@
+@startuml
+skinparam sequenceMessageAlign center
+
+actor User
+participant Presentation
+entity Proxy
+participant Authenticator
+entity AuthProvider
+participant APIController
+
+note right of User : PAC = Private Api Call
+User -> Presentation : triggersPAC()
+activate Presentation
+Presentation -> Proxy : PAC
+group <color:purple> Authentication
+activate Proxy
+Proxy -> Authenticator : GET api/auth/validate
+activate Authenticator
+Authenticator -> AuthProvider : validateToken()
+activate AuthProvider
+AuthProvider --> Authenticator : result
+deactivate AuthProvider
+
+
+alt Expired Token
+    Authenticator --> Proxy : 401 Unauthorized :\nTokenExpired
+    Proxy --> Presentation : 401 Unauthorized :\nTokenExpired
+        Presentation -> Proxy : POST api/auth/refresh-token
+        Proxy -> Authenticator : POST api/auth/refresh-token
+        Authenticator -> AuthProvider : refreshToken(RefreshToken)
+        activate AuthProvider
+        AuthProvider --> Authenticator : result
+        deactivate AuthProvider
+    else Refresh Token is Valid
+        Authenticator --> Proxy : 201 Created : Token
+        Proxy --> Presentation : 201 Created : Token
+        Presentation -> Presentation : saveToken()
+        Presentation -> Proxy : PAC
+        Proxy -> Authenticator : GET api/auth/validate
+        Authenticator -> AuthProvider : validateToken()
+        activate AuthProvider
+        AuthProvider --> Authenticator : result
+        deactivate AuthProvider
+    else Refresh Token Expired
+        Authenticator --> Proxy : 401 Unauthorized :\nRefreshTokenExpired
+        Proxy --> Presentation : 401 Unauthorized :\nRefreshTokenExpired
+        Presentation -> Presentation : saveCurrentPage()
+        Presentation -> Presentation : redirectToLogin()
+        Presentation --> User : displayLogInPage()
+        User -> Presentation : enterCredentials(username, password)
+        Presentation -> Proxy : POST api/auth/login
+        ' Proxy -> Authenticator : POST api/auth/validate-credentials
+        Proxy -> Proxy : <color:purple> validateCredentials(UserCredentials)
+        Proxy -> Proxy : <color:purple> generateToken(UserCredentials)
+        Proxy --> Presentation : 201 Created : Token
+        Presentation -> Presentation : saveToken()
+        Presentation -> Presentation : redirectToLastPage() 
+        Presentation -> Proxy : PAC
+        Proxy -> Authenticator : GET api/auth/validate
+end
+Authenticator --> Proxy : 200 OK : UserID
+deactivate Authenticator
+end
+Proxy -> APIController : PAC
+activate APIController
+APIController -> APIController : <color:gray> PACLogic()
+APIController --> Proxy : PACResult
+deactivate APIController
+Proxy --> Presentation : PACResult
+deactivate Proxy
+Presentation --> User : PACResult
+deactivate Presentation
+@enduml
+
