@@ -3,7 +3,6 @@ skinparam sequenceMessageAlign center
 actor       User
 participant  Presentation
 entity      Proxy
-participant Authenticator
 participant APIController
 participant CommunicationManager
 participant PlatformEntityManager
@@ -15,11 +14,7 @@ User -> Presentation : clickDashboardCommunicationPage()
 activate Presentation
 Presentation -> Proxy : GET api/comm/private/communications
 activate Proxy
-Proxy -> Authenticator : GET api/auth/validate
-activate Authenticator
-Authenticator -> Authenticator : validateToken()
-Authenticator --> Proxy : 200 OK
-deactivate Authenticator
+Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : GET api/comm/private/communications
 activate APIController
 APIController -> CommunicationManager : getCommunications(UserID)

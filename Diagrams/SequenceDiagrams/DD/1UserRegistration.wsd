@@ -60,6 +60,8 @@ deactivate Authenticator
 Proxy --> Presentation : 201 Created : Token
 deactivate Proxy
 Presentation -> Presentation : saveToken(token)
+Presentation -> Presentation : <color:purple> RequestDeviceToken()
+note right of Presentation : for RequestDeviceToken call stack see the Notification Sequence Diagram 
 Presentation -> Proxy : POST api/notify/private/sendEmail
 activate Proxy
 Proxy -> Authenticator : GET api/auth/vaidate

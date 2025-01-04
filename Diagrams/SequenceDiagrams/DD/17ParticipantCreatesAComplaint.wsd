@@ -3,7 +3,6 @@ skinparam sequenceMessageAlign center
 actor       Participant
 participant  Presentation
 entity      Proxy
-participant Authenticator
 participant APIController
 participant CommunicationManager
 participant PlatformEntityManager
@@ -18,11 +17,7 @@ Participant -> Presentation : clickCreateNewComplaint()
 activate Presentation
 Presentation -> Proxy : POST api/comm/private/create?isComplaint=true
 activate Proxy
-Proxy -> Authenticator : GET api/auth/validate
-activate Authenticator
-Authenticator -> Authenticator : validateToken()
-Authenticator --> Proxy : 200 OK
-deactivate Authenticator
+Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : POST api/comm/private/create?isComplaint=true
 activate APIController
 APIController -> CommunicationManager : createCommunication(isComplaint, UserID, Text)
@@ -36,11 +31,11 @@ deactivate PlatformDBMS
 PlatformEntityManager --> CommunicationManager : success
 deactivate PlatformEntityManager
 CommunicationManager --> APIController : Communication
-note right of APIController : UserIDs obtained from the Communication Obj
+note right of APIController : notifyUser params derived from Communication Obj
 deactivate CommunicationManager
-APIController -> NotificationManager : notifyUser(Communication, UserIDs)
+APIController -> NotificationManager : notifyUser(Data, UserIDs)
 activate NotificationManager
-NotificationManager -> NotificationManager : sendNotification(UserIDs)
+NotificationManager -> NotificationManager : <color:purple> sendNotification(Data, UserIDs)
 NotificationManager --> APIController : success
 deactivate NotificationManager
 deactivate CommunicationManager

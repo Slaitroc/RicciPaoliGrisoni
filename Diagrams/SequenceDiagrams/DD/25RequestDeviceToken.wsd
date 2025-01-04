@@ -1,0 +1,39 @@
+@startuml 
+skinparam sequenceMessageAlign center
+
+participant Presentation
+entity Proxy
+participant APIController
+participant NotificationManager
+participant NotificationEntityManager
+database NotificationDB
+entity NotificationProvider
+
+activate Presentation
+Presentation -> NotificationProvider : getDeviceToken(AppInfo)
+activate NotificationProvider
+NotificationProvider --> Presentation : DeviceToken
+deactivate NotificationProvider
+Presentation -> Proxy : POST api/notify/private/newDeviceToken
+activate Proxy
+Proxy -> Proxy : <color:purple> Authentication
+Proxy -> APIController : POST api/notify/private/newDeviceToken
+activate APIController
+APIController -> NotificationManager : insertOrUpdateDT(DeviceToken, UserID, DeviceID)
+activate NotificationManager
+NotificationManager -> NotificationEntityManager : insertOrUpdateDT(DeviceToken, UserID, DeviceID)
+activate NotificationEntityManager
+NotificationEntityManager -> NotificationDB : insertOrUpdate(DeviceToken, UserID, DeviceID)
+activate NotificationDB
+NotificationDB --> NotificationEntityManager : success
+deactivate NotificationDB
+NotificationEntityManager --> NotificationManager : success
+deactivate NotificationEntityManager
+NotificationManager --> APIController : success
+deactivate NotificationManager
+APIController --> Proxy : success
+deactivate APIController
+Proxy --> Presentation : success
+deactivate Proxy
+
+@enduml

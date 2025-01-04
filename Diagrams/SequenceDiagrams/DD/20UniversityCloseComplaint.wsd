@@ -1,0 +1,59 @@
+@startuml
+skinparam sequenceMessageAlign center
+
+actor University
+participant Presentation
+entity Proxy
+participant APIController
+participant CommunicationManager
+participant PlatformEntityManager
+participant NotificationManager
+database PlatformDBMS
+
+activate University
+University -> Presentation : clickCloseComplaint()
+activate Presentation
+Presentation -> Proxy : POST api/comm/private/{commID}/closeComplaint
+activate Proxy
+Proxy -> Proxy : <color:purple> Authentication
+Proxy -> APIController : POST api/comm/private/{commID}/closeComplaint
+activate APIController
+APIController -> CommunicationManager : closeComplaint(commID)
+activate CommunicationManager
+CommunicationManager -> PlatformEntityManager : isComplaint(commID)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : result
+deactivate PlatformDBMS
+PlatformEntityManager --> CommunicationManager : result
+deactivate PlatformEntityManager
+alt result == false
+CommunicationManager --> APIController : error
+APIController --> Proxy : 400 BadRequest : Error
+Proxy --> Presentation : 400 BadRequest : Error
+Presentation --> University : displayErrorMessage()
+end
+CommunicationManager -> PlatformEntityManager : updateComplaint(CommID, Status)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : updateComplaint(CommID, Status)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : success
+deactivate PlatformDBMS
+PlatformEntityManager --> CommunicationManager : success
+CommunicationManager --> APIController : Complaint
+deactivate CommunicationManager
+APIController -> NotificationManager : notifyUser(UserIDs, Data)
+activate NotificationManager
+NotificationManager -> NotificationManager : <color:purple> sendNotification(UserIDs, Data)
+NotificationManager --> APIController : success
+deactivate NotificationManager
+APIController --> Proxy : 200 OK
+deactivate APIController
+Proxy --> Presentation : 200 OK
+deactivate Proxy
+Presentation --> University : displayClosedComplaint()
+deactivate Presentation
+@enduml
+
+

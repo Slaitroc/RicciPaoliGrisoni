@@ -1,0 +1,73 @@
+@startuml
+skinparam sequenceMessageAlign center
+
+actor Company
+participant Presentation
+entity Proxy
+participant APIController
+participant InterviewManager
+participant PlatformEntityManager
+participant NotificationManager
+database PlatformDBMS
+
+activate Company
+Company -> Presentation : clickSendIntPosOff()
+activate Presentation
+Presentation -> Proxy : POST api/interview/private/sendIntPosOff
+activate Proxy
+Proxy -> Proxy : <color:purple> Authentication
+Proxy -> APIController : POST api/interview/private/sendIntPosOff
+activate APIController
+APIController -> InterviewManager : isOwner(InterviewID, CompanyID)
+activate InterviewManager
+InterviewManager -> PlatformEntityManager : isOwner(InterviewID, CompanyID)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : result
+deactivate PlatformDBMS
+PlatformEntityManager --> InterviewManager : result
+deactivate PlatformEntityManager
+alt result == false
+InterviewManager --> APIController : error
+APIController --> Proxy : 400 BadRequest : Error
+Proxy --> Presentation : 400 BadRequest : Error
+Presentation --> Company : displayErrorMessage()
+end
+APIController -> InterviewManager : sendIntPosOff(InterviewID)
+InterviewManager -> PlatformEntityManager : getStudentID(InterviewID)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : getStudentID(InterviewID)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : StudentID
+deactivate PlatformDBMS
+PlatformEntityManager --> InterviewManager : StudentID
+deactivate PlatformEntityManager
+InterviewManager -> PlatformEntityManager : createIntPosOff(IntPosOff, StudentID, CompanyID)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : insert(IntPosOff, StudentID, CompanyID)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : success
+deactivate PlatformDBMS
+PlatformEntityManager --> InterviewManager : success
+deactivate PlatformEntityManager
+InterviewManager --> APIController : IntPosOff
+deactivate InterviewManager
+APIController -> NotificationManager : notifyUser(Data, UserIDs)
+activate NotificationManager
+NotificationManager -> NotificationManager : <color:purple> sendNotification(Data, UserIDs)
+NotificationManager --> APIController : success
+deactivate NotificationManager
+APIController --> Proxy : 200 OK
+deactivate APIController
+Proxy --> Presentation : 200 OK
+deactivate Proxy
+Presentation --> Company : displaySentIntPosOff()
+deactivate Presentation
+@enduml
+
+
+
+
+
+

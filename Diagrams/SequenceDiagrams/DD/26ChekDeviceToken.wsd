@@ -1,0 +1,15 @@
+@startuml 
+skinparam sequenceMessageAlign center
+
+participant Presentation
+entity NotificationProvider
+
+activate Presentation
+Presentation -> NotificationProvider : CheckDeviceToken()
+activate NotificationProvider
+NotificationProvider --> Presentation : isValid
+deactivate NotificationProvider
+alt isValid == false
+    Presentation -> Presentation : <color:purple> RequestDeviceToken()
+end
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+actor User as U
+participant "Frontend (JS)" as FE
+participant "Firebase Auth" as FA
+participant "Backend (Spring)" as BE
+database "Database" as DB
+
+U -> FE: Open App
+FE -> FA: Authenticate User (Credentials)
+FA -> FE: Return Auth Token
+FE -> FCM: Request Device Token
+FCM -> FE: Return Device Token
+
+FE -> BE: Send Device Token + Auth Token
+BE -> FA: Verify Auth Token
+FA -> BE: Return Verification Result
+
+BE -> DB: Save Device Token for User
+DB -> BE: Acknowledge Save
+BE -> FE: Acknowledge Success
+@enduml

@@ -1,0 +1,74 @@
+@startuml 
+skinparam sequenceMessageAlign center
+
+participant Presentation
+entity Proxy
+participant APIController
+participant NotificationManager
+participant NotificationEntityManager
+database NotificationDB
+entity NotificationProvider
+
+activate Presentation
+note right of Presentation : Notification Triggering API Request
+Presentation -> Proxy : NTAR 
+activate Proxy
+Proxy -> Proxy : <color:purple> Authentication
+Proxy -> APIController : NTAR(UserIDs)
+activate APIController
+APIController -> APIController : <color:gray> RequestLogic()
+APIController -> NotificationManager : notifyUser(UserIDs, Data)
+
+activate NotificationManager
+group <color:purple> sendNotification(UserIDs, Data)
+NotificationManager -> NotificationManager : buildNotification(Data)
+NotificationManager -> NotificationEntityManager : getDeviceTokens(UserIDs)
+activate NotificationEntityManager
+NotificationEntityManager -> NotificationDB : buildAndExecuteQuery(Query, Class)
+activate NotificationDB
+NotificationDB --> NotificationEntityManager : result
+deactivate NotificationDB
+NotificationEntityManager --> NotificationManager : DeviceTokens
+deactivate NotificationEntityManager
+NotificationManager -> NotificationEntityManager : insertNotification(Data, UserIDs)
+activate NotificationEntityManager
+NotificationEntityManager -> NotificationDB : insert(Data, UserIDs)
+activate NotificationDB
+NotificationDB --> NotificationEntityManager : success
+deactivate NotificationDB
+NotificationEntityManager --> NotificationManager : success
+deactivate NotificationEntityManager
+NotificationManager -> NotificationProvider : sendNotification(DeviceTokens, Data)
+activate NotificationProvider
+alt Invalid Device Token
+note right of NotificationManager : Remove Invalid Device Token 
+NotificationProvider --> NotificationManager : error: Invalid DeviceToken
+loop for each InvalidDeviceToken
+NotificationManager --> NotificationEntityManager : removeDeviceToken(InvalidDeviceToken, UserID)
+activate NotificationEntityManager
+NotificationEntityManager -> NotificationDB : remove(InvalidDeviceToken, UserID)
+activate NotificationDB
+NotificationDB --> NotificationEntityManager : success
+deactivate NotificationDB
+NotificationEntityManager --> NotificationManager : success
+deactivate NotificationEntityManager
+end 
+
+
+
+ 
+end
+NotificationProvider --> NotificationManager : success
+deactivate NotificationProvider
+end
+NotificationManager --> APIController : result 
+deactivate NotificationManager
+APIController --> Proxy : NTAR result
+deactivate APIController
+Proxy --> Presentation : NTAR result
+deactivate Proxy
+@enduml
+
+
+
+
