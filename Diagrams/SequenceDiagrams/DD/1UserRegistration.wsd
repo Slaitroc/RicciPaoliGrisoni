@@ -5,7 +5,6 @@ actor       User
 participant EmailClient #99FF99
 participant Presentation
 entity      Proxy
-participant Authenticator
 participant APIController
 participant AccountManager
 participant PlatformEntityManager
@@ -14,63 +13,62 @@ database    PlatformDBMS
 activate User
 activate Presentation
 User -> Presentation : clickSignUpButton()
-activate User
 Presentation -> Proxy : POST api/account/public/register
 activate Proxy
-
 Proxy -> APIController : POST api/account/public/register
 activate APIController
-APIController -> AccountManager : createUser(UserData, UserType)
+APIController -> AccountManager : createUser(UserData)
 activate AccountManager
-AccountManager -> PlatformEntityManager : buildAndExecuteQuery(Query, Class)
+AccountManager -> PlatformEntityManager : checkUserExistence(UserData)
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : executeQuery(Query)
+PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : queryResult
+PlatformDBMS --> PlatformEntityManager : result
 deactivate PlatformDBMS
-PlatformEntityManager --> AccountManager : queryResult
+PlatformEntityManager --> AccountManager : result
 deactivate PlatformEntityManager
 alt failure: accountFound
 AccountManager --> APIController : failureMessage
 APIController --> Proxy : 409 Conflict
 Proxy --> Presentation : 409 Conflict
-Presentation --> User !! : displayErrorMessage()
+Presentation --> User : displayErrorMessage()
 end
-AccountManager -> PlatformEntityManager : insert(User)
+AccountManager -> PlatformEntityManager : insert(UserData)
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : insert(User, TmpFlag = true)
+PlatformEntityManager -> PlatformDBMS : insert(UserData)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
 PlatformEntityManager --> AccountManager : success
 deactivate PlatformEntityManager
-AccountManager --> APIController : UserID
+AccountManager --> APIController : UserIndex
 deactivate AccountManager
-APIController --> Proxy : 201 Created : UserID
+APIController --> Proxy : 201 Created : UserIndex
 deactivate APIController
-Proxy --> Presentation : 201 Created : UserID
+Proxy --> Presentation : 201 Created : UserIndex
 deactivate Proxy
-Presentation -> Proxy : POST api/auth/public/createToken
+Presentation -> Presentation : saveUserIndex(UserIndex)
+Presentation -> Proxy : POST api/auth/public/create-token
 activate Proxy
-Proxy -> Authenticator: POST api/user/createToken
-activate Authenticator
-Authenticator -> Authenticator : generateToken(UserID)
-Authenticator --> Proxy : 201 Created : Token
-deactivate Authenticator
-Proxy --> Presentation : 201 Created : Token
+Proxy -> Proxy  : <color:purple> insertCredentials(username, password)
+Proxy -> Proxy : <color:purple> GenerateToken
+Proxy -> Presentation : 201 Created : Token
 deactivate Proxy
+' Proxy -> Authenticator: POST api/user/create-token
+' activate Authenticator
+' Authenticator -> Authenticator : generateToken()
+' Authenticator --> Proxy : 201 Created : Token
+' deactivate Authenticator
+' Proxy --> Presentation : 201 Created : Token
 Presentation -> Presentation : saveToken(token)
-Presentation -> Presentation : <color:purple> RequestDeviceToken()
+Presentation -> Presentation : <color:purple> RequestDeviceToken
 note right of Presentation : for RequestDeviceToken call stack see the Notification Sequence Diagram 
-Presentation -> Proxy : POST api/notify/private/sendEmail
+Presentation -> Proxy : POST api/notify/private/send-conf-email
 activate Proxy
-Proxy -> Authenticator : GET api/auth/vaidate
-activate Authenticator
-Authenticator -> Authenticator : validateToken()
-Authenticator --> Proxy : 200 OK
-deactivate Authenticator
-Proxy -> NotificationManager : POST api/notify/private/sendEmail
+Proxy -> Proxy : <color:purple> Authentication
+Proxy -> NotificationManager : POST api/notify/private/send-conf-email
 activate NotificationManager
+NotificationManager -> NotificationManager : <color:red> sendConfEmail
 NotificationManager --> Proxy : 200 OK
 deactivate NotificationManager
 Proxy --> Presentation : 201 Created
@@ -79,30 +77,26 @@ Presentation --> User : emailSentMessage
 deactivate Presentation
 User -> EmailClient : clickEmailLink(token)
 activate EmailClient
-EmailClient -> Proxy : POST api/user/confirmEmail
+EmailClient -> Proxy : POST api/user/conf-email
 activate Proxy
-Proxy -> Authenticator : GET api/user/confirmEmail
-activate Authenticator
-Authenticator --> Proxy : UserID
-deactivate Authenticator
-Proxy -> APIController : POST api/user/confirmEmail
+Proxy -> Proxy : <color:purple> Authentication
+Proxy -> APIController : POST api/user/conf-email
 activate APIController
-APIController -> AccountManager : confirmEmail(UserID)
-deactivate Authenticator
+APIController -> AccountManager : confirmEmail(UserIndex, UserID)
 activate AccountManager
-AccountManager -> PlatformEntityManager : valid(UserID) 
+AccountManager -> PlatformEntityManager : valid(UserIndex, UserID) 
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : update(UserID, TmpFlag = false)
+PlatformEntityManager -> PlatformDBMS : update(UserIndex, UserID)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
 PlatformEntityManager --> AccountManager : success
 deactivate PlatformEntityManager
-AccountManager --> APIController : successMessage
+AccountManager --> APIController : success
 deactivate AccountManager
-APIController --> Proxy : 200 OK : successMessage
+APIController --> Proxy : 200 OK : success
 deactivate APIController
-Proxy --> EmailClient :  200 OK : successMessage
+Proxy --> EmailClient :  200 OK : success
 deactivate Proxy
 EmailClient --> User : emailConfirmedMessage
 deactivate EmailClient
