@@ -3,8 +3,9 @@
 ## 1 Introduction
 
 ### 1.1 Purpose
+
 The purpose of the Student\&Company (S\&C) platform is to enable students to enroll into internships that will enhance their education and strengthen their CVs while letting companies publish internship offers and select the best candidates thought interviews. More over, S\&C allow students' universities to monitor each of their students' progress and intervene if needed.
-The platform support and aid the users throughout the entire process by provide suggestion to the uploaded CVs and internship offers, automatically matches students and companies thanks to a proprietary algorithm, manage the distribution and collection of interviews and provides a space for filing and resolving complaints. The reader can find more information about the platform in the RASD document. 
+The platform support and aid the users throughout the entire process by provide suggestion to the uploaded CVs and internship offers, automatically matches students and companies thanks to a proprietary algorithm, manage the distribution and collection of interviews and provides a space for filing and resolving complaints. The reader can find more information about the platform in the RASD document.
 In the remaining part of this chapter we will present a summary of the technical choice made for the creation of the platform and different bullet point lists and table including the Goals that we are trying to accomplish with this software and the Definition, Acronyms, Abbreviations used in this document.
 
 #### 1.1.1 Goals
@@ -22,20 +23,24 @@ In the remaining part of this chapter we will present a summary of the technical
 | **G9**      | Companies would like to select students for the internship position among those who passed the interview. |
 
 ### 1.2 Scope
+
 This document, Design Document (DD), will provide a detailed description of the architecture of the S\&C platform from a more technical point of view. In particular it will provide a thorough description of the software with a special emphasis on its interfaces, system module, and architectural framework.
 This document will also discuss the implementation, integration and testing plan describing the tools and methodologies that will be used during the development of the platform.
 <!-- (Sam 1h)-->
 
 #### 1.2.1 Main architectural choices
 
-The chosen architectural style is a "*microservices architecture*" as it allows a scalable and modular approach to the development. The three main services are Presentation service, Application service and Authenticator service that are responsible for the user interface, the business logic and the authentication respectively. Different database services to manage services' data are included because autonomous services for DBs is a good prerequisite for data modularity and scalability. The Presentation service will provide the client with a single page application (SPA) for a smoother user experience. The Application service contains modules that provide different platform specific logic services that could be exported into new independent services in the future. This set up it is also a good starting point to manage reliability and fault tolerance, as each service can be easily scaled vertically or horizontally through the use of some cloud orchestration tools during deployment. 
+The chosen architectural style is a *microservices architecture*, as it enables a scalable and modular approach to development. The three main services are Presentation, Application, and Authenticator, which are responsible for the user interface, business logic, and authentication, respectively. Data-intensive service manage their data through autonomous databases, ensuring modularity and scalability. For now, the databases are not designed to scale horizontally, meaning that when services using them are duplicated, the database remains a single, centralized instance. The Presentation layer provides the client with a Single Page Application (SPA) for a smoother user experience. The Application layer contains modules that handle platform-specific logic services, which could be exported as independent services in the future. This setup facilitates reliability and fault tolerance, as each service is designed to be container-based and can be scaled vertically or horizontally using cloud orchestration tools during deployment.
 <!-- 
 The architecture of the platform adopt a 3-tier architecture where the front-end is implemented using a web application that communicates with the back-end through a RESTful API.
 The back-end, implemented using the Spring framework, will be responsible for the business logic of the platform, as well as the communication to the database, as it will be described in the following chapters while the front-end, following a lightweight architecture, is responsible only for the presentation of the data and the interaction with the user and will be implemented using the React framework. -->
 
 ### 1.3 Definitions, Acronyms, Abbreviations
+
 This section provides definitions and explanations of the terms, acronyms, and abbreviations used throughout the document, making it easier for readers to understand and reference them.
+
 #### 1.3.1 Definitions
+
 The definition shared between this document and the RASD document are reported in the following table.
 
 | **Term**                    | **Definition**                                                                                           |
@@ -71,7 +76,7 @@ The definition specific to this document are reported in the following table.
 | **3-tier architecture**     | A software architecture that divides the software into three different layers: presentation layer that contains the logic for displaying data and retrieve input from the user, application layer where the main logic of the software is present, and data layer that contains the data and the logic to access it. |
 | **Proxy**                   | A server that acts as an intermediary for requests from clients seeking resources from other servers. It can redirect information based on different criteria. |
 
-### 1.3.2 Acronyms
+#### 1.3.2 Acronyms
 
 The acronyms shared between this document and the RASD document are reported in the following table.
 
@@ -91,7 +96,7 @@ The acronyms specific to this document are reported in the following table.
 | **DB**      | Database                                        |
 | **API**     | Application Programming Interface               |
 
-### 1.3.3 Abbreviations
+#### 1.3.3 Abbreviations
 
 The abbreviations shared between this document and the RASD document are reported in the following table.
 
@@ -118,6 +123,7 @@ The abbreviations specific to this document are reported in the following table.
 <!-- (Sam 1h)-->
 
 ### 1.6 Document structure
+
 This document is structured as follows:
 - Section 1: *Introduction*: P a short summary of the RASD, the purpose, definition and acronyms used in this document and a non-technical description of the technical choices made for the platform's implementation.
 - Section 2: *Architectural Design*: presents a top-down description of the S&C architectural design starting from a high-level description of groups of components and their interactions, explaining the different areas of the platform and the design decisions made to realize them. \\
@@ -128,29 +134,30 @@ Finally, we present a deployment view of a full system deployment with redundant
 - Section 5: *Implementation, Integration and Test Plan*: Details the tools and methodologies that will be used during the development of the platform to test the correctness and ensure the quality of the software.
 - Section 6: *Effort Spent*: Contains a table with the hours spent by each member of the group to develop this document. 
 <!-- (Sam 0.5h)-->
+
 ## 2 Architectural Design
 
 The purpose of this chapter is to present a top-down description of the S&C architectural design, covering and justifying every design decision.
-We first introduce the high level components and their interactions, then we further describe these components in more detail through the component view.
-Next we focus on the deployment and finally on some main runtime views represented through sequence diagrams.
-
+We begin by introducing the high-level components and their interactions, followed by a detailed description of these components through the component view, focusing on their internal structure.
+Next, we address the deployment and conclude with runtime views, represented through sequence diagrams, to illustrate the interactions between the components.
 
 ### 2.1 Overview: High-level components and their interaction
 
-The system employs a simple microservices architecture composed of the Presentation, Application, Authenticator service and some DBs to handle the Application Data. The choice of a microservices structure enables the system to be scalable and to adapt to increasing demand. Additionally, this approach supports deeper decoupling and modularization in the future to handle growing service complexity.
-The client access to servers content is handled by the proxy, which routes the requests to the right service. Using a browser and navigating to the platform's main domain, the proxy routes the users to the web interface, which is provided by the Presentation service, responsible for the user interface and experience. The web interface communicates with the Application service through a RESTful API, which is responsible for the business logic. The Application service communicates with the DBs through an API that handles the ORM, the data life cycles and the querying.
-The Authenticator service is responsible for the authentication of the users and the management of the sessions. All the non-public API calls are routed by the proxy, that acts as an API gateway, through the Authenticator service to ensure that the user is authenticated and authorized to access the requested resource.
+The system employs a simple microservices architecture composed of the Presentation, Application, and Authenticator services, along with databases to manage the Application data. This microservices structure enables the system to be scalable and adaptable to increasing demand. Additionally, it supports deeper decoupling and modularization in the future, facilitating the management of growing service complexity.
+
+Client access to server content is handled by a proxy, which routes requests to the appropriate service. When users navigate to the platform's main domain using a browser, the proxy directs them to the Presentation service, which is responsible for the user interface and experience. The web interface communicates with the Application service via a RESTful API, which handles the business logic. The Application interacts with the databases through an API that manages the ORM, data life cycles, and querying processes.
+
+The Authenticator service handles user authentication. Non-public API calls pass through the proxy, acting as an API gateway, to verify that users have the necessary permissions to access requested resources.
 
 ![Overview](./Diagrams/DD/Overview0.png)
 
 #### 2.1.1 Presentation Service
 
-The Presentation static content is served to the client when they connect to the web interface. This service also provides the client with the web scripts that calls the APIs of the Application service, obtaining the right user's data and triggering the platform logic. So at runtime, the calls to other services' APIs are not directly forwarded from the Presentation service but from the client's Endpoints.
+The Presentation service delivers static content to the client upon connection to the platform's main domain. It also provides the client with the web scripts needed to call the APIs of the Application service, enabling the retrieval of user-specific data and triggering the platform's logic. During runtime, API calls to other services are initiated directly from the client's endpoints, rather than being forwarded through the Presentation service.
 
 #### 2.1.2 Authenticator Service
 
-API calls can be public or private. While public calls are reachable by non-authenticated user, private ones handles the user's personal data or logic and need authentication to be forwarded and executed. Every API call pass through the proxy that, according to the call type, delivers it to the right service: Authenticator service if it is private; the final target service otherwise. This service allows a common and centralized place for all services authentication, instead of letting each service 
-autonomously handling this process.
+API calls can be either public or private. Public calls are accessible to non-authenticated users, while private calls handle personal user data or sensitive logic and require authentication before they can be executed. All API calls are routed through the proxy, which determines the appropriate service based on the call type: private calls are directed to the Authenticator service for validation, while public calls are forwarded directly to the target service. This centralized approach to authentication ensures consistency across all services, eliminating the need for each service to handle authentication independently.
 
 #### 2.1.3 Application Service
 
@@ -168,7 +175,7 @@ This Entity Manager act as an API that enables the communication with a DBMS, si
 #### 2.2.2 Platform Logic
 
 This component exposes all the necessary interfaces to interact with the platform logic and also maintains up to date the database interacting with the Entity Manager. Its inner components are software pieces that enable managing every logic area of the platform, providing the right interfaces to other pieces that depend on them. Every \emph{Manager Component} autonomously operates the persistence and consistence of the relative relevant data within the DB using the interface provided by the Entity Manager. They also provide the \emph{API Controller} a set of methods to execute the logic without the need to care about the database interaction.
- 
+
 ![PlatformComponent](./Diagrams/DD/Component1.png)
 
 #### 2.2.3 API Controller
@@ -180,29 +187,46 @@ The API Controller contains a set of controllers whose methods, triggered by the
 This component handles every need concerning the notifications, no matter what kind they are. It works as an adapter for external push notification provider and email service and provide an interface to fluently provide other service with those external features. It also creates and manage the corresponding in-app notifications that can be fetched by the user through a service specific API. This Component is a clear example of a service that could be easily exported to its own container in future by, for example, by providing its own RESTful API to the Platform logic instead of an interface object like the actual setup. 
 
 ![NotificationComponent](./Diagrams/DD/Component2.png)
- 
+
 ### 2.3 Deployment view
 
 Each service will be hosted on its own container being able to run independently on the same or on different machines. Containers, in addiction to make the development and deployment easier, also provide a good level of isolation and security.
 The system will be hosted on the cloud and its container based nature allows to easily integrate orchestrator tools to decouple it from the cloud hosting provider and automatically manage scalability, reliability, fault tolerance and global security of the microservices cluster.
 
-
-
-
-
 ![NotificationComponent](./Diagrams/DD/Deployment.png)
- 
+
 ### 2.4 Runtime view
 
 #### Note for Runtime view
 
 - The authenticator creates, updates, validates the token. A unique userID is obtained through the token after Authenticator validation.
-- Notifications can be sent only by the user 
- 
+- Dire che anche le api call sono una sorta di pseudocodice
+- success : void senza errori e update/inser/remove db e tutto il resto
+- result non void (generico) tipicamente usato dopo alt
+- result risultato generico (anche query db)
+
+- specificare differenza UserData e Usercredential SD1
+- come oggetto di ritorno per le notifiche mettiamo data (se non viene mandato un oggetto di ritorno)
+
+#### notazione db SD
+
+- success : update-insert-remove
+- result : buildAndExecuteQuery-insert&query-update&query o query&update ecc. 
+
+- alt per ogni codice di uscita (400, 200, 201, 500, 409, 401)
+- controllare le alt
+
+- spiegare parametro Data in notifyUser(UserIDs, Data) e controllare che sia Data generico ovunque!!!
+
+- cerca le scritte rosse e rimuovile o spiegale (sendConfEmail)
+
+
+
+
 ### 2.5 Component interfaces (maybe before Runtime View)
- 
+
 ### 2.6 Selected architectural styles and patterns
- 
+
 ### 2.7 Other design decisions
 
 ## 3 User Interface Design
@@ -531,7 +555,6 @@ Possible Components at the moment:
 
 *Table: Requirement R34 - Traceability for Handling Complaints and Internship Termination.*
 <!-- (Matteo [2hr])-->
-
 
 ## 6 Effort Spent
 
