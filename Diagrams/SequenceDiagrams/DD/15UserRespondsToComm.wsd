@@ -15,30 +15,17 @@ database    PlatformDBMS
 activate User
 User -> Presentation : clickPublishAnswer(ComplaintID)
 activate Presentation
-Presentation -> Proxy : POST api/comm/private/{commID}/answer/full?<params>
+Presentation -> Proxy : POST api/comm/private/{commID}/answer
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/comm/private/{commID}/answer/full?<params>
+Proxy -> APIController : POST api/comm/private/{commID}/answer
 activate APIController
-APIController -> CommunicationManager : answerComplaint(ComplaintID, Answer)
+APIController -> CommunicationManager : answerCommunication(CommID, Answer)
 activate CommunicationManager
-CommunicationManager -> PlatformEntityManager : isComplaint(commID)
-activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
-activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : result
-deactivate PlatformDBMS
-PlatformEntityManager --> CommunicationManager : result
 deactivate PlatformEntityManager
-alt result == false
-    CommunicationManager --> APIController : error
-    APIController --> Proxy : 400 BadRequest : Error
-    Proxy --> Presentation : 400 BadRequest : Error
-    Presentation --> User : displayErrorMessage()
-end
-CommunicationManager -> PlatformEntityManager : addComplaintAnswer(ComplaintID, UserID, Answer)
+CommunicationManager -> PlatformEntityManager : addCommAnswer(ComplaintID, UserID, Answer)
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+PlatformEntityManager -> PlatformDBMS : insert(Query, Class)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
