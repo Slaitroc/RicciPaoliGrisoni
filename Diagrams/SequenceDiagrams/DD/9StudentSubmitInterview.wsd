@@ -13,14 +13,10 @@ database    PlatformDBMS
 activate Student
 Student -> Presentation : clickSendInterviewAnswer()
 activate Presentation
-'params = { "answers": [ { "questionID": 1, "answer": "answer1" }, { "questionID": 2, "answer": "answer2" } ] ... " "timeStamp": "2021-05-01T12:00:00Z" }
+'params = { "question": [ { "questionID": 1, "answer": "answer1" }, { "questionID": 2, "answer": "answer2" } ] ... " "timeStamp": "2021-05-01T12:00:00Z" }
 Presentation -> Proxy : POST api/interviews/private/sendAnswer/{InterviewID}/full?<params>
 activate Proxy
-Proxy -> Authenticator : GET api/auth/validate
-activate Authenticator
-Authenticator -> Authenticator : validateToken()
-Authenticator --> Proxy : 200 OK : UserID
-deactivate Authenticator
+Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : POST api/interviews/private/sendAnswer/{InterviewID}/full?<params>
 activate APIController
 APIController -> APIController : verifyCallParameters()
@@ -35,16 +31,16 @@ InterviewsManager -> PlatformEntityManager : submitInterviewAnswers(InterviewID,
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : result
+PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
-PlatformEntityManager --> InterviewsManager : result
+PlatformEntityManager --> InterviewsManager : success
 deactivate PlatformEntityManager
-InterviewsManager --> APIController : result(InterviewID, StudentID, CompanyID, InterviewStatus)
+InterviewsManager --> APIController : success
 deactivate InterviewsManager
-APIController --> NotificationManager : notifyUser(InterviewID, StudentID, CompanyID, InterviewStatus)
+APIController --> NotificationManager : notifyUser(UserIDs, Data)
 activate NotificationManager
-NotificationManager -> NotificationManager : sendInterviewAnsweredNotification\n(InterviewID, StudentID, CompanyID, InterviewStatus)
-NotificationManager --> APIController : result
+NotificationManager -> NotificationManager : <color:purple> sendNotification(UserIDs, Data)
+NotificationManager --> APIController : success
 deactivate NotificationManager
 APIController --> Proxy : 200 OK
 deactivate APIController
