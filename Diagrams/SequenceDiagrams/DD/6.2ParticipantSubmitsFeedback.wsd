@@ -11,21 +11,25 @@ database    PlatformDBMS
 activate Participant
 activate Presentation
 Participant -> Presentation  : pressSubmitFeedback()
-Presentation -> Proxy ++ : POST api/feedback/private/{FeedbackID}/submit
-Proxy -> Proxy : <color:purple> Authentication()
-Proxy -> APIController ++ : POST api/feedback/private/{FeedbackID}/submit
-APIController -> FeedbackMechanism ++ : submitFeedback(FeedbackID, UserID)
-FeedbackMechanism -> PlatformEntityManager ++ : retreiveUserInfo(UserID)
-PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, Class)
-PlatformDBMS --> PlatformEntityManager -- : UserInfo
-PlatformEntityManager --> FeedbackMechanism -- : UserInfo
-FeedbackMechanism -> FeedbackMechanism : computeRecommendationParameters()
-FeedbackMechanism -> PlatformEntityManager ++ : updateRecommendationParameters(Parameters)
+Presentation -> Proxy ++ : POST api/feedback/private/\n{RecommendationID}/{FeedbackID}/submit
+Proxy -> Proxy : <color:purple> Authentication
+Proxy -> APIController ++ : POST api/feedback/private/\n{RecommendationID}/{FeedbackID}/submit
+APIController -> FeedbackMechanism ++ : submitFeedback\n(FeedbackID, RecommendationID)
+FeedbackMechanism -> PlatformEntityManager ++ : saveFeedback\n(FeedbackID, RecommendationID)
+PlatformEntityManager -> PlatformDBMS ++ : insert\n(FeedbackID, RecommendationID)
+PlatformDBMS --> PlatformEntityManager -- : success
+PlatformEntityManager --> FeedbackMechanism -- : success
+FeedbackMechanism -> PlatformEntityManager ++ : retrieveRecommendationInfo\n(RecommendationID)
+PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery\n(Query, Class)
+PlatformDBMS --> PlatformEntityManager -- : result
+PlatformEntityManager --> FeedbackMechanism -- : result
+FeedbackMechanism -> FeedbackMechanism : computeRecommendationParameters\n(Data)
+FeedbackMechanism -> PlatformEntityManager ++ : updateRecommendationParameters\n(Parameters)
 PlatformEntityManager -> PlatformDBMS ++ : update(Parameters)
-PlatformDBMS --> PlatformEntityManager -- : Update Success
-PlatformEntityManager --> FeedbackMechanism -- : Update Success
-FeedbackMechanism --> APIController -- : successMessage
-APIController --> Proxy -- : 200 OK : Feedback Submitted
-Proxy --> Presentation -- : 200 OK : Feedback Submitted
+PlatformDBMS --> PlatformEntityManager -- : success
+PlatformEntityManager --> FeedbackMechanism -- : success
+FeedbackMechanism --> APIController -- : success
+APIController --> Proxy -- : 200 OK  
+Proxy --> Presentation -- : 200 OK 
 Presentation --> Participant -- : displaySuccessMessage()
 @enduml
