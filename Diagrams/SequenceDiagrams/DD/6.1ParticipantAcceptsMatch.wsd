@@ -13,38 +13,38 @@ database    PlatformDBMS
 activate Participant
 Participant -> Presentation : pressAcceptRecommendation()
 activate Presentation
-Presentation -> Proxy : POST api/recommendations/private/{RecommendationID}/accept
+Presentation -> Proxy : POST api/recommendations/private/\n{RecommendationID}/accept
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication()
 
-Proxy -> APIController ++ : POST api/recommendations/private/{RecommendationID}/accept
+Proxy -> APIController ++ : POST api/recommendations/private/\n{RecommendationID}/accept
 APIController -> RecommendationManager ++ : acceptRecommendation(RecommendationID, UserID1)
-RecommendationManager -> PlatformEntityManager ++ : updateRecommendationStatus(RecommendationID, UserID1)
-PlatformEntityManager -> PlatformDBMS ++ : update(RecommendationID, UserID1)
-PlatformDBMS --> PlatformEntityManager -- : recommendationDatas
-PlatformEntityManager --> RecommendationManager -- : recommendationDatas
-RecommendationManager --> APIController -- : recommendationDatas
+RecommendationManager -> PlatformEntityManager ++ : updateAndGetRecommendation(RecommendationID, UserID1)
+PlatformEntityManager -> PlatformDBMS ++ : update&query(RecommendationID, UserID1)
+PlatformDBMS --> PlatformEntityManager -- : result
+PlatformEntityManager --> RecommendationManager -- : result
+RecommendationManager --> APIController -- : RecommendationData
 
 alt Other Party Already Accepted
     APIController -> NotificationManager ++ : notifyUser(UserID2, Data)
     NotificationManager -> NotificationManager : <color:purple> sendNotification(UserID2, Data)
-    NotificationManager --> APIController -- : notificationSent
+    NotificationManager --> APIController -- : success
     APIController -> InterviewManager ++ : createInterview(UserID1, UserID2)
     InterviewManager -> PlatformEntityManager ++ : createInterview(UserID1, UserID2)
     PlatformEntityManager -> PlatformDBMS ++ : insert(UserID1, UserID2)
-    PlatformDBMS --> PlatformEntityManager -- : Insert Success
-    PlatformEntityManager --> InterviewManager -- : Insert Success
-    InterviewManager --> APIController -- : Interview Created
+    PlatformDBMS --> PlatformEntityManager -- : success
+    PlatformEntityManager --> InterviewManager -- : success
+    InterviewManager --> APIController -- : success
 end
 alt FeedbackMechanism triggered
-    APIController --> Proxy : 200 OK : askFeedback
+    APIController --> Proxy : 200 OK  : askFeedback
     Proxy --> Presentation : 200 OK : askFeedback
     Presentation --> Participant : displayFeedbackForm()
 end
 
-APIController --> Proxy : 200 OK : Recommendation Accepted
+APIController --> Proxy : 201 Created  
 deactivate APIController
-Proxy --> Presentation : 200 OK : Recommendation Accepted
+Proxy --> Presentation : 201 Created 
 deactivate Proxy
 Presentation --> Participant : displaySuccessMessage()
 
