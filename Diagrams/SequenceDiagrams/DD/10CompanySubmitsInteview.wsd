@@ -11,14 +11,13 @@ database    PlatformDBMS
 activate Company
 Company -> Presentation : clickSendInterview()
 activate Presentation
-Presentation -> Proxy : POST api/interviews/private/sendInterview/{InterviewID}/full?<params>
+Presentation -> Proxy ++ : POST api/interviews/private/send-interview/{InterviewID}
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/interviews/private/sendInterview/{InterviewID}/full?<params>
+Proxy -> APIController : POST api/interviews/private/send-interview/{InterviewID}
 activate APIController
-APIController -> APIController : verifyCallParameters()
-APIController -> InterviewsManager : submitInterview(InterviewID, Params, UserID)
+APIController -> InterviewsManager : submitInterview(InterviewID, InterviewData, UserID)
 activate InterviewsManager
-InterviewsManager -> PlatformEntityManager : submitInterview(InterviewID, Params, UserID)
+InterviewsManager -> PlatformEntityManager : submitInterview(InterviewID, InterviewData, UserID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
