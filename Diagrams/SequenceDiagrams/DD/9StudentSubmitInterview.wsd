@@ -12,11 +12,10 @@ database    PlatformDBMS
 activate Student
 Student -> Presentation : clickSendInterviewAnswer()
 activate Presentation
-'params = { "question": [ { "questionID": 1, "answer": "answer1" }, { "questionID": 2, "answer": "answer2" } ] ... " "timeStamp": "2021-05-01T12:00:00Z" }
-Presentation -> Proxy : POST api/interviews/private/sendAnswer/{InterviewID}/full?<params>
+Presentation -> Proxy : POST api/interviews/private/send-answer/{InterviewID}
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/interviews/private/sendAnswer/{InterviewID}/full?<params>
+Proxy -> APIController : POST api/interviews/private/send-answer/{InterviewID}
 activate APIController
 APIController -> APIController : verifyCallParameters()
 alt Wrong API Call Parameters
