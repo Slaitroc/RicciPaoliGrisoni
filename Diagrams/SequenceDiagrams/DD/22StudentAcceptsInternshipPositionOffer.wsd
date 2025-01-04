@@ -13,17 +13,17 @@ database PlatformDBMS
 activate Student
 Student -> Presentation : clickAcceptIntPosOff()
 activate Presentation
-Presentation -> Proxy : POST api/interview/private/acceptIntPosOff/{intPosOffID}
+Presentation -> Proxy : POST api/interview/private\n/accept-int-pos-off/{intPosOffID}
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/interview/private/acceptIntPosOff/{intPosOffID}
+Proxy -> APIController : POST api/interview/private\n/accept-int-pos-off/{intPosOffID}
 activate APIController
 '? I did not understand the isOwner(InterviewID, StudentID) method. I will assume that the student is the owner of the internship position offer.
 APIController -> InterviewManager : acceptIntPosOff(IntPosOffID, UserID)
 activate InterviewManager
 InterviewManager -> PlatformEntityManager : acceptIntPosOff(IntPosOffID, UserID)
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+PlatformEntityManager -> PlatformDBMS : query&update(IntPosOffID, UserID)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : result
 deactivate PlatformDBMS
@@ -48,12 +48,12 @@ else result == Unauthorized
     Proxy --> Presentation : 401 Unauthorized : Error
     Presentation --> Student : displayErrorMessage()
 end
-APIController -> NotificationManager : notifyUser(Data, UserIDs)
+APIController -> NotificationManager : notifyUser(UserIDs, Data)
 activate NotificationManager
 note left of NotificationManager
     Notify the Company that the student has accepted the internship position offer
 end note
-NotificationManager -> NotificationManager : <color:purple> sendNotification(Data, UserIDs)
+NotificationManager -> NotificationManager : <color:purple> sendNotification(UserIDs, Data)
 NotificationManager --> APIController : success
 deactivate NotificationManager
 APIController -> InterviewManager : stopOtherInterviews(UserID)
@@ -64,12 +64,12 @@ PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : result
 deactivate PlatformDBMS
-PlatformEntityManager --> InterviewManager : Interviews
+PlatformEntityManager --> InterviewManager : result
 deactivate PlatformEntityManager
 loop for each Interview in Interviews
     InterviewManager -> PlatformEntityManager : updateInterview(Interview, Status)
     activate PlatformEntityManager
-    PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+    PlatformEntityManager -> PlatformDBMS : update(Query, Class)
     activate PlatformDBMS
     PlatformDBMS --> PlatformEntityManager : success
     deactivate PlatformDBMS
@@ -82,7 +82,7 @@ loop for each Interview in Interviews
     note left of NotificationManager
         Notify other Companies that the student has accepted another internship position offer
     end note
-    NotificationManager -> NotificationManager : <color:purple> sendNotification(Data, UserIDs)
+    NotificationManager -> NotificationManager : <color:purple> sendNotification(UserIDs, Data)
     NotificationManager --> APIController : success
     deactivate NotificationManager
 end
