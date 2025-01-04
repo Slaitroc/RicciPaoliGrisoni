@@ -11,28 +11,27 @@ database    PlatformDBMS
 activate User
 User -> Presentation : clickViewStudentCV()
 activate Presentation
-Presentation -> Proxy : GET api/comm/private/cv/full?<param>
+Presentation -> Proxy : GET api/sub/private/cv/{StudentID}
 activate Proxy
-Proxy -> Proxy  : <color:purple> Authentication()
+Proxy -> Proxy  : <color:purple> Authentication
 
-Proxy -> APIController : GET api/comm/private/cv/full?<param>
+Proxy -> APIController : GET api/sub/private/cv/{StudentID}
 activate APIController
-APIController -> APIController : verifyCallParameters()
 APIController -> SubmissionManager : getCVByStudent(StudentID)
 activate SubmissionManager
 SubmissionManager -> PlatformEntityManager : getCVByStudent(StudentID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : studentCV
+PlatformDBMS --> PlatformEntityManager : result
 deactivate PlatformDBMS
-PlatformEntityManager --> SubmissionManager : studentCV
+PlatformEntityManager --> SubmissionManager : result
 deactivate PlatformEntityManager
-SubmissionManager --> APIController : studentCV
+SubmissionManager --> APIController : CV
 deactivate SubmissionManager
-APIController --> Proxy : 200 OK : studentCV
+APIController --> Proxy : 200 OK : CV
 deactivate APIController
-Proxy --> Presentation : 200 OK : studentCV
+Proxy --> Presentation : 200 OK : CV
 deactivate Proxy
 Presentation --> User : displayCV()
 deactivate Presentation
