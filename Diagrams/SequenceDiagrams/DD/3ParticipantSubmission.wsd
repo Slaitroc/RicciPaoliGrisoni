@@ -15,58 +15,59 @@ database    PlatformDBMS
 activate Participant
 activate Presentation
 Participant -> Presentation : clickSubmitButton()
-Presentation -> Proxy ++ : POST api/comm/private/{SubmissionType}
-Proxy -> Proxy  : <color:purple> Authentication()
-Proxy -> APIController ++ : POST api/comm/private/{SubmissionType}
-APIController -> SubmissionManager : handleSubmission(UserID, SubmissionData)
+Presentation -> Proxy ++ : POST api/sub/private/update-sub
+Proxy -> Proxy  : <color:purple> Authentication
+Proxy -> APIController ++ : POST api/sub/private/update-sub
+APIController -> SubmissionManager : handleSubmission\n(UserID, SubmissionData)
 activate SubmissionManager
-SubmissionManager -> SubmissionManager : check(submission)
-SubmissionManager -> PlatformEntityManager : update(UserID, Submission)
+' SubmissionManager -> SubmissionManager : check(submission)
+SubmissionManager -> PlatformEntityManager : insertOrUpdate(UserID, Submission)
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : insertSubmission(SubmissionData)
+PlatformEntityManager -> PlatformDBMS : insertOrUpdate(SubmissionData)
 activate PlatformDBMS
-PlatformDBMS --> PlatformEntityManager : queryResult
+PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
-PlatformEntityManager --> SubmissionManager : queryResult
+PlatformEntityManager --> SubmissionManager : success 
 deactivate PlatformEntityManager
-SubmissionManager --> APIController : successMessage
+SubmissionManager --> APIController : success
 deactivate SubmissionManager
 APIController -> SuggestionMechanism ++ : createSuggestions(UserID, SubmissionData)
-SuggestionMechanism -> PlatformEntityManager ++ : retriveRecommendationParameters()
+SuggestionMechanism -> PlatformEntityManager ++ : retriveRecommendationParameters(SubmissionData)
 PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, class)
-PlatformDBMS --> PlatformEntityManager -- : RecommendationParameters
-PlatformEntityManager --> SuggestionMechanism -- : RecommendationParameters
-SuggestionMechanism -> SuggestionMechanism : generateSuggestions()
+PlatformDBMS --> PlatformEntityManager -- : result
+PlatformEntityManager --> SuggestionMechanism -- : result
+SuggestionMechanism -> SuggestionMechanism : generateSuggestions\n(RecommendationParameters)
 SuggestionMechanism -> PlatformEntityManager ++ : insertSuggestion(UserID, Suggestion)
 PlatformEntityManager -> PlatformDBMS ++ : insert(UserID, Suggestion)
-PlatformDBMS --> PlatformEntityManager -- : queryResult
-PlatformEntityManager -->  SuggestionMechanism -- : queryResult
-SuggestionMechanism -> APIController -- : suggestions
+PlatformDBMS --> PlatformEntityManager -- : success
+PlatformEntityManager -->  SuggestionMechanism -- : success
+SuggestionMechanism -> APIController -- : Suggestions
 APIController -> RecommendationProcess ++ : initiateRecommendationAlgorithm(UserID, SubmissionData)
-RecommendationProcess -> RecommendationProcess : generateParameters()
-RecommendationProcess -> UserManager ++ : retreiveUsers(Parameters)
-UserManager -> PlatformEntityManager ++ : retreiveUsers(Parameters)
+RecommendationProcess -> RecommendationProcess : generateParameters(SubmissionData)
+RecommendationProcess -> UserManager ++ : retreiveSubs(Parameters)
+UserManager -> PlatformEntityManager ++ : retreiveSubs(Parameters)
 PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, class)
-PlatformDBMS --> PlatformEntityManager -- : queryResult
-PlatformEntityManager --> UserManager -- : UserList
+PlatformDBMS --> PlatformEntityManager -- : result
+PlatformEntityManager --> UserManager -- : result
 UserManager --> RecommendationProcess -- : UserList
+RecommendationProcess -> RecommendationProcess : generateRecommendations(UserList)
 RecommendationProcess -> PlatformEntityManager ++ : insertRecommendations(User, UserList)
 PlatformEntityManager -> PlatformDBMS ++ : insert(UserList, Recommendations)
-PlatformDBMS --> PlatformEntityManager -- : queryResult
-PlatformEntityManager -->  RecommendationProcess -- : queryResult
+PlatformDBMS --> PlatformEntityManager -- : success
+PlatformEntityManager -->  RecommendationProcess -- : success
 RecommendationProcess --> APIController -- : successMessage
-APIController -> UserManager ++ : notifyUsers(UserIDList, Data)
-UserManager ->> NotificationManager ++ : notifyUsers(UserIDList, Data)
+APIController -> UserManager ++ : notifyUsers(UserIDs, Data)
+UserManager ->> NotificationManager ++ : notifyUsers(UserIDs, Data)
 loop for every user
-    NotificationManager -> NotificationManager : <color:purple> sentNotification(UserIDList, Data)
+    NotificationManager -> NotificationManager : <color:purple> sentNotification\n <color:purple>(UserIDs, Data)
 end
-NotificationManager --> UserManager -- : result
-UserManager --> APIController -- : result
-APIController --> Proxy : 201 Created : SubmissionID, suggestions
+NotificationManager --> UserManager -- : success
+UserManager --> APIController -- : success
+APIController --> Proxy : 201 Created :\n SubmissionID, Suggestions
 deactivate APIController
-Proxy --> Presentation : 201 Created : SubmissionID, suggestions
+Proxy --> Presentation : 201 Created :\n SubmissionID, Suggestions
 deactivate Proxy
-Presentation --> Participant : displaySubmissionSeggestions(SubmissionID)
+Presentation --> Participant : displaySubmissionSuggestions\n(SubmissionID)
 deactivate Presentation
 deactivate Participant
 @enduml
