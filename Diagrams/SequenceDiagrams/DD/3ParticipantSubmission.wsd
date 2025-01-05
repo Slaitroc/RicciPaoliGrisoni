@@ -32,20 +32,23 @@ deactivate PlatformEntityManager
 SubmissionManager --> APIController : success
 deactivate SubmissionManager
 APIController -> SuggestionMechanism ++ : createSuggestions(UserID, SubmissionData)
-SuggestionMechanism -> PlatformEntityManager ++ : retriveRecommendationParameters(SubmissionData)
+SuggestionMechanism -> PlatformEntityManager ++ : retriveSuggestionParameters(SubmissionData)
 PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, class)
 PlatformDBMS --> PlatformEntityManager -- : result
 PlatformEntityManager --> SuggestionMechanism -- : result
-SuggestionMechanism -> SuggestionMechanism : generateSuggestions\n(RecommendationParameters)
+SuggestionMechanism -> SuggestionMechanism : generateSuggestions\n(SuggestionParameters)
 SuggestionMechanism -> PlatformEntityManager ++ : insertSuggestion(UserID, Suggestion)
 PlatformEntityManager -> PlatformDBMS ++ : insert(UserID, Suggestion)
 PlatformDBMS --> PlatformEntityManager -- : success
 PlatformEntityManager -->  SuggestionMechanism -- : success
 SuggestionMechanism -> APIController -- : Suggestions
 APIController -> RecommendationProcess ++ : initiateRecommendationAlgorithm(UserID, SubmissionData)
-RecommendationProcess -> RecommendationProcess : generateParameters(SubmissionData)
-RecommendationProcess -> UserManager ++ : retreiveSubs(Parameters)
-UserManager -> PlatformEntityManager ++ : retreiveSubs(Parameters)
+RecommendationProcess -> PlatformEntityManager ++ : retrieveRecommendationParameters()
+PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, class)
+PlatformDBMS --> PlatformEntityManager -- : result
+PlatformEntityManager --> RecommendationProcess -- : result
+RecommendationProcess -> UserManager ++ : retreiveSubs\n(RecommendationParameters)
+UserManager -> PlatformEntityManager ++ : retreiveSubs\n(RecommendationParameters)
 PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, class)
 PlatformDBMS --> PlatformEntityManager -- : result
 PlatformEntityManager --> UserManager -- : result
