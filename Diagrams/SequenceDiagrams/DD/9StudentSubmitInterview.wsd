@@ -23,9 +23,9 @@ alt Wrong API Call Parameters
     Proxy --> Presentation : 400 Bad Request : Error
     Presentation --> Student : displayErrorMessage()
 end 
-APIController -> InterviewsManager : submitInterviewAnswers(InterviewID, Params, UserID)
+APIController -> InterviewsManager : submitInterviewAnswers(InterviewID, Answer, UserID)
 activate InterviewsManager
-InterviewsManager -> PlatformEntityManager : submitInterviewAnswers(InterviewID, Params)
+InterviewsManager -> PlatformEntityManager : submitInterviewAnswers(InterviewID, Answer, UserID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
