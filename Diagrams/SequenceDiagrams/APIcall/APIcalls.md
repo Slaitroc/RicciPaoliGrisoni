@@ -109,33 +109,48 @@ These calls are routed by the Proxy to the Application service that handles the 
     - 409 Conflict :  ConflictError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
-- POST api/interviews/private/send-answer/{InterviewID} ❌
+- POST api/interviews/private/send-answer/{InterviewID} ✔️
   - Request Body : Answer : Object
   - Responses:
-    - 200 OK :
+    - 200 OK : Message : Object
     - 400 Bad Request :  InvalidError : Object
     - 401 Unauthorized :  UnauthorizedError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
-- POST api/interviews/private/send-interview/{InterviewID} ❌
-  - Url Parameters : 
+- POST api/interviews/private/send-interview/{InterviewID} ✔️
+  - Request Body : InterviewTemplate : Object
   - Responses:
-    - 200 OK :
-    - 201 Created :
-    - 400 Bad Request :
-    - 401 Unauthorized :
-    - 409 Conflict :
-    - 500 Internal Server Error :
+    - 201 Created : Message : Object
+    - 400 Bad Request : InvalidError : Object
+    - 401 Unauthorized : UnauthorizedError : Object
+    - 409 Conflict : ConflictError : Object
+    - 500 Internal Server Error : InternalServerError : Object
 
-- POST api/interviews/private/evaluate-interview/{InterviewID} ❌
-  - Url Parameters : 
+- POST api/interviews/private/save-template-interview/{InterviewID} ✔️
+  - Request Body : InterviewTemplate : Object
   - Responses:
-    - 200 OK :
-    - 201 Created :
-    - 400 Bad Request :
-    - 401 Unauthorized :
-    - 409 Conflict :
-    - 500 Internal Server Error :
+    - 201 Created : Message : Object
+    - 400 Bad Request : InvalidError : Object
+    - 401 Unauthorized : UnauthorizedError : Object
+    - 409 Conflict : ConflictError : Object
+    - 500 Internal Server Error : InternalServerError : Object
+  
+- POST api/interviews/private/{TemplateInterviewID}/send-template-interview/ ✔️
+  - Responses:
+    - 200 OK : Message : Object
+    - 400 Bad Request : InvalidError : Object
+    - 401 Unauthorized : UnauthorizedError : Object
+    - 409 Conflict : ConflictError : Object
+    - 500 Internal Server Error : InternalServerError : Object
+
+- POST api/interviews/private/evaluate-interview/{InterviewID} ✔️
+  - Request Body : Evaluation : Object
+  - Responses:
+    - 201 Created : Message : Object
+    - 400 Bad Request : InvalidError : Object
+    - 401 Unauthorized : UnauthorizedError : Object
+    - 409 Conflict : ConflictError : Object
+    - 500 Internal Server Error : InternalServerError : Object
 
 - GET api/applications/private/get-spontaneous-applications  ✔️
   - Responses:
@@ -154,7 +169,7 @@ These calls are routed by the Proxy to the Application service that handles the 
 - POST api/comm/private/{commID}/answer ✔️
   - Request Body : Answer : Object
   - Responses:
-    - 201 Created : Message : Object 
+    - 201 Created : Message : Object
     - 400 Bad Request : InvalidError : Object
     - 401 Unauthorized : UnauthorizedError : Object
     - 409 Conflict : ConflictError : Object
