@@ -85,7 +85,7 @@ These calls are routed by the Proxy to the Application service that handles the 
     - 409 Conflict :  ConflictError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
-- POST api/feedback/private/{RecommendationID}/{FeedbackID}/submit ✔️
+- PUT api/feedback/private/{RecommendationID}/{FeedbackID}/submit ✔️
   - Request Body : Feedback : Object
   - Responses:
     - 200 OK : Message : Object
@@ -135,7 +135,7 @@ These calls are routed by the Proxy to the Application service that handles the 
     - 409 Conflict : ConflictError : Object
     - 500 Internal Server Error : InternalServerError : Object
   
-- POST api/interviews/private/{TemplateInterviewID}/send-template-interview/ ✔️
+- POST api/interviews/private/{TemplateInterviewID}/send-template-interview/{InterviewID} ✔️
   - Responses:
     - 200 OK : Message : Object
     - 400 Bad Request : InvalidError : Object
@@ -230,6 +230,14 @@ These calls are routed by the Proxy to the Application service that handles the 
     - 401 Unauthorized : UnauthorizedError : Object
       - NotOwner
     - 409 Conflict : ConflictError : Object
+    - 500 Internal Server Error : InternalServerError : Object
+
+- POST api/notify/private/new-device-token ✔️
+  - Request Body : DeviceToken, DeviceID : Object
+  - Responses:
+    - 200 OK : Message : Object
+    - 400 Bad Request : InvalidError : Object
+    - 401 Unauthorized : UnauthorizedError : Object
     - 500 Internal Server Error : InternalServerError : Object
 
 ## Authenticator Endpoints
