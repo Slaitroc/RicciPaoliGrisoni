@@ -13,10 +13,10 @@ activate Company
 Company -> Presentation : clickSendInterview()
 activate Presentation
 'body contain the InterviewID and TemplateInterviewID
-Presentation -> Proxy : POST api/interview/private/\n{TemplateInterviewID}/send-template-interview/
+Presentation -> Proxy : POST api/interview/private/{TemplateInterviewID}/\nsend-template-interview/{InterviewID}
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/interview/private/\n{TemplateInterviewID}/send-template-interview/
+Proxy -> APIController : POST api/interview/private/{TemplateInterviewID}/\nsend-template-interview/{InterviewID}
 activate APIController
 APIController -> InterviewManager : isOwnerOfTemplate(TemplateInterviewID, UserID)
 activate InterviewManager

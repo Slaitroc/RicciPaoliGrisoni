@@ -15,10 +15,10 @@ Presentation -> NotificationProvider : getDeviceToken(AppInfo)
 activate NotificationProvider
 NotificationProvider --> Presentation : DeviceToken
 deactivate NotificationProvider
-Presentation -> Proxy : POST api/notify/private/newDeviceToken
+Presentation -> Proxy : POST api/notify/private/new-device-token
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/notify/private/newDeviceToken
+Proxy -> APIController : POST api/notify/private/new-device-token
 activate APIController
 APIController -> NotificationManager : insertOrUpdateDT(DeviceToken, UserID, DeviceID)
 activate NotificationManager
@@ -32,9 +32,9 @@ NotificationEntityManager --> NotificationManager : success
 deactivate NotificationEntityManager
 NotificationManager --> APIController : success
 deactivate NotificationManager
-APIController --> Proxy : 201 Created : DeviceToken
+APIController --> Proxy : 200 OK
 deactivate APIController
-Proxy --> Presentation : 201 Created : DeviceToken
+Proxy --> Presentation : 200 OK
 deactivate Proxy
 Presentation -> Presentation : saveDeviceToken(DeviceToken)
 end
