@@ -56,13 +56,11 @@ PlatformEntityManager -> PlatformDBMS ++ : insert(UserIDs, Recommendations)
 PlatformDBMS --> PlatformEntityManager -- : success
 PlatformEntityManager -->  RecommendationProcess -- : success
 RecommendationProcess --> APIController -- : UserIDs
-APIController -> UserManager ++ : notifyUsers(UserIDs, Data)
-UserManager ->> NotificationManager ++ : notifyUsers(UserIDs, Data)
+APIController -> NotificationManager ++ : notifyUsers(UserIDs, Data)
 loop for every user
     NotificationManager -> NotificationManager : <color:purple> sentNotification\n <color:purple>(UserIDs, Data)
 end
-NotificationManager --> UserManager -- : success
-UserManager --> APIController -- : success
+NotificationManager --> APIController -- : success
 APIController --> Proxy : 201 Created :\n SubmissionID, Suggestions
 deactivate APIController
 Proxy --> Presentation : 201 Created :\n SubmissionID, Suggestions

@@ -240,7 +240,7 @@ Possible Components at the moment:
 | Internal Components             | External Components        |
 |---------------------------------|----------------------------|
 | C1 API Controller               | E1 Notification Provider   |
-| C2 Account Managemer            | E2 Email Provider API      |
+| C2 Account Manager              | E2 Email Provider API      |
 | C3 User Manager                 | E3 Authentication Provider |
 | C4 Recommendation Process       | E4 DBMS                    |
 | C5 Submission Manager           | 
@@ -257,7 +257,7 @@ Possible Components at the moment:
 | **R1** | **The platform shall allow any unregistered students to register by providing personal information and selecting their University.** |
 |---------|-----------------------------|
 | **C1**  | API Controller              |
-| **C2**  | Account Managemer           |
+| **C2**  | Account Manager             |
 | **C10** | Platform Entity Manager     |
 | **C11** | Authenticator Adapter       |
 | **C12** | Notification Manager        |
@@ -272,7 +272,7 @@ Possible Components at the moment:
 | **R2** | **The platform shall allow any companies to register by providing company information.**                                         |
 |---------|-----------------------------|
 | **C1**  | API Controller              |
-| **C2**  | Account Managemer           |
+| **C2**  | Account Manager             |
 | **C10** | Platform Entity Manager     |
 | **C11** | Authenticator Adapter       |
 | **C12** | Notification Manager        |
@@ -287,7 +287,7 @@ Possible Components at the moment:
 | **R3** | **The platform shall allow any universities to register by providing university information.**  |
 |---------|-----------------------------|
 | **C1**  | API Controller              |
-| **C2**  | Account Managemer           |
+| **C2**  | Account Manager             |
 | **C10** | Platform Entity Manager     |
 | **C11** | Authenticator Adapter       |
 | **C12** | Notification Manager        |
@@ -301,6 +301,7 @@ Possible Components at the moment:
 
 | **R4** | **The platform shall allow Users to log in using their email and password.**                                                   |
 |---------|-----------------------------|
+| **C3**  | User Manager                |
 | **C11** | Authenticator Adapter       |
 | **E3**  | Authentication Provider     |
 
@@ -378,9 +379,6 @@ Possible Components at the moment:
 |---------|-----------------------------|
 | **C1**  | API Controller              |
 | **C5**  | Submission Manager          |
-| **C4**  | Recommendation Process      |
-| **C9**  | Suggestion Mechanism        |
-| **C3**  | User Manager                |
 | **C10** | Platform Entity Manager     |
 | **C11** | Authenticator Adapter       |
 | **E3**  | Authentication Provider     |
@@ -392,9 +390,6 @@ Possible Components at the moment:
 |---------|-----------------------------|
 | **C1**  | API Controller              |
 | **C5**  | Submission Manager          |
-| **C4**  | Recommendation Process      |
-| **C9**  | Suggestion Mechanism        |
-| **C3**  | User Manager                |
 | **C10** | Platform Entity Manager     |
 | **C11** | Authenticator Adapter       |
 | **E3**  | Authentication Provider     |
@@ -482,7 +477,7 @@ Possible Components at the moment:
 | **R20** | **The platform shall start a Selection Process only if the Company has accepted the Spontaneous Application.** |
 |---------|-----------------------------|
 | **C1**  | API Controller              |
-| **C4**  | Recommendation Process      |
+| **C5**  | Submission Manager          |
 | **C6**  | Interviews Manager          |
 | **C10** | Platform Entity Manager     |
 | **C11** | Authenticator Adapter       |
