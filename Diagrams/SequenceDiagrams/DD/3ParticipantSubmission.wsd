@@ -49,13 +49,13 @@ UserManager -> PlatformEntityManager ++ : retreiveSubs(Parameters)
 PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, class)
 PlatformDBMS --> PlatformEntityManager -- : result
 PlatformEntityManager --> UserManager -- : result
-UserManager --> RecommendationProcess -- : UserList
-RecommendationProcess -> RecommendationProcess : generateRecommendations(UserList)
-RecommendationProcess -> PlatformEntityManager ++ : insertRecommendations(User, UserList)
-PlatformEntityManager -> PlatformDBMS ++ : insert(UserList, Recommendations)
+UserManager --> RecommendationProcess -- : UserIDs, SubmissionsIDs
+RecommendationProcess -> RecommendationProcess : generateRecommendations(UserIDs)
+RecommendationProcess -> PlatformEntityManager ++ : insertRecommendations(User, UserIDs)
+PlatformEntityManager -> PlatformDBMS ++ : insert(UserIDs, Recommendations)
 PlatformDBMS --> PlatformEntityManager -- : success
 PlatformEntityManager -->  RecommendationProcess -- : success
-RecommendationProcess --> APIController -- : successMessage
+RecommendationProcess --> APIController -- : UserIDs
 APIController -> UserManager ++ : notifyUsers(UserIDs, Data)
 UserManager ->> NotificationManager ++ : notifyUsers(UserIDs, Data)
 loop for every user

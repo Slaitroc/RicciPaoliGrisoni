@@ -3,10 +3,8 @@ skinparam sequenceMessageAlign center
 actor       Participant
 participant Presentation
 entity      Proxy
-participant Authenticator
 participant APIController
 participant RecommendationManager
-participant UserManager
 participant PlatformEntityManager
 database    PlatformDBMS
 

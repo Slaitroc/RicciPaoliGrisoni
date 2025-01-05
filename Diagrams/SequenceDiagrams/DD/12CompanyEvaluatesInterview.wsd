@@ -12,6 +12,7 @@ database    PlatformDBMS
 activate Company
 Company -> Presentation : clickEvaluateInterview(InterviewID)
 Presentation -> Proxy : POST api/interviews/private/evaluate-interview/{InterviewID}
+activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : POST api/interviews/private/evaluateInterview/{InterviewID}
 activate APIController

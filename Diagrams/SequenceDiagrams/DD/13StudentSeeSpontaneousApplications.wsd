@@ -5,17 +5,16 @@ participant Presentation
 entity      Proxy
 participant APIController
 participant SubmissionsManager
-participant UserManager
 participant PlatformEntityManager
 database    PlatformDBMS
 
 activate Student
 Student -> Presentation : clickDashboardSpontaneousApplicationsPage()
 activate Presentation
-Presentation -> Proxy : GET api/applications/private/get-spontaneous-applications
+Presentation -> Proxy : GET api/applications/private/\nget-spontaneous-applications
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : GET api/applications/private/get-spontaneous-applications
+Proxy -> APIController : GET api/applications/private/\nget-spontaneous-applications
 activate APIController
 APIController -> SubmissionsManager : getSpontaneousApplications(StudentID)
 activate SubmissionsManager

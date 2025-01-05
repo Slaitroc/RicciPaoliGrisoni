@@ -10,6 +10,7 @@ database NotificationDB
 entity NotificationProvider
 
 activate Presentation
+group Request Device Token
 Presentation -> NotificationProvider : getDeviceToken(AppInfo)
 activate NotificationProvider
 NotificationProvider --> Presentation : DeviceToken
@@ -36,5 +37,6 @@ deactivate APIController
 Proxy --> Presentation : 201 Created : DeviceToken
 deactivate Proxy
 Presentation -> Presentation : saveDeviceToken(DeviceToken)
+end
 
 @enduml

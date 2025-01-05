@@ -5,7 +5,7 @@ actor       Company
 participant Presentation
 entity      Proxy
 participant APIController
-participant Someone
+participant SubmissionManager
 participant NotificationManager
 participant InterviewManager
 participant PlatformEntityManager
@@ -17,12 +17,12 @@ Company -> Presentation : clickAcceptSpontaneousApplication()
 Presentation -> Proxy ++ : POST api/comm/private/application\n/{ApplicationID}/accept
 Proxy -> Proxy : <color:purple> Authentication()
 Proxy -> APIController ++ : POST api/comm/private/application\n/{ApplicationID}/accept
-APIController -> Someone ++ : acceptApplication(ApplicationID)
-Someone -> PlatformEntityManager ++ : updateAndGetApplicationStatus(ApplicationID)
+APIController -> SubmissionManager ++ : acceptApplication(ApplicationID)
+SubmissionManager -> PlatformEntityManager ++ : updateAndGetApplicationStatus(ApplicationID)
 PlatformEntityManager -> PlatformDBMS ++ : update&query(ApplicationID)
 PlatformDBMS --> PlatformEntityManager -- : result
-PlatformEntityManager --> Someone -- : result
-Someone --> APIController -- : StudentID
+PlatformEntityManager --> SubmissionManager -- : result
+SubmissionManager --> APIController -- : StudentID
 
 APIController -> NotificationManager ++ : notifyUser(StudentID, Data)
 NotificationManager -> NotificationManager : <color:purple> sendNotification(StudentID, Data)

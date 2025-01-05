@@ -20,12 +20,12 @@ APIController -> SubmissionManager : deleteSubmission\n(InternshipID)
 activate SubmissionManager
 SubmissionManager -> UserManager : retreiveInvolvedStudents(InternshipID)
 activate UserManager
-UserManager -> PlatformEntityManager ++ : getStudentsIDs(InternshipID)
+UserManager -> PlatformEntityManager ++ : getUserIDs(InternshipID)
 PlatformEntityManager -> PlatformDBMS : retreive(InternshipID)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager -- : result
 PlatformEntityManager --> UserManager -- : result
-UserManager --> SubmissionManager -- : StudentsIDs
+UserManager --> SubmissionManager -- : UserIDs
 
 SubmissionManager -> PlatformEntityManager : deleteInternship(InternshipID)
 activate PlatformEntityManager
@@ -36,9 +36,9 @@ deactivate PlatformDBMS
 PlatformEntityManager --> SubmissionManager : success 
 deactivate PlatformEntityManager
 
-SubmissionManager --> APIController : StudentsIDs
+SubmissionManager --> APIController : UserIDs
 deactivate SubmissionManager
-APIController ->> NotificationManager ++ : notifyUsers(StudentIDs, Data)
+APIController ->> NotificationManager ++ : notifyUsers(UserIDs, Data)
 loop for every\n involved student
     NotificationManager -> NotificationManager : <color:purple> sentNotification\n <color:purple>(UserIDs, Data)
 end

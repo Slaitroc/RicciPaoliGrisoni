@@ -5,7 +5,7 @@ actor       Student
 participant  Presentation
 entity      Proxy
 participant APIController
-participant Someone
+participant SubmissionManager
 participant NotificationManager
 participant PlatformEntityManager
 database    PlatformDBMS
@@ -17,12 +17,12 @@ Student -> Presentation : clickSubmit\nSpontaneousApplication()
 Presentation -> Proxy ++ : POST api/sub/private/\napplication/{CompanyID}
 Proxy -> Proxy  : <color:purple> Authentication
 Proxy -> APIController ++ : POST api/sub/private/\napplication/{CompanyID}
-APIController -> Someone ++ : addSpontaneousApplication\n(StudentID, CompanyID)
-Someone -> PlatformEntityManager ++ : addSpontaneousApplication\n(StudentID, CompanyID) 
+APIController -> SubmissionManager ++ : addSpontaneousApplication\n(StudentID, CompanyID)
+SubmissionManager -> PlatformEntityManager ++ : addSpontaneousApplication\n(StudentID, CompanyID) 
 PlatformEntityManager -> PlatformDBMS ++ : insert(StudentID, CompanyID)
 PlatformDBMS --> PlatformEntityManager -- : success
-PlatformEntityManager --> Someone -- : success
-Someone -> APIController -- : success
+PlatformEntityManager --> SubmissionManager -- : success
+SubmissionManager -> APIController -- : success
 APIController -> NotificationManager ++ : notifyUser(CompanyID, Data)
 NotificationManager -> NotificationManager : <color:purple> sendNotification(CompanyID, Data)
 NotificationManager --> APIController -- : success
