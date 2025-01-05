@@ -19,13 +19,13 @@ FeedbackMechanism -> PlatformEntityManager ++ : saveFeedback\n(FeedbackID, Recom
 PlatformEntityManager -> PlatformDBMS ++ : insert\n(FeedbackID, RecommendationID)
 PlatformDBMS --> PlatformEntityManager -- : success
 PlatformEntityManager --> FeedbackMechanism -- : success
-FeedbackMechanism -> PlatformEntityManager ++ : retrieveRecommendationInfo\n(RecommendationID)
+FeedbackMechanism -> PlatformEntityManager ++ : retrieveRecommendationParameters()
 PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery\n(Query, Class)
 PlatformDBMS --> PlatformEntityManager -- : result
 PlatformEntityManager --> FeedbackMechanism -- : result
-FeedbackMechanism -> FeedbackMechanism : computeRecommendationParameters\n(Data)
-FeedbackMechanism -> PlatformEntityManager ++ : updateRecommendationParameters\n(Parameters)
-PlatformEntityManager -> PlatformDBMS ++ : update(Parameters)
+FeedbackMechanism -> FeedbackMechanism : computeRecommendationParameters\n(RecommendationParameters)
+FeedbackMechanism -> PlatformEntityManager ++ : updateRecommendationParameters\n(RecommendationParameters)
+PlatformEntityManager -> PlatformDBMS ++ : update\n(RecommendationParameters)
 PlatformDBMS --> PlatformEntityManager -- : success
 PlatformEntityManager --> FeedbackMechanism -- : success
 FeedbackMechanism --> APIController -- : success
