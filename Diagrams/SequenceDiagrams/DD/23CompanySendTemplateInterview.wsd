@@ -13,10 +13,10 @@ activate Company
 Company -> Presentation : clickSendInterview()
 activate Presentation
 'body contain the InterviewID and TemplateInterviewID
-Presentation -> Proxy : POST api/interview/private/send-template-interview/
+Presentation -> Proxy : POST api/interview/private/\n{TemplateInterviewID}/send-template-interview/
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/interview/private/send-template-interview/
+Proxy -> APIController : POST api/interview/private/\n{TemplateInterviewID}/send-template-interview/
 activate APIController
 APIController -> InterviewManager : isOwnerOfTemplate(TemplateInterviewID, UserID)
 activate InterviewManager
@@ -27,9 +27,9 @@ activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : result
 deactivate PlatformDBMS
 PlatformEntityManager --> InterviewManager : result
+InterviewManager --> APIController : result
 deactivate PlatformEntityManager
 alt result == false
-    InterviewManager --> APIController : error
     APIController --> Proxy : 400 BadRequest : Error
     Proxy --> Presentation : 400 BadRequest : Error
     Presentation --> Company : displayErrorMessage()
