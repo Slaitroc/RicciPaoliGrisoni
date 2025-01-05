@@ -13,7 +13,7 @@ User -> Presentation : clickViewCompanyInternships()
 activate Presentation
 Presentation -> Proxy : GET api/sub/private/internships\n/{CompanyID}
 activate Proxy
-Proxy -> Proxy  : <color:purple> Authentication()
+Proxy -> Proxy  : <color:purple> Authentication
 Proxy -> APIController : GET api/sub/private/internships\n/{CompanyID}
 activate APIController
 APIController -> SubmissionManager : getInternshipsByCompany(CompanyID)

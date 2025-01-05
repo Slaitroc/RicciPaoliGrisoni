@@ -24,15 +24,15 @@ PlatformDBMS --> PlatformEntityManager -- : result
 PlatformEntityManager --> SubmissionManager -- : result
 SubmissionManager --> APIController -- : StudentID
 
-APIController -> NotificationManager ++ : notifyUser(StudentID, Data)
-NotificationManager -> NotificationManager : <color:purple> sendNotification(StudentID, Data)
-NotificationManager --> APIController -- : notificationSent
 APIController -> InterviewManager ++ : createInterview(StudentID, CompanyID)
 InterviewManager -> PlatformEntityManager ++ : createInterview(StudentID, CompanyID)
 PlatformEntityManager -> PlatformDBMS ++ : insert(StudentID, CompanyID)
 PlatformDBMS --> PlatformEntityManager -- : success
 PlatformEntityManager --> InterviewManager -- : success
 InterviewManager --> APIController -- : success
+APIController -> NotificationManager ++ : notifyUser(StudentID, Data)
+NotificationManager -> NotificationManager : <color:purple> sendNotification(StudentID, Data)
+NotificationManager --> APIController -- : notificationSent
 APIController --> Proxy : 200 OK 
 deactivate APIController
 Proxy --> Presentation : 200 OK 

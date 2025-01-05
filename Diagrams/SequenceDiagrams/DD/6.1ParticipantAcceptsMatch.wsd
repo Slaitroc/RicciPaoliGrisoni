@@ -40,12 +40,11 @@ alt FeedbackMechanism triggered
     APIController --> Proxy : 201 Created  : askFeedback
     Proxy --> Presentation : 200 Created : askFeedback
     Presentation --> Participant : displayFeedbackForm()
-end
-
+else
 APIController --> Proxy : 201 Created  
 deactivate APIController
 Proxy --> Presentation : 201 Created 
 deactivate Proxy
 Presentation --> Participant : displaySuccessMessage()
-
+end
 @enduml
