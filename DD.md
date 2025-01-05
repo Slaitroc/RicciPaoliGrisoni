@@ -234,327 +234,418 @@ The system will be hosted on the cloud and its container based nature allows to 
 The web interface is a single page application (SPA) that allows a wide number of interaction without the need of refreshing the page, providing a smoother user experience.  
 
 ## 4 Requirements Traceability
-<!--
-Possible Components at the moment: 
-### Internal Components
-- Recommendation Process
-- Communication Manager
-- Suggestion Mechanism
-- FeedBack Mechanism
-- Interviews Manager
-- User Management
-- Entity Manager
 
-### External Components
-- Email Provider API
-- Notification Manager
--->
-### R1
+Possible Components at the moment: 
+
+| Internal Components             | External Components        |
+|---------------------------------|----------------------------|
+| C1 API Controller               | E1 Notification Provider   |
+| C2 Account Managemer            | E2 Email Provider API      |
+| C3 User Manager                 | E3 Authentication Provider |
+| C4 Recommendation Process       | E4 DBMS                    |
+| C5 Submission Manager           | 
+| C6 Interviews Manager           |
+| C7 Communication Manager        |
+| C8 FeedBack Mechanism           |
+| C9 Suggestion Mechanism         |
+| C10 Platform Entity Manager     |
+| C11 Authenticator Adapter       |
+| C12 Notification Manager        |
+| C13 Notification Entity Manager |
+
+
 | **R1** | **The platform shall allow any unregistered students to register by providing personal information and selecting their University.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  |                 |
+| **C2**  |                 |
+| **C10** |                 |
+| **C11** |                 |
+| **C12** |                 |
+| **C13** |                 |
+| **E1**  |                 |
+| **E2**  |                 |
+| **E3**  |                 |
+| **E4**  |                 |
 
 *Table: Requirement R1 - Traceability for Student Registration Process.*
 
-### R2
 | **R2** | **The platform shall allow any companies to register by providing company information.**                                         |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  |                 |
+| **C2**  |                 |
+| **C10** |                 |
+| **C11** |                 |
+| **C12** |                 |
+| **C13** |                 |
+| **E1**  |                 |
+| **E2**  |                 |
+| **E3**  |                 |
+| **E4**  |                 |
 
 *Table: Requirement R2 - Traceability for Company Registration Process.*
 
-### R3
-| **R3** | **The platform shall allow any universities to register by providing university information.**                                    |
+| **R3** | **The platform shall allow any universities to register by providing university information.**  |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                                |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  |                 |
+| **C2**  |                 |
+| **C10** |                 |
+| **C11** |                 |
+| **C12** |                 |
+| **C13** |                 |
+| **E1**  |                 |
+| **E2**  |                 |
+| **E3**  |                 |
+| **E4**  |                 |
 
 *Table: Requirement R3 - Traceability for University Registration Process.*
 
-### R4
 | **R4** | **The platform shall allow Users to log in using their email and password.**                                                   |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                                |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C11** ||
+| **E3**  ||
 
 *Table: Requirement R4 - Traceability for User Login Functionality.*
 
-### R5
 | **R5** | **The platform shall send notifications to Users when relevant events occur.**                                                 |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C12**  ||
+| **C13**  ||
+| **E1**  ||
+| **E4**  ||
 
 *Table: Requirement R5 - Traceability for Notification Functionality.*
 
-### R6
 | **R6** | **The platform shall allow Companies to create and publish Internship offers specifying details.**                              |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  | |
+| **C5**  ||
+| **C4**  ||
+| **C9**  ||
+| **C3**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R6 - Traceability for Internship Offer Creation.*
 
-### R7
 | **R7** | **The platform shall allow Companies to terminate their Internship offers at their own discretion.**                            |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  | |
+| **C3**  ||
+| **C5**  ||
+| **C10**  ||
+| **C11**  ||
+| **E4**  ||
+
 
 *Table: Requirement R7 - Traceability for Internship Termination.*
 
-### R8
 | **R8** | **The platform shall provide Students with Matches automatically obtained by the Recommendation Process.**                     |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C3**  ||
+| **C4**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R8 - Traceability for Recommendation Matching.*
 
-### R9
 | **R9** | **The platform shall allow Students to view and navigate all available Internships.**                                          |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C5**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R9 - Traceability for Viewing Available Internships.*
 
-### R10
 | **R10** | **The platform shall enable Students to submit Spontaneous Applications to Internships they choose.**                         |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C5**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R10 - Traceability for Spontaneous Applications.*
 
-### R11
 | **R11** | **The platform shall allow Students to submit their CV.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  | |
+| **C5**  ||
+| **C4**  ||
+| **C9**  ||
+| **C3**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R11 - Traceability for CV Submission.*
 
-### R12
 | **R12** | **The platform shall allow Students to modify their CV.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  | |
+| **C5**  ||
+| **C4**  ||
+| **C9**  ||
+| **C3**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R12 - Traceability for CV Modification.*
 
-### R13
 | **R13** | **The platform shall allow Students to monitor the status of their Spontaneous Applications.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C5**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R13 - Traceability for Monitoring Spontaneous Applications.*
 
-### R14
 | **R14** | **The platform shall allow Students to monitor the status of their Recommendation.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C4**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R14 - Traceability for Monitoring Recommendations.*
 
-### R15
 | **R15** | **The platform shall display to Students all the Internships found by the Recommendation Process.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C4**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R15 - Traceability for Displaying Recommended Internships.*
 
-### R16
 | **R16** | **The platform shall display to Companies all the CVs of Matched Students obtained by the Recommendation Process.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C4**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R16 - Traceability for Displaying Matched Student CVs.*
 
-### R17
 | **R17** | **The platform shall allow Students and Companies to accept a Recommendation.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C4**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R17 - Traceability for Accepting Recommendations.*
 
-### R18
 | **R18** | **The platform shall allow Companies to accept a Spontaneous Application.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C4**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R18 - Traceability for Accepting Spontaneous Applications.*
 
-### R19
 | **R19** | **The platform shall start a Selection Process only if both the Company and the Student have accepted the Recommendation.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C4**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R19 - Traceability for Starting Selection Process via Recommendation.*
 
-### R20
 | **R20** | **The platform shall start a Selection Process only if the Company has accepted the Spontaneous Application.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C4**  ||
+| **C6**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R20 - Traceability for Starting Selection Process via Spontaneous Application.*
 
-### R21
 | **R21** | **The platform shall allow Companies to create Interviews.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C6**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R21 - Traceability for Creating Interviews.*
 
-### R22
 | **R22** | **The platform shall allow Companies to submit Interviews to Students they have initiated a Selection Process with.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C6**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
  
 *Table: Requirement R22 - Traceability for Submitting Interviews.*
 
-### R23
 | **R23** | **The platform shall allow Students to answer Interview questions and submit them.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C6**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R23 - Traceability for Answering and Submitting Interviews.*
 
-### R24
 | **R24** | **The platform shall allow Companies to manually evaluate Interview submissions.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C6**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R24 - Traceability for Evaluating Interview Submissions.*
 
-### R25
 | **R25** | **The platform shall allow Students and Companies to monitor the status of their Interviews.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C6**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R25 - Traceability for Monitoring Interview Status.*
 
-### R26
 | **R26** | **The platform shall enable Companies to complete the Interview process by submitting the final outcome to each candidate.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C6**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R26 - Traceability for Submitting Interview Outcomes.*
 
-### R27
 | **R27** | **The platform shall enable Companies to send an Internship Position Offer to a Student only if he previously passed the relative Interview.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C6**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R27 - Traceability for Sending Internship Position Offers.*
 
-### R28
 | **R28** | **The platform shall enable Students to accept or reject an Internship Position Offer sent by a Company only if he previously passed the relative Interview.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C6**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R28 - Traceability for Accepting or Rejecting Internship Position Offers.*
 
-### R29
 | **R29** | **The platform shall collect Feedback from both Students and Companies regarding the Recommendation Process.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C8**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R29 - Traceability for Collecting Feedback on Recommendation Process.*
 
-### R30
 | **R30** | **The platform shall provide Suggestions to Students on improving their CVs.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C9**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R30 - Traceability for Providing CV Improvement Suggestions.*
 
-### R31
 | **R31** | **The platform shall provide Suggestions to Companies on improving Internship descriptions.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C9**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R31 - Traceability for Improving Internship Descriptions.*
 
-### R32
 | **R32** | **The platform shall allow registered Universities to access and monitor Internship Communications related to their Students.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C7**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R32 - Traceability for Monitoring Internship Communications by Universities.*
 
-### R33
 | **R33** | **The platform shall provide a dedicated space for Students and Companies to exchange Communications about the current status of an Ongoing Internship.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C7**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R33 - Traceability for Communication Space for Ongoing Internships.*
 
-### R34
 | **R34** | **The platform shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.** |
 |---------|---------------------------------------|
-| **C1**  | Internal Component1                   |
-| **C2**  | Internal Component2                   |
-| **E1**  | External Component1...                |
+| **C1**  ||
+| **C7**  ||
+| **C10**  ||
+| **C11**  ||
+| **E3**  ||
+| **E4**  ||
 
 *Table: Requirement R34 - Traceability for Handling Complaints and Internship Termination.*
-<!-- (Matteo [2hr])-->
+<!-- (Matteo [7hr])-->
 
 ## 6 Effort Spent
 
