@@ -38,9 +38,9 @@ activate NotificationManager
 NotificationManager -> NotificationManager : <color:purple> sendNotification(UserIDs, Data)
 NotificationManager --> APIController : success
 deactivate NotificationManager
-APIController --> Proxy : 200 OK
+APIController --> Proxy : 201 Created
 deactivate APIController
-Proxy --> Presentation : 200 OK
+Proxy --> Presentation : 201 Created
 deactivate Proxy
 Presentation --> User : displayComplaintAnswer()
 deactivate Presentation
