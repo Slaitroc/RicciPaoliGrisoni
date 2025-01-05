@@ -220,6 +220,50 @@ The system will be hosted on the cloud and its container based nature allows to 
 
 - cerca le scritte rosse e rimuovile o spiegale (sendConfEmail)
 
+### Sequence Diagram Descriptions
+
+1. UserRegistration
+    
+    This sequence diagram outlines the User Registration process. Initially, the Account Manager verifies the uniqueness of the user's credentials, followed by registering the user in the database. Subsequently, the token generation process is triggered, and a confirmation email is sent to the provided address. Once the user responds to the email, the account is activated.
+
+
+2. UserLogIn
+
+    This sequence diagram illustrates the User Login process. The user submits their credentials, which are validated by the Authenticator via the AuthProvider. If the credentials are valid, a token is generated and saved in the Presentation layer.
+
+
+3. ParticipantSubmission
+
+    This sequence diagram illustrates the process of a Student submitting their CV or a Company submitting an Internship Offer. Upon submission, the SubmissionManager stores the data in the database. The SuggestionMechanism generates Suggestions based on previously saved parameters and stores them. The RecommendationProcess generates recommendations based on additional parameters and stores them as well. Each new Match identified by the Recommendation Process is notified via the NotificationManager. Finally, the participant is presented with the Suggestions for their submission.
+
+
+4. UserOpensCompanyIntOff
+
+    This sequence diagram shows the process when a User views a Company's internships. The User's request triggers an API call, which is processed by the APIController and SubmissionManager. The PlatformEntityManager queries the PlatformDBMS for internship data, which is then returned and displayed to the User.
+
+
+5. UserOpensStudentCV
+
+    This sequence diagram illustrates the process when a User views a Student's CV. The User's request initiates an API call, which is processed by the APIController and SubmissionManager. The PlatformEntityManager queries the PlatformDBMS for the CV, and the result is returned and displayed to the User.
+
+
+6. 1 ParticipantAcceptsMatch
+    
+    This sequence diagram illustrates the process when a Participant accepts a recommendation. The Participant triggers the process by pressing the accept button. The request is authenticated and sent to the APIController, which interacts with the RecommendationManager to update and fetch recommendation data. If the other party has already accepted, an interview is created through the InterviewManager. Additionally, if the FeedbackMechanism is triggered, the Participant is prompted to provide feedback. Finally, the success message is displayed to the Participant.
+
+
+   2 ParticipantSubmitsFeedback
+
+    This sequence diagram illustrates the process of a Participant submitting feedback on a recommendation. The Participant triggers the process by pressing the submit feedback button. The APIController handles the request, and the FeedbackMechanism saves the feedback in the PlatformDBMS. Afterward, it retrieves recommendation parameters updates them. The updated data is stored back in the database, and the feedback process is successfully completed. Finally, the Participant is presented with a success message.
+
+
+7. StudentSendsSpontaneousApplication
+
+    This sequence diagram represents the process of a Student submitting a Spontaneous Application to a Company. The Student initiates the action by clicking the submit button. The APIController handles the submission and calls the SubmissionManager to add the application. The data is stored in the PlatformDBMS, and once successful, a notification is sent to the Company via the NotificationManager. Finally, the Student receives a success message indicating the completion of the process.
+
+8. CompanyAcceptsSpontaneousApplication
+
+    This sequence diagram depicts the process in which a Company accepts a Spontaneous Application from a Student. The Company initiates the action by clicking the "accept" button. The APIController calls the SubmissionManager to process the acceptance, and the application status is updated in the PlatformDBMS. Following the acceptance, an Interview between the Student and the Company is created and stored. The NotificationManager sends a notification to the Student . Finally, the Company receives a success message confirming the acceptance and interview creation.
 
 
 
