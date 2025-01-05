@@ -11,12 +11,12 @@ database    PlatformDBMS
 activate Participant
 activate Presentation
 Participant -> Presentation  : pressSubmitFeedback()
-Presentation -> Proxy ++ : POST api/feedback/private/\n{RecommendationID}/{FeedbackID}/submit
+Presentation -> Proxy ++ : PUT api/feedback/private/\n{RecommendationID}/{FeedbackID}/submit
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController ++ : POST api/feedback/private/\n{RecommendationID}/{FeedbackID}/submit
+Proxy -> APIController ++ : PUT api/feedback/private/\n{RecommendationID}/{FeedbackID}/submit
 APIController -> FeedbackMechanism ++ : submitFeedback\n(FeedbackID, RecommendationID)
 FeedbackMechanism -> PlatformEntityManager ++ : saveFeedback\n(FeedbackID, RecommendationID)
-PlatformEntityManager -> PlatformDBMS ++ : insert\n(FeedbackID, RecommendationID)
+PlatformEntityManager -> PlatformDBMS ++ : update\n(FeedbackID, Feedback, RecommendationID)
 PlatformDBMS --> PlatformEntityManager -- : success
 PlatformEntityManager --> FeedbackMechanism -- : success
 FeedbackMechanism -> PlatformEntityManager ++ : retrieveRecommendationInfo\n(RecommendationID)
