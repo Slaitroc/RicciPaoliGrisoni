@@ -44,8 +44,8 @@ else result == Unauthorized
         The student tried to accept an internship position offer that does not belong to him
         A Interview do not belong to the Student if the entry (IntPosOffID, UserID) is not found in the database
     end note
-    APIController --> Proxy : 401 Unauthorized : Error
-    Proxy --> Presentation : 401 Unauthorized : Error
+    APIController --> Proxy : 401 Unauthorized : NotOwner
+    Proxy --> Presentation : 401 Unauthorized : NotOwner
     Presentation --> Student : displayErrorMessage()
 end
 APIController -> NotificationManager : notifyUser(UserIDs, Data)
