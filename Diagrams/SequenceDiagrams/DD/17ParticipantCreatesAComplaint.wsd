@@ -15,12 +15,12 @@ database    PlatformDBMS
 activate Participant
 Participant -> Presentation : clickCreateNewComplaint()
 activate Presentation
-Presentation -> Proxy : POST api/comm/private/create?isComplaint=true
+Presentation -> Proxy : POST api/comm/private/create?isComplain=true
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/comm/private/create?isComplaint=true
+Proxy -> APIController : POST api/comm/private/create?isComplain=true
 activate APIController
-APIController -> CommunicationManager : createCommunication(isComplaint, UserID, Text)
+APIController -> CommunicationManager : createComplaint(UserID, Communication)
 activate CommunicationManager
 CommunicationManager -> PlatformEntityManager : insert(Communication, UserID)
 activate PlatformEntityManager
@@ -38,9 +38,9 @@ NotificationManager -> NotificationManager : <color:purple> sendNotification(Use
 NotificationManager --> APIController : success
 deactivate NotificationManager
 deactivate CommunicationManager
-APIController --> Proxy : 200 OK
+APIController --> Proxy : 201 Created
 deactivate APIController
-Proxy --> Presentation : 200 OK
+Proxy --> Presentation : 201 Created
 deactivate Proxy
 Presentation --> Participant : displayNewComplaints()
 deactivate Presentation
