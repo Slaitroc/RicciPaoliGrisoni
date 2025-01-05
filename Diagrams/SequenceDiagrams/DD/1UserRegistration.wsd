@@ -69,7 +69,7 @@ Proxy -> Proxy : <color:purple> Authentication
 Proxy -> NotificationManager : POST api/notify/private/send-conf-email
 activate NotificationManager
 NotificationManager -> NotificationManager : <color:red> sendConfEmail
-NotificationManager --> Proxy : 200 OK
+NotificationManager --> Proxy : 201 Created
 deactivate NotificationManager
 Proxy --> Presentation : 201 Created
 deactivate Proxy
@@ -77,7 +77,10 @@ Presentation --> User : emailSentMessage
 deactivate Presentation
 User -> EmailClient : clickEmailLink(token)
 activate EmailClient
-EmailClient -> Proxy : POST api/user/conf-email
+EmailClient -> Presentation : clickEmailLink()
+deactivate EmailClient
+activate Presentation
+Presentation -> Proxy : POST api/user/conf-email
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : POST api/user/conf-email
@@ -96,10 +99,9 @@ AccountManager --> APIController : success
 deactivate AccountManager
 APIController --> Proxy : 200 OK : success
 deactivate APIController
-Proxy --> EmailClient :  200 OK : success
+Proxy --> Presentation : 200 OK : success
 deactivate Proxy
-EmailClient --> User : emailConfirmedMessage
-deactivate EmailClient
-deactivate Proxy
+Presentation --> User : displaySuccessMessage()
+deactivate Presentation
 deactivate User 
 @enduml
