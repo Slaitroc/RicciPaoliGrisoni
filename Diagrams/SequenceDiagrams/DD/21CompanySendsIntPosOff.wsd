@@ -30,8 +30,8 @@ PlatformEntityManager --> InterviewManager : result
 deactivate PlatformEntityManager
 alt result == false
 InterviewManager --> APIController : error
-APIController --> Proxy : 400 BadRequest : Error
-Proxy --> Presentation : 400 BadRequest : Error
+APIController --> Proxy : 401 Unauthorized : NotOwner
+Proxy --> Presentation : 401 Unauthorized : NotOwner
 Presentation --> Company : displayErrorMessage()
 end
 APIController -> InterviewManager : sendIntPosOff(InterviewID)
