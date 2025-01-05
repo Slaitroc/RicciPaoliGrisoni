@@ -1,0 +1,53 @@
+@startuml CompanySubmission
+skinparam sequenceMessageAlign center
+actor       Company
+participant Presentation
+entity      Proxy
+participant APIController
+participant SubmissionManager
+participant UserManager
+participant PlatformEntityManager
+participant NotificationManager
+database    PlatformDBMS
+
+activate Company
+activate Presentation
+Company -> Presentation : clickCloseInternship()
+Presentation -> Proxy ++ : POST api/sub/private/\n{InternshipID}/close-internship
+Proxy -> Proxy  : <color:purple> Authentication
+Proxy -> APIController ++ : POST api/sub/private/\n{InternshipID}/close-internship
+APIController -> SubmissionManager : deleteSubmission\n(InternshipID)
+activate SubmissionManager
+SubmissionManager -> UserManager : retreiveInvolvedStudents(InternshipID)
+activate UserManager
+UserManager -> PlatformEntityManager ++ : getStudentsIDs(InternshipID)
+PlatformEntityManager -> PlatformDBMS : retreive(InternshipID)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager -- : result
+PlatformEntityManager --> UserManager -- : result
+UserManager --> SubmissionManager -- : StudentsIDs
+
+SubmissionManager -> PlatformEntityManager : deleteInternship(InternshipID)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : delete(InternshipID)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : success
+deactivate PlatformDBMS
+PlatformEntityManager --> SubmissionManager : success 
+deactivate PlatformEntityManager
+
+SubmissionManager --> APIController : StudentsIDs
+deactivate SubmissionManager
+APIController ->> NotificationManager ++ : notifyUsers(StudentIDs, Data)
+loop for every\n involved student
+    NotificationManager -> NotificationManager : <color:purple> sentNotification\n <color:purple>(UserIDs, Data)
+end
+NotificationManager --> APIController -- : success
+APIController --> Proxy : 201 Created :\n SubmissionID, Suggestions
+deactivate APIController
+Proxy --> Presentation : 201 Created :\n SubmissionID, Suggestions
+deactivate Proxy
+Presentation --> Company : displaySubmissionSuggestions\n(SubmissionID)
+deactivate Presentation
+deactivate Company
+@enduml
