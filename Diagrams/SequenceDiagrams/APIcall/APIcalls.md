@@ -1,53 +1,56 @@
-# APICALLS 
+# API Endpoint
 
-- POST api/auth/login
-  - Url Parameters : NO
+## Proxy Endpoints
+
+All the calls are routed to the Proxy that handles authentication redirecting private calls to the Authenticator service. That means that, in a sense, all the endpoints are Proxy Endpoints. However there are some calls to which the Proxy add middleware endpoints that don't involve the simple token validation procedures common to all the private calls.
+The Token to let the user authenticate is added to the header of the private request. The Proxy will then route the call to the Authenticator service that will validate the token and return the UserID to the Proxy that will then route the call to the right service: Application now or new standalone services in the future.
+
+- POST api/auth/login ✔️
   - Request Body : UserCredentials : Object
   - Responses:
-    - 200 OK : Token : Object
+    - 201 Created : Token : Object
     - 400 Bad Request :  InvalidError : Object
     - 401 Unauthorized :  UnauthorizedError : Object
     - 500 Internal Server Error :  InternalServerError : Object
+  - Proxy -> api/auth/validate-credentials -> api/auth/validate-token
 
-## APICALLS API BACKEND
-
-- POST api/account/public/register
-  - Url Parameters : NO
-  - Request Body : UserData : Object
+- POST api/auth/create-token ✔️
+  - Request Body : UserCredentials : Object
   - Responses:
-    - 201 Created : UserID : Object
+    - 201 Created : Token : Object
     - 400 Bad Request :  InvalidError : Object
     - 409 Conflict :  ConflictError : Object
+    - 500 Internal Server Error :  InternalServerError : Object
+  - Proxy -> api/auth/insert-credentials -> api/auth/generate-token
 
-- POST api/notify/private/send-conf-email
-  - Url Parameters : NO
-  - Request Body : UserIndex, Token : Object
+## Application Endpoints
+
+These calls are routed by the Proxy to the Application service that handles the business logic of the application. If the call has the private keyword in his address then the Proxy routes it to `api/auth/validate` middleware to validate the token. That means that every private call shall contain the Token Object in its body.
+
+- POST api/account/public/register ✔️
+  - Request Body : UserData : Object
   - Responses:
-    - 200 OK : Message : Object
+    - 201 Created : UserIndex : Object
+    - 400 Bad Request :  InvalidError : Object
+    - 409 Conflict :  ConflictError : Object
+    - 500 Internal Server Error :  InternalServerError : Object
+
+- POST api/notify/private/send-conf-email ✔️
+  - Request Body : UserIndex : Object
+  - Responses:
+    - 201 Created : Message : Object
     - 400 Bad Request :  InvalidError : Object
     - 401 Unauthorized :  UnauthorizedError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
-- POST api/notify/private/conf-email
-  - Url Parameters : Token, UserIndex
-  - Request Body : NO
+- POST api/notify/private/conf-email ✔️
   - Responses:
-    - 200 OK 
+    - 200 OK
     - 400 Bad Request :  InvalidError : Object
     - 401 Unauthorized :  UnauthorizedError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
-- POST api/account/private/session
-  - Url Parameters : NO
-  - Request Body : NO
-  - Responses:
-    - 200 OK : Message : Object
-    - 400 Bad Request :  InvalidError : Object
-    - 401 Unauthorized :  UnauthorizedError : Object
-    - 500 Internal Server Error :  InternalServerError : Object
-
-- POST api/sub/private/update-sub
-  - Url Parameters : NO
+- POST api/sub/private/update-sub ✔️
   - Request Body : SubmissionData : Object
   - Responses:
     - 201 Created : SubmissionID, Suggestions : Object
@@ -56,8 +59,7 @@
     - 409 Conflict :  ConflictError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
-- GET api/sub/private/internships/{CompanyID}
-  - Url Parameters : NO
+- GET api/sub/private/internships/{CompanyID} ✔️
   - Responses:
     - 200 OK : InternshipsList : Object
     - 400 Bad Request :  InvalidError : Object
@@ -65,8 +67,7 @@
     - 409 Conflict :  ConflictError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
-- GET api/sub/private/cv/{StudentID}
-  - Url Parameters : NO
+- GET api/sub/private/cv/{StudentID} ✔️
   - Responses:
     - 200 OK : CV : Object
     - 400 Bad Request :  InvalidError : Object
@@ -74,50 +75,49 @@
     - 409 Conflict :  ConflictError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
-- POST api/recommendations/private/{RecommendationID}/accept
-  - Url Parameters : NO
+- POST api/recommendations/private/{RecommendationID}/accept ✔️
   - Responses:
-    - 200 OK : askFeedback : Object
-    - 201 Created 
+    - 201 Created :
+      - askFeedback : Object
+      - Message : Object
     - 400 Bad Request :  InvalidError : Object
     - 401 Unauthorized :  UnauthorizedError : Object
     - 409 Conflict :  ConflictError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
-- POST api/feedback/private/{RecommendationID}/{FeedbackID}/submit
-  - Url Parameters : NO
+- POST api/feedback/private/{RecommendationID}/{FeedbackID}/submit ✔️
+  - Request Body : Feedback : Object
   - Responses:
-    - 200 OK :
+    - 200 OK : Message : Object
     - 400 Bad Request :  InvalidError : Object
     - 401 Unauthorized :  UnauthorizedError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
-- POST api/sub/private/application/{CompanyID}
-  - Url Parameters : Company
+- POST api/sub/private/application/{CompanyID} ✔️
   - Responses:
-    - 200 OK :
-    - 400 Bad Request :  InvalidError : Object
-    - 401 Unauthorized :  UnauthorizedError : Object
-    - 500 Internal Server Error :  InternalServerError : Object
-
-- POST api/comm/private/application/{ApplicationID}/accept
-  - Url Parameters : ApplicationID
-  - Responses:
-    - 200 OK :
+    - 200 OK : Message : Object
     - 400 Bad Request :  InvalidError : Object
     - 401 Unauthorized :  UnauthorizedError : Object
     - 409 Conflict :  ConflictError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
-- POST api/interviews/private/send-answer/{InterviewID}
-  - Url Parameters : InterviewID
+- POST api/comm/private/application/{ApplicationID}/accept ✔️
+  - Responses:
+    - 200 OK : Message : Object
+    - 400 Bad Request :  InvalidError : Object
+    - 401 Unauthorized :  UnauthorizedError : Object
+    - 409 Conflict :  ConflictError : Object
+    - 500 Internal Server Error :  InternalServerError : Object
+
+- POST api/interviews/private/send-answer/{InterviewID} ❌
+  - Request Body : Answer : Object
   - Responses:
     - 200 OK :
     - 400 Bad Request :  InvalidError : Object
     - 401 Unauthorized :  UnauthorizedError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
-- POST api/interviews/private/send-interview/{InterviewID}
+- POST api/interviews/private/send-interview/{InterviewID} ❌
   - Url Parameters : 
   - Responses:
     - 200 OK :
@@ -127,7 +127,7 @@
     - 409 Conflict :
     - 500 Internal Server Error :
 
-- PPOST api/interviews/private/evaluate-interview/{InterviewID}
+- POST api/interviews/private/evaluate-interview/{InterviewID} ❌
   - Url Parameters : 
   - Responses:
     - 200 OK :
@@ -137,125 +137,99 @@
     - 409 Conflict :
     - 500 Internal Server Error :
 
-- GET api/applications/private/get-spontaneous-applications
-  - Url Parameters : 
+- GET api/applications/private/get-spontaneous-applications  ✔️
   - Responses:
-    - 200 OK :
-    - 201 Created :
-    - 400 Bad Request :
-    - 401 Unauthorized :
-    - 409 Conflict :
-    - 500 Internal Server Error :
+    - 200 OK : Applications : Object
+    - 400 Bad Request : InvalidError : Object
+    - 401 Unauthorized : UnauthorizedError : Object
+    - 500 Internal Server Error : InternalServerError : Object
 
-- GET api/applications/private/get-matches
-  - Url Parameters : 
+- GET api/applications/private/get-matches ✔️
   - Responses:
-    - 200 OK :
-    - 201 Created :
-    - 400 Bad Request :
-    - 401 Unauthorized :
-    - 409 Conflict :
-    - 500 Internal Server Error :
+    - 200 OK : Matches
+    - 400 Bad Request : InvalidError
+    - 401 Unauthorized : UnauthorizedError
+    - 500 Internal Server Error : InternalServerError
 
-
-- POST api/comm/private/{commID}/answer
-  - Url Parameters : 
+- POST api/comm/private/{commID}/answer ✔️
+  - Request Body : Answer : Object
   - Responses:
-    - 200 OK :
-    - 201 Created :
-    - 400 Bad Request :
-    - 401 Unauthorized :
-    - 409 Conflict :
-    - 500 Internal Server Error :
+    - 201 Created : Message : Object 
+    - 400 Bad Request : InvalidError : Object
+    - 401 Unauthorized : UnauthorizedError : Object
+    - 409 Conflict : ConflictError : Object
+    - 500 Internal Server Error : InternalServerError : Object
 
-<!-- questa avrebbe i parametri tipo ?<params> 
-Non so  se va aggiunta qualche descrizione per dirlo -->
-- GET api/comm/private/communications/{CommID} 
-  - Url Parameters : 
+- GET api/comm/private/communications/{CommID} ✔️
   - Responses:
-    - 200 OK :
-    - 201 Created :
-    - 400 Bad Request :
-    - 401 Unauthorized :
-    - 409 Conflict :
-    - 500 Internal Server Error :
+    - 200 OK : Result : Object
+    - 400 Bad Request : InvalidError : Object
+    - 401 Unauthorized : UnauthorizedError : Object
+    - 500 Internal Server Error : InternalServerError : Object
 
-<!-- questa avrebbe i parametri tipo ?<params> 
-Non so  se va aggiunta qualche descrizione per dirlo -->
-- POST api/comm/private/create
-  - Url Parameters : 
+- POST api/comm/private/create ✔️
+  - Request Body : Communication : Object
   - Responses:
-    - 200 OK :
-    - 201 Created :
-    - 400 Bad Request :
-    - 401 Unauthorized :
-    - 409 Conflict :
-    - 500 Internal Server Error :
+    - 201 Created : Message : Object
+    - 400 Bad Request : InvalidError : Object
+    - 401 Unauthorized : UnauthorizedError : Object
+    - 500 Internal Server Error : InternalServerError : Object
 
-<!-- questa avrebbe i parametri tipo ?<params> 
-Non so  se va aggiunta qualche descrizione per dirlo -->
-- GET api/comm/private/communications
-  - Url Parameters : 
+- GET api/comm/private/communications ✔️
   - Responses:
-    - 200 OK :
-    - 201 Created :
-    - 400 Bad Request :
-    - 401 Unauthorized :
-    - 409 Conflict :
-    - 500 Internal Server Error :
+    - 200 OK : Communications : Object
+    - 401 Unauthorized : UnauthorizedError : Object
+    - 500 Internal Server Error : InternalServerError : Object
 
-- POST api/comm/private/{commID}/interrupt-internship 
-  - Url Parameters : 
+- POST api/comm/private/{commID}/interrupt-internship ✔️
+  - Request Body : Reason : Object
   - Responses:
-    - 200 OK :
-    - 201 Created :
-    - 400 Bad Request :
-    - 401 Unauthorized :
-    - 409 Conflict :
-    - 500 Internal Server Error :
+    - 200 OK : Message : Object
+    - 400 Bad Request : InvalidError : Object
+    - 401 Unauthorized : UnauthorizedError : Object
+    - 409 Conflict : ConflictError : Object
+    - 500 Internal Server Error : InternalServerError : Object
 
-- POST api/comm/private/{commID}/close-complaint
-  - Url Parameters : 
+- POST api/comm/private/{commID}/terminate ✔️
   - Responses:
-    - 200 OK :
-    - 201 Created :
-    - 400 Bad Request :
-    - 401 Unauthorized :
-    - 409 Conflict :
-    - 500 Internal Server Error :
+    - 200 OK : Message : Object
+    - 400 Bad Request : InvalidError : Object
+    - 401 Unauthorized : UnauthorizedError : Object
+      - NotOwner
+    - 409 Conflict : ConflictError : Object
+    - 500 Internal Server Error : InternalServerError : Object
 
-- POST api/interviews/private/{InterviewID}/send-int-pos-off
-  - Url Parameters : 
+- POST api/interviews/private/{InterviewID}/send-int-pos-off ✔️
   - Responses:
-    - 200 OK :
-    - 201 Created :
-    - 400 Bad Request :
-    - 401 Unauthorized :
-    - 409 Conflict :
-    - 500 Internal Server Error :
+    - 200 OK : Message : Object
+    - 400 Bad Request : InvalidError : Object
+    - 401 Unauthorized :  UnauthorizedError : Object
+      - NotOwner
+    - 409 Conflict : ConflictError : Object
+    - 500 Internal Server Error : InternalServerError : Object
 
-- POST api/interview/private/accept-int-pos-off/{intPosOffID}
-  - Url Parameters : 
+- POST api/interview/private/accept-int-pos-off/{intPosOffID} ✔️
   - Responses:
-    - 200 OK :
-    - 201 Created :
-    - 400 Bad Request :
-    - 401 Unauthorized :
-    - 409 Conflict :
-    - 500 Internal Server Error :
+    - 200 OK : Message : Object
+    - 400 Bad Request : InvalidError : Object
+    - 401 Unauthorized : UnauthorizedError : Object
+      - NotOwner
+    - 409 Conflict : ConflictError : Object
+    - 500 Internal Server Error : InternalServerError : Object
 
-## AUTHENTICATOR
+## Authenticator Endpoints
 
-- POST api/auth/insert-credentials
-  - Url Parameters : NO
+These calls are routed by the Proxy to the Authenticator service that handles the authentication and token generation.
+
+- POST api/auth/insert-credentials ✔️
   - Request Body : UserCredentials : Object
   - Responses:
-    - 200 OK : Token : Object
+    - 200 OK : Message : Object
     - 400 Bad Request :  InvalidError : Object
+    - 409 Conflict :  ConflictError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
-- POST api/auth/validate-credentials
-  - Url Parameters : NO
+- POST api/auth/validate-credentials ✔️
   - Request Body : UserCredentials : Object
   - Responses:
     - 200 OK : Message : Object
@@ -263,38 +237,29 @@ Non so  se va aggiunta qualche descrizione per dirlo -->
     - 401 Unauthorized :  UnauthorizedError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
-- POST api/auth/generate-token
-  - Url Parameters : NO
+- POST api/auth/generate-token ✔️
   - Request Body : UserCredentials : Object
   - Responses:
-    - 200 OK : Token : Object
+    - 201 Created : Token : Object
     - 400 Bad Request :  InvalidError : Object
+    - 401 Unauthorized :  UnauthorizedError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
-- POST api/auth/create-token
-  - Url Parameters : NO
-  - Request Body : UserCredentials : Object
+- POST api/auth/refresh-token ✔️
+  - Request Body : RefreshToken : Object
   - Responses:
-    - 200 OK : Token : Object
-    - 400 Bad Request :  InvalidError : Object
-    - 500 Internal Server Error :  InternalServerError : Object
+    - 201 Created : Token : Object
+    - 400 Bad Request : InvalidError : Object
+    - 401 Unauthorized : UnauthorizedError : Object
+      - RefreshTokenExpired
+      - InvalidToken
+    - 500 Internal Server Error : InternalServerError : Object
 
-- POST api/auth/refresh-toke
-  - Url Parameters : 
+- GET api/auth/validate ✔️
   - Responses:
-    - 200 OK :
-    - 201 Created :
-    - 400 Bad Request :
-    - 401 Unauthorized :
-    - 409 Conflict :
-    - 500 Internal Server Error :
-
-- GET api/auth/validate
-  - Url Parameters : 
-  - Responses:
-    - 200 OK :
-    - 201 Created :
-    - 400 Bad Request :
-    - 401 Unauthorized :
-    - 409 Conflict :
-    - 500 Internal Server Error :
+    - 200 OK : UserID : Object
+    - 400 Bad Request : InvalidError : Object
+    - 401 Unauthorized : UnauthorizedError : Object
+      - TokenExpired
+      - InvalidToken
+    - 500 Internal Server Error : InternalServerError : Object
