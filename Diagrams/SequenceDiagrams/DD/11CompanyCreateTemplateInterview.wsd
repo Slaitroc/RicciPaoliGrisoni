@@ -16,9 +16,9 @@ activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : POST api/interviews/private/\nsave-template-interview/{InterviewID}
 activate APIController
-APIController -> InterviewsManager : saveTemplateInterview\n(InterviewTemplateData, UserID)
+APIController -> InterviewsManager : saveTemplateInterview\n(InterviewTemplate, UserID)
 activate InterviewsManager
-InterviewsManager -> PlatformEntityManager : saveInterview\n(InterviewTemplateData, UserID)
+InterviewsManager -> PlatformEntityManager : saveInterview\n(InterviewTemplate, UserID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : insert(Query, Class)
 activate PlatformDBMS
