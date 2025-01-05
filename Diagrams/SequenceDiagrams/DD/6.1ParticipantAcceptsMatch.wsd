@@ -37,8 +37,8 @@ alt Other Party Already Accepted
     InterviewManager --> APIController -- : success
 end
 alt FeedbackMechanism triggered
-    APIController --> Proxy : 200 OK  : askFeedback
-    Proxy --> Presentation : 200 OK : askFeedback
+    APIController --> Proxy : 201 Created  : askFeedback
+    Proxy --> Presentation : 200 Created : askFeedback
     Presentation --> Participant : displayFeedbackForm()
 end
 
