@@ -1,7 +1,7 @@
 @startuml
 skinparam sequenceMessageAlign center
 
-actor University
+actor User
 participant Presentation
 entity Proxy
 participant APIController
@@ -10,17 +10,17 @@ participant PlatformEntityManager
 participant NotificationManager
 database PlatformDBMS
 
-activate University
-University -> Presentation : clickCloseComplaint()
+activate User
+User -> Presentation : clickTerminateCommunication()
 activate Presentation
-Presentation -> Proxy : POST api/comm/private/{CommID}/close-complaint
+Presentation -> Proxy : POST api/comm/private/{CommID}/terminate
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/comm/private/{CommID}/close-complaint
+Proxy -> APIController : POST api/comm/private/{CommID}/terminate
 activate APIController
-APIController -> CommunicationManager : closeComplaint(CommID)
+APIController -> CommunicationManager : terminateComm(CommID)
 activate CommunicationManager
-CommunicationManager -> PlatformEntityManager : isComplaint(CommID)
+CommunicationManager -> PlatformEntityManager : isOwner(CommID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
@@ -30,13 +30,13 @@ PlatformEntityManager --> CommunicationManager : result
 deactivate PlatformEntityManager
 alt result == false
 CommunicationManager --> APIController : error
-APIController --> Proxy : 400 BadRequest : Error
-Proxy --> Presentation : 400 BadRequest : Error
-Presentation --> University : displayErrorMessage()
+APIController --> Proxy : 401 Unauthorized : NotOwner
+Proxy --> Presentation : 401 Unauthorized : NotOwner
+Presentation --> User : displayErrorMessage()
 end
-CommunicationManager -> PlatformEntityManager : updateComplaint(CommID, Status)
+CommunicationManager -> PlatformEntityManager : updateComm(CommID, Status)
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : updateComplaint(CommID, Status)
+PlatformEntityManager -> PlatformDBMS : updateComm(CommID, Status)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
@@ -52,7 +52,7 @@ APIController --> Proxy : 200 OK
 deactivate APIController
 Proxy --> Presentation : 200 OK
 deactivate Proxy
-Presentation --> University : displayClosedComplaint()
+Presentation --> User : displayCommTerminated()
 deactivate Presentation
 @enduml
 
