@@ -17,9 +17,22 @@ Proxy -> APIController : POST api/interviews/private/send-interview/{InterviewID
 activate APIController
 APIController -> InterviewsManager : submitInterview(InterviewID, InterviewData, UserID)
 activate InterviewsManager
+InterviewsManager -> InterviewsManager : buildTemplateData(InterviewData)
+note left of InterviewsManager 
+    Each time a company creates a new interview 
+    the interview is save as a template before
+    being sent to the student.
+end note
+InterviewsManager -> PlatformEntityManager : saveInterview\n(InterviewTemplateData, UserID)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : insert(Query, Class)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : success
+deactivate PlatformDBMS
+PlatformEntityManager --> InterviewsManager : success
 InterviewsManager -> PlatformEntityManager : submitInterview(InterviewID, InterviewData, UserID)
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+PlatformEntityManager -> PlatformDBMS : update(Query, Class)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS

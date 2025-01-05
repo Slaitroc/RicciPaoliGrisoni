@@ -10,27 +10,44 @@ participant NotificationManager
 database PlatformDBMS
 
 activate Company
-Company -> Presentation : clickSendSavedInterview()
+Company -> Presentation : clickSendInterview()
 activate Presentation
-Presentation -> Proxy : POST api/interview/private/sendSavedInterview/{SavedInterviewID, InterviewID}
+'body contain the InterviewID and TemplateInterviewID
+Presentation -> Proxy : POST api/interview/private/send-template-interview/
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/interview/private/sendSavedInterview/{SavedInterviewID, InterviewID}
+Proxy -> APIController : POST api/interview/private/send-template-interview/
 activate APIController
-APIController -> InterviewManager : retrieveSavedInterview(SavedInterviewID)
+APIController -> InterviewManager : isOwnerOfTemplate(TemplateInterviewID, UserID)
 activate InterviewManager
-InterviewManager -> PlatformEntityManager : retrieveSavedInterview(SavedInterviewID)
+InterviewManager -> PlatformEntityManager : isOwnerOfTemplate(TemplateInterviewID, UserID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : result
 deactivate PlatformDBMS
-PlatformEntityManager --> InterviewManager : SavedInterview
+PlatformEntityManager --> InterviewManager : result
 deactivate PlatformEntityManager
-InterviewManager -> InterviewManager : computeParams(SavedInterview)
-InterviewManager -> PlatformEntityManager : submitInterview(InterviewID, Params, UserID)
+alt result == false
+    InterviewManager --> APIController : error
+    APIController --> Proxy : 400 BadRequest : Error
+    Proxy --> Presentation : 400 BadRequest : Error
+    Presentation --> Company : displayErrorMessage()
+end
+APIController -> InterviewManager : retrieveTemplateInterview\n(TemplateInterviewID)
+InterviewManager -> PlatformEntityManager : retrieveTemplateInterview\n(TemplateInterviewID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
+activate PlatformDBMS
+PlatformDBMS --> PlatformEntityManager : result
+deactivate PlatformDBMS
+PlatformEntityManager --> InterviewManager : result
+deactivate PlatformEntityManager
+'this return the InterviewData
+InterviewManager -> InterviewManager : buildInterview(TemplateInterview)
+InterviewManager -> PlatformEntityManager : updateInterview(InterviewID, InterviewData, Status)
+activate PlatformEntityManager
+PlatformEntityManager -> PlatformDBMS : update(Query, Class)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS

@@ -1,4 +1,4 @@
-@startuml CompanySaveInterview
+@startuml CompanyCreateTemplateInterview
 skinparam sequenceMessageAlign center
 actor       Company
 participant Presentation
@@ -11,16 +11,16 @@ database    PlatformDBMS
 activate Company
 Company -> Presentation : clickSaveInterview()
 activate Presentation
-Presentation -> Proxy : POST api/interviews/private/\nsend-interview/{InterviewID}
+Presentation -> Proxy : POST api/interviews/private/\nsave-template-interview/{InterviewID}
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/interviews/private/\nsend-interview/{InterviewID}
+Proxy -> APIController : POST api/interviews/private/\nsave-template-interview/{InterviewID}
 activate APIController
-APIController -> InterviewsManager : saveInterview\n(InterviewID, InterviewData, UserID)
+APIController -> InterviewsManager : saveTemplateInterview\n(InterviewTemplateData, UserID)
 activate InterviewsManager
-InterviewsManager -> PlatformEntityManager : saveInterview\n(InterviewID, InterviewData, UserID)
+InterviewsManager -> PlatformEntityManager : saveInterview\n(InterviewTemplateData, UserID)
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : update(Query, Class)
+PlatformEntityManager -> PlatformDBMS : insert(Query, Class)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
