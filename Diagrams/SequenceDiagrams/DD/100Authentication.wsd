@@ -51,7 +51,7 @@ alt Expired Token
         Presentation -> Proxy : POST api/auth/login
         ' Proxy -> Authenticator : POST api/auth/validate-credentials
         Proxy -> Proxy : <color:purple> validateCredentials(UserCredentials)
-        Proxy -> Proxy : <color:purple> generateToken(UserCredentials)
+        Proxy -> Proxy : <color:purple> GenerateToken(UserCredentials)
         Proxy --> Presentation : 201 Created : Token
         Presentation -> Presentation : saveToken()
         Presentation -> Presentation : redirectToLastPage() 
