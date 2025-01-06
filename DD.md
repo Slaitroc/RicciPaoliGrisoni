@@ -304,7 +304,7 @@ A DMZ can be implemented in this design by placing the Proxy in a dedicated netw
 
 
 ### 2.5 Component interfaces (maybe before Runtime View)
-In this section, we will describe the interfaces of the components that are part of the S&C platform, showin
+
 ### 2.6 Selected architectural styles and patterns
 In this subsection, we will describe the architectural styles and patterns that have been selected for the S&C platform, how they works and the reason behind their choice.
 - **Microservices Architecture**: The S&C platform is designed as a set of loosely coupled services, each responsible for a specific set of functionalities. This architecture allows for a high degree of modularity, scalability, and fault tolerance by enabling the independent development, deployment, and scaling of each service and the division of the platform into smaller, more manageable components that can be developed by different teams.
@@ -314,6 +314,7 @@ By being stateless, the API allows for better scalability and reliability, as it
 It is important to notice that while this architecture seems to follow the 3-tier architecture pattern, each tier is not necessarily composed or limited to a single server, but it can be composed of multiple servers and containers following more a microservices architecture.
 <!-- (Sam 1h)-->
 ### 2.7 Other design decisions
+In this subsection, we will describe the architectural styles and patterns that have been selected for the S\&C platform, how they work, and the reason behind their choice from a non-technical point of view.
 #### 2.7.1 Database Management
 For the S&C platform, we have chosen to use a relational database management system (DBMS) to store the data. This choice was made because the data structure of the platform is well-suited to a relational database, as it consists of structured data with clear relationships between different entities and the typology of query and analysis make on the data did not justify the complexity or the performance cost of a OLAP database.
 The DBMS will be used to store all the data required by the platform including but not limited to: user information, internship offers, CVs, and recommendations. The data will be structured in a way that allows for efficient querying and retrieval, ensuring that the platform can provide fast and reliable access to the information stored in the database through the Entity Manager interface and the JPA java framework.
@@ -750,8 +751,9 @@ However, due to dependency constraints, not all components can be developed usin
 In the first stage, we will develop the User Manager and part of the Notification Manager, enabling each component to store and retrieve data from its respective database. This process will also involve developing the Platform Entity Manager and the Notification Entity Manager so that each can interact with its own database. To test these two components, we will create an API controller DRIVER and a Manager DRIVER to simulate API controller calls and the various invocations from other components within the Platform Logic.\\ 
 #### 5.2.2 Stage 2: Platform Logic Components and User Interface
 In the second stage, we will develop the remaining Platform Logic components, including the Recommendation Process, Mechanism components, and the remaining Managers. During this phase, we will also implement the User Interface (UI) and update the Notification Manager to handle notifications sent by these components, following the idea behind the *thread* approach. To test these back-end components, we will create an API Controller DRIVER to simulate their invocation while creating a Rest API STUB to simulate the front-end calls.\\
-#### 5.2.3 Stage 3: API Controller and Front-End Integration
-In the third stage, we will integrate the API Controller with the Platform Logic components, the Notification Manager, and the User Interface. By this point, all other components will have been completed and tested, allowing us to concentrate on testing and integrating the API Controller with the rest of the platform. To facilitate this, we will create a Traffic STUB to simulate front-end calls and an Authentication Provider STUB to emulate the authentication process.
+#### 5.2.3 Stage 3: API Controller and Authenticator Adapter
+In the third stage, we will develop and integrate the API Controller with the Platform Logic components, the Notification Manager, and the User Interface that should have been completed in the previous stages. This will allow us to test the API Controller and the Platform Logic components together, ensuring that they interact correctly and that the API Controller can handle requests from the front-end and route them to the appropriate components\\.
+We will also develop the Authenticator Adapter to handle user authentication and token generation. For testing purpose we will create a Proxy DRIVER to simulate the API Controller and Authenticator Adapter calls and the front-end when it receives different responses.\\ 
 #### 5.2.4 Stage 4: Full Integration and Testing
 In the final stage, we will integrate all components of the platform thanks to the development of the Proxy and the Authenticator Adapter. This will allow us to test the platform as a whole, ensuring that all components work together as expected. We will also conduct end-to-end testing to verify that the platform meets all requirements and functions correctly.
 ## 6 Effort Spent
