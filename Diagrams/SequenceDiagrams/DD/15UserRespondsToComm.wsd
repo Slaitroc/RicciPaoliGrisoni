@@ -13,17 +13,17 @@ database    PlatformDBMS
 ' and the api call contains the complaintID, the answer and the user's token
 
 activate User
-User -> Presentation : clickPublishAnswer(ComplaintID)
+User -> Presentation : clickPublishAnswer\n(CommmID)
 activate Presentation
-Presentation -> Proxy : POST api/comm/private/{commID}/answer
+Presentation -> Proxy : POST api/comm/private\n/{CommID}/answer
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/comm/private/{commID}/answer
+Proxy -> APIController : POST api/comm/private\n/{CommID}/answer
 activate APIController
-APIController -> CommunicationManager : answerCommunication(CommID, Answer)
+APIController -> CommunicationManager : answerCommunication\n(CommID, Message)
 activate CommunicationManager
 deactivate PlatformEntityManager
-CommunicationManager -> PlatformEntityManager : addCommAnswer(ComplaintID, UserID, Answer)
+CommunicationManager -> PlatformEntityManager : addCommAnswer\n(CommID, UserID, Message)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : insert(Query, Class)
 activate PlatformDBMS
