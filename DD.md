@@ -24,16 +24,13 @@ In the remaining part of this chapter we will present a summary of the technical
 
 ### 1.2 Scope
 
-This document, Design Document (DD), will provide a detailed description of the architecture of the S\&C platform from a more technical point of view. In particular it will provide a thorough description of the software with a special emphasis on its interfaces, system module, and architectural framework.
+This document, Design Document (DD), will provide a detailed description of the architecture of the S\&C platform from a more technical point of view. In particular it will provide a thorough description of the software with a special emphasis on its interfaces, system modules, and architectural framework.
 This document will also discuss the implementation, integration and testing plan describing the tools and methodologies that will be used during the development of the platform.
 <!-- (Sam 1h)-->
 
 #### 1.2.1 Main architectural choices
 
 The chosen architectural style is a *microservices architecture*, as it enables a scalable and modular approach to development. The three main services are Presentation, Application, and Authenticator, which are responsible for the user interface, business logic, and authentication, respectively. Data-intensive service manage their data through autonomous databases, ensuring modularity and scalability. For now, the databases are not designed to scale horizontally, meaning that when services using them are duplicated, the database remains a single, centralized instance. The Presentation layer provides the client with a Single Page Application (SPA) for a smoother user experience. The Application layer contains modules that handle platform-specific logic services, which could be exported as independent services in the future. This setup facilitates reliability and fault tolerance, as each service is designed to be container-based and can be scaled vertically or horizontally using cloud orchestration tools during deployment.
-<!-- 
-The architecture of the platform adopt a 3-tier architecture where the front-end is implemented using a web application that communicates with the back-end through a RESTful API.
-The back-end, implemented using the Spring framework, will be responsible for the business logic of the platform, as well as the communication to the database, as it will be described in the following chapters while the front-end, following a lightweight architecture, is responsible only for the presentation of the data and the interaction with the user and will be implemented using the React framework. -->
 
 ### 1.3 Definitions, Acronyms, Abbreviations
 
@@ -138,53 +135,86 @@ Finally, we present a deployment view of a full system deployment with redundant
 ## 2 Architectural Design
 
 The purpose of this chapter is to present a top-down description of the S&C architectural design, covering and justifying every design decision.
-We begin by introducing the high-level components and their interactions, followed by a detailed description of these components through the component view, focusing on their internal structure.
-Next, we address the deployment and conclude with runtime views, represented through sequence diagrams, to illustrate the interactions between the components.
+First, we introduce the high-level components and their interactions.
+Next, we proceed with a detailed description of these components.
+Subsequently, we define the deployment strategy.
+After that, we address the runtime interactions of the components and provide a more detailed description of their interfaces.
+Finally, we conclude by outlining the main patterns adopted and other relevant design decisions.
 
 ### 2.1 Overview: High-level components and their interaction
 
-The system employs a simple microservices architecture composed of the Presentation, Application, and Authenticator services, along with databases to manage the Application data. This microservices structure enables the system to be scalable and adaptable to increasing demand. Additionally, it supports deeper decoupling and modularization in the future, facilitating the management of growing service complexity.
+The system employs a simple microservices architecture composed of the Presentation, Application, and Authenticator services, along with databases to manage the Application data.
+This microservices structure enables the system to scale and adapt to increasing demand. Additionally, it supports greater decoupling and modularization, facilitating the management of growing service complexity in the future.
 
-Client access to server content is handled by a proxy, which routes requests to the appropriate service. When users navigate to the platform's main domain using a browser, the proxy directs them to the Presentation service, which is responsible for the user interface and experience. The web interface communicates with the Application service via a RESTful API, which handles the business logic. The Application interacts with the databases through an API that manages the ORM, data life cycles, and querying processes.
+Client access to server content is handled by a proxy, which routes requests to the appropriate service.
+When users navigate to the platform's main domain using a browser, the proxy directs them to the Presentation service, responsible for providing the user interface and experience.
 
-The Authenticator service handles user authentication. Non-public API calls pass through the proxy, acting as an API gateway, to verify that users have the necessary permissions to access requested resources.
+The web interface communicates with the Application service via a RESTful API that handles the business logic.
+All service calls from the client-hosted presentation layer pass through the proxy, which analyzes and forwards the requests.
+
+Requests requiring authentication are routed to the Authenticator service, which acts as middleware to handle all user authentication processes.
+If authentication succeeds, the request is forwarded to the Application service.
+
+The Application service interacts with databases through APIs that manage the ORM, data life cycles, and querying processes.
 
 ![Overview](./Diagrams/DD/Overview0.png)
 
-#### 2.1.1 Presentation Service
+#### Proxy
+
+Every type of communication between the services is routed through the Proxy, which dispatches it to the appropriate service. This means that the IP address of the server hosting the Proxy is the one bound to the application's main domain.
+
+#### Presentation Service
 
 The Presentation service delivers static content to the client upon connection to the platform's main domain. It also provides the client with the web scripts needed to call the APIs of the Application service, enabling the retrieval of user-specific data and triggering the platform's logic. During runtime, API calls to other services are initiated directly from the client's endpoints, rather than being forwarded through the Presentation service.
 
-#### 2.1.2 Authenticator Service
+#### Application Service
 
-API calls can be either public or private. Public calls are accessible to non-authenticated users, while private calls handle personal user data or sensitive logic and require authentication before they can be executed. All API calls are routed through the proxy, which determines the appropriate service based on the call type: private calls are directed to the Authenticator service for validation, while public calls are forwarded directly to the target service. This centralized approach to authentication ensures consistency across all services, eliminating the need for each service to handle authentication independently.
+The Application service contains the platform's core functionalities, including platform logic, database interaction, and notification handling. It exposes various RESTful API endpoints for the different services it provides. These endpoints can be either public or private. Public endpoints are accessible to non-authenticated users, while private endpoints handle personal user data or sensitive logic and require authentication before execution. Every call to these endpoints first reaches the Proxy, which forwards requests intended for private endpoints to the Authenticator service, while directing others directly to the target service.
 
-#### 2.1.3 Application Service
+#### Authenticator Service
 
-The Application service contains the platform core functionalities such as the platform logic, the interaction with the database and the notification handling. It exposes different APIs for all the different services it offers.
+The Authenticator service is responsible for every process concerning authentication and session validation.
+
+#### Databases
+
+The databases are managed by the Application service and are used to store all the data required by the platform. This setup could change in the future if an internal component of the Application service needs to be exported to an autonomous service, for example, due to increasing complexity or the need to decouple its development environment. Databases are not handled as autonomous services accessible by all other services; instead, they directly and exclusively interact with their corresponding service logic.
 
 ### 2.2 Component view
 
-This section presents a more in depth view of the software components part of the designed architecture and the needed interfaces between them.
+This section provides a more in-depth view of the software components that are part of the designed architecture, as well as the necessary interfaces between them.
+
 ![Overview](./Diagrams/DD/Component0.png)
 
 #### 2.2.1 Entity Manager
 
-This Entity Manager act as an API that enables the communication with a DBMS, simplifying ORM, querying, and data life cycles. It provides standard methods, independents from the specific DBMS used to handle the data. As shown by the diagram there are two entity managers. The \emph{Platform Entity Manager} provides its interface to the Platform Logic Module to let it interact with the \emph{Platform DBMS}. The \emph{Notification Entity Manager} act analogously with the \emph{Notification DBMS}.
+The Entity Manager acts as an API that enables communication with a DBMS, simplifying ORM, querying, and data life cycles. It provides standard methods, independent of the specific DBMS used to handle the data. As shown in the diagram, there are two Entity Managers. The Platform Entity Manager provides its interface to the Platform Logic Module, enabling interaction with the Platform DBMS. The Notification Entity Manager works analogously with the Notification DBMS.
 
 #### 2.2.2 Platform Logic
 
-This component exposes all the necessary interfaces to interact with the platform logic and also maintains up to date the database interacting with the Entity Manager. Its inner components are software pieces that enable managing every logic area of the platform, providing the right interfaces to other pieces that depend on them. Every \emph{Manager Component} autonomously operates the persistence and consistence of the relative relevant data within the DB using the interface provided by the Entity Manager. They also provide the \emph{API Controller} a set of methods to execute the logic without the need to care about the database interaction.
+The inner components of the Platform Logic encapsulate the logic of the main parts of the S&C environment. Each component autonomously handles its data management through the database, leveraging the Entity Manager interface.
+
+| **Component**          | **Description**                                        |
+|-------------------------|--------------------------------------------------------|
+| Recommendation Process  | Handles recommendation logic and related data          |
+| Communication Manager   | Manages communication logic and related data           |
+| Suggestion Mechanism    | Handles suggestions logic and related data             |
+| Feedback Mechanism      | Processes feedback logic and related data              |
+| Submission Manager      | Manages submission logic and related data              |
+| Interview Manager       | Handles interview-related logic and data               |
+| Account Manager         | Manages account logic and related data                 |
+| User Manager            | Interface for querying and modifying user groups with specific characteristics |
 
 ![PlatformComponent](./Diagrams/DD/Component1.png)
 
 #### 2.2.3 API Controller
 
-The API Controller contains a set of controllers whose methods, triggered by the user, interact and execute the platform logic. More information about the inner components and methods in section ADD LABEL
+The API Controller consists of a set of inner controllers whose methods, triggered by user calls, interact with and execute the logic of the Platform Logic inner components described above.
 
 #### 2.2.4 Notification Manager
 
-This component handles every need concerning the notifications, no matter what kind they are. It works as an adapter for external push notification provider and email service and provide an interface to fluently provide other service with those external features. It also creates and manage the corresponding in-app notifications that can be fetched by the user through a service specific API. This Component is a clear example of a service that could be easily exported to its own container in future by, for example, by providing its own RESTful API to the Platform logic instead of an interface object like the actual setup. 
+This component handles all notification-related needs, regardless of their type. It functions as an adapter for external push notification providers and email services, offering an interface to seamlessly integrate these external features with other services. It also creates and manages corresponding in-app notifications, which can be fetched by users through a dedicated AppNotification API.
+
+This component serves as a clear example of a service that could easily be exported to its own container in the future, for instance, by exposing its own RESTful API to the Platform Logic instead of using the current interface-based setup.
 
 ![NotificationComponent](./Diagrams/DD/Component2.png)
 
@@ -192,6 +222,7 @@ This component handles every need concerning the notifications, no matter what k
 
 Each service will be hosted on its own container being able to run independently on the same or on different machines. Containers, in addiction to make the development and deployment easier, also provide a good level of isolation and security.
 The system will be hosted on the cloud and its container based nature allows to easily integrate orchestrator tools to decouple it from the cloud hosting provider and automatically manage scalability, reliability, fault tolerance and global security of the microservices cluster.
+A DMZ can be implemented in this design by placing the Proxy in a dedicated network segment isolated from both the external network and the internal services. A firewall between the DMZ and the external network would allow only HTTP/HTTPS traffic to the Proxy, while another firewall between the DMZ and the internal network would restrict traffic to authorized services. This setup enhances security by exposing only the Proxy to external access, keeping the Application and Authenticator services, along with the databases, fully protected within the internal network.
 
 ![NotificationComponent](./Diagrams/DD/Deployment.png)
 
@@ -264,6 +295,11 @@ The system will be hosted on the cloud and its container based nature allows to 
 8. CompanyAcceptsSpontaneousApplication
 
     This sequence diagram depicts the process in which a Company accepts a Spontaneous Application from a Student. The Company initiates the action by clicking the "accept" button. The APIController calls the SubmissionManager to process the acceptance, and the application status is updated in the PlatformDBMS. Following the acceptance, an Interview between the Student and the Company is created and stored. The NotificationManager sends a notification to the Student . Finally, the Company receives a success message confirming the acceptance and interview creation.
+
+- i Message Objects nei codici 200, 201 sono oggetti generici e non vengono rappresentati nei sequence come accade per i messaggi di errore generici
+
+- specificare che verify parameters per le api call è esplicitato solo una volta e che però avviene una verifica sui parametri per ritornare 400 badrequest
+
 
 
 
