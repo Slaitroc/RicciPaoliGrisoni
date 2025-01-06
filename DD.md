@@ -72,6 +72,17 @@ The definition specific to this document are reported in the following table.
 | **RESTful API**             | A set of rules that software engineer follow when creating an API that allows different software to communicate with each other. |
 | **3-tier architecture**     | A software architecture that divides the software into three different layers: presentation layer that contains the logic for displaying data and retrieve input from the user, application layer where the main logic of the software is present, and data layer that contains the data and the logic to access it. |
 | **Proxy**                   | A server that acts as an intermediary for requests from clients seeking resources from other servers. It can redirect information based on different criteria. |
+| **Presentation Service**    | The service that provides the user interface and experience to the client. It is responsible for delivering static content to the client upon connection to the platform's main domain. |
+| **Presentation Layer**     | The layer of the software that is responsible for the visualization of the data and the retrieval of user inputs, offered by the Presentation Service.  |
+| **Application Service**     | The service that contains the platform's core functionalities, including platform logic, database interaction, and notification handling. It exposes various RESTful API endpoints for the different services it provides. |
+| **Application Layer**      | The layer of the software that is responsible for the processing of the data, computation, and the logic of the platform, offered by the Application Service. |
+| **Authenticator Service**   | The service that is responsible for every process concerning authentication and session validation. |
+| **Data Layer**              | The layer of the software that is responsible for the storage and retrieval of the data. |
+| **Service**                 | A self-contained unit of functionality that can be independently deployed and scaled. |
+| **Container**               | A standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another. |
+| **Notification Subsystem**  | The system that is responsible for sending notifications to users when relevant events occur. |
+
+
 
 #### 1.3.2 Acronyms
 
@@ -92,6 +103,12 @@ The acronyms specific to this document are reported in the following table.
 | **UX**      | User Experience                                 |
 | **DB**      | Database                                        |
 | **API**     | Application Programming Interface               |
+| **ORM**     | Object-Relational Mapping                       |
+| **DBMS**    | Database Management System                      |
+| **OLAP**    | Online Analytical Processing                    |
+| **SPA**     | Single Page Application                         |
+| **DMZ**     | Demilitarized Zone                              |
+
 
 #### 1.3.3 Abbreviations
 
@@ -99,12 +116,13 @@ The abbreviations shared between this document and the RASD document are reporte
 
 | **Abbreviation** | **Definition**        |
 |-------------------|----------------------|
-| **S&C**          | Students & Companies |
+| **S&C**          | Students & Companies  |
 
 The abbreviations specific to this document are reported in the following table.
 
 | **Abbreviation** | **Definition**        |
 |-------------------|----------------------|
+
 
 ### 1.4 Revision history
 
