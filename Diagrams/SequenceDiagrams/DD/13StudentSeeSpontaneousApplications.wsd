@@ -9,16 +9,16 @@ participant PlatformEntityManager
 database    PlatformDBMS
 
 activate Student
-Student -> Presentation : clickDashboardSpontaneousApplicationsPage()
+Student -> Presentation : clickDashboardSpontaneous\nApplicationsPage()
 activate Presentation
 Presentation -> Proxy : GET api/applications/private/\nget-spontaneous-applications
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : GET api/applications/private/\nget-spontaneous-applications
 activate APIController
-APIController -> SubmissionsManager : getSpontaneousApplications(StudentID)
+APIController -> SubmissionsManager : getSpontaneousApplications\n(StudentID)
 activate SubmissionsManager
-SubmissionsManager -> PlatformEntityManager : getSpontaneousApplications(StudentID)
+SubmissionsManager -> PlatformEntityManager : getSpontaneousApplications\n(StudentID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
