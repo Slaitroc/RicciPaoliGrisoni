@@ -50,8 +50,8 @@ deactivate Proxy
 Presentation -> Presentation : saveUserIndex(UserIndex)
 Presentation -> Proxy : POST api/auth/public/create-token
 activate Proxy
-Proxy -> Proxy  : <color:purple> insertCredentials(username, password)
-Proxy -> Proxy : <color:purple> GenerateToken
+Proxy -> Proxy  : <color:purple> InsertCredentials(UserCredentials)
+Proxy -> Proxy : <color:purple> GenerateToken(UserCredentials)
 Proxy -> Presentation : 201 Created : Token
 deactivate Proxy
 ' Proxy -> Authenticator: POST api/user/create-token
@@ -62,7 +62,6 @@ deactivate Proxy
 ' Proxy --> Presentation : 201 Created : Token
 Presentation -> Presentation : saveToken(token)
 Presentation -> Presentation : <color:purple> RequestDeviceToken
-note right of Presentation : for RequestDeviceToken call stack see the Notification Sequence Diagram 
 Presentation -> Proxy : POST api/notify/private/send-conf-email
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
