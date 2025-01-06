@@ -9,12 +9,12 @@ participant PlatformEntityManager
 database    PlatformDBMS
 
 activate Participant
-Participant -> Presentation : clickDashboardRecommendationPage()
+Participant -> Presentation : clickDashboard\nRecommendationPage()
 activate Presentation
-Presentation -> Proxy : GET api/applications/private/get-matches
+Presentation -> Proxy : GET api/applications/\nprivate/get-matches
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : GET api/applications/private/get-matches
+Proxy -> APIController : GET api/applications/\nprivate/get-matches
 activate APIController
 APIController -> RecommendationManager : getMatches(UserID)
 activate RecommendationManager
