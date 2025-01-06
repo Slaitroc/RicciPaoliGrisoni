@@ -167,7 +167,7 @@ These calls are routed by the Proxy to the Application service that handles the 
     - 500 Internal Server Error : InternalServerError
 
 - POST api/comm/private/{commID}/answer ✔️
-  - Request Body : Answer : Object
+  - Request Body : Message : Object
   - Responses:
     - 201 Created : Message : Object
     - 400 Bad Request : InvalidError : Object
