@@ -17,16 +17,16 @@ Presentation --> University : displayConfirmButton()
 deactivate Presentation
 University -> Presentation : clickConfirmButton()
 activate Presentation
-Presentation -> Proxy : POST api/comm/private/{commID}/interrupt-internship
+Presentation -> Proxy : POST api/comm/private/\n{commID}/interrupt-internship
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/comm/private/{commID}/interrupt-internship
+Proxy -> APIController : POST api/comm/private/\n{commID}/interrupt-internship
 activate APIController
 APIController -> CommunicationManager : interruptInternship(commID, Reason)
 activate CommunicationManager
-CommunicationManager -> PlatformEntityManager : updateInternshipOffer(InternShipOffer, Reason)
+CommunicationManager -> PlatformEntityManager : updateInternshipOffer\n(InternShipOffer, Reason)
 activate PlatformEntityManager
-PlatformEntityManager -> PlatformDBMS : updateInternshipOffer(InternShipOffer, Reason)
+PlatformEntityManager -> PlatformDBMS : updateInternshipOffer\n(InternShipOffer, Reason)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
