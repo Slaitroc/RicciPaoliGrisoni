@@ -11,14 +11,14 @@ database    PlatformDBMS
 
 activate Company
 Company -> Presentation : clickEvaluateInterview(InterviewID)
-Presentation -> Proxy : POST api/interviews/private/evaluate-interview/{InterviewID}
+Presentation -> Proxy : POST api/interviews/private/\nevaluate-interview/{InterviewID}
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/interviews/private/evaluateInterview/{InterviewID}
+Proxy -> APIController : POST api/interviews/private/\nevaluateInterview/{InterviewID}
 activate APIController
-APIController -> InterviewsManager : evaluateInterview(InterviewID, Evaluation)
+APIController -> InterviewsManager : evaluateInterview\n(InterviewID, Evaluation)
 activate InterviewsManager
-InterviewsManager -> PlatformEntityManager : evaluateInterview(InterviewID, Evaluation)
+InterviewsManager -> PlatformEntityManager : evaluateInterview\n(InterviewID, Evaluation)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : insertOrUpdate(Query, Class)
 activate PlatformDBMS
