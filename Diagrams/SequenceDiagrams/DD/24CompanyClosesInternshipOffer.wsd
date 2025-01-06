@@ -43,11 +43,11 @@ loop for every\n involved student
     NotificationManager -> NotificationManager : <color:purple> sentNotification\n <color:purple>(UserIDs, Data)
 end
 NotificationManager --> APIController -- : success
-APIController --> Proxy : 201 Created :\n SubmissionID, Suggestions
+APIController --> Proxy : 200 OK
 deactivate APIController
-Proxy --> Presentation : 201 Created :\n SubmissionID, Suggestions
+Proxy --> Presentation : 200 OK
 deactivate Proxy
-Presentation --> Company : displaySubmissionSuggestions\n(SubmissionID)
+Presentation --> Company : displayInternshipClosedMsg()
 deactivate Presentation
 deactivate Company
 @enduml
