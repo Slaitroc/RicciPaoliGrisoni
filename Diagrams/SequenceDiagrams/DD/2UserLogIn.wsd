@@ -7,11 +7,11 @@ participant Authenticator
 entity AuthProvider
 
 activate User
-User -> Presentation : enterCredentials(username, password)
+User -> Presentation : enterCredentials(UserCredentials)
 activate Presentation
 Presentation -> Proxy : POST api/auth/login
 activate Proxy
-group <color:purple> validateCredentials(UserCredentials)
+group <color:purple> ValidateCredentials(UserCredentials)
 Proxy -> Authenticator : POST api/auth/validate-credentials
 activate Authenticator
 Authenticator -> AuthProvider : validateCredentials(UserCredentials)
@@ -25,16 +25,7 @@ alt isValid==false
 Proxy --> Presentation : 401 Unauthorized : Error Message
 Presentation --> User : displayErrorMessage()
 end
-group <color:purple> generateToken(UserCredentials)
-Proxy -> Authenticator : POST api/auth/generate-token
-activate Authenticator
-Authenticator -> AuthProvider : generateToken(UserCredentials)
-activate AuthProvider
-AuthProvider --> Authenticator : Token
-deactivate AuthProvider
-Authenticator --> Proxy : 201 Created : Token
-deactivate Authenticator
-end
+Proxy -> Proxy : <color:purple> GenerateToken(UserCredentials)
 Proxy --> Presentation : 201 Created : Token
 deactivate Proxy
 Presentation -> Presentation : saveToken(Token)
