@@ -10,7 +10,7 @@ database NotificationDB
 entity NotificationProvider
 
 activate Presentation
-group Request Device Token
+group <color:purple> Request Device Token
 Presentation -> NotificationProvider : getDeviceToken(AppInfo)
 activate NotificationProvider
 NotificationProvider --> Presentation : DeviceToken
@@ -20,11 +20,11 @@ activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : POST api/notify/private/new-device-token
 activate APIController
-APIController -> NotificationManager : insertOrUpdateDT(DeviceToken, UserID, DeviceID)
+APIController -> NotificationManager : insertOrUpdateDT\n(DeviceToken, UserID, DeviceID)
 activate NotificationManager
-NotificationManager -> NotificationEntityManager : insertOrUpdateDT(DeviceToken, UserID, DeviceID)
+NotificationManager -> NotificationEntityManager : insertOrUpdateDT\n(DeviceToken, UserID, DeviceID)
 activate NotificationEntityManager
-NotificationEntityManager -> NotificationDB : insertOrUpdate(DeviceToken, UserID, DeviceID)
+NotificationEntityManager -> NotificationDB : insertOrUpdate\n(DeviceToken, UserID, DeviceID)
 activate NotificationDB
 NotificationDB --> NotificationEntityManager : success
 deactivate NotificationDB
