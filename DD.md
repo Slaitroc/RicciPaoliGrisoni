@@ -304,7 +304,7 @@ A DMZ can be implemented in this design by placing the Proxy in a dedicated netw
 
 
 ### 2.5 Component interfaces (maybe before Runtime View)
-
+In this section, we will describe the interfaces of the components that are part of the S&C platform, showin
 ### 2.6 Selected architectural styles and patterns
 In this subsection, we will describe the architectural styles and patterns that have been selected for the S&C platform, how they works and the reason behind their choice.
 - **Microservices Architecture**: The S&C platform is designed as a set of loosely coupled services, each responsible for a specific set of functionalities. This architecture allows for a high degree of modularity, scalability, and fault tolerance by enabling the independent development, deployment, and scaling of each service and the division of the platform into smaller, more manageable components that can be developed by different teams.
@@ -739,6 +739,21 @@ Possible Components at the moment:
 *Table: Requirement R34 - Traceability for Handling Complaints and Internship Termination.*
 <!-- (Matteo [7hr])-->
 
+## 5 Implementation, Integration and Test Plan
+This section provides a detailed plan for the implementation, integration, and testing of the S\&C platform. The first subsection will describe the main concepts and ideas behind the Implementation, Integration and Test plan and the following subsections will provide a description for each stage of it. 
+### 5.1 Plan Overview
+The platform will be implemented, integrated and tested following a mix between a *thread* and *bottom-up* approach thanks to the aforementioned microservices architecture that allows different service to be implemented and tested in parallel with others.\\
+The main idea is to develop one feature of the Platform Logic at a time, whenever possible, by implementing the front-end through the user interface (UI) and the back-end through its corresponding components and the notifications they will generate. Each feature will undergo unit testing before being integrated with other components. By adopting this thread-based implementation, we can begin testing component integration early in the development process, instead of waiting for the entire Platform Logic to be completed. We believe that this approach allows us to identify and resolve integration issues at an earlier stage, minimizing the risk of significant problems arising later on.\\
+However, due to dependency constraints, not all components can be developed using this thread-based approach. For example, the Recommendation Process and Suggestion Mechanism relay on the User Manager and Platform Entity Manager. To address this, the "Implementation, Integration and Test Plan" is organized into several stage, following a bottom-up approach dividing components into groups that can be developed, tested, and integrated independently. \\
+### 5.2 Plan Stage
+#### 5.2.1 Stage 1: User Manager and Notification Manager
+In the first stage, we will develop the User Manager and part of the Notification Manager, enabling each component to store and retrieve data from its respective database. This process will also involve developing the Platform Entity Manager and the Notification Entity Manager so that each can interact with its own database. To test these two components, we will create an API controller DRIVER and a Manager DRIVER to simulate API controller calls and the various invocations from other components within the Platform Logic.\\ 
+#### 5.2.2 Stage 2: Platform Logic Components and User Interface
+In the second stage, we will develop the remaining Platform Logic components, including the Recommendation Process, Mechanism components, and the remaining Managers. During this phase, we will also implement the User Interface (UI) and update the Notification Manager to handle notifications sent by these components, following the idea behind the *thread* approach. To test these back-end components, we will create an API Controller DRIVER to simulate their invocation while creating a Rest API STUB to simulate the front-end calls.\\
+#### 5.2.3 Stage 3: API Controller and Front-End Integration
+In the third stage, we will integrate the API Controller with the Platform Logic components, the Notification Manager, and the User Interface. By this point, all other components will have been completed and tested, allowing us to concentrate on testing and integrating the API Controller with the rest of the platform. To facilitate this, we will create a Traffic STUB to simulate front-end calls and an Authentication Provider STUB to emulate the authentication process.
+#### 5.2.4 Stage 4: Full Integration and Testing
+In the final stage, we will integrate all components of the platform thanks to the development of the Proxy and the Authenticator Adapter. This will allow us to test the platform as a whole, ensuring that all components work together as expected. We will also conduct end-to-end testing to verify that the platform meets all requirements and functions correctly.
 ## 6 Effort Spent
 
 ### Lorenzo Ricci
