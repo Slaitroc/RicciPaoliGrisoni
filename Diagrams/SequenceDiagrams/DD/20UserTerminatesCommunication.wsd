@@ -13,10 +13,10 @@ database PlatformDBMS
 activate User
 User -> Presentation : clickTerminateCommunication()
 activate Presentation
-Presentation -> Proxy : POST api/comm/private/{CommID}/terminate
+Presentation -> Proxy : POST api/comm/private/\n{CommID}/terminate
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : POST api/comm/private/{CommID}/terminate
+Proxy -> APIController : POST api/comm/private/\n{CommID}/terminate
 activate APIController
 APIController -> CommunicationManager : terminateComm(CommID)
 activate CommunicationManager
