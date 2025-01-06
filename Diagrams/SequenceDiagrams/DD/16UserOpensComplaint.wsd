@@ -11,10 +11,10 @@ database    PlatformDBMS
 activate User
 User -> Presentation : clickComplaint(CommID)
 activate Presentation
-Presentation -> Proxy : GET api/comm/private/communications/{CommID}?<params>
+Presentation -> Proxy : GET api/comm/private/\ncommunications/{CommID}?<params>
 activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
-Proxy -> APIController : GET api/comm/private/communications/{CommID}?<params>
+Proxy -> APIController : GET api/comm/private/\ncommunications/{CommID}?<params>
 activate APIController
 APIController -> APIController : verifyCallParameters()
 alt Wrong API Call Parameters
