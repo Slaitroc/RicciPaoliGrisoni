@@ -17,7 +17,6 @@ It would be confusing to represent every return code or message for each call. H
 
 ## 1UserRegistration
 
-❌
 ![User Registration Diagram](Images/1.0UserRegistration.png)
 
 The User Registration view is the most complex one, as it involves the initial procedure for all the features of our web application, such as authentication, session validation, and notifications.
