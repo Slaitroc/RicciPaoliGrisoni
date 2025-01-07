@@ -14,8 +14,8 @@ Participant -> Presentation  : pressSubmitFeedback()
 Presentation -> Proxy ++ : PUT api/feedback/private/\n{RecommendationID}/submit
 Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController ++ : PUT api/feedback/private/\n{RecommendationID}/submit
-APIController -> FeedbackMechanism ++ : submitFeedback\n(RecommendationID)
-FeedbackMechanism -> PlatformEntityManager ++ : saveFeedback\n(RecommendationID)
+APIController -> FeedbackMechanism ++ : submitFeedback\n(RecommendationID, Feedback)
+FeedbackMechanism -> PlatformEntityManager ++ : saveFeedback\n(RecommendationID, Feedback)
 PlatformEntityManager -> PlatformDBMS ++ : insertOrUpdate\n(Feedback, RecommendationID)
 PlatformDBMS --> PlatformEntityManager -- : success
 PlatformEntityManager --> FeedbackMechanism -- : success
