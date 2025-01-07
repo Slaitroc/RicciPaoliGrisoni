@@ -1,0 +1,683 @@
+
+
+% Components list
+\begin{tabular}{p{8cm} p{8cm}}
+\textbf{\color{titleColor}Internal Components}  &  \textbf{\color{titleColor}External Components} \\
+\begin{enumerate}[label={\color{titleColor}[C\arabic*]}]
+    \item API Controller
+    \item Account Manager
+    \item User Manager
+    \item Recommendation Process
+    \item Submission Manager
+    \item Interviews Manager
+    \item Communication Manager
+    \item Feedback Mechanism
+    \item Suggestion Mechanism
+    \item Platform Entity Manager
+    \item Authenticator Adapter
+    \item Notification Manager
+    \item Notification Entity Manager
+\end{enumerate}
+     & 
+\begin{enumerate}[label={\color{titleColor}[E\arabic*]}]
+    \item Notification Provider
+    \item Email Service API
+    \item Authentication Provider
+    \item DBMS
+\end{enumerate}
+\end{tabular}
+
+
+% Tables for Requirement Traceability
+
+% R1
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R1]} & \textbf{The platform shall allow any unregistered students to register by providing personal information and selecting their University.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C2] & Account Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [C12] & Notification Manager \\ \hline
+    [C13] & Notification Entity Manager \\ \hline
+    [E1] & Notification Provider \\ \hline
+    [E2] & Email Provider API \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R1: Traceability for Student Registration Process}
+    \label{tab:RT1}
+\end{table}
+
+% R2
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R2]} & \textbf{The platform shall allow any companies to register by providing company information.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C2] & Account Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [C12] & Notification Manager \\ \hline
+    [C13] & Notification Entity Manager \\ \hline
+    [E1] & Notification Provider \\ \hline
+    [E2] & Email Provider API \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R2: Traceability for Company Registration Process}
+    \label{tab:RT2}
+\end{table}
+
+% R3
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R3]} & \textbf{The platform shall allow any universities to register by providing university information.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C2] & Account Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [C12] & Notification Manager \\ \hline
+    [C13] & Notification Entity Manager \\ \hline
+    [E1] & Notification Provider \\ \hline
+    [E2] & Email Provider API \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R3: Traceability for University Registration Process}
+    \label{tab:RT3}
+\end{table}
+
+% R4
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R4} & \textbf{The platform shall allow Users to log in using their email and password.} \\ \hline
+    [C3] & User Manager \\ \hline
+    [C11] & Internal Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    \end{tabular}
+    \caption{Requirement R4: Traceability for User Login Functionality}
+    \label{tab:RT4}
+\end{table}
+
+% R5
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R5]} & \textbf{The platform shall send notifications to Users when relevant events occur.} \\ \hline
+    [C12] & Notification Manager \\ \hline
+    [C13] & Notification Entity Manager \\ \hline
+    [E1] & Notification Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R5: Traceability for Notification Functionality}
+    \label{tab:RT5}
+\end{table}
+
+% R6
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R6]} & \textbf{The platform shall allow Companies to create and publish Internship offers specifying details.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C3] & User Manager \\ \hline
+    [C5] & Submission Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R6: Traceability for Internship Offer Creation}
+    \label{tab:RT6}
+\end{table}
+
+% R7
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R7]} & \textbf{The platform shall allow Companies to terminate their Internship offers at their own discretion.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C3] & User Manager \\ \hline
+    [C5] & Submission Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R7: Traceability for Internship Termination}
+    \label{tab:RT7}
+\end{table}
+
+% R8
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R8]} & \textbf{The platform shall provide Students with Matches automatically obtained by the Recommendation Process.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C3] & User Manager \\ \hline
+    [C4] & Recommendation Process \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R8: Traceability for Recommendation Matching}
+    \label{tab:RT8}
+\end{table}
+
+% R9
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R9]} & \textbf{The platform shall allow Students to view and navigate all available Internships.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C5] & Submission Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R9: Traceability for Viewing Available Internships}
+    \label{tab:RT9}
+\end{table}
+
+% R10
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R10]} & \textbf{The platform shall enable Students to submit Spontaneous Applications to Internships they choose.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C5] & Submission Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R10: Traceability for Spontaneous Applications}
+    \label{tab:RT10}
+\end{table}
+
+% R11
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R11]} & \textbf{The platform shall allow Students to submit their CV.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C5] & Submission Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R11: Traceability for CV Submission}
+    \label{tab:RT11}
+\end{table}
+
+% R12
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R12]} & \textbf{The platform shall allow Students to modify their CV.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C5] & Submission Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R12: Traceability for CV Modification}
+    \label{tab:RT12}
+\end{table}
+
+% R13
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R13]} & \textbf{The platform shall allow Students to monitor the status of their Spontaneous Applications.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C5] & Submission Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R13: Traceability for Monitoring Spontaneous Applications}
+    \label{tab:RT13}
+\end{table}
+
+% R14
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R14]} & \textbf{The platform shall allow Students to monitor the status of their Recommendation.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C4] & Recommendation Process \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R14: Traceability for Monitoring Recommendations}
+    \label{tab:RT14}
+\end{table}
+
+% R15
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R15]} & \textbf{The platform shall display to Students all the Internships found by the Recommendation Process.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C4] & Recommendation Process \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R15: Traceability for Displaying Recommended Internships}
+    \label{tab:RT15}
+\end{table}
+
+% R16
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R16]} & \textbf{The platform shall display to Companies all the CVs of Matched Students obtained by the Recommendation Process.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C4] & Recommendation Process \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R16: Traceability for Displaying Matched Student CVs}
+    \label{tab:RT16}
+\end{table}
+
+
+% R17
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R17]} & \textbf{The platform shall allow Students and Companies to accept a Recommendation.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C4] & Recommendation Process \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R17: Traceability for Accepting Recommendations}
+    \label{tab:RT17}
+\end{table}
+
+% R18
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R18]} & \textbf{The platform shall allow Companies to accept a Spontaneous Application.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C4] & Recommendation Process \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R18: Traceability for Accepting Spontaneous Applications}
+    \label{tab:RT18}
+\end{table}
+
+% R19
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R19]} & \textbf{The platform shall start a Selection Process only if both the Company and the Student have accepted the Recommendation.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C4] & Recommendation Process \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R19: Traceability for Starting Selection Process via Recommendation}
+    \label{tab:RT19}
+\end{table}
+
+% R20
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R20]} & \textbf{The platform shall start a Selection Process only if the Company has accepted the Spontaneous Application.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C5] & Submission Manager \\ \hline
+    [C6] & Interviews Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R20: Traceability for Starting Selection Process via Spontaneous Application}
+    \label{tab:RT20}
+\end{table}
+
+% R21
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R21]} & \textbf{The platform shall allow Companies to create Interviews.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C6] & Interviews Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R21: Traceability for Creating Interviews}
+    \label{tab:RT21}
+\end{table}
+
+% R22
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R22]} & \textbf{The platform shall allow Companies to submit Interviews to Students they have initiated a Selection Process with.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C6] & Interviews Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R22: Traceability for Submitting Interviews}
+    \label{tab:RT22}
+\end{table}
+
+% R23
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R23]} & \textbf{The platform shall allow Students to answer Interview questions and submit them.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C6] & Interviews Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R23: Traceability for Answering and Submitting Interviews}
+    \label{tab:RT23}
+\end{table}
+
+% R24
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R24]} & \textbf{The platform shall allow Companies to manually evaluate Interview submissions.} \\ \hline
+    [C6] & Interviews Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R24: Traceability for Evaluating Interview Submissions}
+    \label{tab:RT24}
+\end{table}
+
+
+% R25
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R25]} & \textbf{The platform shall allow Students and Companies to monitor the status of their Interviews.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C6] & Interviews Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R25: Traceability for Monitoring Interview Status}
+    \label{tab:RT25}
+\end{table}
+
+% R26
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R26]} & \textbf{The platform shall enable Companies to complete the Interview process by submitting the final outcome to each candidate.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C6] & Interviews Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R26: Traceability for Submitting Interview Outcomes}
+    \label{tab:RT26}
+\end{table}
+
+% R27
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R27]} & \textbf{The platform shall enable Companies to send an Internship Position Offer to a Student only if he previously passed the relative Interview.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C6] & Interviews Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R27: Traceability for Sending Internship Position Offers}
+    \label{tab:RT27}
+\end{table}
+
+% R28
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R28]} & \textbf{The platform shall enable Students to accept or reject an Internship Position Offer sent by a Company only if he previously passed the relative Interview.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C6] & Interviews Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R28: Traceability for Accepting or Rejecting Internship Position Offers}
+    \label{tab:RT28}
+\end{table}
+
+% R29
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R29]} & \textbf{The platform shall collect Feedback from both Students and Companies regarding the Recommendation Process.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C8] & Feedback Mechanism \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R29: Traceability for Collecting Feedback on Recommendation Process}
+    \label{tab:RT29}
+\end{table}
+
+% R30
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R30]} & \textbf{The platform shall provide Suggestions to Students on improving their CVs.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C9] & Suggestion Mechanism \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R30: Traceability for Providing CV Improvement Suggestions}
+    \label{tab:RT30}
+\end{table}
+
+% R31
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R31]} & \textbf{The platform shall provide Suggestions to Companies on improving Internship descriptions.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C9] & Suggestion Mechanism \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R31: Traceability for Improving Internship Descriptions}
+    \label{tab:RT31}
+\end{table}
+
+% R32
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R32]} & \textbf{The platform shall allow registered Universities to access and monitor Internship Communications related to their Students.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C7] & Communication Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R32: Traceability for Monitoring Internship Communications by Universities}
+    \label{tab:RT32}
+\end{table}
+
+% R33
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R33]} & \textbf{The platform shall provide a dedicated space for Students and Companies to exchange Communications about the current status of an Ongoing Internship.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C7] & Communication Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R33: Traceability for Communication Space for Ongoing Internships}
+    \label{tab:RT33}
+\end{table}
+
+% R34
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{1cm}|p{14cm}|}
+    \hline
+    \textbf{[R34]} & \textbf{The platform shall allow registered Universities to handle Complaints and to interrupt an Internship at their own discretion.} \\ \hline
+    [C1] & API Controller \\ \hline
+    [C7] & Communication Manager \\ \hline
+    [C10] & Platform Entity Manager \\ \hline
+    [C11] & Authenticator Adapter \\ \hline
+    [E3] & Authentication Provider \\ \hline
+    [E4] & DBMS \\ \hline
+    \end{tabular}
+    \caption{Requirement R34: Traceability for Handling Complaints and Interrupting Internships}
+    \label{tab:RT34}
+\end{table}
+\clearpage
+The following matrix provides a compact overview of the previous tables that facilitates the identification of the key components that manage the core functions of the system.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline &   
+        \textbf{C1}   &
+        \textbf{C2}   &
+        \textbf{C3}   &
+        \textbf{C4}   &
+        \textbf{C5}   &
+        \textbf{C6}   &
+        \textbf{C7}   &
+        \textbf{C8}   &
+        \textbf{C9}   &  
+        \textbf{C10}  &   
+        \textbf{C11}  &  
+        \textbf{C12}  & 
+        \textbf{C13}  & 
+        \textbf{E1}   &
+        \textbf{E2}   & 
+        \textbf{E3}   &  
+        \textbf{E4} \\ \hline
+        %              C1  C2  C3  C4  C5  C6  C7  C8  C9 C10 C11 C12 C13  E1  E2  E3  E4
+        \textbf{R1}  & X & X &   &   &   &   &   &   &   & X & X & X & X & X & X & X & X \\ \hline
+        \textbf{R2}  & X & X &   &   &   &   &   &   &   & X & X & X & X & X & X & X & X \\ \hline
+        \textbf{R3}  & X & X &   &   &   &   &   &   &   & X & X & X & X & X & X & X & X \\ \hline
+        \textbf{R4}  &   &   & X &   &   &   &   &   &   &   & X &   &   &   &   & X &   \\ \hline
+        \textbf{R5}  &   &   &   &   &   &   &   &   &   &   &   & X & X & X &   &   & X \\ \hline
+        \textbf{R6}  & X &   & X &   & X &   &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R7}  & X &   & X & X &   &   &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R8}  & X &   & X &   &   &   &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R9}  & X &   &   &   & X &   &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R10} & X &   &   &   & X &   &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R11} & X &   &   &   & X &   &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R12} & X &   &   &   & X &   &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R13} & X &   &   &   & X &   &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R14} & X &   &   & X &   &   &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R15} & X &   &   & X &   &   &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R16} & X &   &   & X &   &   &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R17} & X &   &   & X &   &   &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R18} & X &   &   & X &   &   &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R19} & X &   &   & X &   &   &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R20} & X &   &   &   & X & X &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R21} & X &   &   &   &   & X &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R22} & X &   &   &   &   & X &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R23} & X &   &   &   &   & X &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R24} & X &   &   &   &   & X &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R25} & X &   &   &   &   & X &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R26} & X &   &   &   &   & X &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R27} & X &   &   &   &   & X &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R28} & X &   &   &   &   &   &   &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R29} & X &   &   &   &   &   &   & X &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R30} & X &   &   &   &   &   &   &   & X & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R31} & X &   &   &   &   &   &   &   & X & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R32} & X &   &   &   &   &   & X &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R33} & X &   &   &   &   &   & X &   &   & X & X &   &   &   &   & X & X \\ \hline
+        \textbf{R34} & X &   &   &   &   &   & X &   &   & X & X &   &   &   &   & X & X \\ \hline
+    \end{tabular}
+    \caption{Requirements Traceability Matrix}
+    \label{tab:requirements_traceability}
+\end{table}
