@@ -20,7 +20,7 @@ activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : POST api/comm/private/\ncreate?isComplain=true
 activate APIController
-APIController -> CommunicationManager : createComplaint\n(UserID, Communication)
+APIController -> CommunicationManager : createCommunication\n(UserID, Communication)
 activate CommunicationManager
 CommunicationManager -> PlatformEntityManager : insert(Communication, UserID)
 activate PlatformEntityManager

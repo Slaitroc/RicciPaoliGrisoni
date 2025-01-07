@@ -29,9 +29,8 @@ PlatformDBMS --> PlatformEntityManager : result
 deactivate PlatformDBMS
 PlatformEntityManager --> InterviewManager : result
 deactivate PlatformEntityManager
-InterviewManager --> APIController : result
-deactivate InterviewManager
 alt result == BadRequest
+    InterviewManager --> APIController : result
     note right of Presentation
         The student tried to accept an internship position offer that does not exist
         IntPosOffID is not found in the database
@@ -48,16 +47,6 @@ else result == Unauthorized
     Proxy --> Presentation : 401 Unauthorized : NotOwner
     Presentation --> Student : displayErrorMessage()
 end
-APIController -> NotificationManager : notifyUser(UserIDs, Data)
-activate NotificationManager
-note left of NotificationManager
-    Notify the Company that the student has accepted the internship position offer
-end note
-NotificationManager -> NotificationManager : <color:purple> sendNotification(UserIDs, Data)
-NotificationManager --> APIController : success
-deactivate NotificationManager
-APIController -> InterviewManager : stopOtherInterviews(UserID)
-activate InterviewManager
 InterviewManager -> PlatformEntityManager : getInterviews(UserID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
@@ -71,12 +60,26 @@ loop for each Interview in Interviews
     activate PlatformEntityManager
     PlatformEntityManager -> PlatformDBMS : update(Query, Class)
     activate PlatformDBMS
+    note left of PlatformEntityManager
+        Interrupt all other interviews
+    end note
     PlatformDBMS --> PlatformEntityManager : success
     deactivate PlatformDBMS
     PlatformEntityManager --> InterviewManager : success
     deactivate PlatformEntityManager
-    InterviewManager --> APIController : success
-    deactivate InterviewManager
+end
+InterviewManager --> APIController : result
+deactivate InterviewManager
+APIController -> NotificationManager : notifyUser(UserIDs, Data)
+activate NotificationManager
+note left of NotificationManager
+    Notify the Company that the student has accepted the internship position offer
+end note
+NotificationManager -> NotificationManager : <color:purple> sendNotification(UserIDs, Data)
+NotificationManager --> APIController : success
+deactivate NotificationManager
+
+loop for each Interview in Interviews
     APIController -> NotificationManager : notifyUser(Data, UserIDs)
     activate NotificationManager
     note left of NotificationManager

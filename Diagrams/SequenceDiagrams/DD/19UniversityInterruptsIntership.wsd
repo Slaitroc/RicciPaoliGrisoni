@@ -34,7 +34,7 @@ PlatformEntityManager --> CommunicationManager : success
 deactivate PlatformEntityManager
 CommunicationManager --> APIController : InternShipOffer
 deactivate CommunicationManager
-APIController -> NotificationManager : notifyUser(InternShipOffer, UserIDs)
+APIController -> NotificationManager : notifyUser(Data, UserIDs)
 activate NotificationManager
 NotificationManager -> NotificationManager : <color:purple> sendNotification(UserIDs, Data)
 NotificationManager --> APIController : success

@@ -18,7 +18,7 @@ activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : POST api/interview/private/{TemplateInterviewID}/\nsend-template-interview/{InterviewID}
 activate APIController
-APIController -> InterviewManager : isOwnerOfTemplate(TemplateInterviewID, UserID)
+APIController -> InterviewManager : retrieveTemplateInterview(TemplateInterviewID)
 activate InterviewManager
 InterviewManager -> PlatformEntityManager : isOwnerOfTemplate(TemplateInterviewID, UserID)
 activate PlatformEntityManager
@@ -34,7 +34,6 @@ alt result == false
     Proxy --> Presentation : 400 BadRequest : Error
     Presentation --> Company : displayErrorMessage()
 end
-APIController -> InterviewManager : retrieveTemplateInterview\n(TemplateInterviewID)
 InterviewManager -> PlatformEntityManager : retrieveTemplateInterview\n(TemplateInterviewID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)

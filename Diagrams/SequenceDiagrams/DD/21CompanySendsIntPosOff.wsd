@@ -18,7 +18,7 @@ activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : POST api/interviews/private/\n{InterviewID}/send-int-pos-off
 activate APIController
-APIController -> InterviewManager : isOwner(InterviewID, CompanyID)
+APIController -> InterviewManager : sendIntPosOff(InterviewID, CompanyID)
 activate InterviewManager
 InterviewManager -> PlatformEntityManager : isOwner(InterviewID, CompanyID)
 activate PlatformEntityManager
@@ -34,7 +34,6 @@ APIController --> Proxy : 401 Unauthorized : NotOwner
 Proxy --> Presentation : 401 Unauthorized : NotOwner
 Presentation --> Company : displayErrorMessage()
 end
-APIController -> InterviewManager : sendIntPosOff(InterviewID)
 InterviewManager -> PlatformEntityManager : getStudentID(InterviewID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
