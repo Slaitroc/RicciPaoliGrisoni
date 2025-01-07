@@ -85,6 +85,13 @@ These calls are routed by the Proxy to the Application service that handles the 
     - 409 Conflict :  ConflictError : Object
     - 500 Internal Server Error :  InternalServerError : Object
 
+- POST api/sub/private/{InternshipID}/close-internship ✔️
+  - Responses:
+    - 200 OK :
+    - 400 Bad Request :  InvalidError : Object
+    - 401 Unauthorized :  UnauthorizedError : Object
+    - 500 Internal Server Error :  InternalServerError : Object
+
 - PUT api/feedback/private/{RecommendationID}/{FeedbackID}/submit ✔️
   - Request Body : Feedback : Object
   - Responses:
