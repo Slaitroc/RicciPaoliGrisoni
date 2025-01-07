@@ -29,20 +29,20 @@ PlatformDBMS --> PlatformEntityManager : success
 deactivate PlatformDBMS
 PlatformEntityManager --> SubmissionManager : success 
 deactivate PlatformEntityManager
-SubmissionManager --> APIController : success
+SubmissionManager --> APIController : SubmissionID
 deactivate SubmissionManager
-APIController -> SuggestionMechanism ++ : createSuggestion(UserID, SubmissionData)
+APIController -> SuggestionMechanism ++ : createSuggestion(SubmissionID, SubmissionData)
 SuggestionMechanism -> PlatformEntityManager ++ : retrieveSuggestionParameters(SubmissionData)
 PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, class)
 PlatformDBMS --> PlatformEntityManager -- : result
 PlatformEntityManager --> SuggestionMechanism -- : result
-SuggestionMechanism -> SuggestionMechanism : generateSuggestions\n(SuggestionParameters)
-SuggestionMechanism -> PlatformEntityManager ++ : insertSuggestion(UserID, Suggestion)
-PlatformEntityManager -> PlatformDBMS ++ : insert(UserID, Suggestion)
+SuggestionMechanism -> SuggestionMechanism : generateSuggestions\n(SubmissionData,\nSuggestionParameters)
+SuggestionMechanism -> PlatformEntityManager ++ : insertSuggestion(SubmissionID, Suggestion)
+PlatformEntityManager -> PlatformDBMS ++ : insert(SubmissionID, Suggestion)
 PlatformDBMS --> PlatformEntityManager -- : success
 PlatformEntityManager -->  SuggestionMechanism -- : success
 SuggestionMechanism -> APIController -- : Suggestion
-APIController -> RecommendationProcess ++ : initiateRecommendationAlgorithm(UserID, SubmissionData)
+APIController -> RecommendationProcess ++ : initiateRecommendationAlgorithm(SubmissionID, SubmissionData)
 RecommendationProcess -> PlatformEntityManager ++ : retrieveRecommendationParameters()
 PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, class)
 PlatformDBMS --> PlatformEntityManager -- : result
@@ -53,9 +53,9 @@ PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, class)
 PlatformDBMS --> PlatformEntityManager -- : result
 PlatformEntityManager --> UserManager -- : result
 UserManager --> RecommendationProcess -- : UserIDs, SubmissionsIDs
-RecommendationProcess -> RecommendationProcess : generateRecommendations(UserIDs)
-RecommendationProcess -> PlatformEntityManager ++ : insertRecommendations(User, UserIDs)
-PlatformEntityManager -> PlatformDBMS ++ : insert(UserIDs, Recommendations)
+RecommendationProcess -> RecommendationProcess : createRecommendations\n(SubmissionsID, SubmissionsIDs)
+RecommendationProcess -> PlatformEntityManager ++ : insertRecommendations(Recommendations)
+PlatformEntityManager -> PlatformDBMS ++ : insert(Recommendations)
 PlatformDBMS --> PlatformEntityManager -- : success
 PlatformEntityManager -->  RecommendationProcess -- : success
 RecommendationProcess --> APIController -- : UserIDs
