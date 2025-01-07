@@ -298,7 +298,7 @@ A DMZ can be implemented in this design by placing the Proxy in a dedicated netw
 
 6. 1 ParticipantAcceptsMatch
     
-    This sequence diagram illustrates the process when a Participant accepts a recommendation. The Participant triggers the process by pressing the accept button. The request is authenticated and sent to the APIController, which interacts with the RecommendationManager to update and fetch recommendation data. If the other party has already accepted, an interview is created through the InterviewManager. Additionally, if the FeedbackMechanism is triggered, the Participant is prompted to provide feedback. Finally, the success message is displayed to the Participant.
+    This sequence diagram illustrates the process when a Participant accepts a recommendation. The Participant triggers the process by pressing the accept button. The request is authenticated and sent to the APIController, which interacts with the RecommendationProcess to update and fetch recommendation data. If the other party has already accepted, an interview is created through the InterviewManager. Additionally, if the FeedbackMechanism is triggered, the Participant is prompted to provide feedback. Finally, the success message is displayed to the Participant.
 
 
    2 ParticipantSubmitsFeedback
@@ -774,6 +774,23 @@ In the third stage, we will develop and integrate the API Controller with the Pl
 We will also develop the Authenticator Adapter to handle user authentication and token generation. For testing purpose we will create a Proxy DRIVER to simulate the API Controller and Authenticator Adapter calls and the front-end when it receives different responses.\\ 
 #### 5.2.4 Stage 4: Full Integration and Testing
 In the final stage, we will integrate all components of the platform thanks to the development of the Proxy and the Authenticator Adapter. This will allow us to test the platform as a whole, ensuring that all components work together as expected. We will also conduct end-to-end testing to verify that the platform meets all requirements and functions correctly.
+
+### 5.3 Technologies Used
+In this last paragraph, we will describe the technologies used for the implementation, integration, and testing of the S\&C platform, discussing the reasons behind their choice and how they will be used in the development process.\\
+
+#### 5.3.1 Implementation Technologies
+- **Front-End**: The front-end of the platform will be developed using React, a popular JavaScript library for building user interfaces. React was chosen for its ease of use, flexibility, and performance, and wide support and documentation given the large community of developers that use it. The front-end will be styled using the MUI library to ensure a consistent and modern design across all pages and animated using the Framer Motion library.
+- **Back-End**: The back-end of the platform will be developed using Java and Spring Boot, a popular framework for building Java-based web applications. Spring Boot was chosen robustness, and scalability, and the familiarity of the team with the Java language.
+- **Database**: The platform's database will be established with MariaDB, a widely-used and open-source relational database management system. To engage with the database, we will utilize the Java Persistence API (JPA) alongside Hibernate, a object-relational mapping (ORM) framework for Java applications, which enables us to handle the data without manually crafting SQL queries.
+- **Authentication**: Firebase Authentication, a reliable and popular service from Google, will be utilized to implement the authentication system for the platform. Firebase Auth was selected due to its easy of integration, scalability, and the range of authentication options it offers, such as email/password and logins via popular social networks like Facebook or Google.\\
+Moreover, Firebase Auth offers inherent security functionalities, including token-based authentication and secure user management, which correspond with our platform's requirement to manage sensitive information securely and efficiently.
+- **Notifications**: The platform’s notification system will be built with Firebase Cloud Messaging (FCM), a cross-platform messaging service that enables us to deliver push notifications to users on Android, iOS, and the web. FCM was selected for its dependability, scalability, and seamless integration with Firebase Auth, enabling us to send notifications securely and efficiently to platform users.\\
+#### 5.3.2 Integration and Testing Technologies
+- **Unit Testing**: The platform's components of the back end,will be tested using JUnit, a popular unit testing framework for Java applications. JUnit was chosen for its simplicity, ease of use, compatibility with the Spring Boot framework and the team's familiarity with the tool.
+- **Back-end Mock**: Mockito, a widely-used mocking framework for Java applications, will be used to create stub and mock objects for testing purposes. Mockito was selected for its flexibility, ease of use, and compatibility with JUnit, allowing us both to simulate the behavior of external dependencies and to verify the interactions between components.
+- **Front-end Testing**: The front-end of the platform will be tested using React Testing Library, a popular testing utility for React applications. React Testing Library was chosen for the same reasons as React, and it allows us to write tests that closely resemble how users interact with the application, ensuring that the UI functions as expected.
+- **Front-end Mock**: MSW (Mock Service Worker) will be used to mock the API calls made by the front-end during testing. MSW was chosen for its ease of use, flexibility, compatibility with React Testing Library, enabling us to simulate the behavior of the back-end components and test the front-end in isolation. 
+<!-- (Sam 1.5h)-->
 ## 6 Effort Spent
 
 ### Lorenzo Ricci

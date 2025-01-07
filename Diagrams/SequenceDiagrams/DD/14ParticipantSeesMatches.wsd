@@ -4,7 +4,7 @@ actor       Participant
 participant Presentation
 entity      Proxy
 participant APIController
-participant RecommendationManager
+participant RecommendationProcess
 participant PlatformEntityManager
 database    PlatformDBMS
 
@@ -16,18 +16,18 @@ activate Proxy
 Proxy -> Proxy : <color:purple> Authentication
 Proxy -> APIController : GET api/applications/\nprivate/get-matches
 activate APIController
-APIController -> RecommendationManager : getMatches(UserID)
-activate RecommendationManager
-RecommendationManager -> PlatformEntityManager : getMatches(UserID)
+APIController -> RecommendationProcess : getMatches(UserID)
+activate RecommendationProcess
+RecommendationProcess -> PlatformEntityManager : getMatches(UserID)
 activate PlatformEntityManager
 PlatformEntityManager -> PlatformDBMS : buildAndExecuteQuery(Query, Class)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager : result
 deactivate PlatformDBMS
-PlatformEntityManager --> RecommendationManager : result
+PlatformEntityManager --> RecommendationProcess : result
 deactivate PlatformEntityManager
-RecommendationManager --> APIController : Matches
-deactivate RecommendationManager
+RecommendationProcess --> APIController : Matches
+deactivate RecommendationProcess
 APIController --> Proxy : 200 OK : Matches
 deactivate APIController
 Proxy --> Presentation : 200 OK : Matches

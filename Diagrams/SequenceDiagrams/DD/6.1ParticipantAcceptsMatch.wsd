@@ -4,7 +4,7 @@ actor       Participant
 participant  Presentation
 entity      Proxy
 participant APIController
-participant RecommendationManager
+participant RecommendationProcess
 participant InterviewManager
 participant PlatformEntityManager
 participant NotificationManager
@@ -18,12 +18,12 @@ activate Proxy
 Proxy -> Proxy : <color:purple> Authentication()
 
 Proxy -> APIController ++ : POST api/recommendations/private/\n{RecommendationID}/accept
-APIController -> RecommendationManager ++ : acceptRecommendation(RecommendationID, UserID1)
-RecommendationManager -> PlatformEntityManager ++ : updateAndGetRecommendation(RecommendationID, UserID1)
+APIController -> RecommendationProcess ++ : acceptRecommendation(RecommendationID, UserID1)
+RecommendationProcess -> PlatformEntityManager ++ : updateAndGetRecommendation(RecommendationID, UserID1)
 PlatformEntityManager -> PlatformDBMS ++ : update&query(RecommendationID, UserID1)
 PlatformDBMS --> PlatformEntityManager -- : result
-PlatformEntityManager --> RecommendationManager -- : result
-RecommendationManager --> APIController -- : RecommendationData
+PlatformEntityManager --> RecommendationProcess -- : result
+RecommendationProcess --> APIController -- : RecommendationData
 
 alt Other Party Already Accepted
     APIController -> NotificationManager ++ : notifyUser(UserID2, Data)

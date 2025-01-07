@@ -18,10 +18,10 @@ Proxy -> Proxy  : <color:purple> Authentication
 Proxy -> APIController ++ : POST api/sub/private/\n{InternshipID}/close-internship
 APIController -> SubmissionManager : deleteSubmission\n(InternshipID)
 activate SubmissionManager
-SubmissionManager -> UserManager : retreiveInvolvedStudents(InternshipID)
+SubmissionManager -> UserManager : retrieveInvolvedStudents(InternshipID)
 activate UserManager
 UserManager -> PlatformEntityManager ++ : getUserIDs(InternshipID)
-PlatformEntityManager -> PlatformDBMS : retreive(InternshipID)
+PlatformEntityManager -> PlatformDBMS : retrieve(InternshipID)
 activate PlatformDBMS
 PlatformDBMS --> PlatformEntityManager -- : result
 PlatformEntityManager --> UserManager -- : result
