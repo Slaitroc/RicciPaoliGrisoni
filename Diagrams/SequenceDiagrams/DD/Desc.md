@@ -166,13 +166,31 @@ If the FeedbackMechanism is triggered, the `APIController` returns a `201 Create
 
 ![Participant Submits Feedback Diagram](Images/6.2ParticipantSubmitsFeedback.png)
 
-By pressing the *Submit Feedback* button, the Participant triggers a `PUT` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request and forwards it to the `APIController` in the Application Service.
+When the Participant presses the *Submit Feedback* button, the Presentation Layer sends a `PUT` request with the `RecommendationID` and feedback data to the Proxy.
+
+The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` invokes the `FeedbackMechanism` to handle the feedback submission. The `FeedbackMechanism` saves the feedback data by interacting with the `PlatformEntityManager`, which updates the `PlatformDBMS`.
+
+Once the feedback is saved, the `FeedbackMechanism` retrieves recommendation parameters from the database through the `PlatformEntityManager`. It computes updated recommendation parameters and saves them back into the database via the `PlatformEntityManager`.
+
+After processing the feedback and updating the recommendation data, the `FeedbackMechanism` returns a success message to the `APIController`. The `APIController` forwards the response to the Proxy, which then sends it to the Presentation Layer. Finally, the Presentation Layer displays a success message to the Participant.
+
+
+<!-- By pressing the *Submit Feedback* button, the Participant triggers a `PUT` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request and forwards it to the `APIController` in the Application Service.
+
+The `APIController` invokes the `FeedbackMechanism` to handle the feedback submission. The `FeedbackMechanism` saves the feedback data by interacting with the `PlatformEntityManager`, which updates or inserts the feedback into the `PlatformDBMS`.
+
+Once the feedback is saved, the `FeedbackMechanism` retrieves recommendation parameters from the `PlatformDBMS` through the `PlatformEntityManager`. It then computes updated recommendation parameters and updates them back in the database via the `PlatformEntityManager`.
+
+After successfully saving the feedback and updating the recommendation data, the `FeedbackMechanism` returns a success message to the `APIController`. The `APIController` forwards the response to the Proxy, which then sends it to the Presentation Layer. Finally, the Presentation Layer displays a success message to the Participant. -->
+
+
+<!-- By pressing the *Submit Feedback* button, the Participant triggers a `PUT` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request and forwards it to the `APIController` in the Application Service.
 
 The `APIController` invokes the `FeedbackMechanism` to handle the submission of feedback. The `FeedbackMechanism` saves the feedback data by interacting with the `PlatformEntityManager`, which updates the `PlatformDBMS`.
 
 Once the feedback is saved, the `FeedbackMechanism` retrieves recommendation parameters from the `PlatformDBMS` through the `PlatformEntityManager`. Using these parameters, it computes updated recommendation parameters and saves them back into the database via the `PlatformEntityManager`.
 
-After successfully processing the feedback and updating the recommendation data, the `FeedbackMechanism` returns a success message to the `APIController`. The `APIController` forwards the response to the Proxy, which then returns it to the Presentation Layer. The Presentation Layer displays a success message to the Participant.
+After successfully processing the feedback and updating the recommendation data, the `FeedbackMechanism` returns a success message to the `APIController`. The `APIController` forwards the response to the Proxy, which then returns it to the Presentation Layer. The Presentation Layer displays a success message to the Participant. -->
 
 ## StudentSendsSpontaneousApplication
 
@@ -312,15 +330,13 @@ The `APIController` returns a `200 OK` response containing the requested data to
 
 ![Participant Creates a Complaint Diagram](Images/17ParticipantCreatesAComplaint.png)
 
-When the Participant clicks the "Create New Complaint" button, a `POST` private API call is sent from the Presentation Layer to the Proxy. The request includes the text of the complaint and a query parameter `isComplain=true`.
+When the Participant initiates the creation of a new complaint by clicking the corresponding button, the Presentation Layer sends a `POST` request to the Proxy. The Proxy authenticates the request and forwards it to the `APIController`.
 
-The Proxy validates the User's authentication token and forwards the request to the `APIController`. The `APIController` triggers the `CommunicationManager` to create a new complaint, passing the `UserID` and complaint data.
+The `APIController` invokes the `CommunicationManager` to handle the creation of the new complaint. The `CommunicationManager` interacts with the `PlatformEntityManager` to insert the complaint data into the database. The `PlatformEntityManager` performs this operation by communicating with the `PlatformDBMS`.
 
-The `CommunicationManager` sends an `insert` command to the `PlatformEntityManager`, which interacts with the `PlatformDBMS` to store the complaint data. Once the database successfully stores the complaint, the result is propagated back through the `PlatformEntityManager` and the `CommunicationManager`.
+Once the complaint is successfully stored in the database, the `CommunicationManager` returns a success response to the `APIController`. Subsequently, the `APIController` triggers the `NotificationManager` to notify relevant users about the new complaint. After the notifications are sent, a success response propagates back through the Proxy to the Presentation Layer.
 
-After successfully creating the complaint, the `APIController` uses the `NotificationManager` to notify the relevant users. The `NotificationManager` sends notifications using its internal logic and confirms the notification delivery.
-
-The `APIController` returns a `201 Created` response to the Proxy, which forwards it to the Presentation Layer. The Presentation Layer updates the Participant by displaying the newly created complaint.
+Finally, the Presentation Layer displays the newly created complaint to the Participant.
 
 
 ## UserSeesHisCommunicationsPage
@@ -341,7 +357,15 @@ Finally, the Presentation Layer displays the list of communications to the User.
 
 ![University Interrupts Internship Diagram](Images/19UniversityInterruptsIntership.png)
 
-When the University clicks the "Interrupt Internship" button, the Presentation Layer displays a confirmation button to ensure the user's intent. Upon clicking the confirmation button, the Presentation Layer sends a `POST` private API call to the Proxy.
+When the University initiates the process to interrupt an internship by clicking the appropriate button, the Presentation Layer displays a confirmation button. Upon confirmation, the Presentation Layer sends a `POST` request to the Proxy.
+
+The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` invokes the `CommunicationManager`, which interacts with the `PlatformEntityManager` to update the internship offer in the database. The `PlatformEntityManager` performs the update operation by communicating with the `PlatformDBMS`.
+
+After successfully updating the internship data, the `CommunicationManager` returns the updated internship details to the `APIController`. The `APIController` then triggers the `NotificationManager` to notify relevant users about the interruption. Once the notifications are sent, a success response propagates back through the Proxy to the Presentation Layer.
+
+Finally, the Presentation Layer displays the confirmation of the terminated internship to the University.
+
+<!-- When the University clicks the "Interrupt Internship" button, the Presentation Layer displays a confirmation button to ensure the user's intent. Upon clicking the confirmation button, the Presentation Layer sends a `POST` private API call to the Proxy.
 
 The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` triggers the `CommunicationManager` to handle the interruption request, passing the `commID` and the `Reason` provided by the University.
 
@@ -349,7 +373,7 @@ The `CommunicationManager` interacts with the `PlatformEntityManager`, which upd
 
 The `APIController` notifies all relevant users about the interrupted internship by triggering the `NotificationManager`. The `NotificationManager` sends notifications to the associated `UserIDs` and confirms the success of the operation.
 
-Finally, the `APIController` sends a `200 OK` response to the Proxy, which forwards it to the Presentation Layer. The Presentation Layer then displays the updated internship status to the University.
+Finally, the `APIController` sends a `200 OK` response to the Proxy, which forwards it to the Presentation Layer. The Presentation Layer then displays the updated internship status to the University. -->
 
 ## UserTerminatesCommunication
 
@@ -373,7 +397,17 @@ Finally, the `APIController` sends a `200 OK` response to the Proxy, which forwa
 
 ![Company Sends Internship Position Offer Diagram](Images/21CompanySendsIntPosOff.png)
 
-When the Company clicks the "Send Internship Position Offer" button, the Presentation Layer sends a `POST` private API call to the Proxy.
+When the Company initiates the process to send an internship position offer by clicking the relevant button, the Presentation Layer sends a `POST` request to the Proxy.
+
+The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` invokes the `InterviewManager`, which first verifies if the Company is the owner of the specified interview by querying the `PlatformEntityManager`. The `PlatformEntityManager` communicates with the `PlatformDBMS` to perform the ownership check.
+
+If the Company is not the owner, an error is returned through the APIController, Proxy, and Presentation Layer, displaying an error message to the Company. If ownership is confirmed, the `InterviewManager` retrieves the Student ID related to the interview and creates a new internship position offer by interacting with the `PlatformEntityManager`. The `PlatformEntityManager` inserts the offer into the database via the `PlatformDBMS`.
+
+After successfully creating the internship position offer, the `InterviewManager` returns a success response to the `APIController`. The `APIController` then triggers the `NotificationManager` to notify relevant users about the new offer. Once notifications are sent, the success response propagates back through the Proxy to the Presentation Layer.
+
+Finally, the Presentation Layer displays confirmation of the sent internship position offer to the Company.
+
+<!-- When the Company clicks the "Send Internship Position Offer" button, the Presentation Layer sends a `POST` private API call to the Proxy.
 
 The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` first calls the `InterviewManager` to verify if the Company is the owner of the interview (`InterviewID`) by querying the `PlatformEntityManager`. The `PlatformEntityManager` checks ownership in the `PlatformDBMS` and returns the result.
 
@@ -385,12 +419,21 @@ Once the `StudentID` is retrieved, the `InterviewManager` creates the internship
 
 The `APIController` then triggers the `NotificationManager` to notify the relevant student about the offer. The `NotificationManager` sends notifications and confirms their delivery.
 
-Finally, the `APIController` sends a `200 OK` response to the Proxy, which forwards it to the Presentation Layer. The Presentation Layer displays a confirmation message to the Company, indicating that the internship position offer has been successfully sent.
+Finally, the `APIController` sends a `200 OK` response to the Proxy, which forwards it to the Presentation Layer. The Presentation Layer displays a confirmation message to the Company, indicating that the internship position offer has been successfully sent. -->
 
 ## StudentAcceptsInternshipPositionOffer
 
 ![Student Accepts Internship Position Offer Diagram](Images/22StudentAcceptsInternshipPositionOffer.png)
+When a Student clicks to accept an internship position offer, the Presentation Layer sends a `POST` request to the Proxy.
 
+The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` invokes the `InterviewManager` to handle the acceptance process. The `InterviewManager` checks the ownership of the offer by interacting with the `PlatformEntityManager`, which queries the `PlatformDBMS`. If the offer does not exist (`BadRequest`) or does not belong to the Student (`Unauthorized`), an error response is returned to the Presentation Layer, and an error message is displayed.
+
+If the ownership is validated, the `InterviewManager` retrieves all interviews associated with the Student by querying the `PlatformEntityManager`. For each of these interviews, the `InterviewManager` interrupts them by updating their status in the `PlatformDBMS`.
+
+Once all other interviews are updated, the `InterviewManager` confirms the acceptance of the internship position offer. The `APIController` triggers the `NotificationManager` to notify the relevant Company about the Student's acceptance. Additional notifications are sent to other Companies, informing them that the Student has accepted a different offer.
+
+Finally, a success response is returned through the Proxy to the Presentation Layer, which displays a confirmation message to the Student.
+<!-- 
 When the Student clicks the "Accept Internship Position Offer" button, the Presentation Layer sends a `POST` private API call to the Proxy.
 
 The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` calls the `InterviewManager` to process the acceptance of the internship position offer (`IntPosOffID`) for the student (`UserID`). The `InterviewManager` uses the `PlatformEntityManager` to query and update the database entry in `PlatformDBMS` for the internship position offer.
@@ -403,13 +446,21 @@ Next, the `APIController` instructs the `InterviewManager` to stop any other ong
 
 For each canceled interview, the `NotificationManager` is called to notify the respective companies that the student has accepted another internship position offer.
 
-Finally, a `200 OK` response is returned through the Proxy to the Presentation Layer, which displays a confirmation message to the student indicating successful acceptance of the position.
+Finally, a `200 OK` response is returned through the Proxy to the Presentation Layer, which displays a confirmation message to the student indicating successful acceptance of the position. -->
 
 ## CompanySendTemplateInterview
 
 ![Company Send Template Interview Diagram](Images/23CompanySendTemplateInterview.png)
 
-When a Company clicks the "Send Interview" button, the Presentation Layer sends a `POST` private API call to the Proxy. The request contains both the `TemplateInterviewID` and the `InterviewID` in its body.
+When a Company clicks to send a saved interview, the Presentation Layer sends a `POST` request containing the `InterviewID` and `TemplateInterviewID` to the Proxy.
+
+The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` invokes the `InterviewManager` to retrieve the template interview. The `InterviewManager` checks if the Company owns the specified template by querying the `PlatformEntityManager`, which interacts with the `PlatformDBMS`. If the ownership check fails, an error response is returned, and an error message is displayed to the Company.
+
+If the ownership check succeeds, the `InterviewManager` retrieves the template data from the database and constructs the interview based on the template. The updated interview data is then stored in the database by the `PlatformEntityManager`.
+
+After the interview is successfully updated, the `APIController` triggers the `NotificationManager` to notify the Student that the interview has been sent. A success response is then returned through the Proxy to the Presentation Layer, which displays a confirmation message to the Company.
+
+<!-- When a Company clicks the "Send Interview" button, the Presentation Layer sends a `POST` private API call to the Proxy. The request contains both the `TemplateInterviewID` and the `InterviewID` in its body.
 
 The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` calls the `InterviewManager` to verify if the company owns the interview template (`TemplateInterviewID`). The `InterviewManager` queries the database through the `PlatformEntityManager` and `PlatformDBMS` to validate ownership.
 
@@ -419,7 +470,7 @@ If ownership is confirmed, the `InterviewManager` retrieves the template data as
 
 Once the update is successful, the `APIController` triggers the `NotificationManager` to notify the user that the interview has been sent to them.
 
-Finally, a `200 OK` response is returned through the Proxy to the Presentation Layer, which displays a confirmation message to the company indicating the interview has been successfully sent.
+Finally, a `200 OK` response is returned through the Proxy to the Presentation Layer, which displays a confirmation message to the company indicating the interview has been successfully sent. -->
 
 ## CompanyClosesInternshipOffer
 
