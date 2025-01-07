@@ -31,8 +31,8 @@ PlatformEntityManager --> SubmissionManager : success
 deactivate PlatformEntityManager
 SubmissionManager --> APIController : success
 deactivate SubmissionManager
-APIController -> SuggestionMechanism ++ : createSuggestions(UserID, SubmissionData)
-SuggestionMechanism -> PlatformEntityManager ++ : retriveSuggestionParameters(SubmissionData)
+APIController -> SuggestionMechanism ++ : createSuggestion(UserID, SubmissionData)
+SuggestionMechanism -> PlatformEntityManager ++ : retrieveSuggestionParameters(SubmissionData)
 PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, class)
 PlatformDBMS --> PlatformEntityManager -- : result
 PlatformEntityManager --> SuggestionMechanism -- : result
@@ -41,14 +41,14 @@ SuggestionMechanism -> PlatformEntityManager ++ : insertSuggestion(UserID, Sugge
 PlatformEntityManager -> PlatformDBMS ++ : insert(UserID, Suggestion)
 PlatformDBMS --> PlatformEntityManager -- : success
 PlatformEntityManager -->  SuggestionMechanism -- : success
-SuggestionMechanism -> APIController -- : Suggestions
+SuggestionMechanism -> APIController -- : Suggestion
 APIController -> RecommendationProcess ++ : initiateRecommendationAlgorithm(UserID, SubmissionData)
 RecommendationProcess -> PlatformEntityManager ++ : retrieveRecommendationParameters()
 PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, class)
 PlatformDBMS --> PlatformEntityManager -- : result
 PlatformEntityManager --> RecommendationProcess -- : result
-RecommendationProcess -> UserManager ++ : retreiveSubs\n(RecommendationParameters)
-UserManager -> PlatformEntityManager ++ : retreiveSubs\n(RecommendationParameters)
+RecommendationProcess -> UserManager ++ : retrieveSubs\n(RecommendationParameters)
+UserManager -> PlatformEntityManager ++ : retrieveSubs\n(RecommendationParameters)
 PlatformEntityManager -> PlatformDBMS ++ : buildAndExecuteQuery(Query, class)
 PlatformDBMS --> PlatformEntityManager -- : result
 PlatformEntityManager --> UserManager -- : result
