@@ -1,11 +1,31 @@
 \subsection{Purpose}
+The purpose of the Student\&Company (S\&C) platform is to enable students to enroll into internships that will enhance their education and strengthen their CVs, while letting companies publish internship offers and select the best candidates through interviews. More over, S\&C allow students' universities to monitor each of their students' progress and intervene if needed.
+The platform support and aid the users throughout the entire process by provide suggestion to the uploaded CVs and internship offers, automatically matches students and companies thanks to a proprietary algorithm, manage the distribution and collection of interviews and provides a space for filing and resolving complaints. The reader can find more information about the platform in the RASD document. 
+In the remaining part of this chapter we will present a summary of the technical choices made for the creation of the platform and different bullet point lists and table including the Goals that we are trying to accomplish with this software and the Definition, Acronyms, Abbreviations used in this document.
 \subsubsection{Goals}
+\begin{enumerate}[label={\color{titleColor}[G\arabic*]}]
+\item Companies would like to advertise the internships they offer.
+\item Students would like to autonomously candidate for available internships.
+\item Students would like to be matched with internships they might be interested in.
+\item Companies would like to perform interviews with suitable students.
+\item Students and companies would like to complain, communicate problems, and provide information about an ongoing internship.
+\item Students and companies would like to be provided with suggestions about how to improve their submission
+\item Universities would like to handle complaints about ongoing internships.
+\item Students would like to choose which internship to attend from among those for which they passed the interview.
+\item Companies would like to select students for the internship position among those who passed the interview.
+\end{enumerate}
+
 \subsection{Scope}
-\subsubsection{Product Domain}
-\subsubsection{Main Architectural Choices??}
+This document, Design Document (DD), will provide a detailed description of the architecture of the S\&C platform from a more technical point of view. In particular, it will provide a thorough description of the software with a special emphasis on its interfaces, system module, and architectural framework.
+This document will also discuss the implementation, integration and testing plan describing the tools and methodologies that will be used during the development of the platform.
+
+\subsubsection{Main Architectural Choices}
+The chosen architectural style is a \textit{microservices architecture}, as it enables a scalable and modular approach to development. The three main services are Presentation, Application, and Authenticator, which are responsible for the user interface, business logic, and authentication, respectively. Data-intensive service manage their data through autonomous databases, ensuring modularity and scalability. For now, the databases are not designed to scale horizontally, meaning that when services using them are duplicated, the database remains a single, centralized instance. The Presentation layer provides the client with a Single Page Application (SPA) for a smoother user experience. The Application layer contains modules that handle platform-specific logic services, which could be exported as independent services in the future. This setup facilitates reliability and fault tolerance, as each service is designed to be container-based and can be scaled vertically or horizontally using cloud orchestration tools during deployment.
+
 \subsection{Definitions, Acronyms, Abbreviations} 
-This section offers explanations of terminology to elucidate the terms, acronyms and abbreviations used throughout the document, facilitating easy comprehension and reference for the readers.
+This section provides definitions and explanations of the terms, acronyms, and abbreviations used throughout the document, making it easier for readers to understand and reference them.
 \subsubsection{Definition}
+The definition shared between this document and the RASD document are reported in the following list:
 \begin{itemize}
     \item \textcolor{titleColor}{\textbf{University}\label{def:university}}: A university that is registered on the S\&C platform.
     \item \textcolor{titleColor}{\textbf{Company}\label{def:company}}: A company that is registered on the S\&C platform.
@@ -28,33 +48,70 @@ This section offers explanations of terminology to elucidate the terms, acronyms
     \item \textcolor{titleColor}{\textbf{Rejected Match}\label{def:rejectedMatch}}: A match that has been refused by either a Student or a Company.
     \item \textcolor{titleColor}{\textbf{Pending Match}\label{def:pendingMatch}}: A match that has been accepted only by a Student or a Company, waiting for a response from the other party.
     \item \textcolor{titleColor}{\textbf{Unaccepted Match}\label{def:unacceptedMatch}}: A match that has been refused by either a Student or a Company.
-
-    
-    
+\end{itemize}
+The definition specific to this document are reported in the following list:
+\begin{itemize}
+    \item \textcolor{titleColor}{\textbf{Front-End}\label{def:frontEnd}}:The part of the software that is responsible for the presentation of the data and the interaction with the user. It is what the user sees and interacts with.
+    \item \textcolor{titleColor}{\textbf{Back-End}\label{def:backEnd}}: The part of the software that is responsible for the business logic of the platform and the storage and retrieval of data. It is composed of the servers and the database. It is what the user does not see.
+    \item \textcolor{titleColor}{\textbf{RESTful API}\label{def:restAPI}}: A set of rules that software engineers follow when creating an API that allows different software to communicate with each other.
+    \item \textcolor{titleColor}{\textbf{3-tier architecture}\label{def:3TierArchitecture}}: A software architecture that divides the software into three different layers: presentation layer that contains the logic for displaying data and retrieve input from the user, application layer where the main logic of the software is present, and data layer that contains the data and the logic to access it.
+    \item \textcolor{titleColor}{\textbf{Proxy}\label{def:proxy}}: A server that acts as an intermediary for requests from clients seeking resources from other servers. It can redirect request based on different criteria.
+    \item \textcolor{titleColor}{\textbf{Presentation Service}\label{def:PresentationService}}: The service that provides the user interface and experience to the client. It is responsible for delivering static content to the client upon connection to the platform's main domain.
+    \item \textcolor{titleColor}{\textbf{Presentation Layer}\label{def:PresentationLayer}}: The layer of the software that is responsible for the visualization of the data and the retrieval of user inputs, offered by the Presentation Service.
+    \item \textcolor{titleColor}{\textbf{Application Service}\label{def:ApplicationService}}: The service that contains the platform's core functionalities, including platform logic, database interaction, and notification handling. It exposes various RESTful API endpoints for the different services it provides.
+    \item \textcolor{titleColor}{\textbf{Application Layer}\label{def:ApplicationLayer}}: The layer of the software that is responsible for the processing of the data, computation, and the logic of the platform, offered by the Application Service.
+    \item \textcolor{titleColor}{\textbf{Authenticator Service}\label{def:AuthenticatorService}}: The service that is responsible for every process concerning authentication and session validation.
+    \item \textcolor{titleColor}{\textbf{Data Layer}\label{def:DataLayer}}: The layer of the software that is responsible for the storage and retrieval of the data.
+    \item \textcolor{titleColor}{\textbf{Service}\label{def:Service}}: A self-contained unit of functionality that can be independently deployed and scaled.
+    \item \textcolor{titleColor}{\textbf{Container}\label{def:Container}}: A container is a lightweight, standalone, and portable unit of software that isolates development environments, allowing developers to build, test, and deploy applications more efficiently without conflicts between different enviorments.
+    \item \textcolor{titleColor}{\textbf{Notification Subsystem}\label{def:NotificationSubsystem}}: The system that is responsible for sending notifications to users when relevant events occur.
+    \item \textcolor{titleColor}{\textbf{Middleware}\label{def:Middleware}}: A software that acts as a bridge different applications, especially if they are on different network.
 \end{itemize}
 
 \subsubsection{Acronyms}
-\begin{table}[h]
+The acronyms shared between this document and the RASD document are reported in the following table:\\
+\begin{table}[H]
     \centering
 \begin{tabular}{|c|c|}
         \hline
         \textbf{Acronyms} & \textbf{Definition} \\ \hline
-        RASD & Requirements Analysis \& Specification Document\\ \hline
+        RASD \& Requirements Analysis \& Specification Document\\ \hline
         CV & Curriculum vitae\\ \hline
     \end{tabular}
-    \caption{Acronyms and Definitions}
-    \label{tab:acronyms}
+    \caption{RASD Acronyms}
+    \label{tab:RASDacronyms}
+\end{table}
+The acronyms specific to this document are reported in the following table:
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Acronym} & \textbf{Definition} \\ \hline
+        DD & Design Document \\ \hline
+        UI & User Interface \\ \hline
+        UX & User Experience \\ \hline
+        DB & Database \\ \hline
+        API & Application Programming Interface \\ \hline
+        ORM & Object-Relational Mapping \\ \hline
+        DBMS & Database Management System \\ \hline
+        OLAP & Online Analytical Processing \\ \hline
+        SPA & Single Page Application \\ \hline
+        DMZ & Demilitarized Zone \\ \hline
+    \end{tabular}
+    \caption{DD Acronyms}
+    \label{tab:DDacronyms}
 \end{table}
 
 \subsubsection{Abbreviations}
-\begin{table}[h]
+The abbreviations shared between this document and the RASD document are reported in the following table:
+\begin{table}[H]
     \centering
 \begin{tabular}{|c|c|}
         \hline
-        \textbf{Acronyms} & \textbf{Definition} \\ \hline
+        \textbf{Abbreviations} & \textbf{Definition} \\ \hline
         S\&C & Students\&Companies \\ \hline
     \end{tabular}
-    \caption{Abbreviations and Definitions}
+    \caption{RASD Abbreviations}
     \label{tab:abbreviations}
 \end{table}
 \subsection{Revision History}
@@ -75,5 +132,12 @@ This section offers explanations of terminology to elucidate the terms, acronyms
   \item Software Engineering 2 A.Y. 2024/2025 Slides “CreatingDD” 
 \end{itemize}
 
-
 \subsection{Document Structure}
+\begin{enumerate} 
+    \item \textcolor{titleColor}{\textbf{Introduction}}: This section provides a concise summary of the RASD document, explaining its purpose, definitions, and acronyms. Additionally, it includes a non-technical overview of the technical decisions made for the platform's implementation.
+    \item \textcolor{titleColor}{\textbf{Architectural Design}}: In this section, a top-down perspective of the S\&C platform's architectural design is presented. It begins with a high-level description of groups of components and their interactions, detailing the platform's various areas and the design decisions behind them. A more detailed view follows, describing each component, their interfaces, and the architectural styles and patterns applied. Finally, deployment and runtime views of the system are represented using sequence diagrams. 
+    \item \textcolor{titleColor}{\textbf{User Interface Design}}: This section offers a technical description of the platform's user interface design, supplemented with images and explanations. It builds upon the descriptions provided in the RASD to include more technical insights. 
+    \item \textcolor{titleColor}{\textbf{Requirements Traceability}}: This section contains a traceability matrix that links the requirements defined in the RASD to the system components responsible for implementing them. 
+    \item \textcolor{titleColor}{\textbf{Implementation, Integration, and Test Plan}}: This section outlines the tools and methodologies to be used during platform development. It describes plans for testing the software's correctness and ensuring its quality. 
+    \item \textcolor{titleColor}{\textbf{Effort Spent}}: This section provides a summary table detailing the hours each group member spent developing this document. 
+\end{enumerate}
