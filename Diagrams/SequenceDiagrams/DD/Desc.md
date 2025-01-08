@@ -1,4 +1,28 @@
-# Sequence Diagrams Descriptions
+# 2.4 Runtime view
+
+<!-- #### Note for Runtime view
+
+- The Authenticator creates, updates, and validates the token. A unique userID is obtained through the token after Authenticator validation.
+- API calls are represented as pseudocode.
+- `success` indicates a void return type without errors and includes database updates/inserts/removals and other operations.
+- `result` indicates a non-void generic return type, typically used after an `alt` block.
+- `result` represents a generic result (including database queries).
+
+- Specify the difference between `UserData` and `UserCredential` in SD1.
+- Use `Data` as the return object for notifications (if no specific return object is provided).
+
+## Database notation in Sequence Diagrams
+
+- `success`: update-insert-remove
+- `result`: buildAndExecuteQuery-insert&query-update&query or query&update, etc.
+
+- Use `alt` blocks for each exit code (400, 200, 201, 500, 409, 401).
+- Verify the `alt` blocks.
+
+- Explain the `Data` parameter in `notifyUser(UserIDs, Data)` and ensure it is consistently `Data` everywhere.
+
+- Search for red text and either remove or explain it (e.g., `sendConfEmail`).
+ -->
 
 This section describes the interactions between system components during Students&Company runtime, depicting their call stacks at a high level of abstraction. For this purpose, sequence diagrams will be used.
 
@@ -14,8 +38,7 @@ Before proceeding to other diagrams, it is highly recommended to review the *Use
 
 It would be confusing to represent every return code or message for each call. However, since failure behaviors are often shared between components, we have distributed the possible alternatives across all the diagrams rather than including all possibilities in each one.
 
-
-## 1UserRegistration
+## UserRegistration
 
 ![User Registration Diagram](Images/1.0-UserRegistration.png)
 
@@ -27,11 +50,11 @@ The API Controller accesses the `AccountManager`, which queries the databases th
 
 A success API call code and a `UserIndex` object are returned to the Presentation Layer, which saves the object locally. The `UserIndex` is required to modify the `UserData` in the next step.
 
-Then, the Presentation Layer sends a POST request with the `UserCredential` object to the Authenticator to generate the session token. The Proxy adds a middleware request to the Authenticator to insert the `UserCredentials`, a required step to allow the Authenticator to generate the token. See the <diagram link> for a detailed view of the *InsertCredentials* and *GenerateToken* steps.
+Then, the Presentation Layer sends a POST request with the `UserCredential` object to the Authenticator to generate the session token. The Proxy adds a middleware request to the Authenticator to insert the `UserCredentials`, a required step to allow the Authenticator to generate the token. See the the *InsertCredentials* and *GenerateToken* steps.
 
-After the token is generated, the Authenticator returns it to the Presentation Layer, which saves it for future private calls. The Presentation Layer then sends a request to obtain a `DeviceToken`, which will be needed to notify its endpoint device. See <diagram link> for an in-depth view of the *RequestDeviceToken* step.
+After the token is generated, the Authenticator returns it to the Presentation Layer, which saves it for future private calls. The Presentation Layer then sends a request to obtain a `DeviceToken`, which will be needed to notify its endpoint device. See the *RequestDeviceToken* step.
 
-The final call triggered by the button click is a POST request responsible for sending the email confirmation. Since the request is to a private endpoint, the Proxy adds a middleware request to the Authenticator service to authenticate the user using the previously obtained token, provided in the header of every private API call. To understand how the Authentication works in detail, see the <diagram link>.
+The final call triggered by the button click is a POST request responsible for sending the email confirmation. Since the request is to a private endpoint, the Proxy adds a middleware request to the Authenticator service to authenticate the user using the previously obtained token, provided in the header of every private API call. To understand how the Authentication works in detail, see the Authentication step.
 
 After validation, the Proxy forwards the request to the `NotificationManager`, which sends the email by communicating with the `EmailServiceProvider`. The communication with the `EmailServiceProvider` is not shown in the diagram to avoid unnecessary complexity, as it consists of a simple call to an external service. For this reason, it is depicted in red text.
 
@@ -70,8 +93,7 @@ If the `RefreshToken` is also invalid, the Presentation Layer will save the curr
 
 After the UserLogin process is completed, the Presentation Layer will save the newly obtained token and redirect the user to the previously saved page.
 
-For more details about the *ValidateCredentials* step, see the *UserLogin* diagram. <diagrams link>
-
+For more details about the *ValidateCredentials* step, see the *UserLogin* diagram.
 
 ### RequestDeviceToken
 
@@ -100,7 +122,6 @@ The *CheckDeviceToken* step is scheduled by the Presentation Layer. It consist o
 By clicking the LogIn button the user sends the typed UserCredentials from the Presentation Layer to the Proxy. The triggered call is a POST public request that that reaches the Proxy.
 The Proxy adds a middleware call to the Authenticator to validate the UserCredentials. The Authenticator receives the request and checks the credentials in the AuthProvider. If the credentials are valid, the Proxy forwards the request again to the Authenticator that generate the token relative to the provided credentials. The ValidateCredentials is different from the InsertCredential ones because to be able to be correctly validated, credentials shall has been previously "inserted" to the AuthProvider.
 After the token is generated, the Authenticator returns it to the Presentation Layer, which saves it for future private calls.
-
 
 ## ParticipantSubmission
 
@@ -276,7 +297,7 @@ The results are returned step-by-step: from the `PlatformEntityManager` to the `
 
 The Presentation Layer displays the retrieved matches to the Participant, allowing them to review their recommendations.
 
-## UserRespondsToComm 
+## UserRespondsToComm
 
 ![User Responds to Communication Diagram](Images/15-UserRespondsToComm.png)
 
@@ -320,7 +341,6 @@ Once the complaint is successfully stored in the database, the `CommunicationMan
 
 Finally, the Presentation Layer displays the newly created complaint to the Participant.
 
-
 ## UserSeesHisCommunicationsPage
 
 ![User Sees His Communications Page Diagram](Images/18-UserSeesHisCommunicationsPage.png)
@@ -355,7 +375,7 @@ When the User clicks the "Terminate Communication" button, the Presentation Laye
 
 The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` calls the `CommunicationManager` to terminate the specified communication (`CommID`).
 
-The `CommunicationManager` first verifies if the User is the owner of the communication by querying the `PlatformEntityManager`. The `PlatformEntityManager` checks the ownership in the `PlatformDBMS` and returns the result. 
+The `CommunicationManager` first verifies if the User is the owner of the communication by querying the `PlatformEntityManager`. The `PlatformEntityManager` checks the ownership in the `PlatformDBMS` and returns the result.
 
 If the User is not the owner (`result == false`), an error message (`401 Unauthorized: NotOwner`) is returned through the chain to the Presentation Layer, which displays an error message to the User.
 
@@ -410,7 +430,7 @@ After the interview is successfully updated, the `APIController` triggers the `N
 
 When a Company clicks the "Close Internship" button, the Presentation Layer sends a `POST` private API call to the Proxy. The request contains the `InternshipID`.
 
-The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` calls the `SubmissionManager` to delete the internship submission associated with the `InternshipID`. 
+The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` calls the `SubmissionManager` to delete the internship submission associated with the `InternshipID`.
 
 The `SubmissionManager` retrieves the user IDs of all students involved in the internship by querying the `UserManager`. The `UserManager` interacts with the database through the `PlatformEntityManager` and `PlatformDBMS` to fetch the relevant user IDs.
 

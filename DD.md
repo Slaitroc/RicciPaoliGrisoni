@@ -82,8 +82,6 @@ The definition specific to this document are reported in the following table.
 | **Container**               | A standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another. |
 | **Notification Subsystem**  | The system that is responsible for sending notifications to users when relevant events occur. |
 
-
-
 #### 1.3.2 Acronyms
 
 The acronyms shared between this document and the RASD document are reported in the following table.
@@ -109,7 +107,6 @@ The acronyms specific to this document are reported in the following table.
 | **SPA**     | Single Page Application                         |
 | **DMZ**     | Demilitarized Zone                              |
 
-
 #### 1.3.3 Abbreviations
 
 The abbreviations shared between this document and the RASD document are reported in the following table.
@@ -122,7 +119,6 @@ The abbreviations specific to this document are reported in the following table.
 
 | **Abbreviation** | **Definition**        |
 |-------------------|----------------------|
-
 
 ### 1.4 Revision history
 
@@ -140,14 +136,15 @@ The abbreviations specific to this document are reported in the following table.
 ### 1.6 Document structure
 
 This document is structured as follows:
+
 - Section 1: *Introduction*: P a short summary of the RASD, the purpose, definition and acronyms used in this document and a non-technical description of the technical choices made for the platform's implementation.
-- Section 2: *Architectural Design*: presents a top-down description of the S&C architectural design starting from a high-level description of groups of components and their interactions, explaining the different areas of the platform and the design decisions made to realize them. \\
-Following this, it offers a more detailed view of these groups, describing the components they consist of, their interfaces, and the architectural styles and patterns applied. \\
+- Section 2: *Architectural Design*: presents a top-down description of the S&C architectural design starting from a high-level description of groups of components and their interactions, explaining the different areas of the platform and the design decisions made to realize them.
+Following this, it offers a more detailed view of these groups, describing the components they consist of, their interfaces, and the architectural styles and patterns applied.
 Finally, we present a deployment view of a full system deployment with redundant service and a different runtime views represented through sequence diagrams.
 - Section 3: *User Interface Design*: Provides images and description of the user interface design of the platform. With respect to the RASD, this section will provide a more technical description of the user interface design.ù
 - Section 4: *Requirements Traceability*: Contains a traceability matrix linking the requirements defined previously in the RASD to the components of the system that will implement them.
 - Section 5: *Implementation, Integration and Test Plan*: Details the tools and methodologies that will be used during the development of the platform to test the correctness and ensure the quality of the software.
-- Section 6: *Effort Spent*: Contains a table with the hours spent by each member of the group to develop this document. 
+- Section 6: *Effort Spent*: Contains a table with the hours spent by each member of the group to develop this document.
 <!-- (Sam 0.5h)-->
 
 ## 2 Architectural Design
@@ -270,9 +267,6 @@ A DMZ can be implemented in this design by placing the Proxy in a dedicated netw
 - Search for red text and either remove or explain it (e.g., `sendConfEmail`).
  -->
 
-
-# Sequence Diagrams Descriptions
-
 This section describes the interactions between system components during Students&Company runtime, depicting their call stacks at a high level of abstraction. For this purpose, sequence diagrams will be used.
 
 The call stacks are often similar, as they follow the patterns established in the previous sections. All calls are triggered by the user through the Presentation layer, which sends API calls to the Proxy. The Proxy, in turn, forwards the requests to the appropriate service and, depending on the request, may add a middleware API call before reaching the final target.
@@ -287,8 +281,7 @@ Before proceeding to other diagrams, it is highly recommended to review the *Use
 
 It would be confusing to represent every return code or message for each call. However, since failure behaviors are often shared between components, we have distributed the possible alternatives across all the diagrams rather than including all possibilities in each one.
 
-
-## 1UserRegistration
+#### UserRegistration
 
 ![User Registration Diagram](Images/1.0-UserRegistration.png)
 
@@ -300,11 +293,11 @@ The API Controller accesses the `AccountManager`, which queries the databases th
 
 A success API call code and a `UserIndex` object are returned to the Presentation Layer, which saves the object locally. The `UserIndex` is required to modify the `UserData` in the next step.
 
-Then, the Presentation Layer sends a POST request with the `UserCredential` object to the Authenticator to generate the session token. The Proxy adds a middleware request to the Authenticator to insert the `UserCredentials`, a required step to allow the Authenticator to generate the token. See the <diagram link> for a detailed view of the *InsertCredentials* and *GenerateToken* steps.
+Then, the Presentation Layer sends a POST request with the `UserCredential` object to the Authenticator to generate the session token. The Proxy adds a middleware request to the Authenticator to insert the `UserCredentials`, a required step to allow the Authenticator to generate the token. See the the *InsertCredentials* and *GenerateToken* steps.
 
-After the token is generated, the Authenticator returns it to the Presentation Layer, which saves it for future private calls. The Presentation Layer then sends a request to obtain a `DeviceToken`, which will be needed to notify its endpoint device. See <diagram link> for an in-depth view of the *RequestDeviceToken* step.
+After the token is generated, the Authenticator returns it to the Presentation Layer, which saves it for future private calls. The Presentation Layer then sends a request to obtain a `DeviceToken`, which will be needed to notify its endpoint device. See the *RequestDeviceToken* step.
 
-The final call triggered by the button click is a POST request responsible for sending the email confirmation. Since the request is to a private endpoint, the Proxy adds a middleware request to the Authenticator service to authenticate the user using the previously obtained token, provided in the header of every private API call. To understand how the Authentication works in detail, see the <diagram link>.
+The final call triggered by the button click is a POST request responsible for sending the email confirmation. Since the request is to a private endpoint, the Proxy adds a middleware request to the Authenticator service to authenticate the user using the previously obtained token, provided in the header of every private API call. To understand how the Authentication works in detail, see the Authentication step.
 
 After validation, the Proxy forwards the request to the `NotificationManager`, which sends the email by communicating with the `EmailServiceProvider`. The communication with the `EmailServiceProvider` is not shown in the diagram to avoid unnecessary complexity, as it consists of a simple call to an external service. For this reason, it is depicted in red text.
 
@@ -314,7 +307,7 @@ The User receives the email and clicks the link to confirm their email using the
 
 The User is now successfully registered and can use the web application features.
 
-### InsertCredentials - GenerateToken
+##### InsertCredentials - GenerateToken
 
 ![Insert Credentials and Generate Token Diagram](Images/1.1-InsertCredentialsGenerateToken.png)
 
@@ -328,7 +321,7 @@ If the call is successful, the `AuthProvider` returns a success message to the A
 
 The Authenticator communicates with the `AuthProvider` to generate the token and returns it to the Proxy. The Proxy forwards the token to the Presentation Layer, which saves it for future private calls, as shown in the previous diagram.
 
-### Authentication
+##### Authentication
 
 ![Authentication Diagram](Images/1.2-Authentication.png)
 
@@ -343,10 +336,9 @@ If the `RefreshToken` is also invalid, the Presentation Layer will save the curr
 
 After the UserLogin process is completed, the Presentation Layer will save the newly obtained token and redirect the user to the previously saved page.
 
-For more details about the *ValidateCredentials* step, see the *UserLogin* diagram. <diagrams link>
+For more details about the *ValidateCredentials* step, see the *UserLogin* diagram.
 
-
-### RequestDeviceToken
+##### RequestDeviceToken
 
 ![Request Device Token Diagram](Images/1.3-RequestDeviceToken.png)
 
@@ -360,13 +352,13 @@ After the `NotificationManager` has stored the `DeviceToken`, it returns a succe
 
 The DeviceToken can expire or be invalidated by the external service provider. In that case is the Presentation Layer the one responsible to update the DeviceToken as shown next.
 
-### CheckDeviceToken
+##### CheckDeviceToken
 
 ![Check Device Token Diagram](Images/1.4-CheckDeviceToken.png)
 
 The *CheckDeviceToken* step is scheduled by the Presentation Layer. It consist of a direct communication to the NotificationProvider to check the actual locally saved token. If the token is invalid, the Presentation Layer will request a new one as shown in the *RequestDeviceToken* step. If the token is valid, the Presentation Layer will do nothing.
 
-## User Login - ValidateCredentials
+#### User Login - ValidateCredentials
 
 ![User Login Diagram](Images/2-UserLoginValidateCredentials.png)
 
@@ -374,8 +366,7 @@ By clicking the LogIn button the user sends the typed UserCredentials from the P
 The Proxy adds a middleware call to the Authenticator to validate the UserCredentials. The Authenticator receives the request and checks the credentials in the AuthProvider. If the credentials are valid, the Proxy forwards the request again to the Authenticator that generate the token relative to the provided credentials. The ValidateCredentials is different from the InsertCredential ones because to be able to be correctly validated, credentials shall has been previously "inserted" to the AuthProvider.
 After the token is generated, the Authenticator returns it to the Presentation Layer, which saves it for future private calls.
 
-
-## ParticipantSubmission
+#### ParticipantSubmission
 
 ![Participant Submission Diagram](Images/3.0-ParticipantSubmission.png)
 
@@ -387,7 +378,7 @@ The `APIController` then triggers the `RecommendationProcess`, which identifies 
 
 Finally, the `NotificationManager` notifies the identified users, and the `APIController` returns the `SubmissionID` and suggestions to the Presentation Layer, which displays them to the Participant.
 
-### SendNotification
+##### SendNotification
 
 ![Send Notification Diagram](Images/3.1-SendNotification.png)
 
@@ -403,7 +394,7 @@ Once the notifications are successfully sent, or all invalid tokens are handled,
 
 Note that the NotificationManager simply removes the invalid tokens from the `NotificationDB`. Is the Presentation Layer the one responsible to update the DeviceToken as shown in the *CheckDeviceToken* step.
 
-## UserOpensCompanyIntOff
+#### UserOpensCompanyIntOff
 
 ![User Opens Company Internships Diagram](Images/4-UserOpensCompanyIntOffer.png)
 
@@ -413,7 +404,7 @@ The `APIController` calls the `SubmissionManager` to retrieve the internships as
 
 The `SubmissionManager` sends the list of internships back to the `APIController`, which forwards it to the Proxy. The Proxy then returns the response to the Presentation Layer, which displays the internships to the User.
 
-## UserOpensStudentCV
+#### UserOpensStudentCV
 
 ![User Opens Student CV Diagram](Images/5-UserOpensStudentCV.png)
 
@@ -423,7 +414,7 @@ The `APIController` invokes the `SubmissionManager` to retrieve the CV of the sp
 
 The `SubmissionManager` sends the CV back to the `APIController`, which forwards it to the Proxy. The Proxy then returns the CV to the Presentation Layer, which displays it to the User.
 
-## ParticipantAcceptsMatch
+#### ParticipantAcceptsMatch
 
 ![Participant Accepts Match Diagram](Images/6.1-ParticipantAcceptsMatch.png)
 
@@ -435,7 +426,7 @@ If the other party has already accepted the recommendation, the `APIController` 
 
 If the FeedbackMechanism is triggered, the `APIController` returns a `201 Created` response with a prompt for feedback, which the Presentation Layer displays to the Participant as a feedback form. Otherwise, the `APIController` simply returns a success message, which the Presentation Layer displays to the Participant.
 
-## ParticipantSubmitsFeedback
+#### ParticipantSubmitsFeedback
 
 ![Participant Submits Feedback Diagram](Images/6.2-ParticipantSubmitsFeedback.png)
 
@@ -447,7 +438,7 @@ Once the feedback is saved, the `FeedbackMechanism` retrieves recommendation par
 
 After processing the feedback and updating the recommendation data, the `FeedbackMechanism` returns a success message to the `APIController`. The `APIController` forwards the response to the Proxy, which then sends it to the Presentation Layer. Finally, the Presentation Layer displays a success message to the Participant.
 
-## StudentSendsSpontaneousApplication
+#### StudentSendsSpontaneousApplication
 
 ![Student Sends Spontaneous Application Diagram](Images/7-StudentSendsSpontaneousApplication.png)
 
@@ -459,7 +450,7 @@ Once the application is successfully stored, the `APIController` invokes the `No
 
 Finally, the `APIController` returns a `200 OK` response to the Proxy, which forwards it to the Presentation Layer. The Presentation Layer displays a success message to the Student.
 
-## CompanyAcceptsSpontaneousApplication
+#### CompanyAcceptsSpontaneousApplication
 
 ![Company Accepts Spontaneous Application Diagram](Images/8-CompanyAcceptsSpontaneousApplication.png)
 
@@ -473,7 +464,7 @@ Once the interview is successfully created, the `APIController` calls the `Notif
 
 Finally, the `APIController` returns a `200 OK` response to the Proxy, which forwards it to the Presentation Layer. The Presentation Layer displays a success message to the Company.
 
-## StudentSubmitInterview
+#### StudentSubmitInterview
 
 ![Student Submit Interview Diagram](Images/9-StudentSubmitsInterview.png)
 
@@ -487,7 +478,7 @@ After the interview answers are successfully stored, the `APIController` invokes
 
 Finally, the `APIController` returns a `200 OK` response to the Proxy, which forwards it to the Presentation Layer. The Presentation Layer displays a success message to the Student, indicating that the interview answers have been submitted.
 
-## CompanySubmitInterview
+#### CompanySubmitInterview
 
 ![Company Submit Interview Diagram](Images/10-CompanySubmitsInterview.png)
 
@@ -501,7 +492,7 @@ Once the interview is successfully stored, the `APIController` calls the `Notifi
 
 Finally, the `APIController` returns a `201 Created` response to the Proxy, which forwards it to the Presentation Layer. The Presentation Layer displays a success message to the Company, indicating that the interview has been sent.
 
-## CompanyCreateTemplateInterview
+#### CompanyCreateTemplateInterview
 
 ![Company Create Template Interview Diagram](Images/11-CompanyCreatesTemplateInterview.png)
 
@@ -511,7 +502,7 @@ The `APIController` invokes the `InterviewsManager` to handle the saving of the 
 
 Once the interview template is successfully stored, the `APIController` returns a `201 Created` response to the Proxy, which forwards it to the Presentation Layer. The Presentation Layer displays a success message to the Company, indicating that the interview template has been saved.
 
-## CompanyEvaluatesInterview
+#### CompanyEvaluatesInterview
 
 ![Company Evaluates Interview Diagram](Images/12-CompanyEvaluatesInterview.png)
 
@@ -525,7 +516,7 @@ The `APIController` returns a `201 Created` response to the Proxy, which forward
 
 If the Company needs to evaluate individual questions within the interview, they can access the interview through the dashboard. By navigating to the *Dashboard Interviews* page, the Company sends a `GET` request to retrieve a list of interviews. Once the interviews are displayed, the Company can click on a specific interview to access the detailed evaluation page.
 
-## StudentSeeSpontaneousApplications
+#### StudentSeeSpontaneousApplications
 
 ![Student See Spontaneous Applications Diagram](Images/13-StudentSeesSpontaneousApplications.png)
 
@@ -537,7 +528,7 @@ The results are returned step-by-step: from the `PlatformEntityManager` to the `
 
 The Presentation Layer displays the retrieved spontaneous applications to the Student, allowing them to review their submissions.
 
-## 14ParticipantSeesMatches
+#### 14ParticipantSeesMatches
 
 ![Participant Sees Matches Diagram](Images/14-ParticipantSeesMatches.png)
 
@@ -549,7 +540,7 @@ The results are returned step-by-step: from the `PlatformEntityManager` to the `
 
 The Presentation Layer displays the retrieved matches to the Participant, allowing them to review their recommendations.
 
-## UserRespondsToComm 
+#### UserRespondsToComm
 
 ![User Responds to Communication Diagram](Images/15-UserRespondsToComm.png)
 
@@ -563,7 +554,7 @@ Subsequently, the `APIController` invokes the `NotificationManager` to notify re
 
 Finally, the `APIController` returns a `201 Created` response to the Proxy, which forwards it to the Presentation Layer. The Presentation Layer displays a success message to the User, confirming the answer has been published successfully.
 
-## UserOpensComplaint
+#### UserOpensComplaint
 
 ![User Opens Complaint Diagram](Images/16-UserOpensComplaint.png)
 
@@ -581,7 +572,7 @@ The `CommunicationManager` queries the `PlatformDBMS` through the `PlatformEntit
 
 The `APIController` returns a `200 OK` response containing the requested data to the Proxy. The Proxy forwards this response to the Presentation Layer, which displays the result to the User.
 
-## ParticipantCreatesAComplaint
+#### ParticipantCreatesAComplaint
 
 ![Participant Creates a Complaint Diagram](Images/17-ParticipantCreatesAComplaint.png)
 
@@ -593,8 +584,7 @@ Once the complaint is successfully stored in the database, the `CommunicationMan
 
 Finally, the Presentation Layer displays the newly created complaint to the Participant.
 
-
-## UserSeesHisCommunicationsPage
+#### UserSeesHisCommunicationsPage
 
 ![User Sees His Communications Page Diagram](Images/18-UserSeesHisCommunicationsPage.png)
 
@@ -608,7 +598,7 @@ The `CommunicationManager` passes the fetched communications to the `APIControll
 
 Finally, the Presentation Layer displays the list of communications to the User.
 
-## UniversityInterruptsInternship
+#### UniversityInterruptsInternship
 
 ![University Interrupts Internship Diagram](Images/19-UniversityInterruptsIntership.png)
 
@@ -620,7 +610,7 @@ After successfully updating the internship data, the `CommunicationManager` retu
 
 Finally, the Presentation Layer displays the confirmation of the terminated internship to the University.
 
-## UserTerminatesCommunication
+#### UserTerminatesCommunication
 
 ![User Terminates Communication Diagram](Images/20-UserTerminatesCommunication.png)
 
@@ -628,7 +618,7 @@ When the User clicks the "Terminate Communication" button, the Presentation Laye
 
 The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` calls the `CommunicationManager` to terminate the specified communication (`CommID`).
 
-The `CommunicationManager` first verifies if the User is the owner of the communication by querying the `PlatformEntityManager`. The `PlatformEntityManager` checks the ownership in the `PlatformDBMS` and returns the result. 
+The `CommunicationManager` first verifies if the User is the owner of the communication by querying the `PlatformEntityManager`. The `PlatformEntityManager` checks the ownership in the `PlatformDBMS` and returns the result.
 
 If the User is not the owner (`result == false`), an error message (`401 Unauthorized: NotOwner`) is returned through the chain to the Presentation Layer, which displays an error message to the User.
 
@@ -638,7 +628,7 @@ The `APIController` then triggers the `NotificationManager` to notify all releva
 
 Finally, the `APIController` sends a `200 OK` response to the Proxy, which forwards it to the Presentation Layer. The Presentation Layer displays a confirmation message to the User indicating that the communication has been successfully terminated.
 
-## CompanySendsIntPosOff
+#### CompanySendsIntPosOff
 
 ![Company Sends Internship Position Offer Diagram](Images/21-CompanySendsIntPosOff.png)
 
@@ -652,7 +642,7 @@ After successfully creating the internship position offer, the `InterviewManager
 
 Finally, the Presentation Layer displays confirmation of the sent internship position offer to the Company.
 
-## StudentAcceptsInternshipPositionOffer
+#### StudentAcceptsInternshipPositionOffer
 
 ![Student Accepts Internship Position Offer Diagram](Images/22-StudentAcceptsInternshipPositionOffer.png)
 When a Student clicks to accept an internship position offer, the Presentation Layer sends a `POST` request to the Proxy.
@@ -665,7 +655,7 @@ Once all other interviews are updated, the `InterviewManager` confirms the accep
 
 Finally, a success response is returned through the Proxy to the Presentation Layer, which displays a confirmation message to the Student.
 
-## CompanySendTemplateInterview
+#### CompanySendTemplateInterview
 
 ![Company Send Template Interview Diagram](Images/23-CompanySendsTemplateInterview.png)
 
@@ -677,13 +667,13 @@ If the ownership check succeeds, the `InterviewManager` retrieves the template d
 
 After the interview is successfully updated, the `APIController` triggers the `NotificationManager` to notify the Student that the interview has been sent. A success response is then returned through the Proxy to the Presentation Layer, which displays a confirmation message to the Company.
 
-## CompanyClosesInternshipOffer
+#### CompanyClosesInternshipOffer
 
 ![Company Closes Internship Offer Diagram](Images/24-CompanyClosesInternshipOffer.png)
 
 When a Company clicks the "Close Internship" button, the Presentation Layer sends a `POST` private API call to the Proxy. The request contains the `InternshipID`.
 
-The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` calls the `SubmissionManager` to delete the internship submission associated with the `InternshipID`. 
+The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` calls the `SubmissionManager` to delete the internship submission associated with the `InternshipID`.
 
 The `SubmissionManager` retrieves the user IDs of all students involved in the internship by querying the `UserManager`. The `UserManager` interacts with the database through the `PlatformEntityManager` and `PlatformDBMS` to fetch the relevant user IDs.
 
@@ -721,18 +711,17 @@ Here we have the initial idea of the database structure, representing the main e
 
 #### 2.7.2 Notification Handling
 
-Notifications of all type, both in-app and push, are handled by the Notification Manager component who is responsible to send notifications and sign-up mail confirmation to all users of the platform. This component acts both as an adapter for external push notification and email service providers and as a controller for in-app notification fetch requests. The Notification Manager is designed to do this by providing a simple interface *sendNotification* that can be called by any backend component to send a notification to one or more users. This is done to hide the complexity of the underlying notification system, show in sequence diagrams SD1 and SD2 (DA CAMBIARE) .\\ 
+Notifications of all type, both in-app and push, are handled by the Notification Manager component who is responsible to send notifications and sign-up mail confirmation to all users of the platform. This component acts both as an adapter for external push notification and email service providers and as a controller for in-app notification fetch requests. The Notification Manager is designed to do this by providing a simple interface *sendNotification* that can be called by any backend component to send a notification to one or more users. This is done to hide the complexity of the underlying notification system, show in sequence diagrams SD1 and SD2 (DA CAMBIARE) .
 Due to the nature of this component and the high level of work it has to do, we expect it to be one of the first to be exported to its own container in the future to handle scalability concerns effectively. By decoupling the Notification Manager into its own container, the platform can better allocate resources to this high-demand service, ensuring consistent performance even under heavy load. This is why the Notification Manager in COMPONENT DIAGRAM(DA CAMBIARE) is represented as a separate entity from the other components, having is own interface and DB, even though it is part of the Platform Logic.
 
 #### 2.7.3 Authentication and Validation
 
-The user authentication process is handled by the Authenticator service, which is responsible for validating user credentials and generating tokens for authenticated users. The reason behind the use of a token-based authentication system is done because we want to limit the number of times a user has to enter their credentials while ensuring that only logged-in users can interact with *private* api call. 
+The user authentication process is handled by the Authenticator service, which is responsible for validating user credentials and generating tokens for authenticated users. The reason behind the use of a token-based authentication system is done because we want to limit the number of times a user has to enter their credentials while ensuring that only logged-in users can interact with *private* api call.
 The token is generated by the Authenticator service and is stored in the Presentation layer after the user login and it is sended every time a private request is made. The token is validated by the Authenticator service for every request, look at SD(DA CAMBIARE), validating and refreshing the token or requesting a new login by the user, ensuring that only recent authenticated users can access the platform's functionalities.
 
 #### 2.7.4 Scalability
 
-The S&C platform is designed from the beginning to be scalable, meaning that it can handle an increasing number of users and requests without compromising performance. This is achieved through the use of a microservices architecture, which allows the platform to be divided into smaller, more manageable services that can be independently scaled as needed. Each service can be deployed in its own container, which can be easily replicated to handle additional load. This ensures that the platform can scale horizontally by adding more containers to distribute the load across multiple instances of the service. Additionally, the use of a Stateless RESTful API ensures that each request is independent and does not rely on or maintain context from previous requests, allowing the platform to 
-scale more easily and reliably without the need for complex session management.
+The S&C platform is designed from the beginning to be scalable, meaning that it can handle an increasing number of users and requests without compromising performance. This is achieved through the use of a microservices architecture, which allows the platform to be divided into smaller, more manageable services that can be independently scaled as needed. Each service can be deployed in its own container, which can be easily replicated to handle additional load. This ensures that the platform can scale horizontally by adding more containers to distribute the load across multiple instances of the service. Additionally, the use of a Stateless RESTful API ensures that each request is independent and does not rely on or maintain context from previous requests, allowing the platform to scale more easily and reliably without the need for complex session management.
 <!-- (Sam 1.5h)-->
 
 ## 3 User Interface Design
@@ -741,7 +730,7 @@ The web interface is a single page application (SPA) that allows a wide number o
 
 ## 4 Requirements Traceability
 
-Possible Components at the moment: 
+Possible Components at the moment:
 
 | Internal Components             | External Components        |
 |---------------------------------|----------------------------|
@@ -749,16 +738,15 @@ Possible Components at the moment:
 | C2 Account Manager              | E2 Email Provider API      |
 | C3 User Manager                 | E3 Authentication Provider |
 | C4 Recommendation Process       | E4 DBMS                    |
-| C5 Submission Manager           | 
-| C6 Interviews Manager           |
-| C7 Communication Manager        |
-| C8 FeedBack Mechanism           |
-| C9 Suggestion Mechanism         |
-| C10 Platform Entity Manager     |
-| C11 Authenticator Adapter       |
-| C12 Notification Manager        |
-| C13 Notification Entity Manager |
-
+| C5 Submission Manager           ||
+| C6 Interviews Manager           ||
+| C7 Communication Manager        ||
+| C8 FeedBack Mechanism           ||
+| C9 Suggestion Mechanism         ||
+| C10 Platform Entity Manager     ||
+| C11 Authenticator Adapter       ||
+| C12 Notification Manager        ||
+| C13 Notification Entity Manager ||
 
 | **R1** | **The platform shall allow any unregistered students to register by providing personal information and selecting their University.** |
 |---------|-----------------------------|
@@ -843,7 +831,6 @@ Possible Components at the moment:
 | **C11** | Authenticator Adapter       |
 | **E3**  | Authentication Provider     |
 | **E4**  | DBMS                        |
-
 
 *Table: Requirement R7 - Traceability for Internship Termination.*
 
@@ -1011,7 +998,7 @@ Possible Components at the moment:
 | **C11** | Authenticator Adapter       |
 | **E3**  | Authentication Provider     |
 | **E4**  | DBMS                        |
- 
+
 *Table: Requirement R22 - Traceability for Submitting Interviews.*
 
 | **R23** | **The platform shall allow Students to answer Interview questions and submit them.** |
@@ -1148,38 +1135,56 @@ Possible Components at the moment:
 <!-- (Matteo [7hr])-->
 
 ## 5 Implementation, Integration and Test Plan
-This section provides a detailed plan for the implementation, integration, and testing of the S\&C platform. The first subsection will describe the main concepts and ideas behind the Implementation, Integration and Test plan and the following subsections will provide a description for each stage of it. 
+
+This section provides a detailed plan for the implementation, integration, and testing of the S\&C platform. The first subsection will describe the main concepts and ideas behind the Implementation, Integration and Test plan and the following subsections will provide a description for each stage of it.
+
 ### 5.1 Plan Overview
-The platform will be implemented, integrated and tested following a mix between a *thread* and *bottom-up* approach thanks to the aforementioned microservices architecture that allows different service to be implemented and tested in parallel with others.\\
-The main idea is to develop one feature of the Platform Logic at a time, whenever possible, by implementing the front-end through the user interface (UI) and the back-end through its corresponding components and the notifications they will generate. Each feature will undergo unit testing before being integrated with other components. By adopting this thread-based implementation, we can begin testing component integration early in the development process, instead of waiting for the entire Platform Logic to be completed. We believe that this approach allows us to identify and resolve integration issues at an earlier stage, minimizing the risk of significant problems arising later on.\\
-However, due to dependency constraints, not all components can be developed using this thread-based approach. For example, the Recommendation Process and Suggestion Mechanism relay on the User Manager and Platform Entity Manager. To address this, the "Implementation, Integration and Test Plan" is organized into several stage, following a bottom-up approach dividing components into groups that can be developed, tested, and integrated independently. \\
+
+The platform will be implemented, integrated and tested following a mix between a *thread* and *bottom-up* approach thanks to the aforementioned microservices architecture that allows different service to be implemented and tested in parallel with others.
+The main idea is to develop one feature of the Platform Logic at a time, whenever possible, by implementing the front-end through the user interface (UI) and the back-end through its corresponding components and the notifications they will generate. Each feature will undergo unit testing before being integrated with other components. By adopting this thread-based implementation, we can begin testing component integration early in the development process, instead of waiting for the entire Platform Logic to be completed. We believe that this approach allows us to identify and resolve integration issues at an earlier stage, minimizing the risk of significant problems arising later on.
+However, due to dependency constraints, not all components can be developed using this thread-based approach. For example, the Recommendation Process and Suggestion Mechanism relay on the User Manager and Platform Entity Manager. To address this, the "Implementation, Integration and Test Plan" is organized into several stage, following a bottom-up approach dividing components into groups that can be developed, tested, and integrated independently.
+
 ### 5.2 Plan Stage
+
 #### 5.2.1 Stage 1: User Manager and Notification Manager
-In the first stage, we will develop the User Manager and part of the Notification Manager, enabling each component to store and retrieve data from its respective database. This process will also involve developing the Platform Entity Manager and the Notification Entity Manager so that each can interact with its own database. To test these two components, we will create an API controller DRIVER and a Manager DRIVER to simulate API controller calls and the various invocations from other components within the Platform Logic.\\ 
+
+In the first stage, we will develop the User Manager and part of the Notification Manager, enabling each component to store and retrieve data from its respective database. This process will also involve developing the Platform Entity Manager and the Notification Entity Manager so that each can interact with its own database. To test these two components, we will create an API controller DRIVER and a Manager DRIVER to simulate API controller calls and the various invocations from other components within the Platform Logic.
+
 #### 5.2.2 Stage 2: Platform Logic Components and User Interface
-In the second stage, we will develop the remaining Platform Logic components, including the Recommendation Process, Mechanism components, and the remaining Managers. During this phase, we will also implement the User Interface (UI) and update the Notification Manager to handle notifications sent by these components, following the idea behind the *thread* approach. To test these back-end components, we will create an API Controller DRIVER to simulate their invocation while creating a Rest API STUB to simulate the front-end calls.\\
+
+In the second stage, we will develop the remaining Platform Logic components, including the Recommendation Process, Mechanism components, and the remaining Managers. During this phase, we will also implement the User Interface (UI) and update the Notification Manager to handle notifications sent by these components, following the idea behind the *thread* approach. To test these back-end components, we will create an API Controller DRIVER to simulate their invocation while creating a Rest API STUB to simulate the front-end calls.
+
 #### 5.2.3 Stage 3: API Controller and Authenticator Adapter
-In the third stage, we will develop and integrate the API Controller with the Platform Logic components, the Notification Manager, and the User Interface that should have been completed in the previous stages. This will allow us to test the API Controller and the Platform Logic components together, ensuring that they interact correctly and that the API Controller can handle requests from the front-end and route them to the appropriate components\\.
-We will also develop the Authenticator Adapter to handle user authentication and token generation. For testing purpose we will create a Proxy DRIVER to simulate the API Controller and Authenticator Adapter calls and the front-end when it receives different responses.\\ 
+
+In the third stage, we will develop and integrate the API Controller with the Platform Logic components, the Notification Manager, and the User Interface that should have been completed in the previous stages. This will allow us to test the API Controller and the Platform Logic components together, ensuring that they interact correctly and that the API Controller can handle requests from the front-end and route them to the appropriate components.
+We will also develop the Authenticator Adapter to handle user authentication and token generation. For testing purpose we will create a Proxy DRIVER to simulate the API Controller and Authenticator Adapter calls and the front-end when it receives different responses.
+
 #### 5.2.4 Stage 4: Full Integration and Testing
+
 In the final stage, we will integrate all components of the platform thanks to the development of the Proxy and the Authenticator Adapter. This will allow us to test the platform as a whole, ensuring that all components work together as expected. We will also conduct end-to-end testing to verify that the platform meets all requirements and functions correctly.
 
 ### 5.3 Technologies Used
-In this last paragraph, we will describe the technologies used for the implementation, integration, and testing of the S\&C platform, discussing the reasons behind their choice and how they will be used in the development process.\\
+
+In this last paragraph, we will describe the technologies used for the implementation, integration, and testing of the S\&C platform, discussing the reasons behind their choice and how they will be used in the development process.
 
 #### 5.3.1 Implementation Technologies
+
 - **Front-End**: The front-end of the platform will be developed using React, a popular JavaScript library for building user interfaces. React was chosen for its ease of use, flexibility, and performance, and wide support and documentation given the large community of developers that use it. The front-end will be styled using the MUI library to ensure a consistent and modern design across all pages and animated using the Framer Motion library.
 - **Back-End**: The back-end of the platform will be developed using Java and Spring Boot, a popular framework for building Java-based web applications. Spring Boot was chosen robustness, and scalability, and the familiarity of the team with the Java language.
 - **Database**: The platform's database will be established with MariaDB, a widely-used and open-source relational database management system. To engage with the database, we will utilize the Java Persistence API (JPA) alongside Hibernate, a object-relational mapping (ORM) framework for Java applications, which enables us to handle the data without manually crafting SQL queries.
-- **Authentication**: Firebase Authentication, a reliable and popular service from Google, will be utilized to implement the authentication system for the platform. Firebase Auth was selected due to its easy of integration, scalability, and the range of authentication options it offers, such as email/password and logins via popular social networks like Facebook or Google.\\
+- **Authentication**: Firebase Authentication, a reliable and popular service from Google, will be utilized to implement the authentication system for the platform. Firebase Auth was selected due to its easy of integration, scalability, and the range of authentication options it offers, such as email/password and logins via popular social networks like Facebook or Google.
 Moreover, Firebase Auth offers inherent security functionalities, including token-based authentication and secure user management, which correspond with our platform's requirement to manage sensitive information securely and efficiently.
-- **Notifications**: The platform’s notification system will be built with Firebase Cloud Messaging (FCM), a cross-platform messaging service that enables us to deliver push notifications to users on Android, iOS, and the web. FCM was selected for its dependability, scalability, and seamless integration with Firebase Auth, enabling us to send notifications securely and efficiently to platform users.\\
+
+- **Notifications**: The platform’s notification system will be built with Firebase Cloud Messaging (FCM), a cross-platform messaging service that enables us to deliver push notifications to users on Android, iOS, and the web. FCM was selected for its dependability, scalability, and seamless integration with Firebase Auth, enabling us to send notifications securely and efficiently to platform users.
+
 #### 5.3.2 Integration and Testing Technologies
+
 - **Unit Testing**: The platform's components of the back end,will be tested using JUnit, a popular unit testing framework for Java applications. JUnit was chosen for its simplicity, ease of use, compatibility with the Spring Boot framework and the team's familiarity with the tool.
 - **Back-end Mock**: Mockito, a widely-used mocking framework for Java applications, will be used to create stub and mock objects for testing purposes. Mockito was selected for its flexibility, ease of use, and compatibility with JUnit, allowing us both to simulate the behavior of external dependencies and to verify the interactions between components.
 - **Front-end Testing**: The front-end of the platform will be tested using React Testing Library, a popular testing utility for React applications. React Testing Library was chosen for the same reasons as React, and it allows us to write tests that closely resemble how users interact with the application, ensuring that the UI functions as expected.
-- **Front-end Mock**: MSW (Mock Service Worker) will be used to mock the API calls made by the front-end during testing. MSW was chosen for its ease of use, flexibility, compatibility with React Testing Library, enabling us to simulate the behavior of the back-end components and test the front-end in isolation. 
+- **Front-end Mock**: MSW (Mock Service Worker) will be used to mock the API calls made by the front-end during testing. MSW was chosen for its ease of use, flexibility, compatibility with React Testing Library, enabling us to simulate the behavior of the back-end components and test the front-end in isolation.
 <!-- (Sam 1.5h)-->
+
 ## 6 Effort Spent
 
 ### Lorenzo Ricci
