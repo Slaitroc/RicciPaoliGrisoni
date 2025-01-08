@@ -17,7 +17,7 @@ It would be confusing to represent every return code or message for each call. H
 
 ## 1UserRegistration
 
-![User Registration Diagram](Images/1.0UserRegistration.png)
+![User Registration Diagram](Images/1.0-UserRegistration.png)
 
 The User Registration view is the most complex one, as it involves the initial procedure for all the features of our web application, such as authentication, session validation, and notifications.
 
@@ -43,7 +43,7 @@ The User is now successfully registered and can use the web application features
 
 ### InsertCredentials - GenerateToken
 
-![Insert Credentials and Generate Token Diagram](Images/1.1InsertCredentialsGenerateToken.png)
+![Insert Credentials and Generate Token Diagram](Images/1.1-InsertCredentialsGenerateToken.png)
 
 By adding the *InsertCredentials* middleware call, the Proxy simply calls the POST method of the Authenticator service with the `UserCredentials` object in its body.  
 The Authenticator communicates with the external `AuthProvider`, which adds the `UserCredentials` to its database.  
@@ -57,7 +57,7 @@ The Authenticator communicates with the `AuthProvider` to generate the token and
 
 ### Authentication
 
-![Authentication Diagram](Images/1.2Authentication.png)
+![Authentication Diagram](Images/1.2-Authentication.png)
 
 When a private request is sent to the Proxy by the Presentation Layer, the Proxy adds a middleware call to the Authenticator to authenticate the user. The Authenticator receives a GET request and checks the token in the header.
 
@@ -75,7 +75,7 @@ For more details about the *ValidateCredentials* step, see the *UserLogin* diagr
 
 ### RequestDeviceToken
 
-![Request Device Token Diagram](Images/1.3RequestDeviceToken.png)
+![Request Device Token Diagram](Images/1.3-RequestDeviceToken.png)
 
 The *RequestDeviceToken* step begins with the Presentation Layer directly communicating with the `NotificationProvider`, which is responsible for handling the token associated with the user's endpoint device.  
 
@@ -89,13 +89,13 @@ The DeviceToken can expire or be invalidated by the external service provider. I
 
 ### CheckDeviceToken
 
-![Check Device Token Diagram](Images/1.4CheckDeviceToken.png)
+![Check Device Token Diagram](Images/1.4-CheckDeviceToken.png)
 
 The *CheckDeviceToken* step is scheduled by the Presentation Layer. It consist of a direct communication to the NotificationProvider to check the actual locally saved token. If the token is invalid, the Presentation Layer will request a new one as shown in the *RequestDeviceToken* step. If the token is valid, the Presentation Layer will do nothing.
 
 ## User Login - ValidateCredentials
 
-![User Login Diagram](Images/2UserLoginValidateCredentials.png)
+![User Login Diagram](Images/2-UserLoginValidateCredentials.png)
 
 By clicking the LogIn button the user sends the typed UserCredentials from the Presentation Layer to the Proxy. The triggered call is a POST public request that that reaches the Proxy.
 The Proxy adds a middleware call to the Authenticator to validate the UserCredentials. The Authenticator receives the request and checks the credentials in the AuthProvider. If the credentials are valid, the Proxy forwards the request again to the Authenticator that generate the token relative to the provided credentials. The ValidateCredentials is different from the InsertCredential ones because to be able to be correctly validated, credentials shall has been previously "inserted" to the AuthProvider.
@@ -104,7 +104,7 @@ After the token is generated, the Authenticator returns it to the Presentation L
 
 ## ParticipantSubmission
 
-![Participant Submission Diagram](Images/3ParticipantSubmission.png)
+![Participant Submission Diagram](Images/3.0-ParticipantSubmission.png)
 
 By clicking the Submit button, the Participant sends the submission data from the Presentation Layer to the Proxy. The triggered call is a `POST` private request, which the Proxy authenticates using the Authenticator. Once authenticated, the Proxy forwards the request to the `APIController`.
 
@@ -116,7 +116,7 @@ Finally, the `NotificationManager` notifies the identified users, and the `APICo
 
 ### SendNotification
 
-![Send Notification Diagram](Images/3.1SendNotification.png)
+![Send Notification Diagram](Images/3.1-SendNotification.png)
 
 The process begins when the Presentation Layer triggers a **Notification Triggering API Request (NTAR)** to the Proxy. The Proxy authenticates the request and forwards it to the `APIController`.
 
@@ -132,7 +132,7 @@ Note that the NotificationManager simply removes the invalid tokens from the `No
 
 ## UserOpensCompanyIntOff
 
-![User Opens Company Internships Diagram](Images/4UserOpensCompanyIntOffer.png)
+![User Opens Company Internships Diagram](Images/4-UserOpensCompanyIntOffer.png)
 
 By clicking the *View Company Internships* button, the User triggers a `GET` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request using the Authenticator and forwards it to the `APIController` in the Application Service.
 
@@ -142,7 +142,7 @@ The `SubmissionManager` sends the list of internships back to the `APIController
 
 ## UserOpensStudentCV
 
-![User Opens Student CV Diagram](Images/5UserOpensStudentCV.png)
+![User Opens Student CV Diagram](Images/5-UserOpensStudentCV.png)
 
 By clicking the *View Student CV* button, the User triggers a `GET` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request using the Authenticator and forwards it to the `APIController` in the Application Service.
 
@@ -152,7 +152,7 @@ The `SubmissionManager` sends the CV back to the `APIController`, which forwards
 
 ## ParticipantAcceptsMatch
 
-![Participant Accepts Match Diagram](Images/6.1ParticipantAcceptsMatch.png)
+![Participant Accepts Match Diagram](Images/6.1-ParticipantAcceptsMatch.png)
 
 By pressing the *Accept Recommendation* button, the Participant triggers a `POST` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request and forwards it to the `APIController` in the Application Service.
 
@@ -164,7 +164,7 @@ If the FeedbackMechanism is triggered, the `APIController` returns a `201 Create
 
 ## ParticipantSubmitsFeedback
 
-![Participant Submits Feedback Diagram](Images/6.2ParticipantSubmitsFeedback.png)
+![Participant Submits Feedback Diagram](Images/6.2-ParticipantSubmitsFeedback.png)
 
 When the Participant presses the *Submit Feedback* button, the Presentation Layer sends a `PUT` request with the `RecommendationID` and feedback data to the Proxy.
 
@@ -174,27 +174,9 @@ Once the feedback is saved, the `FeedbackMechanism` retrieves recommendation par
 
 After processing the feedback and updating the recommendation data, the `FeedbackMechanism` returns a success message to the `APIController`. The `APIController` forwards the response to the Proxy, which then sends it to the Presentation Layer. Finally, the Presentation Layer displays a success message to the Participant.
 
-
-<!-- By pressing the *Submit Feedback* button, the Participant triggers a `PUT` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request and forwards it to the `APIController` in the Application Service.
-
-The `APIController` invokes the `FeedbackMechanism` to handle the feedback submission. The `FeedbackMechanism` saves the feedback data by interacting with the `PlatformEntityManager`, which updates or inserts the feedback into the `PlatformDBMS`.
-
-Once the feedback is saved, the `FeedbackMechanism` retrieves recommendation parameters from the `PlatformDBMS` through the `PlatformEntityManager`. It then computes updated recommendation parameters and updates them back in the database via the `PlatformEntityManager`.
-
-After successfully saving the feedback and updating the recommendation data, the `FeedbackMechanism` returns a success message to the `APIController`. The `APIController` forwards the response to the Proxy, which then sends it to the Presentation Layer. Finally, the Presentation Layer displays a success message to the Participant. -->
-
-
-<!-- By pressing the *Submit Feedback* button, the Participant triggers a `PUT` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request and forwards it to the `APIController` in the Application Service.
-
-The `APIController` invokes the `FeedbackMechanism` to handle the submission of feedback. The `FeedbackMechanism` saves the feedback data by interacting with the `PlatformEntityManager`, which updates the `PlatformDBMS`.
-
-Once the feedback is saved, the `FeedbackMechanism` retrieves recommendation parameters from the `PlatformDBMS` through the `PlatformEntityManager`. Using these parameters, it computes updated recommendation parameters and saves them back into the database via the `PlatformEntityManager`.
-
-After successfully processing the feedback and updating the recommendation data, the `FeedbackMechanism` returns a success message to the `APIController`. The `APIController` forwards the response to the Proxy, which then returns it to the Presentation Layer. The Presentation Layer displays a success message to the Participant. -->
-
 ## StudentSendsSpontaneousApplication
 
-![Student Sends Spontaneous Application Diagram](Images/7StudentSendsSpontaneousApplication.png)
+![Student Sends Spontaneous Application Diagram](Images/7-StudentSendsSpontaneousApplication.png)
 
 By clicking the *Submit Spontaneous Application* button, the Student triggers a `POST` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request and forwards it to the `APIController` in the Application Service.
 
@@ -206,7 +188,7 @@ Finally, the `APIController` returns a `200 OK` response to the Proxy, which for
 
 ## CompanyAcceptsSpontaneousApplication
 
-![Company Accepts Spontaneous Application Diagram](Images/8CompanyAcceptsSpontaneousApplication.png)
+![Company Accepts Spontaneous Application Diagram](Images/8-CompanyAcceptsSpontaneousApplication.png)
 
 By clicking the *Accept Spontaneous Application* button, the Company triggers a `POST` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request and forwards it to the `APIController` in the Application Service.
 
@@ -220,7 +202,7 @@ Finally, the `APIController` returns a `200 OK` response to the Proxy, which for
 
 ## StudentSubmitInterview
 
-![Student Submit Interview Diagram](Images/9StudentSubmitInterview.png)
+![Student Submit Interview Diagram](Images/9-StudentSubmitsInterview.png)
 
 By clicking the *Send Interview Answer* button, the Student triggers a `POST` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request and forwards it to the `APIController` in the Application Service.
 
@@ -234,7 +216,7 @@ Finally, the `APIController` returns a `200 OK` response to the Proxy, which for
 
 ## CompanySubmitInterview
 
-![Company Submit Interview Diagram](Images/10CompanySubmitInterview.png)
+![Company Submit Interview Diagram](Images/10-CompanySubmitsInterview.png)
 
 By clicking the *Send Interview* button, the Company triggers a `POST` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request and forwards it to the `APIController` in the Application Service.
 
@@ -248,7 +230,7 @@ Finally, the `APIController` returns a `201 Created` response to the Proxy, whic
 
 ## CompanyCreateTemplateInterview
 
-![Company Create Template Interview Diagram](Images/11CompanyCreateTemplateInterview.png)
+![Company Create Template Interview Diagram](Images/11-CompanyCreatesTemplateInterview.png)
 
 By clicking the *Save Interview* button, the Company triggers a `POST` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request and forwards it to the `APIController` in the Application Service.
 
@@ -258,7 +240,7 @@ Once the interview template is successfully stored, the `APIController` returns 
 
 ## CompanyEvaluatesInterview
 
-![Company Evaluates Interview Diagram](Images/12CompanyEvaluatesInterview.png)
+![Company Evaluates Interview Diagram](Images/12-CompanyEvaluatesInterview.png)
 
 By clicking the *Evaluate Interview* button, the Company triggers a `POST` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request and forwards it to the `APIController` in the Application Service.
 
@@ -272,7 +254,7 @@ If the Company needs to evaluate individual questions within the interview, they
 
 ## StudentSeeSpontaneousApplications
 
-![Student See Spontaneous Applications Diagram](Images/13StudentSeeSpontaneousApplications.png)
+![Student See Spontaneous Applications Diagram](Images/13-StudentSeesSpontaneousApplications.png)
 
 By clicking the *Dashboard Spontaneous Applications* page, the Student triggers a `GET` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request and forwards it to the `APIController` in the Application Service.
 
@@ -284,7 +266,7 @@ The Presentation Layer displays the retrieved spontaneous applications to the St
 
 ## 14ParticipantSeesMatches
 
-![Participant Sees Matches Diagram](Images/14ParticipantSeesMatches.png)
+![Participant Sees Matches Diagram](Images/14-ParticipantSeesMatches.png)
 
 By clicking the *Dashboard Recommendation* page, the Participant triggers a `GET` private request from the Presentation Layer to the Proxy. The Proxy authenticates the request and forwards it to the `APIController` in the Application Service.
 
@@ -296,7 +278,7 @@ The Presentation Layer displays the retrieved matches to the Participant, allowi
 
 ## UserRespondsToComm 
 
-![User Responds to Communication Diagram](Images/15UserRespondsToComm.png)
+![User Responds to Communication Diagram](Images/15-UserRespondsToComm.png)
 
 By clicking the *Publish Answer* button, the User initiates a `POST` private API call from the Presentation Layer to the Proxy. The request contains the `CommID`, the User's message, and their authentication token.
 
@@ -310,7 +292,7 @@ Finally, the `APIController` returns a `201 Created` response to the Proxy, whic
 
 ## UserOpensComplaint
 
-![User Opens Complaint Diagram](Images/16UserOpensComplaint.png)
+![User Opens Complaint Diagram](Images/16-UserOpensComplaint.png)
 
 When the User clicks on a complaint, a `GET` private API call is sent from the Presentation Layer to the Proxy. The request includes the `CommID` and optional URL parameters that specify the type of data to retrieve.
 
@@ -328,7 +310,7 @@ The `APIController` returns a `200 OK` response containing the requested data to
 
 ## ParticipantCreatesAComplaint
 
-![Participant Creates a Complaint Diagram](Images/17ParticipantCreatesAComplaint.png)
+![Participant Creates a Complaint Diagram](Images/17-ParticipantCreatesAComplaint.png)
 
 When the Participant initiates the creation of a new complaint by clicking the corresponding button, the Presentation Layer sends a `POST` request to the Proxy. The Proxy authenticates the request and forwards it to the `APIController`.
 
@@ -341,7 +323,7 @@ Finally, the Presentation Layer displays the newly created complaint to the Part
 
 ## UserSeesHisCommunicationsPage
 
-![User Sees His Communications Page Diagram](Images/18UserSeesHisCommunicationsPage.png)
+![User Sees His Communications Page Diagram](Images/18-UserSeesHisCommunicationsPage.png)
 
 When the User clicks the "Dashboard Communication Page" button, the Presentation Layer sends a `GET` private API call to the Proxy.
 
@@ -355,7 +337,7 @@ Finally, the Presentation Layer displays the list of communications to the User.
 
 ## UniversityInterruptsInternship
 
-![University Interrupts Internship Diagram](Images/19UniversityInterruptsIntership.png)
+![University Interrupts Internship Diagram](Images/19-UniversityInterruptsIntership.png)
 
 When the University initiates the process to interrupt an internship by clicking the appropriate button, the Presentation Layer displays a confirmation button. Upon confirmation, the Presentation Layer sends a `POST` request to the Proxy.
 
@@ -365,19 +347,9 @@ After successfully updating the internship data, the `CommunicationManager` retu
 
 Finally, the Presentation Layer displays the confirmation of the terminated internship to the University.
 
-<!-- When the University clicks the "Interrupt Internship" button, the Presentation Layer displays a confirmation button to ensure the user's intent. Upon clicking the confirmation button, the Presentation Layer sends a `POST` private API call to the Proxy.
-
-The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` triggers the `CommunicationManager` to handle the interruption request, passing the `commID` and the `Reason` provided by the University.
-
-The `CommunicationManager` interacts with the `PlatformEntityManager`, which updates the relevant internship offer in the `PlatformDBMS` with the given `Reason`. Upon successful update, the result is passed back up the chain to the `CommunicationManager` and then to the `APIController`.
-
-The `APIController` notifies all relevant users about the interrupted internship by triggering the `NotificationManager`. The `NotificationManager` sends notifications to the associated `UserIDs` and confirms the success of the operation.
-
-Finally, the `APIController` sends a `200 OK` response to the Proxy, which forwards it to the Presentation Layer. The Presentation Layer then displays the updated internship status to the University. -->
-
 ## UserTerminatesCommunication
 
-![User Terminates Communication Diagram](Images/20UserTerminatesCommunication.png)
+![User Terminates Communication Diagram](Images/20-UserTerminatesCommunication.png)
 
 When the User clicks the "Terminate Communication" button, the Presentation Layer sends a `POST` private API call to the Proxy.
 
@@ -395,7 +367,7 @@ Finally, the `APIController` sends a `200 OK` response to the Proxy, which forwa
 
 ## CompanySendsIntPosOff
 
-![Company Sends Internship Position Offer Diagram](Images/21CompanySendsIntPosOff.png)
+![Company Sends Internship Position Offer Diagram](Images/21-CompanySendsIntPosOff.png)
 
 When the Company initiates the process to send an internship position offer by clicking the relevant button, the Presentation Layer sends a `POST` request to the Proxy.
 
@@ -407,23 +379,9 @@ After successfully creating the internship position offer, the `InterviewManager
 
 Finally, the Presentation Layer displays confirmation of the sent internship position offer to the Company.
 
-<!-- When the Company clicks the "Send Internship Position Offer" button, the Presentation Layer sends a `POST` private API call to the Proxy.
-
-The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` first calls the `InterviewManager` to verify if the Company is the owner of the interview (`InterviewID`) by querying the `PlatformEntityManager`. The `PlatformEntityManager` checks ownership in the `PlatformDBMS` and returns the result.
-
-If the Company is not the owner (`result == false`), an error message (`401 Unauthorized: NotOwner`) is returned through the chain to the Presentation Layer, which displays an error message to the Company.
-
-If the Company is the owner, the `APIController` instructs the `InterviewManager` to proceed with sending the internship position offer. The `InterviewManager` retrieves the `StudentID` associated with the `InterviewID` by querying the `PlatformEntityManager`.
-
-Once the `StudentID` is retrieved, the `InterviewManager` creates the internship position offer (`IntPosOff`) by inserting it into the `PlatformDBMS` via the `PlatformEntityManager`. Upon success, the confirmation is propagated back up the chain.
-
-The `APIController` then triggers the `NotificationManager` to notify the relevant student about the offer. The `NotificationManager` sends notifications and confirms their delivery.
-
-Finally, the `APIController` sends a `200 OK` response to the Proxy, which forwards it to the Presentation Layer. The Presentation Layer displays a confirmation message to the Company, indicating that the internship position offer has been successfully sent. -->
-
 ## StudentAcceptsInternshipPositionOffer
 
-![Student Accepts Internship Position Offer Diagram](Images/22StudentAcceptsInternshipPositionOffer.png)
+![Student Accepts Internship Position Offer Diagram](Images/22-StudentAcceptsInternshipPositionOffer.png)
 When a Student clicks to accept an internship position offer, the Presentation Layer sends a `POST` request to the Proxy.
 
 The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` invokes the `InterviewManager` to handle the acceptance process. The `InterviewManager` checks the ownership of the offer by interacting with the `PlatformEntityManager`, which queries the `PlatformDBMS`. If the offer does not exist (`BadRequest`) or does not belong to the Student (`Unauthorized`), an error response is returned to the Presentation Layer, and an error message is displayed.
@@ -433,24 +391,10 @@ If the ownership is validated, the `InterviewManager` retrieves all interviews a
 Once all other interviews are updated, the `InterviewManager` confirms the acceptance of the internship position offer. The `APIController` triggers the `NotificationManager` to notify the relevant Company about the Student's acceptance. Additional notifications are sent to other Companies, informing them that the Student has accepted a different offer.
 
 Finally, a success response is returned through the Proxy to the Presentation Layer, which displays a confirmation message to the Student.
-<!-- 
-When the Student clicks the "Accept Internship Position Offer" button, the Presentation Layer sends a `POST` private API call to the Proxy.
-
-The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` calls the `InterviewManager` to process the acceptance of the internship position offer (`IntPosOffID`) for the student (`UserID`). The `InterviewManager` uses the `PlatformEntityManager` to query and update the database entry in `PlatformDBMS` for the internship position offer.
-
-If the offer does not exist (`BadRequest`), or the offer does not belong to the student (`Unauthorized`), an appropriate error is returned through the Proxy to the Presentation Layer, which displays an error message to the student.
-
-If the offer is valid, the `APIController` triggers the `NotificationManager` to notify the corresponding company that the student has accepted the internship position offer.
-
-Next, the `APIController` instructs the `InterviewManager` to stop any other ongoing interviews for the student. The `InterviewManager` retrieves all interviews associated with the student from the `PlatformEntityManager` and updates their status in the `PlatformDBMS`.
-
-For each canceled interview, the `NotificationManager` is called to notify the respective companies that the student has accepted another internship position offer.
-
-Finally, a `200 OK` response is returned through the Proxy to the Presentation Layer, which displays a confirmation message to the student indicating successful acceptance of the position. -->
 
 ## CompanySendTemplateInterview
 
-![Company Send Template Interview Diagram](Images/23CompanySendTemplateInterview.png)
+![Company Send Template Interview Diagram](Images/23-CompanySendsTemplateInterview.png)
 
 When a Company clicks to send a saved interview, the Presentation Layer sends a `POST` request containing the `InterviewID` and `TemplateInterviewID` to the Proxy.
 
@@ -460,21 +404,9 @@ If the ownership check succeeds, the `InterviewManager` retrieves the template d
 
 After the interview is successfully updated, the `APIController` triggers the `NotificationManager` to notify the Student that the interview has been sent. A success response is then returned through the Proxy to the Presentation Layer, which displays a confirmation message to the Company.
 
-<!-- When a Company clicks the "Send Interview" button, the Presentation Layer sends a `POST` private API call to the Proxy. The request contains both the `TemplateInterviewID` and the `InterviewID` in its body.
-
-The Proxy authenticates the request and forwards it to the `APIController`. The `APIController` calls the `InterviewManager` to verify if the company owns the interview template (`TemplateInterviewID`). The `InterviewManager` queries the database through the `PlatformEntityManager` and `PlatformDBMS` to validate ownership.
-
-If the result is false, indicating that the company does not own the template, an error (`400 BadRequest`) is returned to the Presentation Layer, which displays an error message to the company.
-
-If ownership is confirmed, the `InterviewManager` retrieves the template data associated with the `TemplateInterviewID` from the database, builds the interview data using the template, and updates the corresponding interview (`InterviewID`) in the database with the new data and status.
-
-Once the update is successful, the `APIController` triggers the `NotificationManager` to notify the user that the interview has been sent to them.
-
-Finally, a `200 OK` response is returned through the Proxy to the Presentation Layer, which displays a confirmation message to the company indicating the interview has been successfully sent. -->
-
 ## CompanyClosesInternshipOffer
 
-![Company Closes Internship Offer Diagram](Images/24CompanyClosesInternshipOffer.png)
+![Company Closes Internship Offer Diagram](Images/24-CompanyClosesInternshipOffer.png)
 
 When a Company clicks the "Close Internship" button, the Presentation Layer sends a `POST` private API call to the Proxy. The request contains the `InternshipID`.
 
