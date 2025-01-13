@@ -1,4 +1,6 @@
 /Slaitroc
 /.vscode
 /node_modules
-/.idea
+/Implementation/.idea/
+.idea/
+*.iml
