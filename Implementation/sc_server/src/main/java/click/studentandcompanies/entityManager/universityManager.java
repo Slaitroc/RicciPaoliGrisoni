@@ -5,10 +5,10 @@ import click.studentandcompanies.entityManager.entityRepository.UniversityReposi
 import org.springframework.stereotype.Service;
 
 @Service
-public class universityManager {
+public class UniversityManager {
     private final UniversityRepository universityRepository;
 
-    public universityManager(UniversityRepository universityRepository) {
+    public UniversityManager(UniversityRepository universityRepository) {
         this.universityRepository = universityRepository;
     }
     //CRUD operations, all of them are already implemented by the JpaRepository
@@ -24,12 +24,20 @@ public class universityManager {
         return universityRepository.findByName(name);
     }
     public long getNumberOfUniversitiesByCountry(String country) {
-        return universityRepository.countUniversitiesByCountry(country);
+        String input = country.trim().substring(0, 2);
+        System.out.println("Getting the number of universities in " + input);
+        long output = universityRepository.countUniversitiesByCountry(input);
+        System.out.println("There are " + output + " universities in " + input);
+        return output;
+    }
+
+    public long getNumberOfUniversities() {
+        return universityRepository.countAll();
     }
 
     //This is a "logic" method.
     // It uses the method from the UniversityRepository to implement a more complex logic than a simple CRUD operation
     public boolean areThereAnyUniversities() {
-        return universityRepository.countAllUniversity() > 0;
+        return universityRepository.countAll() > 0;
     }
 }

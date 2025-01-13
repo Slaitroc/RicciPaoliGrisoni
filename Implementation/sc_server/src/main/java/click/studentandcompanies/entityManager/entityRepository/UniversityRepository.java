@@ -1,17 +1,14 @@
 package click.studentandcompanies.entityManager.entityRepository;
-
-
 import click.studentandcompanies.entity.University;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 public interface UniversityRepository extends JpaRepository<University, Integer> {
+
     University findByName(String name);
 
-    @Query("SELECT COUNT(u) FROM University u WHERE u.country = :country")
-    long countUniversitiesByCountry(@Param("country") String country);
+    long countUniversitiesByCountry(String country);
 
-    @Query("SELECT COUNT(u) FROM University u")
-    long countAllUniversity();
+    @Query("SELECT COUNT(id) FROM University id")
+    long countAll();
 }

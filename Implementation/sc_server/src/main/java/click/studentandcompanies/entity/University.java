@@ -3,9 +3,12 @@ package click.studentandcompanies.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 //The entity represents the table in the database. Each class represents a table in the database, each field in the class represents a column in the table.
 // Can be created directly by the JPA BUDDY when the database is connected and the table is created by clicking new->JPA Entity from the database.
 @Entity
+@Table(name = "University")
 public class University {
     @Id
     @Column(name = "universityID", nullable = false)

@@ -1,11 +1,11 @@
 package click.studentandcompanies;
 
+import click.studentandcompanies.entityManager.UniversityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import click.studentandcompanies.entityManager.universityManager;
 @RestController
 @RequestMapping("/api")
 public class Controller {
@@ -13,13 +13,13 @@ public class Controller {
     public String sayHello() {
         return "Hello, Spring Boot!";
     }
-    private final universityManager universityManager;
+    private final UniversityManager universityManager;
     //Inject the universityManager into the Controller (thanks to the @Autowired and @Service annotations)
     @Autowired
-    public Controller(universityManager universityManager) {
+    public Controller(UniversityManager universityManager) {
         this.universityManager = universityManager;
     }
-    @GetMapping("/{country}/count")
+    @GetMapping("/university/{country}/count")
     public String getCountryCount(@PathVariable String country) {
         System.out.println("Getting the number of universities in " + country);
         long count = universityManager.getNumberOfUniversitiesByCountry(country);
