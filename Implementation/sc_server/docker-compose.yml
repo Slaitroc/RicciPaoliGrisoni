@@ -1,15 +1,22 @@
 services:
   sc_server:
     build:
-      context: ./
+      context: ./ # Mantiene invariata la configurazione del server
       dockerfile: Dockerfile
     container_name: sc_server-container
-    ports:
-      - "8443:8443"
+    #ports:
+    #- "8443:8443"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/sc_DB
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.application-container.rule=Host(`proxy.test`) &&  PathPrefix(`/api`)" # Regola per l'API e dichiarazione del nome del container
+      - "traefik.http.routers.application-container.service=application-service" # dichiaro il nome del Servizio per l'API
+      - "traefik.http.services.application-service.loadbalancer.server.port=8443" # Porta interna del server
+    networks:
+      - traefik-network
     depends_on:
       - database
     restart: always
@@ -36,6 +43,26 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-# secrets:
-#   keystore-password:
-#     file: ./secret/keystore-password.txt
+    networks:
+      - traefik-network
+
+  proxy:
+    image: traefik:latest
+    container_name: traefik-container
+    command:
+      - "--entrypoints.web.address=:80" # EntryPoint HTTP
+      - "--api.insecure=true" # Abilita la dashboard
+      - "--providers.docker=true" # Provider Docker abilitato
+      - "--providers.docker.exposedByDefault=false"
+    ports:
+      - "80:80" # HTTP
+      - "8080:8080" # Dashboard
+
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro" # Accesso al socket Docker
+    networks:
+      - traefik-network
+
+networks:
+  traefik-network:
+    driver: bridge
