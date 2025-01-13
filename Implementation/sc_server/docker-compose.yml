@@ -68,3 +68,6 @@ services:
 networks:
   traefik-network:
     driver: bridge
+
+volumes:
+    platform_db_data:
