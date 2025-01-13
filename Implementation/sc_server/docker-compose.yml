@@ -1,8 +1,8 @@
 services:
   sc_server:
     build:
-      context: ./      
-      dockerfile: Dockerfile  
+      context: ./
+      dockerfile: Dockerfile
     container_name: sc_server-container
     ports:
       - "8443:8443"
@@ -12,7 +12,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: password
     depends_on:
       - database
-
+    restart: always
 
   database:
     image: mariadb:10.7
@@ -21,8 +21,21 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: sc_DB
     ports:
-      - "3306:3306"  # Porta MariaDB esposta
-
+      - "3306:3306" # Porta MariaDB esposta
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "--user=root",
+          "--password=password",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 # secrets:
 #   keystore-password:
 #     file: ./secret/keystore-password.txt
