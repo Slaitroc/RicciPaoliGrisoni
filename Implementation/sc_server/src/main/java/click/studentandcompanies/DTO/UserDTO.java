@@ -2,7 +2,6 @@ package click.studentandcompanies.DTO;
 
 import click.studentandcompanies.entity.University;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 /*DTO stands for Data Transfer Object. It is a design pattern used to transfer data between software application subsystems.

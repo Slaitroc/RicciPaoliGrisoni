@@ -6,19 +6,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "university")
-public class University {
+@Table(name = "company")
+public class Company {
     @Id
-    @Column(name = "university_id", nullable = false)
+    @Column(name = "company_id", nullable = false)
     private Integer id;
 
-    @Column(name = "name", nullable = false, length = 20)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "email")
     private String email;
 
-    @Column(name = "country", nullable = false, length = 2)
+    @Column(name = "country", nullable = false, length = 3)
     private String country;
 
     @Column(name = "vat_number")
