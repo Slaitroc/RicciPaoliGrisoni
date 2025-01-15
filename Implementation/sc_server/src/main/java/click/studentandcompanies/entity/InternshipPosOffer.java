@@ -1,9 +1,6 @@
 package click.studentandcompanies.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "internship_pos_offer")
@@ -14,6 +11,9 @@ public class InternshipPosOffer {
 
     @Column(name = "acceptance")
     private Boolean acceptance;
+
+    @OneToOne(mappedBy = "internshipPosOffer", fetch = FetchType.LAZY, optional = false)
+    private Interview interview;
 
     public Integer getId() {
         return id;

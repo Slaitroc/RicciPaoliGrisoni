@@ -23,8 +23,7 @@ public class Interview {
     @JoinColumn(name = "spontaneous_application_id")
     private SpontaneousApplication spontaneousApplication;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "internship_pos_offer_id")
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     private InternshipPosOffer internshipPosOffer;
 
     @Lob
