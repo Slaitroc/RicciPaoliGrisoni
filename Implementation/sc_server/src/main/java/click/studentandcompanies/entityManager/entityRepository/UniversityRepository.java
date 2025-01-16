@@ -11,4 +11,6 @@ public interface UniversityRepository extends JpaRepository<University, Integer>
 
     @Query("SELECT COUNT(id) FROM University id")
     long countAll();
+
+    University getUniversityById(Integer id);
 }

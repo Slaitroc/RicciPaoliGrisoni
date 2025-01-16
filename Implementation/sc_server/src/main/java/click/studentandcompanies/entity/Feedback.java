@@ -8,7 +8,6 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "feedback")
 public class Feedback {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -17,7 +16,6 @@ public class Feedback {
     @JoinColumn(name = "recommendation_id", nullable = false)
     private Recommendation recommendation;
 
-    //Note: even if student_id and company_id are nullable, in the database there is a CHECK so that either student_id or company_id is not null
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
@@ -30,7 +28,6 @@ public class Feedback {
     @Column(name = "participant_typ", nullable = false)
     private String participantTyp;
 
-    //Todo: rating should be limited to a defined range. For now, it is not limited.
     @Column(name = "rating", nullable = false)
     private Integer rating;
 

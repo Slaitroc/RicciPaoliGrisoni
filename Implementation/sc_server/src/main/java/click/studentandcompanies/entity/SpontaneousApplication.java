@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 @Table(name = "spontaneous_application")
 public class SpontaneousApplication {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 

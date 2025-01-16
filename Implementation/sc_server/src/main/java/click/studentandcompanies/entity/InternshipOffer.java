@@ -13,38 +13,38 @@ public class InternshipOffer {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
     @Lob
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "required_skilss")
-    private String requiredSkilss;
+    @Column(name = "required_skills")
+    private String requiredSkills;
 
-    @Column(name = "durationHours")
-    private Integer durationHours;
-
-    @Column(name = "compesation")
+    @Column(name = "compesation", nullable = false)
     private Integer compesation;
 
-    @Column(name = "location")
+    @Column(name = "location", nullable = false)
     private String location;
 
-    @Column(name = "start_date")
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
-    @Column(name = "end_date")
+    @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
     @Column(name = "number_positions")
     private Integer numberPositions;
+
+    @Column(name = "duration_hours", nullable = false)
+    private Integer durationHours;
 
     public Integer getId() {
         return id;
@@ -78,20 +78,12 @@ public class InternshipOffer {
         this.description = description;
     }
 
-    public String getRequiredSkilss() {
-        return requiredSkilss;
+    public String getRequiredSkills() {
+        return requiredSkills;
     }
 
-    public void setRequiredSkilss(String requiredSkilss) {
-        this.requiredSkilss = requiredSkilss;
-    }
-
-    public Integer getDurationHours() {
-        return durationHours;
-    }
-
-    public void setDurationHours(Integer durationHours) {
-        this.durationHours = durationHours;
+    public void setRequiredSkills(String requiredSkills) {
+        this.requiredSkills = requiredSkills;
     }
 
     public Integer getCompesation() {
@@ -132,6 +124,14 @@ public class InternshipOffer {
 
     public void setNumberPositions(Integer numberPositions) {
         this.numberPositions = numberPositions;
+    }
+
+    public Integer getDurationHours() {
+        return durationHours;
+    }
+
+    public void setDurationHours(Integer durationHours) {
+        this.durationHours = durationHours;
     }
 
 }

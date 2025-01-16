@@ -3,25 +3,33 @@ package click.studentandcompanies;
 import click.studentandcompanies.DTO.DTOCreator;
 import click.studentandcompanies.DTO.DTO;
 import click.studentandcompanies.DTO.DTOTypes;
-import click.studentandcompanies.entity.Student;
+import click.studentandcompanies.entity.Recommendation;
+import click.studentandcompanies.entity.dbEnum.RecommendationStatusEnum;
+import click.studentandcompanies.entityManager.RecommendationProcess;
 import click.studentandcompanies.entityManager.UserManager;
+import click.studentandcompanies.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api")
 public class Controller {
+    private final UserManager userManager;
+    private final RecommendationProcess recommendationProcess;
+    //Inject the universityManager into the Controller (thanks to the @Autowired and @Service annotations)
+    @Autowired
+    public Controller(UserManager userManager, RecommendationProcess recommendationProcess) {
+        this.userManager = userManager;
+        this.recommendationProcess = recommendationProcess;
+    }
+
     @GetMapping("/hello")
     public String sayHello() {
         return "Hello, Spring Boot!";
-    }
-    private final UserManager userManager;
-    //Inject the universityManager into the Controller (thanks to the @Autowired and @Service annotations)
-    @Autowired
-    public Controller(UserManager userManager) {
-        this.userManager = userManager;
     }
     @GetMapping("/university/{country}/count")
     public String getCountryCount(@PathVariable String country) {
@@ -57,6 +65,20 @@ public class Controller {
         System.out.println("testDTO called");
         System.out.println("DTO is " + dto);
         return HttpStatus.OK;
+    }
+
+    @PostMapping("/recommendations/private/{RecommendationID}/accept")
+    public ResponseEntity<DTO> acceptRecommendation(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload) {
+        try {
+            Recommendation recommendation = recommendationProcess.acceptRecommendation(RecommendationID, (Integer) payload.get("userID"));
+            if(recommendation.getStatus() == RecommendationStatusEnum.acceptedMatch){
+                //todo: call the notification service
+                //todo: call feedback service
+            }
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation), HttpStatus.OK);
+        } catch (IllegalCallerException e) {
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

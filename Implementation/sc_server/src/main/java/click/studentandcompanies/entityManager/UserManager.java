@@ -5,6 +5,7 @@ import click.studentandcompanies.entity.University;
 import click.studentandcompanies.entityManager.entityRepository.CompanyRepository;
 import click.studentandcompanies.entityManager.entityRepository.StudentRepository;
 import click.studentandcompanies.entityManager.entityRepository.UniversityRepository;
+import click.studentandcompanies.utils.UserType;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -50,7 +51,19 @@ public class UserManager {
     }
 
     public Student getStudentById(int id) {
-        return studentRepository.getStudentsById(id);
+        return studentRepository.getStudentById(id);
+    }
+
+    public UserType getUserType(int id) {
+        if (studentRepository.getStudentById(id) != null) {
+            return UserType.STUDENT;
+        } else if (companyRepository.getCompanyById(id) != null) {
+            return UserType.COMPANY;
+        } else if (universityRepository.getUniversityById(id) != null) {
+            return UserType.UNIVERSITY;
+        } else {
+            return UserType.UNKNOWN;
+        }
     }
 }
 

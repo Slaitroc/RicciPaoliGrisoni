@@ -15,13 +15,13 @@ public class Company {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "country", nullable = false, length = 3)
     private String country;
 
-    @Column(name = "vat_number")
+    @Column(name = "vat_number", nullable = false)
     private Integer vatNumber;
 
     public Integer getId() {

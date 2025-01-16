@@ -1,5 +1,6 @@
 package click.studentandcompanies.DTO;
 
+import click.studentandcompanies.entity.Recommendation;
 import click.studentandcompanies.entity.Student;
 import click.studentandcompanies.entity.University;
 
@@ -14,9 +15,24 @@ public class DTOCreator {
 
     private static final Map<DTOTypes, Function<Object, DTO>> functionMap = new HashMap<>();
     static {
+        functionMap.put(DTOTypes.ERROR, obj -> createErrorDTO((String) obj));
         functionMap.put(DTOTypes.STUDENT, obj -> createStudentDTO((Student) obj));
         functionMap.put(DTOTypes.STUDENT_V2, obj -> createStudentDTOV2((Student) obj));
         functionMap.put(DTOTypes.UNIVERSITY, obj -> createUniversityDTO((University) obj));
+        functionMap.put(DTOTypes.RECOMMENDATION_UPDATED_STATUS, object -> createRecommendationUpdatedStatusDTO((Recommendation) object));
+    }
+
+    private static DTO createRecommendationUpdatedStatusDTO(Recommendation recommendation) {
+        final DTO recommendationDTO = new DTO();
+        recommendationDTO.addProperty("id", recommendation.getId());
+        recommendationDTO.addProperty("status", recommendation.getStatus().toString());
+        return recommendationDTO;
+    }
+
+    private static DTO createErrorDTO(String message) {
+        final DTO errorDTO = new DTO();
+        errorDTO.addProperty("error", message);
+        return errorDTO;
     }
 
     private static DTO createStudentDTO(Student student) {

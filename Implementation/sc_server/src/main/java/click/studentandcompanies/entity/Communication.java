@@ -18,7 +18,7 @@ public class Communication {
     private InternshipOffer internshipOffer;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "university_id")
+    @JoinColumn(name = "university_id", nullable = false)
     private University university;
 
     @Column(name = "title", nullable = false)
@@ -29,7 +29,7 @@ public class Communication {
     private String content;
 
     @Lob
-    @Column(name = "communication_type")
+    @Column(name = "communication_type", nullable = false)
     private String communicationType;
 
     public Integer getId() {

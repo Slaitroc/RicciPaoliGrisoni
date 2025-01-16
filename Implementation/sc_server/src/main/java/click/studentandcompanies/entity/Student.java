@@ -1,8 +1,6 @@
 package click.studentandcompanies.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "student")
@@ -18,7 +16,6 @@ public class Student {
     private String email;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "university_id", nullable = false)
     private University university;
 
