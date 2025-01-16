@@ -1,5 +1,6 @@
 package click.studentandcompanies;
 
+import click.studentandcompanies.DTO.StudentDTO;
 import click.studentandcompanies.entityManager.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,5 +33,10 @@ public class Controller {
         }else{
             return "There are " + count + " universities in " + country;
         }
+    }
+
+    @GetMapping("/dto/test")
+    public StudentDTO testDTO() {
+        return userManager.getStudentDTOById(1);
     }
 }
