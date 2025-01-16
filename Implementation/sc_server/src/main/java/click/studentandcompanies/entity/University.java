@@ -1,27 +1,25 @@
 package click.studentandcompanies.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "university")
 public class University {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "university_id", nullable = false)
     private Integer id;
 
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "country", nullable = false, length = 2)
     private String country;
 
-    @Column(name = "vat_number")
+    @Column(name = "vat_number", nullable = false)
     private Integer vatNumber;
 
     public Integer getId() {
