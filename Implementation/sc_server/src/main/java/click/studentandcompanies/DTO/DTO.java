@@ -1,9 +1,11 @@
 package click.studentandcompanies.DTO;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
-public abstract class GenericDTO {
+public class DTO implements Serializable {
     private final Map<String, Object> properties = new HashMap<>();
 
     public void addProperty(String key, Object value) {
@@ -28,5 +30,12 @@ public abstract class GenericDTO {
         }
         sb.append("}");
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        DTO that = (DTO) o;
+        return Objects.equals(properties, that.properties);
     }
 }

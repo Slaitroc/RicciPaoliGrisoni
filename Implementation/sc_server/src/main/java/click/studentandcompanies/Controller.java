@@ -1,6 +1,9 @@
 package click.studentandcompanies;
 
-import click.studentandcompanies.DTO.StudentDTO;
+import click.studentandcompanies.DTO.DTOCreator;
+import click.studentandcompanies.DTO.DTO;
+import click.studentandcompanies.DTO.DTOTypes;
+import click.studentandcompanies.entity.Student;
 import click.studentandcompanies.entityManager.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +38,14 @@ public class Controller {
         }
     }
 
-    @GetMapping("/dto/test")
-    public StudentDTO testDTO() {
-        return userManager.getStudentDTOById(1);
+    @GetMapping("/dto/test/")
+    public DTO testDTO() {
+        System.out.println("testDTO called");
+        Student student = userManager.getStudentById(1);
+        System.out.println("Student is " + student);
+        if (student == null) {
+            throw new IllegalArgumentException("Student not found");
+        }
+        return DTOCreator.createDTO(DTOTypes.STUDENT, student);
     }
 }

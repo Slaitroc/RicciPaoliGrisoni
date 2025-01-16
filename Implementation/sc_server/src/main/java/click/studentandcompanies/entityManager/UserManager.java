@@ -1,6 +1,5 @@
 package click.studentandcompanies.entityManager;
 
-import click.studentandcompanies.DTO.StudentDTO;
 import click.studentandcompanies.entity.Student;
 import click.studentandcompanies.entity.University;
 import click.studentandcompanies.entityManager.entityRepository.CompanyRepository;
@@ -50,9 +49,8 @@ public class UserManager {
         return universityRepository.countAll() > 0;
     }
 
-    public StudentDTO getStudentDTOById(int id) {
-        Student student = studentRepository.getStudentsById(id);
-        return new StudentDTO(student.getId(), student.getName(), student.getEmail());
+    public Student getStudentById(int id) {
+        return studentRepository.getStudentsById(id);
     }
 }
 
