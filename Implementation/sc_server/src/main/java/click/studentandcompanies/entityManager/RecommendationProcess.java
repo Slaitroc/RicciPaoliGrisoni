@@ -18,25 +18,19 @@ public class RecommendationProcess {
 
     //Handle the acceptance of a recommendation
     //Thx @Matteo for the Exception handling idea, it's much cleaner now
-    public Recommendation acceptRecommendation(Integer recommendationId, Integer userId) {
-        Recommendation recommendation = recommendationRepository.getRecommendationById(recommendationId);
+    public Recommendation acceptRecommendation(Integer recommendationID, Integer userID) throws IllegalCallerException{
+        Recommendation recommendation = recommendationRepository.getRecommendationById(recommendationID);
         if (recommendation == null) {
             throw new IllegalCallerException("Recommendation not found");
         }
-        UserType userType = userManager.getUserType(userId);
+        UserType userType = userManager.getUserType(userID);
         if(userType == UserType.UNKNOWN){
             throw new IllegalCallerException("Unknown user type");
         }else if(userType == UserType.UNIVERSITY){
             throw new IllegalCallerException("Universities can't accept recommendations");
         }
 
-        if((userType == UserType.STUDENT && recommendation.getStatus() == RecommendationStatusEnum.acceptedByStudent) ||
-                (userType == UserType.COMPANY && recommendation.getStatus() == RecommendationStatusEnum.acceptedByCompany) ||
-                recommendation.getStatus() == RecommendationStatusEnum.acceptedMatch){
-            throw new IllegalCallerException("Recommendation already accepted");
-        }else if(recommendation.getStatus() == RecommendationStatusEnum.refusedMatch){
-            throw new IllegalCallerException("Recommendation already refused");
-        }
+        checkIfResponseAlreadySent(recommendation, userType);
 
         if(recommendation.getStatus() == RecommendationStatusEnum.toBeAccepted){
             if(userType == UserType.STUDENT){
@@ -49,5 +43,34 @@ public class RecommendationProcess {
         }
         recommendationRepository.save(recommendation);
         return recommendation;
+    }
+
+    public Recommendation refuseRecommendation(Integer recommendationID, Integer userID) throws IllegalCallerException {
+        Recommendation recommendation = recommendationRepository.getRecommendationById(recommendationID);
+        if (recommendation == null) {
+            throw new IllegalCallerException("Recommendation not found");
+        }
+        UserType userType = userManager.getUserType(userID);
+        if(userType == UserType.UNKNOWN){
+            throw new IllegalCallerException("Unknown user type");
+        }else if(userType == UserType.UNIVERSITY){
+            throw new IllegalCallerException("Universities can't refuse recommendations");
+        }
+
+        checkIfResponseAlreadySent(recommendation, userType);
+
+        recommendation.setStatus(RecommendationStatusEnum.refusedMatch);
+        recommendationRepository.save(recommendation);
+        return recommendation;
+    }
+
+    private void checkIfResponseAlreadySent(Recommendation recommendation, UserType userType) throws IllegalCallerException {
+        if((userType == UserType.STUDENT && recommendation.getStatus() == RecommendationStatusEnum.acceptedByStudent) ||
+                (userType == UserType.COMPANY && recommendation.getStatus() == RecommendationStatusEnum.acceptedByCompany) ||
+                recommendation.getStatus() == RecommendationStatusEnum.acceptedMatch){
+            throw new IllegalCallerException("Recommendation already accepted");
+        }else if(recommendation.getStatus() == RecommendationStatusEnum.refusedMatch){
+            throw new IllegalCallerException("Recommendation already refused");
+        }
     }
 }

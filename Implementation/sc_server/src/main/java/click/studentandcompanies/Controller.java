@@ -67,6 +67,9 @@ public class Controller {
         return HttpStatus.OK;
     }
 
+    //Please notice that because we are not yet using the firebase key to uniquely identify the user, at the moment we have an
+    //overlap of userID between students and companies. This will be fixed in the future.
+    //At the moment if they have the same ID, they are the same user (which is not the case in the real world)
     @PostMapping("/recommendations/private/{RecommendationID}/accept")
     public ResponseEntity<DTO> acceptRecommendation(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload) {
         try {
@@ -75,6 +78,16 @@ public class Controller {
                 //todo: call the notification service
                 //todo: call feedback service
             }
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation), HttpStatus.OK);
+        } catch (IllegalCallerException e) {
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/recommendations/private/{RecommendationID}/reject")
+    public ResponseEntity<DTO> refuseRecommendation(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload) {
+        try {
+            Recommendation recommendation = recommendationProcess.refuseRecommendation(RecommendationID, (Integer) payload.get("userID"));
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation), HttpStatus.OK);
         } catch (IllegalCallerException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
