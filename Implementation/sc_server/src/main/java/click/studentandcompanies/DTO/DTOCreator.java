@@ -1,5 +1,6 @@
 package click.studentandcompanies.DTO;
 
+import click.studentandcompanies.entity.InternshipOffer;
 import click.studentandcompanies.entity.Recommendation;
 import click.studentandcompanies.entity.Student;
 import click.studentandcompanies.entity.University;
@@ -20,6 +21,7 @@ public class DTOCreator {
         functionMap.put(DTOTypes.STUDENT_V2, obj -> createStudentDTOV2((Student) obj));
         functionMap.put(DTOTypes.UNIVERSITY, obj -> createUniversityDTO((University) obj));
         functionMap.put(DTOTypes.RECOMMENDATION_UPDATED_STATUS, object -> createRecommendationUpdatedStatusDTO((Recommendation) object));
+        functionMap.put(DTOTypes.INTERNSHIP_OFFER, object -> createInternshipOfferDTO((InternshipOffer) object));
     }
 
     private static DTO createRecommendationUpdatedStatusDTO(Recommendation recommendation) {
@@ -59,5 +61,22 @@ public class DTOCreator {
         universityDTO.addProperty("country", university.getCountry());
         universityDTO.addProperty("vatNumber", university.getVatNumber());
         return universityDTO;
+    }
+
+    private static DTO createInternshipOfferDTO(InternshipOffer offer) {
+        final DTO offerDTO = new DTO();
+        offerDTO.addProperty("id", offer.getId());
+        offerDTO.addProperty("compensation", offer.getCompensation());
+        offerDTO.addProperty("description", offer.getDescription());
+        offerDTO.addProperty("duration", offer.getDurationHours());
+        offerDTO.addProperty("company", offer.getCompany());
+        offerDTO.addProperty("endDate", offer.getEndDate());
+        offerDTO.addProperty("location", offer.getLocation());
+        offerDTO.addProperty("numberPositions", offer.getNumberPositions());
+        offerDTO.addProperty("requiredSkills", offer.getRequiredSkills());
+        offerDTO.addProperty("startDate", offer.getStartDate());
+        offerDTO.addProperty("title", offer.getTitle());
+        offerDTO.addProperty("company", offer.getCompany());
+        return offerDTO;
     }
 }

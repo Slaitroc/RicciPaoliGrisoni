@@ -3,16 +3,16 @@ package click.studentandcompanies;
 import click.studentandcompanies.DTO.DTOCreator;
 import click.studentandcompanies.DTO.DTO;
 import click.studentandcompanies.DTO.DTOTypes;
-import click.studentandcompanies.entity.Recommendation;
+import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entity.dbEnum.RecommendationStatusEnum;
-import click.studentandcompanies.entityManager.RecommendationProcess;
-import click.studentandcompanies.entityManager.UserManager;
-import click.studentandcompanies.entity.Student;
+import click.studentandcompanies.entityManager.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,11 +20,13 @@ import java.util.Map;
 public class Controller {
     private final UserManager userManager;
     private final RecommendationProcess recommendationProcess;
+    private final SubmissionManager submissionManager;
     //Inject the universityManager into the Controller (thanks to the @Autowired and @Service annotations)
     @Autowired
-    public Controller(UserManager userManager, RecommendationProcess recommendationProcess) {
+    public Controller(UserManager userManager, RecommendationProcess recommendationProcess, SubmissionManager submissionManager) {
         this.userManager = userManager;
         this.recommendationProcess = recommendationProcess;
+        this.submissionManager = submissionManager;
     }
 
     @GetMapping("/hello")
@@ -44,6 +46,25 @@ public class Controller {
         }else{
             return "There are " + count + " universities in " + country;
         }
+    }
+
+    //Here we are returning a ResponseEntity with a list of DTOs.
+    //Could also return a specific customized DTO with the list of Internships
+    //but frontend libraries works fine with a list of JSON (says ChatGPT)
+    @GetMapping("/sub/private/Internships/{companyID}")
+    public ResponseEntity<List<DTO>> getCompanyInternships(@PathVariable Integer companyID) {
+        System.out.println("Getting the Internships of company: " + companyID);
+        List<InternshipOffer> internshipOffers = submissionManager.getInternshipsByCompany(companyID);
+        if (internshipOffers.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<DTO> dtos = new ArrayList<>();
+        //For every InternshipOffer in the list, create a DTO and add it to the list of DTOs
+        for (InternshipOffer offer : internshipOffers) {
+            dtos.add(DTOCreator.createDTO(DTOTypes.INTERNSHIP_OFFER, offer));
+        }
+        //Return the list of DTOs with a status code of 200 (OK)
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @GetMapping("/dto/test/")
