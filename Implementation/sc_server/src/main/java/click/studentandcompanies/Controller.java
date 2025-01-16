@@ -6,10 +6,10 @@ import click.studentandcompanies.DTO.DTOTypes;
 import click.studentandcompanies.entity.Student;
 import click.studentandcompanies.entityManager.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("/api")
 public class Controller {
@@ -39,13 +39,24 @@ public class Controller {
     }
 
     @GetMapping("/dto/test/")
-    public DTO testDTO() {
+    public ResponseEntity<DTO> testDTO() {
         System.out.println("testDTO called");
         Student student = userManager.getStudentById(1);
         System.out.println("Student is " + student);
         if (student == null) {
-            throw new IllegalArgumentException("Student not found");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return DTOCreator.createDTO(DTOTypes.STUDENT, student);
+        return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.STUDENT, student), HttpStatus.OK);
     }
+
+    //Because this is a post request, the data is sent in the body of the request
+    //The @RequestBody annotation tells Spring to convert the body of the request into a generic Object
+    //Can be the same url as the get request because the method requested is different
+    @PostMapping("/dto/test/")
+    public HttpStatus testDTO(@RequestBody Object dto) {
+        System.out.println("testDTO called");
+        System.out.println("DTO is " + dto);
+        return HttpStatus.OK;
+    }
+
 }
