@@ -84,7 +84,6 @@ public class DTOCreator {
         cvDTO.addProperty("id", cv.getId());
         cvDTO.addProperty("certifications", cv.getCertifications());
         cvDTO.addProperty("education", cv.getEducation());
-        cvDTO.addProperty("id_file", cv.getIdFile());
         cvDTO.addProperty("project", cv.getProject());
         cvDTO.addProperty("skills", cv.getSkills());
         cvDTO.addProperty("update_time", cv.getUpdateTime());
@@ -92,6 +91,7 @@ public class DTOCreator {
         cvDTO.addProperty("student_id", cv.getStudent().getId());
         return cvDTO;
     }
+
 
     private static DTO createSpontaneousApplicationDTO(SpontaneousApplication application){
         final DTO appDTO = new DTO();
