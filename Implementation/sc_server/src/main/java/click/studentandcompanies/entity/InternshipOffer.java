@@ -6,8 +6,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
-//todo: fix columns names (required_skills, compensation) in the db
-// I can't update the db, pls help me @dedepivot sama ಥ_ಥ
 @Entity
 @Table(name = "internship_offer")
 public class InternshipOffer {
@@ -84,7 +82,7 @@ public class InternshipOffer {
         return requiredSkills;
     }
 
-    public void setRequiredskills(String requiredSkills) {
+    public void setRequiredSkills(String requiredSkills) {
         this.requiredSkills = requiredSkills;
     }
 
