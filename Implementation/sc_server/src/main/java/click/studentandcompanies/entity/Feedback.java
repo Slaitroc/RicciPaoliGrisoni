@@ -25,8 +25,8 @@ public class Feedback {
     private Company company;
 
     @Lob
-    @Column(name = "participant_typ", nullable = false)
-    private String participantTyp;
+    @Column(name = "participant_type", nullable = false)
+    private String participantType;
 
     @Column(name = "rating", nullable = false)
     private Integer rating;
@@ -68,11 +68,11 @@ public class Feedback {
     }
 
     public String getParticipantTyp() {
-        return participantTyp;
+        return participantType;
     }
 
     public void setParticipantTyp(String participantTyp) {
-        this.participantTyp = participantTyp;
+        this.participantType = participantTyp;
     }
 
     public Integer getRating() {

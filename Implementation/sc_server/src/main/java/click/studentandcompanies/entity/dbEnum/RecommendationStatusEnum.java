@@ -1,7 +1,7 @@
 package click.studentandcompanies.entity.dbEnum;
 
 public enum RecommendationStatusEnum {
-    toBeAccepted,
+    pendingMatch,
     acceptedByStudent,
     acceptedByCompany,
     refusedMatch,
