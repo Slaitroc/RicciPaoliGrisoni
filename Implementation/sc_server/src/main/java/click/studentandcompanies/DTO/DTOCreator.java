@@ -83,7 +83,6 @@ public class DTOCreator {
         cvDTO.addProperty("id", cv.getId());
         cvDTO.addProperty("certifications", cv.getCertifications());
         cvDTO.addProperty("education", cv.getEducation());
-        cvDTO.addProperty("id_file", cv.getIdFile());
         cvDTO.addProperty("project", cv.getProject());
         cvDTO.addProperty("skills", cv.getSkills());
         cvDTO.addProperty("update_time", cv.getUpdateTime());

@@ -36,8 +36,19 @@ public class Cv {
     @Column(name = "update_time", nullable = false)
     private Instant updateTime;
 
-    @Column(name = "id_file", nullable = false)
-    private String idFile;
+    public Cv(Student student, String skills, String workExperiences, String education, String project, String certifications, Instant updateTime) {
+        this.student = student;
+        this.skills = skills;
+        this.workExperiences = workExperiences;
+        this.education = education;
+        this.project = project;
+        this.certifications = certifications;
+        this.updateTime = updateTime;
+    }
+
+    public Cv() {
+        //Default constructor required by JPA
+    }
 
     public Integer getId() {
         return id;
@@ -102,13 +113,4 @@ public class Cv {
     public void setUpdateTime(Instant updateTime) {
         this.updateTime = updateTime;
     }
-
-    public String getIdFile() {
-        return idFile;
-    }
-
-    public void setIdFile(String idFile) {
-        this.idFile = idFile;
-    }
-
 }

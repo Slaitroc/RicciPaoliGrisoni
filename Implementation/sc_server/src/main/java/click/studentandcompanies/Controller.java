@@ -34,6 +34,7 @@ public class Controller {
     public String sayHello() {
         return "Hello, Spring Boot!";
     }
+
     @GetMapping("/university/{country}/count")
     public String getCountryCount(@PathVariable String country) {
         System.out.println("Getting the number of universities in " + country);
@@ -130,6 +131,21 @@ public class Controller {
         } catch (IllegalCallerException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/sub/private/update-cv")
+    public ResponseEntity<DTO> updateCV(@RequestBody Map<String, Object> payload){
+        try{
+            Cv cv = submissionManager.updateCv(payload);
+            //todo: start the recommendation process
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.CV, cv), HttpStatus.CREATED);
+        }catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (IllegalCallerException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
