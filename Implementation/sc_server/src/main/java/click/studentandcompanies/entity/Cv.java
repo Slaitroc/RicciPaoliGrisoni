@@ -9,6 +9,7 @@ import java.time.Instant;
 @Table(name = "cv")
 public class Cv {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 

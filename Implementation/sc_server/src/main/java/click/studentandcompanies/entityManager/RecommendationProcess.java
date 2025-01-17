@@ -4,6 +4,7 @@ import click.studentandcompanies.entity.Recommendation;
 import click.studentandcompanies.entity.dbEnum.RecommendationStatusEnum;
 import click.studentandcompanies.entityManager.entityRepository.RecommendationRepository;
 import click.studentandcompanies.utils.UserType;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,10 +19,10 @@ public class RecommendationProcess {
 
     //Handle the acceptance of a recommendation
     //Thx @Matteo for the Exception handling idea, it's much cleaner now
-    public Recommendation acceptRecommendation(Integer recommendationID, Integer userID) throws IllegalCallerException{
+    public Recommendation acceptRecommendation(Integer recommendationID, Integer userID) throws IllegalCallerException, IllegalArgumentException{
         Recommendation recommendation = recommendationRepository.getRecommendationById(recommendationID);
         if (recommendation == null) {
-            throw new IllegalCallerException("Recommendation not found");
+            throw new IllegalArgumentException("Recommendation with ID " + recommendationID + " not found");
         }
         UserType userType = userManager.getUserType(userID);
         if(userType == UserType.UNKNOWN){
@@ -45,10 +46,10 @@ public class RecommendationProcess {
         return recommendation;
     }
 
-    public Recommendation refuseRecommendation(Integer recommendationID, Integer userID) throws IllegalCallerException {
+    public Recommendation refuseRecommendation(Integer recommendationID, Integer userID) throws IllegalCallerException, IllegalArgumentException {
         Recommendation recommendation = recommendationRepository.getRecommendationById(recommendationID);
         if (recommendation == null) {
-            throw new IllegalCallerException("Recommendation not found");
+            throw new IllegalArgumentException("Recommendation with ID " + recommendationID + " not found");
         }
         UserType userType = userManager.getUserType(userID);
         if(userType == UserType.UNKNOWN){
