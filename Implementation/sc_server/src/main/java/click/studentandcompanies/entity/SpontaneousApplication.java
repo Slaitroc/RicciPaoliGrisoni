@@ -1,10 +1,12 @@
 package click.studentandcompanies.entity;
 
 import click.studentandcompanies.entity.dbEnum.SponatenousApplicationStatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "spontaneous_application")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class SpontaneousApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -33,4 +33,12 @@ public class SubmissionManager {
     public Cv getCvByStudent(Integer studentID) {
         return cvRepository.getCvByStudent_Id(studentID);
     }
+
+    public List<SpontaneousApplication> getSpontaneousApplicationByStudent(Integer studentID){
+        return spontaneousApplicationRepository.getSpontaneousApplicationByStudent_Id(studentID);
+    }
+
+    public List<SpontaneousApplication> getSpontaneousApplicationByCompany(Integer companyID) {
+
+    }
 }

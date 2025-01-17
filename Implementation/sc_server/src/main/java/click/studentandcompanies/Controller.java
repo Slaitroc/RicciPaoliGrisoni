@@ -73,11 +73,25 @@ public class Controller {
         if (studentCV == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        //For every InternshipOffer in the list, create a DTO and add it to the list of DTOs
-
-        //Return the list of DTOs with a status code of 200 (OK)
         return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.CV, studentCV), HttpStatus.OK);
     }
+
+    //API called by student when looking for his spontaneous applications
+    @GetMapping("/applications/private/student-spontaneous-applications/{studentID}")
+    public ResponseEntity<List<DTO>> getStudentSpontaneousApplications(@PathVariable Integer studentID) {
+        List<SpontaneousApplication> applicationsByStudent = submissionManager.getSpontaneousApplicationByStudent(studentID);
+        if (applicationsByStudent.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<DTO> dtos = new ArrayList<>();
+        for(SpontaneousApplication application : applicationsByStudent){
+            dtos.add(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application));
+        }
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+
 
     @GetMapping("/dto/test/")
     public ResponseEntity<DTO> testDTO() {

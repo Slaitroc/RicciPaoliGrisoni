@@ -20,6 +20,7 @@ public class DTOCreator {
         functionMap.put(DTOTypes.RECOMMENDATION_UPDATED_STATUS, object -> createRecommendationUpdatedStatusDTO((Recommendation) object));
         functionMap.put(DTOTypes.INTERNSHIP_OFFER, object -> createInternshipOfferDTO((InternshipOffer) object));
         functionMap.put(DTOTypes.CV, object -> createCVDTO((Cv) object));
+        functionMap.put(DTOTypes.SPONTANEOUS_APPLICATION, object -> createSpontaneousApplicationDTO((SpontaneousApplication) object));
     }
 
     private static DTO createRecommendationUpdatedStatusDTO(Recommendation recommendation) {
@@ -90,5 +91,14 @@ public class DTOCreator {
         cvDTO.addProperty("work_experience", cv.getWorkExperiences());
         cvDTO.addProperty("student_id", cv.getStudent().getId());
         return cvDTO;
+    }
+
+    private static DTO createSpontaneousApplicationDTO(SpontaneousApplication application){
+        final DTO appDTO = new DTO();
+        appDTO.addProperty("id", application.getId());
+        appDTO.addProperty("status", application.getStatus());
+        appDTO.addProperty("internship_offer_id", application.getInternshipOffer());
+        appDTO.addProperty("student", application.getStudent().getName());
+        return appDTO;
     }
 }
