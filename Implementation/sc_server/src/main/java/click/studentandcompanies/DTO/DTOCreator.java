@@ -1,9 +1,6 @@
 package click.studentandcompanies.DTO;
 
-import click.studentandcompanies.entity.InternshipOffer;
-import click.studentandcompanies.entity.Recommendation;
-import click.studentandcompanies.entity.Student;
-import click.studentandcompanies.entity.University;
+import click.studentandcompanies.entity.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +19,7 @@ public class DTOCreator {
         functionMap.put(DTOTypes.UNIVERSITY, obj -> createUniversityDTO((University) obj));
         functionMap.put(DTOTypes.RECOMMENDATION_UPDATED_STATUS, object -> createRecommendationUpdatedStatusDTO((Recommendation) object));
         functionMap.put(DTOTypes.INTERNSHIP_OFFER, object -> createInternshipOfferDTO((InternshipOffer) object));
+        functionMap.put(DTOTypes.CV, object -> createCVDTO((Cv) object));
     }
 
     private static DTO createRecommendationUpdatedStatusDTO(Recommendation recommendation) {
@@ -78,5 +76,19 @@ public class DTOCreator {
         offerDTO.addProperty("title", offer.getTitle());
         offerDTO.addProperty("company", offer.getCompany());
         return offerDTO;
+    }
+
+    private static DTO createCVDTO(Cv cv) {
+        final DTO cvDTO = new DTO();
+        cvDTO.addProperty("id", cv.getId());
+        cvDTO.addProperty("certifications", cv.getCertifications());
+        cvDTO.addProperty("education", cv.getEducation());
+        cvDTO.addProperty("id_file", cv.getIdFile());
+        cvDTO.addProperty("project", cv.getProject());
+        cvDTO.addProperty("skills", cv.getSkills());
+        cvDTO.addProperty("update_time", cv.getUpdateTime());
+        cvDTO.addProperty("work_experience", cv.getWorkExperiences());
+        cvDTO.addProperty("student_id", cv.getStudent().getId());
+        return cvDTO;
     }
 }

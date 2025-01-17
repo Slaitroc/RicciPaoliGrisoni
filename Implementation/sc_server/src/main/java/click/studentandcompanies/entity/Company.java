@@ -1,9 +1,11 @@
 package click.studentandcompanies.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "company")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

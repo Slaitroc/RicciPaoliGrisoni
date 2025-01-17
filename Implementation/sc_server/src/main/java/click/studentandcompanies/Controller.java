@@ -22,6 +22,7 @@ public class Controller {
     private final RecommendationProcess recommendationProcess;
     private final SubmissionManager submissionManager;
     //Inject the universityManager into the Controller (thanks to the @Autowired and @Service annotations)
+
     @Autowired
     public Controller(UserManager userManager, RecommendationProcess recommendationProcess, SubmissionManager submissionManager) {
         this.userManager = userManager;
@@ -51,9 +52,8 @@ public class Controller {
     //Here we are returning a ResponseEntity with a list of DTOs.
     //Could also return a specific customized DTO with the list of Internships
     //but frontend libraries works fine with a list of JSON (says ChatGPT)
-    @GetMapping("/sub/private/Internships/{companyID}")
+    @GetMapping("/sub/private/internships/{companyID}")
     public ResponseEntity<List<DTO>> getCompanyInternships(@PathVariable Integer companyID) {
-        System.out.println("Getting the Internships of company: " + companyID);
         List<InternshipOffer> internshipOffers = submissionManager.getInternshipsByCompany(companyID);
         if (internshipOffers.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -67,6 +67,18 @@ public class Controller {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @GetMapping("/sub/private/cv/{studentID}")
+    public ResponseEntity<DTO> getStudentCV(@PathVariable Integer studentID) {
+        Cv studentCV = submissionManager.getCvByStudent(studentID);
+        if (studentCV == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        //For every InternshipOffer in the list, create a DTO and add it to the list of DTOs
+
+        //Return the list of DTOs with a status code of 200 (OK)
+        return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.CV, studentCV), HttpStatus.OK);
+    }
+
     @GetMapping("/dto/test/")
     public ResponseEntity<DTO> testDTO() {
         System.out.println("testDTO called");
@@ -75,6 +87,7 @@ public class Controller {
         if (student == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        System.out.println("final return: " + DTOCreator.createDTO(DTOTypes.STUDENT, student));
         return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.STUDENT, student), HttpStatus.OK);
     }
 

@@ -1,4 +1,5 @@
 package click.studentandcompanies.entityManager;
+import click.studentandcompanies.entity.Cv;
 import click.studentandcompanies.entity.InternshipOffer;
 import click.studentandcompanies.entity.SpontaneousApplication;
 import click.studentandcompanies.entityManager.entityRepository.CvRepository;
@@ -23,6 +24,13 @@ public class SubmissionManager {
     }
 
     public List<InternshipOffer> getInternshipsByCompany(Integer companyID) {
-        return internshipOfferRepository.getInternshipOfferByCompany_Id(companyID);
+        System.out.println("Getting the Internships of company: " + companyID);
+        List<InternshipOffer> list = internshipOfferRepository.getInternshipOfferByCompany_Id(companyID);
+        System.out.println("Internships queried: " + list);
+        return list;
+    }
+
+    public Cv getCvByStudent(Integer studentID) {
+        return cvRepository.getCvByStudent_Id(studentID);
     }
 }

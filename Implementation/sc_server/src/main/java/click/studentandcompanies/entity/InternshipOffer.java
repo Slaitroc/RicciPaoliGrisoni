@@ -1,5 +1,6 @@
 package click.studentandcompanies.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "internship_offer")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class InternshipOffer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
