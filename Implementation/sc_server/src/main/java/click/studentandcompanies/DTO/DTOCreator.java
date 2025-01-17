@@ -90,4 +90,5 @@ public class DTOCreator {
         cvDTO.addProperty("student_id", cv.getStudent().getId());
         return cvDTO;
     }
+
 }

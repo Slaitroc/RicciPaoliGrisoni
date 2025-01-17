@@ -1,5 +1,6 @@
 package click.studentandcompanies.entityManager;
 
+import click.studentandcompanies.entity.Company;
 import click.studentandcompanies.entity.Student;
 import click.studentandcompanies.entity.University;
 import click.studentandcompanies.entityManager.entityRepository.CompanyRepository;
@@ -52,6 +53,10 @@ public class UserManager {
 
     public Student getStudentById(int id) {
         return studentRepository.getStudentById(id);
+    }
+
+    public Company getCompanyById(int id) {
+        return companyRepository.getCompanyById(id);
     }
 
     public UserType getUserType(int id) {

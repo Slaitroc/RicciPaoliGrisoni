@@ -105,6 +105,8 @@ public class Controller {
     //Please notice that because we are not yet using the firebase key to uniquely identify the user, at the moment we have an
     //overlap of userID between students and companies. This will be fixed in the future.
     //At the moment if they have the same ID, they are the same user (which is not the case in the real world)
+
+    //The payload is a map with the userID
     @PostMapping("/recommendations/private/{RecommendationID}/accept")
     public ResponseEntity<DTO> acceptRecommendation(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload) {
         try {
@@ -123,6 +125,7 @@ public class Controller {
         }
     }
 
+    //The payload is a map with the userID
     @PostMapping("/recommendations/private/{RecommendationID}/reject")
     public ResponseEntity<DTO> refuseRecommendation(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload) {
         try {
@@ -137,10 +140,11 @@ public class Controller {
         }
     }
 
+    //The payload is a map with the "student_id" the "update_time" and the other (optional) fields
     @PostMapping("/sub/private/update-cv")
     public ResponseEntity<DTO> updateCV(@RequestBody Map<String, Object> payload){
         try{
-            Cv cv = submissionManager.updateCv(payload);
+            Cv cv = submissionManager.updateCvCall(payload);
             //todo: start the recommendation process
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.CV, cv), HttpStatus.CREATED);
         }catch (IllegalArgumentException e) {
@@ -152,4 +156,19 @@ public class Controller {
         }
     }
 
+    //The payload is a map with the "company_id", optionally the "internshipOffer_id" if we are UPDATING an existing offer (the backend will check if the company is the owner of the offer)
+    //title, description, compensation, location, start_date, end_date, duration_hours and any other (optional) field
+    @PostMapping("/sub/private/update-offer")
+    public ResponseEntity<DTO> updateOffer(@RequestBody Map<String, Object> payload) {
+        try {
+            InternshipOffer offer = submissionManager.updateInternshipOfferCall(payload);
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.INTERNSHIP_OFFER, offer), HttpStatus.CREATED);
+        }catch(IllegalArgumentException e) {
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }catch (IllegalCallerException e) {
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
+        }catch (IllegalAccessException e) {
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.UNAUTHORIZED);
+        }
+    }
 }

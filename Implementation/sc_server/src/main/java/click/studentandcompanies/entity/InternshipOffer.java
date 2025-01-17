@@ -49,6 +49,23 @@ public class InternshipOffer {
     @Column(name = "duration_hours", nullable = false)
     private Integer durationHours;
 
+    public InternshipOffer(Company company, String title, String description, String requiredSkills, Integer compensation, String location, LocalDate startDate, LocalDate endDate, Integer numberPositions, Integer durationHours) {
+        this.company = company;
+        this.title = title;
+        this.description = description;
+        this.requiredSkills = requiredSkills;
+        this.compensation = compensation;
+        this.location = location;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.numberPositions = numberPositions;
+        this.durationHours = durationHours;
+    }
+
+    public InternshipOffer() {
+        //Empty constructor required by JPA
+    }
+
     public Integer getId() {
         return id;
     }

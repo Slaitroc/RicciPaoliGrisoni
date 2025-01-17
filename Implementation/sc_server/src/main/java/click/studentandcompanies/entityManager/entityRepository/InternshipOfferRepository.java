@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface InternshipOfferRepository extends JpaRepository<InternshipOffer, Integer> {
-    List<InternshipOffer> getInternshipOfferByCompany_Id(Integer companyId);
+    List<InternshipOffer> getInternshipOfferByCompanyId(Integer companyId);
+
+    InternshipOffer getInternshipOfferById(Integer id);
 }
