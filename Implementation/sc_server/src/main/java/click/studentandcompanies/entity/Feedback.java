@@ -1,5 +1,6 @@
 package click.studentandcompanies.entity;
 
+import click.studentandcompanies.entity.dbEnum.ParticipantTypeEnum;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -25,8 +26,9 @@ public class Feedback {
     private Company company;
 
     @Lob
+    @Enumerated(EnumType.STRING)
     @Column(name = "participant_type", nullable = false)
-    private String participantType;
+    private ParticipantTypeEnum participantType;
 
     @Column(name = "rating", nullable = false)
     private Integer rating;
@@ -67,11 +69,11 @@ public class Feedback {
         this.company = company;
     }
 
-    public String getParticipantTyp() {
+    public ParticipantTypeEnum getParticipantTyp() {
         return participantType;
     }
 
-    public void setParticipantTyp(String participantTyp) {
+    public void setParticipantTyp(ParticipantTypeEnum participantTyp) {
         this.participantType = participantTyp;
     }
 

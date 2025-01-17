@@ -1,5 +1,6 @@
 package click.studentandcompanies.entity;
 
+import click.studentandcompanies.entity.dbEnum.SponatenousApplicationStatusEnum;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,8 +19,9 @@ public class SpontaneousApplication {
     private InternshipOffer internshipOffer;
 
     @Lob
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private String status;
+    private SponatenousApplicationStatusEnum status;
 
     public Integer getId() {
         return id;
@@ -45,11 +47,11 @@ public class SpontaneousApplication {
         this.internshipOffer = internshipOffer;
     }
 
-    public String getStatus() {
+    public SponatenousApplicationStatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(SponatenousApplicationStatusEnum status) {
         this.status = status;
     }
 

@@ -32,7 +32,7 @@ public class RecommendationProcess {
 
         checkIfResponseAlreadySent(recommendation, userType);
 
-        if(recommendation.getStatus() == RecommendationStatusEnum.toBeAccepted){
+        if(recommendation.getStatus() == RecommendationStatusEnum.pendingMatch){
             if(userType == UserType.STUDENT){
                 recommendation.setStatus(RecommendationStatusEnum.acceptedByStudent);
             }else{
