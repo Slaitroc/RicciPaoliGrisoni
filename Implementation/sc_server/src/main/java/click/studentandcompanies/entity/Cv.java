@@ -1,5 +1,6 @@
 package click.studentandcompanies.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -7,6 +8,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "cv")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Cv {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

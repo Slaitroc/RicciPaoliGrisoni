@@ -76,7 +76,7 @@ public class Controller {
         return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.CV, studentCV), HttpStatus.OK);
     }
 
-    //API called by student when looking for his spontaneous applications
+    //API called by student {studentID} when looking for his spontaneous applications
     @GetMapping("/applications/private/student-spontaneous-applications/{studentID}")
     public ResponseEntity<List<DTO>> getStudentSpontaneousApplications(@PathVariable Integer studentID) {
         List<SpontaneousApplication> applicationsByStudent = submissionManager.getSpontaneousApplicationByStudent(studentID);
@@ -90,6 +90,33 @@ public class Controller {
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
+
+    //API called by company {companyID} when checking his spontaneous applications
+    @GetMapping("/applications/private/company-spontaneous-applications/{companyID}")
+    public ResponseEntity<List<DTO>> getCompanySpontaneousApplications(@PathVariable Integer companyID) {
+        List<SpontaneousApplication> applicationsByCompany = submissionManager.getSpontaneousApplicationByCompany(companyID);
+        if (applicationsByCompany.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<DTO> dtos = new ArrayList<>();
+        for(SpontaneousApplication application : applicationsByCompany){
+            dtos.add(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application));
+        }
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+//    @GetMapping("/applications/private/get-matches/{userID}")
+//    public ResponseEntity<List<DTO>> getCompanySpontaneousApplications(@PathVariable Integer companyID) {
+//        List<SpontaneousApplication> applicationsByCompany = submissionManager.getSpontaneousApplicationByCompany(companyID);
+//        if (applicationsByCompany.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        List<DTO> dtos = new ArrayList<>();
+//        for(SpontaneousApplication application : applicationsByCompany){
+//            dtos.add(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application));
+//        }
+//        return new ResponseEntity<>(dtos, HttpStatus.OK);
+//    }
 
 
 
@@ -149,5 +176,4 @@ public class Controller {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

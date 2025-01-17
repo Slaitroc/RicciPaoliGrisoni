@@ -7,6 +7,7 @@ import click.studentandcompanies.entityManager.entityRepository.InternshipOfferR
 import click.studentandcompanies.entityManager.entityRepository.SpontaneousApplicationRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,6 +40,15 @@ public class SubmissionManager {
     }
 
     public List<SpontaneousApplication> getSpontaneousApplicationByCompany(Integer companyID) {
-
+        //get a list of only the IDs of the internships offered by that company
+        List<Integer> internshipsIDs = getInternshipsByCompany(companyID).stream().map(InternshipOffer::getId).toList();
+        System.out.println("IDs found: " + internshipsIDs);
+        List<SpontaneousApplication> result = new ArrayList<>();
+        //spontaneous applications are not linked directly to companies but only through Internships Offers
+        for(Integer id : internshipsIDs){
+            result.addAll(spontaneousApplicationRepository.getSpontaneousApplicationByInternshipOffer_Id(id));
+        }
+        System.out.println("SubmissionManager output: " + result);
+        return result;
     }
 }

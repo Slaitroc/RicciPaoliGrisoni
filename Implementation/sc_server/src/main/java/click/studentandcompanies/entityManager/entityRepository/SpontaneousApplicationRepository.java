@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface SpontaneousApplicationRepository extends JpaRepository<SpontaneousApplication, Integer> {
     List<SpontaneousApplication> getSpontaneousApplicationByStudent_Id(Integer studentId);
+
+    List<SpontaneousApplication> getSpontaneousApplicationByInternshipOffer_Id(Integer internshipOfferId);
 }

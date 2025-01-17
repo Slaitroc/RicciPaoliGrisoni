@@ -97,7 +97,8 @@ public class DTOCreator {
         final DTO appDTO = new DTO();
         appDTO.addProperty("id", application.getId());
         appDTO.addProperty("status", application.getStatus());
-        appDTO.addProperty("internship_offer_id", application.getInternshipOffer());
+        appDTO.addProperty("internship_offer_title", application.getInternshipOffer().getTitle());
+        appDTO.addProperty("internship_offer_company_name", application.getInternshipOffer().getCompany().getName());
         appDTO.addProperty("student", application.getStudent().getName());
         return appDTO;
     }
