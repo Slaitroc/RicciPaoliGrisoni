@@ -1,11 +1,14 @@
 package click.studentandcompanies.Controllers;
 
-import click.studentandcompanies.Controllers.APIControllerCommand.updateOfferCommand;
+import click.studentandcompanies.Controllers.APIControllerCommand.GET.GetStudentCVCommand;
+import click.studentandcompanies.Controllers.APIControllerCommand.POST.AcceptRecommendationCommand;
+import click.studentandcompanies.Controllers.APIControllerCommand.POST.RefuseRecommendationCommand;
+import click.studentandcompanies.Controllers.APIControllerCommand.POST.UpdateCVCommand;
+import click.studentandcompanies.Controllers.APIControllerCommand.POST.UpdateOfferCommand;
 import click.studentandcompanies.DTO.DTOCreator;
 import click.studentandcompanies.DTO.DTO;
 import click.studentandcompanies.DTO.DTOTypes;
 import click.studentandcompanies.entity.*;
-import click.studentandcompanies.entity.dbEnum.RecommendationStatusEnum;
 import click.studentandcompanies.entityManager.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,11 +79,7 @@ public class APIController {
 
     @GetMapping("/sub/private/cv/{studentID}")
     public ResponseEntity<DTO> getStudentCV(@PathVariable Integer studentID) {
-        Cv studentCV = submissionManager.getCvByStudent(studentID);
-        if (studentCV == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.CV, studentCV), HttpStatus.OK);
+        return new GetStudentCVCommand(studentID, submissionManager).execute();
     }
 
     //API called by student {studentID} when looking for his spontaneous applications
@@ -166,20 +165,7 @@ public class APIController {
         @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> acceptRecommendation(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload) {
-        try {
-            Recommendation recommendation = recommendationProcess.acceptRecommendation(RecommendationID, (Integer) payload.get("userID"));
-            if(recommendation.getStatus() == RecommendationStatusEnum.acceptedMatch){
-                //todo: call the notification service
-                //todo: call feedback service
-            }
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation), HttpStatus.CREATED);
-        } catch (IllegalCallerException e) {
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new AcceptRecommendationCommand(RecommendationID, recommendationProcess, payload).execute();
     }
 
     //The payload is a map with the userID
@@ -195,16 +181,7 @@ public class APIController {
         @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> refuseRecommendation(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload) {
-        try {
-            Recommendation recommendation = recommendationProcess.refuseRecommendation(RecommendationID, (Integer) payload.get("userID"));
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation), HttpStatus.CREATED);
-        } catch (IllegalCallerException e) {
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new RefuseRecommendationCommand(RecommendationID, recommendationProcess, payload).execute();
     }
 
     @PostMapping("/sub/private/update-cv")
@@ -219,17 +196,7 @@ public class APIController {
         @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> updateCV(@RequestBody Map<String, Object> payload){
-        try{
-            Cv cv = submissionManager.updateCvCall(payload);
-            //todo: start the recommendation process
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.CV, cv), HttpStatus.CREATED);
-        }catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
-        } catch (IllegalCallerException e) {
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new UpdateCVCommand(payload, submissionManager).execute();
     }
 
     //The payload is a map with the "company_id", optionally the "internshipOffer_id" if we are UPDATING an existing offer (the backend will check if the company is the owner of the offer)
@@ -247,6 +214,6 @@ public class APIController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> updateOffer(@RequestBody Map<String, Object> payload) {
-        return new updateOfferCommand(payload, submissionManager).execute();
+        return new UpdateOfferCommand(payload, submissionManager).execute();
     }
 }

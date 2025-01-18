@@ -1,5 +1,6 @@
-package click.studentandcompanies.Controllers.APIControllerCommand;
+package click.studentandcompanies.Controllers.APIControllerCommand.POST;
 
+import click.studentandcompanies.Controllers.APIControllerCommand.APIControllerCommand;
 import click.studentandcompanies.DTO.DTO;
 import click.studentandcompanies.DTO.DTOCreator;
 import click.studentandcompanies.DTO.DTOTypes;
@@ -10,11 +11,11 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 
-public class updateOfferCommand implements APIControllerCommand<ResponseEntity<DTO>> {
+public class UpdateOfferCommand implements APIControllerCommand<ResponseEntity<DTO>> {
     private final Map<String, Object> payload;
     private final SubmissionManager submissionManager;
 
-    public updateOfferCommand(Map<String, Object> payload, SubmissionManager submissionManager) {
+    public UpdateOfferCommand(Map<String, Object> payload, SubmissionManager submissionManager) {
         this.payload = payload;
         this.submissionManager = submissionManager;
     }
