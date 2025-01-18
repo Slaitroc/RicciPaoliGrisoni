@@ -1,4 +1,4 @@
-package click.studentandcompanies.DTO;
+package click.studentandcompanies.dto;
 
 import java.io.Serializable;
 import java.util.HashMap;

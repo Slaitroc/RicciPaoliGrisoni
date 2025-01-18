@@ -1,15 +1,17 @@
-package click.studentandcompanies.Controllers;
+package click.studentandcompanies.controllers;
 
-import click.studentandcompanies.Controllers.APIControllerCommand.GET.GetStudentCVCommand;
-import click.studentandcompanies.Controllers.APIControllerCommand.POST.AcceptRecommendationCommand;
-import click.studentandcompanies.Controllers.APIControllerCommand.POST.RefuseRecommendationCommand;
-import click.studentandcompanies.Controllers.APIControllerCommand.POST.UpdateCVCommand;
-import click.studentandcompanies.Controllers.APIControllerCommand.POST.UpdateOfferCommand;
-import click.studentandcompanies.DTO.DTOCreator;
-import click.studentandcompanies.DTO.DTO;
-import click.studentandcompanies.DTO.DTOTypes;
+import click.studentandcompanies.controllers.APIControllerCommand.GET.GetStudentCVCommand;
+import click.studentandcompanies.controllers.APIControllerCommand.POST.AcceptRecommendationCommand;
+import click.studentandcompanies.controllers.APIControllerCommand.POST.RefuseRecommendationCommand;
+import click.studentandcompanies.controllers.APIControllerCommand.POST.UpdateCVCommand;
+import click.studentandcompanies.controllers.APIControllerCommand.POST.UpdateOfferCommand;
+import click.studentandcompanies.dto.DTOCreator;
+import click.studentandcompanies.dto.DTO;
+import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entityManager.*;
+import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcess;
+import click.studentandcompanies.entityManager.submissionManager.SubmissionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,25 +1,27 @@
-package click.studentandcompanies.entityManager;
+package click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands;
 
 import click.studentandcompanies.entity.Recommendation;
 import click.studentandcompanies.entity.dbEnum.RecommendationStatusEnum;
+import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.entityRepository.RecommendationRepository;
+import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommand;
 import click.studentandcompanies.utils.UserType;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.stereotype.Service;
 
-@Service
-public class RecommendationProcess {
-    private final UserManager userManager;
-    private final RecommendationRepository recommendationRepository;
+public class acceptRecommendationCommand implements RecommendationProcessCommand<Recommendation> {
+    UserManager userManager;
+    Integer recommendationID;
+    Integer userID;
+    RecommendationRepository recommendationRepository;
 
-    public RecommendationProcess(UserManager userManager, RecommendationRepository recommendationRepository) {
+    public acceptRecommendationCommand(UserManager userManager, Integer recommendationID, Integer userID, RecommendationRepository recommendationRepository) {
         this.userManager = userManager;
+        this.recommendationID = recommendationID;
+        this.userID = userID;
         this.recommendationRepository = recommendationRepository;
     }
 
-    //Handle the acceptance of a recommendation
-    //Thx @Matteo for the Exception handling idea, it's much cleaner now
-    public Recommendation acceptRecommendation(Integer recommendationID, Integer userID) throws IllegalCallerException, IllegalArgumentException{
+    @Override
+    public Recommendation execute() {
         Recommendation recommendation = recommendationRepository.getRecommendationById(recommendationID);
         if (recommendation == null) {
             throw new IllegalArgumentException("Recommendation with ID " + recommendationID + " not found");
@@ -42,25 +44,6 @@ public class RecommendationProcess {
         }else{
             recommendation.setStatus(RecommendationStatusEnum.acceptedMatch);
         }
-        recommendationRepository.save(recommendation);
-        return recommendation;
-    }
-
-    public Recommendation refuseRecommendation(Integer recommendationID, Integer userID) throws IllegalCallerException, IllegalArgumentException {
-        Recommendation recommendation = recommendationRepository.getRecommendationById(recommendationID);
-        if (recommendation == null) {
-            throw new IllegalArgumentException("Recommendation with ID " + recommendationID + " not found");
-        }
-        UserType userType = userManager.getUserType(userID);
-        if(userType == UserType.UNKNOWN){
-            throw new IllegalCallerException("Unknown user type");
-        }else if(userType == UserType.UNIVERSITY){
-            throw new IllegalCallerException("Universities can't refuse recommendations");
-        }
-
-        checkIfResponseAlreadySent(recommendation, userType);
-
-        recommendation.setStatus(RecommendationStatusEnum.refusedMatch);
         recommendationRepository.save(recommendation);
         return recommendation;
     }

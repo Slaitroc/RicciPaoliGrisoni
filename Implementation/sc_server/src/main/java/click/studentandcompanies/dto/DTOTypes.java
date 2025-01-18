@@ -1,4 +1,4 @@
-package click.studentandcompanies.DTO;
+package click.studentandcompanies.dto;
 
 public enum DTOTypes {
     CV,
