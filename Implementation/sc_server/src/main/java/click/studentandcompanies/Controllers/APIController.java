@@ -1,5 +1,6 @@
-package click.studentandcompanies;
+package click.studentandcompanies.Controllers;
 
+import click.studentandcompanies.Controllers.APIControllerCommand.updateOfferCommand;
 import click.studentandcompanies.DTO.DTOCreator;
 import click.studentandcompanies.DTO.DTO;
 import click.studentandcompanies.DTO.DTOTypes;
@@ -22,14 +23,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/api")
-public class Controller {
+public class APIController {
     private final UserManager userManager;
     private final RecommendationProcess recommendationProcess;
     private final SubmissionManager submissionManager;
-    //Inject the universityManager into the Controller (thanks to the @Autowired and @Service annotations)
+    //Inject the universityManager into the APIController (thanks to the @Autowired and @Service annotations)
 
     @Autowired
-    public Controller(UserManager userManager, RecommendationProcess recommendationProcess, SubmissionManager submissionManager) {
+    public APIController(UserManager userManager, RecommendationProcess recommendationProcess, SubmissionManager submissionManager) {
         this.userManager = userManager;
         this.recommendationProcess = recommendationProcess;
         this.submissionManager = submissionManager;
@@ -246,15 +247,6 @@ public class Controller {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> updateOffer(@RequestBody Map<String, Object> payload) {
-        try {
-            InternshipOffer offer = submissionManager.updateInternshipOfferCall(payload);
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.INTERNSHIP_OFFER, offer), HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
-        } catch (IllegalCallerException e) {
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
-        } catch (IllegalAccessException e) {
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.UNAUTHORIZED);
-        }
+        return new updateOfferCommand(payload, submissionManager).execute();
     }
 }
