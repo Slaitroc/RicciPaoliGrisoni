@@ -18,8 +18,7 @@ import java.util.Map;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import io.swagger.v3.oas.annotations.Parameter;
+
 
 @RestController
 @RequestMapping("/api")
@@ -208,7 +207,6 @@ public class Controller {
     }
 
     @PostMapping("/sub/private/update-cv")
-    @RequestBody
     @Operation(
         summary = "Update student's CV",
         description = "The payload is a map with the 'student_id', 'update_time', and other optional fields used to update a student's CV."
@@ -219,12 +217,7 @@ public class Controller {
         @ApiResponse(responseCode = "404", description = "CV not found"),
         @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> updateCV(
-        @Parameter(
-            description = "Payload containing the 'student_id' (required), 'update_time', and any other optional fields",
-            required = true
-        )
-        @RequestBody Map<String, Object> payload){
+    public ResponseEntity<DTO> updateCV(@RequestBody Map<String, Object> payload){
         try{
             Cv cv = submissionManager.updateCvCall(payload);
             //todo: start the recommendation process
@@ -242,25 +235,25 @@ public class Controller {
     //title, description, compensation, location, start_date, end_date, duration_hours and any other (optional) field
     @PostMapping("/sub/private/update-offer")
     @Operation(
-        summary = "Update internship offer",
-        description = "The payload is a map with the 'company_id', optionally the 'internshipOffer_id' if we are UPDATING an existing offer (the backend will check if the company is the owner of the offer), 'title', 'description', 'compensation', 'location', 'start_date', 'end_date', 'duration_hours', and any other (optional) field."
+            summary = "Update internship offer",
+            description = "The payload is a map with the 'company_id', optionally the 'internshipOffer_id' if we are UPDATING an existing offer (the backend will check if the company is the owner of the offer), 'title', 'description', 'compensation', 'location', 'start_date', 'end_date', 'duration_hours', and any other (optional) field."
     )
     @ApiResponses({
-        @ApiResponse(responseCode = "201", description = "Internship offer updated successfully"),
-        @ApiResponse(responseCode = "400", description = "Bad request"),
-        @ApiResponse(responseCode = "404", description = "Internship offer not found"),
-        @ApiResponse(responseCode = "401", description = "Unauthorized"),
-        @ApiResponse(responseCode = "500", description = "Internal server error")
+            @ApiResponse(responseCode = "201", description = "Internship offer updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Internship offer not found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> updateOffer(@RequestBody Map<String, Object> payload) {
         try {
             InternshipOffer offer = submissionManager.updateInternshipOfferCall(payload);
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.INTERNSHIP_OFFER, offer), HttpStatus.CREATED);
-        }catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
-        }catch (IllegalCallerException e) {
+        } catch (IllegalCallerException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
-        }catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.UNAUTHORIZED);
         }
     }
