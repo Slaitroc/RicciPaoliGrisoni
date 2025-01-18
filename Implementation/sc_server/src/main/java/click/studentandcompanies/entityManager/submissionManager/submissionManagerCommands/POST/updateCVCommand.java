@@ -5,7 +5,6 @@ import click.studentandcompanies.entity.Student;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.entityRepository.CvRepository;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManagerCommand;
-import org.apache.catalina.User;
 
 import java.time.Instant;
 import java.util.Map;

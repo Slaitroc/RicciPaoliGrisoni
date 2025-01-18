@@ -1,12 +1,10 @@
 package click.studentandcompanies.entityManager.recommendationProcess;
 
 import click.studentandcompanies.entity.Recommendation;
-import click.studentandcompanies.entity.dbEnum.RecommendationStatusEnum;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.entityRepository.RecommendationRepository;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.acceptRecommendationCommand;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.refuseRecommendationCommand;
-import click.studentandcompanies.utils.UserType;
 import org.springframework.stereotype.Service;
 
 @Service

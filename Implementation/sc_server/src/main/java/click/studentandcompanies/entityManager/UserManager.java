@@ -1,24 +1,32 @@
 package click.studentandcompanies.entityManager;
 
 import click.studentandcompanies.entity.Company;
+import click.studentandcompanies.entity.Recommendation;
 import click.studentandcompanies.entity.Student;
 import click.studentandcompanies.entity.University;
+import click.studentandcompanies.entity.dbEnum.ParticipantTypeEnum;
 import click.studentandcompanies.entityManager.entityRepository.CompanyRepository;
+import click.studentandcompanies.entityManager.entityRepository.RecommendationRepository;
 import click.studentandcompanies.entityManager.entityRepository.StudentRepository;
 import click.studentandcompanies.entityManager.entityRepository.UniversityRepository;
 import click.studentandcompanies.utils.UserType;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserManager {
     private final UniversityRepository universityRepository;
     private final StudentRepository studentRepository;
     private final CompanyRepository companyRepository;
+    //is this a hack? We want UserManager to be able to access the RecommendationRepository?
+    private final RecommendationRepository recommendationRepository;
 
-    public UserManager(UniversityRepository universityRepository, StudentRepository studentRepository, CompanyRepository companyRepository) {
+    public UserManager(UniversityRepository universityRepository, StudentRepository studentRepository, CompanyRepository companyRepository, RecommendationRepository recommendationRepository) {
         this.universityRepository = universityRepository;
         this.studentRepository = studentRepository;
         this.companyRepository = companyRepository;
+        this.recommendationRepository = recommendationRepository;
     }
 
     //CRUD operations, all of them are already implemented by the JpaRepository
@@ -69,6 +77,28 @@ public class UserManager {
         } else {
             return UserType.UNKNOWN;
         }
+    }
+
+    public ParticipantTypeEnum getParticipantType(int id) {
+        if (studentRepository.getStudentById(id) != null) {
+            return ParticipantTypeEnum.student;
+        } else if (companyRepository.getCompanyById(id) != null) {
+            return ParticipantTypeEnum.company;
+        } else {
+            return null;
+        }
+    }
+
+    public List<Recommendation> getRecommendationByStudentId(int studentId) {
+        return recommendationRepository.findRecommendationByStudentId(studentId);
+    }
+
+    public List<Recommendation> getRecommendationByCompanyId(int companyId) {
+        return recommendationRepository.findRecommendationByCompanyId(companyId);
+    }
+
+    public Recommendation getRecommendationById(int id) {
+        return recommendationRepository.getRecommendationById(id);
     }
 }
 

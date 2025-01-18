@@ -1,6 +1,6 @@
-package click.studentandcompanies.controllers.APIControllerCommand.GET;
+package click.studentandcompanies.controllers.APIControllerCommandCall.GET;
 
-import click.studentandcompanies.controllers.APIControllerCommand.APIControllerCommand;
+import click.studentandcompanies.controllers.APIControllerCommandCall.APIControllerCommandCall;
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
@@ -9,11 +9,11 @@ import click.studentandcompanies.entityManager.submissionManager.SubmissionManag
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-public class GetStudentCVCommand implements APIControllerCommand<ResponseEntity<DTO>> {
+public class GetStudentCVCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
     private final int studentID;
     private final SubmissionManager submissionManager;
 
-    public GetStudentCVCommand(int studentID, SubmissionManager submissionManager) {
+    public GetStudentCVCommandCall(int studentID, SubmissionManager submissionManager) {
         this.studentID = studentID;
         this.submissionManager = submissionManager;
     }

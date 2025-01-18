@@ -15,7 +15,7 @@ public class Interview {
     @JoinColumn(name = "interview_template_id", nullable = false)
     private InterviewTemplate interviewTemplate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recommendation_id")
     private Recommendation recommendation;
 

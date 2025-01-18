@@ -21,6 +21,7 @@ public class DTOCreator {
         functionMap.put(DTOTypes.INTERNSHIP_OFFER, object -> createInternshipOfferDTO((InternshipOffer) object));
         functionMap.put(DTOTypes.CV, object -> createCVDTO((Cv) object));
         functionMap.put(DTOTypes.SPONTANEOUS_APPLICATION, object -> createSpontaneousApplicationDTO((SpontaneousApplication) object));
+        functionMap.put(DTOTypes.FEEDBACK, object -> createFeedbackDTO((Feedback) object));
     }
 
     private static DTO createRecommendationUpdatedStatusDTO(Recommendation recommendation) {
@@ -101,5 +102,23 @@ public class DTOCreator {
         appDTO.addProperty("internship_offer_company_name", application.getInternshipOffer().getCompany().getName());
         appDTO.addProperty("student", application.getStudent().getName());
         return appDTO;
+    }
+
+    private static DTO createFeedbackDTO(Feedback feedback){
+        final DTO feedbackDTO = new DTO();
+        feedbackDTO.addProperty("id", feedback.getId());
+        if(feedback.getComment()!=null){
+            feedbackDTO.addProperty("comment", feedback.getComment());
+        }
+        feedbackDTO.addProperty("participant_type", feedback.getParticipantType());
+        feedbackDTO.addProperty("rating", feedback.getRating());
+        if(feedback.getStudent()!=null){
+            feedbackDTO.addProperty("student_id", feedback.getStudent().getId());
+        }
+        if(feedback.getCompany()!=null) {
+            feedbackDTO.addProperty("company_id", feedback.getCompany().getId());
+        }
+        feedbackDTO.addProperty("recommendation_id", feedback.getRecommendation().getId());
+        return feedbackDTO;
     }
 }

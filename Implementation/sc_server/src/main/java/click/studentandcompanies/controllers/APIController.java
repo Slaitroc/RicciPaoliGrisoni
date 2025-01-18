@@ -1,15 +1,17 @@
 package click.studentandcompanies.controllers;
 
-import click.studentandcompanies.controllers.APIControllerCommand.GET.GetStudentCVCommand;
-import click.studentandcompanies.controllers.APIControllerCommand.POST.AcceptRecommendationCommand;
-import click.studentandcompanies.controllers.APIControllerCommand.POST.RefuseRecommendationCommand;
-import click.studentandcompanies.controllers.APIControllerCommand.POST.UpdateCVCommand;
-import click.studentandcompanies.controllers.APIControllerCommand.POST.UpdateOfferCommand;
+import click.studentandcompanies.controllers.APIControllerCommandCall.GET.GetStudentCVCommandCall;
+import click.studentandcompanies.controllers.APIControllerCommandCall.POST.AcceptRecommendationCommandCall;
+import click.studentandcompanies.controllers.APIControllerCommandCall.POST.RefuseRecommendationCommandCall;
+import click.studentandcompanies.controllers.APIControllerCommandCall.POST.UpdateCVCommandCall;
+import click.studentandcompanies.controllers.APIControllerCommandCall.POST.UpdateOfferCommandCall;
+import click.studentandcompanies.controllers.APIControllerCommandCall.PUT.SubmitFeedbackCommandCall;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entityManager.*;
+import click.studentandcompanies.entityManager.feedbackMechanism.FeedbackMechanism;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcess;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +34,15 @@ public class APIController {
     private final UserManager userManager;
     private final RecommendationProcess recommendationProcess;
     private final SubmissionManager submissionManager;
+    private final FeedbackMechanism feedbackMechanism;
     //Inject the universityManager into the APIController (thanks to the @Autowired and @Service annotations)
 
     @Autowired
-    public APIController(UserManager userManager, RecommendationProcess recommendationProcess, SubmissionManager submissionManager) {
+    public APIController(UserManager userManager, RecommendationProcess recommendationProcess, SubmissionManager submissionManager, FeedbackMechanism feedbackMechanism){
         this.userManager = userManager;
         this.recommendationProcess = recommendationProcess;
         this.submissionManager = submissionManager;
+        this.feedbackMechanism = feedbackMechanism;
     }
 
     @GetMapping("/hello")
@@ -81,7 +85,7 @@ public class APIController {
 
     @GetMapping("/sub/private/cv/{studentID}")
     public ResponseEntity<DTO> getStudentCV(@PathVariable Integer studentID) {
-        return new GetStudentCVCommand(studentID, submissionManager).execute();
+        return new GetStudentCVCommandCall(studentID, submissionManager).execute();
     }
 
     //API called by student {studentID} when looking for his spontaneous applications
@@ -167,7 +171,7 @@ public class APIController {
         @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> acceptRecommendation(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload) {
-        return new AcceptRecommendationCommand(RecommendationID, recommendationProcess, payload).execute();
+        return new AcceptRecommendationCommandCall(RecommendationID, recommendationProcess, payload).execute();
     }
 
     //The payload is a map with the userID
@@ -183,7 +187,7 @@ public class APIController {
         @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> refuseRecommendation(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload) {
-        return new RefuseRecommendationCommand(RecommendationID, recommendationProcess, payload).execute();
+        return new RefuseRecommendationCommandCall(RecommendationID, recommendationProcess, payload).execute();
     }
 
     @PostMapping("/sub/private/update-cv")
@@ -198,7 +202,7 @@ public class APIController {
         @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> updateCV(@RequestBody Map<String, Object> payload){
-        return new UpdateCVCommand(payload, submissionManager).execute();
+        return new UpdateCVCommandCall(payload, submissionManager).execute();
     }
 
     //The payload is a map with the "company_id", optionally the "internshipOffer_id" if we are UPDATING an existing offer (the backend will check if the company is the owner of the offer)
@@ -216,6 +220,21 @@ public class APIController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> updateOffer(@RequestBody Map<String, Object> payload) {
-        return new UpdateOfferCommand(payload, submissionManager).execute();
+        return new UpdateOfferCommandCall(payload, submissionManager).execute();
+    }
+
+    @PutMapping("/feedback/private/{RecommendationID}/submit")
+    @Operation(
+        summary = "Submit feedback",
+        description = "The payload is a map with a 'student_id' OR 'company_id' (ownership is checked by the backend), 'rating', and any other optional field."
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Feedback submitted successfully"),
+        @ApiResponse(responseCode = "400", description = "Bad request"),
+        @ApiResponse(responseCode = "404", description = "Feedback not found"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> submitFeedback(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload) {
+        return new SubmitFeedbackCommandCall(RecommendationID, payload, feedbackMechanism).execute();
     }
 }

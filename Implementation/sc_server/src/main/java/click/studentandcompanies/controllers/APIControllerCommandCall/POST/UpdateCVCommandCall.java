@@ -1,6 +1,6 @@
-package click.studentandcompanies.controllers.APIControllerCommand.POST;
+package click.studentandcompanies.controllers.APIControllerCommandCall.POST;
 
-import click.studentandcompanies.controllers.APIControllerCommand.APIControllerCommand;
+import click.studentandcompanies.controllers.APIControllerCommandCall.APIControllerCommandCall;
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
@@ -11,11 +11,11 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 
-public class UpdateCVCommand implements APIControllerCommand<ResponseEntity<DTO>> {
+public class UpdateCVCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
     private final Map<String, Object> payload;
     private final SubmissionManager submissionManager;
 
-    public UpdateCVCommand(Map<String, Object> payload, SubmissionManager submissionManager) {
+    public UpdateCVCommandCall(Map<String, Object> payload, SubmissionManager submissionManager) {
         this.payload = payload;
         this.submissionManager = submissionManager;
     }

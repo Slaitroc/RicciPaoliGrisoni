@@ -38,6 +38,17 @@ public class Feedback {
     @Column(name = "comment")
     private String comment;
 
+    public Feedback() {
+        // default constructor required by JPA
+    }
+
+    public Feedback(Recommendation recommendation, ParticipantTypeEnum participantType, Integer rating, String comment) {
+        this.recommendation = recommendation;
+        this.participantType = participantType;
+        this.comment = comment;
+        this.rating = rating;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -70,11 +81,11 @@ public class Feedback {
         this.company = company;
     }
 
-    public ParticipantTypeEnum getParticipantTyp() {
+    public ParticipantTypeEnum getParticipantType() {
         return participantType;
     }
 
-    public void setParticipantTyp(ParticipantTypeEnum participantTyp) {
+    public void setParticipantType(ParticipantTypeEnum participantTyp) {
         this.participantType = participantTyp;
     }
 
