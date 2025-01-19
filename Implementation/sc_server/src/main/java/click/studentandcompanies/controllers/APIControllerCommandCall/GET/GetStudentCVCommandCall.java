@@ -20,10 +20,16 @@ public class GetStudentCVCommandCall implements APIControllerCommandCall<Respons
 
     @Override
     public ResponseEntity<DTO> execute() {
-        Cv studentCV = submissionManager.getCvByStudent(studentID);
-        if (studentCV == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try{
+            Cv studentCV = submissionManager.getCvByStudent(studentID);
+            if (studentCV == null) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.CV, studentCV), HttpStatus.OK);
+        }catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
+        }catch (Exception e) {
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.CV, studentCV), HttpStatus.OK);
     }
 }

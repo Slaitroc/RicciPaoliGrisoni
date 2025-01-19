@@ -4,9 +4,8 @@ import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.entityRepository.CvRepository;
 import click.studentandcompanies.entityManager.entityRepository.InternshipOfferRepository;
 import click.studentandcompanies.entityManager.entityRepository.SpontaneousApplicationRepository;
-import click.studentandcompanies.entityManager.submissionManager.submissionManagerCommands.GET.getSpontaneousApplicationByCompanyCommand;
-import click.studentandcompanies.entityManager.submissionManager.submissionManagerCommands.POST.updateCVCommand;
-import click.studentandcompanies.entityManager.submissionManager.submissionManagerCommands.POST.updateInternshipOfferCommand;
+import click.studentandcompanies.entityManager.submissionManager.submissionManagerCommands.GET.*;
+import click.studentandcompanies.entityManager.submissionManager.submissionManagerCommands.POST.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
@@ -32,14 +31,11 @@ public class SubmissionManager {
     }
 
     public List<InternshipOffer> getInternshipsByCompany(Integer companyID) {
-        System.out.println("Getting the Internships of company: " + companyID);
-        List<InternshipOffer> list = internshipOfferRepository.getInternshipOfferByCompanyId(companyID);
-        System.out.println("Internships queried: " + list);
-        return list;
+        return new getInternshipsByCompanyCommand(internshipOfferRepository, userManager, companyID).execute();
     }
 
     public Cv getCvByStudent(Integer studentID) {
-        return cvRepository.getCvByStudent_Id(studentID);
+        return new getCvByStudentCommand(cvRepository, userManager, studentID).execute();
     }
 
     public Cv updateCvCall(Map<String, Object> payload) {
@@ -51,11 +47,11 @@ public class SubmissionManager {
     }
 
     public List<SpontaneousApplication> getSpontaneousApplicationByStudent(Integer studentID){
-        return spontaneousApplicationRepository.getSpontaneousApplicationByStudent_Id(studentID);
+        return new getSpontaneousApplicationByStudentCommand(spontaneousApplicationRepository, userManager, studentID).execute();
     }
 
     public List<SpontaneousApplication> getSpontaneousApplicationByCompany(Integer companyID) {
         return new getSpontaneousApplicationByCompanyCommand(
-                spontaneousApplicationRepository, internshipOfferRepository, companyID).execute();
+                spontaneousApplicationRepository, internshipOfferRepository, userManager, companyID).execute();
     }
 }

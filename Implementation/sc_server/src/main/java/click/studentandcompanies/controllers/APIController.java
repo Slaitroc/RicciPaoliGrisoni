@@ -1,11 +1,8 @@
 package click.studentandcompanies.controllers;
 
-import click.studentandcompanies.controllers.APIControllerCommandCall.GET.GetStudentCVCommandCall;
-import click.studentandcompanies.controllers.APIControllerCommandCall.POST.AcceptRecommendationCommandCall;
-import click.studentandcompanies.controllers.APIControllerCommandCall.POST.RefuseRecommendationCommandCall;
-import click.studentandcompanies.controllers.APIControllerCommandCall.POST.UpdateCVCommandCall;
-import click.studentandcompanies.controllers.APIControllerCommandCall.POST.UpdateOfferCommandCall;
-import click.studentandcompanies.controllers.APIControllerCommandCall.PUT.SubmitFeedbackCommandCall;
+import click.studentandcompanies.controllers.APIControllerCommandCall.GET.*;
+import click.studentandcompanies.controllers.APIControllerCommandCall.POST.*;
+import click.studentandcompanies.controllers.APIControllerCommandCall.PUT.*;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOTypes;
@@ -66,55 +63,80 @@ public class APIController {
     }
 
     //Here we are returning a ResponseEntity with a list of DTOs.
-    //Could also return a specific customized DTO with the list of Internships
-    //but frontend libraries works fine with a list of JSON (says ChatGPT)
+//Could also return a specific customized DTO with the list of Internships
+//but frontend libraries works fine with a list of JSON (says ChatGPT)
     @GetMapping("/sub/private/internships/{companyID}")
+    @Operation(
+            summary = "Request Company Internships",
+            description = "Get a list of Internship Offers advertised by a specific company."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, Internships retrieved successfully"),
+            @ApiResponse(responseCode = "204", description = "No Content, No Company Internships found"),
+            @ApiResponse(responseCode = "400", description = "Bad Request, Company ID not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<List<DTO>> getCompanyInternships(@PathVariable Integer companyID) {
-        List<InternshipOffer> internshipOffers = submissionManager.getInternshipsByCompany(companyID);
-        if (internshipOffers.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        List<DTO> dtos = new ArrayList<>();
-        //For every InternshipOffer in the list, create a DTO and add it to the list of DTOs
-        for (InternshipOffer offer : internshipOffers) {
-            dtos.add(DTOCreator.createDTO(DTOTypes.INTERNSHIP_OFFER, offer));
-        }
-        //Return the list of DTOs with a status code of 200 (OK)
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
+        return new GetCompanyInternshipsCommandCall(submissionManager, companyID).execute();
     }
 
     @GetMapping("/sub/private/cv/{studentID}")
+    @Operation(
+            summary = "Request Student CV",
+            description = "Get the CV of a specific student."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, CV retrieved successfully"),
+            @ApiResponse(responseCode = "204", description = "No Content, No CV found"),
+            @ApiResponse(responseCode = "400", description = "Bad Request, Student ID not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<DTO> getStudentCV(@PathVariable Integer studentID) {
         return new GetStudentCVCommandCall(studentID, submissionManager).execute();
     }
 
     //API called by student {studentID} when looking for his spontaneous applications
     @GetMapping("/applications/private/student-spontaneous-applications/{studentID}")
+    @Operation(
+            summary = "Student Requests the list of his Spontaneous Applications",
+            description = "Get a list of Spontaneous Applications submitted by a specific student."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, Spontaneous Applications retrieved successfully"),
+            @ApiResponse(responseCode = "204", description = "No Content, No Spontaneous Applications found"),
+            @ApiResponse(responseCode = "404", description = "Not Found, Student ID not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<List<DTO>> getStudentSpontaneousApplications(@PathVariable Integer studentID) {
-        List<SpontaneousApplication> applicationsByStudent = submissionManager.getSpontaneousApplicationByStudent(studentID);
-        if (applicationsByStudent.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        List<DTO> dtos = new ArrayList<>();
-        for(SpontaneousApplication application : applicationsByStudent){
-            dtos.add(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application));
-        }
-
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
+        return new GetStudentSpontaneousApplicationsCommandCall(submissionManager, studentID).execute();
     }
+//    public ResponseEntity<List<DTO>> getStudentSpontaneousApplications(@PathVariable Integer studentID) {
+//        List<SpontaneousApplication> applicationsByStudent = submissionManager.getSpontaneousApplicationByStudent(studentID);
+//        if (applicationsByStudent.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        List<DTO> dtos = new ArrayList<>();
+//        for(SpontaneousApplication application : applicationsByStudent){
+//            dtos.add(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application));
+//        }
+//
+//        return new ResponseEntity<>(dtos, HttpStatus.OK);
+//    }
 
     //API called by company {companyID} when checking his spontaneous applications
     @GetMapping("/applications/private/company-spontaneous-applications/{companyID}")
+    @Operation(
+            summary = "Company Requests the list of Spontaneous Applications",
+            description = "Get a list of Spontaneous Applications submitted to a specific company."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, Spontaneous Applications retrieved successfully"),
+            @ApiResponse(responseCode = "204", description = "No Content, No Spontaneous Applications found"),
+            @ApiResponse(responseCode = "404", description = "Not Found, Company ID not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<List<DTO>> getCompanySpontaneousApplications(@PathVariable Integer companyID) {
-        List<SpontaneousApplication> applicationsByCompany = submissionManager.getSpontaneousApplicationByCompany(companyID);
-        if (applicationsByCompany.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        List<DTO> dtos = new ArrayList<>();
-        for(SpontaneousApplication application : applicationsByCompany){
-            dtos.add(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application));
-        }
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
+        return new GetCompanySpontaneousApplicationsCommandCall(submissionManager, companyID).execute();
     }
 
 //    @GetMapping("/applications/private/get-matches/{userID}")
