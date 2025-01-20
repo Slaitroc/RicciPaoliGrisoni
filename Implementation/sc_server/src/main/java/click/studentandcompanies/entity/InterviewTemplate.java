@@ -14,10 +14,6 @@ public class InterviewTemplate {
     @Column(name = "questions", nullable = false)
     private String questions;
 
-    @Lob
-    @Column(name = "answer")
-    private String answer;
-
     @Column(name = "evaluation")
     private Integer evaluation;
 
@@ -35,14 +31,6 @@ public class InterviewTemplate {
 
     public void setQuestions(String questions) {
         this.questions = questions;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
     }
 
     public Integer getEvaluation() {

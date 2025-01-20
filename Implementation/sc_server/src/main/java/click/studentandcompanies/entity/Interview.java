@@ -32,6 +32,19 @@ public class Interview {
     @Column(name = "status", nullable = false)
     private InterviewStatusEnum status;
 
+    @Lob
+    @Column(name = "answer", columnDefinition = "TEXT")
+    private String answer;
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+
     public Integer getId() {
         return id;
     }

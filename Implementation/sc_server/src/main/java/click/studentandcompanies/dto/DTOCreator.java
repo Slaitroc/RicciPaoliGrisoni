@@ -24,6 +24,7 @@ public class DTOCreator {
         functionMap.put(DTOTypes.FEEDBACK, object -> createFeedbackDTO((Feedback) object));
         functionMap.put(DTOTypes.RECOMMENDATION, object -> createRecommendationDTO((Recommendation) object));
         functionMap.put(DTOTypes.COMMUNICATION, object -> createCommunicationDTO((Communication) object));
+        functionMap.put(DTOTypes.INTERVIEW, object -> createInterviewDTO((Interview) object));
     }
 
     private static DTO createRecommendationUpdatedStatusDTO(Recommendation recommendation) {
@@ -95,7 +96,6 @@ public class DTOCreator {
         return cvDTO;
     }
 
-
     private static DTO createSpontaneousApplicationDTO(SpontaneousApplication application){
         final DTO appDTO = new DTO();
         appDTO.addProperty("id", application.getId());
@@ -150,5 +150,12 @@ public class DTOCreator {
         communicationDTO.addProperty("university", communication.getUniversity().getName());
 
         return communicationDTO;
+    }
+
+    private static DTO createInterviewDTO(Interview interview){
+        final DTO interviewDTO = new DTO();
+        interviewDTO.addProperty("id", interview.getId());
+        interviewDTO.addProperty("status", interview.getStatus().toString());
+        return interviewDTO;
     }
 }

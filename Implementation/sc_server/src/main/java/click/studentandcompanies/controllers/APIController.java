@@ -7,6 +7,7 @@ import click.studentandcompanies.dto.*;
 import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entityManager.*;
 import click.studentandcompanies.entityManager.feedbackMechanism.FeedbackMechanism;
+import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcess;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +30,20 @@ public class APIController {
     private final SubmissionManager submissionManager;
     private final FeedbackMechanism feedbackMechanism;
     private final CommunicationManager communicationManager;
+    private final InterviewManager interviewManager;
+
     // Inject the universityManager into the APIController (thanks to the @Autowired
     // and @Service annotations)
-
     @Autowired
     public APIController(UserManager userManager, RecommendationProcess recommendationProcess,
             SubmissionManager submissionManager, FeedbackMechanism feedbackMechanism,
-            CommunicationManager communicationManager) {
+            CommunicationManager communicationManager, InterviewManager interviewManager) {
         this.userManager = userManager;
         this.recommendationProcess = recommendationProcess;
         this.submissionManager = submissionManager;
         this.feedbackMechanism = feedbackMechanism;
         this.communicationManager = communicationManager;
+        this.interviewManager = interviewManager;
     }
 
     @GetMapping("/hello")
@@ -245,7 +248,7 @@ public class APIController {
     }
 
     @PostMapping("/sub/private/application/{InternshipOfferID}/submit")
-    @Operation(summary = "Submit spontaneous application", description = "")
+    @Operation(summary = "Submit spontaneous application", description = "The payload is a map with the 'student_id'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Spontaneous application submitted successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -255,5 +258,17 @@ public class APIController {
     public ResponseEntity<DTO> submitSpontaneousApplication(@PathVariable Integer InternshipOfferID,
             @RequestBody Map<String, Object> payload) {
         return new SubmitSpontaneousApplicationCommandCall(InternshipOfferID, payload, submissionManager).execute();
+    }
+
+    @PostMapping ("/interviews/private/send-answer/{InterviewID}")
+    @Operation(summary = "Send interview answer", description = "")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Interview answer sent successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Interview not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> sendInterviewAnswer(@PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
+        return new SendInterviewAnswerCommandCall(InterviewID, payload, interviewManager).execute();
     }
 }
