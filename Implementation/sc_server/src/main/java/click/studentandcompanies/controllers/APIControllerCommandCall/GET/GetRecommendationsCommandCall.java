@@ -1,5 +1,6 @@
 package click.studentandcompanies.controllers.APIControllerCommandCall.GET;
 
+import click.studentandcompanies.controllers.APIControllerCommandCall.APIControllerCommandCall;
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
@@ -11,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetRecommendationsCommandCall {
+public class GetRecommendationsCommandCall implements APIControllerCommandCall<ResponseEntity<List<DTO>>> {
 
     RecommendationProcess recommendationProcess;
     Integer userID;

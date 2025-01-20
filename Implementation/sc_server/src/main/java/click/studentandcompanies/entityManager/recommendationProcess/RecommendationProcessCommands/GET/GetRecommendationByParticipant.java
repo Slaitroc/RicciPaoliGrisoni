@@ -3,11 +3,12 @@ package click.studentandcompanies.entityManager.recommendationProcess.Recommenda
 import click.studentandcompanies.entity.Recommendation;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.entityRepository.RecommendationRepository;
+import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommand;
 import click.studentandcompanies.utils.UserType;
 
 import java.util.List;
 
-public class GetRecommendationByParticipant {
+public class GetRecommendationByParticipant implements RecommendationProcessCommand<List<Recommendation>> {
 
     UserManager userManager;
     RecommendationRepository recommendationRepository;
