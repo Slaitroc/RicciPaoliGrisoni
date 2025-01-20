@@ -26,4 +26,8 @@ public class CommunicationManager {
             default -> throw new IllegalArgumentException("User not found");
         };
     }
+
+    public Communication getCommunication(Integer commID) {
+        return communicationRepository.findById(commID).orElseThrow(() -> new IllegalArgumentException("Communication not found"));
+    }
 }

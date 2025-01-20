@@ -130,17 +130,16 @@ public class APIController {
         return new GetAllUserCommunicationsCommandCall(userID, communicationManager).execute();
     }
 
-    @GetMapping("/comm/private/communications/{userID}/{commID}")
+    //TODO: Where is done the check if the user is retrieving one of his communications? There is no body in the GET request
+    @GetMapping("/comm/private/communication/{commID}")
     @Operation(summary = "User userID requests the communication commID", description = "Get the communication commID for the user userID.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Communication retrieved successfully"),
-            @ApiResponse(responseCode = "204", description = "No Content, No Communication found"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized, User not authorized to access this resource"),
             @ApiResponse(responseCode = "404", description = "Not Found, Communication ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> getUserCommunication(@PathVariable Integer userID, @PathVariable Integer commID) {
-        return null;
+    public ResponseEntity<DTO> getCommunication(@PathVariable Integer commID) {
+        return new GetCommunicationCommandCall(commID, communicationManager).execute();
     }
 
     @GetMapping("/dto/test/")
