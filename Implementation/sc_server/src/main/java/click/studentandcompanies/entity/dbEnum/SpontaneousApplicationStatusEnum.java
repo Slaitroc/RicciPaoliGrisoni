@@ -1,6 +1,6 @@
 package click.studentandcompanies.entity.dbEnum;
 
-public enum SponatenousApplicationStatusEnum
+public enum SpontaneousApplicationStatusEnum
 {
     toBeEvaluated,
     acceptedApplication,

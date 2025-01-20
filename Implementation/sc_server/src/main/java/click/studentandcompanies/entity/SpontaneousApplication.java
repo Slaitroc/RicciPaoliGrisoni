@@ -1,6 +1,6 @@
 package click.studentandcompanies.entity;
 
-import click.studentandcompanies.entity.dbEnum.SponatenousApplicationStatusEnum;
+import click.studentandcompanies.entity.dbEnum.SpontaneousApplicationStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -24,7 +24,17 @@ public class SpontaneousApplication {
     @Lob
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private SponatenousApplicationStatusEnum status;
+    private SpontaneousApplicationStatusEnum status;
+
+    public SpontaneousApplication() {
+        //Empty constructor required by JPA
+    }
+
+    public SpontaneousApplication(Student student, InternshipOffer internshipOffer, SpontaneousApplicationStatusEnum status) {
+        this.student = student;
+        this.internshipOffer = internshipOffer;
+        this.status = status;
+    }
 
     public Integer getId() {
         return id;
@@ -50,11 +60,11 @@ public class SpontaneousApplication {
         this.internshipOffer = internshipOffer;
     }
 
-    public SponatenousApplicationStatusEnum getStatus() {
+    public SpontaneousApplicationStatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(SponatenousApplicationStatusEnum status) {
+    public void setStatus(SpontaneousApplicationStatusEnum status) {
         this.status = status;
     }
 

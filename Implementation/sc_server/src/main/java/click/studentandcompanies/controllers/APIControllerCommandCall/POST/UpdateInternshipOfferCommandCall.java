@@ -11,11 +11,11 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 
-public class UpdateOfferCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
+public class UpdateInternshipOfferCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
     private final Map<String, Object> payload;
     private final SubmissionManager submissionManager;
 
-    public UpdateOfferCommandCall(Map<String, Object> payload, SubmissionManager submissionManager) {
+    public UpdateInternshipOfferCommandCall(Map<String, Object> payload, SubmissionManager submissionManager) {
         this.payload = payload;
         this.submissionManager = submissionManager;
     }

@@ -228,7 +228,7 @@ public class APIController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> updateOffer(@RequestBody Map<String, Object> payload) {
-        return new UpdateOfferCommandCall(payload, submissionManager).execute();
+        return new UpdateInternshipOfferCommandCall(payload, submissionManager).execute();
     }
 
     @PutMapping("/feedback/private/{RecommendationID}/submit")
@@ -242,5 +242,18 @@ public class APIController {
     public ResponseEntity<DTO> submitFeedback(@PathVariable Integer RecommendationID,
             @RequestBody Map<String, Object> payload) {
         return new SubmitFeedbackCommandCall(RecommendationID, payload, feedbackMechanism).execute();
+    }
+
+    @PostMapping("/sub/private/application/{InternshipOfferID}/submit")
+    @Operation(summary = "Submit spontaneous application", description = "")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Spontaneous application submitted successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Internship not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> submitSpontaneousApplication(@PathVariable Integer InternshipOfferID,
+            @RequestBody Map<String, Object> payload) {
+        return new SubmitSpontaneousApplicationCommandCall(InternshipOfferID, payload, submissionManager).execute();
     }
 }
