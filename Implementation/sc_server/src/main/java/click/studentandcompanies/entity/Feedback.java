@@ -1,5 +1,6 @@
 package click.studentandcompanies.entity;
 
+import click.studentandcompanies.entity.dbEnum.ParticipantTypeEnum;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -17,7 +18,6 @@ public class Feedback {
     @JoinColumn(name = "recommendation_id", nullable = false)
     private Recommendation recommendation;
 
-    //Note: even if student_id and company_id are nullable, in the database there is a CHECK so that either student_id or company_id is not null
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;
@@ -27,16 +27,27 @@ public class Feedback {
     private Company company;
 
     @Lob
-    @Column(name = "participant_typ", nullable = false)
-    private String participantTyp;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "participant_type", nullable = false)
+    private ParticipantTypeEnum participantType;
 
-    //Todo: rating should be limited to a defined range. For now, it is not limited.
     @Column(name = "rating", nullable = false)
     private Integer rating;
 
     @Lob
     @Column(name = "comment")
     private String comment;
+
+    public Feedback() {
+        // default constructor required by JPA
+    }
+
+    public Feedback(Recommendation recommendation, ParticipantTypeEnum participantType, Integer rating, String comment) {
+        this.recommendation = recommendation;
+        this.participantType = participantType;
+        this.comment = comment;
+        this.rating = rating;
+    }
 
     public Integer getId() {
         return id;
@@ -70,12 +81,12 @@ public class Feedback {
         this.company = company;
     }
 
-    public String getParticipantTyp() {
-        return participantTyp;
+    public ParticipantTypeEnum getParticipantType() {
+        return participantType;
     }
 
-    public void setParticipantTyp(String participantTyp) {
-        this.participantTyp = participantTyp;
+    public void setParticipantType(ParticipantTypeEnum participantTyp) {
+        this.participantType = participantTyp;
     }
 
     public Integer getRating() {

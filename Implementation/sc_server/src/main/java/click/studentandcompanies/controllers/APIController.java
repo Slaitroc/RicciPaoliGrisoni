@@ -1,0 +1,262 @@
+package click.studentandcompanies.controllers;
+
+import click.studentandcompanies.controllers.APIControllerCommandCall.GET.*;
+import click.studentandcompanies.controllers.APIControllerCommandCall.POST.*;
+import click.studentandcompanies.controllers.APIControllerCommandCall.PUT.*;
+import click.studentandcompanies.dto.DTOCreator;
+import click.studentandcompanies.dto.DTO;
+import click.studentandcompanies.dto.DTOTypes;
+import click.studentandcompanies.entity.*;
+import click.studentandcompanies.entityManager.*;
+import click.studentandcompanies.entityManager.feedbackMechanism.FeedbackMechanism;
+import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcess;
+import click.studentandcompanies.entityManager.submissionManager.SubmissionManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+
+@RestController
+@RequestMapping("/api")
+public class APIController {
+    private final UserManager userManager;
+    private final RecommendationProcess recommendationProcess;
+    private final SubmissionManager submissionManager;
+    private final FeedbackMechanism feedbackMechanism;
+    //Inject the universityManager into the APIController (thanks to the @Autowired and @Service annotations)
+
+    @Autowired
+    public APIController(UserManager userManager, RecommendationProcess recommendationProcess, SubmissionManager submissionManager, FeedbackMechanism feedbackMechanism){
+        this.userManager = userManager;
+        this.recommendationProcess = recommendationProcess;
+        this.submissionManager = submissionManager;
+        this.feedbackMechanism = feedbackMechanism;
+    }
+
+    @GetMapping("/hello")
+    public String sayHello() {
+        return "Hello, Spring Boot!";
+    }
+
+    @GetMapping("/university/{country}/count")
+    public String getCountryCount(@PathVariable String country) {
+        System.out.println("Getting the number of universities in " + country);
+        long count = userManager.getNumberOfUniversitiesByCountry(country);
+        if (count==0){
+            if(userManager.areThereAnyUniversities()){
+                return "There are no universities in " + country;
+            } else {
+                return "There are no universities at all";
+            }
+        }else{
+            return "There are " + count + " universities in " + country;
+        }
+    }
+
+    //Here we are returning a ResponseEntity with a list of DTOs.
+//Could also return a specific customized DTO with the list of Internships
+//but frontend libraries works fine with a list of JSON (says ChatGPT)
+    @GetMapping("/sub/private/internships/{companyID}")
+    @Operation(
+            summary = "Request Company Internships",
+            description = "Get a list of Internship Offers advertised by a specific company."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, Internships retrieved successfully"),
+            @ApiResponse(responseCode = "204", description = "No Content, No Company Internships found"),
+            @ApiResponse(responseCode = "400", description = "Bad Request, Company ID not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<List<DTO>> getCompanyInternships(@PathVariable Integer companyID) {
+        return new GetCompanyInternshipsCommandCall(submissionManager, companyID).execute();
+    }
+
+    @GetMapping("/sub/private/cv/{studentID}")
+    @Operation(
+            summary = "Request Student CV",
+            description = "Get the CV of a specific student."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, CV retrieved successfully"),
+            @ApiResponse(responseCode = "204", description = "No Content, No CV found"),
+            @ApiResponse(responseCode = "400", description = "Bad Request, Student ID not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> getStudentCV(@PathVariable Integer studentID) {
+        return new GetStudentCVCommandCall(studentID, submissionManager).execute();
+    }
+
+    //API called by student {studentID} when looking for his spontaneous applications
+    @GetMapping("/applications/private/student-spontaneous-applications/{studentID}")
+    @Operation(
+            summary = "Student Requests the list of his Spontaneous Applications",
+            description = "Get a list of Spontaneous Applications submitted by a specific student."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, Spontaneous Applications retrieved successfully"),
+            @ApiResponse(responseCode = "204", description = "No Content, No Spontaneous Applications found"),
+            @ApiResponse(responseCode = "404", description = "Not Found, Student ID not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<List<DTO>> getStudentSpontaneousApplications(@PathVariable Integer studentID) {
+        return new GetStudentSpontaneousApplicationsCommandCall(submissionManager, studentID).execute();
+    }
+//    public ResponseEntity<List<DTO>> getStudentSpontaneousApplications(@PathVariable Integer studentID) {
+//        List<SpontaneousApplication> applicationsByStudent = submissionManager.getSpontaneousApplicationByStudent(studentID);
+//        if (applicationsByStudent.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        List<DTO> dtos = new ArrayList<>();
+//        for(SpontaneousApplication application : applicationsByStudent){
+//            dtos.add(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application));
+//        }
+//
+//        return new ResponseEntity<>(dtos, HttpStatus.OK);
+//    }
+
+    //API called by company {companyID} when checking his spontaneous applications
+    @GetMapping("/applications/private/company-spontaneous-applications/{companyID}")
+    @Operation(
+            summary = "Company Requests the list of Spontaneous Applications",
+            description = "Get a list of Spontaneous Applications submitted to a specific company."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, Spontaneous Applications retrieved successfully"),
+            @ApiResponse(responseCode = "204", description = "No Content, No Spontaneous Applications found"),
+            @ApiResponse(responseCode = "404", description = "Not Found, Company ID not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<List<DTO>> getCompanySpontaneousApplications(@PathVariable Integer companyID) {
+        return new GetCompanySpontaneousApplicationsCommandCall(submissionManager, companyID).execute();
+    }
+
+//    @GetMapping("/applications/private/get-matches/{userID}")
+//    public ResponseEntity<List<DTO>> getCompanySpontaneousApplications(@PathVariable Integer companyID) {
+//        List<SpontaneousApplication> applicationsByCompany = submissionManager.getSpontaneousApplicationByCompany(companyID);
+//        if (applicationsByCompany.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        List<DTO> dtos = new ArrayList<>();
+//        for(SpontaneousApplication application : applicationsByCompany){
+//            dtos.add(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application));
+//        }
+//        return new ResponseEntity<>(dtos, HttpStatus.OK);
+//    }
+
+
+
+    @GetMapping("/dto/test/")
+    public ResponseEntity<DTO> testDTO() {
+        System.out.println("testDTO called");
+        Student student = userManager.getStudentById(1);
+        System.out.println("Student is " + student);
+        if (student == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        System.out.println("final return: " + DTOCreator.createDTO(DTOTypes.STUDENT, student));
+        return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.STUDENT, student), HttpStatus.OK);
+    }
+
+    //Because this is a post request, the data is sent in the body of the request
+    //The @RequestBody annotation tells Spring to convert the body of the request into a generic Object
+    //Can be the same url as the get request because the method requested is different
+    @PostMapping("/dto/test/")
+    public HttpStatus testDTO(@RequestBody Object dto) {
+        System.out.println("testDTO called");
+        System.out.println("DTO is " + dto);
+        return HttpStatus.OK;
+    }
+
+    //Please notice that because we are not yet using the firebase key to uniquely identify the user, at the moment we have an
+    //overlap of userID between students and companies. This will be fixed in the future.
+    //At the moment if they have the same ID, they are the same user (which is not the case in the real world)
+
+    //The payload is a map with the userID
+    @PostMapping("/recommendations/private/{RecommendationID}/accept")
+    @Operation(
+        summary = "Accept recommendation",
+        description = "The payload is a map with the 'userID' used to accept a recommendation."
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Recommendation accepted successfully"),
+        @ApiResponse(responseCode = "400", description = "Bad request"),
+        @ApiResponse(responseCode = "404", description = "Recommendation not found"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> acceptRecommendation(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload) {
+        return new AcceptRecommendationCommandCall(RecommendationID, recommendationProcess, payload).execute();
+    }
+
+    //The payload is a map with the userID
+    @PostMapping("/recommendations/private/{RecommendationID}/reject")
+    @Operation (
+        summary = "Reject recommendation",
+        description = "Reject a recommendation by providing the 'userID' in the payload."
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Recommendation rejected successfully"),
+        @ApiResponse(responseCode = "400", description = "Bad request"),
+        @ApiResponse(responseCode = "404", description = "Recommendation not found"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> refuseRecommendation(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload) {
+        return new RefuseRecommendationCommandCall(RecommendationID, recommendationProcess, payload).execute();
+    }
+
+    @PostMapping("/sub/private/update-cv")
+    @Operation(
+        summary = "Update student's CV",
+        description = "The payload is a map with the 'student_id', 'update_time', and other optional fields used to update a student's CV."
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "CV updated successfully"),
+        @ApiResponse(responseCode = "400", description = "Bad request"),
+        @ApiResponse(responseCode = "404", description = "CV not found"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> updateCV(@RequestBody Map<String, Object> payload){
+        return new UpdateCVCommandCall(payload, submissionManager).execute();
+    }
+
+    //The payload is a map with the "company_id", optionally the "internshipOffer_id" if we are UPDATING an existing offer (the backend will check if the company is the owner of the offer)
+    //title, description, compensation, location, start_date, end_date, duration_hours and any other (optional) field
+    @PostMapping("/sub/private/update-offer")
+    @Operation(
+            summary = "Update internship offer",
+            description = "The payload is a map with the 'company_id', optionally the 'internshipOffer_id' if we are UPDATING an existing offer (the backend will check if the company is the owner of the offer), 'title', 'description', 'compensation', 'location', 'start_date', 'end_date', 'duration_hours', and any other (optional) field."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Internship offer updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Internship offer not found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> updateOffer(@RequestBody Map<String, Object> payload) {
+        return new UpdateOfferCommandCall(payload, submissionManager).execute();
+    }
+
+    @PutMapping("/feedback/private/{RecommendationID}/submit")
+    @Operation(
+        summary = "Submit feedback",
+        description = "The payload is a map with a 'student_id' OR 'company_id' (ownership is checked by the backend), 'rating', and any other optional field."
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Feedback submitted successfully"),
+        @ApiResponse(responseCode = "400", description = "Bad request"),
+        @ApiResponse(responseCode = "404", description = "Feedback not found"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> submitFeedback(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload) {
+        return new SubmitFeedbackCommandCall(RecommendationID, payload, feedbackMechanism).execute();
+    }
+}

@@ -1,11 +1,13 @@
 package click.studentandcompanies.entity;
 
+import click.studentandcompanies.entity.dbEnum.InterviewStatusEnum;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "interview")
 public class Interview {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -13,9 +15,7 @@ public class Interview {
     @JoinColumn(name = "interview_template_id", nullable = false)
     private InterviewTemplate interviewTemplate;
 
-    //Note: even if both recommendation and spontaneous_application are optional, one of them must be present.
-    //The CHECK is implemented in the database.
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recommendation_id")
     private Recommendation recommendation;
 
@@ -23,12 +23,14 @@ public class Interview {
     @JoinColumn(name = "spontaneous_application_id")
     private SpontaneousApplication spontaneousApplication;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "internship_pos_offer_id")
     private InternshipPosOffer internshipPosOffer;
 
     @Lob
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private String status;
+    private InterviewStatusEnum status;
 
     public Integer getId() {
         return id;
@@ -70,11 +72,11 @@ public class Interview {
         this.internshipPosOffer = internshipPosOffer;
     }
 
-    public String getStatus() {
+    public InterviewStatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(InterviewStatusEnum status) {
         this.status = status;
     }
 

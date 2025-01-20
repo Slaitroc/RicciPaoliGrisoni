@@ -6,14 +6,12 @@ import jakarta.persistence.*;
 @Table(name = "internship_pos_offer")
 public class InternshipPosOffer {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
     @Column(name = "acceptance")
     private Boolean acceptance;
-
-    @OneToOne(mappedBy = "internshipPosOffer", fetch = FetchType.LAZY, optional = false)
-    private Interview interview;
 
     public Integer getId() {
         return id;

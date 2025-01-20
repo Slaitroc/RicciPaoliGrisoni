@@ -1,11 +1,13 @@
 package click.studentandcompanies.entity;
 
+import click.studentandcompanies.entity.dbEnum.ComunicationTypeEnum;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "communication")
 public class Communication {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -18,7 +20,7 @@ public class Communication {
     private InternshipOffer internshipOffer;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "university_id")
+    @JoinColumn(name = "university_id", nullable = false)
     private University university;
 
     @Column(name = "title", nullable = false)
@@ -29,8 +31,9 @@ public class Communication {
     private String content;
 
     @Lob
-    @Column(name = "communication_type")
-    private String communicationType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "communication_type", nullable = false)
+    private ComunicationTypeEnum communicationType;
 
     public Integer getId() {
         return id;
@@ -80,11 +83,11 @@ public class Communication {
         this.content = content;
     }
 
-    public String getCommunicationType() {
+    public ComunicationTypeEnum getCommunicationType() {
         return communicationType;
     }
 
-    public void setCommunicationType(String communicationType) {
+    public void setCommunicationType(ComunicationTypeEnum communicationType) {
         this.communicationType = communicationType;
     }
 

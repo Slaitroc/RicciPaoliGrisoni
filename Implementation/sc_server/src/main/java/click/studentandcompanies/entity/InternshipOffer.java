@@ -1,5 +1,6 @@
 package click.studentandcompanies.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -8,43 +9,62 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "internship_offer")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class InternshipOffer {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
     @Lob
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "required_skilss")
-    private String requiredSkilss;
+    @Column(name = "required_skills")
+    private String requiredSkills;
 
-    @Column(name = "durationHours")
-    private Integer durationHours;
+    @Column(name = "compensation", nullable = false)
+    private Integer compensation;
 
-    @Column(name = "compesation")
-    private Integer compesation;
-
-    @Column(name = "location")
+    @Column(name = "location", nullable = false)
     private String location;
 
-    @Column(name = "start_date")
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
-    @Column(name = "end_date")
+    @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
     @Column(name = "number_positions")
     private Integer numberPositions;
+
+    @Column(name = "duration_hours", nullable = false)
+    private Integer durationHours;
+
+    public InternshipOffer(Company company, String title, String description, String requiredSkills, Integer compensation, String location, LocalDate startDate, LocalDate endDate, Integer numberPositions, Integer durationHours) {
+        this.company = company;
+        this.title = title;
+        this.description = description;
+        this.requiredSkills = requiredSkills;
+        this.compensation = compensation;
+        this.location = location;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.numberPositions = numberPositions;
+        this.durationHours = durationHours;
+    }
+
+    public InternshipOffer() {
+        //Empty constructor required by JPA
+    }
 
     public Integer getId() {
         return id;
@@ -78,28 +98,20 @@ public class InternshipOffer {
         this.description = description;
     }
 
-    public String getRequiredSkilss() {
-        return requiredSkilss;
+    public String getRequiredSkills() {
+        return requiredSkills;
     }
 
-    public void setRequiredSkilss(String requiredSkilss) {
-        this.requiredSkilss = requiredSkilss;
+    public void setRequiredSkills(String requiredSkills) {
+        this.requiredSkills = requiredSkills;
     }
 
-    public Integer getDurationHours() {
-        return durationHours;
+    public Integer getCompensation() {
+        return compensation;
     }
 
-    public void setDurationHours(Integer durationHours) {
-        this.durationHours = durationHours;
-    }
-
-    public Integer getCompesation() {
-        return compesation;
-    }
-
-    public void setCompesation(Integer compesation) {
-        this.compesation = compesation;
+    public void setCompensation(Integer compensation) {
+        this.compensation = compensation;
     }
 
     public String getLocation() {
@@ -132,6 +144,14 @@ public class InternshipOffer {
 
     public void setNumberPositions(Integer numberPositions) {
         this.numberPositions = numberPositions;
+    }
+
+    public Integer getDurationHours() {
+        return durationHours;
+    }
+
+    public void setDurationHours(Integer durationHours) {
+        this.durationHours = durationHours;
     }
 
 }
