@@ -1,9 +1,11 @@
 services:
   sc_server-service:
-    build:
-      context: ./ # Mantiene invariata la configurazione del server
-      dockerfile: Dockerfile
+    image: openjdk:21-jdk-slim
     container_name: sc_server-container
+    working_dir: /sc_server
+    entrypoint: ["java", "-jar", "/sc_server/sc_server.jar"]
+    volumes:
+      - ./sc_server/target/sc_server.jar:/sc_server/sc_server.jar
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://database-service:3306/sc_DB
       SPRING_DATASOURCE_USERNAME: root

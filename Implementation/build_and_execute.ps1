@@ -31,16 +31,14 @@ Write-Host "application.properties updated successfully." -ForegroundColor Green
 Write-Host "Stopping existing Docker Compose services..." -ForegroundColor Yellow
 Start-Process -FilePath "docker-compose" -ArgumentList "down" -NoNewWindow -Wait
 
-# Step 5: Ask whether to rebuild and start containers
-$rebuildChoice = Read-Host "Do you want to rebuild the container(s) before starting? (y/N)"
-$buildOption = ""
-if ($rebuildChoice -eq "y") {
-    $buildOption = "--build"
-}
-
-# Step 6: Handle 'dev' profile
+# Step 5: Handle 'dev' profile
 if ($profile -eq "dev") {
     Write-Host "Development profile selected." -ForegroundColor Cyan
+    $rebuildChoice = Read-Host "Do you want to rebuild the database container before starting? (y/N)"
+    $buildOption = ""
+    if ($rebuildChoice -eq "y") {
+        $buildOption = "--build"
+    }
     Write-Host "Starting only the database container..." -ForegroundColor Green
     Start-Process -FilePath "docker-compose" -ArgumentList "up $services $buildOption -d" -NoNewWindow -Wait
     Write-Host "Database container started successfully." -ForegroundColor Green
@@ -48,21 +46,22 @@ if ($profile -eq "dev") {
     exit 0
 }
 
-# Step 7: Handle 'prod' profile
+# Step 6: Handle 'prod' profile
 Write-Host "Production profile selected." -ForegroundColor Cyan
-if ($buildOption -eq "--build") {
-    Write-Host "Starting Maven build for production profile..." -ForegroundColor Green
-    $MavenBuildProcess = Start-Process -FilePath $MavenExecutable -ArgumentList "-f $MavenProjectPath\pom.xml clean package" -NoNewWindow -Wait -PassThru
 
-    if ($MavenBuildProcess.ExitCode -ne 0) {
-        Write-Error "Maven build failed. Check your project configuration and try again."
-        exit $MavenBuildProcess.ExitCode
-    }
+# Always rebuild for production
+Write-Host "Rebuilding containers for production..." -ForegroundColor Green
+Write-Host "Starting Maven build for production profile..." -ForegroundColor Green
+$MavenBuildProcess = Start-Process -FilePath $MavenExecutable -ArgumentList "-f $MavenProjectPath\pom.xml clean package" -NoNewWindow -Wait -PassThru
 
-    Write-Host "Maven build completed successfully." -ForegroundColor Green
+if ($MavenBuildProcess.ExitCode -ne 0) {
+    Write-Error "Maven build failed. Check your project configuration and try again."
+    exit $MavenBuildProcess.ExitCode
 }
 
-# Step 8: Start all services for production
-Write-Host "Starting all services with Docker Compose..." -ForegroundColor Green
-Start-Process -FilePath "docker-compose" -ArgumentList "up $buildOption -d" -NoNewWindow -Wait
+Write-Host "Maven build completed successfully." -ForegroundColor Green
+
+# Start all services with rebuild
+Write-Host "Starting all services with Docker Compose and rebuilding..." -ForegroundColor Green
+Start-Process -FilePath "docker-compose" -ArgumentList "up --build -d" -NoNewWindow -Wait
 Write-Host "All services started successfully for production." -ForegroundColor Cyan
