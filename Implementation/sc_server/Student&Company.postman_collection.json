@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "b2ec9f6e-51d8-4992-b8e6-8b991c103e11",
+		"name": "Student&Company",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41169911"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8443/application-api/sub/private/update-offer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"company_id\" : 1,\r\n  \"title\" : \"Inter\",\r\n  \"description\": \"just code\",\r\n  \"compensation\": 100,\r\n  \"location\": \"Milan\",\r\n  \"start_date\": \"2025-01-17\",\r\n  \"end_date\": \"2025-01-17\",\r\n  \"duration_hours\" : 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8443/application-api/sub/private/update-offer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"application-api",
+						"sub",
+						"private",
+						"update-offer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8443/application-api/sub/private/application/{OFFER_ID}/submit",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"student_id\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8443/application-api/sub/private/application/1/submit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"application-api",
+						"sub",
+						"private",
+						"application",
+						"1",
+						"submit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8443/application-api/sub/private/update-cv",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"student_id\": 1,\r\n    \"update_time\": \"2025-01-25T00:00:00Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8443/application-api/sub/private/update-cv",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"application-api",
+						"sub",
+						"private",
+						"update-cv"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
