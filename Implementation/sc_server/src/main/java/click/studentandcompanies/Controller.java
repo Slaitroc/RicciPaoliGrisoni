@@ -11,29 +11,33 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/application-api")
 public class Controller {
     @GetMapping("/hello")
     public String sayHello() {
         return "Hello, Spring Boot!";
     }
+
     private final UserManager userManager;
-    //Inject the universityManager into the Controller (thanks to the @Autowired and @Service annotations)
+
+    // Inject the universityManager into the Controller (thanks to the @Autowired
+    // and @Service annotations)
     @Autowired
     public Controller(UserManager userManager) {
         this.userManager = userManager;
     }
+
     @GetMapping("/university/{country}/count")
     public String getCountryCount(@PathVariable String country) {
         System.out.println("Getting the number of universities in " + country);
         long count = userManager.getNumberOfUniversitiesByCountry(country);
-        if (count==0){
-            if(userManager.areThereAnyUniversities()){
+        if (count == 0) {
+            if (userManager.areThereAnyUniversities()) {
                 return "There are no universities in " + country;
             } else {
                 return "There are no universities at all";
             }
-        }else{
+        } else {
             return "There are " + count + " universities in " + country;
         }
     }
@@ -49,9 +53,11 @@ public class Controller {
         return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.STUDENT, student), HttpStatus.OK);
     }
 
-    //Because this is a post request, the data is sent in the body of the request
-    //The @RequestBody annotation tells Spring to convert the body of the request into a generic Object
-    //Can be the same url as the get request because the method requested is different
+    // Because this is a post request, the data is sent in the body of the request
+    // The @RequestBody annotation tells Spring to convert the body of the request
+    // into a generic Object
+    // Can be the same url as the get request because the method requested is
+    // different
     @PostMapping("/dto/test/")
     public HttpStatus testDTO(@RequestBody Object dto) {
         System.out.println("testDTO called");

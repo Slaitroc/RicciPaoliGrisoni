@@ -5,7 +5,7 @@ FROM openjdk:21-jdk-slim
 WORKDIR /sc_server
 
 # Copia il file JAR compilato nel container
-COPY target/sc_server.jar sc_server.jar
+COPY sc_server/target/sc_server.jar sc_server.jar
 
 # Espone la porta HTTPS
 EXPOSE 8443

@@ -1,27 +1,30 @@
 services:
-  sc_server:
+  sc_server-service:
     build:
       context: ./ # Mantiene invariata la configurazione del server
       dockerfile: Dockerfile
     container_name: sc_server-container
-    #ports:
-    #- "8443:8443"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/sc_DB
+      SPRING_DATASOURCE_URL: jdbc:mariadb://database-service:3306/sc_DB
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.application-container.rule=Host(`proxy.test`) &&  PathPrefix(`/api`)" # Regola per l'API e dichiarazione del nome del container
+      - "traefik.http.routers.application-container.rule=Host(`localhost`) &&  PathPrefix(`/application-api`)" # Regola per l'API e dichiarazione del nome del container
       - "traefik.http.routers.application-container.service=application-service" # dichiaro il nome del Servizio per l'API
+      - "traefik.http.routers.application-container.entrypoints=web" # Usa l'entrypoint HTTPS
+      # - "traefik.http.routers.application-container.entrypoints=websecure" # Usa l'entrypoint HTTPS
+      # - "traefik.http.routers.application-container.tls=true" # Forza l'uso di TLS
+      # - "traefik.http.routers.application-container.tls.certresolver=le" # Risolutore ACME per i certificati
       - "traefik.http.services.application-service.loadbalancer.server.port=8443" # Porta interna del server
+
     networks:
       - traefik-network
     depends_on:
-      - database
+      - database-service
     restart: always
 
-  database:
+  database-service:
     image: mariadb:10.7
     container_name: database-container
     environment:
@@ -48,20 +51,28 @@ services:
     networks:
       - traefik-network
 
-  proxy:
+  traefik-service:
     image: traefik:latest
     container_name: traefik-container
-    command:
-      - "--entrypoints.web.address=:80" # EntryPoint HTTP
-      - "--api.insecure=true" # Abilita la dashboard
-      - "--providers.docker=true" # Provider Docker abilitato
-      - "--providers.docker.exposedByDefault=false"
     ports:
-      - "80:80" # HTTP
-      - "8080:8080" # Dashboard
-
+      - "80:80"
+      - "443:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro" # Accesso al socket Docker
+      - "./proxy/traefik.yaml:/etc/traefik/traefik.yaml"
+    labels:
+      # DASHBOARD
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`localhost`)"
+      # - "traefik.http.routers.traefik.tls.certresolver=le"
+      # - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.entrypoints=web"
+      - "traefik.http.routers.traefik.service=api@internal"
+
+      # MIDDLEWARE AUTH
+      - "traefik.http.routers.traefik.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=user:$$apr1$$dtvOjBZO$$sfd2sw28jzU244hTPqN/B."
+
     networks:
       - traefik-network
 
@@ -70,4 +81,4 @@ networks:
     driver: bridge
 
 volumes:
-    platform_db_data:
+  platform_db_data:
