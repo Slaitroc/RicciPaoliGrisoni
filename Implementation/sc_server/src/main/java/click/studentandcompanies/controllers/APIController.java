@@ -3,9 +3,7 @@ package click.studentandcompanies.controllers;
 import click.studentandcompanies.controllers.APIControllerCommandCall.GET.*;
 import click.studentandcompanies.controllers.APIControllerCommandCall.POST.*;
 import click.studentandcompanies.controllers.APIControllerCommandCall.PUT.*;
-import click.studentandcompanies.dto.DTOCreator;
-import click.studentandcompanies.dto.DTO;
-import click.studentandcompanies.dto.DTOTypes;
+import click.studentandcompanies.dto.*;
 import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entityManager.*;
 import click.studentandcompanies.entityManager.feedbackMechanism.FeedbackMechanism;
@@ -30,16 +28,19 @@ public class APIController {
     private final RecommendationProcess recommendationProcess;
     private final SubmissionManager submissionManager;
     private final FeedbackMechanism feedbackMechanism;
+    private final CommunicationManager communicationManager;
     // Inject the universityManager into the APIController (thanks to the @Autowired
     // and @Service annotations)
 
     @Autowired
     public APIController(UserManager userManager, RecommendationProcess recommendationProcess,
-            SubmissionManager submissionManager, FeedbackMechanism feedbackMechanism) {
+            SubmissionManager submissionManager, FeedbackMechanism feedbackMechanism,
+            CommunicationManager communicationManager) {
         this.userManager = userManager;
         this.recommendationProcess = recommendationProcess;
         this.submissionManager = submissionManager;
         this.feedbackMechanism = feedbackMechanism;
+        this.communicationManager = communicationManager;
     }
 
     @GetMapping("/hello")
@@ -113,8 +114,33 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getRecommendationsApplications(@PathVariable Integer userID) {
+    public ResponseEntity<List<DTO>> getRecommendations(@PathVariable Integer userID) {
         return new GetRecommendationsCommandCall(userID, recommendationProcess).execute();
+    }
+
+    @GetMapping("/comm/private/communications/{userID}")
+    @Operation(summary = "User userID requests the communication commID", description = "Get the communication commID for the user userID.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, Communication retrieved successfully"),
+            @ApiResponse(responseCode = "204", description = "No Content, No Communication found"),
+            @ApiResponse(responseCode = "404", description = "Not Found, userID not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<List<DTO>> getAllUserCommunications(@PathVariable Integer userID) {
+        return new GetAllUserCommunicationsCommandCall(userID, communicationManager).execute();
+    }
+
+    @GetMapping("/comm/private/communications/{userID}/{commID}")
+    @Operation(summary = "User userID requests the communication commID", description = "Get the communication commID for the user userID.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, Communication retrieved successfully"),
+            @ApiResponse(responseCode = "204", description = "No Content, No Communication found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, User not authorized to access this resource"),
+            @ApiResponse(responseCode = "404", description = "Not Found, Communication ID not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> getUserCommunication(@PathVariable Integer userID, @PathVariable Integer commID) {
+        return null;
     }
 
     @GetMapping("/dto/test/")

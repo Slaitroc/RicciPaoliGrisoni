@@ -23,6 +23,7 @@ public class DTOCreator {
         functionMap.put(DTOTypes.SPONTANEOUS_APPLICATION, object -> createSpontaneousApplicationDTO((SpontaneousApplication) object));
         functionMap.put(DTOTypes.FEEDBACK, object -> createFeedbackDTO((Feedback) object));
         functionMap.put(DTOTypes.RECOMMENDATION, object -> createRecommendationDTO((Recommendation) object));
+        functionMap.put(DTOTypes.COMMUNICATION, object -> createCommunicationDTO((Communication) object));
     }
 
     private static DTO createRecommendationUpdatedStatusDTO(Recommendation recommendation) {
@@ -123,16 +124,31 @@ public class DTOCreator {
         return feedbackDTO;
     }
 
-    private static DTO createRecommendationDTO(Recommendation object) {
+    private static DTO createRecommendationDTO(Recommendation recommendation) {
         final DTO recommendationDTO = new DTO();
-        recommendationDTO.addProperty("id", object.getId());
-        recommendationDTO.addProperty("status", object.getStatus().toString());
-        recommendationDTO.addProperty("student_name", object.getCv().getStudent().getName());
-        recommendationDTO.addProperty("company_name", object.getInternshipOffer().getCompany().getName());
-        recommendationDTO.addProperty("internship_offer_title", object.getInternshipOffer().getTitle());
-        recommendationDTO.addProperty("student_id", object.getCv().getStudent().getId());
-        recommendationDTO.addProperty("company_id", object.getInternshipOffer().getCompany().getId());
-        recommendationDTO.addProperty("internship_offer_id", object.getInternshipOffer().getId());
+        recommendationDTO.addProperty("id", recommendation.getId());
+        recommendationDTO.addProperty("status", recommendation.getStatus().toString());
+        recommendationDTO.addProperty("student_name", recommendation.getCv().getStudent().getName());
+        recommendationDTO.addProperty("company_name", recommendation.getInternshipOffer().getCompany().getName());
+        recommendationDTO.addProperty("internship_offer_title", recommendation.getInternshipOffer().getTitle());
+        recommendationDTO.addProperty("student_id", recommendation.getCv().getStudent().getId());
+        recommendationDTO.addProperty("company_id", recommendation.getInternshipOffer().getCompany().getId());
+        recommendationDTO.addProperty("internship_offer_id", recommendation.getInternshipOffer().getId());
         return recommendationDTO;
+    }
+
+    private static DTO createCommunicationDTO(Communication communication) {
+        final DTO communicationDTO = new DTO();
+        communicationDTO.addProperty("id", communication.getId());
+        communicationDTO.addProperty("type", communication.getCommunicationType());
+        communicationDTO.addProperty("title", communication.getTitle());
+        communicationDTO.addProperty("content", communication.getContent());
+        communicationDTO.addProperty("internshipOffer_id", communication.getInternshipOffer().getId());
+        communicationDTO.addProperty("internshipOffer_title", communication.getInternshipOffer().getTitle());
+        communicationDTO.addProperty("company", communication.getInternshipOffer().getCompany().getName());
+        communicationDTO.addProperty("student", communication.getStudent().getName());
+        communicationDTO.addProperty("university", communication.getUniversity().getName());
+
+        return communicationDTO;
     }
 }
