@@ -70,11 +70,11 @@ public class APIController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Internships retrieved successfully"),
             @ApiResponse(responseCode = "204", description = "No Content, No Company Internships found"),
-            @ApiResponse(responseCode = "400", description = "Bad Request, Company ID not found"),
+            @ApiResponse(responseCode = "404", description = "Not Found, Company ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<List<DTO>> getCompanyInternships(@PathVariable Integer companyID) {
-        return new GetCompanyInternshipsCommandCall(submissionManager, companyID).execute();
+        return new GetCompanyInternshipsCommandCall(companyID, submissionManager).execute();
     }
 
     @GetMapping("/sub/private/cv/{studentID}")
@@ -82,7 +82,8 @@ public class APIController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, CV retrieved successfully"),
             @ApiResponse(responseCode = "204", description = "No Content, No CV found"),
-            @ApiResponse(responseCode = "400", description = "Bad Request, Student ID not found"),
+            @ApiResponse(responseCode = "404", description = "Not Found, Student ID not found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, User not authorized to access this resource"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> getStudentCV(@PathVariable Integer studentID) {
@@ -95,28 +96,26 @@ public class APIController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Spontaneous Applications retrieved successfully"),
             @ApiResponse(responseCode = "204", description = "No Content, No Spontaneous Applications found"),
-            @ApiResponse(responseCode = "404", description = "Bad Request, User ID not found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, User not authorized to access this resource"),
+            @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getStudentSpontaneousApplications(@PathVariable Integer userID) {
-        return new GetSpontaneousApplicationsCommandCall(userManager, submissionManager, userID).execute();
+    public ResponseEntity<List<DTO>> getSpontaneousApplications(@PathVariable Integer userID) {
+        return new GetSpontaneousApplicationsCommandCall(userID, submissionManager).execute();
     }
 
-    // @GetMapping("/applications/private/get-matches/{userID}")
-    // public ResponseEntity<List<DTO>>
-    // getCompanySpontaneousApplications(@PathVariable Integer companyID) {
-    // List<SpontaneousApplication> applicationsByCompany =
-    // submissionManager.getSpontaneousApplicationByCompany(companyID);
-    // if (applicationsByCompany.isEmpty()) {
-    // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    // }
-    // List<DTO> dtos = new ArrayList<>();
-    // for(SpontaneousApplication application : applicationsByCompany){
-    // dtos.add(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION,
-    // application));
-    // }
-    // return new ResponseEntity<>(dtos, HttpStatus.OK);
-    // }
+    @GetMapping("/applications/private/get-matches/{userID}")
+    @Operation(summary = "User requests the list of his Matches", description = "Get the list of the user Recommendations.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, Matches retrieved successfully"),
+            @ApiResponse(responseCode = "204", description = "No Content, No Matches found for required user"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, User not authorized to access this resource"),
+            @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<List<DTO>> getRecommendationsApplications(@PathVariable Integer userID) {
+        return new GetRecommendationsCommandCall(userID, recommendationProcess).execute();
+    }
 
     @GetMapping("/dto/test/")
     public ResponseEntity<DTO> testDTO() {

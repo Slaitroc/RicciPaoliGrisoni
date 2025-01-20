@@ -3,32 +3,33 @@ package click.studentandcompanies.controllers.APIControllerCommandCall.GET;
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
-import click.studentandcompanies.entity.SpontaneousApplication;
-import click.studentandcompanies.entityManager.submissionManager.SubmissionManager;
+import click.studentandcompanies.entity.Recommendation;
+import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcess;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetSpontaneousApplicationsCommandCall {
-    SubmissionManager submissionManager;
+public class GetRecommendationsCommandCall {
+
+    RecommendationProcess recommendationProcess;
     Integer userID;
 
-    public GetSpontaneousApplicationsCommandCall(Integer userID, SubmissionManager submissionManager) {
-        this.submissionManager = submissionManager;
+    public GetRecommendationsCommandCall(Integer userID, RecommendationProcess recommendationProcess) {
+        this.recommendationProcess = recommendationProcess;
         this.userID = userID;
     }
 
-    public ResponseEntity<List<DTO>>  execute() {
+    public ResponseEntity<List<DTO>> execute(){
         List<DTO> dtos = new ArrayList<>();
-        try {
-            List<SpontaneousApplication> applications = submissionManager.getSpontaneousApplicationsByParticipant(userID);
-            if (applications.isEmpty()) {
+        try{
+            List<Recommendation> recommendations = recommendationProcess.getRecommendationsByParticipant(userID);
+            if (recommendations.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            for(SpontaneousApplication application : applications){
-                dtos.add(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application));
+            for(Recommendation recommendation : recommendations){
+                dtos.add(DTOCreator.createDTO(DTOTypes.RECOMMENDATION, recommendation));
             }
             return new ResponseEntity<>(dtos, HttpStatus.OK);
 
@@ -43,5 +44,4 @@ public class GetSpontaneousApplicationsCommandCall {
             return new ResponseEntity<>(dtos, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

@@ -13,9 +13,9 @@ import java.util.List;
 
 public class GetCompanyInternshipsCommandCall {
     SubmissionManager submissionManager;
-    int companyID;
+    Integer companyID;
 
-    public GetCompanyInternshipsCommandCall(SubmissionManager submissionManager, int companyID) {
+    public GetCompanyInternshipsCommandCall(Integer companyID, SubmissionManager submissionManager) {
         this.submissionManager = submissionManager;
         this.companyID = companyID;
     }
@@ -27,15 +27,15 @@ public class GetCompanyInternshipsCommandCall {
             if (internshipOffers.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-//For every InternshipOffer in the list, create a DTO and add it to the list of DTOs
+            //For every InternshipOffer in the list, create a DTO and add it to the list of DTOs
             for (InternshipOffer offer : internshipOffers) {
                 dtos.add(DTOCreator.createDTO(DTOTypes.INTERNSHIP_OFFER, offer));
             }
-//Return the list of DTOs with a status code of 200 (OK)
+            //Return the list of DTOs with a status code of 200 (OK)
             return new ResponseEntity<>(dtos, HttpStatus.OK);
         }catch (IllegalArgumentException e){
             dtos.add(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()));
-            return new ResponseEntity<>(dtos, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(dtos, HttpStatus.NOT_FOUND);
         }catch (Exception e){
             dtos.add(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()));
             return new ResponseEntity<>(dtos, HttpStatus.INTERNAL_SERVER_ERROR);

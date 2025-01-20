@@ -1,4 +1,4 @@
-package click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands;
+package click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.POST;
 
 import click.studentandcompanies.entity.Recommendation;
 import click.studentandcompanies.entity.dbEnum.RecommendationStatusEnum;
@@ -7,13 +7,13 @@ import click.studentandcompanies.entityManager.entityRepository.RecommendationRe
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommand;
 import click.studentandcompanies.utils.UserType;
 
-public class refuseRecommendationCommand implements RecommendationProcessCommand<Recommendation> {
+public class acceptRecommendationCommand implements RecommendationProcessCommand<Recommendation> {
     UserManager userManager;
     Integer recommendationID;
     Integer userID;
     RecommendationRepository recommendationRepository;
 
-    public refuseRecommendationCommand(UserManager userManager, Integer recommendationID, Integer userID, RecommendationRepository recommendationRepository) {
+    public acceptRecommendationCommand(UserManager userManager, Integer recommendationID, Integer userID, RecommendationRepository recommendationRepository) {
         this.userManager = userManager;
         this.recommendationID = recommendationID;
         this.userID = userID;
@@ -30,12 +30,20 @@ public class refuseRecommendationCommand implements RecommendationProcessCommand
         if(userType == UserType.UNKNOWN){
             throw new IllegalCallerException("Unknown user type");
         }else if(userType == UserType.UNIVERSITY){
-            throw new IllegalCallerException("Universities can't refuse recommendations");
+            throw new IllegalCallerException("Universities can't accept recommendations");
         }
 
         checkIfResponseAlreadySent(recommendation, userType);
 
-        recommendation.setStatus(RecommendationStatusEnum.refusedMatch);
+        if(recommendation.getStatus() == RecommendationStatusEnum.pendingMatch){
+            if(userType == UserType.STUDENT){
+                recommendation.setStatus(RecommendationStatusEnum.acceptedByStudent);
+            }else{
+                recommendation.setStatus(RecommendationStatusEnum.acceptedByCompany);
+            }
+        }else{
+            recommendation.setStatus(RecommendationStatusEnum.acceptedMatch);
+        }
         recommendationRepository.save(recommendation);
         return recommendation;
     }

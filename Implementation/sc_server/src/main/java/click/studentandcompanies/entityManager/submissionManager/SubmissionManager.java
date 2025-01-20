@@ -46,12 +46,7 @@ public class SubmissionManager {
         return new updateInternshipOfferCommand(userManager, internshipOfferRepository, payload).execute();
     }
 
-    public List<SpontaneousApplication> getSpontaneousApplicationByStudent(Integer studentID){
-        return new getSpontaneousApplicationByStudentCommand(spontaneousApplicationRepository, userManager, studentID).execute();
-    }
-
-    public List<SpontaneousApplication> getSpontaneousApplicationByCompany(Integer companyID) {
-        return new getSpontaneousApplicationByCompanyCommand(
-                spontaneousApplicationRepository, internshipOfferRepository, userManager, companyID).execute();
+    public List<SpontaneousApplication> getSpontaneousApplicationsByParticipant(Integer studentID) throws IllegalCallerException, IllegalArgumentException {
+        return new getSpontaneousApplicationsByParticipantCommand(spontaneousApplicationRepository, userManager, studentID).execute();
     }
 }
