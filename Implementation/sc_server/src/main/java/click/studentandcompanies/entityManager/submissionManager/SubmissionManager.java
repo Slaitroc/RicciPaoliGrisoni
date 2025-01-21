@@ -13,6 +13,7 @@ import click.studentandcompanies.utils.exception.UnauthorizedException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -56,5 +57,10 @@ public class SubmissionManager {
 
     public SpontaneousApplication submitSpontaneousApplication(Map<String, Object> payload, int internshipOfferID) throws BadInputException, NotFoundException {
         return new SubmitSpontaneousApplicationCommand(payload, userManager, spontaneousApplicationRepository, internshipOfferRepository, internshipOfferID).execute();
+    }
+
+    @Transactional
+    public InternshipOffer closeInternshipOffer(Integer internshipID, Map<String, Object> payload) throws NotFoundException, UnauthorizedException {
+        return new CloseInternshipOfferCommand(internshipOfferRepository, internshipID, payload).execute();
     }
 }

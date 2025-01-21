@@ -9,4 +9,6 @@ public interface InternshipOfferRepository extends JpaRepository<InternshipOffer
     List<InternshipOffer> getInternshipOfferByCompanyId(Integer companyId);
 
     InternshipOffer getInternshipOfferById(Integer id);
+
+    void removeInternshipOfferById(Integer id);
 }

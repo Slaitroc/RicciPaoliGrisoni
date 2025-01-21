@@ -14,4 +14,6 @@ public interface SpontaneousApplicationRepository extends JpaRepository<Spontane
     List<SpontaneousApplication> findSpontaneousApplicationByCompanyId(@Param("userID") Integer userID);
 
     SpontaneousApplication getSpontaneousApplicationsById(Integer id);
+
+    List<SpontaneousApplication> findAllByInternshipOfferId(Integer internshipID);
 }

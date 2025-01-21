@@ -309,4 +309,23 @@ public class APIController {
         return new SendInterviewTemplateCommandCall(interviewManager, InterviewID, TemplateInterviewID, payload).execute();
     }
 
+    //__________________________________________________________________________________________________________________
+
+    @PostMapping("/sub/private/close-internship/")
+    @Operation(summary = "Close internship", description = "payload will contain the company_id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK, Internship closed successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, User is not the owner of the internship"),
+            @ApiResponse(responseCode = "404", description = "Internship not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> closeInternship(@RequestParam("internshipID") Integer internshipID, @RequestBody Map<String, Object> payload) {
+        //If the Internship does not exist or does not exist any pending application, the list will be empty. no exception will be thrown
+        List<Integer> userIDs = userManager.getInvolvedUsers(internshipID);
+        ResponseEntity<DTO> dto = new CloseInternshipOfferCommandCall(internshipID, payload, submissionManager).execute();
+        //TODO: Send notification to all users involved in the internship using the userIDs list
+        return dto;
+    }
+
 }

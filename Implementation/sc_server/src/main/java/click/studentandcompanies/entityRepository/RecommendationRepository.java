@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Arrays;
 import java.util.List;
 
 public interface RecommendationRepository extends JpaRepository<Recommendation, Integer> {
@@ -15,4 +16,6 @@ public interface RecommendationRepository extends JpaRepository<Recommendation, 
 
     @Query("SELECT r FROM Recommendation r WHERE r.internshipOffer.company.id = :companyId")
     List<Recommendation> findRecommendationByCompanyId(@Param("companyId") Integer companyId);
+
+    List<Recommendation> findRecommendationByInternshipOfferId(Integer internshipID);
 }
