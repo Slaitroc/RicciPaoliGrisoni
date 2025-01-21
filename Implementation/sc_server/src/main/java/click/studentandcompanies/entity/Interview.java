@@ -36,6 +36,11 @@ public class Interview {
     @Column(name = "answer", columnDefinition = "TEXT")
     private String answer;
 
+    @Column(name="evaluation")
+    private Integer evaluation;
+
+
+
     public String getAnswer() {
         return answer;
     }
@@ -91,6 +96,14 @@ public class Interview {
 
     public void setStatus(InterviewStatusEnum status) {
         this.status = status;
+    }
+
+    public void setEvaluation(Integer evaluation) {
+        this.evaluation = evaluation;
+    }
+
+    public Integer getEvaluation() {
+        return evaluation;
     }
 
 }

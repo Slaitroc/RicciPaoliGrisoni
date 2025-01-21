@@ -9,13 +9,13 @@ import click.studentandcompanies.utils.UserType;
 import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 
-public class acceptRecommendationCommand implements RecommendationProcessCommand<Recommendation> {
+public class RefuseRecommendationCommand implements RecommendationProcessCommand<Recommendation> {
     UserManager userManager;
     Integer recommendationID;
     Integer userID;
     RecommendationRepository recommendationRepository;
 
-    public acceptRecommendationCommand(UserManager userManager, Integer recommendationID, Integer userID, RecommendationRepository recommendationRepository) {
+    public RefuseRecommendationCommand(UserManager userManager, Integer recommendationID, Integer userID, RecommendationRepository recommendationRepository) {
         this.userManager = userManager;
         this.recommendationID = recommendationID;
         this.userID = userID;
@@ -32,20 +32,12 @@ public class acceptRecommendationCommand implements RecommendationProcessCommand
         if(userType == UserType.UNKNOWN){
             throw new BadInputException("Unknown user type");
         }else if(userType == UserType.UNIVERSITY){
-            throw new BadInputException("Universities can't accept recommendations");
+            throw new BadInputException("Universities can't refuse recommendations");
         }
 
         checkIfResponseAlreadySent(recommendation, userType);
 
-        if(recommendation.getStatus() == RecommendationStatusEnum.pendingMatch){
-            if(userType == UserType.STUDENT){
-                recommendation.setStatus(RecommendationStatusEnum.acceptedByStudent);
-            }else{
-                recommendation.setStatus(RecommendationStatusEnum.acceptedByCompany);
-            }
-        }else{
-            recommendation.setStatus(RecommendationStatusEnum.acceptedMatch);
-        }
+        recommendation.setStatus(RecommendationStatusEnum.refusedMatch);
         recommendationRepository.save(recommendation);
         return recommendation;
     }

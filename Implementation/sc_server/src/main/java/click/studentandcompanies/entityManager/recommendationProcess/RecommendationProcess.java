@@ -26,11 +26,11 @@ public class RecommendationProcess {
     //Handle the acceptance of a recommendation
     //Thx @Matteo for the Exception handling idea, it's much cleaner now
     public Recommendation acceptRecommendation(Integer recommendationID, Integer userID) throws BadInputException, NotFoundException{
-        return new acceptRecommendationCommand(userManager, recommendationID, userID, recommendationRepository).execute();
+        return new AcceptRecommendationCommand(userManager, recommendationID, userID, recommendationRepository).execute();
     }
 
     public Recommendation refuseRecommendation(Integer recommendationID, Integer userID) throws BadInputException, NotFoundException {
-        return new refuseRecommendationCommand(userManager, recommendationID, userID, recommendationRepository).execute();
+        return new RefuseRecommendationCommand(userManager, recommendationID, userID, recommendationRepository).execute();
     }
 
     public List<Recommendation> getRecommendationsByParticipant(Integer userID) throws BadInputException, NotFoundException {

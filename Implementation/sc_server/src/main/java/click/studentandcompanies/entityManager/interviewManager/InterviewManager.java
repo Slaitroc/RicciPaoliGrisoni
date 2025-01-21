@@ -2,10 +2,12 @@ package click.studentandcompanies.entityManager.interviewManager;
 
 import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entityManager.UserManager;
+import click.studentandcompanies.entityManager.interviewManager.POST.SendInterviewCommand;
 import click.studentandcompanies.entityRepository.InternshipPosOfferRepository;
 import click.studentandcompanies.entityRepository.InterviewRepository;
 import click.studentandcompanies.entityRepository.InterviewTemplateRepository;
-import click.studentandcompanies.entityManager.interviewManager.POST.sendInterviewAnswerCommand;
+import click.studentandcompanies.entityManager.interviewManager.POST.SendInterviewAnswerCommand;
+import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,11 @@ public class InterviewManager {
         this.internshipPosOfferRepository = internshipPosOfferRepository;
     }
 
-    public Interview sendInterviewAnswer(int interviewID, Map<String, Object> payload) throws NotFoundException, IllegalCallerException {
-        return new sendInterviewAnswerCommand(interviewID, payload, userManager, interviewRepository).execute();
+    public Interview sendInterviewAnswer(int interviewID, Map<String, Object> payload) throws NotFoundException, BadInputException {
+        return new SendInterviewAnswerCommand(interviewID, payload, userManager, interviewRepository).execute();
+    }
+
+    public Interview sendInterview(int interviewID, Map<String, Object> payload) throws NotFoundException, BadInputException {
+        return new SendInterviewCommand(interviewID, payload, userManager, interviewRepository, interviewTemplateRepository).execute();
     }
 }

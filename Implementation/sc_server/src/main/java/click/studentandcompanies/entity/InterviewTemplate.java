@@ -14,9 +14,6 @@ public class InterviewTemplate {
     @Column(name = "questions", nullable = false)
     private String questions;
 
-    @Column(name = "evaluation")
-    private Integer evaluation;
-
     public Integer getId() {
         return id;
     }
@@ -31,14 +28,6 @@ public class InterviewTemplate {
 
     public void setQuestions(String questions) {
         this.questions = questions;
-    }
-
-    public Integer getEvaluation() {
-        return evaluation;
-    }
-
-    public void setEvaluation(Integer evaluation) {
-        this.evaluation = evaluation;
     }
 
 }

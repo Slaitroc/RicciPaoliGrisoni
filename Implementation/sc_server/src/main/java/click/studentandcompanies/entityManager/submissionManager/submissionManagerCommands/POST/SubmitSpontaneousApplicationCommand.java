@@ -13,14 +13,14 @@ import click.studentandcompanies.utils.exception.NotFoundException;
 
 import java.util.Map;
 
-public class submitSpontaneousApplicationCommand implements SubmissionManagerCommand<SpontaneousApplication> {
+public class SubmitSpontaneousApplicationCommand implements SubmissionManagerCommand<SpontaneousApplication> {
     Map<String, Object> payload;
     SpontaneousApplicationRepository spontaneousApplicationRepository;
     InternshipOfferRepository internshipOfferRepository;
     UserManager userManager;
     int internshipOfferID;
 
-    public submitSpontaneousApplicationCommand(Map<String, Object> payload, UserManager userManager,SpontaneousApplicationRepository spontaneousApplicationRepository, InternshipOfferRepository internshipOfferRepository,int internshipOfferID) {
+    public SubmitSpontaneousApplicationCommand(Map<String, Object> payload, UserManager userManager, SpontaneousApplicationRepository spontaneousApplicationRepository, InternshipOfferRepository internshipOfferRepository, int internshipOfferID) {
         this.payload = payload;
         this.userManager = userManager;
         this.spontaneousApplicationRepository = spontaneousApplicationRepository;

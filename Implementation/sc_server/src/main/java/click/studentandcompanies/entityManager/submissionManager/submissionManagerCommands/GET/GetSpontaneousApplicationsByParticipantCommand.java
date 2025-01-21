@@ -8,13 +8,13 @@ import click.studentandcompanies.utils.UserType;
 
 import java.util.List;
 
-public class getSpontaneousApplicationsByParticipantCommand implements SubmissionManagerCommand {
+public class GetSpontaneousApplicationsByParticipantCommand implements SubmissionManagerCommand {
 
     SpontaneousApplicationRepository spontaneousApplicationRepository;
     UserManager userManager;
     Integer userID;
 
-    public getSpontaneousApplicationsByParticipantCommand(SpontaneousApplicationRepository spontaneousApplicationRepository, UserManager userManager, Integer userID) {
+    public GetSpontaneousApplicationsByParticipantCommand(SpontaneousApplicationRepository spontaneousApplicationRepository, UserManager userManager, Integer userID) {
         this.spontaneousApplicationRepository = spontaneousApplicationRepository;
         this.userManager = userManager;
         this.userID = userID;
