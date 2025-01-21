@@ -5,6 +5,9 @@ import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.RecommendationRepository;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommand;
 import click.studentandcompanies.utils.UserType;
+import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NoContentException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 
 import java.util.List;
 
@@ -20,21 +23,15 @@ public class GetRecommendationByParticipant implements RecommendationProcessComm
         this.userID = userID;
     }
 
-    public List<Recommendation> execute() {
+    public List<Recommendation> execute() throws NotFoundException, NoContentException, BadInputException {
         UserType type = userManager.getUserType(userID);
-        List<Recommendation> recommendations;
-        switch (type) {
-            case STUDENT -> {
-                recommendations = recommendationRepository.findRecommendationByStudentId(userID);
-                System.out.println("Recommendations found for student: " + recommendations);
-            }
-            case COMPANY -> {
-                recommendations = recommendationRepository.findRecommendationByCompanyId(userID);
-                System.out.println("Recommendations found for company: " + recommendations);
-            }
-            case UNIVERSITY -> throw new IllegalCallerException("User is not a company or student");
-            default -> throw new IllegalArgumentException("User not found");
-        }
+        List<Recommendation> recommendations = switch (type) {
+            case STUDENT -> recommendationRepository.findRecommendationByStudentId(userID);
+            case COMPANY -> recommendationRepository.findRecommendationByCompanyId(userID);
+            case UNIVERSITY -> throw new BadInputException("User is not a company or student");
+            default -> throw new NotFoundException("User not found");
+        };
+        if (recommendations.isEmpty()) throw new NoContentException("No recommendations found");
         return recommendations;
     }
 }

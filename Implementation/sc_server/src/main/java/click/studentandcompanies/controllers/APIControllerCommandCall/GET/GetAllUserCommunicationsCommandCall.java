@@ -5,8 +5,9 @@ import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.Communication;
-import click.studentandcompanies.entity.InternshipOffer;
-import click.studentandcompanies.entityManager.CommunicationManager;
+import click.studentandcompanies.entityManager.communicationManager.CommunicationManager;
+import click.studentandcompanies.utils.exception.NoContentException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -28,18 +29,18 @@ public class GetAllUserCommunicationsCommandCall implements APIControllerCommand
         List<DTO> dtos = new ArrayList<>();
         try{
             List<Communication> communications = communicationManager.getAllUserCommunications(userID);
-            if (communications.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
             //For every InternshipOffer in the list, create a DTO and add it to the list of DTOs
             for (Communication communication : communications) {
                 dtos.add(DTOCreator.createDTO(DTOTypes.COMMUNICATION, communication));
             }
             //Return the list of DTOs with a status code of 200 (OK)
             return new ResponseEntity<>(dtos, HttpStatus.OK);
-        }catch (IllegalArgumentException e){
+        }catch (NotFoundException e){
             dtos.add(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()));
             return new ResponseEntity<>(dtos, HttpStatus.NOT_FOUND);
+        }catch (NoContentException e){
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (Exception e){
             dtos.add(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()));
             return new ResponseEntity<>(dtos, HttpStatus.INTERNAL_SERVER_ERROR);

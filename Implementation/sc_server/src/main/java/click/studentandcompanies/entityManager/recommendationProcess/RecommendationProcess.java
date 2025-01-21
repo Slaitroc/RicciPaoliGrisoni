@@ -6,6 +6,7 @@ import click.studentandcompanies.entityRepository.RecommendationRepository;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.GET.*;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.POST.*;
 import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NoContentException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,7 @@ public class RecommendationProcess {
         return new RefuseRecommendationCommand(userManager, recommendationID, userID, recommendationRepository).execute();
     }
 
-    public List<Recommendation> getRecommendationsByParticipant(Integer userID) throws BadInputException, NotFoundException {
+    public List<Recommendation> getRecommendationsByParticipant(Integer userID) throws BadInputException, NotFoundException, NoContentException {
         return new GetRecommendationByParticipant(userManager, recommendationRepository, userID).execute();
     }
 }

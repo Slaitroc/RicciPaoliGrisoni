@@ -6,6 +6,7 @@ import click.studentandcompanies.controllers.APIControllerCommandCall.PUT.*;
 import click.studentandcompanies.dto.*;
 import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entityManager.*;
+import click.studentandcompanies.entityManager.communicationManager.CommunicationManager;
 import click.studentandcompanies.entityManager.feedbackMechanism.FeedbackMechanism;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcess;
@@ -100,7 +101,7 @@ public class APIController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Spontaneous Applications retrieved successfully"),
             @ApiResponse(responseCode = "204", description = "No Content, No Spontaneous Applications found"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized, User not authorized to access this resource"),
+            @ApiResponse(responseCode = "400", description = "Bad request, User is not a student or a company"),
             @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -113,7 +114,7 @@ public class APIController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Matches retrieved successfully"),
             @ApiResponse(responseCode = "204", description = "No Content, No Matches found for required user"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized, User not authorized to access this resource"),
+            @ApiResponse(responseCode = "400", description = "Bad request, User is not a student or a company"),
             @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -134,15 +135,16 @@ public class APIController {
     }
 
     //TODO: Where is done the check if the user is retrieving one of his communications? There is no body in the GET request
-    @GetMapping("/comm/private/communication/")
+    @GetMapping("/comm/private/communication/{userID}/")
     @Operation(summary = "User userID requests the communication commID", description = "Get the communication commID for the user userID.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Communication retrieved successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, User is not participating in the communication"),
             @ApiResponse(responseCode = "404", description = "Not Found, Communication ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> getCommunication(@RequestParam("commID") Integer commID) {
-        return new GetCommunicationCommandCall(commID, communicationManager).execute();
+    public ResponseEntity<DTO> getCommunication(@PathVariable Integer userID, @RequestParam("commID") Integer commID) {
+        return new GetCommunicationCommandCall(commID, userID, communicationManager).execute();
     }
 
     @GetMapping("/dto/test/")

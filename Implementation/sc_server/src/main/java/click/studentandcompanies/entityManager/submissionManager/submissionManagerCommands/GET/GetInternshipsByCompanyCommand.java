@@ -3,6 +3,8 @@ package click.studentandcompanies.entityManager.submissionManager.submissionMana
 import click.studentandcompanies.entity.InternshipOffer;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.InternshipOfferRepository;
+import click.studentandcompanies.utils.exception.NoContentException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 
 import java.util.List;
 
@@ -18,11 +20,13 @@ public class GetInternshipsByCompanyCommand {
         this.companyID = companyID;
     }
 
-    public List<InternshipOffer> execute() {
+    public List<InternshipOffer> execute() throws NotFoundException, NoContentException {
         if (userManager.getCompanyById(companyID) == null) {
             System.out.println("Company not found");
-            throw new IllegalArgumentException("Company not found");
+            throw new NotFoundException("Company not found");
         }
-        return internshipOfferRepository.getInternshipOfferByCompanyId(companyID);
+        List<InternshipOffer> internshipOffers = internshipOfferRepository.getInternshipOfferByCompanyId(companyID);
+        if (internshipOffers.isEmpty()) throw new NoContentException("No Internship offers found");
+        return internshipOffers;
     }
 }
