@@ -29,13 +29,13 @@ public class EvaluateInterviewCall implements InterviewManagerCommand<Interview>
         if(interview.getStatus()!= InterviewStatusEnum.submitted){
             throw new BadInputException("Interview is not in submitted status");
         }
-        inputPayloadValidation();
+        inputPayloadValidation(payload);
         interview.setStatus(InterviewStatusEnum.valueOf((String) payload.get("status")));
         interview.setEvaluation((Integer) payload.get("evaluation"));
         return interviewRepository.save(interview);
     }
 
-    private void inputPayloadValidation() {
+    private void inputPayloadValidation(Map<String, Object> payload) {
         if(payload.get("company_id")==null){
             throw new BadInputException("Company id not found");
         }

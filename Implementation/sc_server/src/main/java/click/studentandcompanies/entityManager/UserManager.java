@@ -1,17 +1,12 @@
 package click.studentandcompanies.entityManager;
 
-import click.studentandcompanies.entity.Company;
-import click.studentandcompanies.entity.Recommendation;
-import click.studentandcompanies.entity.Student;
-import click.studentandcompanies.entity.University;
+import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entity.dbEnum.ParticipantTypeEnum;
-import click.studentandcompanies.entityRepository.CompanyRepository;
-import click.studentandcompanies.entityRepository.RecommendationRepository;
-import click.studentandcompanies.entityRepository.StudentRepository;
-import click.studentandcompanies.entityRepository.UniversityRepository;
+import click.studentandcompanies.entityRepository.*;
 import click.studentandcompanies.utils.UserType;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,13 +16,13 @@ public class UserManager {
     private final CompanyRepository companyRepository;
     //is this a hack? We want UserManager to be able to access the RecommendationRepository?
     private final RecommendationRepository recommendationRepository;
-
-
-    public UserManager(UniversityRepository universityRepository, StudentRepository studentRepository, CompanyRepository companyRepository, RecommendationRepository recommendationRepository) {
+    private final InternshipOfferRepository internshipOfferRepository;
+    public UserManager(UniversityRepository universityRepository, StudentRepository studentRepository, CompanyRepository companyRepository, RecommendationRepository recommendationRepository, InternshipOfferRepository internshipOfferRepository) {
         this.universityRepository = universityRepository;
         this.studentRepository = studentRepository;
         this.companyRepository = companyRepository;
         this.recommendationRepository = recommendationRepository;
+        this.internshipOfferRepository = internshipOfferRepository;
     }
 
     //CRUD operations, all of them are already implemented by the JpaRepository
@@ -68,6 +63,10 @@ public class UserManager {
         return companyRepository.getCompanyById(id);
     }
 
+    public University getUniversityById(int id) {
+        return universityRepository.getUniversityById(id);
+    }
+
     public UserType getUserType(int id) {
         if (studentRepository.getStudentById(id) != null) {
             return UserType.STUDENT;
@@ -100,6 +99,10 @@ public class UserManager {
 
     public Recommendation getRecommendationById(int id) {
         return recommendationRepository.getRecommendationById(id);
+    }
+
+    public InternshipOffer getInternshipOfferById(int id) {
+        return internshipOfferRepository.getInternshipOfferById(id);
     }
 }
 

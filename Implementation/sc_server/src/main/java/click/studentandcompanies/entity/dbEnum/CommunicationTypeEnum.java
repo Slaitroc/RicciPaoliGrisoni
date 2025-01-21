@@ -1,6 +1,6 @@
 package click.studentandcompanies.entity.dbEnum;
 
-public enum ComunicationTypeEnum {
+public enum CommunicationTypeEnum {
     communication,
     complaint
 }

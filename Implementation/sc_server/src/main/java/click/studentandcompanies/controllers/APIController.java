@@ -321,4 +321,16 @@ public class APIController {
         return new EvaluateInterviewCommandCall(interviewManager, InterviewID, payload).execute();
     }
 
+    @PostMapping("comm/private/create")
+    @Operation(summary = "Create communication", description = "payload will contain the 'student_id', 'internshipOffer_id', 'university_id', 'title', 'content', 'communication_type' (communication, complaint)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Communication created successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Sender or Receiver not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> createCommunication(@RequestBody Map<String, Object> payload) {
+        return new CreateCommunicationCommandCall(communicationManager, payload).execute();
+    }
+
 }
