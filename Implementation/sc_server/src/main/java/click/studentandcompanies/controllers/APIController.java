@@ -352,16 +352,27 @@ public class APIController {
         return dto;
     }
 
-    @PostMapping("api/comm/private/{commID}/terminate")
+    @PostMapping("/comm/private/{commID}/terminate")
     @Operation(summary = "Close communication", description = "payload will contain the 'university_id")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Communication created successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "404", description = "Sender or Receiver not found"),
+            @ApiResponse(responseCode = "404", description = "Unauthorized or not found University"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> terminateCommunication(@PathVariable Integer commID, @RequestBody Map<String, Object> payload) {
         return new TerminateCommunicationCommandCall(communicationManager, commID, payload).execute();
     }
 
+    @PostMapping("interviews/private/{InterviewID}/send-int-pos-off")
+    @Operation(summary = "Send interview position offer", description = "payload will contain the 'company_id'")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Interview position offer sent successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Interview not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> sendInterviewPositionOffer(@PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
+        return new SendInterviewPositionOfferCommandCall(interviewManager, InterviewID, payload).execute();
+    }
 }

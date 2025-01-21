@@ -1,6 +1,7 @@
 package click.studentandcompanies.entityManager.interviewManager;
 
 import click.studentandcompanies.entity.Company;
+import click.studentandcompanies.entity.InternshipPosOffer;
 import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entity.InterviewTemplate;
 import click.studentandcompanies.entityManager.UserManager;
@@ -60,5 +61,9 @@ public class InterviewManager {
 
     public Interview evaluateInterview(int interviewID, Map<String, Object> payload) throws NotFoundException, BadInputException {
         return new EvaluateInterviewCall(interviewID, payload, interviewRepository).execute();
+    }
+
+    public InternshipPosOffer sendInterviewPositionOffer(int interviewID, Map<String, Object> payload) throws NotFoundException, BadInputException {
+        return new SendInterviewPositionOfferCommand(interviewID, payload, userManager, interviewRepository, internshipPosOfferRepository).execute();
     }
 }
