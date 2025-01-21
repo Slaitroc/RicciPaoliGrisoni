@@ -14,4 +14,6 @@ public interface CommunicationRepository extends JpaRepository<Communication, In
     List<Communication> findCommunicationByCompany_Id(@Param("userID") Integer userID);
 
     List<Communication> findCommunicationByStudent_Id(Integer userID);
+
+    Communication getCommunicationById(Integer commID);
 }

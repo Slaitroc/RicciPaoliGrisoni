@@ -4,7 +4,7 @@ import click.studentandcompanies.controllers.APIControllerCommandCall.APIControl
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
-import click.studentandcompanies.entityManager.CommunicationManager;
+import click.studentandcompanies.entityManager.communicationManager.CommunicationManager;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import click.studentandcompanies.utils.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;

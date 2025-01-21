@@ -6,6 +6,7 @@ import click.studentandcompanies.controllers.APIControllerCommandCall.PUT.*;
 import click.studentandcompanies.dto.*;
 import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entityManager.*;
+import click.studentandcompanies.entityManager.communicationManager.CommunicationManager;
 import click.studentandcompanies.entityManager.feedbackMechanism.FeedbackMechanism;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcess;
