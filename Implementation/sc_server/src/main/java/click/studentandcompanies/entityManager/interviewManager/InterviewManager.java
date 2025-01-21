@@ -6,12 +6,14 @@ import click.studentandcompanies.entity.InterviewTemplate;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.interviewManager.POST.SaveInterviewTemplateCommand;
 import click.studentandcompanies.entityManager.interviewManager.POST.SendInterviewCommand;
+import click.studentandcompanies.entityManager.interviewManager.POST.SendInterviewTemplateCommand;
 import click.studentandcompanies.entityRepository.InternshipPosOfferRepository;
 import click.studentandcompanies.entityRepository.InterviewRepository;
 import click.studentandcompanies.entityRepository.InterviewTemplateRepository;
 import click.studentandcompanies.entityManager.interviewManager.POST.SendInterviewAnswerCommand;
 import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
+import click.studentandcompanies.utils.exception.UnauthorizedException;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -53,5 +55,9 @@ public class InterviewManager {
         }
         interviewTemplate.setQuestions(questions.toString());
         return interviewTemplate;
+    }
+
+    public Interview sendInterviewTemplate(int interviewID, int templateID, Map<String, Object> payload) throws NotFoundException, BadInputException, UnauthorizedException {
+        return new SendInterviewTemplateCommand(interviewID, templateID, payload, interviewRepository, interviewTemplateRepository).execute();
     }
 }

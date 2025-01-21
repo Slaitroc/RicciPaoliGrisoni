@@ -297,4 +297,16 @@ public class APIController {
         return new SaveInterviewTemplateCommandCall(InterviewID, interviewManager, payload).execute();
     }
 
+    @PostMapping("interviews/private/{TemplateInterviewID}/send-template-interview/{InterviewID}")
+    @Operation(summary = "Send interview template", description = "payload will contain the company_id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Interview template sent successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Interview template or Interview not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> sendInterviewTemplate(@PathVariable Integer TemplateInterviewID, @PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
+        return new SendInterviewTemplateCommandCall(interviewManager, InterviewID, TemplateInterviewID, payload).execute();
+    }
+
 }
