@@ -9,16 +9,18 @@ import click.studentandcompanies.utils.UserType;
 import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 
-public class AcceptRecommendationCommand implements RecommendationProcessCommand<Recommendation> {
-    UserManager userManager;
-    Integer recommendationID;
-    Integer userID;
-    RecommendationRepository recommendationRepository;
+import java.util.Map;
 
-    public AcceptRecommendationCommand(UserManager userManager, Integer recommendationID, Integer userID, RecommendationRepository recommendationRepository) {
+public class AcceptRecommendationCommand implements RecommendationProcessCommand<Recommendation> {
+    private final UserManager userManager;
+    private final Integer recommendationID;
+    private final RecommendationRepository recommendationRepository;
+    private final Map<String, Object> payload;
+
+    public AcceptRecommendationCommand(UserManager userManager, Integer recommendationID, Map<String, Object> payload, RecommendationRepository recommendationRepository) {
         this.userManager = userManager;
         this.recommendationID = recommendationID;
-        this.userID = userID;
+        this.payload = payload;
         this.recommendationRepository = recommendationRepository;
     }
 
@@ -28,7 +30,10 @@ public class AcceptRecommendationCommand implements RecommendationProcessCommand
         if (recommendation == null) {
             throw new NotFoundException("Recommendation with ID " + recommendationID + " not found");
         }
-        UserType userType = userManager.getUserType(userID);
+        if(payload.get("user_id")==null){
+            throw new BadInputException("User id not found");
+        }
+        UserType userType = userManager.getUserType((Integer) payload.get("user_id"));
         if(userType == UserType.UNKNOWN){
             throw new BadInputException("Unknown user type");
         }else if(userType == UserType.UNIVERSITY){
