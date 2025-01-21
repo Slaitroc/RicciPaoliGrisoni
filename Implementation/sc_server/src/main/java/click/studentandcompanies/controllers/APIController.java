@@ -263,7 +263,7 @@ public class APIController {
     }
 
     @PostMapping ("/interviews/private/send-answer/{InterviewID}")
-    @Operation(summary = "Send interview answer", description = "payload will contain the student_id and the answer")
+    @Operation(summary = "Send interview answer", description = "payload will contain the 'student_id' and the 'answer'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview answer sent successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -275,7 +275,7 @@ public class APIController {
     }
 
     @PostMapping("/interviews/private/send-interview/{InterviewID}")
-    @Operation(summary = "Send interview", description = "payload will contain the questions and the company_id")
+    @Operation(summary = "Send interview", description = "payload will contain the 'questions' and the 'company_id'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview sent successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -287,7 +287,7 @@ public class APIController {
     }
 
     @PostMapping ("/interviews/private/save-template-interview/{InterviewID}")
-    @Operation(summary = "Save interview template", description = "payload will contain the questions and the company_id")
+    @Operation(summary = "Save interview template", description = "payload will contain the 'questions' and the 'company_id'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview template saved successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -298,7 +298,7 @@ public class APIController {
     }
 
     @PostMapping("interviews/private/{TemplateInterviewID}/send-template-interview/{InterviewID}")
-    @Operation(summary = "Send interview template", description = "payload will contain the company_id")
+    @Operation(summary = "Send interview template", description = "payload will contain the 'company_id'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview template sent successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -307,6 +307,30 @@ public class APIController {
     })
     public ResponseEntity<DTO> sendInterviewTemplate(@PathVariable Integer TemplateInterviewID, @PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
         return new SendInterviewTemplateCommandCall(interviewManager, InterviewID, TemplateInterviewID, payload).execute();
+    }
+
+    @PostMapping("interviews/private/evaluate-interview/{InterviewID}")
+    @Operation(summary = "Evaluate interview", description = "payload will contain the 'company_id' the 'evaluation' (a integer from 1 to 5) and the 'status' (failed or passed)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Interview evaluated successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Interview not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> evaluateInterview(@PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
+        return new EvaluateInterviewCommandCall(interviewManager, InterviewID, payload).execute();
+    }
+
+    @PostMapping("comm/private/create")
+    @Operation(summary = "Create communication", description = "payload will contain the 'student_id', 'internshipOffer_id', 'university_id', 'title', 'content', 'communication_type' (communication, complaint)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Communication created successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Sender or Receiver not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> createCommunication(@RequestBody Map<String, Object> payload) {
+        return new CreateCommunicationCommandCall(communicationManager, payload).execute();
     }
 
     //__________________________________________________________________________________________________________________

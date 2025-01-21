@@ -4,14 +4,17 @@ import click.studentandcompanies.entity.Communication;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.communicationManager.communicationManagerCommands.GET.GetAllUserCommunicationsCommand;
 import click.studentandcompanies.entityManager.communicationManager.communicationManagerCommands.GET.GetCommunicationCommand;
+import click.studentandcompanies.entityManager.communicationManager.communicationManagerCommands.POST.CreateCommunicationCommand;
 import click.studentandcompanies.entityRepository.CommunicationRepository;
 import click.studentandcompanies.utils.UserType;
 import click.studentandcompanies.utils.exception.NoContentException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import click.studentandcompanies.utils.exception.UnauthorizedException;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -30,5 +33,9 @@ public class CommunicationManager {
 
     public Communication getCommunication(Integer commID, Integer userID) throws NotFoundException, UnauthorizedException {
         return new GetCommunicationCommand(communicationRepository, commID, userID).execute();
+    }
+
+    public Communication createCommunication(Map<String, Object> payload) throws NotFoundException, BadRequestException{
+        return new CreateCommunicationCommand(communicationRepository, userManager, payload).execute();
     }
 }

@@ -11,6 +11,7 @@ import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RecommendationProcess {
@@ -26,12 +27,12 @@ public class RecommendationProcess {
 
     //Handle the acceptance of a recommendation
     //Thx @Matteo for the Exception handling idea, it's much cleaner now
-    public Recommendation acceptRecommendation(Integer recommendationID, Integer userID) throws BadInputException, NotFoundException{
-        return new AcceptRecommendationCommand(userManager, recommendationID, userID, recommendationRepository).execute();
+    public Recommendation acceptRecommendation(Integer recommendationID, Map<String, Object> payload) throws BadInputException, NotFoundException{
+        return new AcceptRecommendationCommand(userManager, recommendationID, payload, recommendationRepository).execute();
     }
 
-    public Recommendation refuseRecommendation(Integer recommendationID, Integer userID) throws BadInputException, NotFoundException {
-        return new RefuseRecommendationCommand(userManager, recommendationID, userID, recommendationRepository).execute();
+    public Recommendation refuseRecommendation(Integer recommendationID, Map<String, Object> payload) throws BadInputException, NotFoundException {
+        return new RefuseRecommendationCommand(userManager, recommendationID, payload, recommendationRepository).execute();
     }
 
     public List<Recommendation> getRecommendationsByParticipant(Integer userID) throws BadInputException, NotFoundException, NoContentException {

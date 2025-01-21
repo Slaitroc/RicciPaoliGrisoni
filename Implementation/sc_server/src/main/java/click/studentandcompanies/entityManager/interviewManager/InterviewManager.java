@@ -4,13 +4,10 @@ import click.studentandcompanies.entity.Company;
 import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entity.InterviewTemplate;
 import click.studentandcompanies.entityManager.UserManager;
-import click.studentandcompanies.entityManager.interviewManager.POST.SaveInterviewTemplateCommand;
-import click.studentandcompanies.entityManager.interviewManager.POST.SendInterviewCommand;
-import click.studentandcompanies.entityManager.interviewManager.POST.SendInterviewTemplateCommand;
+import click.studentandcompanies.entityManager.interviewManager.POST.*;
 import click.studentandcompanies.entityRepository.InternshipPosOfferRepository;
 import click.studentandcompanies.entityRepository.InterviewRepository;
 import click.studentandcompanies.entityRepository.InterviewTemplateRepository;
-import click.studentandcompanies.entityManager.interviewManager.POST.SendInterviewAnswerCommand;
 import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import click.studentandcompanies.utils.exception.UnauthorizedException;
@@ -59,5 +56,9 @@ public class InterviewManager {
 
     public Interview sendInterviewTemplate(int interviewID, int templateID, Map<String, Object> payload) throws NotFoundException, BadInputException, UnauthorizedException {
         return new SendInterviewTemplateCommand(interviewID, templateID, payload, interviewRepository, interviewTemplateRepository).execute();
+    }
+
+    public Interview evaluateInterview(int interviewID, Map<String, Object> payload) throws NotFoundException, BadInputException {
+        return new EvaluateInterviewCall(interviewID, payload, interviewRepository).execute();
     }
 }

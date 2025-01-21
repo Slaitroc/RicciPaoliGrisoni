@@ -1,6 +1,6 @@
 package click.studentandcompanies.entity;
 
-import click.studentandcompanies.entity.dbEnum.ComunicationTypeEnum;
+import click.studentandcompanies.entity.dbEnum.CommunicationTypeEnum;
 import jakarta.persistence.*;
 
 @Entity
@@ -33,7 +33,20 @@ public class Communication {
     @Lob
     @Enumerated(EnumType.STRING)
     @Column(name = "communication_type", nullable = false)
-    private ComunicationTypeEnum communicationType;
+    private CommunicationTypeEnum communicationType;
+
+    public Communication() {
+        //empty constructor, required by JPA
+    }
+
+    public Communication(Student student, InternshipOffer internshipOffer, University university, String title, String content, CommunicationTypeEnum communicationType) {
+        this.student = student;
+        this.internshipOffer = internshipOffer;
+        this.university = university;
+        this.title = title;
+        this.content = content;
+        this.communicationType = communicationType;
+    }
 
     public Integer getId() {
         return id;
@@ -83,11 +96,11 @@ public class Communication {
         this.content = content;
     }
 
-    public ComunicationTypeEnum getCommunicationType() {
+    public CommunicationTypeEnum getCommunicationType() {
         return communicationType;
     }
 
-    public void setCommunicationType(ComunicationTypeEnum communicationType) {
+    public void setCommunicationType(CommunicationTypeEnum communicationType) {
         this.communicationType = communicationType;
     }
 

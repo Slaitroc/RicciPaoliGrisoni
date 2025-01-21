@@ -18,15 +18,16 @@ public class UserManager {
     //is this a hack? We want UserManager to be able to access the RecommendationRepository?
     private final RecommendationRepository recommendationRepository;
     private final SpontaneousApplicationRepository spontaneousApplicationRepository;
-
+    private final InternshipOfferRepository internshipOfferRepository;
 
     public UserManager(UniversityRepository universityRepository, StudentRepository studentRepository,
                        CompanyRepository companyRepository, RecommendationRepository recommendationRepository
-                       , SpontaneousApplicationRepository spontaneousApplicationRepository) {
+                       , SpontaneousApplicationRepository spontaneousApplicationRepository, InternshipOfferRepository internshipOfferRepository) {
         this.universityRepository = universityRepository;
         this.studentRepository = studentRepository;
         this.companyRepository = companyRepository;
         this.recommendationRepository = recommendationRepository;
+        this.internshipOfferRepository = internshipOfferRepository;
         this.spontaneousApplicationRepository = spontaneousApplicationRepository;
     }
 
@@ -66,6 +67,10 @@ public class UserManager {
 
     public Company getCompanyById(int id) {
         return companyRepository.getCompanyById(id);
+    }
+
+    public University getUniversityById(int id) {
+        return universityRepository.getUniversityById(id);
     }
 
     public UserType getUserType(int id) {
@@ -114,6 +119,10 @@ public class UserManager {
         userIDs.addAll(recommendations.stream().map(recommendation -> recommendation.getCv().getStudent().getId()).toList());
 
         return userIDs;
+    }
+
+    public InternshipOffer getInternshipOfferById(int id) {
+        return internshipOfferRepository.getInternshipOfferById(id);
     }
 }
 
