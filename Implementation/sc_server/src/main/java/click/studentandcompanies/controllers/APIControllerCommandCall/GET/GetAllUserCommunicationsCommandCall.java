@@ -39,8 +39,8 @@ public class GetAllUserCommunicationsCommandCall implements APIControllerCommand
             dtos.add(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()));
             return new ResponseEntity<>(dtos, HttpStatus.NOT_FOUND);
         }catch (NoContentException e){
-            dtos.add(DTOCreator.createDTO(DTOTypes.EMPTY, e.getMessage()));
-            return new ResponseEntity<>(dtos, HttpStatus.NO_CONTENT);
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (Exception e){
             dtos.add(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()));
             return new ResponseEntity<>(dtos, HttpStatus.INTERNAL_SERVER_ERROR);

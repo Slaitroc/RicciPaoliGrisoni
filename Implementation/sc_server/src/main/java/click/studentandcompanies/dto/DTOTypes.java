@@ -3,7 +3,6 @@ package click.studentandcompanies.dto;
 public enum DTOTypes {
     CV,
     ERROR,
-    EMPTY,
     STUDENT,
     FEEDBACK,
     STUDENT_V2,

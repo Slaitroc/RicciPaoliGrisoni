@@ -14,7 +14,6 @@ public class DTOCreator {
     private static final Map<DTOTypes, Function<Object, DTO>> functionMap = new HashMap<>();
     static {
         functionMap.put(DTOTypes.ERROR, obj -> createErrorDTO((String) obj));
-        functionMap.put(DTOTypes.EMPTY, obj -> createEmptyDTO((String) obj));
         functionMap.put(DTOTypes.STUDENT, obj -> createStudentDTO((Student) obj));
         functionMap.put(DTOTypes.STUDENT_V2, obj -> createStudentDTOV2((Student) obj));
         functionMap.put(DTOTypes.UNIVERSITY, obj -> createUniversityDTO((University) obj));
@@ -47,12 +46,6 @@ public class DTOCreator {
     private static DTO createErrorDTO(String message) {
         final DTO errorDTO = new DTO();
         errorDTO.addProperty("error", message);
-        return errorDTO;
-    }
-
-    private static DTO createEmptyDTO(String message) {
-        final DTO errorDTO = new DTO();
-        errorDTO.addProperty("empty", message);
         return errorDTO;
     }
 

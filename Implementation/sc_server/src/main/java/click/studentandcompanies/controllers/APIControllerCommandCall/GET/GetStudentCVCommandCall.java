@@ -28,7 +28,8 @@ public class GetStudentCVCommandCall implements APIControllerCommandCall<Respons
         }catch (NotFoundException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
         }catch (NoContentException e){
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.EMPTY, e.getMessage()), HttpStatus.NO_CONTENT);
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (Exception e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
