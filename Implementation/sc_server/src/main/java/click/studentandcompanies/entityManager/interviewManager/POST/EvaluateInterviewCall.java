@@ -30,6 +30,7 @@ public class EvaluateInterviewCall implements InterviewManagerCommand<Interview>
             throw new BadInputException("Interview is not in submitted status");
         }
         inputPayloadValidation();
+        interview.setStatus(InterviewStatusEnum.valueOf((String) payload.get("status")));
         interview.setEvaluation((Integer) payload.get("evaluation"));
         return interviewRepository.save(interview);
     }
