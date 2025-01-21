@@ -6,6 +6,8 @@ import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.Cv;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManager;
+import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -26,9 +28,9 @@ public class UpdateCVCommandCall implements APIControllerCommandCall<ResponseEnt
             Cv cv = submissionManager.updateCvCall(payload);
             //todo: start the recommendation process
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.CV, cv), HttpStatus.CREATED);
-        }catch (IllegalArgumentException e) {
+        }catch (BadInputException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
-        } catch (IllegalCallerException e) {
+        } catch (NotFoundException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

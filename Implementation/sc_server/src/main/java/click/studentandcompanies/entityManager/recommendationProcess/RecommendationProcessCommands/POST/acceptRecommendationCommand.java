@@ -6,6 +6,8 @@ import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.RecommendationRepository;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommand;
 import click.studentandcompanies.utils.UserType;
+import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 
 public class acceptRecommendationCommand implements RecommendationProcessCommand<Recommendation> {
     UserManager userManager;
@@ -24,13 +26,13 @@ public class acceptRecommendationCommand implements RecommendationProcessCommand
     public Recommendation execute() {
         Recommendation recommendation = recommendationRepository.getRecommendationById(recommendationID);
         if (recommendation == null) {
-            throw new IllegalArgumentException("Recommendation with ID " + recommendationID + " not found");
+            throw new NotFoundException("Recommendation with ID " + recommendationID + " not found");
         }
         UserType userType = userManager.getUserType(userID);
         if(userType == UserType.UNKNOWN){
-            throw new IllegalCallerException("Unknown user type");
+            throw new BadInputException("Unknown user type");
         }else if(userType == UserType.UNIVERSITY){
-            throw new IllegalCallerException("Universities can't accept recommendations");
+            throw new BadInputException("Universities can't accept recommendations");
         }
 
         checkIfResponseAlreadySent(recommendation, userType);
@@ -52,9 +54,9 @@ public class acceptRecommendationCommand implements RecommendationProcessCommand
         if((userType == UserType.STUDENT && recommendation.getStatus() == RecommendationStatusEnum.acceptedByStudent) ||
                 (userType == UserType.COMPANY && recommendation.getStatus() == RecommendationStatusEnum.acceptedByCompany) ||
                 recommendation.getStatus() == RecommendationStatusEnum.acceptedMatch){
-            throw new IllegalCallerException("Recommendation already accepted");
+            throw new BadInputException("Recommendation already accepted");
         }else if(recommendation.getStatus() == RecommendationStatusEnum.refusedMatch){
-            throw new IllegalCallerException("Recommendation already refused");
+            throw new BadInputException("Recommendation already refused");
         }
     }
 }

@@ -5,6 +5,8 @@ import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.RecommendationRepository;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.GET.*;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.POST.*;
+import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,15 +25,15 @@ public class RecommendationProcess {
 
     //Handle the acceptance of a recommendation
     //Thx @Matteo for the Exception handling idea, it's much cleaner now
-    public Recommendation acceptRecommendation(Integer recommendationID, Integer userID) throws IllegalCallerException, IllegalArgumentException{
+    public Recommendation acceptRecommendation(Integer recommendationID, Integer userID) throws BadInputException, NotFoundException{
         return new acceptRecommendationCommand(userManager, recommendationID, userID, recommendationRepository).execute();
     }
 
-    public Recommendation refuseRecommendation(Integer recommendationID, Integer userID) throws IllegalCallerException, IllegalArgumentException {
+    public Recommendation refuseRecommendation(Integer recommendationID, Integer userID) throws BadInputException, NotFoundException {
         return new refuseRecommendationCommand(userManager, recommendationID, userID, recommendationRepository).execute();
     }
 
-    public List<Recommendation> getRecommendationsByParticipant(Integer userID) throws IllegalCallerException, IllegalArgumentException {
+    public List<Recommendation> getRecommendationsByParticipant(Integer userID) throws BadInputException, NotFoundException {
         return new GetRecommendationByParticipant(userManager, recommendationRepository, userID).execute();
     }
 }

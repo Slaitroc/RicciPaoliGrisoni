@@ -6,6 +6,8 @@ import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.SpontaneousApplication;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManager;
+import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -27,9 +29,9 @@ public class SubmitSpontaneousApplicationCommandCall implements APIControllerCom
         try {
             SpontaneousApplication internshipOffer = submissionManager.submitSpontaneousApplication(payload, internshipOfferID);
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, internshipOffer), HttpStatus.CREATED);
-        } catch (IllegalCallerException e) {
+        } catch (BadInputException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
-        } catch (IllegalArgumentException e) {
+        } catch (NotFoundException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -7,6 +7,8 @@ import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.Feedback;
 import click.studentandcompanies.entity.Recommendation;
 import click.studentandcompanies.entityManager.feedbackMechanism.FeedbackMechanism;
+import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -28,9 +30,9 @@ public class SubmitFeedbackCommandCall implements APIControllerCommandCall<Respo
         try {
             Feedback feedback = feedbackMechanism.submitFeedback(recommendationID, payload);
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.FEEDBACK, feedback), HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
+        } catch (BadInputException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
-        } catch (IllegalCallerException e) {
+        } catch (NotFoundException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

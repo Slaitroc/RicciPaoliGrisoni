@@ -6,6 +6,9 @@ import click.studentandcompanies.entityRepository.InternshipOfferRepository;
 import click.studentandcompanies.entityRepository.SpontaneousApplicationRepository;
 import click.studentandcompanies.entityManager.submissionManager.submissionManagerCommands.GET.*;
 import click.studentandcompanies.entityManager.submissionManager.submissionManagerCommands.POST.*;
+import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NotFoundException;
+import click.studentandcompanies.utils.exception.UnauthorizedException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
@@ -38,19 +41,19 @@ public class SubmissionManager {
         return new getCvByStudentCommand(cvRepository, userManager, studentID).execute();
     }
 
-    public Cv updateCvCall(Map<String, Object> payload) {
+    public Cv updateCvCall(Map<String, Object> payload) throws BadInputException, NotFoundException {
         return new updateCVCommand(userManager, cvRepository, payload).execute();
     }
 
-    public InternshipOffer updateInternshipOffer(Map<String, Object> payload) throws IllegalCallerException, IllegalArgumentException, SecurityException {
+    public InternshipOffer updateInternshipOffer(Map<String, Object> payload) throws UnauthorizedException, BadInputException, NotFoundException {
         return new updateInternshipOfferCommand(userManager, internshipOfferRepository, payload).execute();
     }
 
-    public List<SpontaneousApplication> getSpontaneousApplicationsByParticipant(Integer studentID) throws IllegalCallerException, IllegalArgumentException {
+    public List<SpontaneousApplication> getSpontaneousApplicationsByParticipant(Integer studentID) throws BadInputException, NotFoundException {
         return new getSpontaneousApplicationsByParticipantCommand(spontaneousApplicationRepository, userManager, studentID).execute();
     }
 
-    public SpontaneousApplication submitSpontaneousApplication(Map<String, Object> payload, int internshipOfferID) throws IllegalCallerException, IllegalArgumentException {
+    public SpontaneousApplication submitSpontaneousApplication(Map<String, Object> payload, int internshipOfferID) throws BadInputException, NotFoundException {
         return new submitSpontaneousApplicationCommand(payload, userManager, spontaneousApplicationRepository, internshipOfferRepository, internshipOfferID).execute();
     }
 }

@@ -6,6 +6,9 @@ import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.InternshipOffer;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManager;
+import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NotFoundException;
+import click.studentandcompanies.utils.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -25,11 +28,11 @@ public class UpdateInternshipOfferCommandCall implements APIControllerCommandCal
         try {
             InternshipOffer offer = submissionManager.updateInternshipOffer(payload);
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.INTERNSHIP_OFFER, offer), HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
+        } catch (BadInputException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
-        } catch (IllegalCallerException e) {
+        } catch (NotFoundException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
-        } catch (SecurityException e) {
+        } catch (UnauthorizedException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.UNAUTHORIZED);
         }
     }

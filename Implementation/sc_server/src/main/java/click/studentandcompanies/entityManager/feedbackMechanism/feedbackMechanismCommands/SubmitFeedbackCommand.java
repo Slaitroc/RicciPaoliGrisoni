@@ -7,6 +7,7 @@ import click.studentandcompanies.entity.dbEnum.RecommendationStatusEnum;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.FeedbackRepository;
 import click.studentandcompanies.entityManager.feedbackMechanism.FeedbackMechanismCommand;
+import click.studentandcompanies.utils.exception.BadInputException;
 
 import java.util.List;
 import java.util.Map;
@@ -23,12 +24,12 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
         this.feedbackRepository = feedbackRepository;
     }
     @Override
-    public Feedback execute() throws IllegalArgumentException{
+    public Feedback execute() throws BadInputException{
         validateFeedbackPayload(payload);
         Integer submitter_id = (Integer) payload.get("student_id") != null ? (Integer) payload.get("student_id") : (Integer) payload.get("company_id");
         ParticipantTypeEnum participantType = userManager.getParticipantType(submitter_id);
         if(participantType == null || participantType != ParticipantTypeEnum.valueOf((String) payload.get("participant_type"))){
-            throw new IllegalArgumentException("Participant_type is not valid");
+            throw new BadInputException("Participant_type is not valid");
         }
         List<Recommendation> submitterRecommendations;
         if(participantType == ParticipantTypeEnum.student) {
@@ -37,11 +38,11 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
             submitterRecommendations = userManager.getRecommendationByCompanyId(submitter_id);
         }
         if(submitterRecommendations.stream().noneMatch(recommendation -> recommendation.getId().equals(recommendationID))){
-            throw new IllegalArgumentException("Recommendation_id is not valid");
+            throw new BadInputException("Recommendation_id is not valid");
         }
         Recommendation recommendation = userManager.getRecommendationById(recommendationID);
         if(recommendation.getStatus() != RecommendationStatusEnum.acceptedMatch){
-            throw new IllegalArgumentException("Feedback can only be submitted for accepted matches");
+            throw new BadInputException("Feedback can only be submitted for accepted matches");
         }
         Feedback feedback = createFeedback(recommendationID,submitter_id,participantType,payload);
         feedbackRepository.save(feedback);
@@ -50,19 +51,19 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
 
     private void validateFeedbackPayload(Map<String, Object> payload){
         if(payload.get("student_id")==null && payload.get("company_id")==null){
-            throw new IllegalArgumentException("Student_id or company_id is required");
+            throw new BadInputException("Student_id or company_id is required");
         }
         if(payload.get("student_id")!=null && payload.get("company_id")!=null){
-            throw new IllegalArgumentException("Student_id and company_id can't be both present");
+            throw new BadInputException("Student_id and company_id can't be both present");
         }
         if(payload.get("participant_type")==null){
-            throw new IllegalArgumentException("Participant_type is required");
+            throw new BadInputException("Participant_type is required");
         }
         if(payload.get("rating")==null){
-            throw new IllegalArgumentException("Rating is required");
+            throw new BadInputException("Rating is required");
         }
         if((Integer) payload.get("rating") < 1 || (Integer) payload.get("rating") > 5){
-            throw new IllegalArgumentException("Rating must be between 1 and 5");
+            throw new BadInputException("Rating must be between 1 and 5");
         }
     }
 

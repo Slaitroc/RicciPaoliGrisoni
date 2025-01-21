@@ -8,6 +8,8 @@ import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.InternshipOfferRepository;
 import click.studentandcompanies.entityRepository.SpontaneousApplicationRepository;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManagerCommand;
+import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 
 import java.util.Map;
 
@@ -30,17 +32,18 @@ public class submitSpontaneousApplicationCommand implements SubmissionManagerCom
         InternshipOffer internshipOffer = internshipOfferRepository.getInternshipOfferById(internshipOfferID);
         if(internshipOffer == null){
             System.out.println("Internship offer not found");
-            throw new IllegalArgumentException("Internship offer not found");
+            throw new NotFoundException("Internship offer not found");
         }
         if(payload.get("student_id")==null){
             System.out.println("Student id not found");
-            throw new IllegalCallerException("Student id not found");
+            throw new NotFoundException("Student id not found");
         }
         Student student = userManager.getStudentById((Integer) payload.get("student_id"));
         if(student == null){
             System.out.println("Student not found");
-            throw new IllegalCallerException("Bad studentID provided not found");
+            throw new BadInputException("Bad studentID provided not found");
         }
+
         SpontaneousApplication spontaneousApplication = new SpontaneousApplication(student, internshipOffer, SpontaneousApplicationStatusEnum.toBeEvaluated);
         return spontaneousApplicationRepository.save(spontaneousApplication);
     }

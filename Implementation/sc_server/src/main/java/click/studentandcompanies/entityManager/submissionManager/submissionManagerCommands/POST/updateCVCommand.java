@@ -5,6 +5,8 @@ import click.studentandcompanies.entity.Student;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.CvRepository;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManagerCommand;
+import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 
 import java.time.Instant;
 import java.util.Map;
@@ -24,12 +26,12 @@ public class updateCVCommand implements SubmissionManagerCommand<Cv> {
     public Cv execute() {
         if(payload.get("student_id")==null){
             System.out.println("Student id not found");
-            throw new IllegalArgumentException("Student id not found");
+            throw new BadInputException("Student id not found");
         }
         Student student  = userManager.getStudentById((Integer) payload.get("student_id"));
         if(student == null){
             System.out.println("Student not found");
-            throw new IllegalCallerException("Student not found");
+            throw new NotFoundException("Student not found");
         }
         Cv cv = cvRepository.getCvByStudent_Id(student.getId());
         if(cv == null) {
@@ -50,7 +52,7 @@ public class updateCVCommand implements SubmissionManagerCommand<Cv> {
         updateTime = Instant.parse(String.valueOf(payload.get("update_time")));
         if(payload.get("update_time")==null){
             System.out.println("Update time not found");
-            throw new IllegalCallerException("Update time not found");
+            throw new BadInputException("Update time not found");
         }
 
         //Save nullable fields
@@ -67,7 +69,7 @@ public class updateCVCommand implements SubmissionManagerCommand<Cv> {
         Instant updateTime = Instant.parse(String.valueOf(payload.get("update_time")));
         if(payload.get("update_time")==null){
             System.out.println("Update time not found");
-            throw new IllegalCallerException("Update time not found");
+            throw new BadInputException("Update time not found");
         }
         if(payload.get("skills")!=null)
             cv.setSkills((String) payload.get("skills"));
