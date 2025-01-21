@@ -7,6 +7,7 @@ import click.studentandcompanies.entityRepository.SpontaneousApplicationReposito
 import click.studentandcompanies.entityManager.submissionManager.submissionManagerCommands.GET.*;
 import click.studentandcompanies.entityManager.submissionManager.submissionManagerCommands.POST.*;
 import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NoContentException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import click.studentandcompanies.utils.exception.UnauthorizedException;
 import jakarta.persistence.EntityManager;
@@ -33,11 +34,11 @@ public class SubmissionManager {
         this.userManager = userManager;
     }
 
-    public List<InternshipOffer> getInternshipsByCompany(Integer companyID) {
+    public List<InternshipOffer> getInternshipsByCompany(Integer companyID) throws NotFoundException, NoContentException {
         return new GetInternshipsByCompanyCommand(internshipOfferRepository, userManager, companyID).execute();
     }
 
-    public Cv getCvByStudent(Integer studentID) {
+    public Cv getCvByStudent(Integer studentID) throws NotFoundException, NoContentException {
         return new GetCvByStudentCommand(cvRepository, userManager, studentID).execute();
     }
 
@@ -49,7 +50,7 @@ public class SubmissionManager {
         return new UpdateInternshipOfferCommand(userManager, internshipOfferRepository, payload).execute();
     }
 
-    public List<SpontaneousApplication> getSpontaneousApplicationsByParticipant(Integer studentID) throws BadInputException, NotFoundException {
+    public List<SpontaneousApplication> getSpontaneousApplicationsByParticipant(Integer studentID) throws NotFoundException, NoContentException, BadInputException {
         return new GetSpontaneousApplicationsByParticipantCommand(spontaneousApplicationRepository, userManager, studentID).execute();
     }
 

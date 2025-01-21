@@ -5,10 +5,13 @@ import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.SpontaneousApplicationRepository;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManagerCommand;
 import click.studentandcompanies.utils.UserType;
+import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NoContentException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 
 import java.util.List;
 
-public class GetSpontaneousApplicationsByParticipantCommand implements SubmissionManagerCommand {
+public class GetSpontaneousApplicationsByParticipantCommand implements SubmissionManagerCommand<List<SpontaneousApplication>> {
 
     SpontaneousApplicationRepository spontaneousApplicationRepository;
     UserManager userManager;
@@ -21,13 +24,15 @@ public class GetSpontaneousApplicationsByParticipantCommand implements Submissio
     }
 
     @Override
-    public List<SpontaneousApplication> execute() {
+    public List<SpontaneousApplication> execute() throws NotFoundException, NoContentException, BadInputException {
         UserType type = userManager.getUserType(userID);
-        return switch (type) {
+        List<SpontaneousApplication> applications = switch (type) {
             case STUDENT -> spontaneousApplicationRepository.getSpontaneousApplicationByStudent_Id(userID);
             case COMPANY -> spontaneousApplicationRepository.findSpontaneousApplicationByCompanyId(userID);
-            case UNIVERSITY -> throw new IllegalCallerException("User is not a company or student");
-            default -> throw new IllegalArgumentException("User not found");
+            case UNIVERSITY -> throw new BadInputException("User is not a company or student");
+            default -> throw new NotFoundException("User not found");
         };
+        if (applications.isEmpty()) throw new NoContentException("No spontaneous applications found");
+        return applications;
     }
 }

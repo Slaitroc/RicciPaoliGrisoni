@@ -6,6 +6,8 @@ import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.Cv;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManager;
+import click.studentandcompanies.utils.exception.NoContentException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -22,12 +24,11 @@ public class GetStudentCVCommandCall implements APIControllerCommandCall<Respons
     public ResponseEntity<DTO> execute() {
         try{
             Cv studentCV = submissionManager.getCvByStudent(studentID);
-            if (studentCV == null) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.CV, studentCV), HttpStatus.OK);
-        }catch (IllegalArgumentException e) {
+        }catch (NotFoundException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
+        }catch (NoContentException e){
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.EMPTY, e.getMessage()), HttpStatus.NO_CONTENT);
         }catch (Exception e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
