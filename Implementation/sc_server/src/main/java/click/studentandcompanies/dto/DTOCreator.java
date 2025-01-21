@@ -26,6 +26,15 @@ public class DTOCreator {
         functionMap.put(DTOTypes.RECOMMENDATION, object -> createRecommendationDTO((Recommendation) object));
         functionMap.put(DTOTypes.COMMUNICATION, object -> createCommunicationDTO((Communication) object));
         functionMap.put(DTOTypes.INTERVIEW, object -> createInterviewDTO((Interview) object));
+        functionMap.put(DTOTypes.INTERVIEW_TEMPLATE, object -> createInterviewTemplate((InterviewTemplate) object));
+    }
+
+    private static DTO createInterviewTemplate(InterviewTemplate interviewTemplate){
+        final DTO interviewTemplateDTO = new DTO();
+        interviewTemplateDTO.addProperty("id", interviewTemplate.getId());
+        interviewTemplateDTO.addProperty("questions", interviewTemplate.getQuestions());
+        interviewTemplateDTO.addProperty("company", interviewTemplate.getCompany().getName());
+        return interviewTemplateDTO;
     }
 
     private static DTO createRecommendationUpdatedStatusDTO(Recommendation recommendation) {

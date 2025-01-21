@@ -11,8 +11,8 @@ public class Interview {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "interview_template_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "interview_template_id", nullable = true)
     private InterviewTemplate interviewTemplate;
 
     @OneToOne(fetch = FetchType.LAZY)

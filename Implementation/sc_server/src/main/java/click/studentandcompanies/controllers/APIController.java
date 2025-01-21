@@ -275,7 +275,7 @@ public class APIController {
     }
 
     @PostMapping("/interviews/private/send-interview/{InterviewID}")
-    @Operation(summary = "Send interview", description = "")
+    @Operation(summary = "Send interview", description = "payload will contain the questions and the company_id")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview sent successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -285,4 +285,16 @@ public class APIController {
     public ResponseEntity<DTO> sendInterview(@PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
         return new SendInterviewCommandCall(InterviewID, payload, interviewManager).execute();
     }
+
+    @PostMapping ("/interviews/private/save-template-interview/{InterviewID}")
+    @Operation(summary = "Save interview template", description = "payload will contain the questions and the company_id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Interview template saved successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> saveInterviewTemplate(@PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
+        return new SaveInterviewTemplateCommandCall(InterviewID, interviewManager, payload).execute();
+    }
+
 }
