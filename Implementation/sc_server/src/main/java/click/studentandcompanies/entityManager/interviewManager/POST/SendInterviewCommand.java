@@ -4,6 +4,7 @@ import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entity.InterviewTemplate;
 import click.studentandcompanies.entity.dbEnum.InterviewStatusEnum;
 import click.studentandcompanies.entityManager.UserManager;
+import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManagerCommand;
 import click.studentandcompanies.entityRepository.InterviewRepository;
 import click.studentandcompanies.entityRepository.InterviewTemplateRepository;
@@ -38,21 +39,19 @@ public class SendInterviewCommand implements InterviewManagerCommand<Interview> 
             System.out.println("Interview already submitted");
             throw new BadInputException("Interview already submitted");
         }
-        InterviewTemplate interviewTemplate = createInterviewTemplate(payload);
+        if(payload.get("company_id")==null){
+            System.out.println("Company id not found");
+            throw new BadInputException("Company id not found");
+        }
+        click.studentandcompanies.entity.Company company = userManager.getCompanyById((Integer) payload.get("company_id"));
+        if(company == null){
+            System.out.println("Company not found");
+            throw new NotFoundException("Company not found");
+        }
+        InterviewTemplate interviewTemplate = InterviewManager.createInterviewTemplate(payload, company);
+        interviewTemplateRepository.save(interviewTemplate);
         interview.setInterviewTemplate(interviewTemplate);
         interview.setStatus(InterviewStatusEnum.submitted);
         return interviewRepository.save(interview);
-    }
-
-    @SuppressWarnings("unchecked")
-    private InterviewTemplate createInterviewTemplate(Map<String, Object> payload) {
-        InterviewTemplate interviewTemplate = new InterviewTemplate();
-        Map<String, String> questions = (Map<String, String>) payload.get("questions");
-        if(questions == null){
-            throw new BadInputException("Bad answer");
-        }
-        interviewTemplate.setQuestions(questions.toString());
-        interviewTemplateRepository.save(interviewTemplate);
-        return interviewTemplate;
     }
 }

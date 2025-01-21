@@ -22,6 +22,7 @@ public class UserManager {
     //is this a hack? We want UserManager to be able to access the RecommendationRepository?
     private final RecommendationRepository recommendationRepository;
 
+
     public UserManager(UniversityRepository universityRepository, StudentRepository studentRepository, CompanyRepository companyRepository, RecommendationRepository recommendationRepository) {
         this.universityRepository = universityRepository;
         this.studentRepository = studentRepository;

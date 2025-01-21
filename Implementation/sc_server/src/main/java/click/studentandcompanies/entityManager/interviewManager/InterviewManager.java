@@ -1,7 +1,10 @@
 package click.studentandcompanies.entityManager.interviewManager;
 
+import click.studentandcompanies.entity.Company;
 import click.studentandcompanies.entity.Interview;
+import click.studentandcompanies.entity.InterviewTemplate;
 import click.studentandcompanies.entityManager.UserManager;
+import click.studentandcompanies.entityManager.interviewManager.POST.SaveInterviewTemplateCommand;
 import click.studentandcompanies.entityManager.interviewManager.POST.SendInterviewCommand;
 import click.studentandcompanies.entityRepository.InternshipPosOfferRepository;
 import click.studentandcompanies.entityRepository.InterviewRepository;
@@ -33,5 +36,22 @@ public class InterviewManager {
 
     public Interview sendInterview(int interviewID, Map<String, Object> payload) throws NotFoundException, BadInputException {
         return new SendInterviewCommand(interviewID, payload, userManager, interviewRepository, interviewTemplateRepository).execute();
+    }
+
+    public InterviewTemplate saveInterviewTemplate(int InterviewID, Map<String, Object> payload) throws NotFoundException, BadInputException {
+        return new SaveInterviewTemplateCommand(InterviewID, payload, interviewRepository, interviewTemplateRepository, userManager).execute();
+    }
+
+    //Because createInterviewTemplate is needed by both the sendInterview and saveInterviewTemplate methods, it is extracted to a separate method
+    @SuppressWarnings("unchecked")
+    public static InterviewTemplate createInterviewTemplate(Map<String, Object> payload, Company company) {
+        InterviewTemplate interviewTemplate = new InterviewTemplate();
+        interviewTemplate.setCompany(company);
+        Map<String, String> questions = (Map<String, String>) payload.get("questions");
+        if(questions == null){
+            throw new BadInputException("Bad answer");
+        }
+        interviewTemplate.setQuestions(questions.toString());
+        return interviewTemplate;
     }
 }

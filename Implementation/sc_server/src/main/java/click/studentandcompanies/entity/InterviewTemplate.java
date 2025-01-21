@@ -1,6 +1,7 @@
 package click.studentandcompanies.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "interview_template")
@@ -13,6 +14,20 @@ public class InterviewTemplate {
     @Lob
     @Column(name = "questions", nullable = false)
     private String questions;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
 
     public Integer getId() {
         return id;
