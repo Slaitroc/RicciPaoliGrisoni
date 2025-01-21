@@ -28,6 +28,7 @@ public class SubmitSpontaneousApplicationCommandCall implements APIControllerCom
     public ResponseEntity<DTO> execute() {
         try {
             SpontaneousApplication internshipOffer = submissionManager.submitSpontaneousApplication(payload, internshipOfferID);
+            //todo: call the notification manager to notify the company
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, internshipOffer), HttpStatus.CREATED);
         } catch (BadInputException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);

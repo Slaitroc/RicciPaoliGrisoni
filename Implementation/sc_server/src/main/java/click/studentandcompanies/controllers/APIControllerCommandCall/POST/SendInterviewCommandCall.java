@@ -32,6 +32,7 @@ public class SendInterviewCommandCall implements APIControllerCommandCall<Respon
     public ResponseEntity<DTO> execute() {
         try {
             Interview interview = interviewManager.sendInterview(interviewID, payload);
+            //todo: call the notification manager to send the notification to the student
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.INTERVIEW, interview), HttpStatus.CREATED);
         } catch (BadInputException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
