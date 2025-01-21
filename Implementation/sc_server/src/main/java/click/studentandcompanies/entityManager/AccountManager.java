@@ -1,8 +1,8 @@
 package click.studentandcompanies.entityManager;
 
-import click.studentandcompanies.entityManager.entityRepository.CompanyRepository;
-import click.studentandcompanies.entityManager.entityRepository.StudentRepository;
-import click.studentandcompanies.entityManager.entityRepository.UniversityRepository;
+import click.studentandcompanies.entityRepository.CompanyRepository;
+import click.studentandcompanies.entityRepository.StudentRepository;
+import click.studentandcompanies.entityRepository.UniversityRepository;
 
 public class AccountManager {
     private final UserManager userManager;

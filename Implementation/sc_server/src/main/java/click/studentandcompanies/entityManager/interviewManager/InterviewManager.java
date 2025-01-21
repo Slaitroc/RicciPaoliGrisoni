@@ -2,9 +2,9 @@ package click.studentandcompanies.entityManager.interviewManager;
 
 import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entityManager.UserManager;
-import click.studentandcompanies.entityManager.entityRepository.InternshipPosOfferRepository;
-import click.studentandcompanies.entityManager.entityRepository.InterviewRepository;
-import click.studentandcompanies.entityManager.entityRepository.InterviewTemplateRepository;
+import click.studentandcompanies.entityRepository.InternshipPosOfferRepository;
+import click.studentandcompanies.entityRepository.InterviewRepository;
+import click.studentandcompanies.entityRepository.InterviewTemplateRepository;
 import click.studentandcompanies.entityManager.interviewManager.POST.sendInterviewAnswerCommand;
 import org.springframework.stereotype.Service;
 

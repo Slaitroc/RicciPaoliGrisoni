@@ -5,10 +5,10 @@ import click.studentandcompanies.entity.Recommendation;
 import click.studentandcompanies.entity.Student;
 import click.studentandcompanies.entity.University;
 import click.studentandcompanies.entity.dbEnum.ParticipantTypeEnum;
-import click.studentandcompanies.entityManager.entityRepository.CompanyRepository;
-import click.studentandcompanies.entityManager.entityRepository.RecommendationRepository;
-import click.studentandcompanies.entityManager.entityRepository.StudentRepository;
-import click.studentandcompanies.entityManager.entityRepository.UniversityRepository;
+import click.studentandcompanies.entityRepository.CompanyRepository;
+import click.studentandcompanies.entityRepository.RecommendationRepository;
+import click.studentandcompanies.entityRepository.StudentRepository;
+import click.studentandcompanies.entityRepository.UniversityRepository;
 import click.studentandcompanies.utils.UserType;
 import org.springframework.stereotype.Service;
 

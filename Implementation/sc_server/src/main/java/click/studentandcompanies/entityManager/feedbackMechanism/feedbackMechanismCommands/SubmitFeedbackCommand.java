@@ -5,7 +5,7 @@ import click.studentandcompanies.entity.Recommendation;
 import click.studentandcompanies.entity.dbEnum.ParticipantTypeEnum;
 import click.studentandcompanies.entity.dbEnum.RecommendationStatusEnum;
 import click.studentandcompanies.entityManager.UserManager;
-import click.studentandcompanies.entityManager.entityRepository.FeedbackRepository;
+import click.studentandcompanies.entityRepository.FeedbackRepository;
 import click.studentandcompanies.entityManager.feedbackMechanism.FeedbackMechanismCommand;
 
 import java.util.List;

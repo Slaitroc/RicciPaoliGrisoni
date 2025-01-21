@@ -5,8 +5,8 @@ import click.studentandcompanies.entity.SpontaneousApplication;
 import click.studentandcompanies.entity.Student;
 import click.studentandcompanies.entity.dbEnum.SpontaneousApplicationStatusEnum;
 import click.studentandcompanies.entityManager.UserManager;
-import click.studentandcompanies.entityManager.entityRepository.InternshipOfferRepository;
-import click.studentandcompanies.entityManager.entityRepository.SpontaneousApplicationRepository;
+import click.studentandcompanies.entityRepository.InternshipOfferRepository;
+import click.studentandcompanies.entityRepository.SpontaneousApplicationRepository;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManagerCommand;
 
 import java.util.Map;

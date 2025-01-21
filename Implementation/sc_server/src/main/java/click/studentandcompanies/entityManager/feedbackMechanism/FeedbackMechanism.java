@@ -2,7 +2,7 @@ package click.studentandcompanies.entityManager.feedbackMechanism;
 
 import click.studentandcompanies.entity.Feedback;
 import click.studentandcompanies.entityManager.UserManager;
-import click.studentandcompanies.entityManager.entityRepository.FeedbackRepository;
+import click.studentandcompanies.entityRepository.FeedbackRepository;
 import click.studentandcompanies.entityManager.feedbackMechanism.feedbackMechanismCommands.SubmitFeedbackCommand;
 import org.springframework.stereotype.Service;
 

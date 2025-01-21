@@ -1,9 +1,9 @@
 package click.studentandcompanies.entityManager.submissionManager;
 import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entityManager.UserManager;
-import click.studentandcompanies.entityManager.entityRepository.CvRepository;
-import click.studentandcompanies.entityManager.entityRepository.InternshipOfferRepository;
-import click.studentandcompanies.entityManager.entityRepository.SpontaneousApplicationRepository;
+import click.studentandcompanies.entityRepository.CvRepository;
+import click.studentandcompanies.entityRepository.InternshipOfferRepository;
+import click.studentandcompanies.entityRepository.SpontaneousApplicationRepository;
 import click.studentandcompanies.entityManager.submissionManager.submissionManagerCommands.GET.*;
 import click.studentandcompanies.entityManager.submissionManager.submissionManagerCommands.POST.*;
 import jakarta.persistence.EntityManager;

@@ -2,7 +2,7 @@ package click.studentandcompanies.entityManager.submissionManager.submissionMana
 
 import click.studentandcompanies.entity.Cv;
 import click.studentandcompanies.entityManager.UserManager;
-import click.studentandcompanies.entityManager.entityRepository.CvRepository;
+import click.studentandcompanies.entityRepository.CvRepository;
 
 public class getCvByStudentCommand {
     CvRepository cvRepository;

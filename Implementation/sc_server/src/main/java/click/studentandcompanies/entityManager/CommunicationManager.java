@@ -1,7 +1,7 @@
 package click.studentandcompanies.entityManager;
 
 import click.studentandcompanies.entity.Communication;
-import click.studentandcompanies.entityManager.entityRepository.CommunicationRepository;
+import click.studentandcompanies.entityRepository.CommunicationRepository;
 import click.studentandcompanies.utils.UserType;
 import org.springframework.stereotype.Service;
 

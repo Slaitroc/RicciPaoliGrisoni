@@ -2,7 +2,7 @@ package click.studentandcompanies.entityManager.submissionManager.submissionMana
 
 import click.studentandcompanies.entity.SpontaneousApplication;
 import click.studentandcompanies.entityManager.UserManager;
-import click.studentandcompanies.entityManager.entityRepository.SpontaneousApplicationRepository;
+import click.studentandcompanies.entityRepository.SpontaneousApplicationRepository;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManagerCommand;
 import click.studentandcompanies.utils.UserType;
 

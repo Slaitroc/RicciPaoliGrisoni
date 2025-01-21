@@ -2,7 +2,7 @@ package click.studentandcompanies.entityManager.recommendationProcess;
 
 import click.studentandcompanies.entity.Recommendation;
 import click.studentandcompanies.entityManager.UserManager;
-import click.studentandcompanies.entityManager.entityRepository.RecommendationRepository;
+import click.studentandcompanies.entityRepository.RecommendationRepository;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.GET.*;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.POST.*;
 import org.springframework.stereotype.Service;

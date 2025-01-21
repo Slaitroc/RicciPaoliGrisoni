@@ -3,7 +3,7 @@ package click.studentandcompanies.entityManager.submissionManager.submissionMana
 import click.studentandcompanies.entity.Company;
 import click.studentandcompanies.entity.InternshipOffer;
 import click.studentandcompanies.entityManager.UserManager;
-import click.studentandcompanies.entityManager.entityRepository.InternshipOfferRepository;
+import click.studentandcompanies.entityRepository.InternshipOfferRepository;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManagerCommand;
 
 import java.time.LocalDate;

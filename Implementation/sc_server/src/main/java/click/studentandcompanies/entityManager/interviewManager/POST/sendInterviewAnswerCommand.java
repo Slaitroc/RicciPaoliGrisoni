@@ -3,7 +3,7 @@ package click.studentandcompanies.entityManager.interviewManager.POST;
 import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entity.Student;
 import click.studentandcompanies.entityManager.UserManager;
-import click.studentandcompanies.entityManager.entityRepository.InterviewRepository;
+import click.studentandcompanies.entityRepository.InterviewRepository;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManagerCommand;
 
 import java.util.Map;

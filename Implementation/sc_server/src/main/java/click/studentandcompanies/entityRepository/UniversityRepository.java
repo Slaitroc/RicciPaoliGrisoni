@@ -1,4 +1,4 @@
-package click.studentandcompanies.entityManager.entityRepository;
+package click.studentandcompanies.entityRepository;
 import click.studentandcompanies.entity.University;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
