@@ -11,12 +11,12 @@ import click.studentandcompanies.utils.exception.NotFoundException;
 import java.time.Instant;
 import java.util.Map;
 
-public class updateCVCommand implements SubmissionManagerCommand<Cv> {
+public class UpdateCVCommand implements SubmissionManagerCommand<Cv> {
     Map<String, Object> payload;
     CvRepository cvRepository;
     UserManager userManager;
 
-    public updateCVCommand(UserManager userManager, CvRepository cvRepository, Map<String, Object> payload) {
+    public UpdateCVCommand(UserManager userManager, CvRepository cvRepository, Map<String, Object> payload) {
         this.payload = payload;
         this.cvRepository = cvRepository;
         this.userManager = userManager;

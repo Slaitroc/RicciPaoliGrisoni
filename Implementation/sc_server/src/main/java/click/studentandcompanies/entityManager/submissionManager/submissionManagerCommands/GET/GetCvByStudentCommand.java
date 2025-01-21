@@ -4,12 +4,12 @@ import click.studentandcompanies.entity.Cv;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.CvRepository;
 
-public class getCvByStudentCommand {
+public class GetCvByStudentCommand {
     CvRepository cvRepository;
     UserManager userManager;
     Integer studentID;
 
-    public getCvByStudentCommand(CvRepository cvRepository, UserManager userManager, Integer studentID) {
+    public GetCvByStudentCommand(CvRepository cvRepository, UserManager userManager, Integer studentID) {
         this.cvRepository = cvRepository;
         this.userManager = userManager;
         this.studentID = studentID;

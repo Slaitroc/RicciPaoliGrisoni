@@ -34,26 +34,26 @@ public class SubmissionManager {
     }
 
     public List<InternshipOffer> getInternshipsByCompany(Integer companyID) {
-        return new getInternshipsByCompanyCommand(internshipOfferRepository, userManager, companyID).execute();
+        return new GetInternshipsByCompanyCommand(internshipOfferRepository, userManager, companyID).execute();
     }
 
     public Cv getCvByStudent(Integer studentID) {
-        return new getCvByStudentCommand(cvRepository, userManager, studentID).execute();
+        return new GetCvByStudentCommand(cvRepository, userManager, studentID).execute();
     }
 
     public Cv updateCvCall(Map<String, Object> payload) throws BadInputException, NotFoundException {
-        return new updateCVCommand(userManager, cvRepository, payload).execute();
+        return new UpdateCVCommand(userManager, cvRepository, payload).execute();
     }
 
     public InternshipOffer updateInternshipOffer(Map<String, Object> payload) throws UnauthorizedException, BadInputException, NotFoundException {
-        return new updateInternshipOfferCommand(userManager, internshipOfferRepository, payload).execute();
+        return new UpdateInternshipOfferCommand(userManager, internshipOfferRepository, payload).execute();
     }
 
     public List<SpontaneousApplication> getSpontaneousApplicationsByParticipant(Integer studentID) throws BadInputException, NotFoundException {
-        return new getSpontaneousApplicationsByParticipantCommand(spontaneousApplicationRepository, userManager, studentID).execute();
+        return new GetSpontaneousApplicationsByParticipantCommand(spontaneousApplicationRepository, userManager, studentID).execute();
     }
 
     public SpontaneousApplication submitSpontaneousApplication(Map<String, Object> payload, int internshipOfferID) throws BadInputException, NotFoundException {
-        return new submitSpontaneousApplicationCommand(payload, userManager, spontaneousApplicationRepository, internshipOfferRepository, internshipOfferID).execute();
+        return new SubmitSpontaneousApplicationCommand(payload, userManager, spontaneousApplicationRepository, internshipOfferRepository, internshipOfferID).execute();
     }
 }

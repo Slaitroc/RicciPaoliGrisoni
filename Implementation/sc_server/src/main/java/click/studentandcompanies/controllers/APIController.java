@@ -261,7 +261,7 @@ public class APIController {
     }
 
     @PostMapping ("/interviews/private/send-answer/{InterviewID}")
-    @Operation(summary = "Send interview answer", description = "")
+    @Operation(summary = "Send interview answer", description = "payload will contain the student_id and the answer")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview answer sent successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -270,5 +270,17 @@ public class APIController {
     })
     public ResponseEntity<DTO> sendInterviewAnswer(@PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
         return new SendInterviewAnswerCommandCall(InterviewID, payload, interviewManager).execute();
+    }
+
+    @PostMapping("/interviews/private/send-interview/{InterviewID}")
+    @Operation(summary = "Send interview", description = "")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Interview sent successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Interview not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> sendInterview(@PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
+        return new SendInterviewCommandCall(InterviewID, payload, interviewManager).execute();
     }
 }

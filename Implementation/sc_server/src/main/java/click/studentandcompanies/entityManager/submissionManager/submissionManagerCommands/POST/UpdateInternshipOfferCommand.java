@@ -13,12 +13,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-public class updateInternshipOfferCommand implements SubmissionManagerCommand<InternshipOffer> {
+public class UpdateInternshipOfferCommand implements SubmissionManagerCommand<InternshipOffer> {
     UserManager userManager;
     InternshipOfferRepository internshipOfferRepository;
     Map<String, Object> payload;
 
-    public updateInternshipOfferCommand(UserManager userManager, InternshipOfferRepository internshipOfferRepository, Map<String, Object> payload) {
+    public UpdateInternshipOfferCommand(UserManager userManager, InternshipOfferRepository internshipOfferRepository, Map<String, Object> payload) {
         this.userManager = userManager;
         this.internshipOfferRepository = internshipOfferRepository;
         this.payload = payload;

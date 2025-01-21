@@ -10,13 +10,13 @@ import click.studentandcompanies.utils.exception.NotFoundException;
 
 import java.util.Map;
 
-public class sendInterviewAnswerCommand implements SubmissionManagerCommand<Interview> {
+public class SendInterviewAnswerCommand implements SubmissionManagerCommand<Interview> {
     int interviewID;
     Map<String, Object> payload;
     UserManager userManager;
     InterviewRepository interviewRepository;
 
-    public sendInterviewAnswerCommand(int interviewID, Map<String, Object> payload, UserManager userManager, InterviewRepository interviewRepository) {
+    public SendInterviewAnswerCommand(int interviewID, Map<String, Object> payload, UserManager userManager, InterviewRepository interviewRepository) {
         this.interviewID = interviewID;
         this.payload = payload;
         this.userManager = userManager;

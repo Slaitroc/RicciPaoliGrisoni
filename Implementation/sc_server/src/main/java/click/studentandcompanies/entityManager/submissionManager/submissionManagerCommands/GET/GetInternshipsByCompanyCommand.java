@@ -6,13 +6,13 @@ import click.studentandcompanies.entityRepository.InternshipOfferRepository;
 
 import java.util.List;
 
-public class getInternshipsByCompanyCommand {
+public class GetInternshipsByCompanyCommand {
 
     InternshipOfferRepository internshipOfferRepository;
     UserManager userManager;
     Integer companyID;
 
-    public getInternshipsByCompanyCommand(InternshipOfferRepository internshipOfferRepository, UserManager userManager, Integer companyID) {
+    public GetInternshipsByCompanyCommand(InternshipOfferRepository internshipOfferRepository, UserManager userManager, Integer companyID) {
         this.internshipOfferRepository = internshipOfferRepository;
         this.userManager = userManager;
         this.companyID = companyID;
