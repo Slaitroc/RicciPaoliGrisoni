@@ -7,6 +7,7 @@ import click.studentandcompanies.entityManager.communicationManager.Communicatio
 import click.studentandcompanies.entityRepository.CommunicationRepository;
 import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
+import click.studentandcompanies.utils.exception.WrongStateException;
 
 import java.util.List;
 import java.util.Map;
@@ -84,10 +85,14 @@ public class CreateCommunicationCommand implements CommunicationManagerCommands<
             throw new BadInputException("Communication type not found");
         }else{
             try{
-                CommunicationTypeEnum.valueOf((String) payload.get("communication_type"));
+                CommunicationTypeEnum communicationType = CommunicationTypeEnum.valueOf((String) payload.get("communication_type"));
+                if(communicationType == CommunicationTypeEnum.closed){
+                    System.out.println("Type cannot be closed");
+                    throw new WrongStateException("Type cannot be closed");
+                }
             }catch (IllegalArgumentException e){
-                System.out.println("Communication type not found");
-                throw new BadInputException("Communication type not found");
+                System.out.println("Unknown communication type");
+                throw new BadInputException("Unknown communication type");
             }
         }
     }
