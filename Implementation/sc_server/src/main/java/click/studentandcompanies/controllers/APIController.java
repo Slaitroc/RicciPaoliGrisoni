@@ -69,7 +69,7 @@ public class APIController {
     // Here we are returning a ResponseEntity with a list of DTOs.
     // Could also return a specific customized DTO with the list of Internships
     // but frontend libraries works fine with a list of JSON (says ChatGPT)
-    @GetMapping("/sub/private/internships/{companyID}")
+    @GetMapping("/sub/private/internships/")
     @Operation(summary = "Request Company Internships", description = "Get a list of Internship Offers advertised by a specific company.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Internships retrieved successfully"),
@@ -77,11 +77,11 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, Company ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getCompanyInternships(@PathVariable Integer companyID) {
+    public ResponseEntity<List<DTO>> getCompanyInternships(@RequestParam("companyID") Integer companyID) {
         return new GetCompanyInternshipsCommandCall(companyID, submissionManager).execute();
     }
 
-    @GetMapping("/sub/private/cv/{studentID}")
+    @GetMapping("/sub/private/cv/")
     @Operation(summary = "Request Student CV", description = "Get the CV of a specific student.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, CV retrieved successfully"),
@@ -90,12 +90,12 @@ public class APIController {
             @ApiResponse(responseCode = "401", description = "Unauthorized, User not authorized to access this resource"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> getStudentCV(@PathVariable Integer studentID) {
+    public ResponseEntity<DTO> getStudentCV(@RequestParam("studentID") Integer studentID) {
         return new GetStudentCVCommandCall(studentID, submissionManager).execute();
     }
 
     // API called by student and companies when looking for their spontaneous applications
-    @GetMapping("/applications/private/spontaneous-applications/{userID}")
+    @GetMapping("/applications/private/spontaneous-applications/")
     @Operation(summary = "User requests the list of his Spontaneous Applications", description = "Get a list of Spontaneous Applications submitted by a specific student or submitted to a specific company.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Spontaneous Applications retrieved successfully"),
@@ -104,11 +104,11 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getSpontaneousApplications(@PathVariable Integer userID) {
+    public ResponseEntity<List<DTO>> getSpontaneousApplications(@RequestParam("userID") Integer userID) {
         return new GetSpontaneousApplicationsCommandCall(userID, submissionManager).execute();
     }
 
-    @GetMapping("/applications/private/get-matches/{userID}")
+    @GetMapping("/applications/private/get-matches/")
     @Operation(summary = "User requests the list of his Matches", description = "Get the list of the user Recommendations.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Matches retrieved successfully"),
@@ -117,11 +117,11 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getRecommendations(@PathVariable Integer userID) {
+    public ResponseEntity<List<DTO>> getRecommendations(@RequestParam("userID") Integer userID) {
         return new GetRecommendationsCommandCall(userID, recommendationProcess).execute();
     }
 
-    @GetMapping("/comm/private/communications/{userID}")
+    @GetMapping("/comm/private/communications/")
     @Operation(summary = "User userID requests the communication commID", description = "Get the communication commID for the user userID.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Communication retrieved successfully"),
@@ -129,19 +129,19 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, userID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getAllUserCommunications(@PathVariable Integer userID) {
+    public ResponseEntity<List<DTO>> getAllUserCommunications(@RequestParam("userID") Integer userID) {
         return new GetAllUserCommunicationsCommandCall(userID, communicationManager).execute();
     }
 
     //TODO: Where is done the check if the user is retrieving one of his communications? There is no body in the GET request
-    @GetMapping("/comm/private/communication/{commID}")
+    @GetMapping("/comm/private/communication/")
     @Operation(summary = "User userID requests the communication commID", description = "Get the communication commID for the user userID.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Communication retrieved successfully"),
             @ApiResponse(responseCode = "404", description = "Not Found, Communication ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> getCommunication(@PathVariable Integer commID) {
+    public ResponseEntity<DTO> getCommunication(@RequestParam("commID") Integer commID) {
         return new GetCommunicationCommandCall(commID, communicationManager).execute();
     }
 
