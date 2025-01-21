@@ -5,6 +5,8 @@ import click.studentandcompanies.entity.Student;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.InterviewRepository;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManagerCommand;
+import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 
 import java.util.Map;
 
@@ -26,18 +28,18 @@ public class sendInterviewAnswerCommand implements SubmissionManagerCommand<Inte
     public Interview execute() {
         Interview interview = interviewRepository.getInterviewById(interviewID);
         if(interview == null){
-            throw new IllegalArgumentException("Interview not found");
+            throw new BadInputException("Interview not found");
         }
         if(payload.get("student_id") == null){
-            throw new IllegalArgumentException("Bad student id");
+            throw new BadInputException("Bad student id");
         }
         Student student = userManager.getStudentById((int) payload.get("student_id"));
         if(student == null){
-            throw new IllegalCallerException("Student not found");
+            throw new NotFoundException("Student not found");
         }
         Map<String, String> answer = (Map<String, String>) payload.get("answer");
         if(answer == null){
-            throw new IllegalArgumentException("Bad answer");
+            throw new BadInputException("Bad answer");
         }
         interview.setAnswer(answer.toString());
         return interviewRepository.save(interview);

@@ -103,6 +103,41 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "http://localhost:8443/application-api/interviews/private/send-answer/1",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"student_id\": 1,\r\n    \"answer\": {\r\n        \"answer1\": \"A\",\r\n        \"answer2\": \"B\",\r\n        \"answer\": \"C\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8443/application-api/interviews/private/send-answer/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"application-api",
+						"interviews",
+						"private",
+						"send-answer",
+						"1"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

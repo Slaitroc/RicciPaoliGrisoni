@@ -6,6 +6,7 @@ import click.studentandcompanies.entityRepository.InternshipPosOfferRepository;
 import click.studentandcompanies.entityRepository.InterviewRepository;
 import click.studentandcompanies.entityRepository.InterviewTemplateRepository;
 import click.studentandcompanies.entityManager.interviewManager.POST.sendInterviewAnswerCommand;
+import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -24,7 +25,7 @@ public class InterviewManager {
         this.internshipPosOfferRepository = internshipPosOfferRepository;
     }
 
-    public Interview sendInterviewAnswer(int interviewID, Map<String, Object> payload) throws IllegalArgumentException, IllegalCallerException {
+    public Interview sendInterviewAnswer(int interviewID, Map<String, Object> payload) throws NotFoundException, IllegalCallerException {
         return new sendInterviewAnswerCommand(interviewID, payload, userManager, interviewRepository).execute();
     }
 }
