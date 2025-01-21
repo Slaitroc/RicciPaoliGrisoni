@@ -25,6 +25,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Input } from "@mui/material";
+import * as firebaseMethods from "../firebaseMethods";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -117,21 +118,30 @@ export default function SCSignUp(props) {
       setNameErrorMessage("");
     }
 
+    if (isValid) {
+      console.log("Registration successful");
+      register(email.value, password.value);
+    }
+
     return isValid;
   };
 
-  const handleSubmit = (event) => {
-    if (nameError || emailError || passwordError) {
-      event.preventDefault();
-      return;
+  const register = async (email, password) => {
+    try {
+      const token = await firebaseMethods.registerUser(email, password);
+      firebaseMethods.saveToken(token);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error during registration:", error.message);
     }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get("name"),
-      lastName: data.get("lastName"),
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (validateInputs()) {
+      const { email, password } = formData;
+      register(email, password);
+    }
   };
 
   const formType = () => {
