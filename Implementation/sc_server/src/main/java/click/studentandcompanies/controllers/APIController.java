@@ -333,7 +333,6 @@ public class APIController {
         return new CreateCommunicationCommandCall(communicationManager, payload).execute();
     }
 
-    //__________________________________________________________________________________________________________________
 
     @PostMapping("/sub/private/close-internship/")
     @Operation(summary = "Close internship", description = "payload will contain the company_id")
@@ -374,5 +373,18 @@ public class APIController {
     })
     public ResponseEntity<DTO> sendInterviewPositionOffer(@PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
         return new SendInterviewPositionOfferCommandCall(interviewManager, InterviewID, payload).execute();
+    }
+
+    @PostMapping("/interview/private/accept-int-pos-off/")
+    @Operation(summary = "Close internship", description = "payload will contain the user_id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK, Internship closed successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, User is not the owner of the internship"),
+            @ApiResponse(responseCode = "404", description = "Internship not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> acceptInternshipPositionOffer(@RequestParam("intPosOffID") Integer intPosOffID, @RequestBody Map<String, Object> payload) {
+        return new AcceptInternshipPositionOfferCommandCall(intPosOffID, payload, interviewManager).execute();
     }
 }

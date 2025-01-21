@@ -1,17 +1,16 @@
 package click.studentandcompanies.entityManager.interviewManager;
 
-import click.studentandcompanies.entity.Company;
-import click.studentandcompanies.entity.InternshipPosOffer;
-import click.studentandcompanies.entity.Interview;
-import click.studentandcompanies.entity.InterviewTemplate;
+import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.interviewManager.POST.*;
 import click.studentandcompanies.entityRepository.InternshipPosOfferRepository;
 import click.studentandcompanies.entityRepository.InterviewRepository;
 import click.studentandcompanies.entityRepository.InterviewTemplateRepository;
+import click.studentandcompanies.entityManager.interviewManager.POST.SendInterviewAnswerCommand;
 import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import click.studentandcompanies.utils.exception.UnauthorizedException;
+import click.studentandcompanies.utils.exception.WrongStateException;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -65,5 +64,9 @@ public class InterviewManager {
 
     public InternshipPosOffer sendInterviewPositionOffer(int interviewID, Map<String, Object> payload) throws NotFoundException, BadInputException {
         return new SendInterviewPositionOfferCommand(interviewID, payload, userManager, interviewRepository, internshipPosOfferRepository).execute();
+    }
+
+    public InternshipPosOffer acceptInternshipPositionOffer(Integer intPosOffID, Map<String, Object> payload) throws NotFoundException, BadInputException, UnauthorizedException, WrongStateException {
+        return new AcceptInternshipPositionOfferCommand(intPosOffID, payload, interviewRepository, userManager).execute();
     }
 }
