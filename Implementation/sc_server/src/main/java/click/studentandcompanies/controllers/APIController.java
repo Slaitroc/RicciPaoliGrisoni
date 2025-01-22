@@ -233,7 +233,7 @@ public class APIController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> updateOffer(@RequestBody Map<String, Object> payload) {
-        return new UpdateInternshipOfferCommandCall(payload, submissionManager).execute();
+        return new UpdateInternshipOfferCommandCall(payload, submissionManager, recommendationProcess).execute();
     }
 
     @PutMapping("/feedback/private/{RecommendationID}/submit")
