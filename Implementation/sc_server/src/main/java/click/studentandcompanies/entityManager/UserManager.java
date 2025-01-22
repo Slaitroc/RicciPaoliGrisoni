@@ -123,5 +123,9 @@ public class UserManager {
     public InternshipOffer getInternshipOfferById(int id) {
         return internshipOfferRepository.getInternshipOfferById(id);
     }
+
+    public List<InternshipOffer> getAllInternshipOffers() {
+        return internshipOfferRepository.findAll();
+    }
 }
 
