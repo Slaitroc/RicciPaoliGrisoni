@@ -199,7 +199,7 @@ public class APIController {
     })
     public ResponseEntity<DTO> acceptRecommendation(@PathVariable Integer RecommendationID,
             @RequestBody Map<String, Object> payload) {
-        return new AcceptRecommendationCommandCall(RecommendationID, recommendationProcess, payload).execute();
+        return new AcceptRecommendationCommandCall(RecommendationID, recommendationProcess, notificationManager, payload).execute();
     }
 
     // The payload is a map with the userID
@@ -346,7 +346,7 @@ public class APIController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> createCommunication(@RequestBody Map<String, Object> payload) {
-        return new CreateCommunicationCommandCall(communicationManager, payload).execute();
+        return new CreateCommunicationCommandCall(communicationManager, notificationManager, payload).execute();
     }
 
     @PostMapping("/sub/private/close-internship/")

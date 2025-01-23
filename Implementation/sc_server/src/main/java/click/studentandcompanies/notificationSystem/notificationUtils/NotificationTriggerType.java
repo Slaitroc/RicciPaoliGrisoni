@@ -1,8 +1,6 @@
 package click.studentandcompanies.notificationSystem.notificationUtils;
 
-import click.studentandcompanies.notificationSystem.senders.SenderInterface;
-import click.studentandcompanies.notificationSystem.senders.SendInternshipCancelledNotification;
-import click.studentandcompanies.notificationSystem.senders.SendSelectionProcessInitiatedNotification;
+import click.studentandcompanies.notificationSystem.senders.*;
 
 /**
  * This enum contains all the possible triggers for the notification system
@@ -11,7 +9,8 @@ import click.studentandcompanies.notificationSystem.senders.SendSelectionProcess
 public enum NotificationTriggerType {
     INTERNSHIP_CANCELLED(new SendInternshipCancelledNotification()),
     SPONTANEOUS_APPLICATION_ACCEPTED(new SendSelectionProcessInitiatedNotification()),
-    MATCHED_FOUND(new SendSelectionProcessInitiatedNotification());
+    MATCHED_FOUND(new SendSelectionProcessInitiatedNotification()),
+    NEW_COMMUNICATION(new SendNewCommunicationNotification());
 
     private final SenderInterface sender;
 
