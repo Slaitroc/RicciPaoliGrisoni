@@ -75,7 +75,7 @@ public class StartRecommendationProcessCommandOffer extends RecommendationProces
     }
 
     private void createRecommendation(float score, Cv cv){
-        if(score > 0.0f){
+        if(score > computeDynamicThreshold(userManager.getAllFeedbacks())){
             Recommendation recommendation = new Recommendation(internshipOffer, cv, RecommendationStatusEnum.pendingMatch, score);
             recommendationList.add(recommendation);
         }

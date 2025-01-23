@@ -1,6 +1,8 @@
 package click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.recommendationAlgorithm;
 
 import click.studentandcompanies.entity.Cv;
+import click.studentandcompanies.entity.Feedback;
+import click.studentandcompanies.utils.RecommendationAlgortimSetting;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -18,6 +20,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.List;
 
 public class RecommendationProcessUtil {
     protected final StandardAnalyzer analyzer = new StandardAnalyzer();
@@ -79,6 +83,44 @@ public class RecommendationProcessUtil {
         } catch (IOException e) {
             throw new RuntimeException("Error while closing the index writer", e);
         }
+    }
+
+    //Feedback compute the threshold using a variation of the exponential moving average (EMA) formula.
+    //A older feedback has less weight than a recent one, so the threshold is more influenced by recent feedbacks.
+    //The formula of EMA is: threshold = (1 - alpha) * rating1 + (1 - alpha)^2 * feedback2 + ... + (1 - alpha)^n * rating1
+    //Also notice that if we get a higher rating, the threshold will decrease at more match will be created. The opposite is also true.
+    protected double computeDynamicThreshold(List<Feedback> feedbacks) {
+        double numerator = 0.0;
+        double denominator = 0.0;
+        long now = System.currentTimeMillis();
+        long numberOfDaysInMillis = (long) RecommendationAlgortimSetting.DAYS_BEFORE_EXPIRATION.getValue() * 24 * 60 * 60 * 1000;
+        feedbacks.sort(Comparator.comparing(Feedback::getUploadTime).reversed());
+        int feedbacksSize = feedbacks.size();
+        System.out.println("feedbacks size: " + feedbacksSize);
+        for (int i = 0; i < feedbacksSize; i++) {
+            Feedback feedback = feedbacks.get(i);
+            long feedbackTime = feedback.getUploadTime().toEpochMilli();
+            // Only consider feedbacks that are less than NUMBER OF days old
+            if (now - feedbackTime >= numberOfDaysInMillis) {
+                break;
+            }
+            double alpha = RecommendationAlgortimSetting.ALPHA.getValue();
+            float weight = (float) Math.pow(1 - alpha, i+1);
+
+            //Normalize rating (1-5) to range [0, 1], where 1 maps to 1.0 and 5 maps to 0.0
+            double normalizedRating = (5 - feedback.getRating()) / 4.0;
+            System.out.println("normalized rating: " + normalizedRating + "original rating: " + feedback.getRating());
+            numerator += weight * normalizedRating;
+            denominator += weight;
+        }
+        //Default threshold if no valid feedback is found
+        if (denominator == 0) {
+            return RecommendationAlgortimSetting.DEFAULT_THRESHOLD.getValue();
+        }
+        //Exponential function to ensure the threshold stays in range [0,1]
+        double threshold = Math.exp(- numerator / denominator);
+        System.out.println("threshold: " + threshold);
+        return threshold;
     }
 
     private Directory loadIndexFolder(Path indexDirectoryPath){

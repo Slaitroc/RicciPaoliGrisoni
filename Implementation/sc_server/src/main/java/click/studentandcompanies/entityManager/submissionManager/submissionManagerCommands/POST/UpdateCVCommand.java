@@ -43,7 +43,7 @@ public class UpdateCVCommand implements SubmissionManagerCommand<Cv> {
         return cvRepository.save(cv);
     }
 
-    private Cv createCV(Map<String, Object> payload) throws IllegalCallerException {
+    private Cv createCV(Map<String, Object> payload) throws BadInputException {
         Integer studentId;
         Instant updateTime;
 

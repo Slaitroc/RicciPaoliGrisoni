@@ -22,7 +22,6 @@ public class StartRecommendationProcessCommandCV extends RecommendationProcessUt
     private final Cv cv;
     private final RecommendationRepository recommendationRepository;
     private final List<Recommendation> recommendationList = new ArrayList<>();
-
     public StartRecommendationProcessCommandCV(UserManager userManager, Cv cv, RecommendationRepository recommendationRepository) {
         this.userManager = userManager;
         this.cv = cv;
@@ -69,7 +68,7 @@ public class StartRecommendationProcessCommandCV extends RecommendationProcessUt
     }
 
     private void createRecommendation(Document doc, float score){
-        if(score > 0.0f){
+        if(score > computeDynamicThreshold(userManager.getAllFeedbacks())){
             int id = doc.getField("id").numericValue().intValue();
             InternshipOffer internshipOffer = userManager.getInternshipOfferById(id);
             Recommendation recommendation = new Recommendation(internshipOffer, cv, RecommendationStatusEnum.pendingMatch, score);

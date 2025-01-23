@@ -2,8 +2,11 @@ package click.studentandcompanies.entity;
 
 import click.studentandcompanies.entity.dbEnum.ParticipantTypeEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
+import java.time.Instant;
 
 @Entity
 @Table(name = "feedback")
@@ -38,15 +41,28 @@ public class Feedback {
     @Column(name = "comment")
     private String comment;
 
+    @NotNull
+    @Column(name = "upload_time", nullable = false)
+    private Instant uploadTime;
+
+    public Instant getUploadTime() {
+        return uploadTime;
+    }
+
+    public void setUploadTime(Instant uploadTime) {
+        this.uploadTime = uploadTime;
+    }
+
     public Feedback() {
         // default constructor required by JPA
     }
 
-    public Feedback(Recommendation recommendation, ParticipantTypeEnum participantType, Integer rating, String comment) {
+    public Feedback(Recommendation recommendation, ParticipantTypeEnum participantType, Integer rating, String comment, Instant uploadTime) {
         this.recommendation = recommendation;
         this.participantType = participantType;
         this.comment = comment;
         this.rating = rating;
+        this.uploadTime = uploadTime;
     }
 
     public Integer getId() {
