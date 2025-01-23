@@ -16,16 +16,17 @@ public class SendInterviewEvaluatedNotification implements SenderInterface {
      */
     @Override
     public void sendNotification(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {
-        try{
-            NotificationPayload payload = new NotificationPayload("Interview Evaluated", data.getProperties().get("company") + " has evaluated your interview for the internship " + data.getProperties().get("internship"));
-            EmailContent emailContent = new EmailContent("Interview Evaluated", data.getProperties().get("company") + " has evaluated your interview for the internship " + data.getProperties().get("internship"));
 
-            PUSH_NOTIFICATION_ADAPTER.sendPushNotification(notificationManager.getDeviceTokens(userIDs.getFirst()), payload);
-            EMAIL_SERVICE_ADAPTER.sendEmail(List.of(notificationManager.getUserEmail(userIDs.getFirst())), emailContent);
+        String internshipTitle = (String) data.getProperties().get("internship_title");
+        String company_name = (String) data.getProperties().get("company_name");
 
-        }catch (NullPointerException e){
-            System.out.println("Error with the NotificationData: check the TriggerDataType and the DTO fields");
-            e.printStackTrace();
-        }
+        String pushTitle = "Interview Evaluated";
+        String pushBody = company_name + " has evaluated your interview for the internship \"" + internshipTitle + "\".";
+
+        NotificationPayload payload = new NotificationPayload(pushTitle, pushBody);
+        EmailContent emailContent = new EmailContent(pushTitle, pushBody);
+
+        PUSH_NOTIFICATION_ADAPTER.sendPushNotification(notificationManager.getDeviceTokens(userIDs.getFirst()), payload);
+        EMAIL_SERVICE_ADAPTER.sendEmail(List.of(notificationManager.getUserEmail(userIDs.getFirst())), emailContent);
     }
 }

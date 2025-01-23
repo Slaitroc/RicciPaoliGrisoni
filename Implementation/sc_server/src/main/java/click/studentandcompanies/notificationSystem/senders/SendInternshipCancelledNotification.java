@@ -26,14 +26,17 @@ public class SendInternshipCancelledNotification implements SenderInterface {
             userEmails.add(notificationManager.getUserEmail(userID));
             //todo: how does the device token works when it expires?
         }
-        try {
-            NotificationPayload payload = new NotificationPayload("Internship Offer Cancelled", "The internship " + dto.getProperties().get("title") + " has been closed.");
-            EmailContent emailContent = new EmailContent("Internship Offer Cancelled", "The internship " + dto.getProperties().get("title") + " has been closed.");
-            PUSH_NOTIFICATION_ADAPTER.sendPushNotification(deviceTokens, payload);
-            EMAIL_SERVICE_ADAPTER.sendEmail(userEmails, emailContent);
-        }catch (NullPointerException e){
-        System.out.println("Error with the NotificationData: check the TriggerDataType and the DTO fields");
-        e.printStackTrace();
-    }
+
+        //todo: valuate when to send email or inApp notification and if the content should be different
+        String internshipTitle = (String) dto.getProperties().get("internship_title");
+
+        String pushTitle = "Internship Offer Cancelled";
+        String pushBody = "The internship \"" + internshipTitle + "\" has been closed.";
+
+        NotificationPayload payload = new NotificationPayload(pushTitle, pushBody);
+        EmailContent emailContent = new EmailContent(pushTitle, pushBody);
+
+        PUSH_NOTIFICATION_ADAPTER.sendPushNotification(deviceTokens, payload);
+        EMAIL_SERVICE_ADAPTER.sendEmail(userEmails, emailContent);
     }
 }

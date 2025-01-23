@@ -23,21 +23,20 @@ public class SendNewCommunicationNotification implements SenderInterface {
             DeviceTokens.addAll(notificationManager.getDeviceTokens(userID));
             Emails.add(notificationManager.getUserEmail(userID));
         }
-        try{
-            NotificationPayload payload = new NotificationPayload("New Communication: " + data.getProperties().get("title"),
-                    "A new communication has been created for the internship " + data.getProperties().get("internshipOffer_title") +
-                            " between " + data.getProperties().get("student") + " and " + data.getProperties().get("company") + ".");
 
-            EmailContent emailContent = new EmailContent("New Communication: " + data.getProperties().get("title"),
-                    "A new communication has been created for the internship " + data.getProperties().get("internshipOffer_title") +
-                            " between " + data.getProperties().get("student") + " and " + data.getProperties().get("company") + ".");
+        String internshipTitle = (String) data.getProperties().get("internshipOffer_title");
+        String studentName = (String) data.getProperties().get("student_name");
+        String communicationTitle = (String) data.getProperties().get("title");
+        String company_name = (String) data.getProperties().get("company_name");
 
-            PUSH_NOTIFICATION_ADAPTER.sendPushNotification(DeviceTokens, payload);
-            EMAIL_SERVICE_ADAPTER.sendEmail(Emails, emailContent);
+        String pushTitle = "New Communication: " + communicationTitle;
+        String pushBody = "A new communication has been created for the internship \"" + internshipTitle +
+                "\" between " + studentName + " and " + company_name + ".";
 
-        }catch (NullPointerException e){
-            System.out.println("Error with the NotificationData: check the TriggerDataType and the DTO fields");
-            e.printStackTrace();
-        }
+        NotificationPayload payload = new NotificationPayload(pushTitle, pushBody);
+        EmailContent emailContent = new EmailContent(pushTitle, pushBody);
+
+        PUSH_NOTIFICATION_ADAPTER.sendPushNotification(DeviceTokens, payload);
+        EMAIL_SERVICE_ADAPTER.sendEmail(Emails, emailContent);
     }
 }

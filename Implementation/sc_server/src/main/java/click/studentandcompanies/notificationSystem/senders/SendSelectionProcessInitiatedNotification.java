@@ -33,30 +33,25 @@ public class SendSelectionProcessInitiatedNotification implements SenderInterfac
             }
         }
 
+        String internshipTitle = (String) dto.getProperties().get("internship_title");
+        String company_name = (String) dto.getProperties().get("company_name");
+        String studentName = (String) dto.getProperties().get("student_name");
 
-        try{//todo: valuate when to send email or inApp notification and if the content should be different
-            NotificationPayload studentPayload = new NotificationPayload("Selection Process Initiated",
-                    "The selection process for the internship " + dto.getProperties().get("internship_title") +
-                            " for the company " + dto.getProperties().get("company_name") + " has been initiated."); //or something like that
-            EmailContent studentEmailContent = new EmailContent("Selection Process Initiated",
-                    "The selection process for the internship " + dto.getProperties().get("internship_title") +
-                            " for the company " + dto.getProperties().get("company_name") + " has been initiated.");
+        String studentTitle = "Selection Process Initiated";
+        String studentBody = "The selection process for the internship \"" + internshipTitle +
+                "\" for the company " + company_name + " has been initiated.";
+        String companyTitle = "Selection Process Initiated";
+        String companyBody = studentName + " is your new candidate for the internship " + internshipTitle;
 
-            NotificationPayload companyPayload = new NotificationPayload("Selection Process Initiated",
-                    dto.getProperties().get("student_name") + " is your new candidate for the internship "
-                            + dto.getProperties().get("internship_title"));
-            EmailContent companyEmailContent = new EmailContent("Selection Process Initiated",
-                    dto.getProperties().get("student_name") + " is your new candidate for the internship "
-                            + dto.getProperties().get("internship_title"));
+        NotificationPayload studentPayload = new NotificationPayload(studentTitle, studentBody);
+        EmailContent studentEmailContent = new EmailContent(studentTitle, studentBody);
 
-            PUSH_NOTIFICATION_ADAPTER.sendPushNotification(studentDeviceTokens, studentPayload);
-            PUSH_NOTIFICATION_ADAPTER.sendPushNotification(companyDeviceTokens, companyPayload);
-            EMAIL_SERVICE_ADAPTER.sendEmail(studentEmails, studentEmailContent);
-            EMAIL_SERVICE_ADAPTER.sendEmail(companyEmails, companyEmailContent);
+        NotificationPayload companyPayload = new NotificationPayload(companyTitle, companyBody);
+        EmailContent companyEmailContent = new EmailContent(companyTitle, companyBody);
 
-        }catch (NullPointerException e){
-        System.out.println("Error with the NotificationData: check the TriggerDataType and the DTO fields");
-        e.printStackTrace();
-    }
+        PUSH_NOTIFICATION_ADAPTER.sendPushNotification(studentDeviceTokens, studentPayload);
+        PUSH_NOTIFICATION_ADAPTER.sendPushNotification(companyDeviceTokens, companyPayload);
+        EMAIL_SERVICE_ADAPTER.sendEmail(studentEmails, studentEmailContent);
+        EMAIL_SERVICE_ADAPTER.sendEmail(companyEmails, companyEmailContent);
     }
 }
