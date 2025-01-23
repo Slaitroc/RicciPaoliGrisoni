@@ -9,6 +9,7 @@ import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NoContentException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -37,5 +38,10 @@ public class RecommendationProcess {
 
     public List<Recommendation> getRecommendationsByParticipant(Integer userID) throws BadInputException, NotFoundException, NoContentException {
         return new GetRecommendationByParticipant(userManager, recommendationRepository, userID).execute();
+    }
+
+    @Transactional
+    public void closeRelatedRecommendations(Integer internshipID) {
+        new CloseRelatedRecommendationsCommand(recommendationRepository, internshipID).execute();
     }
 }

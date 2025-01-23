@@ -18,4 +18,6 @@ public interface RecommendationRepository extends JpaRepository<Recommendation, 
     List<Recommendation> findRecommendationByCompanyId(@Param("companyId") Integer companyId);
 
     List<Recommendation> findRecommendationByInternshipOfferId(Integer internshipID);
+
+    void removeRecommendationByInternshipOffer_Id(Integer internshipOfferId);
 }
