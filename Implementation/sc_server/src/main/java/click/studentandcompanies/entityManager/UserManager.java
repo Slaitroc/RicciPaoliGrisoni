@@ -18,16 +18,21 @@ public class UserManager {
     private final RecommendationRepository recommendationRepository;
     private final SpontaneousApplicationRepository spontaneousApplicationRepository;
     private final InternshipOfferRepository internshipOfferRepository;
+    private final CvRepository cvRepository;
+    private final FeedbackRepository feedbackRepository;
 
     public UserManager(UniversityRepository universityRepository, StudentRepository studentRepository,
                        CompanyRepository companyRepository, RecommendationRepository recommendationRepository
-                       , SpontaneousApplicationRepository spontaneousApplicationRepository, InternshipOfferRepository internshipOfferRepository) {
+                       , SpontaneousApplicationRepository spontaneousApplicationRepository, InternshipOfferRepository internshipOfferRepository
+                       , CvRepository cvRepository, FeedbackRepository feedbackRepository) {
         this.universityRepository = universityRepository;
         this.studentRepository = studentRepository;
         this.companyRepository = companyRepository;
         this.recommendationRepository = recommendationRepository;
         this.internshipOfferRepository = internshipOfferRepository;
         this.spontaneousApplicationRepository = spontaneousApplicationRepository;
+        this.cvRepository = cvRepository;
+        this.feedbackRepository = feedbackRepository;
     }
 
     //CRUD operations, all of them are already implemented by the JpaRepository
@@ -122,6 +127,18 @@ public class UserManager {
 
     public InternshipOffer getInternshipOfferById(int id) {
         return internshipOfferRepository.getInternshipOfferById(id);
+    }
+
+    public List<InternshipOffer> getAllInternshipOffers() {
+        return internshipOfferRepository.findAll();
+    }
+
+    public List<Cv> getAllCvs(){
+        return cvRepository.findAll();
+    }
+
+    public List<Feedback> getAllFeedbacks(){
+        return feedbackRepository.findAll();
     }
 }
 

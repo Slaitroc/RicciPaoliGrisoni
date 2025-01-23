@@ -150,6 +150,7 @@ public class DTOCreator {
         recommendationDTO.addProperty("student_id", recommendation.getCv().getStudent().getId());
         recommendationDTO.addProperty("company_id", recommendation.getInternshipOffer().getCompany().getId());
         recommendationDTO.addProperty("internship_offer_id", recommendation.getInternshipOffer().getId());
+        recommendationDTO.addProperty("score", recommendation.getScore());
         return recommendationDTO;
     }
 

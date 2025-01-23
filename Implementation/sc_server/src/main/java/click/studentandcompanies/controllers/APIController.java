@@ -225,7 +225,7 @@ public class APIController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> updateCV(@RequestBody Map<String, Object> payload) {
-        return new UpdateCVCommandCall(payload, submissionManager).execute();
+        return new UpdateCVCommandCall(payload, submissionManager, recommendationProcess).execute();
     }
 
     // The payload is a map with the "company_id", optionally the
@@ -243,7 +243,7 @@ public class APIController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> updateOffer(@RequestBody Map<String, Object> payload) {
-        return new UpdateInternshipOfferCommandCall(payload, submissionManager).execute();
+        return new UpdateInternshipOfferCommandCall(payload, submissionManager, recommendationProcess).execute();
     }
 
     @PutMapping("/feedback/private/{RecommendationID}/submit")

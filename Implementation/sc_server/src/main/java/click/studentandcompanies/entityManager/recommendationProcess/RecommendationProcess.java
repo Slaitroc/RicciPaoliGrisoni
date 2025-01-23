@@ -1,7 +1,11 @@
 package click.studentandcompanies.entityManager.recommendationProcess;
 
+import click.studentandcompanies.entity.Cv;
+import click.studentandcompanies.entity.InternshipOffer;
 import click.studentandcompanies.entity.Recommendation;
 import click.studentandcompanies.entityManager.UserManager;
+import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.recommendationAlgorithm.StartRecommendationProcessCommandCV;
+import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.recommendationAlgorithm.StartRecommendationProcessCommandOffer;
 import click.studentandcompanies.entityRepository.RecommendationRepository;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.GET.*;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.POST.*;
@@ -24,6 +28,13 @@ public class RecommendationProcess {
         this.recommendationRepository = recommendationRepository;
     }
 
+    public void startRecommendationProcess(Cv cv){
+        new StartRecommendationProcessCommandCV(userManager, cv, recommendationRepository).execute();
+    }
+
+    public void startRecommendationProcess(InternshipOffer internshipOffer){
+        new StartRecommendationProcessCommandOffer(userManager, internshipOffer, recommendationRepository).execute();
+    }
 
 
     //Handle the acceptance of a recommendation

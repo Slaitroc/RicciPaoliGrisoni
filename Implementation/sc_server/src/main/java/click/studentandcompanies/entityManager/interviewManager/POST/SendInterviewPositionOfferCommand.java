@@ -50,7 +50,7 @@ public class SendInterviewPositionOfferCommand implements InterviewManagerComman
             System.out.println("Company not found");
             throw new NotFoundException("Company not found");
         }
-        if(company !=interview.getRecommendation().getInternshipOffer().getCompany()){
+        if(company != interview.getRecommendation().getInternshipOffer().getCompany()){
             System.out.println("The provided company is not the same as the company that made the offer");
             throw new BadInputException("The provided company is not the same as the company that made the offer");
         }
