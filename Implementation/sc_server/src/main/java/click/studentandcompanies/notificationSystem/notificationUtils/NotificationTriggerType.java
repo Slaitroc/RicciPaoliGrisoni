@@ -11,6 +11,7 @@ public enum NotificationTriggerType {
     NEW_COMMUNICATION(new SendNewCommunicationNotification()),
     INTERVIEW_EVALUATED(new SendInterviewEvaluatedNotification()),
     INTERNSHIP_CANCELLED(new SendInternshipCancelledNotification()),
+    INTERVIEW_ANSWER_SENT(new SendInterviewAnswerNotification()),
     INTERNSHIP_POSITION_OFFER_SENT(new SendInternshipPositionOfferNotification()),
     SPONTANEOUS_APPLICATION_ACCEPTED(new SendSelectionProcessInitiatedNotification()),
     SPONTANEOUS_APPLICATION_RECEIVED(new SendSpontaneousApplicationReceivedNotification());

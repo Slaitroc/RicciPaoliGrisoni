@@ -282,7 +282,7 @@ public class APIController {
     })
     public ResponseEntity<DTO> sendInterviewAnswer(@PathVariable Integer InterviewID,
             @RequestBody Map<String, Object> payload) {
-        return new SendInterviewAnswerCommandCall(InterviewID, payload, interviewManager).execute();
+        return new SendInterviewAnswerCommandCall(InterviewID, payload, interviewManager, notificationManager).execute();
     }
 
     @PostMapping("/interviews/private/send-interview/{InterviewID}")
