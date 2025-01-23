@@ -11,13 +11,13 @@ import click.studentandcompanies.utils.exception.NotFoundException;
 
 import java.util.List;
 
-public class GetRecommendationByParticipant implements RecommendationProcessCommand<List<Recommendation>> {
+public class GetRecommendationByParticipantCommand implements RecommendationProcessCommand<List<Recommendation>> {
 
     UserManager userManager;
     RecommendationRepository recommendationRepository;
     Integer userID;
 
-    public GetRecommendationByParticipant(UserManager userManager, RecommendationRepository recommendationRepository, Integer userID) {
+    public GetRecommendationByParticipantCommand(UserManager userManager, RecommendationRepository recommendationRepository, Integer userID) {
         this.userManager = userManager;
         this.recommendationRepository = recommendationRepository;
         this.userID = userID;
