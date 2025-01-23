@@ -8,6 +8,7 @@ import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.FeedbackRepository;
 import click.studentandcompanies.entityManager.feedbackMechanism.FeedbackMechanismCommand;
 import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.WrongStateException;
 
 import java.time.Instant;
 import java.util.List;
@@ -18,6 +19,7 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
     private final UserManager userManager;
     private final Map<String, Object> payload;
     private final Integer recommendationID;
+
     public SubmitFeedbackCommand(Integer recommendationID, Map<String, Object> payload, FeedbackRepository feedbackRepository, UserManager userManager) {
         this.recommendationID = recommendationID;
         this.payload = payload;
@@ -27,30 +29,15 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
     @Override
     public Feedback execute() throws BadInputException{
         validateFeedbackPayload(payload);
+
         Integer submitter_id = (Integer) payload.get("student_id") != null ? (Integer) payload.get("student_id") : (Integer) payload.get("company_id");
         ParticipantTypeEnum participantType = userManager.getParticipantType(submitter_id);
-        if(participantType == null || participantType != ParticipantTypeEnum.valueOf((String) payload.get("participant_type"))){
-            throw new BadInputException("Participant_type is not valid");
-        }
-        List<Recommendation> submitterRecommendations;
-        if(participantType == ParticipantTypeEnum.student) {
-            submitterRecommendations = userManager.getRecommendationByStudentId(submitter_id);
-        }else{
-            submitterRecommendations = userManager.getRecommendationByCompanyId(submitter_id);
-        }
-        if(submitterRecommendations.stream().noneMatch(recommendation -> recommendation.getId().equals(recommendationID))){
-            throw new BadInputException("Recommendation_id is not valid");
-        }
         Recommendation recommendation = userManager.getRecommendationById(recommendationID);
-        if(recommendation.getStatus() != RecommendationStatusEnum.acceptedMatch){
-            throw new BadInputException("Feedback can only be submitted for accepted matches");
-        }
-        if(participantType == ParticipantTypeEnum.student && !recommendation.getCv().getStudent().getId().equals(submitter_id)){
-            throw new BadInputException("Student can only submit feedback for his own recommendation");
-        }
-        if(participantType == ParticipantTypeEnum.company && !recommendation.getInternshipOffer().getCompany().getId().equals(submitter_id)){
-            throw new BadInputException("Company can only submit feedback for his own recommendation");
-        }
+
+        validateRecommendation(recommendation);
+        validateParticipant(participantType,submitter_id,recommendation);
+        validateSubmitterRecommendations(submitter_id,participantType);
+
         Feedback feedback = createFeedback(recommendationID,submitter_id,participantType,payload);
         feedbackRepository.save(feedback);
         return feedback;
@@ -81,6 +68,32 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
         }
     }
 
+
+
+    private void validateParticipant(ParticipantTypeEnum participantType, Integer submitter_id, Recommendation recommendation){
+        if(participantType == ParticipantTypeEnum.student && !recommendation.getCv().getStudent().getId().equals(submitter_id)){
+            throw new BadInputException("Student can only submit feedback for his own recommendation");
+        }
+        if(participantType == ParticipantTypeEnum.company && !recommendation.getInternshipOffer().getCompany().getId().equals(submitter_id)){
+            throw new BadInputException("Company can only submit feedback for his own recommendation");
+        }
+        if(participantType == null || participantType != ParticipantTypeEnum.valueOf((String) payload.get("participant_type"))){
+            throw new BadInputException("Participant_type is not valid");
+        }
+    }
+
+    private void validateSubmitterRecommendations(Integer submitter_id, ParticipantTypeEnum participantType){
+        List<Recommendation> submitterRecommendations;
+        if(participantType == ParticipantTypeEnum.student) {
+            submitterRecommendations = userManager.getRecommendationByStudentId(submitter_id);
+        }else{
+            submitterRecommendations = userManager.getRecommendationByCompanyId(submitter_id);
+        }
+        if(submitterRecommendations.stream().noneMatch(r -> r.getId().equals(recommendationID))){
+            throw new BadInputException("Participant can only submit feedback for his own recommendation");
+        }
+    }
+
     private Feedback createFeedback(Integer recommendationID,Integer submitterID ,ParticipantTypeEnum participantType,Map<String, Object> payload){
         Integer rating = (Integer) payload.get("rating");
         String comment = (String) payload.get("comment") != null ? (String) payload.get("comment") : "";
@@ -94,4 +107,12 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
         return feedback;
     }
 
+    private void validateRecommendation(Recommendation recommendation){
+        if(recommendation.getStatus() != RecommendationStatusEnum.acceptedMatch){
+            throw new WrongStateException("Feedback can only be submitted for accepted matches");
+        }
+        if(feedbackRepository.findByRecommendation(recommendation) != null){
+            throw new WrongStateException("Feedback already submitted for this recommendation");
+        }
+    }
 }
