@@ -16,6 +16,7 @@ public class NotificationManager {
         this.contactRepository = contactRepository;
     }
 
+    //todo implement the device token refresh
     public List<Integer> getDeviceTokens(Integer userID) {
         List<Contact> contacts = contactRepository.getAllById(userID);
         return contacts.stream().map(Contact::getDeviceToken).toList();

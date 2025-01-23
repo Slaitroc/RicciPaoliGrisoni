@@ -48,7 +48,7 @@ public class RecommendationProcess {
     }
 
     public List<Recommendation> getRecommendationsByParticipant(Integer userID) throws BadInputException, NotFoundException, NoContentException {
-        return new GetRecommendationByParticipant(userManager, recommendationRepository, userID).execute();
+        return new GetRecommendationByParticipantCommand(userManager, recommendationRepository, userID).execute();
     }
 
     @Transactional
