@@ -20,11 +20,12 @@ public class UserManager {
     private final InternshipOfferRepository internshipOfferRepository;
     private final CvRepository cvRepository;
     private final FeedbackRepository feedbackRepository;
+    private final InterviewRepository interviewRepository;
 
     public UserManager(UniversityRepository universityRepository, StudentRepository studentRepository,
                        CompanyRepository companyRepository, RecommendationRepository recommendationRepository
                        , SpontaneousApplicationRepository spontaneousApplicationRepository, InternshipOfferRepository internshipOfferRepository
-                       , CvRepository cvRepository, FeedbackRepository feedbackRepository) {
+                       , CvRepository cvRepository, FeedbackRepository feedbackRepository, InterviewRepository interviewRepository) {
         this.universityRepository = universityRepository;
         this.studentRepository = studentRepository;
         this.companyRepository = companyRepository;
@@ -33,6 +34,7 @@ public class UserManager {
         this.spontaneousApplicationRepository = spontaneousApplicationRepository;
         this.cvRepository = cvRepository;
         this.feedbackRepository = feedbackRepository;
+        this.interviewRepository = interviewRepository;
     }
 
     //CRUD operations, all of them are already implemented by the JpaRepository
@@ -139,6 +141,16 @@ public class UserManager {
 
     public List<Feedback> getAllFeedbacks(){
         return feedbackRepository.findAll();
+    }
+
+    public Integer getStudentIDByInternshipPosOfferID(Integer id) {
+        Interview interview = interviewRepository.getInterviewByInternshipPosOffer_Id(id);
+
+        if(interview.getRecommendation() != null) {
+            return interview.getRecommendation().getCv().getStudent().getId();
+        } else {
+            return interview.getSpontaneousApplication().getStudent().getId();
+        }
     }
 }
 

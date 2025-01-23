@@ -386,7 +386,7 @@ public class APIController {
     })
     public ResponseEntity<DTO> sendInterviewPositionOffer(@PathVariable Integer InterviewID,
             @RequestBody Map<String, Object> payload) {
-        return new SendInterviewPositionOfferCommandCall(interviewManager, InterviewID, payload).execute();
+        return new SendInternshipPositionOfferCommandCall(InterviewID, payload, interviewManager, userManager, notificationManager).execute();
     }
 
     @PostMapping("/interview/private/accept-int-pos-off/")
