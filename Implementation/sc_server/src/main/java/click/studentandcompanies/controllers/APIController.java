@@ -32,19 +32,21 @@ public class APIController {
     private final FeedbackMechanism feedbackMechanism;
     private final CommunicationManager communicationManager;
     private final InterviewManager interviewManager;
+    private final NotificationManager notificationManager;
 
-    // Inject the universityManager into the APIController (thanks to the @Autowired
+    // Inject the Managers into the APIController (thanks to the @Autowired
     // and @Service annotations)
     @Autowired
     public APIController(UserManager userManager, RecommendationProcess recommendationProcess,
-            SubmissionManager submissionManager, FeedbackMechanism feedbackMechanism,
-            CommunicationManager communicationManager, InterviewManager interviewManager) {
+                         SubmissionManager submissionManager, FeedbackMechanism feedbackMechanism,
+                         CommunicationManager communicationManager, InterviewManager interviewManager, NotificationManager notificationManager) {
         this.userManager = userManager;
         this.recommendationProcess = recommendationProcess;
         this.submissionManager = submissionManager;
         this.feedbackMechanism = feedbackMechanism;
         this.communicationManager = communicationManager;
         this.interviewManager = interviewManager;
+        this.notificationManager = notificationManager;
     }
 
     @GetMapping("/private/test")
@@ -356,16 +358,9 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Internship not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> closeInternship(@RequestParam("internshipID") Integer internshipID,
-            @RequestBody Map<String, Object> payload) {
-        // If the Internship does not exist or does not exist any pending application,
-        // the list will be empty. no exception will be thrown
-        List<Integer> userIDs = userManager.getInvolvedUsers(internshipID);
-        ResponseEntity<DTO> dto = new CloseInternshipOfferCommandCall(internshipID, payload, submissionManager)
-                .execute();
-        // TODO: Send notification to all users involved in the internship using the
-        // userIDs list
-        return dto;
+    public ResponseEntity<DTO> closeInternship(@RequestParam("internshipID") Integer internshipID, @RequestBody Map<String, Object> payload) {
+        //If the Internship does not exist or does not exist any pending application, the list will be empty. no exception will be thrown
+        return new CloseInternshipOfferCommandCall(internshipID, payload, submissionManager, userManager, recommendationProcess, notificationManager).execute();
     }
 
     @PostMapping("/comm/private/{commID}/terminate")
