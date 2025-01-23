@@ -1,3 +1,4 @@
+import "../test/MSW/index.js"; // Inizializza MSW
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";

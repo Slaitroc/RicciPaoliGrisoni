@@ -1,0 +1,12 @@
+# Sto utilizzando due service worker:
+ - nella build il service worker per la PWA
+ - in dev il service worker di MSW per utilizzare gli stub per le richieste api
+
+    Nota: ci sono delle richieste statiche per cui msw lancia comunque un warning in quanto anche quelle richieste andrebbero mappate nel file handler. Per ora ignoro ma sarebbe da risolvere per pulire quei warning.
+    Chat mi consiglia di ignorarle ma sarebbe da capire realmente quale lo standard per la loro gestione.
+
+# ci sarebberò da capire meglio i flag per il routing di react v7, per ora ho agiiunto quei flag per evitare di avere mille warning
+
+# DDv2:
+    - correggere lo schema della interfaccia (Entity Manager -> DBMS) 
+    - modificare gli endpoint

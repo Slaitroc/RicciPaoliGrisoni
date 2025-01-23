@@ -12,10 +12,11 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import SCForgotPassword from "./SCForgotPassword";
 import { SitemarkIcon } from "../Templates/sign-in-side/CustomIcons";
+import * as Authorization from "../../Authorization/authorization";
 
-import SCSelectLogin from "../Shared/SCSelectLogin";
 import { useGlobalContext } from "../../global/globalContext";
 import { useNavigate } from "react-router-dom";
+import { Alert } from "@mui/material";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -36,67 +37,71 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 export default function SCSignInCard() {
-  // #region
-  const { login } = useGlobalContext();
-  const navigate = useNavigate();
-  // #endregion
+  // Stati per email e password
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
+  const { isAuthenticated, setIsAuthenticated, profile, setProfile } =
+    useGlobalContext();
+  const navigate = useNavigate();
+
+  const handlePassResetOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handlePassResetClose = () => {
     setOpen(false);
   };
 
   const handleSubmit = (event) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
+    event.preventDefault();
+    if (validateInputs()) {
+      const response = setProfile(Authorization.login(email, password));
+      switch (response.code) {
+        case 204:
+          console.log("No Content: unknown credentials");
+          break;
+        case 200:
+          setIsAuthenticated(true);
+          navigate("/dashboard");
+      }
     }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
   };
 
   const validateInputs = () => {
-    const email = document.getElementById("email");
-    const password = document.getElementById("password");
-
     let isValid = true;
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
       setEmailError(true);
       setEmailErrorMessage("Please enter a valid email address.");
       isValid = false;
+      setEmail(""); // Cancella email non valida
     } else {
       setEmailError(false);
       setEmailErrorMessage("");
     }
 
-    if (!password.value || password.value.length < 6) {
+    if (!password || password.length < 6) {
       setPasswordError(true);
       setPasswordErrorMessage("Password must be at least 6 characters long.");
       isValid = false;
+      setPassword(""); // Cancella password non valida
     } else {
       setPasswordError(false);
       setPasswordErrorMessage("");
     }
-    // #region
-    login(email, password);
-    // #endregion
+
     return isValid;
   };
 
   return (
     <Card variant="outlined">
+      <Alert severity="warning">This is a test alert message.</Alert>
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
         <SitemarkIcon />
       </Box>
@@ -128,6 +133,8 @@ export default function SCSignInCard() {
             fullWidth
             variant="outlined"
             color={emailError ? "error" : "primary"}
+            value={email} // Collega lo stato all'input
+            onChange={(e) => setEmail(e.target.value)} // Aggiorna lo stato
           />
         </FormControl>
         <FormControl>
@@ -147,12 +154,14 @@ export default function SCSignInCard() {
             fullWidth
             variant="outlined"
             color={passwordError ? "error" : "primary"}
+            value={password} // Collega lo stato all'input
+            onChange={(e) => setPassword(e.target.value)} // Aggiorna lo stato
           />
         </FormControl>
         <Link
           component="button"
           type="button"
-          onClick={handleClickOpen}
+          onClick={handlePassResetOpen}
           variant="body2"
           sx={{ alignSelf: "baseline" }}
         >
@@ -163,13 +172,8 @@ export default function SCSignInCard() {
           label="Remember me"
         />
 
-        <SCForgotPassword open={open} handleClose={handleClose} />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          onClick={validateInputs}
-        >
+        <SCForgotPassword open={open} handleClose={handlePassResetClose} />
+        <Button type="submit" fullWidth variant="contained">
           Sign in
         </Button>
         <Typography sx={{ textAlign: "center" }}>

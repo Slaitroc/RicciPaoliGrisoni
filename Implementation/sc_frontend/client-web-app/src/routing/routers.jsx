@@ -22,116 +22,133 @@ import InternshipOffers from "../pages/InternshipOffers";
 import Profile from "../pages/Profile";
 import Account from "../pages/Account";
 import SwipePage from "../pages/SwipePage";
+import { FirebaseTestPage } from "../pages/FirebaseTestPage";
 // Router Configurations
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Main />,
-    children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "about",
-        element: <About />,
-      },
-      {
-        path: "contacts",
-        element: <Contact />,
-      },
-    ],
-  },
-  {
-    path: "dashboard",
-    element: (
-      <RouteProtector equals={true} navigateTo="/signin">
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Main />,
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "about",
+          element: <About />,
+        },
+        {
+          path: "contacts",
+          element: <Contact />,
+        },
+        {
+          path: "firebase-test",
+          element: <FirebaseTestPage />,
+        },
+      ],
+    },
+    {
+      path: "dashboard",
+      element: (
+        // <RouteProtector equals={false} navigateTo="/signin">
         <Dashboard />
-      </RouteProtector>
-    ),
-    children: [
-      {
-        path: "",
-        element: <Overview />,
-      },
-      {
-        path: "about",
-        element: <About />,
-      },
-      {
-        path: "contacts",
-        element: <Contact />,
-      },
-      {
-        path: "settings",
-        element: <Settings />,
-      },
-      {
-        path: "feedback",
-        element: <Feedback />,
-      },
-      {
-        path: "cv",
-        element: <CV />,
-      },
-      {
-        path: "university",
-        element: <University />,
-      },
-      {
-        path: "internship-offers",
-        element: <InternshipOffers />,
-      },
-      {
-        path: "applications",
-        element: <Applications />,
-      },
-      {
-        path: "recommendations",
-        element: <Recommendations />,
-      },
-      {
-        path: "interviews",
-        element: <Interviews />,
-      },
-      {
-        path: "confirmed-internships",
-        element: <ConfInternships />,
-      },
-      {
-        path: "communications",
-        element: <Communications />,
-      },
-      {
-        path: "profile",
-        element: <Profile />,
-      },
-      {
-        path: "account",
-        element: <Account />,
-      },
-      {
-        path: "swipe-card",
-        element: <SwipePage />,
-      }
-    ],
-  },
-  {
-    path: "signin",
-    element: (
-      <RouteProtector>
+        // </RouteProtector>
+      ),
+      children: [
+        {
+          path: "",
+          element: <Overview />,
+        },
+        {
+          path: "about",
+          element: <About />,
+        },
+        {
+          path: "contacts",
+          element: <Contact />,
+        },
+        {
+          path: "settings",
+          element: <Settings />,
+        },
+        {
+          path: "feedback",
+          element: <Feedback />,
+        },
+        {
+          path: "cv",
+          element: <CV />,
+        },
+        {
+          path: "university",
+          element: <University />,
+        },
+        {
+          path: "internship-offers",
+          element: <InternshipOffers />,
+        },
+        {
+          path: "applications",
+          element: <Applications />,
+        },
+        {
+          path: "recommendations",
+          element: <Recommendations />,
+        },
+        {
+          path: "interviews",
+          element: <Interviews />,
+        },
+        {
+          path: "confirmed-internships",
+          element: <ConfInternships />,
+        },
+        {
+          path: "communications",
+          element: <Communications />,
+        },
+        {
+          path: "profile",
+          element: <Profile />,
+        },
+        {
+          path: "account",
+          element: <Account />,
+        },
+        {
+          path: "swipe-card",
+          element: <SwipePage />,
+        },
+      ],
+    },
+    {
+      path: "signin",
+      element: (
+        // <RouteProtector equals={true} navigateTo="/dashboard">
         <SCSignInSide />
-      </RouteProtector>
-    ),
-  },
-  {
-    path: "signup",
-    element: (
-      <RouteProtector>
+        // </RouteProtector>
+      ),
+    },
+    {
+      path: "signup",
+      element: (
+        // <RouteProtector equals={true} navigateTo="/dashboard">
         <SCSignUp />
-      </RouteProtector>
-    ),
-  },
-]);
+        // </RouteProtector>
+      ),
+    },
+  ],
+  {
+    future: {
+      v7_startTransition: true,
+      v7_relativeSplatPath: true,
+      v7_fetcherPersist: true,
+      v7_normalizeFormMethod: true,
+      v7_partialHydration: true,
+      v7_skipActionErrorRevalidation: true,
+    },
+  }
+);
 
 export default router;

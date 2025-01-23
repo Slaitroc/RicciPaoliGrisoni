@@ -25,7 +25,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Input } from "@mui/material";
-import * as firebaseMethods from "../firebaseMethods";
+import * as firebaseMethods from "../Authorization/firebaseMethods";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
