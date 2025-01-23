@@ -13,8 +13,9 @@ public class SendSelectionProcessInitiatedNotification implements SenderInterfac
     /**
      * Sends a notification to the Participant of the selection process that the process has been initiated.
      * Triggered when a recommendation is accepted by both parties or when a company accepts a student's application.
+     *
      * @param userIDs list of user IDs to send the notification to
-     * @param dto DTO containing the necessary information about the student, company and internship related
+     * @param dto     DTO containing the necessary information about the student, company and internship related
      */
     @Override
     public void sendNotification(List<Integer> userIDs, DTO dto, NotificationManager notificationManager) {
@@ -22,12 +23,11 @@ public class SendSelectionProcessInitiatedNotification implements SenderInterfac
         List<Integer> companyDeviceTokens = new ArrayList<>();
         List<String> studentEmails = new ArrayList<>();
         List<String> companyEmails = new ArrayList<>();
-        for(Integer userID : userIDs) {
-            if(userID == dto.getProperties().get("student_ID")) {
+        for (Integer userID : userIDs) {
+            if (userID == dto.getProperties().get("student_ID")) {
                 studentDeviceTokens.addAll(notificationManager.getDeviceTokens(userID));
                 studentEmails.add(notificationManager.getUserEmail(userID));
-            }
-            else {
+            } else {
                 companyDeviceTokens.addAll(notificationManager.getDeviceTokens(userID));
                 companyEmails.add(notificationManager.getUserEmail(userID));
             }

@@ -16,7 +16,7 @@ public interface SenderInterface {
 
     default List<Integer> getDeviceTokens(List<Integer> userIDs, NotificationManager notificationManager) {
         List<Integer> deviceTokens = new ArrayList<>();
-        for(Integer userID : userIDs) {
+        for (Integer userID : userIDs) {
             deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
         } //todo: implement the correct function to refresh the device tokens
         return deviceTokens;
@@ -24,7 +24,7 @@ public interface SenderInterface {
 
     default List<String> getEmails(List<Integer> userIDs, NotificationManager notificationManager) {
         List<String> emails = new ArrayList<>();
-        for(Integer userID : userIDs) {
+        for (Integer userID : userIDs) {
             emails.add(notificationManager.getUserEmail(userID));
         }
         return emails;

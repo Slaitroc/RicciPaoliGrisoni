@@ -5,7 +5,6 @@ import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.Interview;
-import click.studentandcompanies.entity.Student;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
 import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
@@ -28,13 +27,13 @@ public class SendInterviewAnswerCommandCall implements APIControllerCommandCall<
 
     @Override
     public ResponseEntity<DTO> execute() {
-        try{
+        try {
             Interview interview = interviewManager.sendInterviewAnswer(interviewID, payload);
             //TODO: call notification manager to notify the company
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.INTERVIEW, interview), HttpStatus.CREATED);
-        }catch (BadInputException e){
+        } catch (BadInputException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
-        }catch (NotFoundException e){
+        } catch (NotFoundException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
         }
 

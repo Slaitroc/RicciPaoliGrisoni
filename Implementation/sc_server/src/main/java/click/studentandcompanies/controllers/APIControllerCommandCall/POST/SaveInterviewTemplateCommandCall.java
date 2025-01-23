@@ -4,7 +4,6 @@ import click.studentandcompanies.controllers.APIControllerCommandCall.APIControl
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
-import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entity.InterviewTemplate;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
 import click.studentandcompanies.utils.exception.BadInputException;

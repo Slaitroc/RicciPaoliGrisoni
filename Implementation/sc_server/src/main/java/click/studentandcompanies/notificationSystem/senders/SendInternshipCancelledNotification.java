@@ -13,8 +13,9 @@ public class SendInternshipCancelledNotification implements SenderInterface {
     /**
      * Sends a notification of closed internships to students that had open recommendations or
      * spontaneous applications to that Internship.
+     *
      * @param userIDs List of students that has to be notified
-     * @param dto DTO containing the information of the internship that has been closed
+     * @param dto     DTO containing the information of the internship that has been closed
      */
     @Override
     public void sendNotification(List<Integer> userIDs, DTO dto, NotificationManager notificationManager) {

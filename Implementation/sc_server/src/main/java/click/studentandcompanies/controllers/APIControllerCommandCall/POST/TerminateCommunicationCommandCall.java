@@ -17,7 +17,8 @@ public class TerminateCommunicationCommandCall implements APIControllerCommandCa
     private final CommunicationManager communicationManager;
     private final Map<String, Object> payload;
     private final int communicationID;
-    public TerminateCommunicationCommandCall(CommunicationManager communicationManager, int communicationID,Map<String, Object> payload) {
+
+    public TerminateCommunicationCommandCall(CommunicationManager communicationManager, int communicationID, Map<String, Object> payload) {
         this.communicationManager = communicationManager;
         this.communicationID = communicationID;
         this.payload = payload;

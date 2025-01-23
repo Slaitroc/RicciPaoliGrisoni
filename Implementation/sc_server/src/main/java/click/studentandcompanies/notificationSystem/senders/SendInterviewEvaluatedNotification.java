@@ -11,8 +11,9 @@ public class SendInterviewEvaluatedNotification implements SenderInterface {
 
     /**
      * Sends a notification to the student that has been evaluated in an interview
+     *
      * @param userIDs List of students that has to be notified
-     * @param data DTO containing the information of the interview
+     * @param data    DTO containing the information of the interview
      */
     @Override
     public void sendNotification(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {

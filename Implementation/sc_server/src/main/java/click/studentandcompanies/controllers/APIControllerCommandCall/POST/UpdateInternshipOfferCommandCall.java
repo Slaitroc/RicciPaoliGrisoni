@@ -19,6 +19,7 @@ public class UpdateInternshipOfferCommandCall implements APIControllerCommandCal
     private final Map<String, Object> payload;
     private final SubmissionManager submissionManager;
     private final RecommendationProcess recommendationProcess;
+
     public UpdateInternshipOfferCommandCall(Map<String, Object> payload, SubmissionManager submissionManager, RecommendationProcess recommendationProcess) {
         this.payload = payload;
         this.submissionManager = submissionManager;

@@ -11,8 +11,9 @@ public class SendInternshipPositionOfferNotification implements SenderInterface 
 
     /**
      * The student receives an internship offer after the interview. They can decide whether to accept it or not.
+     *
      * @param userIDs list of students to send the notification to (usually a single ID).
-     * @param data contains data such as internship_title, company_name, and possibly a link to accept/reject.
+     * @param data    contains data such as internship_title, company_name, and possibly a link to accept/reject.
      */
     @Override
     public void sendNotification(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {

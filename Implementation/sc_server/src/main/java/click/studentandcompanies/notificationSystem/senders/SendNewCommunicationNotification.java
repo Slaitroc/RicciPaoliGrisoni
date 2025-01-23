@@ -5,15 +5,15 @@ import click.studentandcompanies.entityManager.NotificationManager;
 import click.studentandcompanies.notificationSystem.notificationUtils.EmailContent;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationPayload;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SendNewCommunicationNotification implements SenderInterface {
 
     /**
      * Send a notification to the student, company and university when a new communication is created.
+     *
      * @param userIDs list of student, company and university IDs
-     * @param data Contains the communication data
+     * @param data    Contains the communication data
      */
     @Override
     public void sendNotification(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {

@@ -12,7 +12,7 @@ import java.util.List;
  * hiding the complexity of the NotificationManager and the Senders.
  */
 @Service
-public class NotificationFacade{
+public class NotificationFacade {
 
     private final NotificationManager notificationManager;
 

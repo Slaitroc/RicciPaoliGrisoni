@@ -30,19 +30,20 @@ public class AcceptRecommendationCommandCall implements APIControllerCommandCall
         this.payload = payload;
         this.notificationManager = notificationManager;
     }
+
     @Override
     public ResponseEntity<DTO> execute() {
         try {
             Recommendation recommendation = recommendationProcess.acceptRecommendation(RecommendationID, payload);
-            if(recommendation.getStatus() == RecommendationStatusEnum.acceptedMatch){
+            if (recommendation.getStatus() == RecommendationStatusEnum.acceptedMatch) {
                 List<Integer> userIDs = List.of(recommendation.getInternshipOffer().getCompany().getId(), recommendation.getCv().getStudent().getId());
 
-                NotificationData data = new NotificationData(NotificationTriggerType.MATCHED_FOUND, DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation));
+                NotificationData data = new NotificationData(NotificationTriggerType.MATCH_FOUND, DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation));
 
                 new NotificationFacade(notificationManager).sendNotification(userIDs, data);
                 //todo: call feedback service
             }
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation) , HttpStatus.CREATED);
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation), HttpStatus.CREATED);
         } catch (IllegalCallerException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (NotFoundException e) {

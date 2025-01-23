@@ -12,8 +12,9 @@ public class NotificationData {
 
     /**
      * Constructor
+     *
      * @param triggerType the trigger type of the notification
-     * @param dto the DTO containing all the relevant data to the notification
+     * @param dto         the DTO containing all the relevant data to the notification
      */
     public NotificationData(NotificationTriggerType triggerType, DTO dto) {
         this.triggerType = triggerType;

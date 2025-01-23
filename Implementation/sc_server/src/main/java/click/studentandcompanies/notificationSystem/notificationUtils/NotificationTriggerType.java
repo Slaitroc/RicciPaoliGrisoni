@@ -7,13 +7,13 @@ import click.studentandcompanies.notificationSystem.senders.*;
  * Each trigger has a corresponding sender (strategy pattern) that will send the notification
  */
 public enum NotificationTriggerType {
-    INTERNSHIP_CANCELLED(new SendInternshipCancelledNotification()),
-    SPONTANEOUS_APPLICATION_ACCEPTED(new SendSelectionProcessInitiatedNotification()),
-    MATCHED_FOUND(new SendSelectionProcessInitiatedNotification()),
+    MATCH_FOUND(new SendSelectionProcessInitiatedNotification()),
     NEW_COMMUNICATION(new SendNewCommunicationNotification()),
     INTERVIEW_EVALUATED(new SendInterviewEvaluatedNotification()),
-    SPONTANEOUS_APPLICATION_RECEIVED(new SendSpontaneousApplicationReceivedNotification()),
-    INTERNSHIP_POSITION_OFFER_SENT(new SendInternshipPositionOfferNotification());
+    INTERNSHIP_CANCELLED(new SendInternshipCancelledNotification()),
+    INTERNSHIP_POSITION_OFFER_SENT(new SendInternshipPositionOfferNotification()),
+    SPONTANEOUS_APPLICATION_ACCEPTED(new SendSelectionProcessInitiatedNotification()),
+    SPONTANEOUS_APPLICATION_RECEIVED(new SendSpontaneousApplicationReceivedNotification());
 
     private final SenderInterface sender;
 
