@@ -7,12 +7,12 @@ export const feedbackCustomizations = {
     styleOverrides: {
       root: ({ theme }) => ({
         borderRadius: 10,
-        color: (theme.vars || theme).palette.text.primary,
         border: `1px solid ${alpha(red[300], 0.5)}`,
+        color: (theme.vars || theme).palette.text.primary,
 
-        // Classi generate automaticamente da Material UI
+        // Usa il comportamento standard ma aggiungi un controllo personalizzato
         "&.MuiAlert-standardSuccess": {
-          backgroundColor: theme.palette.success.light,
+          backgroundColor: theme.palette.success.light, // Comportamento standard
           border: `1px solid ${alpha(theme.palette.success.main, 0.5)}`,
           "& .MuiAlert-icon": {
             color: theme.palette.success.main,
@@ -33,15 +33,15 @@ export const feedbackCustomizations = {
           },
         },
         "&.MuiAlert-standardInfo": {
-          backgroundColor: orange[100],
-          border: `1px solid ${alpha(orange[300], 0.5)}`,
+          backgroundColor: theme.palette.info.light, // Ripristina il default di "info"
+          border: `1px solid ${alpha(theme.palette.info.main, 0.5)}`,
           "& .MuiAlert-icon": {
-            color: orange[500],
+            color: theme.palette.info.main,
           },
         },
 
-        // Modalità scura
-        ...theme.applyStyles("dark", {
+        // Modalità scura: Applica modifiche dinamiche per le classi di severità
+        ...(theme.palette.mode === "dark" && {
           "&.MuiAlert-standardSuccess": {
             backgroundColor: alpha(theme.palette.success.dark, 0.5),
             border: `1px solid ${alpha(theme.palette.success.dark, 0.5)}`,
@@ -55,8 +55,8 @@ export const feedbackCustomizations = {
             border: `1px solid ${alpha(theme.palette.warning.dark, 0.5)}`,
           },
           "&.MuiAlert-standardInfo": {
-            backgroundColor: alpha(orange[900], 0.5),
-            border: `1px solid ${alpha(orange[800], 0.5)}`,
+            backgroundColor: alpha(theme.palette.info.dark, 0.5),
+            border: `1px solid ${alpha(theme.palette.info.dark, 0.5)}`,
           },
         }),
       }),

@@ -101,7 +101,7 @@ export default function SCSignInCard() {
 
   return (
     <Card variant="outlined">
-      <Alert severity="warning">This is a test alert message.</Alert>
+      <Alert severity="success">This is a test alert message.</Alert>
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
         <SitemarkIcon />
       </Box>
