@@ -334,7 +334,7 @@ public class APIController {
     })
     public ResponseEntity<DTO> evaluateInterview(@PathVariable Integer InterviewID,
             @RequestBody Map<String, Object> payload) {
-        return new EvaluateInterviewCommandCall(interviewManager, InterviewID, payload).execute();
+        return new EvaluateInterviewCommandCall(interviewManager, notificationManager, InterviewID, payload).execute();
     }
 
     @PostMapping("comm/private/create")
