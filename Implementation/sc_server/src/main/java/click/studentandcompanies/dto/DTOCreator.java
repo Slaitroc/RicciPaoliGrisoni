@@ -10,7 +10,9 @@ public class DTOCreator {
     public static DTO createDTO(DTOTypes dtoType, Object obj) {
         return functionMap.get(dtoType).apply(obj);
     }
-
+    //todo: ask Sam: facciamo un modo piú coerente di chiamare le properties?
+    // ad esempio company_title o internship_name, company_id invece di (company, internship, name, title, id ...)
+    // aiuterebbe molto il frontend e anche nelle notifiche dato che l'ho implementato cosí
     private static final Map<DTOTypes, Function<Object, DTO>> functionMap = new HashMap<>();
     static {
         functionMap.put(DTOTypes.ERROR, obj -> createErrorDTO((String) obj));
@@ -173,6 +175,14 @@ public class DTOCreator {
         final DTO interviewDTO = new DTO();
         interviewDTO.addProperty("id", interview.getId());
         interviewDTO.addProperty("status", interview.getStatus().toString());
+        if(interview.getSpontaneousApplication() == null) {
+            interviewDTO.addProperty("internship", interview.getRecommendation().getInternshipOffer().getTitle());
+            interviewDTO.addProperty("company", interview.getRecommendation().getInternshipOffer().getCompany().getName());
+        }
+        else {
+            interviewDTO.addProperty("internship", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
+            interviewDTO.addProperty("company", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
+        }
         return interviewDTO;
     }
 }
