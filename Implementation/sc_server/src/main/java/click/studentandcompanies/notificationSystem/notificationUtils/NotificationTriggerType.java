@@ -11,7 +11,8 @@ public enum NotificationTriggerType {
     SPONTANEOUS_APPLICATION_ACCEPTED(new SendSelectionProcessInitiatedNotification()),
     MATCHED_FOUND(new SendSelectionProcessInitiatedNotification()),
     NEW_COMMUNICATION(new SendNewCommunicationNotification()),
-    INTERVIEW_EVALUATED(new SendInterviewEvaluatedNotification());
+    INTERVIEW_EVALUATED(new SendInterviewEvaluatedNotification()),
+    SPONTANEOUS_APPLICATION_RECEIVED(new SendSpontaneousApplicationReceivedNotification());
 
     private final SenderInterface sender;
 

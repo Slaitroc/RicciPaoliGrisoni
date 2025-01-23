@@ -269,7 +269,7 @@ public class APIController {
     })
     public ResponseEntity<DTO> submitSpontaneousApplication(@PathVariable Integer InternshipOfferID,
             @RequestBody Map<String, Object> payload) {
-        return new SubmitSpontaneousApplicationCommandCall(InternshipOfferID, payload, submissionManager).execute();
+        return new SubmitSpontaneousApplicationCommandCall(InternshipOfferID, payload, submissionManager, notificationManager).execute();
     }
 
     @PostMapping("/interviews/private/send-answer/{InterviewID}")
