@@ -1,5 +1,5 @@
 services:
-  sc_server-service:
+  sc-server-service:
     image: openjdk:21-jdk-slim
     container_name: sc_server-container
     working_dir: /sc_server
@@ -20,10 +20,35 @@ services:
       # - "traefik.http.routers.application-container.tls.certresolver=le" # Risolutore ACME per i certificati
       - "traefik.http.services.application-service.loadbalancer.server.port=8443" # Porta interna del server
 
+      - "traefik.http.routers.application-container.middlewares=cors-headers"
+
     networks:
       - traefik-network
     depends_on:
       - database-service
+    restart: always
+
+  sc-auth-service:
+    image: openjdk:21-jdk-slim
+    container_name: sc_auth-container
+    working_dir: /sc_auth
+    entrypoint: ["java", "-jar", "/sc_auth/sc_auth.jar"]
+    volumes:
+      - ./sc_auth/target/sc_auth.jar:/sc_auth/sc_auth.jar
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth-container.rule=Host(`localhost`) &&  PathPrefix(`/auth-api`)" # Regola per l'API e dichiarazione del nome del container
+      - "traefik.http.routers.auth-container.service=auth-service" # dichiaro il nome del Servizio per l'API
+      - "traefik.http.routers.auth-container.entrypoints=web" # Usa l'entrypoint HTTPS
+      # - "traefik.http.routers.auth-container.entrypoints=websecure" # Usa l'entrypoint HTTPS
+      # - "traefik.http.routers.auth-container.tls=true" # Forza l'uso di TLS
+      # - "traefik.http.routers.auth-container.tls.certresolver=le" # Risolutore ACME per i certificati
+      - "traefik.http.services.auth-service.loadbalancer.server.port=8444" # Porta interna del server
+
+      - "traefik.http.routers.auth-container.middlewares=cors-headers"
+
+    networks:
+      - traefik-network
     restart: always
 
   database-service:
@@ -71,9 +96,30 @@ services:
       - "traefik.http.routers.traefik.entrypoints=web"
       - "traefik.http.routers.traefik.service=api@internal"
 
-      # MIDDLEWARE AUTH
+      # MIDDLEWARE AUTH DASHBOARD
       - "traefik.http.routers.traefik.middlewares=auth"
       - "traefik.http.middlewares.auth.basicauth.users=user:$$apr1$$dtvOjBZO$$sfd2sw28jzU244hTPqN/B."
+
+      # PRIVATE CALLS ROUTER
+      # Router per intercettare URL con "private"
+      - "traefik.http.routers.private-router.rule=PathRegexp(`.*private.*`)"
+      - "traefik.http.routers.private-router.entrypoints=web"
+      - "traefik.http.routers.private-router.middlewares=cors-headers, add-header, auth-check"
+      - "traefik.http.routers.private-router.service=application-service"
+      - "traefik.http.routers.private-router.priority=200"
+
+      # Middleware per modificare l'header
+      - "traefik.http.middlewares.add-header.headers.customrequestheaders.X-Custom-Header=TraefikMiddleware"
+
+      # Middleware ForwardAuth per il controllo dell'header Authorization
+      - "traefik.http.middlewares.auth-check.forwardauth.address=http://sc-auth-service:8444/auth-api/validate"
+      - "traefik.http.middlewares.auth-check.forwardauth.trustForwardHeader=true"
+
+      # Configurazione CORS Middleware
+      - "traefik.http.middlewares.cors-headers.headers.accessControlAllowOriginList=http://localhost:5173"
+      - "traefik.http.middlewares.cors-headers.headers.accessControlAllowMethods=GET,POST,PUT,DELETE,OPTIONS"
+      - "traefik.http.middlewares.cors-headers.headers.accessControlAllowHeaders=*"
+      - "traefik.http.middlewares.cors-headers.headers.accessControlAllowCredentials=true"
 
     networks:
       - traefik-network

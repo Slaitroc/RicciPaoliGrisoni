@@ -4,6 +4,7 @@
 $MavenExecutable = "mvn"  # Ensure 'mvn' is in your PATH or specify the full path
 $DockerComposeFile = "docker-compose.yml"  # Path to the Docker Compose file
 $MavenProjectPath = Join-Path (Get-Location) "sc_server\"  # Update with relative path to pom.xml
+$MavenAuthProjectPath = Join-Path (Get-Location) "sc_auth\"  # Update with relative path to pom.xml
 $PropertiesFile = Join-Path $MavenProjectPath "src\main\resources\application.properties"
 
 # Step 2: Prompt user to select the profile
@@ -55,11 +56,21 @@ Write-Host "Starting Maven build for production profile..." -ForegroundColor Gre
 $MavenBuildProcess = Start-Process -FilePath $MavenExecutable -ArgumentList "-f $MavenProjectPath\pom.xml clean package" -NoNewWindow -Wait -PassThru
 
 if ($MavenBuildProcess.ExitCode -ne 0) {
-    Write-Error "Maven build failed. Check your project configuration and try again."
+    Write-Error "sc_server --> Maven build failed. Check your project configuration and try again."
     exit $MavenBuildProcess.ExitCode
 }
 
-Write-Host "Maven build completed successfully." -ForegroundColor Green
+Write-Host "sc_server --> Maven build completed successfully." -ForegroundColor Green
+
+$MavenBuildProcess = Start-Process -FilePath $MavenExecutable -ArgumentList "-f $MavenAuthProjectPath\pom.xml clean package" -NoNewWindow -Wait -PassThru
+
+if ($MavenBuildProcess.ExitCode -ne 0) {
+    Write-Error "sc_auth --> Maven build failed. Check your project configuration and try again."
+    exit $MavenBuildProcess.ExitCode
+}
+
+Write-Host "sc_auth --> Maven build completed successfully." -ForegroundColor Green
+
 
 # Start all services with rebuild
 Write-Host "Starting all services with Docker Compose and rebuilding..." -ForegroundColor Green
