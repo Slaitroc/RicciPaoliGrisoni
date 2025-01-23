@@ -17,12 +17,8 @@ public class SendNewCommunicationNotification implements SenderInterface {
      */
     @Override
     public void sendNotification(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {
-        List<Integer> DeviceTokens = new ArrayList<>();
-        List<String> Emails = new ArrayList<>();
-        for(Integer userID : userIDs) {
-            DeviceTokens.addAll(notificationManager.getDeviceTokens(userID));
-            Emails.add(notificationManager.getUserEmail(userID));
-        }
+        List<Integer> DeviceTokens = getDeviceTokens(userIDs, notificationManager);
+        List<String> Emails = getEmails(userIDs, notificationManager);
 
         String internshipTitle = (String) data.getProperties().get("internshipOffer_title");
         String studentName = (String) data.getProperties().get("student_name");

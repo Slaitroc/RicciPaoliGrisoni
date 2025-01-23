@@ -6,7 +6,6 @@ import click.studentandcompanies.entityManager.NotificationManager;
 import click.studentandcompanies.notificationSystem.notificationUtils.EmailContent;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationPayload;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SendInternshipCancelledNotification implements SenderInterface {
@@ -19,13 +18,8 @@ public class SendInternshipCancelledNotification implements SenderInterface {
      */
     @Override
     public void sendNotification(List<Integer> userIDs, DTO dto, NotificationManager notificationManager) {
-        List<Integer> deviceTokens = new ArrayList<>();
-        List<String> userEmails = new ArrayList<>();
-        for(Integer userID : userIDs) {
-            deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
-            userEmails.add(notificationManager.getUserEmail(userID));
-            //todo: how does the device token works when it expires?
-        }
+        List<Integer> deviceTokens = getDeviceTokens(userIDs, notificationManager);
+        List<String> userEmails = getEmails(userIDs, notificationManager);
 
         //todo: valuate when to send email or inApp notification and if the content should be different
         String internshipTitle = (String) dto.getProperties().get("internship_title");

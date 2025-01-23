@@ -11,14 +11,14 @@ import java.util.List;
 public class SendSpontaneousApplicationReceivedNotification implements SenderInterface {
 
     /**
-     * La compagnia viene avvisata che uno studente ha inviato spontaneamente una candidatura.
-     * @param userIDs in genere id della/e azienda/e. Se c'è un singolo recruiter userID, o più contatti.
-     * @param dto contiene dati come student_name, internship_title, messaggi, etc.
+     * The company is notified that a student has sent a spontaneous application.
+     * @param userIDs generally the ID of the company.
+     * @param dto contains data such as student_name, internship_title, messages, etc.
      */
     @Override
     public void sendNotification(List<Integer> userIDs, DTO dto, NotificationManager notificationManager) {
-        List<Integer> deviceTokens = notificationManager.getDeviceTokens(userIDs.getFirst());
-        List<String> emails = List.of(notificationManager.getUserEmail(userIDs.getFirst()));
+        List<Integer> deviceTokens = getDeviceTokens(userIDs, notificationManager);
+        List<String> emails = getEmails(userIDs, notificationManager);
 
             String internshipTitle = (String) dto.getProperties().get("internship_title");
             String studentName = (String) dto.getProperties().get("student_name");
