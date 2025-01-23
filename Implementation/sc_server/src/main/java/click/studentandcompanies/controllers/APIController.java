@@ -47,6 +47,12 @@ public class APIController {
         this.interviewManager = interviewManager;
     }
 
+    @GetMapping("/private/test")
+    public ResponseEntity<DTO> showTraefikHeader(@RequestHeader("X-Custom-Header") String customHeader) {
+        return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, customHeader), HttpStatus.OK);
+
+    }
+
     @GetMapping("/hello")
     public String sayHello() {
         return "Hello, Spring Boot!";
@@ -95,7 +101,8 @@ public class APIController {
         return new GetStudentCVCommandCall(studentID, submissionManager).execute();
     }
 
-    // API called by student and companies when looking for their spontaneous applications
+    // API called by student and companies when looking for their spontaneous
+    // applications
     @GetMapping("/applications/private/spontaneous-applications/")
     @Operation(summary = "User requests the list of his Spontaneous Applications", description = "Get a list of Spontaneous Applications submitted by a specific student or submitted to a specific company.")
     @ApiResponses({
@@ -134,7 +141,8 @@ public class APIController {
         return new GetAllUserCommunicationsCommandCall(userID, communicationManager).execute();
     }
 
-    //TODO: Where is done the check if the user is retrieving one of his communications? There is no body in the GET request
+    // TODO: Where is done the check if the user is retrieving one of his
+    // communications? There is no body in the GET request
     @GetMapping("/comm/private/communication/{userID}/")
     @Operation(summary = "User userID requests the communication commID", description = "Get the communication commID for the user userID.")
     @ApiResponses({
@@ -262,7 +270,7 @@ public class APIController {
         return new SubmitSpontaneousApplicationCommandCall(InternshipOfferID, payload, submissionManager).execute();
     }
 
-    @PostMapping ("/interviews/private/send-answer/{InterviewID}")
+    @PostMapping("/interviews/private/send-answer/{InterviewID}")
     @Operation(summary = "Send interview answer", description = "payload will contain the 'student_id' and the 'answer'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview answer sent successfully"),
@@ -270,7 +278,8 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Interview not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> sendInterviewAnswer(@PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
+    public ResponseEntity<DTO> sendInterviewAnswer(@PathVariable Integer InterviewID,
+            @RequestBody Map<String, Object> payload) {
         return new SendInterviewAnswerCommandCall(InterviewID, payload, interviewManager).execute();
     }
 
@@ -282,18 +291,20 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Interview not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> sendInterview(@PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
+    public ResponseEntity<DTO> sendInterview(@PathVariable Integer InterviewID,
+            @RequestBody Map<String, Object> payload) {
         return new SendInterviewCommandCall(InterviewID, payload, interviewManager).execute();
     }
 
-    @PostMapping ("/interviews/private/save-template-interview/{InterviewID}")
+    @PostMapping("/interviews/private/save-template-interview/{InterviewID}")
     @Operation(summary = "Save interview template", description = "payload will contain the 'questions' and the 'company_id'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview template saved successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> saveInterviewTemplate(@PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
+    public ResponseEntity<DTO> saveInterviewTemplate(@PathVariable Integer InterviewID,
+            @RequestBody Map<String, Object> payload) {
         return new SaveInterviewTemplateCommandCall(InterviewID, interviewManager, payload).execute();
     }
 
@@ -305,8 +316,10 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Interview template or Interview not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> sendInterviewTemplate(@PathVariable Integer TemplateInterviewID, @PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
-        return new SendInterviewTemplateCommandCall(interviewManager, InterviewID, TemplateInterviewID, payload).execute();
+    public ResponseEntity<DTO> sendInterviewTemplate(@PathVariable Integer TemplateInterviewID,
+            @PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
+        return new SendInterviewTemplateCommandCall(interviewManager, InterviewID, TemplateInterviewID, payload)
+                .execute();
     }
 
     @PostMapping("interviews/private/evaluate-interview/{InterviewID}")
@@ -317,7 +330,8 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Interview not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> evaluateInterview(@PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
+    public ResponseEntity<DTO> evaluateInterview(@PathVariable Integer InterviewID,
+            @RequestBody Map<String, Object> payload) {
         return new EvaluateInterviewCommandCall(interviewManager, InterviewID, payload).execute();
     }
 
@@ -333,7 +347,6 @@ public class APIController {
         return new CreateCommunicationCommandCall(communicationManager, payload).execute();
     }
 
-
     @PostMapping("/sub/private/close-internship/")
     @Operation(summary = "Close internship", description = "payload will contain the company_id")
     @ApiResponses({
@@ -343,11 +356,15 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Internship not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> closeInternship(@RequestParam("internshipID") Integer internshipID, @RequestBody Map<String, Object> payload) {
-        //If the Internship does not exist or does not exist any pending application, the list will be empty. no exception will be thrown
+    public ResponseEntity<DTO> closeInternship(@RequestParam("internshipID") Integer internshipID,
+            @RequestBody Map<String, Object> payload) {
+        // If the Internship does not exist or does not exist any pending application,
+        // the list will be empty. no exception will be thrown
         List<Integer> userIDs = userManager.getInvolvedUsers(internshipID);
-        ResponseEntity<DTO> dto = new CloseInternshipOfferCommandCall(internshipID, payload, submissionManager).execute();
-        //TODO: Send notification to all users involved in the internship using the userIDs list
+        ResponseEntity<DTO> dto = new CloseInternshipOfferCommandCall(internshipID, payload, submissionManager)
+                .execute();
+        // TODO: Send notification to all users involved in the internship using the
+        // userIDs list
         return dto;
     }
 
@@ -359,7 +376,8 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Unauthorized or not found University"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> terminateCommunication(@PathVariable Integer commID, @RequestBody Map<String, Object> payload) {
+    public ResponseEntity<DTO> terminateCommunication(@PathVariable Integer commID,
+            @RequestBody Map<String, Object> payload) {
         return new TerminateCommunicationCommandCall(communicationManager, commID, payload).execute();
     }
 
@@ -371,7 +389,8 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Interview not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> sendInterviewPositionOffer(@PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload) {
+    public ResponseEntity<DTO> sendInterviewPositionOffer(@PathVariable Integer InterviewID,
+            @RequestBody Map<String, Object> payload) {
         return new SendInterviewPositionOfferCommandCall(interviewManager, InterviewID, payload).execute();
     }
 
@@ -384,7 +403,8 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Internship not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> acceptInternshipPositionOffer(@RequestParam("intPosOffID") Integer intPosOffID, @RequestBody Map<String, Object> payload) {
+    public ResponseEntity<DTO> acceptInternshipPositionOffer(@RequestParam("intPosOffID") Integer intPosOffID,
+            @RequestBody Map<String, Object> payload) {
         return new AcceptInternshipPositionOfferCommandCall(intPosOffID, payload, interviewManager).execute();
     }
 }

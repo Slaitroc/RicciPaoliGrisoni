@@ -1,7 +1,6 @@
 secret/
 META-INF/
 
-sc_server/src/main/resources/application.properties
 
 /target/
 pom.xml.tag
