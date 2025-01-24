@@ -1,6 +1,7 @@
 package click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.GET;
 
 import click.studentandcompanies.entity.Recommendation;
+import click.studentandcompanies.entity.dbEnum.RecommendationStatusEnum;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.RecommendationRepository;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommand;
@@ -12,7 +13,6 @@ import click.studentandcompanies.utils.exception.NotFoundException;
 import java.util.List;
 
 public class GetRecommendationByParticipantCommand implements RecommendationProcessCommand<List<Recommendation>> {
-
     UserManager userManager;
     RecommendationRepository recommendationRepository;
     Integer userID;
@@ -31,7 +31,14 @@ public class GetRecommendationByParticipantCommand implements RecommendationProc
             case UNIVERSITY -> throw new BadInputException("User is not a company or student");
             default -> throw new NotFoundException("User not found");
         };
-        if (recommendations.isEmpty()) throw new NoContentException("No recommendations found");
+        recommendations = recommendations.stream().filter(recommendation -> recommendation.getStatus() != RecommendationStatusEnum.refusedMatch).toList();
+        if(type == UserType.STUDENT){
+            recommendations = recommendations.stream().filter(recommendation -> recommendation.getStatus() != RecommendationStatusEnum.acceptedByStudent).toList();
+        }else{
+            recommendations = recommendations.stream().filter(recommendation -> recommendation.getStatus() != RecommendationStatusEnum.acceptedByCompany).toList();
+        }
+        //todo check if in the front end a empty list is a valid response
+        if (recommendations.isEmpty()) throw new NoContentException("No eligible recommendations found");
         return recommendations;
     }
 }
