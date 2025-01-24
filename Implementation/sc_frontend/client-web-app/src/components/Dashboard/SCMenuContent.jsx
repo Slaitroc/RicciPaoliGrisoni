@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as SCIcons from "../Shared/SCIcons";
-import { useGlobalContext } from "../../global/globalContext";
+import { useGlobalContext } from "../../global/GlobalContext";
 import * as Global from "../../global/globalStatesInit";
 
 const studentListItems = [

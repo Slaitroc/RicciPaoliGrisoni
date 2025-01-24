@@ -12,7 +12,7 @@ import {
 import Typography from "@mui/material/Typography";
 import { v4 as uuidv4 } from "uuid";
 import SCUploadImage from "../Shared/SCUploadImage";
-import { useGlobalContext } from "../../global/globalContext";
+import { useGlobalContext } from "../../global/GlobalContext";
 
 const key = uuidv4();
 

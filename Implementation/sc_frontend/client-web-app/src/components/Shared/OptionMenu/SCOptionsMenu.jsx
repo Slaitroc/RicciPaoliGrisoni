@@ -2,7 +2,7 @@ import * as React from "react";
 
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import MenuButton from "../../Templates/dashboard/components/MenuButton";
-import { useGlobalContext } from "../../../global/globalContext";
+import { useGlobalContext } from "../../../global/GlobalContext";
 import SCUserItems from "./SCUserItems";
 
 export default function SCOptionsMenu() {
@@ -23,11 +23,7 @@ export default function SCOptionsMenu() {
       >
         <MoreVertRoundedIcon />
       </MenuButton>
-      <SCUserItems
-        handleClose={handleClose}
-        anchorEl={anchorEl}
-        open={open}
-      />
+      <SCUserItems handleClose={handleClose} anchorEl={anchorEl} open={open} />
     </React.Fragment>
   );
 }

@@ -1,23 +1,46 @@
+import { styled } from "@mui/material/styles";
+import { paperClasses } from "@mui/material/Paper";
+import { listClasses } from "@mui/material/List";
+import { useGlobalContext } from "../../../global/GlobalContext";
+import { useNavigate } from "react-router-dom";
+import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
 import React from "react";
 import Divider, { dividerClasses } from "@mui/material/Divider";
 import Menu from "@mui/material/Menu";
-import { styled } from "@mui/material/styles";
 import MuiMenuItem from "@mui/material/MenuItem";
-import { paperClasses } from "@mui/material/Paper";
-import { listClasses } from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
-import { useGlobalContext } from "../../../global/globalContext";
-import { useNavigate } from "react-router-dom";
 import * as SCIcons from "../../Shared/SCIcons";
+import * as authorization from "../../../api-calls/api-wrappers/authorization-wrapper/authorization";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0",
 });
 
 const SCUserItems = ({ anchorEl, handleClose, open }) => {
-  const { logout } = useGlobalContext();
+  const { setIsAuthenticated } = useGlobalContext();
   const navigate = useNavigate();
+
+  const clickLogout = () => {
+    handleClose();
+    authorization
+      .logout()
+      .then(() => {
+        setIsAuthenticated(false);
+      })
+      .catch((err) => {
+        console.error("Error during logout:", err.message);
+      });
+  };
+
+  const clickProfile = () => {
+    handleClose();
+    navigate("/dashboard/profile");
+  };
+
+  const clickAccountSettings = () => {
+    handleClose();
+    navigate("/dashboard/account");
+  };
 
   return (
     <Menu
@@ -40,28 +63,11 @@ const SCUserItems = ({ anchorEl, handleClose, open }) => {
         },
       }}
     >
-      <MenuItem
-        onClick={() => {
-          handleClose();
-          navigate("/dashboard/profile");
-        }}
-      >
-        Profile
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          handleClose();
-          navigate("/dashboard/account");
-        }}
-      >
-        Account Settings
-      </MenuItem>
+      <MenuItem onClick={clickProfile}>Profile</MenuItem>
+      <MenuItem onClick={clickAccountSettings}>Account Settings</MenuItem>
       <Divider />
       <MenuItem
-        onClick={() => {
-          handleClose();
-          logout();
-        }}
+        onClick={clickLogout}
         sx={{
           [`& .${listItemIconClasses.root}`]: {
             ml: "auto",

@@ -27,26 +27,28 @@ public class AuthController {
     }
 
     // @PostMapping("/validatev2")
-    // public ResponseEntity<?> validateTokenv2(@RequestHeader("Authorization") String authHeader) {
-    //     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-    //         return ResponseEntity.status(400).body("Missing or invalid Authorization header");
-    //     }
+    // public ResponseEntity<?> validateTokenv2(@RequestHeader("Authorization")
+    // String authHeader) {
+    // if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+    // return ResponseEntity.status(400).body("Missing or invalid Authorization
+    // header");
+    // }
 
-    //     String idToken = authHeader.substring(7);
+    // String idToken = authHeader.substring(7);
 
-    //     try {
-    //         FirebaseToken decodedToken = authService.verifyToken(idToken);
+    // try {
+    // FirebaseToken decodedToken = authService.verifyToken(idToken);
 
-    //         // Extract claims
-    //         Map<String, Object> response = new HashMap<>();
-    //         response.put("uid", decodedToken.getUid());
-    //         response.put("email", decodedToken.getEmail());
-    //         response.put("claims", decodedToken.getClaims());
+    // // Extract claims
+    // Map<String, Object> response = new HashMap<>();
+    // response.put("uid", decodedToken.getUid());
+    // response.put("email", decodedToken.getEmail());
+    // response.put("claims", decodedToken.getClaims());
 
-    //         return ResponseEntity.ok(response);
-    //     } catch (FirebaseAuthException e) {
-    //         return ResponseEntity.status(401).body("Invalid or expired token");
-    //     }
+    // return ResponseEntity.ok(response);
+    // } catch (FirebaseAuthException e) {
+    // return ResponseEntity.status(401).body("Invalid or expired token");
+    // }
 
     // }
 
@@ -67,5 +69,8 @@ public class AuthController {
         }
 
     }
+
+    @GetMapping("/login")
+    public ResponseEntity<?> login(@)
 
 }

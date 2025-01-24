@@ -9,14 +9,14 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { styled } from "@mui/material/styles";
 import SCForgotPassword from "./SCForgotPassword";
+import { styled } from "@mui/material/styles";
 import { SitemarkIcon } from "../Templates/sign-in-side/CustomIcons";
-import * as Authorization from "../../Authorization/authorization";
-
-import { useGlobalContext } from "../../global/globalContext";
+import { useGlobalContext } from "../../global/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "@mui/material";
+
+import * as authorization from "../../api-calls/api-wrappers/authorization-wrapper/authorization";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -46,6 +46,10 @@ export default function SCSignInCard() {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
 
+  const [openAlert, setOpenAlert] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState("");
+  const [alertSeverity, setAlertSeverity] = React.useState("success");
+
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } =
     useGlobalContext();
   const navigate = useNavigate();
@@ -58,17 +62,29 @@ export default function SCSignInCard() {
     setOpen(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (validateInputs()) {
-      const response = setProfile(Authorization.login(email, password));
+      const response = await authorization.login(email, password);
       switch (response.code) {
-        case 204:
-          console.log("No Content: unknown credentials");
+        case (204, 400):
+          setOpenAlert(true);
+          setAlertSeverity("error");
+          setAlertMessage("Invalid credentials");
           break;
         case 200:
+          setOpenAlert(true);
+          setAlertSeverity("success");
+          setAlertMessage("Logged in successfully");
           setIsAuthenticated(true);
           navigate("/dashboard");
+          Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+              console.log("Permesso per le notifiche concesso.");
+            } else {
+              console.log("Permesso per le notifiche negato.");
+            }
+          });
       }
     }
   };
@@ -101,7 +117,7 @@ export default function SCSignInCard() {
 
   return (
     <Card variant="outlined">
-      <Alert severity="success">This is a test alert message.</Alert>
+      {openAlert && <Alert severity={alertSeverity}>{alertMessage}</Alert>}
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
         <SitemarkIcon />
       </Box>

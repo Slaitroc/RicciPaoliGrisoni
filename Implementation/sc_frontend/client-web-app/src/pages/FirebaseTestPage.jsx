@@ -1,8 +1,8 @@
 import { Box, Button, Chip, FormLabel, TextField } from "@mui/material";
 import React from "react";
-import * as Authorization from "../Authorization/authorization";
-import * as tokenStorage from "../Authorization/tokenStorage";
-import * as apiCalls from "../ApiCalls/apiCalls";
+import * as authorization from "../api-calls/api-wrappers/authorization-wrapper/authorization";
+import * as tokenStorage from "../api-calls/api-wrappers/authorization-wrapper/firebase-utils/tokenStorage";
+import * as apiCalls from "../api-calls/apiCalls";
 
 export const FirebaseTestPage = () => {
   const [email, setEmail] = React.useState("");
@@ -11,7 +11,7 @@ export const FirebaseTestPage = () => {
 
   const clickRegisterUser = async () => {
     try {
-      const response = await Authorization.register(email, password);
+      const response = await authorization.register(email, password);
       switch (response.code) {
         case 400:
           console.log("Bad Request: invalid credentials");
@@ -34,7 +34,7 @@ export const FirebaseTestPage = () => {
 
   const clickLoginUser = async () => {
     try {
-      const response = await Authorization.login(email, password);
+      const response = await authorization.login(email, password);
 
       switch (response.code) {
         case 204:
@@ -64,7 +64,7 @@ export const FirebaseTestPage = () => {
 
   const clickLogoutUser = async () => {
     try {
-      const response = await Authorization.logout();
+      const response = await authorization.logout();
       switch (response.code) {
         case 500:
           console.log("Internal Server Error");

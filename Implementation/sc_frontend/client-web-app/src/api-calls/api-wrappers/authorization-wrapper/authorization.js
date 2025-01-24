@@ -1,7 +1,6 @@
-import * as tokenStorage from "./tokenStorage";
-import { HttpHandlingError } from "../Errors/HttpHandlingError";
-import * as apiCalls from "../APIcalls/apiCalls";
-import * as firebaseMethods from "./firebaseMethods";
+import * as apiCalls from "../../apiCalls";
+import * as firebaseAuth from "firebase/auth";
+import { auth } from "./firebase-utils/firebaseConfig";
 
 /**
  * Logs in a user with the provided email and password.
@@ -24,51 +23,68 @@ import * as firebaseMethods from "./firebaseMethods";
  * @returns {Promise<Object>} A promise that resolves to an object containing the status code and response data.
  * @throws {Error} Throws an error if the login process fails unexpectedly.
  */
+// export const loginv1 = async (email, password) => {
+//   try {
+//     const loginResponse = await apiCalls.login(email, password);
+
+//     if (loginResponse.status === 204) {
+//       return { code: 204, loginResponse };
+//     }
+
+//     if (loginResponse.status === 400) {
+//       return { code: 400, loginResponse };
+//     }
+
+//     if (loginResponse.ok && loginResponse.status != 204) {
+//       const res = await loginResponse.json();
+//       const token = res.token;
+//       tokenStorage.saveToken(token);
+
+//       const userProfileResponse = await apiCalls.retrieveProfile(token);
+
+//       if (userProfileResponse.ok) {
+//         const profile = await userProfileResponse.json();
+//         // console.log("profile: ", profile);
+//         return { code: 200, profile, token };
+//       } else {
+//         if (userProfileResponse.status === 401) {
+//           return { code: 401, userProfileResponse };
+//         }
+
+//         if (userProfileResponse.status === 500) {
+//           return { code: 500, userProfileResponse };
+//         }
+//       }
+//     } else {
+//       throw new Error("Failed to login: unexpected response");
+//     }
+//   } catch (err) {
+//     console.error("Unexpected error during login has been thrown");
+//     throw err;
+//   }
+// };
+
 export const login = async (email, password) => {
   try {
-    const loginResponse = await apiCalls.login(email, password);
-
-    if (loginResponse.status === 204) {
-      return { code: 204, loginResponse };
-    }
-
-    if (loginResponse.status === 400) {
-      return { code: 400, loginResponse };
-    }
-
-    if (loginResponse.ok && loginResponse.status != 204) {
-      const res = await loginResponse.json();
-      const token = res.token;
-      tokenStorage.saveToken(token);
-
-      const userProfileResponse = await apiCalls.retrieveProfile(token);
-
-      if (userProfileResponse.ok) {
-        const profile = await userProfileResponse.json();
-        // console.log("profile: ", profile);
-        return { code: 200, profile, token };
-      } else {
-        if (userProfileResponse.status === 401) {
-          return { code: 401, userProfileResponse };
-        }
-
-        if (userProfileResponse.status === 500) {
-          return { code: 500, userProfileResponse };
-        }
-      }
-    } else {
-      throw new Error("Failed to login: unexpected response");
-    }
-  } catch (err) {
-    console.error("Unexpected error during login has been thrown");
-    throw err;
+    const userCredentials = await firebaseAuth.signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const token = await userCredentials.user.getIdToken();
+    apiCalls.retrieveProfile(token);
+    return { code: 200, token };
+  } catch (error) {
+    console.error("Error during login:", error.message);
+    const message = error.message;
+    return { code: 400, message };
   }
 };
 
 /**
  * Logs out the current user by calling the logoutUser method from firebaseMethods.
  * Clears the stored token upon successful logout.
- * 
+ *
  * @async
  * @function logout
  * @returns {Promise<Object>} A promise that resolves to an object containing a status code and the response or error.
@@ -77,15 +93,14 @@ export const login = async (email, password) => {
  * @property {Object} err - The error object on failure.
  */
 export const logout = async () => {
-  firebaseMethods
-    .logoutUser()
-    .then((response) => {
-      tokenStorage.clearToken();
-      return { code: 200, response };
-    })
-    .catch((err) => {
-      return { code: 500, err };
-    });
+  try {
+    const result = await firebaseAuth.signOut(auth);
+    console.log("User logged out successfully!");
+    return { code: 200, result };
+  } catch (error) {
+    console.error("Error during logout:", error.message);
+    return { code: 500, error };
+  }
 };
 
 /**
@@ -102,16 +117,15 @@ export const logout = async () => {
  */
 export const register = async (email, password) => {
   try {
-    const token = await firebaseMethods.registerUser(email, password);
-    if (!token) {
-      return {
-        code: 400,
-        response: "Failed to register. Credential may be invalid",
-      };
-    }
-    tokenStorage.saveToken(token);
+    const token = await firebaseAuth.createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    firebaseAuth.sendEmailVerification(auth.currentUser);
     return { code: 200, token };
   } catch (err) {
+    console.log("Error during registration:", err.message);
     return { code: 500, err };
   }
 };

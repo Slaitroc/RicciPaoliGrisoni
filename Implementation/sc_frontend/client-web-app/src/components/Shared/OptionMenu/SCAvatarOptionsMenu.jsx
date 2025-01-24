@@ -4,7 +4,7 @@ import MuiMenuItem from "@mui/material/MenuItem";
 import MenuButton from "../../Templates/dashboard/components/MenuButton";
 import Avatar from "@mui/material/Avatar";
 import SCUserItems from "./SCUserItems";
-import { useGlobalContext } from "../../../global/globalContext";
+import { useGlobalContext } from "../../../global/GlobalContext";
 
 export default function SCAvatarOptionsMenu() {
   const { previewUrl } = useGlobalContext();

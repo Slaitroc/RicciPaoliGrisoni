@@ -51,9 +51,9 @@ const router = createBrowserRouter(
     {
       path: "dashboard",
       element: (
-        // <RouteProtector equals={false} navigateTo="/signin">
+        <RouteProtector equals={false} navigateTo="/signin">
         <Dashboard />
-        // </RouteProtector>
+        </RouteProtector>
       ),
       children: [
         {
@@ -125,17 +125,17 @@ const router = createBrowserRouter(
     {
       path: "signin",
       element: (
-        // <RouteProtector equals={true} navigateTo="/dashboard">
+        <RouteProtector equals={true} navigateTo="/dashboard">
         <SCSignInSide />
-        // </RouteProtector>
+        </RouteProtector>
       ),
     },
     {
       path: "signup",
       element: (
-        // <RouteProtector equals={true} navigateTo="/dashboard">
+        <RouteProtector equals={true} navigateTo="/dashboard">
         <SCSignUp />
-        // </RouteProtector>
+        </RouteProtector>
       ),
     },
   ],

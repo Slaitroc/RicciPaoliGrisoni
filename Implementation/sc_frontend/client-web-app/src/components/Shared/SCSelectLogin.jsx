@@ -10,7 +10,7 @@ import DevicesRoundedIcon from "@mui/icons-material/DevicesRounded";
 import SmartphoneRoundedIcon from "@mui/icons-material/SmartphoneRounded";
 import FormControl from "@mui/material/FormControl";
 import { InputLabel } from "@mui/material";
-import { useGlobalContext } from "../../global/globalContext";
+import { useGlobalContext } from "../../global/GlobalContext";
 
 const Avatar = styled(MuiAvatar)(({ theme }) => ({
   width: 28,

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, Button, Card, Typography, Avatar } from "@mui/material";
-import { useGlobalContext } from "../../global/globalContext";
+import { useGlobalContext } from "../../global/GlobalContext";
 
 export default function SCUploadImage() {
   const { removePhoto, handleFileChange, previewUrl, selectedFile } =

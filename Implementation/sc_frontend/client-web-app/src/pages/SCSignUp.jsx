@@ -1,11 +1,17 @@
 import * as React from "react";
+import * as global from "../global/globalStatesInit";
+import { register } from "../api-calls/api-wrappers/authorization-wrapper/authorization";
+import { styled } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import { useGlobalContext } from "../global/GlobalContext";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { FormLabel } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
@@ -13,19 +19,10 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
 import SCAppTheme from "../components/Shared/SCAppTheme";
-import { styled } from "@mui/material/styles";
 import SCColorModeSelect from "../components/Shared/SCColorModeSelect";
 import SCBackHomeButton from "../components/Dashboard/SCBackHomeButton";
-import { useNavigate } from "react-router-dom";
 import SCSelectLogin from "../components/Shared/SCSelectLogin";
-import { useGlobalContext } from "../global/globalContext";
-import * as global from "../global/globalStatesInit";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Autocomplete from "@mui/material/Autocomplete";
-import { Input } from "@mui/material";
-import * as firebaseMethods from "../Authorization/firebaseMethods";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -76,7 +73,10 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 export default function SCSignUp(props) {
   const navigate = useNavigate();
   //TODO implementare logica per la verifica delle password
-  const { userType } = useGlobalContext();
+  const { userType, setIsAuthenticated } = useGlobalContext();
+
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -118,34 +118,36 @@ export default function SCSignUp(props) {
       setNameErrorMessage("");
     }
 
-    if (isValid) {
-      console.log("Registration successful");
-      register(email.value, password.value);
-    }
-
     return isValid;
-  };
-
-  const register = async (email, password) => {
-    try {
-      const token = await firebaseMethods.registerUser(email, password);
-      firebaseMethods.saveToken(token);
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Error during registration:", error.message);
-    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (validateInputs()) {
-      const { email, password } = formData;
-      register(email, password);
+      register(email, password)
+        .then((response) => {
+          switch (response.code) {
+            case (204, 400):
+              console.log("Invalid or already in use credentials");
+              break;
+            case 500:
+              console.log("Firebase error");
+              break;
+            case 200:
+              console.log("Logged in successfully");
+              setIsAuthenticated(true);
+              navigate("/dashboard");
+          }
+        })
+        .catch((error) => {
+          console.error("Unexpected error during login has been thrown");
+          throw error;
+        });
     }
   };
 
   const formType = () => {
-    console.log(userType);
+    // console.log(userType);
     if (userType == global.student)
       return (
         <>
@@ -207,6 +209,7 @@ export default function SCSignUp(props) {
                 autoComplete="email"
                 variant="outlined"
                 error={emailError}
+                onChange={(e) => setEmail(e.target.value)}
                 helperText={emailErrorMessage}
                 color={passwordError ? "error" : "primary"}
               />
@@ -255,6 +258,7 @@ export default function SCSignUp(props) {
                 id="password"
                 autoComplete="new-password"
                 variant="outlined"
+                onChange={(e) => setPassword(e.target.value)}
                 error={passwordError}
                 helperText={passwordErrorMessage}
                 color={passwordError ? "error" : "primary"}
@@ -529,12 +533,7 @@ export default function SCSignUp(props) {
               <SCSelectLogin />
             </Box>
             {formType()}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              onClick={validateInputs}
-            >
+            <Button type="submit" fullWidth variant="contained">
               Sign up
             </Button>
           </Box>

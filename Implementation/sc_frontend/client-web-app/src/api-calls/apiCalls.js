@@ -1,4 +1,32 @@
 import { fetchWrapper } from "./fetchWrapper";
+import { auth } from "./api-wrappers/authorization-wrapper/firebase-utils/firebaseConfig";
+
+// #region Global api calls
+
+export const retrieveProfile = async () => {
+  return fetchWrapper("/application-api/account/private/retrieve-profile", {
+    method: "GET",
+    headers: { Authorization: `Bearer ${auth.currentUser.getIdToken()}` },
+  });
+};
+
+// #endregion
+
+// #region Notification api calls
+export const sendNotificationToken = async (notificationToken) => {
+  return fetchWrapper("/notification-api/private/send-token", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${auth.currentUser.getIdToken()}`,
+    },
+    body: JSON.stringify({ notificationToken }),
+  });
+};
+
+// #endregion
+
+// #region Authorization api calls
 
 export const login = async (email, password) => {
   return fetchWrapper("/auth-api/login", {
@@ -8,12 +36,7 @@ export const login = async (email, password) => {
   });
 };
 
-export const retrieveProfile = async (token) => {
-  return fetchWrapper("/application-api/account/private/retrieve-profile", {
-    method: "GET",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-};
+// #region test calls
 
 export const testRequest = async () => {
   return fetchWrapper("/application-api/sub/private/internships/?companyID=8", {
@@ -44,3 +67,5 @@ export const testProxy = async () => {
     },
   });
 };
+
+// #endregion

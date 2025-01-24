@@ -1,5 +1,5 @@
 import React from "react";
-import { useGlobalContext } from "../global/globalContext";
+import { useGlobalContext } from "../global/GlobalContext";
 import PropTypes from "prop-types";
 import { Navigate } from "react-router-dom";
 

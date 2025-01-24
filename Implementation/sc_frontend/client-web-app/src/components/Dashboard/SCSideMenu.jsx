@@ -7,7 +7,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import SCMenuContent from "./SCMenuContent";
 import SCOptionsMenu from "../Shared/OptionMenu/SCOptionsMenu";
-import { useGlobalContext } from "../../global/globalContext";
+import { useGlobalContext } from "../../global/GlobalContext";
 import { TEXT } from "../../constants/UIConstants";
 
 const drawerWidth = 240;
