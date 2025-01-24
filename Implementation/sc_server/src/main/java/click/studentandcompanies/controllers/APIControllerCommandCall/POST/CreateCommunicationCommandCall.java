@@ -7,7 +7,7 @@ import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.Communication;
 import click.studentandcompanies.entityManager.NotificationManager;
 import click.studentandcompanies.entityManager.communicationManager.CommunicationManager;
-import click.studentandcompanies.notificationSystem.NotificationFacade;
+import click.studentandcompanies.controllers.NotificationController;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationData;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationTriggerType;
 import click.studentandcompanies.utils.exception.BadInputException;
@@ -38,7 +38,7 @@ public class CreateCommunicationCommandCall implements APIControllerCommandCall<
             List<Integer> userIDs = List.of(communication.getStudent().getId(), communication.getInternshipOffer().getCompany().getId(), communication.getUniversity().getId());
             DTO dto = DTOCreator.createDTO(DTOTypes.COMMUNICATION, communication);
             NotificationData data = new NotificationData(NotificationTriggerType.NEW_COMMUNICATION, dto);
-            new NotificationFacade(notificationManager).sendNotification(userIDs, data);
+            new NotificationController(notificationManager).sendNotification(userIDs, data);
 
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         } catch (BadInputException | WrongStateException e) {

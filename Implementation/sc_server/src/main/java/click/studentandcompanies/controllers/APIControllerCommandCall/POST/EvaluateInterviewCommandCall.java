@@ -7,7 +7,7 @@ import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entityManager.NotificationManager;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
-import click.studentandcompanies.notificationSystem.NotificationFacade;
+import click.studentandcompanies.controllers.NotificationController;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationData;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationTriggerType;
 import click.studentandcompanies.utils.exception.BadInputException;
@@ -44,7 +44,7 @@ public class EvaluateInterviewCommandCall implements APIControllerCommandCall<Re
 
             DTO dto = DTOCreator.createDTO(DTOTypes.INTERVIEW, interview);
             NotificationData data = new NotificationData(NotificationTriggerType.INTERVIEW_EVALUATED, dto);
-            new NotificationFacade(notificationManager).sendNotification(userIDs, data);
+            new NotificationController(notificationManager).sendNotification(userIDs, data);
 
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         } catch (BadInputException e) {

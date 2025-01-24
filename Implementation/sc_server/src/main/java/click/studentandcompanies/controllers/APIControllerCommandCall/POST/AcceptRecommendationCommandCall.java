@@ -8,7 +8,7 @@ import click.studentandcompanies.entity.Recommendation;
 import click.studentandcompanies.entity.dbEnum.RecommendationStatusEnum;
 import click.studentandcompanies.entityManager.NotificationManager;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcess;
-import click.studentandcompanies.notificationSystem.NotificationFacade;
+import click.studentandcompanies.controllers.NotificationController;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationData;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationTriggerType;
 import click.studentandcompanies.utils.exception.NotFoundException;
@@ -40,7 +40,7 @@ public class AcceptRecommendationCommandCall implements APIControllerCommandCall
 
                 NotificationData data = new NotificationData(NotificationTriggerType.MATCH_FOUND, DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation));
 
-                new NotificationFacade(notificationManager).sendNotification(userIDs, data);
+                new NotificationController(notificationManager).sendNotification(userIDs, data);
                 //todo: call feedback service
             }
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation), HttpStatus.CREATED);

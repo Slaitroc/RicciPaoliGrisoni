@@ -7,7 +7,7 @@ import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.SpontaneousApplication;
 import click.studentandcompanies.entityManager.NotificationManager;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManager;
-import click.studentandcompanies.notificationSystem.NotificationFacade;
+import click.studentandcompanies.controllers.NotificationController;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationData;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationTriggerType;
 import click.studentandcompanies.utils.exception.BadInputException;
@@ -38,7 +38,7 @@ public class SubmitSpontaneousApplicationCommandCall implements APIControllerCom
 
             DTO dto = DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application);
             NotificationData data = new NotificationData(NotificationTriggerType.SPONTANEOUS_APPLICATION_RECEIVED, dto);
-            new NotificationFacade(notificationManager).sendNotification(List.of(application.getInternshipOffer().getCompany().getId()), data);
+            new NotificationController(notificationManager).sendNotification(List.of(application.getInternshipOffer().getCompany().getId()), data);
 
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         } catch (BadInputException e) {

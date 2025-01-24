@@ -9,7 +9,7 @@ import click.studentandcompanies.entityManager.NotificationManager;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcess;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManager;
-import click.studentandcompanies.notificationSystem.NotificationFacade;
+import click.studentandcompanies.controllers.NotificationController;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationData;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationTriggerType;
 import click.studentandcompanies.utils.exception.NotFoundException;
@@ -53,7 +53,7 @@ public class CloseInternshipOfferCommandCall implements APIControllerCommandCall
             // Compose a notification data object with the Type of notification to send and the DTO object to include all the data that may be needed
             NotificationData data = new NotificationData(NotificationTriggerType.INTERNSHIP_CANCELLED, dto);
             // Facade with only one method to send the notification to the users to hide complexity and make it easier to use
-            new NotificationFacade(notificationManager).sendNotification(userIDs, data);
+            new NotificationController(notificationManager).sendNotification(userIDs, data);
 
             return new ResponseEntity<>(dto, HttpStatus.OK);
         } catch (NotFoundException e) {

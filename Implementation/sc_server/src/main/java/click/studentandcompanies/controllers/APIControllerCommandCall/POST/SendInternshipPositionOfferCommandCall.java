@@ -8,7 +8,7 @@ import click.studentandcompanies.entity.InternshipPosOffer;
 import click.studentandcompanies.entityManager.NotificationManager;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
-import click.studentandcompanies.notificationSystem.NotificationFacade;
+import click.studentandcompanies.controllers.NotificationController;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationData;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationTriggerType;
 import click.studentandcompanies.utils.exception.BadInputException;
@@ -43,7 +43,7 @@ public class SendInternshipPositionOfferCommandCall implements APIControllerComm
             DTO dto = DTOCreator.createDTO(DTOTypes.INTERNSHIP_POS_OFFER, internshipPosOffer);
             NotificationData data = new NotificationData(NotificationTriggerType.INTERNSHIP_POSITION_OFFER_SENT, dto);
             List<Integer> studentID = List.of(userManager.getStudentIDByInternshipPosOfferID(internshipPosOffer.getId()));
-            new NotificationFacade(notificationManager).sendNotification(studentID, data);
+            new NotificationController(notificationManager).sendNotification(studentID, data);
 
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         } catch (BadInputException | WrongStateException e) {
