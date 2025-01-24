@@ -373,7 +373,7 @@ public class APIController {
     })
     public ResponseEntity<DTO> terminateCommunication(@PathVariable Integer commID,
             @RequestBody Map<String, Object> payload) {
-        return new TerminateCommunicationCommandCall(communicationManager, commID, payload).execute();
+        return new TerminateCommunicationCommandCall(communicationManager, commID, payload, notificationManager).execute();
     }
 
     @PostMapping("interviews/private/{InterviewID}/send-int-pos-off")

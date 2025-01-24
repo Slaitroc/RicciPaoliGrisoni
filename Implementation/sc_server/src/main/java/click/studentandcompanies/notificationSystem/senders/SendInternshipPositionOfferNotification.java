@@ -17,7 +17,7 @@ public class SendInternshipPositionOfferNotification implements SenderInterface 
      */
     @Override
     public void sendNotification(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {
-        List<Integer> deviceTokens = getDeviceTokens(userIDs, notificationManager);
+        List<String> deviceTokens = getDeviceTokens(userIDs, notificationManager);
         List<String> emails = getEmails(userIDs, notificationManager);
 
         String internshipTitle = (String) data.getProperties().get("internship_title");

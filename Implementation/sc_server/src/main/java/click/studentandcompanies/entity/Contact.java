@@ -18,7 +18,7 @@ public class Contact {
     private String email;
 
     @Column(name = "device_token", nullable = false)
-    private Integer deviceToken;
+    private String deviceToken;
 
     public Integer getId() {
         return id;
@@ -44,11 +44,11 @@ public class Contact {
         this.email = email;
     }
 
-    public Integer getDeviceToken() {
+    public String getDeviceToken() {
         return deviceToken;
     }
 
-    public void setDeviceToken(Integer deviceToken) {
+    public void setDeviceToken(String deviceToken) {
         this.deviceToken = deviceToken;
     }
 }
