@@ -63,4 +63,9 @@ public class SubmissionManager {
     public InternshipOffer closeInternshipOffer(Integer internshipID, Map<String, Object> payload) throws NotFoundException, UnauthorizedException {
         return new CloseInternshipOfferCommand(internshipOfferRepository, internshipID, payload).execute();
     }
+
+    @Transactional
+    public void closeRelatedApplications(Integer internshipID) {
+        new CloseRelatedApplicationsCommand(spontaneousApplicationRepository, internshipID).execute();
+    }
 }

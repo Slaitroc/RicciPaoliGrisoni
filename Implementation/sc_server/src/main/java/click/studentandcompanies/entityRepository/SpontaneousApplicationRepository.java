@@ -16,4 +16,6 @@ public interface SpontaneousApplicationRepository extends JpaRepository<Spontane
     SpontaneousApplication getSpontaneousApplicationsById(Integer id);
 
     List<SpontaneousApplication> findAllByInternshipOfferId(Integer internshipID);
+
+    void removeSpontaneousApplicationByInternshipOffer_Id(Integer internshipOfferId);
 }

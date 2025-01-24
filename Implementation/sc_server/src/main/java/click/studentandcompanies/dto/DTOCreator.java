@@ -10,7 +10,9 @@ public class DTOCreator {
     public static DTO createDTO(DTOTypes dtoType, Object obj) {
         return functionMap.get(dtoType).apply(obj);
     }
-
+    //todo: ask Sam: forse é meglio usare i nomi completi delle proprietá
+    // ad esempio company_title o internship_name, company_id invece di (company, internship, name, title, id ...)
+    // aiuterebbe il frontend e anche nelle notifiche ho notato puó essere utile
     private static final Map<DTOTypes, Function<Object, DTO>> functionMap = new HashMap<>();
     static {
         functionMap.put(DTOTypes.ERROR, obj -> createErrorDTO((String) obj));
@@ -88,14 +90,14 @@ public class DTOCreator {
         offerDTO.addProperty("compensation", offer.getCompensation());
         offerDTO.addProperty("description", offer.getDescription());
         offerDTO.addProperty("duration", offer.getDurationHours());
-        offerDTO.addProperty("company", offer.getCompany());
+        offerDTO.addProperty("company_id", offer.getCompany().getId());
+        offerDTO.addProperty("company_name", offer.getCompany().getName());
         offerDTO.addProperty("endDate", offer.getEndDate());
         offerDTO.addProperty("location", offer.getLocation());
         offerDTO.addProperty("numberPositions", offer.getNumberPositions());
         offerDTO.addProperty("requiredSkills", offer.getRequiredSkills());
         offerDTO.addProperty("startDate", offer.getStartDate());
         offerDTO.addProperty("title", offer.getTitle());
-        offerDTO.addProperty("company", offer.getCompany());
         return offerDTO;
     }
 
@@ -109,6 +111,7 @@ public class DTOCreator {
         cvDTO.addProperty("update_time", cv.getUpdateTime());
         cvDTO.addProperty("work_experience", cv.getWorkExperiences());
         cvDTO.addProperty("student_id", cv.getStudent().getId());
+        cvDTO.addProperty("student_name", cv.getStudent().getName());
         return cvDTO;
     }
 
@@ -118,7 +121,7 @@ public class DTOCreator {
         appDTO.addProperty("status", application.getStatus());
         appDTO.addProperty("internship_offer_title", application.getInternshipOffer().getTitle());
         appDTO.addProperty("internship_offer_company_name", application.getInternshipOffer().getCompany().getName());
-        appDTO.addProperty("student", application.getStudent().getName());
+        appDTO.addProperty("student_name", application.getStudent().getName());
         return appDTO;
     }
 
@@ -150,6 +153,7 @@ public class DTOCreator {
         recommendationDTO.addProperty("student_id", recommendation.getCv().getStudent().getId());
         recommendationDTO.addProperty("company_id", recommendation.getInternshipOffer().getCompany().getId());
         recommendationDTO.addProperty("internship_offer_id", recommendation.getInternshipOffer().getId());
+        recommendationDTO.addProperty("score", recommendation.getScore());
         return recommendationDTO;
     }
 
@@ -161,9 +165,9 @@ public class DTOCreator {
         communicationDTO.addProperty("content", communication.getContent());
         communicationDTO.addProperty("internshipOffer_id", communication.getInternshipOffer().getId());
         communicationDTO.addProperty("internshipOffer_title", communication.getInternshipOffer().getTitle());
-        communicationDTO.addProperty("company", communication.getInternshipOffer().getCompany().getName());
-        communicationDTO.addProperty("student", communication.getStudent().getName());
-        communicationDTO.addProperty("university", communication.getUniversity().getName());
+        communicationDTO.addProperty("company_name", communication.getInternshipOffer().getCompany().getName());
+        communicationDTO.addProperty("student_name", communication.getStudent().getName());
+        communicationDTO.addProperty("university_name", communication.getUniversity().getName());
 
         return communicationDTO;
     }
@@ -172,6 +176,14 @@ public class DTOCreator {
         final DTO interviewDTO = new DTO();
         interviewDTO.addProperty("id", interview.getId());
         interviewDTO.addProperty("status", interview.getStatus().toString());
+        if(interview.getSpontaneousApplication() == null) {
+            interviewDTO.addProperty("internship_title", interview.getRecommendation().getInternshipOffer().getTitle());
+            interviewDTO.addProperty("company_name", interview.getRecommendation().getInternshipOffer().getCompany().getName());
+        }
+        else {
+            interviewDTO.addProperty("internship_title", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
+            interviewDTO.addProperty("company_name", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
+        }
         return interviewDTO;
     }
 }

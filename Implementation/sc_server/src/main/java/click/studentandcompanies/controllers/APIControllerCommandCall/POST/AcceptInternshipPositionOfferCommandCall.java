@@ -29,14 +29,14 @@ public class AcceptInternshipPositionOfferCommandCall implements APIControllerCo
 
     @Override
     public ResponseEntity<DTO> execute() {
-        try{
+        try {
             InternshipPosOffer internshipPosOffer = interviewManager.acceptInternshipPositionOffer(intPosOffID, payload);
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.INTERNSHIP_POS_OFFER, internshipPosOffer), HttpStatus.OK);
-        }catch (NotFoundException e){
+        } catch (NotFoundException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
-        }catch (BadInputException | WrongStateException e){
+        } catch (BadInputException | WrongStateException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
-        }catch (UnauthorizedException e){
+        } catch (UnauthorizedException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
