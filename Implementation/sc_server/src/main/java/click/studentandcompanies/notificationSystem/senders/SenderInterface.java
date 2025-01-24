@@ -1,7 +1,7 @@
 package click.studentandcompanies.notificationSystem.senders;
 
 import click.studentandcompanies.dto.DTO;
-import click.studentandcompanies.entityManager.NotificationManager;
+import click.studentandcompanies.notificationSystem.NotificationManager;
 import click.studentandcompanies.notificationSystem.notificationAdapters.EmailServiceAdapter;
 import click.studentandcompanies.notificationSystem.notificationAdapters.PushNotificationAdapter;
 

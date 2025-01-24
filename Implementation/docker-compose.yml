@@ -86,7 +86,7 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: sc_DB
     ports:
-      - "3307:3307" # Porta MariaDB esposta
+      - "3307:3306" # Porta MariaDB esposta
     healthcheck:
       test:
         [

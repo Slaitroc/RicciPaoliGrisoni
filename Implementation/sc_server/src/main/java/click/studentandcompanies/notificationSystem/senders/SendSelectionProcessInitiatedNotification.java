@@ -1,11 +1,10 @@
 package click.studentandcompanies.notificationSystem.senders;
 
 import click.studentandcompanies.dto.DTO;
-import click.studentandcompanies.entityManager.NotificationManager;
+import click.studentandcompanies.notificationSystem.NotificationManager;
 import click.studentandcompanies.notificationSystem.notificationUtils.EmailContent;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationPayload;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SendSelectionProcessInitiatedNotification implements SenderInterface {
