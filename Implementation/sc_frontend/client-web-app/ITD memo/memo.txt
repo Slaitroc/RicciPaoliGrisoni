@@ -10,3 +10,9 @@
 # DDv2:
     - correggere lo schema della interfaccia (Entity Manager -> DBMS) 
     - modificare gli endpoint
+    - a seconda di come viene usato firebase serve correggere i SD
+
+# Firebase
+    - ora login, logout e register vengono andate dal backend direttamente a firebase:
+        per ora vado avanti così ma sarebbero daspostare nell'auth-api
+    

@@ -57,6 +57,33 @@ export default defineConfig(({ mode }) => {
               },
             ],
           },
+          // Configura Workbox
+          workbox: {
+            runtimeCaching: [
+              {
+                urlPattern: /^https:\/\/fonts\.googleapis\.com\//,
+                handler: "CacheFirst",
+                options: {
+                  cacheName: "google-fonts-stylesheets",
+                },
+              },
+              {
+                urlPattern: /^https:\/\/fonts\.gstatic\.com\//,
+                handler: "CacheFirst",
+                options: {
+                  cacheName: "google-fonts-webfonts",
+                  expiration: {
+                    maxEntries: 20,
+                    maxAgeSeconds: 60 * 60 * 24 * 365, // 1 anno
+                  },
+                },
+              },
+            ],
+          },
+          // Specifica un Service Worker personalizzato
+          srcDir: "src", // Directory dei file sorgente
+          filename: "firebase-messaging-sw.js", // Nome del Service Worker personalizzato
+          injectRegister: "inline", // Registra automaticamente il SW
         }),
     ].filter(Boolean), // Filtra i plugin nulli per evitare errori
   };
