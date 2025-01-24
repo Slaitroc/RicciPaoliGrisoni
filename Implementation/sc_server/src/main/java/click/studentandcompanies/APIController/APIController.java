@@ -403,4 +403,10 @@ public class APIController {
             @RequestBody Map<String, Object> payload) {
         return new AcceptInternshipPositionOfferCommandCall(intPosOffID, payload, interviewManager).execute();
     }
+
+    //todo: redo the all fucking thing
+    @PutMapping("/acc/private/send-user-data")
+    public Object sendUserData(@RequestBody Map<String, Object> payload) {
+        return new SendUserDataCommandCall(payload).execute();
+    }
 }
