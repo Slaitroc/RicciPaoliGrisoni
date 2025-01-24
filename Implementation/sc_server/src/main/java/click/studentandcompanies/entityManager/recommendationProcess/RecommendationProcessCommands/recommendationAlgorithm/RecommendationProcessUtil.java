@@ -87,8 +87,9 @@ public class RecommendationProcessUtil {
 
     //Feedback compute the threshold using a variation of the exponential moving average (EMA) formula.
     //A older feedback has less weight than a recent one, so the threshold is more influenced by recent feedbacks.
-    //The formula of EMA is: threshold = (1 - alpha) * rating1 + (1 - alpha)^2 * feedback2 + ... + (1 - alpha)^n * rating1
-    //Also notice that if we get a higher rating, the threshold will decrease at more match will be created. The opposite is also true.
+    //The formula of EMA is: threshold = e^((1 - alpha) * normalize(rating1) + ... + (1 - alpha)^n * normalize(ratingn))/((1 - alpha) + (1 - alpha)^2 + ... + (1 - alpha)^n)
+    //Where the first term is the most recent feedback and the last term is the oldest feedback in the last NUMBER OF days.
+    //Also notice that if we get a higher rating, the threshold will decrease and more match will be created. The opposite is also true.
     protected double computeDynamicThreshold(List<Feedback> feedbacks) {
         double numerator = 0.0;
         double denominator = 0.0;
