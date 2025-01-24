@@ -16,7 +16,7 @@ public class SendInterviewAnswerNotification implements SenderInterface {
      */
     @Override
     public void sendNotification(List<Integer> userIDs, DTO dto, NotificationManager notificationManager) {
-        List<Integer> deviceTokens = getDeviceTokens(userIDs, notificationManager);
+        List<String> deviceTokens = getDeviceTokens(userIDs, notificationManager);
         List<String> emails = getEmails(userIDs, notificationManager);
 
         String internshipTitle = (String) dto.getProperties().get("internship_title");

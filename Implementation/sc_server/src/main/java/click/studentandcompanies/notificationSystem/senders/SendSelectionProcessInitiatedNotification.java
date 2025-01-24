@@ -15,27 +15,18 @@ public class SendSelectionProcessInitiatedNotification implements SenderInterfac
      * Triggered when a recommendation is accepted by both parties or when a company accepts a student's application.
      *
      * @param userIDs list of user IDs to send the notification to
-     * @param dto     DTO containing the necessary information about the student, company and internship related
+     * @param data     DTO containing the necessary information about the student, company and internship related
      */
     @Override
-    public void sendNotification(List<Integer> userIDs, DTO dto, NotificationManager notificationManager) {
-        List<Integer> studentDeviceTokens = new ArrayList<>();
-        List<Integer> companyDeviceTokens = new ArrayList<>();
-        List<String> studentEmails = new ArrayList<>();
-        List<String> companyEmails = new ArrayList<>();
-        for (Integer userID : userIDs) {
-            if (userID == dto.getProperties().get("student_ID")) {
-                studentDeviceTokens.addAll(notificationManager.getDeviceTokens(userID));
-                studentEmails.add(notificationManager.getUserEmail(userID));
-            } else {
-                companyDeviceTokens.addAll(notificationManager.getDeviceTokens(userID));
-                companyEmails.add(notificationManager.getUserEmail(userID));
-            }
-        }
+    public void sendNotification(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {
+        List<String> studentDeviceTokens = getStudentDeviceTokens(userIDs, data, notificationManager);
+        List<String> companyDeviceTokens = getCompanyDeviceTokens(userIDs, data ,notificationManager);
+        List<String> studentEmails = getStudentEmails(userIDs, data, notificationManager);
+        List<String> companyEmails = getStudentEmails(userIDs, data, notificationManager);
 
-        String internshipTitle = (String) dto.getProperties().get("internship_title");
-        String company_name = (String) dto.getProperties().get("company_name");
-        String studentName = (String) dto.getProperties().get("student_name");
+        String internshipTitle = (String) data.getProperties().get("internship_title");
+        String company_name = (String) data.getProperties().get("company_name");
+        String studentName = (String) data.getProperties().get("student_name");
 
         String studentTitle = "Selection Process Initiated";
         String studentBody = "The selection process for the internship \"" + internshipTitle +

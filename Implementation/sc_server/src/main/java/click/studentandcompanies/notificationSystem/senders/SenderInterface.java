@@ -14,8 +14,8 @@ public interface SenderInterface {
 
     void sendNotification(List<Integer> userIDs, DTO data, NotificationManager notificationManager);
 
-    default List<Integer> getDeviceTokens(List<Integer> userIDs, NotificationManager notificationManager) {
-        List<Integer> deviceTokens = new ArrayList<>();
+    default List<String> getDeviceTokens(List<Integer> userIDs, NotificationManager notificationManager) {
+        List<String> deviceTokens = new ArrayList<>();
         for (Integer userID : userIDs) {
             deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
         } //todo: implement the correct function to refresh the device tokens
@@ -28,5 +28,65 @@ public interface SenderInterface {
             emails.add(notificationManager.getUserEmail(userID));
         }
         return emails;
+    }
+
+    default List<String> getStudentEmails(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {
+        List<String> emails = new ArrayList<>();
+        for (Integer userID : userIDs) {
+            if (userID == data.getProperties().get("student_ID")) {
+                emails.add(notificationManager.getUserEmail(userID));
+            }
+        }
+        return emails;
+    }
+
+    default List<String> getCompanyEmails(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {
+        List<String> emails = new ArrayList<>();
+        for (Integer userID : userIDs) {
+            if (userID == data.getProperties().get("company_ID")) {
+                emails.add(notificationManager.getUserEmail(userID));
+            }
+        }
+        return emails;
+    }
+
+    default List<String> getUniversityEmails(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {
+        List<String> emails = new ArrayList<>();
+        for (Integer userID : userIDs) {
+            if (userID == data.getProperties().get("university_ID")) {
+                emails.add(notificationManager.getUserEmail(userID));
+            }
+        }
+        return emails;
+    }
+
+    default List<String> getStudentDeviceTokens(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {
+        List<String> deviceTokens = new ArrayList<>();
+        for (Integer userID : userIDs) {
+            if (userID == data.getProperties().get("student_ID")) {
+                deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
+            }
+        }
+        return deviceTokens;
+    }
+
+    default List<String> getCompanyDeviceTokens(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {
+        List<String> deviceTokens = new ArrayList<>();
+        for (Integer userID : userIDs) {
+            if (userID == data.getProperties().get("company_ID")) {
+                deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
+            }
+        }
+        return deviceTokens;
+    }
+
+    default List<String> getUniversityDeviceTokens(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {
+        List<String> deviceTokens = new ArrayList<>();
+        for (Integer userID : userIDs) {
+            if (userID == data.getProperties().get("university_ID")) {
+                deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
+            }
+        }
+        return deviceTokens;
     }
 }
