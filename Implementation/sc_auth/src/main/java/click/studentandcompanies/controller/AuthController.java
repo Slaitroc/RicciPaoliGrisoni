@@ -70,7 +70,4 @@ public class AuthController {
 
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<?> login(@)
-
 }
