@@ -7,7 +7,7 @@ services:
     volumes:
       - ./sc_server/target/sc_server.jar:/sc_server/sc_server.jar
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mariadb://database-service:3306/sc_DB
+      SPRING_DATASOURCE_URL: jdbc:mariadb://application-database-service:3306/sc_DB
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: password
     labels:
@@ -25,7 +25,8 @@ services:
     networks:
       - traefik-network
     depends_on:
-      - database-service
+      - application-database-service
+      - notification-database-service
     restart: always
 
   sc-auth-service:
@@ -51,9 +52,9 @@ services:
       - traefik-network
     restart: always
 
-  database-service:
+  application-database-service:
     image: mariadb:10.7
-    container_name: database-container
+    container_name: application-database-container
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: sc_DB
@@ -75,6 +76,33 @@ services:
       retries: 3
     volumes:
       - platform_db_data:/var/lib/mysql
+    networks:
+      - traefik-network
+
+  notification-database-service:
+    image: mariadb:10.7
+    container_name: notification-database-container
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: sc_DB
+    ports:
+      - "3307:3307" # Porta MariaDB esposta
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "--user=root",
+          "--password=password",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - notification_db_data:/var/lib/mysql
     networks:
       - traefik-network
 
@@ -130,3 +158,4 @@ networks:
 
 volumes:
   platform_db_data:
+  notification_db_data:
