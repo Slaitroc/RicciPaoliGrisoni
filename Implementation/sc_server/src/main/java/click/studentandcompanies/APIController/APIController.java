@@ -406,7 +406,27 @@ public class APIController {
 
     //todo: redo the all fucking thing
     @PutMapping("/acc/private/send-user-data")
-    public Object sendUserData(@RequestBody Map<String, Object> payload) {
-        return new SendUserDataCommandCall(payload).execute();
+    public HttpStatus sendUserData(@RequestBody Map<String, Object> payload) {
+        new SendUserDataCommandCall(payload).execute();
+        return HttpStatus.CREATED;
     }
+    
+    @PostMapping("/acc/private/send-notification-token")
+    public HttpStatus sendNotificationToken(@RequestBody Map<String, Object> payload) {
+        new SendNotificationTokenCommandCall(payload).execute();
+        return HttpStatus.CREATED;
+    }
+    
+    @PostMapping("/acc/private/confirmed-user")
+    public HttpStatus confirmedUser(@RequestBody Map<String, Object> payload) {
+        new ConfirmedUserCommandCall(payload).execute();
+        return HttpStatus.OK;
+    }
+
+    @GetMapping("/acc/private/get-user-data")
+    public HttpStatus getUserData(@RequestParam("userID") Integer userID) {
+        //return new GetUserDataCommandCall(userID).execute();
+        return HttpStatus.OK;
+    }
+    
 }

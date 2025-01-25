@@ -5,4 +5,4 @@
 /Implementation/sc_auth/src/main/resources/firebase-config.json
 .idea/
 *.iml
-Implementation/sc_server/src/main/resources/firebaseKey.json
+/Implementation/sc_server/src/main/resources/firebaseKey.json
