@@ -1,8 +1,10 @@
 package click.studentandcompanies.notificationSystem;
 
+import click.studentandcompanies.APIController.APIControllerCommandCall.POST.SendNotificationTokenCommandCall;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationData;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -50,6 +52,11 @@ public class NotificationController {
         } catch (Error e) {
             return ResponseEntity.status(401).body("Invalid or expired token");
         }
+    }
 
+    @PostMapping("/acc/private/send-notification-token")
+    public HttpStatus sendNotificationToken(@RequestBody Map<String, Object> payload) {
+        new SendNotificationTokenCommandCall(payload).execute();
+        return HttpStatus.CREATED;
     }
 }

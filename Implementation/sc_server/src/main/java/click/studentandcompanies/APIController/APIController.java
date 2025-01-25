@@ -422,15 +422,9 @@ public class APIController {
         return new SendUserDataCommandCall(payload, accountManager).execute();
     }
 
-    @PostMapping("/acc/private/send-notification-token")
-    public HttpStatus sendNotificationToken(@RequestBody Map<String, Object> payload) {
-        new SendNotificationTokenCommandCall(payload).execute();
-        return HttpStatus.CREATED;
-    }
-
     @PostMapping("/acc/private/confirm-user")
     public HttpStatus confirmedUser(@RequestBody Map<String, Object> payload) {
-        new ConfirmUserCommandCall(payload).execute();
+        new ConfirmUserCommandCall(payload, accountManager).execute();
         return HttpStatus.OK;
     }
 
