@@ -43,7 +43,7 @@ public class NotificationController {
         String idToken = authHeader.substring(7);
 
         try {
-            System.out.println(payload.get("notificationToken"));
+            System.out.println("token:" + payload.get("notificationToken"));
             System.out.println(traefikHeader);
             return ResponseEntity.ok(payload.get("notificationToken"));
 

@@ -39,8 +39,9 @@ public class APIController {
     // and @Service annotations)
     @Autowired
     public APIController(UserManager userManager, RecommendationProcess recommendationProcess,
-                         SubmissionManager submissionManager, FeedbackMechanism feedbackMechanism,
-                         CommunicationManager communicationManager, InterviewManager interviewManager, NotificationManager notificationManager) {
+            SubmissionManager submissionManager, FeedbackMechanism feedbackMechanism,
+            CommunicationManager communicationManager, InterviewManager interviewManager,
+            NotificationManager notificationManager) {
         this.userManager = userManager;
         this.recommendationProcess = recommendationProcess;
         this.submissionManager = submissionManager;
@@ -200,7 +201,8 @@ public class APIController {
     })
     public ResponseEntity<DTO> acceptRecommendation(@PathVariable Integer RecommendationID,
             @RequestBody Map<String, Object> payload) {
-        return new AcceptRecommendationCommandCall(RecommendationID, recommendationProcess, notificationManager, payload).execute();
+        return new AcceptRecommendationCommandCall(RecommendationID, recommendationProcess, notificationManager,
+                payload).execute();
     }
 
     // The payload is a map with the userID
@@ -270,7 +272,8 @@ public class APIController {
     })
     public ResponseEntity<DTO> submitSpontaneousApplication(@PathVariable Integer InternshipOfferID,
             @RequestBody Map<String, Object> payload) {
-        return new SubmitSpontaneousApplicationCommandCall(InternshipOfferID, payload, submissionManager, notificationManager).execute();
+        return new SubmitSpontaneousApplicationCommandCall(InternshipOfferID, payload, submissionManager,
+                notificationManager).execute();
     }
 
     @PostMapping("/interviews/private/send-answer/{InterviewID}")
@@ -283,7 +286,8 @@ public class APIController {
     })
     public ResponseEntity<DTO> sendInterviewAnswer(@PathVariable Integer InterviewID,
             @RequestBody Map<String, Object> payload) {
-        return new SendInterviewAnswerCommandCall(InterviewID, payload, interviewManager, notificationManager).execute();
+        return new SendInterviewAnswerCommandCall(InterviewID, payload, interviewManager, notificationManager)
+                .execute();
     }
 
     @PostMapping("/interviews/private/send-interview/{InterviewID}")
@@ -359,9 +363,12 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Internship not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> closeInternship(@RequestParam("internshipID") Integer internshipID, @RequestBody Map<String, Object> payload) {
-        //If the Internship does not exist or does not exist any pending application, the list will be empty. no exception will be thrown
-        return new CloseInternshipOfferCommandCall(internshipID, payload, submissionManager, userManager, recommendationProcess, notificationManager).execute();
+    public ResponseEntity<DTO> closeInternship(@RequestParam("internshipID") Integer internshipID,
+            @RequestBody Map<String, Object> payload) {
+        // If the Internship does not exist or does not exist any pending application,
+        // the list will be empty. no exception will be thrown
+        return new CloseInternshipOfferCommandCall(internshipID, payload, submissionManager, userManager,
+                recommendationProcess, notificationManager).execute();
     }
 
     @PostMapping("/comm/private/{commID}/terminate")
@@ -374,7 +381,8 @@ public class APIController {
     })
     public ResponseEntity<DTO> terminateCommunication(@PathVariable Integer commID,
             @RequestBody Map<String, Object> payload) {
-        return new TerminateCommunicationCommandCall(communicationManager, commID, payload, notificationManager).execute();
+        return new TerminateCommunicationCommandCall(communicationManager, commID, payload, notificationManager)
+                .execute();
     }
 
     @PostMapping("interviews/private/{InterviewID}/send-int-pos-off")
@@ -387,7 +395,8 @@ public class APIController {
     })
     public ResponseEntity<DTO> sendInterviewPositionOffer(@PathVariable Integer InterviewID,
             @RequestBody Map<String, Object> payload) {
-        return new SendInternshipPositionOfferCommandCall(InterviewID, payload, interviewManager, userManager, notificationManager).execute();
+        return new SendInternshipPositionOfferCommandCall(InterviewID, payload, interviewManager, userManager,
+                notificationManager).execute();
     }
 
     @PostMapping("/interview/private/accept-int-pos-off/")
@@ -404,29 +413,29 @@ public class APIController {
         return new AcceptInternshipPositionOfferCommandCall(intPosOffID, payload, interviewManager).execute();
     }
 
-    //todo: redo the all fucking thing
+    // todo: redo the all fucking thing
     @PutMapping("/acc/private/send-user-data")
     public HttpStatus sendUserData(@RequestBody Map<String, Object> payload) {
         new SendUserDataCommandCall(payload).execute();
         return HttpStatus.CREATED;
     }
-    
+
     @PostMapping("/acc/private/send-notification-token")
     public HttpStatus sendNotificationToken(@RequestBody Map<String, Object> payload) {
         new SendNotificationTokenCommandCall(payload).execute();
         return HttpStatus.CREATED;
     }
-    
-    @PostMapping("/acc/private/confirmed-user")
+
+    @PostMapping("/acc/private/confirm-user")
     public HttpStatus confirmedUser(@RequestBody Map<String, Object> payload) {
         new ConfirmedUserCommandCall(payload).execute();
         return HttpStatus.OK;
     }
 
     @GetMapping("/acc/private/get-user-data")
-    public HttpStatus getUserData(@RequestParam("userID") Integer userID) {
-        //return new GetUserDataCommandCall(userID).execute();
+    public HttpStatus getUserData(@RequestParam("uuid") String userID) {
+        // return new GetUserDataCommandCall(userID).execute();
         return HttpStatus.OK;
     }
-    
+
 }

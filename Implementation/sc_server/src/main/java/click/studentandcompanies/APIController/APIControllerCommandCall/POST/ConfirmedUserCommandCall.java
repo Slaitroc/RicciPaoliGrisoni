@@ -13,7 +13,7 @@ public class ConfirmedUserCommandCall implements APIControllerCommandCall<Object
 
     @Override
     public Object execute() {
-        System.out.println("User: " + payload.get("user_id") + " has been confirmed");
+        System.out.println("User: " + payload.get("uuid") + " has been confirmed");
         return null;
     }
 }
