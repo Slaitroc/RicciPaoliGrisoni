@@ -6,6 +6,7 @@ import click.studentandcompanies.APIController.APIControllerCommandCall.PUT.*;
 import click.studentandcompanies.dto.*;
 import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entityManager.*;
+import click.studentandcompanies.entityManager.accountManager.AccountManager;
 import click.studentandcompanies.entityManager.communicationManager.CommunicationManager;
 import click.studentandcompanies.entityManager.feedbackMechanism.FeedbackMechanism;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
@@ -34,6 +35,7 @@ public class APIController {
     private final CommunicationManager communicationManager;
     private final InterviewManager interviewManager;
     private final NotificationManager notificationManager;
+    private final AccountManager accountManager;
 
     // Inject the Managers into the APIController (thanks to the @Autowired
     // and @Service annotations)
@@ -41,7 +43,7 @@ public class APIController {
     public APIController(UserManager userManager, RecommendationProcess recommendationProcess,
             SubmissionManager submissionManager, FeedbackMechanism feedbackMechanism,
             CommunicationManager communicationManager, InterviewManager interviewManager,
-            NotificationManager notificationManager) {
+            NotificationManager notificationManager, AccountManager accountManager) {
         this.userManager = userManager;
         this.recommendationProcess = recommendationProcess;
         this.submissionManager = submissionManager;
@@ -49,6 +51,7 @@ public class APIController {
         this.communicationManager = communicationManager;
         this.interviewManager = interviewManager;
         this.notificationManager = notificationManager;
+        this.accountManager = accountManager;
     }
 
     @GetMapping("/private/test")
@@ -415,9 +418,8 @@ public class APIController {
 
     // todo: redo the all fucking thing
     @PutMapping("/acc/private/send-user-data")
-    public HttpStatus sendUserData(@RequestBody Map<String, Object> payload) {
-        new SendUserDataCommandCall(payload).execute();
-        return HttpStatus.CREATED;
+    public ResponseEntity<DTO> sendUserData(@RequestBody Map<String, Object> payload) {
+        return new SendUserDataCommandCall(payload, accountManager).execute();
     }
 
     @PostMapping("/acc/private/send-notification-token")
@@ -428,7 +430,7 @@ public class APIController {
 
     @PostMapping("/acc/private/confirm-user")
     public HttpStatus confirmedUser(@RequestBody Map<String, Object> payload) {
-        new ConfirmedUserCommandCall(payload).execute();
+        new ConfirmUserCommandCall(payload).execute();
         return HttpStatus.OK;
     }
 

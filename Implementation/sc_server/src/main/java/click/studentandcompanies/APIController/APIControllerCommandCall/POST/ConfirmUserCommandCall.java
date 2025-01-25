@@ -4,10 +4,10 @@ import click.studentandcompanies.APIController.APIControllerCommandCall.APIContr
 
 import java.util.Map;
 
-public class ConfirmedUserCommandCall implements APIControllerCommandCall<Object> {
+public class ConfirmUserCommandCall implements APIControllerCommandCall<Object> {
     Map<String, Object> payload;
 
-    public ConfirmedUserCommandCall(Map<String, Object> payload) {
+    public ConfirmUserCommandCall(Map<String, Object> payload) {
         this.payload = payload;
     }
 

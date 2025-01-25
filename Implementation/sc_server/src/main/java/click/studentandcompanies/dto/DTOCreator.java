@@ -29,6 +29,19 @@ public class DTOCreator {
         functionMap.put(DTOTypes.INTERVIEW, object -> createInterviewDTO((Interview) object));
         functionMap.put(DTOTypes.INTERVIEW_TEMPLATE, object -> createInterviewTemplate((InterviewTemplate) object));
         functionMap.put(DTOTypes.INTERNSHIP_POS_OFFER, object -> createInternshipPosOfferDTO((InternshipPosOffer) object));
+        functionMap.put(DTOTypes.ACCOUNT, object -> createAccountDTO((Account) object));
+    }
+
+    private static DTO createAccountDTO(Account account) {
+        final DTO accountDTO = new DTO();
+        accountDTO.addProperty("uuid", account.getUuid());
+        accountDTO.addProperty("name", account.getName());
+        accountDTO.addProperty("email", account.getEmail());
+        accountDTO.addProperty("enrolled_in_uni_id", account.getEnrolledInUniId());
+        accountDTO.addProperty("vatNumber", account.getVatNumber());
+        accountDTO.addProperty("country", account.getCountry());
+        accountDTO.addProperty("validate", account.getValidate());
+        return accountDTO;
     }
 
     private static DTO createInternshipPosOfferDTO(InternshipPosOffer internshipPosOffer){
