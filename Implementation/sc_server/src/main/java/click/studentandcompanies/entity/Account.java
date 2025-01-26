@@ -38,7 +38,7 @@ public class Account {
     @Column(name = "uni_vat")
     private Integer uniVat;
 
-    @Column(name = "birthDate")
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 
     @Size(max = 3)
@@ -70,7 +70,7 @@ public class Account {
         this.validate = validated;
         this.surname = surname;
         this.uniVat = uniVat;
-        this.birthDate = LocalDate.parse(birthDate.toString());
+        this.birthDate = birthDate;
         this.vatNumber = vatNumber;
         this.uniDesc = uniDescription;
     }
