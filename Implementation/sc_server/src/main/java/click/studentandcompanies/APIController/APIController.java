@@ -369,15 +369,17 @@ public class APIController {
 
     // todo: redo the all fucking thing
     @PutMapping("/acc/private/send-user-data")
-    public ResponseEntity<DTO> sendUserData(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<DTO> sendUserData(@RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+        String uuid = GetUuid.getUuid(token);
+        payload.put("user_id", uuid);
         return new SendUserDataCommandCall(payload, accountManager).execute();
     }
 
-    @PostMapping("/acc/private/confirm-user")
+    /*@PostMapping("/acc/private/confirm-user")
     public HttpStatus confirmedUser(@RequestBody Map<String, Object> payload) {
         new ConfirmUserCommandCall(payload, accountManager).execute();
         return HttpStatus.OK;
-    }
+    }*/
 
     //todo: redo the all fucking thing
     @GetMapping("/acc/private/get-user-data")

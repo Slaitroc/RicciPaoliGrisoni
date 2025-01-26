@@ -34,10 +34,10 @@ public class DTOCreator {
 
     private static DTO createAccountDTO(Account account) {
         final DTO accountDTO = new DTO();
-        accountDTO.addProperty("uuid", account.getUuid());
+        accountDTO.addProperty("uuid", account.getUserID());
         accountDTO.addProperty("name", account.getName());
         accountDTO.addProperty("email", account.getEmail());
-        accountDTO.addProperty("enrolled_in_uni_id", account.getEnrolledInUniId());
+        accountDTO.addProperty("enrolled_in_uni_vat", account.getUniVat());
         accountDTO.addProperty("vatNumber", account.getVatNumber());
         accountDTO.addProperty("country", account.getCountry());
         accountDTO.addProperty("validate", account.getValidate());

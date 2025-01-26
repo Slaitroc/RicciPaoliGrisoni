@@ -3,6 +3,8 @@ import click.studentandcompanies.entity.University;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 public interface UniversityRepository extends JpaRepository<University, String> {
 
     University findByName(String name);
@@ -13,4 +15,6 @@ public interface UniversityRepository extends JpaRepository<University, String> 
     long countAll();
 
     University getUniversityById(String id);
+
+    University findByVatNumber(Integer vatNumber);
 }
