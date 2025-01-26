@@ -66,7 +66,8 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, Company ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getCompanyInternships(@RequestParam("companyID") String companyID) {
+    public ResponseEntity<List<DTO>> getCompanyInternships(@RequestHeader("Authorization") String token) {
+        String companyID = GetUuid.getUuid(token);
         return new GetCompanyInternshipsCommandCall(companyID, submissionManager).execute();
     }
 
@@ -79,7 +80,8 @@ public class APIController {
             @ApiResponse(responseCode = "401", description = "Unauthorized, User not authorized to access this resource"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> getStudentCV(@RequestParam("studentID") String studentID) {
+    public ResponseEntity<DTO> getStudentCV(@RequestHeader("Authorization") String token) {
+        String studentID = GetUuid.getUuid(token);
         return new GetStudentCVCommandCall(studentID, submissionManager).execute();
     }
 
@@ -94,7 +96,8 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getSpontaneousApplications(@RequestParam("userID") String userID) {
+    public ResponseEntity<List<DTO>> getSpontaneousApplications(@RequestHeader("Authorization") String token) {
+        String userID = GetUuid.getUuid(token);
         return new GetSpontaneousApplicationsCommandCall(userID, submissionManager).execute();
     }
 
@@ -107,7 +110,8 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getRecommendations(@RequestParam("userID") String userID) {
+    public ResponseEntity<List<DTO>> getRecommendations(@RequestHeader("Authorization") String token) {
+        String userID = GetUuid.getUuid(token);
         return new GetRecommendationsCommandCall(userID, recommendationProcess).execute();
     }
 
@@ -119,13 +123,16 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, userID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getAllUserCommunications(@RequestParam("userID") String userID) {
+    public ResponseEntity<List<DTO>> getAllUserCommunications(@RequestHeader("Authorization") String token) {
+        String userID = GetUuid.getUuid(token);
         return new GetAllUserCommunicationsCommandCall(userID, communicationManager).execute();
     }
 
     // TODO: Where is done the check if the user is retrieving one of his
-    // communications? There is no body in the GET request
-    @GetMapping("/comm/private/communication/{userID}/")
+    // communications? There is no body in the GET request.
+    //(sam) The check is rightly done in the GetCommunicationCommand, IMHO it works with the token authorization now. Maybe we can test it in the future
+    // /comm/private/communication/?commID={commID}
+    @GetMapping("/comm/private/communication/")
     @Operation(summary = "User userID requests the communication commID", description = "Get the communication commID for the user userID.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Communication retrieved successfully"),
@@ -133,10 +140,12 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, Communication ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> getCommunication(@PathVariable String userID, @RequestParam("commID") Integer commID) {
+    public ResponseEntity<DTO> getCommunication(@RequestHeader("Authorization") String token, @RequestParam("commID") Integer commID) {
+        String userID = GetUuid.getUuid(token);
         return new GetCommunicationCommandCall(commID, userID, communicationManager).execute();
     }
 
+    //Public call, no token needed
     @GetMapping("/acc/get-universities")
     @Operation(summary = "Get a map Name-VatNumber of all universities", description = "")
     @ApiResponses({
