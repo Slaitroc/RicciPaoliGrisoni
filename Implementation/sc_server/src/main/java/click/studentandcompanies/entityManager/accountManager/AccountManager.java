@@ -10,6 +10,7 @@ import click.studentandcompanies.entityRepository.CompanyRepository;
 import click.studentandcompanies.entityRepository.StudentRepository;
 import click.studentandcompanies.entityRepository.UniversityRepository;
 import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,5 +45,9 @@ public class AccountManager {
         List<University> universities = universityRepository.findAll();
         return universities.stream().collect(
                 java.util.stream.Collectors.toMap(University::getName, University::getVatNumber));
+    }
+
+    public Account getAccountBy(String userID) {
+        return accountRepository.findById(userID).orElseThrow(() -> new NotFoundException("Account not found"));
     }
 }

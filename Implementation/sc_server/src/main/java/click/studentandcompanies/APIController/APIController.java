@@ -392,11 +392,10 @@ public class APIController {
         return new ConfirmUserCommandCall(userID, accountManager).execute();
     }
 
-    //todo: redo the all fucking thing
     @GetMapping("/acc/private/get-user-data")
-    public HttpStatus getUserData(@RequestParam("uuid") String userID) {
-        // return new GetUserDataCommandCall(userID).execute();
-        return HttpStatus.OK;
+    public ResponseEntity<DTO> getUserData(@RequestHeader("Authorization") String token) {
+        String userID = GetUuid.getUuid(token);
+        return new GetUserDataCommandCall(userID, accountManager).execute();
     }
 
     /*---------------------------------*/
