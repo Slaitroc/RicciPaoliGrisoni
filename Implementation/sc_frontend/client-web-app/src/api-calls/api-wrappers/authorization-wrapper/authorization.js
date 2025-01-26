@@ -116,34 +116,55 @@ export const logout = async () => {
  * - token: {string} The authentication token (only for code 200).
  * - err: {Error} The error object (only for code 500).
  */
-export const register = async (userType, userData, password) => {
-  console.log("ciao");
+export const register = async (userData, password) => {
   try {
+    // Registra l'utente con email e password
     await firebaseAuth.createUserWithEmailAndPassword(
       auth,
       userData.email,
       password
     );
-    const realToken = await auth.currentUser.getIdToken()
-    console.log("real Token" + realToken);
-    // TODO aggiungi dati utente da inviare
-    const response = await apiCalls.sendUserData(userType, userData);
+    const token = await auth.currentUser.getIdToken();
+
+    // Invia i dati dell'utente al server
+    const response = await apiCalls.sendUserData(userData);
     if (response.status === 400) {
       const body = await response.json();
-      console.log(body.properties.error);
-      return { code: 400, response };
+      console.log("Errore: ", body.properties.error);
+      return response;
     }
 
+    // Invia la mail di verifica e imposta la procedura di verifica
     const actionCodeSettings = {
       //DANGER - url di reindirizzamento nella email di verifica
       url: `${BASE_DOMAIN}:5173/email-verified`,
       handleCodeInApp: true, // Indica che l'app gestirà l'URL
     };
     firebaseAuth.sendEmailVerification(auth.currentUser, actionCodeSettings);
-
-    const token = auth.currentUser.getIdToken();
-    return { code: 200, token, userData };
+    return response;
   } catch (err) {
-    throw err;
+    console.error("Error during registration:", err.message);
+    return new Promise((resolve, reject) => {
+      try {
+        // Simulazione di un errore server (status 500)
+        const response = {
+          status: 500,
+          ok: false, // ok è false per status >= 400
+          json: async () => ({ error: "Internal Server Error" }), // Corpo in formato JSON
+          text: async () => "Internal Server Error", // Corpo come stringa
+        };
+
+        // Rifiuta la Promise con la risposta simulata
+        reject(response);
+      } catch (err) {
+        // Gestione di eventuali errori durante la creazione della risposta
+        reject({
+          status: 500,
+          ok: false,
+          json: async () => ({ error: err.message || "Unknown error" }),
+          text: async () => err.message || "Unknown error",
+        });
+      }
+    });
   }
 };
