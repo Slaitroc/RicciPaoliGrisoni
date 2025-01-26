@@ -387,9 +387,9 @@ public class APIController {
     }
 
     @PostMapping("/acc/private/confirm-user")
-    public HttpStatus confirmedUser(@RequestBody Map<String, Object> payload) {
-        new ConfirmUserCommandCall(payload, accountManager).execute();
-        return HttpStatus.OK;
+    public ResponseEntity<DTO>  confirmedUser(@RequestHeader("Authorization") String token) {
+        String userID = GetUuid.getUuid(token);
+        return new ConfirmUserCommandCall(userID, accountManager).execute();
     }
 
     //todo: redo the all fucking thing
@@ -403,7 +403,7 @@ public class APIController {
     /*Deprecated API calls*/
     /*---------------------------------*/
     /*@GetMapping("/private/test")
-    public ResponseEntity<DTO> showTraefikHeader(@RequestHeader("X-Custom-Header") String customHeader) {
+    public ResponseEntity<DTO> showTraffickerHeader(@RequestHeader("X-Custom-Header") String customHeader) {
         return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, customHeader), HttpStatus.OK);
 
     }

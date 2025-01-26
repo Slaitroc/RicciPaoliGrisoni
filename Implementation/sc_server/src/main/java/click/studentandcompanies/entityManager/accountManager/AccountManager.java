@@ -36,8 +36,8 @@ public class AccountManager {
         return new SendUserDataCommand(payload, accountRepository).execute();
     }
 
-    public Account confirmUser(Map<String, Object> payload) throws BadInputException {
-        return new ConfirmUserCommand(payload, accountRepository, studentRepository, companyRepository, universityRepository).execute();
+    public Account confirmUser(String userID) throws BadInputException {
+        return new ConfirmUserCommand(userID, studentRepository, companyRepository, universityRepository, accountRepository).execute();
     }
 
     public Map<String, Integer> getUniversitiesMap() {
