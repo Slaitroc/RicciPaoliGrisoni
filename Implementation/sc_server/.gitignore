@@ -21,3 +21,4 @@ buildNumber.properties
 .classpath
 indexDirectory/
 src/main/resources/firebaseKey.json
+src/main/resources/application.properties
