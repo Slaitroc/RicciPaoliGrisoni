@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import * as apiCalls from "../../../apiCalls";
 
 // Configurazione Firebase
 export const firebaseConfig = {
@@ -38,9 +39,10 @@ if ("serviceWorker" in navigator) {
       })
         .then((currentToken) => {
           if (currentToken) {
+            //DANGER il token va inviato solo se è cambiato
             console.log("Token FCM:", currentToken);
-            console.log("Token FCM:", messaging.getToken());
-            apiCalls.sendNotificationToken(messaging.getToken());
+            //NOTE qui serve un metodo per inviare il token solo quando l'utente si authentica ora lo manda anche quando l'utente non è autenticato e quindi la POST fallisce
+            apiCalls.sendNotificationToken(currentToken);
           } else {
             console.log("Nessun token FCM disponibile.");
           }

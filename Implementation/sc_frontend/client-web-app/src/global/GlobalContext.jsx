@@ -17,6 +17,7 @@ export const GlobalProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     global.INIT_IS_AUTHENTICATED
   );
+  const [uuid, setUuid] = useState("");
   const [profile, setProfile] = useState(global.INIT_PROFILE);
   const [loading, setLoading] = useState(global.INIT_LOADING);
   const [error, setError] = useState(global.INIT_ERROR);
@@ -52,6 +53,8 @@ export const GlobalProvider = ({ children }) => {
         userType,
         selectedFile,
         previewUrl,
+        uuid,
+        setUuid,
         setUserType,
         setIsAuthenticated,
         setProfile,

@@ -23,6 +23,7 @@ import Profile from "../pages/Profile";
 import Account from "../pages/Account";
 import SwipePage from "../pages/SwipePage";
 import { FirebaseTestPage } from "../pages/FirebaseTestPage";
+import ConfirmEmail from "../pages/ConfirmEmail";
 // Router Configurations
 const router = createBrowserRouter(
   [
@@ -46,13 +47,21 @@ const router = createBrowserRouter(
           path: "firebase-test",
           element: <FirebaseTestPage />,
         },
+        {
+          path: "email-verified",
+          element: (
+            <RouteProtector equals={false} navigateTo="/signin">
+              <ConfirmEmail />
+            </RouteProtector>
+          ),
+        },
       ],
     },
     {
       path: "dashboard",
       element: (
         <RouteProtector equals={false} navigateTo="/signin">
-        <Dashboard />
+          <Dashboard />
         </RouteProtector>
       ),
       children: [
@@ -126,7 +135,7 @@ const router = createBrowserRouter(
       path: "signin",
       element: (
         <RouteProtector equals={true} navigateTo="/dashboard">
-        <SCSignInSide />
+          <SCSignInSide />
         </RouteProtector>
       ),
     },
@@ -134,7 +143,7 @@ const router = createBrowserRouter(
       path: "signup",
       element: (
         <RouteProtector equals={true} navigateTo="/dashboard">
-        <SCSignUp />
+          <SCSignUp />
         </RouteProtector>
       ),
     },

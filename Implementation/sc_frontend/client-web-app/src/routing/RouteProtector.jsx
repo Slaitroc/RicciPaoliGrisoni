@@ -17,8 +17,7 @@ const RouteProtector = ({
   equals = false,
   navigateTo = "/dashboard",
 }) => {
-  // default behavior: if the user is authenticated (isAuthenticated === false) returns the children, otherwise navigate to Home
-  // if the user is already logged in he can't reach the signup/signin pages
+
   const { isAuthenticated } = useGlobalContext();
   return isAuthenticated == equals ? <Navigate to={navigateTo} /> : children;
 };

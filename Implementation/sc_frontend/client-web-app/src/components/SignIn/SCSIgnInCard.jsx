@@ -77,7 +77,7 @@ export default function SCSignInCard() {
           setAlertSeverity("success");
           setAlertMessage("Logged in successfully");
           setIsAuthenticated(true);
-          navigate("/dashboard");
+          // navigate("/dashboard");
           Notification.requestPermission().then((permission) => {
             if (permission === "granted") {
               console.log("Permesso per le notifiche concesso.");
@@ -114,6 +114,13 @@ export default function SCSignInCard() {
 
     return isValid;
   };
+
+  React.useEffect(() => {
+    console.log("isAuthenticated has changed:", isAuthenticated);
+    if (isAuthenticated) {
+      console.log("User is authenticated!");
+    }
+  }, [isAuthenticated]);
 
   return (
     <Card variant="outlined">
