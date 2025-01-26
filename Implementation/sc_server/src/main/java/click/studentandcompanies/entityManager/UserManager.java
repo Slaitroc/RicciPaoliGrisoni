@@ -41,7 +41,7 @@ public class UserManager {
     public University saveUniversity(University university) {
         return universityRepository.save(university);
     }
-    public void deleteUniversity(int id) {
+    public void deleteUniversity(String id) {
         universityRepository.deleteById(id);
     }
 
@@ -67,19 +67,19 @@ public class UserManager {
         return universityRepository.countAll() > 0;
     }
 
-    public Student getStudentById(int id) {
+    public Student getStudentById(String id) {
         return studentRepository.getStudentById(id);
     }
 
-    public Company getCompanyById(int id) {
+    public Company getCompanyById(String id) {
         return companyRepository.getCompanyById(id);
     }
 
-    public University getUniversityById(int id) {
+    public University getUniversityById(String id) {
         return universityRepository.getUniversityById(id);
     }
 
-    public UserType getUserType(int id) {
+    public UserType getUserType(String id) {
         if (studentRepository.getStudentById(id) != null) {
             return UserType.STUDENT;
         } else if (companyRepository.getCompanyById(id) != null) {
@@ -91,7 +91,7 @@ public class UserManager {
         }
     }
 
-    public ParticipantTypeEnum getParticipantType(int id) {
+    public ParticipantTypeEnum getParticipantType(String id) {
         if (studentRepository.getStudentById(id) != null) {
             return ParticipantTypeEnum.student;
         } else if (companyRepository.getCompanyById(id) != null) {
@@ -101,11 +101,11 @@ public class UserManager {
         }
     }
 
-    public List<Recommendation> getRecommendationByStudentId(int studentId) {
+    public List<Recommendation> getRecommendationByStudentId(String studentId) {
         return recommendationRepository.findRecommendationByStudentId(studentId);
     }
 
-    public List<Recommendation> getRecommendationByCompanyId(int companyId) {
+    public List<Recommendation> getRecommendationByCompanyId(String companyId) {
         return recommendationRepository.findRecommendationByCompanyId(companyId);
     }
 
@@ -113,8 +113,8 @@ public class UserManager {
         return recommendationRepository.getRecommendationById(id);
     }
 
-    public List<Integer> getInvolvedUsers(Integer internshipID) {
-        List<Integer> userIDs = new ArrayList<>();
+    public List<String> getInvolvedUsers(Integer internshipID) {
+        List<String> userIDs = new ArrayList<>();
 
         //Fetch all spontaneous applications and recommendations linked to the internship
         List<SpontaneousApplication> applications = spontaneousApplicationRepository.findAllByInternshipOfferId(internshipID);
@@ -143,7 +143,7 @@ public class UserManager {
         return feedbackRepository.findAll();
     }
 
-    public Integer getStudentIDByInternshipPosOfferID(Integer id) {
+    public String getStudentIDByInternshipPosOfferID(Integer id) {
         Interview interview = interviewRepository.getInterviewByInternshipPosOffer_Id(id);
 
         if(interview.getRecommendation() != null) {

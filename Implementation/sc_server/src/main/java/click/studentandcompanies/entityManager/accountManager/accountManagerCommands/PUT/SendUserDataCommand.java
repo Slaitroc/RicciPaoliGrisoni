@@ -45,7 +45,7 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
         String uuid = (String) payload.get("uuid");
         String name = (String) payload.get("name");
         String email = (String) payload.get("email");
-        Integer enrolled_in_uni_id = (Integer) payload.get("enrolled_in_uni_id") != null ? (Integer) payload.get("enrolled_in_uni_id") : null;
+        String enrolled_in_uni_id = (String) payload.get("enrolled_in_uni_id") != null ? (String) payload.get("enrolled_in_uni_id") : null;
         Integer vatNumber = (Integer) payload.get("vatNumber") != null ? (Integer) payload.get("vatNumber") : null;
         String country = (String) payload.get("country") != null ? (String) payload.get("country") : null;
         Boolean validate = false;

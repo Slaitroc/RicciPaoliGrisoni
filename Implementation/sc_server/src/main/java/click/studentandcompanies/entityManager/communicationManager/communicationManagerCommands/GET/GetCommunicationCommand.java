@@ -11,9 +11,9 @@ public class GetCommunicationCommand implements CommunicationManagerCommands<Com
 
     CommunicationRepository communicationRepository;
     Integer commID;
-    Integer userID;
+    String userID;
 
-    public GetCommunicationCommand(CommunicationRepository communicationRepository, Integer commID, Integer userID) {
+    public GetCommunicationCommand(CommunicationRepository communicationRepository, Integer commID, String userID) {
         this.communicationRepository = communicationRepository;
         this.commID = commID;
         this.userID = userID;

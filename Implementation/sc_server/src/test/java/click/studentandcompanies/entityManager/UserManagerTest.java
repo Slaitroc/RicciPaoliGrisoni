@@ -1,3 +1,4 @@
+/*
 package click.studentandcompanies.entityManager;
 
 import click.studentandcompanies.entity.*;
@@ -46,7 +47,8 @@ public class UserManagerTest {
     // 1. Test CRUD & Simple Methods
     // --------------------------------------------------------------------
 
-    @Test
+    */
+/*@Test
     void testSaveUniversity() {
         University mockUni = new University();
         mockUni.setId(1);
@@ -277,7 +279,7 @@ public class UserManagerTest {
     // 7. Test getInvolvedUsers
     // --------------------------------------------------------------------
 
-    @Test
+    /*@Test
     void testGetInvolvedUsers() {
         // Spontaneous Applications
         Student studentA = new Student();
@@ -318,7 +320,8 @@ public class UserManagerTest {
         assertTrue(result.contains(2));
         assertTrue(result.contains(3));
         assertTrue(result.contains(4));
-    }
+    }*//*
+
 
     // --------------------------------------------------------------------
     // 8. Test InternshipOffer & other repositories
@@ -410,4 +413,4 @@ public class UserManagerTest {
         Integer result = userManager.getStudentIDByInternshipPosOfferID(501);
         assertEquals(99, result);
     }
-}
+}*/

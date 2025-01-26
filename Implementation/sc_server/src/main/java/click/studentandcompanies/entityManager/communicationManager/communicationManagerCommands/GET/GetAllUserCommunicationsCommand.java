@@ -14,9 +14,9 @@ public class GetAllUserCommunicationsCommand implements CommunicationManagerComm
 
     UserManager userManager;
     CommunicationRepository communicationRepository;
-    Integer userID;
+    String userID;
 
-    public GetAllUserCommunicationsCommand(UserManager userManager, CommunicationRepository communicationRepository, Integer userID) {
+    public GetAllUserCommunicationsCommand(UserManager userManager, CommunicationRepository communicationRepository, String userID) {
         this.userManager = userManager;
         this.communicationRepository = communicationRepository;
         this.userID = userID;

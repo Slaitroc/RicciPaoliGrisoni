@@ -35,11 +35,11 @@ public class SubmissionManager {
         this.userManager = userManager;
     }
 
-    public List<InternshipOffer> getInternshipsByCompany(Integer companyID) throws NotFoundException, NoContentException {
+    public List<InternshipOffer> getInternshipsByCompany(String companyID) throws NotFoundException, NoContentException {
         return new GetInternshipsByCompanyCommand(internshipOfferRepository, userManager, companyID).execute();
     }
 
-    public Cv getCvByStudent(Integer studentID) throws NotFoundException, NoContentException {
+    public Cv getCvByStudent(String studentID) throws NotFoundException, NoContentException {
         return new GetCvByStudentCommand(cvRepository, userManager, studentID).execute();
     }
 
@@ -51,7 +51,7 @@ public class SubmissionManager {
         return new UpdateInternshipOfferCommand(userManager, internshipOfferRepository, payload).execute();
     }
 
-    public List<SpontaneousApplication> getSpontaneousApplicationsByParticipant(Integer studentID) throws NotFoundException, NoContentException, BadInputException {
+    public List<SpontaneousApplication> getSpontaneousApplicationsByParticipant(String studentID) throws NotFoundException, NoContentException, BadInputException {
         return new GetSpontaneousApplicationsByParticipantCommand(spontaneousApplicationRepository, userManager, studentID).execute();
     }
 

@@ -17,7 +17,7 @@ public class SendSelectionProcessInitiatedNotification implements SenderInterfac
      * @param data     DTO containing the necessary information about the student, company and internship related
      */
     @Override
-    public void sendNotification(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {
+    public void sendNotification(List<String> userIDs, DTO data, NotificationManager notificationManager) {
         List<String> studentDeviceTokens = getStudentDeviceTokens(userIDs, data, notificationManager);
         List<String> companyDeviceTokens = getCompanyDeviceTokens(userIDs, data ,notificationManager);
         List<String> studentEmails = getStudentEmails(userIDs, data, notificationManager);

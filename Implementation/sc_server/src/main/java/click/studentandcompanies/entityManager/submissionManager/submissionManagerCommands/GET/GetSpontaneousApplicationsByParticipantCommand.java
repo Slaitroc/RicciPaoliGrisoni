@@ -15,9 +15,9 @@ public class GetSpontaneousApplicationsByParticipantCommand implements Submissio
 
     SpontaneousApplicationRepository spontaneousApplicationRepository;
     UserManager userManager;
-    Integer userID;
+    String userID;
 
-    public GetSpontaneousApplicationsByParticipantCommand(SpontaneousApplicationRepository spontaneousApplicationRepository, UserManager userManager, Integer userID) {
+    public GetSpontaneousApplicationsByParticipantCommand(SpontaneousApplicationRepository spontaneousApplicationRepository, UserManager userManager, String userID) {
         this.spontaneousApplicationRepository = spontaneousApplicationRepository;
         this.userManager = userManager;
         this.userID = userID;

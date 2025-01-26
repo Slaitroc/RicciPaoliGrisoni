@@ -13,10 +13,10 @@ import org.springframework.http.ResponseEntity;
 public class GetCommunicationCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
 
     Integer commID;
-    Integer userID;
+    String userID;
     CommunicationManager communicationManager;
 
-    public GetCommunicationCommandCall(Integer commID, Integer userID, CommunicationManager communicationManager) {
+    public GetCommunicationCommandCall(Integer commID, String userID, CommunicationManager communicationManager) {
         this.commID = commID;
         this.userID = userID;
         this.communicationManager = communicationManager;

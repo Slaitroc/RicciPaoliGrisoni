@@ -15,9 +15,9 @@ import java.util.List;
 public class GetRecommendationByParticipantCommand implements RecommendationProcessCommand<List<Recommendation>> {
     UserManager userManager;
     RecommendationRepository recommendationRepository;
-    Integer userID;
+    String userID;
 
-    public GetRecommendationByParticipantCommand(UserManager userManager, RecommendationRepository recommendationRepository, Integer userID) {
+    public GetRecommendationByParticipantCommand(UserManager userManager, RecommendationRepository recommendationRepository, String userID) {
         this.userManager = userManager;
         this.recommendationRepository = recommendationRepository;
         this.userID = userID;

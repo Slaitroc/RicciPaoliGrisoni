@@ -8,12 +8,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CommunicationRepository extends JpaRepository<Communication, Integer> {
-    List<Communication> findCommunicationByUniversity_Id(Integer userID);
+    List<Communication> findCommunicationByUniversity_Id(String userID);
 
     @Query("SELECT c FROM Communication c WHERE c.internshipOffer.company.id = :userID")
-    List<Communication> findCommunicationByCompany_Id(@Param("userID") Integer userID);
+    List<Communication> findCommunicationByCompany_Id(@Param("userID") String userID);
 
-    List<Communication> findCommunicationByStudent_Id(Integer userID);
+    List<Communication> findCommunicationByStudent_Id(String userID);
 
     Communication getCommunicationById(Integer commID);
 }

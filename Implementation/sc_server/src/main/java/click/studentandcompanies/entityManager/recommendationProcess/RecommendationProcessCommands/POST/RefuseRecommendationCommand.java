@@ -33,7 +33,7 @@ public class RefuseRecommendationCommand implements RecommendationProcessCommand
         if(payload.get("user_id")==null){
             throw new BadInputException("User id not found");
         }
-        UserType userType = userManager.getUserType((Integer) payload.get("user_id"));
+        UserType userType = userManager.getUserType((String) payload.get("user_id"));
         if(userType == UserType.UNKNOWN){
             throw new BadInputException("Unknown user type");
         }else if(userType == UserType.UNIVERSITY){

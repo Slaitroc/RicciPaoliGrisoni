@@ -28,7 +28,7 @@ public class UpdateCVCommand implements SubmissionManagerCommand<Cv> {
             System.out.println("Student id not found");
             throw new BadInputException("Student id not found");
         }
-        Student student  = userManager.getStudentById((Integer) payload.get("student_id"));
+        Student student  = userManager.getStudentById((String) payload.get("student_id"));
         if(student == null){
             System.out.println("Student not found");
             throw new NotFoundException("Student not found");
@@ -44,11 +44,11 @@ public class UpdateCVCommand implements SubmissionManagerCommand<Cv> {
     }
 
     private Cv createCV(Map<String, Object> payload) throws BadInputException {
-        Integer studentId;
+        String studentId;
         Instant updateTime;
 
         //Save non-nullable fields
-        studentId = (Integer) payload.get("student_id");
+        studentId = (String) payload.get("student_id");
         updateTime = Instant.parse(String.valueOf(payload.get("update_time")));
         if(payload.get("update_time")==null){
             System.out.println("Update time not found");

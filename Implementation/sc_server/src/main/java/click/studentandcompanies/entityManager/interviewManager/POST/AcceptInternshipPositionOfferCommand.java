@@ -19,7 +19,7 @@ public class AcceptInternshipPositionOfferCommand implements InterviewManagerCom
     private final Integer intPosOffID;
     private final InterviewRepository interviewRepository;
     private final UserManager userManager;
-    private final Integer userID;
+    private final String userID;
 
     public AcceptInternshipPositionOfferCommand(Integer intPosOffID, Map<String, Object> payload, InterviewRepository interviewRepository, UserManager userManager) {
         this.intPosOffID = intPosOffID;
@@ -27,7 +27,7 @@ public class AcceptInternshipPositionOfferCommand implements InterviewManagerCom
         this.userManager = userManager;
         // Check if the payload is in the correct format
         try {
-            this.userID = (Integer) payload.get("userID");
+            this.userID = (String) payload.get("userID");
         } catch (Exception e) {
             throw new BadInputException("userID not provided correctly");
         }

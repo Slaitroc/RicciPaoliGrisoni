@@ -15,7 +15,7 @@ public class SendInterviewAnswerNotification implements SenderInterface {
      * @param dto contains the interview data (e.g., student_name, internship_title, etc.)
      */
     @Override
-    public void sendNotification(List<Integer> userIDs, DTO dto, NotificationManager notificationManager) {
+    public void sendNotification(List<String> userIDs, DTO dto, NotificationManager notificationManager) {
         List<String> deviceTokens = getDeviceTokens(userIDs, notificationManager);
         List<String> emails = getEmails(userIDs, notificationManager);
 

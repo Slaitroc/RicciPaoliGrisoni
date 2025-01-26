@@ -26,9 +26,9 @@ public class CreateCommunicationCommand implements CommunicationManagerCommands<
     @Override
     public Communication execute() {
         validateInput(payload);
-        Student student = userManager.getStudentById((Integer) payload.get("student_id"));
+        Student student = userManager.getStudentById((String) payload.get("student_id"));
         InternshipOffer internshipOffer = userManager.getInternshipOfferById((Integer) payload.get("internshipOffer_id"));
-        University university = userManager.getUniversityById((Integer) payload.get("university_id"));
+        University university = userManager.getUniversityById((String) payload.get("university_id"));
         CommunicationTypeEnum communicationType = CommunicationTypeEnum.valueOf((String) payload.get("communication_type"));
         Communication communication = new Communication(student, internshipOffer, university, (String) payload.get("title"), (String) payload.get("content"), communicationType);
         communicationRepository.save(communication);
@@ -61,12 +61,12 @@ public class CreateCommunicationCommand implements CommunicationManagerCommands<
             System.out.println("Communication type not found");
             throw new BadInputException("Communication type not found");
         }
-        Student student = userManager.getStudentById((Integer) payload.get("student_id"));
+        Student student = userManager.getStudentById((String) payload.get("student_id"));
         if (student == null) {
             System.out.println("Student not found");
             throw new NotFoundException("Student not found");
         }
-        University university = userManager.getUniversityById((Integer) payload.get("university_id"));
+        University university = userManager.getUniversityById((String) payload.get("university_id"));
         if (university == null) {
             System.out.println("University not found");
             throw new NotFoundException("University not found");

@@ -26,7 +26,7 @@ public class Account {
     private String email;
 
     @Column(name = "enrolled_in_uni_id")
-    private Integer enrolledInUniId;
+    private String enrolledInUniId;
 
     @Column(name = "vat_number")
     private Integer vatNumber;
@@ -43,7 +43,7 @@ public class Account {
         // Empty constructor required by JPA
     }
 
-    public Account(String uuid, String name, String email, Integer enrolledInUniId, Integer vatNumber, String country, Boolean validate) {
+    public Account(String uuid, String name, String email, String enrolledInUniId, Integer vatNumber, String country, Boolean validate) {
         this.uuid = uuid;
         this.name = name;
         this.email = email;
@@ -77,11 +77,11 @@ public class Account {
         this.email = email;
     }
 
-    public Integer getEnrolledInUniId() {
+    public String getEnrolledInUniId() {
         return enrolledInUniId;
     }
 
-    public void setEnrolledInUniId(Integer enrolledInUniId) {
+    public void setEnrolledInUniId(String enrolledInUniId) {
         this.enrolledInUniId = enrolledInUniId;
     }
 

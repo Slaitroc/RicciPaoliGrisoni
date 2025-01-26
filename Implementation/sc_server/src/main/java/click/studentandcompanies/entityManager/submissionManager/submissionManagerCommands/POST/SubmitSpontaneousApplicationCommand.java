@@ -38,7 +38,7 @@ public class SubmitSpontaneousApplicationCommand implements SubmissionManagerCom
             System.out.println("Student id not found");
             throw new NotFoundException("Student id not found");
         }
-        Student student = userManager.getStudentById((Integer) payload.get("student_id"));
+        Student student = userManager.getStudentById((String) payload.get("student_id"));
         if(student == null){
             System.out.println("Student not found");
             throw new BadInputException("Bad studentID provided not found");

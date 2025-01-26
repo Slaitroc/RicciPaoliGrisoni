@@ -43,7 +43,7 @@ public class SendInterviewCommand implements InterviewManagerCommand<Interview> 
             System.out.println("Company id not found");
             throw new BadInputException("Company id not found");
         }
-        click.studentandcompanies.entity.Company company = userManager.getCompanyById((Integer) payload.get("company_id"));
+        click.studentandcompanies.entity.Company company = userManager.getCompanyById((String) payload.get("company_id"));
         if(company == null){
             System.out.println("Company not found");
             throw new NotFoundException("Company not found");

@@ -66,7 +66,7 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, Company ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getCompanyInternships(@RequestParam("companyID") Integer companyID) {
+    public ResponseEntity<List<DTO>> getCompanyInternships(@RequestParam("companyID") String companyID) {
         return new GetCompanyInternshipsCommandCall(companyID, submissionManager).execute();
     }
 
@@ -79,7 +79,7 @@ public class APIController {
             @ApiResponse(responseCode = "401", description = "Unauthorized, User not authorized to access this resource"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> getStudentCV(@RequestParam("studentID") Integer studentID) {
+    public ResponseEntity<DTO> getStudentCV(@RequestParam("studentID") String studentID) {
         return new GetStudentCVCommandCall(studentID, submissionManager).execute();
     }
 
@@ -94,7 +94,7 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getSpontaneousApplications(@RequestParam("userID") Integer userID) {
+    public ResponseEntity<List<DTO>> getSpontaneousApplications(@RequestParam("userID") String userID) {
         return new GetSpontaneousApplicationsCommandCall(userID, submissionManager).execute();
     }
 
@@ -107,7 +107,7 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getRecommendations(@RequestParam("userID") Integer userID) {
+    public ResponseEntity<List<DTO>> getRecommendations(@RequestParam("userID") String userID) {
         return new GetRecommendationsCommandCall(userID, recommendationProcess).execute();
     }
 
@@ -119,7 +119,7 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, userID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getAllUserCommunications(@RequestParam("userID") Integer userID) {
+    public ResponseEntity<List<DTO>> getAllUserCommunications(@RequestParam("userID") String userID) {
         return new GetAllUserCommunicationsCommandCall(userID, communicationManager).execute();
     }
 
@@ -133,7 +133,7 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, Communication ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> getCommunication(@PathVariable Integer userID, @RequestParam("commID") Integer commID) {
+    public ResponseEntity<DTO> getCommunication(@PathVariable String userID, @RequestParam("commID") Integer commID) {
         return new GetCommunicationCommandCall(commID, userID, communicationManager).execute();
     }
 

@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 public class Contact {
     @Id
     @Column(name = "user_id", nullable = false)
-    private Integer id;
+    private String id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -20,11 +20,11 @@ public class Contact {
     @Column(name = "device_token", nullable = false)
     private String deviceToken;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
