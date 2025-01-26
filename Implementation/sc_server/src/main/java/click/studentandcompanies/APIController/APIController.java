@@ -61,7 +61,7 @@ public class APIController {
 
     }
 
-    @GetMapping("/hello")
+    @GetMapping("/private/hello")
     public String sayHello() {
         return "Hello, Spring Boot!";
     }

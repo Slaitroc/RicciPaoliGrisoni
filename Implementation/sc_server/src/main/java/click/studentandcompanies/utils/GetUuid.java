@@ -12,29 +12,33 @@ import java.util.Map;
 
 public class GetUuid {
 
-    private static final String AUTH_SERVER_URL = "http://auth-server/endpoint";
+    private static final String AUTH_SERVER_URL = "http://sc-auth-service:8444/auth-api/get-uuid";
 
     public static String getUuid(String token) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + token);
+        headers.set(HttpHeaders.AUTHORIZATION, token);
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         try {
-            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(AUTH_SERVER_URL, HttpMethod.GET, entity, new ParameterizedTypeReference<Map<String, Object>>() {});
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(AUTH_SERVER_URL, HttpMethod.GET,
+                    entity, new ParameterizedTypeReference<Map<String, Object>>() {
+                    });
             String uuid = response.getBody().get("uuid").toString();
-            if(uuid == null) {
+            if (uuid == null) {
                 throw new Exception("UUID not found");
             }
             return uuid;
         } catch (HttpClientErrorException e) {
             // Handle specific HTTP errors
+            e.printStackTrace();
             System.err.println("HTTP error: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
             return null;
         } catch (Exception e) {
             // Handle other errors, includin UUID not found
+            e.printStackTrace();
             System.err.println("Error: " + e.getMessage());
             return null;
         }

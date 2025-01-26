@@ -55,8 +55,10 @@ public class AuthController {
 
     @GetMapping("/get-uuid")
     public ResponseEntity<?> getUUID(@RequestHeader("Authorization") String authHeader) {
+        System.out.println("Authorization Header: " + authHeader);
+        
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(400).body("Missing or invalid Authorization header");
+                        return ResponseEntity.status(400).body("Missing or invalid Authorization header");
         }
         String idToken = authHeader.substring(7);
         try {
