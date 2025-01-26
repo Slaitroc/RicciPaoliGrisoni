@@ -47,9 +47,16 @@ public class SendInterviewTemplateCommand implements InterviewManagerCommand<Int
             System.out.println("Interview not found");
             throw new NotFoundException("Interview not found");
         }
-        if(interview.getRecommendation().getInternshipOffer().getCompany().getId() != payload.get("company_id")){
-            System.out.println("Company is not a participant of this interview");
-            throw new UnauthorizedException("The calling company is not a participant of this interview");
+        if(interview.getRecommendation() != null){
+            if(interview.getRecommendation().getInternshipOffer().getCompany().getId() != payload.get("company_id")){
+                System.out.println("Company is not a participant of this interview");
+                throw new UnauthorizedException("The calling company is not a participant of this interview");
+            }
+        }else {
+            if(interview.getSpontaneousApplication().getInternshipOffer().getCompany().getId() != payload.get("company_id")){
+                System.out.println("Company is not a participant of this interview");
+                throw new UnauthorizedException("The calling company is not a participant of this interview");
+            }
         }
         if(interview.getStatus() != InterviewStatusEnum.toBeSubmitted || interview.getInterviewTemplate() != null){
             System.out.println("A template has already been set for this interview");
