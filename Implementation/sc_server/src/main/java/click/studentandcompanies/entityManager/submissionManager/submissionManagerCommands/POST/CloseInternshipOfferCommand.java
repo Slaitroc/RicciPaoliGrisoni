@@ -25,7 +25,7 @@ public class CloseInternshipOfferCommand implements SubmissionManagerCommand<Int
         InternshipOffer offer = internshipOfferRepository.getInternshipOfferById(internshipID);
         if(offer == null){
             throw new NotFoundException("Internship not found");
-        }if(payload.get("company_id") != offer.getCompany().getId()){
+        }if(!payload.get("company_id").equals(offer.getCompany().getId())){
             throw new UnauthorizedException("You are not authorized to close this internship offer");
         }
         internshipOfferRepository.removeInternshipOfferById(internshipID);

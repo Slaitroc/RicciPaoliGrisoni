@@ -48,12 +48,12 @@ public class UpdateCVCommand implements SubmissionManagerCommand<Cv> {
         Instant updateTime;
 
         //Save non-nullable fields
-        studentId = (String) payload.get("student_id");
-        updateTime = Instant.parse(String.valueOf(payload.get("update_time")));
         if(payload.get("update_time")==null){
             System.out.println("Update time not found");
             throw new BadInputException("Update time not found");
         }
+        studentId = (String) payload.get("student_id");
+        updateTime = Instant.parse(String.valueOf(payload.get("update_time")));
 
         //Save nullable fields
         String skills = (String) payload.get("skills") != null ? (String) payload.get("skills") : "";
