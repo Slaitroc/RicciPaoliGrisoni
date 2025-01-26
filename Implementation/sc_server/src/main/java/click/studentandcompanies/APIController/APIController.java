@@ -13,6 +13,7 @@ import click.studentandcompanies.entityManager.interviewManager.InterviewManager
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcess;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManager;
 import click.studentandcompanies.notificationSystem.NotificationManager;
+import click.studentandcompanies.utils.GetUuid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -422,22 +423,24 @@ public class APIController {
         return new SendUserDataCommandCall(payload, accountManager).execute();
     }
 
-    @PostMapping("/acc/private/send-notification-token")
-    public HttpStatus sendNotificationToken(@RequestBody Map<String, Object> payload) {
-        new SendNotificationTokenCommandCall(payload).execute();
-        return HttpStatus.CREATED;
-    }
-
     @PostMapping("/acc/private/confirm-user")
     public HttpStatus confirmedUser(@RequestBody Map<String, Object> payload) {
-        new ConfirmUserCommandCall(payload).execute();
+        new ConfirmUserCommandCall(payload, accountManager).execute();
         return HttpStatus.OK;
     }
 
+    //todo: redo the all fucking thing
     @GetMapping("/acc/private/get-user-data")
     public HttpStatus getUserData(@RequestParam("uuid") String userID) {
         // return new GetUserDataCommandCall(userID).execute();
         return HttpStatus.OK;
+    }
+
+    @GetMapping("/acc/private/test-uuid")
+    public void testUuid(@RequestHeader("Authorization") String token) {
+        System.out.println("Token: " + token);
+        String uuid = GetUuid.getUuid(token);
+        System.out.println("UUID: " + uuid);
     }
 
 }

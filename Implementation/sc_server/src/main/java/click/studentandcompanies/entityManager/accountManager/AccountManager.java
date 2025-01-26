@@ -2,6 +2,7 @@ package click.studentandcompanies.entityManager.accountManager;
 
 import click.studentandcompanies.entity.Account;
 import click.studentandcompanies.entityManager.UserManager;
+import click.studentandcompanies.entityManager.accountManager.accountManagerCommands.POST.ConfirmUserCommand;
 import click.studentandcompanies.entityManager.accountManager.accountManagerCommands.PUT.SendUserDataCommand;
 import click.studentandcompanies.entityRepository.AccountRepository;
 import click.studentandcompanies.entityRepository.CompanyRepository;
@@ -31,5 +32,9 @@ public class AccountManager {
 
     public Account sendUserData(Map<String, Object> payload) throws BadInputException {
         return new SendUserDataCommand(payload, accountRepository).execute();
+    }
+
+    public Account confirmUser(Map<String, Object> payload) throws BadInputException {
+        return new ConfirmUserCommand(payload, accountRepository, studentRepository, companyRepository, universityRepository).execute();
     }
 }

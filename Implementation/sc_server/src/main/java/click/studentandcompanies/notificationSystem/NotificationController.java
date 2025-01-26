@@ -3,6 +3,7 @@ package click.studentandcompanies.notificationSystem;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationData;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -50,6 +51,5 @@ public class NotificationController {
         } catch (Error e) {
             return ResponseEntity.status(401).body("Invalid or expired token");
         }
-
     }
 }

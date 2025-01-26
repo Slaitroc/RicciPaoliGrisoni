@@ -1,4 +1,4 @@
-package click.studentandcompanies.APIController.APIControllerCommandCall.POST;
+package click.studentandcompanies.notificationSystem;
 
 import click.studentandcompanies.APIController.APIControllerCommandCall.APIControllerCommandCall;
 
