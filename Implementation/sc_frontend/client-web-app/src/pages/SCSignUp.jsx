@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as global from "../global/globalStatesInit";
 import { register } from "../api-calls/api-wrappers/authorization-wrapper/authorization";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +22,7 @@ import SCColorModeSelect from "../components/Shared/SCColorModeSelect";
 import SCBackHomeButton from "../components/Dashboard/SCBackHomeButton";
 import SCSelectLogin from "../components/Shared/SCSelectLogin";
 import Autocomplete from "@mui/material/Autocomplete";
+import * as globalStatesInit from "../global/globalStatesInit";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -73,7 +73,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 export default function SCSignUp(props) {
   const navigate = useNavigate();
   //TODO implementare logica per la verifica delle password
-  const { userType, setIsAuthenticated } = useGlobalContext();
+  const { userType, setIsAuthenticated, setUuid } = useGlobalContext();
 
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -123,24 +123,30 @@ export default function SCSignUp(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const userData = {
+      email: email,
+      // name: document.getElementById("name").value,
+      surname: document.getElementById("surname").value,
+      personalEmail: document.getElementById("personalEmail").value,
+    };
     if (validateInputs()) {
-      register(email, password)
+      register(globalStatesInit.STUDENT_USER_TYPE, userData, password)
         .then((response) => {
           switch (response.code) {
             case (204, 400):
-              console.log("Invalid or already in use credentials");
+              console.log("Invalid, missing or already in use credentials");
               break;
             case 500:
               console.log("Firebase error");
               break;
             case 200:
-              console.log("Logged in successfully");
+              console.log("Signup successfully");
               setIsAuthenticated(true);
               navigate("/dashboard");
           }
         })
         .catch((error) => {
-          console.error("Unexpected error during login has been thrown");
+          console.error("Unexpected error during signup has been thrown");
           throw error;
         });
     }
@@ -148,7 +154,7 @@ export default function SCSignUp(props) {
 
   const formType = () => {
     // console.log(userType);
-    if (userType == global.student)
+    if (userType == globalStatesInit.STUDENT_USER_TYPE)
       return (
         <>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -215,13 +221,13 @@ export default function SCSignUp(props) {
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="email">Personal Email</FormLabel>
+              <FormLabel htmlFor="personalEmail">Personal Email</FormLabel>
               <TextField
                 fullWidth
-                id="email"
+                id="personalEmail"
                 placeholder="your@personalemail.com"
-                name="email"
-                autoComplete="email"
+                name="personalEmail"
+                autoComplete="personalEmail"
                 variant="outlined"
                 error={emailError}
                 helperText={emailErrorMessage}
@@ -233,7 +239,7 @@ export default function SCSignUp(props) {
                 <FormLabel htmlFor="universities">University</FormLabel>
                 <Autocomplete
                   disablePortal
-                  options={global.universities}
+                  options={globalStatesInit.UNIVERSITY_USER_TYPE}
                   sx={{
                     width: 220,
                     "& .MuiAutocomplete-endAdornment .MuiIconButton-root": {
@@ -288,7 +294,7 @@ export default function SCSignUp(props) {
           </LocalizationProvider>
         </>
       );
-    else if (userType == global.company)
+    else if (userType == globalStatesInit.COMPANY_USER_TYPE)
       return (
         <>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -390,7 +396,7 @@ export default function SCSignUp(props) {
           </LocalizationProvider>
         </>
       );
-    else if (userType == global.university)
+    else if (userType == globalStatesInit.UNIVERSITY_USER_TYPE)
       return (
         <>
           <LocalizationProvider dateAdapter={AdapterDayjs}>

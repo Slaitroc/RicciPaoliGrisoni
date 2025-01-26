@@ -1,6 +1,7 @@
 import * as apiCalls from "../../apiCalls";
 import * as firebaseAuth from "firebase/auth";
 import { auth } from "./firebase-utils/firebaseConfig";
+import { BASE_DOMAIN } from "../../apiConfig";
 
 /**
  * Logs in a user with the provided email and password.
@@ -104,10 +105,10 @@ export const logout = async () => {
 };
 
 /**
- * Registers a new user with the given email and password.
- * Calls a method from firebaseMethods to register the user.
+ * Register a user of the specified type with the provided email and password. Sends the user data to the server. Sends a confirmation link to the user email to  validate the email address and unlock the account.
  *
- * @param {string} email - The email address of the user to register.
+ * @param {string} userType - The type of the user to register: student/company/university.
+ * @param {string} userData - The data of the user to register.
  * @param {string} password - The password for the user to register.
  * @returns {Promise<Object>} A promise that resolves to an object containing:
  * - code: {number} The HTTP status code (200 for success, 400 for invalid credentials, 500 for server error).
@@ -115,17 +116,34 @@ export const logout = async () => {
  * - token: {string} The authentication token (only for code 200).
  * - err: {Error} The error object (only for code 500).
  */
-export const register = async (email, password) => {
+export const register = async (userType, userData, password) => {
+  console.log("ciao");
   try {
-    const token = await firebaseAuth.createUserWithEmailAndPassword(
+    await firebaseAuth.createUserWithEmailAndPassword(
       auth,
-      email,
+      userData.email,
       password
     );
-    firebaseAuth.sendEmailVerification(auth.currentUser);
-    return { code: 200, token };
+    const realToken = await auth.currentUser.getIdToken()
+    console.log("real Token" + realToken);
+    // TODO aggiungi dati utente da inviare
+    const response = await apiCalls.sendUserData(userType, userData);
+    if (response.status === 400) {
+      const body = await response.json();
+      console.log(body.properties.error);
+      return { code: 400, response };
+    }
+
+    const actionCodeSettings = {
+      //DANGER - url di reindirizzamento nella email di verifica
+      url: `${BASE_DOMAIN}:5173/email-verified`,
+      handleCodeInApp: true, // Indica che l'app gestirà l'URL
+    };
+    firebaseAuth.sendEmailVerification(auth.currentUser, actionCodeSettings);
+
+    const token = auth.currentUser.getIdToken();
+    return { code: 200, token, userData };
   } catch (err) {
-    console.log("Error during registration:", err.message);
-    return { code: 500, err };
+    throw err;
   }
 };

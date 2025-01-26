@@ -13,6 +13,7 @@ import click.studentandcompanies.entityManager.interviewManager.InterviewManager
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcess;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManager;
 import click.studentandcompanies.notificationSystem.NotificationManager;
+import click.studentandcompanies.utils.GetUuid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,7 +61,7 @@ public class APIController {
 
     }
 
-    @GetMapping("/hello")
+    @GetMapping("/private/hello")
     public String sayHello() {
         return "Hello, Spring Boot!";
     }
@@ -428,10 +429,18 @@ public class APIController {
         return HttpStatus.OK;
     }
 
+    //todo: redo the all fucking thing
     @GetMapping("/acc/private/get-user-data")
     public HttpStatus getUserData(@RequestParam("uuid") String userID) {
         // return new GetUserDataCommandCall(userID).execute();
         return HttpStatus.OK;
+    }
+
+    @GetMapping("/acc/private/test-uuid")
+    public void testUuid(@RequestHeader("Authorization") String token) {
+        System.out.println("Token: " + token);
+        String uuid = GetUuid.getUuid(token);
+        System.out.println("UUID: " + uuid);
     }
 
 }
