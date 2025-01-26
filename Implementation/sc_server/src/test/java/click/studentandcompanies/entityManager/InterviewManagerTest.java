@@ -353,7 +353,7 @@ class InterviewManagerTest extends EntityFactory {
     @Test
     void testAcceptInternshipPositionOffer() {
         Map<String, Object> payload = new HashMap<>();
-        payload.put("userID", "10");
+        payload.put("student_id", "10");
 
         Interview interview = setNewInterview(null, null, null, null);
         InternshipPosOffer posOffer = setNewInternshipPosOffer();
