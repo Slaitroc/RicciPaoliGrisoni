@@ -1,19 +1,25 @@
 package click.studentandcompanies.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import click.studentandcompanies.utils.UserType;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "account")
 public class Account {
     @Id
     @Size(max = 255)
-    @Column(name = "uuid", nullable = false)
-    private String uuid;
+    @Column(name = "user_id", nullable = false)
+    private String userID;
+
+    @NotNull
+    @Lob
+    @Column(name = "user_type", nullable = false)
+    private String userType;
 
     @Size(max = 255)
     @NotNull
@@ -21,44 +27,57 @@ public class Account {
     private String name;
 
     @Size(max = 255)
+    @Column(name = "surname")
+    private String surname;
+
+    @Size(max = 255)
     @NotNull
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "enrolled_in_uni_id")
-    private Integer enrolledInUniId;
+    @Column(name = "uni_vat")
+    private Integer uniVat;
+
+    @Column(name = "birthDate")
+    private LocalDate birthDate;
+
+    @Size(max = 3)
+    @NotNull
+    @Column(name = "country", nullable = false, length = 3)
+    private String country;
 
     @Column(name = "vat_number")
     private Integer vatNumber;
 
-    @Size(max = 3)
-    @Column(name = "country", length = 3)
-    private String country;
+    @Lob
+    @Column(name = "uni_desc")
+    private String uniDesc;
 
     @NotNull
     @Column(name = "validate", nullable = false)
     private Boolean validate = false;
 
     public Account() {
-        // Empty constructor required by JPA
+        //empty constructor required by JPA
     }
 
-    public Account(String uuid, String name, String email, Integer enrolledInUniId, Integer vatNumber, String country, Boolean validate) {
-        this.uuid = uuid;
-        this.name = name;
-        this.email = email;
-        this.enrolledInUniId = enrolledInUniId;
-        this.vatNumber = vatNumber;
-        this.country = country;
-        this.validate = validate;
+    public Account(String userId, String name, String email, String country, UserType type, Boolean validated, String surname, String uniVat, Date birthDate, Integer vatNumber, String uniDescription) {
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     public String getName() {
@@ -69,6 +88,14 @@ public class Account {
         this.name = name;
     }
 
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -77,12 +104,28 @@ public class Account {
         this.email = email;
     }
 
-    public Integer getEnrolledInUniId() {
-        return enrolledInUniId;
+    public Integer getUniVat() {
+        return uniVat;
     }
 
-    public void setEnrolledInUniId(Integer enrolledInUniId) {
-        this.enrolledInUniId = enrolledInUniId;
+    public void setUniVat(Integer uniVat) {
+        this.uniVat = uniVat;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public Integer getVatNumber() {
@@ -93,12 +136,12 @@ public class Account {
         this.vatNumber = vatNumber;
     }
 
-    public String getCountry() {
-        return country;
+    public String getUniDesc() {
+        return uniDesc;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setUniDesc(String uniDesc) {
+        this.uniDesc = uniDesc;
     }
 
     public Boolean getValidate() {

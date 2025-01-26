@@ -19,7 +19,7 @@ public class AcceptInternshipPositionOfferCommand implements InterviewManagerCom
     private final Integer intPosOffID;
     private final InterviewRepository interviewRepository;
     private final UserManager userManager;
-    private final Integer userID;
+    private final String userID;
 
     public AcceptInternshipPositionOfferCommand(Integer intPosOffID, Map<String, Object> payload, InterviewRepository interviewRepository, UserManager userManager) {
         this.intPosOffID = intPosOffID;
@@ -27,7 +27,7 @@ public class AcceptInternshipPositionOfferCommand implements InterviewManagerCom
         this.userManager = userManager;
         // Check if the payload is in the correct format
         try {
-            this.userID = (Integer) payload.get("userID");
+            this.userID = (String) payload.get("userID");
         } catch (Exception e) {
             throw new BadInputException("userID not provided correctly");
         }
@@ -39,6 +39,9 @@ public class AcceptInternshipPositionOfferCommand implements InterviewManagerCom
         // Check if the user is a student
         if (type == UserType.STUDENT) {
             Interview interview = interviewRepository.getInterviewByInternshipPosOffer_Id(intPosOffID);
+            if (interview == null) {
+                throw new NotFoundException("Interview not found");
+            }
             InternshipPosOffer internshipPosOffer = getInternshipPosOffer(interview);
             internshipPosOffer.setAcceptance(true);
             return internshipPosOffer;
@@ -55,7 +58,10 @@ public class AcceptInternshipPositionOfferCommand implements InterviewManagerCom
             throw new NotFoundException("Internship Position Offer not found");
         }
         // Check if the student whose ID is passed through the payload is the same as the student who owns the Internship Position Offer
-        if (!Objects.equals(interview.getRecommendation().getCv().getStudent().getId(), userID) && !Objects.equals(interview.getSpontaneousApplication().getStudent().getId(), userID)) {
+        if(interview.getRecommendation() != null && !Objects.equals(interview.getRecommendation().getCv().getStudent().getId(), userID)) {
+            throw new UnauthorizedException("User not authorized to accept internship position offer");
+        }
+        if(interview.getSpontaneousApplication() != null && !Objects.equals(interview.getSpontaneousApplication().getStudent().getId(), userID)) {
             throw new UnauthorizedException("User not authorized to accept internship position offer");
         }
         // Check if the Internship Position Offer has already been accepted

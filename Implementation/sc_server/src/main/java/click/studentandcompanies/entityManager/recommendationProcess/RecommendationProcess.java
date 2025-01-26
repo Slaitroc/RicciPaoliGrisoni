@@ -47,7 +47,7 @@ public class RecommendationProcess {
         return new RefuseRecommendationCommand(userManager, recommendationID, payload, recommendationRepository).execute();
     }
 
-    public List<Recommendation> getRecommendationsByParticipant(Integer userID) throws BadInputException, NotFoundException, NoContentException {
+    public List<Recommendation> getRecommendationsByParticipant(String userID) throws BadInputException, NotFoundException, NoContentException {
         return new GetRecommendationByParticipantCommand(userManager, recommendationRepository, userID).execute();
     }
 

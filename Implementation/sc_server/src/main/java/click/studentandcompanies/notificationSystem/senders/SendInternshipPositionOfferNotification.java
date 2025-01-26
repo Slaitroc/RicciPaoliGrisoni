@@ -16,7 +16,7 @@ public class SendInternshipPositionOfferNotification implements SenderInterface 
      * @param data    contains data such as internship_title, company_name, and possibly a link to accept/reject.
      */
     @Override
-    public void sendNotification(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {
+    public void sendNotification(List<String> userIDs, DTO data, NotificationManager notificationManager) {
         List<String> deviceTokens = getDeviceTokens(userIDs, notificationManager);
         List<String> emails = getEmails(userIDs, notificationManager);
 

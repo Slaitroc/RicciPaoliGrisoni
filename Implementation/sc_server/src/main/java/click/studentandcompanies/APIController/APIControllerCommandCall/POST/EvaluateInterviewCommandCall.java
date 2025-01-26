@@ -37,7 +37,7 @@ public class EvaluateInterviewCommandCall implements APIControllerCommandCall<Re
         try {
             Interview interview = interviewManager.evaluateInterview(interviewId, payload);
 
-            List<Integer> userIDs = new ArrayList<>();
+            List<String> userIDs = new ArrayList<>();
             if (interview.getSpontaneousApplication() != null)
                 userIDs.add(interview.getRecommendation().getCv().getStudent().getId());
             else userIDs.add(interview.getSpontaneousApplication().getStudent().getId());

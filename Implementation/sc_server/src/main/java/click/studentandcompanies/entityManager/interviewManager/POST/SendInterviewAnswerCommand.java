@@ -28,12 +28,12 @@ public class SendInterviewAnswerCommand implements SubmissionManagerCommand<Inte
     public Interview execute() {
         Interview interview = interviewRepository.getInterviewById(interviewID);
         if(interview == null){
-            throw new BadInputException("Interview not found");
+            throw new NotFoundException("Interview not found");
         }
         if(payload.get("student_id") == null){
             throw new BadInputException("Bad student id");
         }
-        Student student = userManager.getStudentById((int) payload.get("student_id"));
+        Student student = userManager.getStudentById((String) payload.get("student_id"));
         if(student == null){
             throw new NotFoundException("Student not found");
         }

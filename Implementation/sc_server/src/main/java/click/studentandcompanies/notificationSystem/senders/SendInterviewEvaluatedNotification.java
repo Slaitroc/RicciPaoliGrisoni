@@ -16,7 +16,7 @@ public class SendInterviewEvaluatedNotification implements SenderInterface {
      * @param data    DTO containing the information of the interview
      */
     @Override
-    public void sendNotification(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {
+    public void sendNotification(List<String> userIDs, DTO data, NotificationManager notificationManager) {
         List<String> deviceTokens = getDeviceTokens(userIDs, notificationManager);
         List<String> emails = getEmails(userIDs, notificationManager);
 

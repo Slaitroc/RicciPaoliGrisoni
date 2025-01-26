@@ -12,10 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class GetStudentCVCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
-    private final int studentID;
+    private final String studentID;
     private final SubmissionManager submissionManager;
 
-    public GetStudentCVCommandCall(int studentID, SubmissionManager submissionManager) {
+    public GetStudentCVCommandCall(String studentID, SubmissionManager submissionManager) {
         this.studentID = studentID;
         this.submissionManager = submissionManager;
     }

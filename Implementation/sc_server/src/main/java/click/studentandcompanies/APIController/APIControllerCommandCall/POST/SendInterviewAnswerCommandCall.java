@@ -38,7 +38,7 @@ public class SendInterviewAnswerCommandCall implements APIControllerCommandCall<
         try {
             Interview interview = interviewManager.sendInterviewAnswer(interviewID, payload);
 
-            List<Integer> companyID = new ArrayList<>();
+            List<String> companyID = new ArrayList<>();
             if(interview.getSpontaneousApplication() != null) companyID.add(interview.getSpontaneousApplication().getInternshipOffer().getCompany().getId());
             else companyID.add(interview.getRecommendation().getInternshipOffer().getCompany().getId());
             DTO dto = DTOCreator.createDTO(DTOTypes.INTERVIEW, interview);

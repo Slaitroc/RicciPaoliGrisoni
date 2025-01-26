@@ -1,11 +1,11 @@
 package click.studentandcompanies;
 
-import io.restassured.RestAssured;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
+//import io.restassured.RestAssured;
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//
+//import static io.restassured.RestAssured.given;
+//import static org.hamcrest.CoreMatchers.equalTo;
 
 public class HelloTest {
 // todo: RestAssured sembra carina come libreria per il testing. Molto easy da usare vedi sotto.

@@ -16,9 +16,9 @@ import java.util.List;
 
 public class GetCompanyInternshipsCommandCall implements APIControllerCommandCall<ResponseEntity<List<DTO>>> {
     SubmissionManager submissionManager;
-    Integer companyID;
+    String companyID;
 
-    public GetCompanyInternshipsCommandCall(Integer companyID, SubmissionManager submissionManager) {
+    public GetCompanyInternshipsCommandCall(String companyID, SubmissionManager submissionManager) {
         this.submissionManager = submissionManager;
         this.companyID = companyID;
     }

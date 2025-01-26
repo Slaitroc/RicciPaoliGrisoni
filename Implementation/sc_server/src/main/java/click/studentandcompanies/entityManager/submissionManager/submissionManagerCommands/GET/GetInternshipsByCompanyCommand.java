@@ -12,9 +12,9 @@ public class GetInternshipsByCompanyCommand {
 
     InternshipOfferRepository internshipOfferRepository;
     UserManager userManager;
-    Integer companyID;
+    String companyID;
 
-    public GetInternshipsByCompanyCommand(InternshipOfferRepository internshipOfferRepository, UserManager userManager, Integer companyID) {
+    public GetInternshipsByCompanyCommand(InternshipOfferRepository internshipOfferRepository, UserManager userManager, String companyID) {
         this.internshipOfferRepository = internshipOfferRepository;
         this.userManager = userManager;
         this.companyID = companyID;

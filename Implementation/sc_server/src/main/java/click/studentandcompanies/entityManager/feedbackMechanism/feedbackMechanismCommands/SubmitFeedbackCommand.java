@@ -30,12 +30,12 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
     public Feedback execute() throws BadInputException{
         validateFeedbackPayload(payload);
 
-        Integer submitter_id = (Integer) payload.get("student_id") != null ? (Integer) payload.get("student_id") : (Integer) payload.get("company_id");
+        String submitter_id = (String) payload.get("student_id") != null ? (String) payload.get("student_id") : (String) payload.get("company_id");
         ParticipantTypeEnum participantType = userManager.getParticipantType(submitter_id);
         Recommendation recommendation = userManager.getRecommendationById(recommendationID);
 
         validateRecommendation(recommendation);
-        validateParticipant(participantType,submitter_id,recommendation);
+        validateParticipant(participantType, submitter_id,recommendation);
         validateSubmitterRecommendations(submitter_id,participantType);
 
         Feedback feedback = createFeedback(recommendationID,submitter_id,participantType,payload);
@@ -70,7 +70,7 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
 
 
 
-    private void validateParticipant(ParticipantTypeEnum participantType, Integer submitter_id, Recommendation recommendation){
+    private void validateParticipant(ParticipantTypeEnum participantType, String submitter_id, Recommendation recommendation){
         if(participantType == ParticipantTypeEnum.student && !recommendation.getCv().getStudent().getId().equals(submitter_id)){
             throw new BadInputException("Student can only submit feedback for his own recommendation");
         }
@@ -82,7 +82,7 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
         }
     }
 
-    private void validateSubmitterRecommendations(Integer submitter_id, ParticipantTypeEnum participantType){
+    private void validateSubmitterRecommendations(String submitter_id, ParticipantTypeEnum participantType){
         List<Recommendation> submitterRecommendations;
         if(participantType == ParticipantTypeEnum.student) {
             submitterRecommendations = userManager.getRecommendationByStudentId(submitter_id);
@@ -94,7 +94,7 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
         }
     }
 
-    private Feedback createFeedback(Integer recommendationID,Integer submitterID ,ParticipantTypeEnum participantType,Map<String, Object> payload){
+    private Feedback createFeedback(Integer recommendationID,String submitterID ,ParticipantTypeEnum participantType,Map<String, Object> payload){
         Integer rating = (Integer) payload.get("rating");
         String comment = (String) payload.get("comment") != null ? (String) payload.get("comment") : "";
         Instant uploadTime = Instant.parse(String.valueOf(payload.get("upload_time")));

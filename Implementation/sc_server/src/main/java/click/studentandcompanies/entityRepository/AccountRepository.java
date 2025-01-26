@@ -5,5 +5,5 @@ import jakarta.validation.constraints.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AccountRepository extends JpaRepository<Account, String> {
-    Account findByUuid(@Size(max = 255) String uuid);
+    Account findByUserID(@Size(max = 255) String uuid);
 }

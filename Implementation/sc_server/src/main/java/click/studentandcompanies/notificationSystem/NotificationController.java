@@ -30,7 +30,7 @@ public class NotificationController {
         this.notificationManager = notificationManager;
     }
 
-    public void sendNotification(List<Integer> userIDs, NotificationData data) {
+    public void sendNotification(List<String> userIDs, NotificationData data) {
         data.getTriggerType().getSender().sendNotification(userIDs, data.getDTO(), notificationManager);
     }
 

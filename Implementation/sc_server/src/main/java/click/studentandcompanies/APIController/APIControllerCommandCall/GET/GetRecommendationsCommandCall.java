@@ -18,9 +18,9 @@ import java.util.List;
 public class GetRecommendationsCommandCall implements APIControllerCommandCall<ResponseEntity<List<DTO>>> {
 
     RecommendationProcess recommendationProcess;
-    Integer userID;
+    String userID;
 
-    public GetRecommendationsCommandCall(Integer userID, RecommendationProcess recommendationProcess) {
+    public GetRecommendationsCommandCall(String userID, RecommendationProcess recommendationProcess) {
         this.recommendationProcess = recommendationProcess;
         this.userID = userID;
     }

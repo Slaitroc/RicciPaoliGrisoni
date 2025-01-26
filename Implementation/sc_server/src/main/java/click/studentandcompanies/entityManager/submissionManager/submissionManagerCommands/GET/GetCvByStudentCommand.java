@@ -9,9 +9,9 @@ import click.studentandcompanies.utils.exception.NotFoundException;
 public class GetCvByStudentCommand {
     CvRepository cvRepository;
     UserManager userManager;
-    Integer studentID;
+    String studentID;
 
-    public GetCvByStudentCommand(CvRepository cvRepository, UserManager userManager, Integer studentID) {
+    public GetCvByStudentCommand(CvRepository cvRepository, UserManager userManager, String studentID) {
         this.cvRepository = cvRepository;
         this.userManager = userManager;
         this.studentID = studentID;

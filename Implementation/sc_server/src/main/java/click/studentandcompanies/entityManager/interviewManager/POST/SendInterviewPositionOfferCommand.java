@@ -45,7 +45,7 @@ public class SendInterviewPositionOfferCommand implements InterviewManagerComman
             System.out.println("Company id is null");
             throw new BadInputException("Company id is null");
         }
-        Company company = userManager.getCompanyById((int) payload.get("company_id"));
+        Company company = userManager.getCompanyById((String) payload.get("company_id"));
         if(company == null){
             System.out.println("Company not found");
             throw new NotFoundException("Company not found");
