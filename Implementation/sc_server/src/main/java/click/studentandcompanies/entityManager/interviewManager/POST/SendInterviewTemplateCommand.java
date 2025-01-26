@@ -48,7 +48,7 @@ public class SendInterviewTemplateCommand implements InterviewManagerCommand<Int
             throw new NotFoundException("Interview not found");
         }
         if(interview.getRecommendation() != null){
-            if(interview.getRecommendation().getInternshipOffer().getCompany().getId() != payload.get("company_id")){
+            if(!((interview.getRecommendation().getInternshipOffer().getCompany().getId()).equals(payload.get("company_id"))) ){
                 System.out.println("Company is not a participant of this interview");
                 throw new UnauthorizedException("The calling company is not a participant of this interview");
             }
@@ -69,7 +69,7 @@ public class SendInterviewTemplateCommand implements InterviewManagerCommand<Int
             System.out.println("Template not found");
             throw new NotFoundException("Template not found");
         }
-        if(template.getCompany().getId() != payload.get("company_id")){
+        if(!template.getCompany().getId().equals(payload.get("company_id"))){
             System.out.println("Company is not the owner of the template");
             throw new UnauthorizedException("Company is not the owner of the template");
         }
