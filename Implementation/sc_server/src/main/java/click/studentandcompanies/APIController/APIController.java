@@ -55,32 +55,6 @@ public class APIController {
         this.accountManager = accountManager;
     }
 
-    @GetMapping("/private/test")
-    public ResponseEntity<DTO> showTraefikHeader(@RequestHeader("X-Custom-Header") String customHeader) {
-        return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, customHeader), HttpStatus.OK);
-
-    }
-
-    @GetMapping("/private/hello")
-    public String sayHello() {
-        return "Hello, Spring Boot!";
-    }
-
-    @GetMapping("/university/{country}/count")
-    public String getCountryCount(@PathVariable String country) {
-        System.out.println("Getting the number of universities in " + country);
-        long count = userManager.getNumberOfUniversitiesByCountry(country);
-        if (count == 0) {
-            if (userManager.areThereAnyUniversities()) {
-                return "There are no universities in " + country;
-            } else {
-                return "There are no universities at all";
-            }
-        } else {
-            return "There are " + count + " universities in " + country;
-        }
-    }
-
     // Here we are returning a ResponseEntity with a list of DTOs.
     // Could also return a specific customized DTO with the list of Internships
     // but frontend libraries works fine with a list of JSON (says ChatGPT)
@@ -161,30 +135,6 @@ public class APIController {
     })
     public ResponseEntity<DTO> getCommunication(@PathVariable Integer userID, @RequestParam("commID") Integer commID) {
         return new GetCommunicationCommandCall(commID, userID, communicationManager).execute();
-    }
-
-    @GetMapping("/dto/test/")
-    public ResponseEntity<DTO> testDTO() {
-        System.out.println("testDTO called");
-        Student student = userManager.getStudentById(1);
-        System.out.println("Student is " + student);
-        if (student == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        System.out.println("final return: " + DTOCreator.createDTO(DTOTypes.STUDENT, student));
-        return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.STUDENT, student), HttpStatus.OK);
-    }
-
-    // Because this is a post request, the data is sent in the body of the request
-    // The @RequestBody annotation tells Spring to convert the body of the request
-    // into a generic Object
-    // Can be the same url as the get request because the method requested is
-    // different
-    @PostMapping("/dto/test/")
-    public HttpStatus testDTO(@RequestBody Object dto) {
-        System.out.println("testDTO called");
-        System.out.println("DTO is " + dto);
-        return HttpStatus.OK;
     }
 
     // Please notice that because we are not yet using the firebase key to uniquely
@@ -436,11 +386,41 @@ public class APIController {
         return HttpStatus.OK;
     }
 
-    @GetMapping("/acc/private/test-uuid")
-    public void testUuid(@RequestHeader("Authorization") String token) {
-        System.out.println("Token: " + token);
-        String uuid = GetUuid.getUuid(token);
-        System.out.println("UUID: " + uuid);
+    /*---------------------------------*/
+    /*Deprecated API calls*/
+    /*---------------------------------*/
+    /*@GetMapping("/private/test")
+    public ResponseEntity<DTO> showTraefikHeader(@RequestHeader("X-Custom-Header") String customHeader) {
+        return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, customHeader), HttpStatus.OK);
+
     }
 
+    @GetMapping("/private/hello")
+    public String sayHello() {
+        return "Hello, Spring Boot!";
+    }
+
+    @GetMapping("/dto/test/")
+    public ResponseEntity<DTO> testDTO() {
+        System.out.println("testDTO called");
+        Student student = userManager.getStudentById(1);
+        System.out.println("Student is " + student);
+        if (student == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        System.out.println("final return: " + DTOCreator.createDTO(DTOTypes.STUDENT, student));
+        return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.STUDENT, student), HttpStatus.OK);
+    }
+
+    // Because this is a post request, the data is sent in the body of the request
+    // The @RequestBody annotation tells Spring to convert the body of the request
+    // into a generic Object
+    // Can be the same url as the get request because the method requested is
+    // different
+    @PostMapping("/dto/test/")
+    public HttpStatus testDTO(@RequestBody Object dto) {
+        System.out.println("testDTO called");
+        System.out.println("DTO is " + dto);
+        return HttpStatus.OK;
+    }*/
 }
