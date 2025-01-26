@@ -35,7 +35,7 @@ class CommunicationManagerTest extends EntityFactory {
         University uni = setNewUniversity(1, "Uni", "IT");
         Student s1 = setNewStudent(10, "Marco", uni);
         Student s2 = setNewStudent(11, "Luca", uni);
-        Company c1 = setNewCompany(20, "Google", "USA");
+        Company c1 = setNewCompany(20, "Google", "US");
         InternshipOffer offer = setNewInternshipOffer(c1);
 
         Communication comm1 = setNewCommunication(s1, offer);
@@ -94,7 +94,7 @@ class CommunicationManagerTest extends EntityFactory {
         // Valid scenario
         University uni = setNewUniversity(1, "Uni", "IT");
         Student student = setNewStudent(10, "Marco", uni);
-        Company company = setNewCompany(20, "Google", "USA");
+        Company company = setNewCompany(20, "Google", "US");
         InternshipOffer offer = setNewInternshipOffer(company);
 
         when(userManager.getStudentById(10)).thenReturn(student);
@@ -140,7 +140,7 @@ class CommunicationManagerTest extends EntityFactory {
                                     setNewStudent(10, "Marco",
                                             setNewUniversity(1, "Uni", "IT")),
                                     setNewInternshipOffer(
-                                            setNewCompany(20, "Google", "USA")));
+                                            setNewCompany(20, "Google", "US")));
         comm.setId(100);
 
         when(communicationRepository.getCommunicationById(100)).thenReturn(comm);
@@ -163,7 +163,7 @@ class CommunicationManagerTest extends EntityFactory {
     void testTerminateCommunication() {
         University uni = setNewUniversity(1, "Poli", "IT");
         Student student = setNewStudent(10, "Marco", uni);
-        Communication comm = setNewCommunication(student, setNewInternshipOffer(setNewCompany(20, "Google", "USA")));
+        Communication comm = setNewCommunication(student, setNewInternshipOffer(setNewCompany(20, "Google", "US")));
         comm.setId(200);
 
         when(userManager.getUniversityById(1)).thenReturn(uni);
