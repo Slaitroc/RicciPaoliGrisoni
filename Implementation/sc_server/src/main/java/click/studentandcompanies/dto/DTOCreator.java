@@ -30,11 +30,17 @@ public class DTOCreator {
         functionMap.put(DTOTypes.INTERVIEW_TEMPLATE, object -> createInterviewTemplate((InterviewTemplate) object));
         functionMap.put(DTOTypes.INTERNSHIP_POS_OFFER, object -> createInternshipPosOfferDTO((InternshipPosOffer) object));
         functionMap.put(DTOTypes.ACCOUNT, object -> createAccountDTO((Account) object));
+        functionMap.put(DTOTypes.UNIVERSITY_MAP, object -> createUniversityMapDTO((Map<String, Integer>) object));
     }
 
+    private static DTO createUniversityMapDTO(Map<String, Integer> universities) {
+        final DTO universityMapDTO = new DTO();
+        universities.forEach(universityMapDTO::addProperty);
+        return universityMapDTO;
+    }
     private static DTO createAccountDTO(Account account) {
         final DTO accountDTO = new DTO();
-        accountDTO.addProperty("uuid", account.getUserID());
+        accountDTO.addProperty("user_id", account.getUserID());
         accountDTO.addProperty("name", account.getName());
         accountDTO.addProperty("email", account.getEmail());
         accountDTO.addProperty("enrolled_in_uni_vat", account.getUniVat());

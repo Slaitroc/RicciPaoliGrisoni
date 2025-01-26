@@ -137,6 +137,17 @@ public class APIController {
         return new GetCommunicationCommandCall(commID, userID, communicationManager).execute();
     }
 
+    @GetMapping("/acc/get-universities")
+    @Operation(summary = "Get a map Name-VatNumber of all universities", description = "")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, Universities retrieved successfully"),
+            @ApiResponse(responseCode = "204", description = "No Content, No Universities found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> getUniversities() {
+        return new GetUniversitiesMapCommandCall(accountManager).execute();
+    }
+
     // Please notice that because we are not yet using the firebase key to uniquely
     // identify the user, at the moment we have an
     // overlap of userID between students and companies. This will be fixed in the
@@ -375,11 +386,11 @@ public class APIController {
         return new SendUserDataCommandCall(payload, accountManager).execute();
     }
 
-    /*@PostMapping("/acc/private/confirm-user")
+    @PostMapping("/acc/private/confirm-user")
     public HttpStatus confirmedUser(@RequestBody Map<String, Object> payload) {
         new ConfirmUserCommandCall(payload, accountManager).execute();
         return HttpStatus.OK;
-    }*/
+    }
 
     //todo: redo the all fucking thing
     @GetMapping("/acc/private/get-user-data")

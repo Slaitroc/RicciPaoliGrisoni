@@ -23,6 +23,8 @@ import SCBackHomeButton from "../components/Dashboard/SCBackHomeButton";
 import SCSelectLogin from "../components/Shared/SCSelectLogin";
 import Autocomplete from "@mui/material/Autocomplete";
 import * as globalStatesInit from "../global/globalStatesInit";
+import { SCCountriesSel } from "../components/Shared/SCCountriesSel";
+import { use } from "react";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -70,19 +72,34 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
+//TODO implementare logica per la verifica delle password
 export default function SCSignUp(props) {
   const navigate = useNavigate();
-  //TODO implementare logica per la verifica delle password
-  const { userType, setIsAuthenticated, setUuid } = useGlobalContext();
+  const { userType, setIsAuthenticated } = useGlobalContext();
 
   const [email, setEmail] = React.useState("");
+  const [country, setCountry] = React.useState("");
+  const [birthDate, setBirthDate] = React.useState("");
+
   const [password, setPassword] = React.useState("");
+
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState("");
+
+  const [openAlert, setOpenAlert] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState("");
+  const [alertSeverity, setAlertSeverity] = React.useState("success");
+
+  //DEBUG Effect
+  React.useEffect(() => {
+    console.log(userType);
+    console.log(country);
+    console.log(birthDate);
+  }, [userType, country, birthDate]);
 
   const validateInputs = () => {
     const email = document.getElementById("email");
@@ -124,36 +141,45 @@ export default function SCSignUp(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const userData = {
+      userType: userType,
       email: email,
-      // name: document.getElementById("name").value,
+      name: document.getElementById("name").value,
       surname: document.getElementById("surname").value,
-      personalEmail: document.getElementById("personalEmail").value,
+      uniVat: 2,
+      uniDesc: "default",
+      country: country,
+      birthDate: birthDate,
     };
     if (validateInputs()) {
-      register(globalStatesInit.STUDENT_USER_TYPE, userData, password)
+      register(userData, password)
         .then((response) => {
-          switch (response.code) {
-            case (204, 400):
-              console.log("Invalid, missing or already in use credentials");
-              break;
-            case 500:
-              console.log("Firebase error");
-              break;
-            case 200:
-              console.log("Signup successfully");
-              setIsAuthenticated(true);
-              navigate("/dashboard");
+          if (response.status.ok) {
+            setOpenAlert(true);
+            setAlertSeverity("success");
+            setAlertMessage("Signup successfully");
+            setIsAuthenticated(true);
+          } else if (response.status === 500) {
+            setOpenAlert(true);
+            setAlertSeverity("error");
+            setAlertMessage(
+              "Firebase error: already existing user, choose another email"
+            );
+          } else if (response.status === 400) {
+            setAlertMessage(response.body.properties.error);
+            setOpenAlert(true);
+            setAlertSeverity("error");
           }
         })
         .catch((error) => {
-          console.error("Unexpected error during signup has been thrown");
+          setOpenAlert(true);
+          setAlertSeverity("error");
+          setAlertMessage("Unexpected Error during registration");
           throw error;
         });
     }
   };
 
   const formType = () => {
-    // console.log(userType);
     if (userType == globalStatesInit.STUDENT_USER_TYPE)
       return (
         <>
@@ -162,11 +188,11 @@ export default function SCSignUp(props) {
               <FormControl>
                 <FormLabel htmlFor="name">Name</FormLabel>
                 <TextField
+                  id="name"
                   autoComplete="name"
                   name="name"
                   required
                   fullWidth
-                  id="name"
                   placeholder="Name"
                   error={nameError}
                   helperText={nameErrorMessage}
@@ -174,13 +200,13 @@ export default function SCSignUp(props) {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="name">Surname</FormLabel>
+                <FormLabel htmlFor="surname">Surname</FormLabel>
                 <TextField
-                  autoComplete="name"
-                  name="name"
+                  id="surname"
+                  autoComplete="surname"
+                  name="surname"
                   required
                   fullWidth
-                  id="surname"
                   placeholder="Surname"
                   error={nameError}
                   helperText={nameErrorMessage}
@@ -190,16 +216,31 @@ export default function SCSignUp(props) {
             </Box>
             <Box display="flex" justifyContent="center">
               <FormControl>
-                <FormLabel htmlFor="name">Date of Birth</FormLabel>
+                <FormLabel htmlFor="birthdate">Date of Birth</FormLabel>
                 <DatePicker
+                  onChange={(date) =>
+                    //DANGER date offset of one day --> day 9 became 8
+                    //NOTE ignoring for now
+                    setBirthDate(new Date(date).toISOString().split("T")[0])
+                  }
                   views={["year", "month", "day"]}
                   sx={{
                     "& .MuiIconButton-root": {
-                      width: "30px", // Modifica la larghezza del pulsante
-                      height: "30px", // Modifica l'altezza del pulsante
-                      padding: "4px", // Diminuisce lo spazio interno
+                      width: "30px",
+                      height: "30px",
+                      padding: "4px",
                       border: "none",
                     },
+                  }}
+                />
+              </FormControl>
+            </Box>
+            <Box display="flex" justifyContent="center">
+              <FormControl>
+                <FormLabel htmlFor="country">Select Country</FormLabel>
+                <SCCountriesSel
+                  onChange={(e, value) => {
+                    value && setCountry(value.code);
                   }}
                 />
               </FormControl>
@@ -207,45 +248,32 @@ export default function SCSignUp(props) {
             <FormControl>
               <FormLabel htmlFor="email">Email</FormLabel>
               <TextField
-                required
-                fullWidth
                 id="email"
                 placeholder="your@email.com"
                 name="email"
                 autoComplete="email"
                 variant="outlined"
+                required
+                fullWidth
                 error={emailError}
                 onChange={(e) => setEmail(e.target.value)}
                 helperText={emailErrorMessage}
                 color={passwordError ? "error" : "primary"}
               />
             </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="personalEmail">Personal Email</FormLabel>
-              <TextField
-                fullWidth
-                id="personalEmail"
-                placeholder="your@personalemail.com"
-                name="personalEmail"
-                autoComplete="personalEmail"
-                variant="outlined"
-                error={emailError}
-                helperText={emailErrorMessage}
-                color={passwordError ? "error" : "primary"}
-              />
-            </FormControl>
             <Box display="flex" justifyContent="center">
               <FormControl>
-                <FormLabel htmlFor="universities">University</FormLabel>
+                <FormLabel htmlFor="universities">Select University</FormLabel>
                 <Autocomplete
+                  id="universities"
                   disablePortal
-                  options={globalStatesInit.UNIVERSITY_USER_TYPE}
+                  options={globalStatesInit.universities}
                   sx={{
                     width: 220,
                     "& .MuiAutocomplete-endAdornment .MuiIconButton-root": {
-                      width: "30px", // Riduce larghezza del contenitore
-                      height: "30px", // Riduce altezza del contenitore
-                      padding: "4px", // Opzionale: diminuisce lo spazio interno
+                      width: "30px",
+                      height: "30px",
+                      padding: "4px",
                       border: "none",
                     },
                   }}
@@ -256,14 +284,14 @@ export default function SCSignUp(props) {
             <FormControl>
               <FormLabel htmlFor="password">Password</FormLabel>
               <TextField
-                required
-                fullWidth
+                id="password"
                 name="password"
                 placeholder="••••••"
                 type="password"
-                id="password"
                 autoComplete="new-password"
                 variant="outlined"
+                required
+                fullWidth
                 onChange={(e) => setPassword(e.target.value)}
                 error={passwordError}
                 helperText={passwordErrorMessage}
@@ -272,7 +300,7 @@ export default function SCSignUp(props) {
             </FormControl>
             <FormControl>
               {/* TODO implementare la logica per la verifica tra le due password */}
-              <FormLabel htmlFor="password">Confirm Password</FormLabel>
+              <FormLabel htmlFor="confirm-password">Confirm Password</FormLabel>
               <TextField
                 required
                 fullWidth
@@ -523,6 +551,7 @@ export default function SCSignUp(props) {
       <SignUpContainer direction="column" justifyContent="space-between">
         <SCBackHomeButton></SCBackHomeButton>
         <Card variant="outlined">
+          {openAlert && <Alert severity={alertSeverity}>{alertMessage}</Alert>}
           <Typography
             component="h1"
             variant="h4"
