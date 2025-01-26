@@ -23,6 +23,18 @@ public class University {
     @Column(name = "vat_number", nullable = false)
     private Integer vatNumber;
 
+    @Lob
+    @Column(name = "uni_desc")
+    private String uniDesc;
+
+    public String getUniDesc() {
+        return uniDesc;
+    }
+
+    public void setUniDesc(String uniDesc) {
+        this.uniDesc = uniDesc;
+    }
+
     public String getId() {
         return id;
     }

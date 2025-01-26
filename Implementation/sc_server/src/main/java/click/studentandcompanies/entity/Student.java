@@ -2,6 +2,9 @@ package click.studentandcompanies.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "student")
@@ -20,6 +23,55 @@ public class Student {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "university_id", nullable = false)
     private University university;
+
+    @Size(max = 255)
+    @Column(name = "surname")
+    private String surname;
+
+    @Column(name = "birthdate")
+    private LocalDate birthdate;
+
+    @Size(max = 2)
+    @Column(name = "country", length = 2)
+    private String country;
+
+    public Student() {
+        //empty constructor required by JPA
+    }
+
+    public Student(String id, String name, String email, University university, String surname, LocalDate birthdate, String country) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.university = university;
+        this.surname = surname;
+        this.birthdate = birthdate;
+        this.country = country;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public LocalDate getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
 
     public String getId() {
         return id;
