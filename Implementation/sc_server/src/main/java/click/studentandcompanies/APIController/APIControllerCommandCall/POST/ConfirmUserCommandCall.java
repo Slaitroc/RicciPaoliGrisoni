@@ -14,17 +14,18 @@ import org.springframework.http.ResponseEntity;
 import java.util.Map;
 
 public class ConfirmUserCommandCall implements APIControllerCommandCall<Object> {
-    private final Map<String, Object> payload;
+    private final String userID;
     private final AccountManager accountManager;
-    public ConfirmUserCommandCall(Map<String, Object> payload, AccountManager accountManager) {
-        this.payload = payload;
+
+    public ConfirmUserCommandCall(String userID, AccountManager accountManager) {
+        this.userID = userID;
         this.accountManager = accountManager;
     }
 
     @Override
     public ResponseEntity<DTO> execute() {
         try{
-            Account account = accountManager.confirmUser(payload);
+            Account account = accountManager.confirmUser(userID);
             return new ResponseEntity<DTO>(DTOCreator.createDTO(DTOTypes.ACCOUNT, account), HttpStatus.CREATED);
         }catch (BadInputException e){
             return new ResponseEntity<DTO>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);

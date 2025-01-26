@@ -23,6 +23,18 @@ public class Company {
     @Column(name = "vat_number", nullable = false)
     private Integer vatNumber;
 
+    public Company() {
+        //empty constructor required by JPA
+    }
+
+    public Company(String id, String name, String email, String country, Integer vatNumber) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.country = country;
+        this.vatNumber = vatNumber;
+    }
+
     public String getId() {
         return id;
     }

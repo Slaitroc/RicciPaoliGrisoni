@@ -23,6 +23,31 @@ public class University {
     @Column(name = "vat_number", nullable = false)
     private Integer vatNumber;
 
+    @Lob
+    @Column(name = "uni_desc")
+    private String uniDesc;
+
+    public University() {
+        //empty constructor required by JPA
+    }
+
+    public University(String id, String name, String email, String country, Integer vatNumber, String uniDesc) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.country = country;
+        this.vatNumber = vatNumber;
+        this.uniDesc = uniDesc;
+    }
+
+    public String getUniDesc() {
+        return uniDesc;
+    }
+
+    public void setUniDesc(String uniDesc) {
+        this.uniDesc = uniDesc;
+    }
+
     public String getId() {
         return id;
     }
