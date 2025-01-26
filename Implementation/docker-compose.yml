@@ -12,14 +12,13 @@ services:
       SPRING_DATASOURCE_PASSWORD: password
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.application-container.rule=Host(`localhost`) &&  PathPrefix(`/application-api`)" # Regola per l'API e dichiarazione del nome del container
-      - "traefik.http.routers.application-container.service=application-service" # dichiaro il nome del Servizio per l'API
-      - "traefik.http.routers.application-container.entrypoints=web" # Usa l'entrypoint HTTPS
-      # - "traefik.http.routers.application-container.entrypoints=websecure" # Usa l'entrypoint HTTPS
-      # - "traefik.http.routers.application-container.tls=true" # Forza l'uso di TLS
-      # - "traefik.http.routers.application-container.tls.certresolver=le" # Risolutore ACME per i certificati
-      - "traefik.http.services.application-service.loadbalancer.server.port=8443" # Porta interna del server
+      - "traefik.http.services.application-service.loadbalancer.server.port=8443"
 
+      #____________ROUTERS____________#
+      # APPLICATION SERVICE
+      - "traefik.http.routers.application-container.rule=Host(`localhost`) &&  PathPrefix(`/application-api`)"
+      - "traefik.http.routers.application-container.service=application-service"
+      - "traefik.http.routers.application-container.entrypoints=web"
       - "traefik.http.routers.application-container.middlewares=cors-headers"
 
     networks:
@@ -38,14 +37,13 @@ services:
       - ./sc_auth/target/sc_auth.jar:/sc_auth/sc_auth.jar
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.auth-container.rule=Host(`localhost`) &&  PathPrefix(`/auth-api`)" # Regola per l'API e dichiarazione del nome del container
-      - "traefik.http.routers.auth-container.service=auth-service" # dichiaro il nome del Servizio per l'API
-      - "traefik.http.routers.auth-container.entrypoints=web" # Usa l'entrypoint HTTPS
-      # - "traefik.http.routers.auth-container.entrypoints=websecure" # Usa l'entrypoint HTTPS
-      # - "traefik.http.routers.auth-container.tls=true" # Forza l'uso di TLS
-      # - "traefik.http.routers.auth-container.tls.certresolver=le" # Risolutore ACME per i certificati
-      - "traefik.http.services.auth-service.loadbalancer.server.port=8444" # Porta interna del server
+      - "traefik.http.services.auth-service.loadbalancer.server.port=8444"
 
+      #____________ROUTERS____________#
+      # AUTH SERVICE
+      - "traefik.http.routers.auth-container.rule=Host(`localhost`) &&  PathPrefix(`/auth-api`)"
+      - "traefik.http.routers.auth-container.service=auth-service"
+      - "traefik.http.routers.auth-container.entrypoints=web"
       - "traefik.http.routers.auth-container.middlewares=cors-headers"
 
     networks:
@@ -116,34 +114,29 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro" # Accesso al socket Docker
       - "./proxy/traefik.yaml:/etc/traefik/traefik.yaml"
     labels:
-      # DASHBOARD
       - "traefik.enable=true"
+      #____________ROUTERS____________#
+      # DASHBOARD ROUTER ---> to traefik
       - "traefik.http.routers.traefik.rule=Host(`localhost`)"
-      # - "traefik.http.routers.traefik.tls.certresolver=le"
-      # - "traefik.http.routers.traefik.tls=true"
       - "traefik.http.routers.traefik.entrypoints=web"
       - "traefik.http.routers.traefik.service=api@internal"
-
-      # MIDDLEWARE AUTH DASHBOARD
-      - "traefik.http.routers.traefik.middlewares=auth"
-      - "traefik.http.middlewares.auth.basicauth.users=user:$$apr1$$dtvOjBZO$$sfd2sw28jzU244hTPqN/B."
-
-      # PRIVATE CALLS ROUTER
-      # Router per intercettare URL con "private"
+      # PRIVATE CALLS ROUTER ---> to sc-auth-container
       - "traefik.http.routers.private-router.rule=PathRegexp(`.*private.*`)"
       - "traefik.http.routers.private-router.entrypoints=web"
       - "traefik.http.routers.private-router.middlewares=cors-headers, add-header, auth-check"
       - "traefik.http.routers.private-router.service=application-service"
       - "traefik.http.routers.private-router.priority=200"
 
-      # Middleware per modificare l'header
+      #____________MIDDLEWARES____________#
+      # MIDDLEWARE AUTH DASHBOARD
+      - "traefik.http.routers.traefik.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=user:$$apr1$$dtvOjBZO$$sfd2sw28jzU244hTPqN/B."
+      # MIDDLEWARE ADD HEADER ---> adds an header when private calls are intercepted
       - "traefik.http.middlewares.add-header.headers.customrequestheaders.X-Custom-Header=TraefikMiddleware"
-
-      # Middleware ForwardAuth per il controllo dell'header Authorization
+      # MIDDLEWARE AUTH-API CHECK---> /auth-api/validate
       - "traefik.http.middlewares.auth-check.forwardauth.address=http://sc-auth-service:8444/auth-api/validate"
       - "traefik.http.middlewares.auth-check.forwardauth.trustForwardHeader=true"
-
-      # Configurazione CORS Middleware
+      # MIDDLEWARE CORS HEADERS (for internal calls)
       - "traefik.http.middlewares.cors-headers.headers.accessControlAllowOriginList=http://localhost:5173"
       - "traefik.http.middlewares.cors-headers.headers.accessControlAllowMethods=GET,POST,PUT,DELETE,OPTIONS"
       - "traefik.http.middlewares.cors-headers.headers.accessControlAllowHeaders=*"

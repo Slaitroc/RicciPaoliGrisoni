@@ -7,10 +7,12 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 
@@ -26,34 +28,9 @@ public class AuthController {
         this.authService = authService;
     }
 
-    // @PostMapping("/validatev2")
-    // public ResponseEntity<?> validateTokenv2(@RequestHeader("Authorization")
-    // String authHeader) {
-    // if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-    // return ResponseEntity.status(400).body("Missing or invalid Authorization
-    // header");
-    // }
-
-    // String idToken = authHeader.substring(7);
-
-    // try {
-    // FirebaseToken decodedToken = authService.verifyToken(idToken);
-
-    // // Extract claims
-    // Map<String, Object> response = new HashMap<>();
-    // response.put("uid", decodedToken.getUid());
-    // response.put("email", decodedToken.getEmail());
-    // response.put("claims", decodedToken.getClaims());
-
-    // return ResponseEntity.ok(response);
-    // } catch (FirebaseAuthException e) {
-    // return ResponseEntity.status(401).body("Invalid or expired token");
-    // }
-
-    // }
-
     @GetMapping("/validate")
     public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String authHeader) {
+        System.out.println("Sto facendo cose....");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.status(400).body("Missing or invalid Authorization header");
         }
@@ -61,13 +38,44 @@ public class AuthController {
         String idToken = authHeader.substring(7);
 
         try {
-            System.out.println(idToken);
-            return ResponseEntity.ok(idToken);
-
-        } catch (Error e) {
-            return ResponseEntity.status(401).body("Invalid or expired token");
+            // Verifica il token tramite Firebase Admin SDK
+            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+            return ResponseEntity.ok("Token is valid");
+        } catch (FirebaseAuthException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(401).body("No user found with this token");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("No project or null token");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(401).body("No uid found with this token");
         }
-
     }
 
+    @GetMapping("/get-uuid")
+    public ResponseEntity<?> getUUID(@RequestHeader("Authorization") String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(400).body("Missing or invalid Authorization header");
+        }
+        String idToken = authHeader.substring(7);
+        try {
+            // Verifica il token tramite Firebase Admin SDK
+            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+            // Ottieni l'UUID dell'utente
+            String uuid = decodedToken.getUid();
+            System.out.println("User UUID: " + uuid);
+            // Crea il body originale (simulato)
+            Map<String, Object> responseBody = new HashMap<>();
+            // Aggiungi l'UUID al body
+            responseBody.put("uuid", uuid);
+            return ResponseEntity.ok(responseBody);
+        } catch (FirebaseAuthException | IllegalArgumentException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).body("Invalid Token or no uuid found");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Unexpected server error");
+        }
+    }
 }
