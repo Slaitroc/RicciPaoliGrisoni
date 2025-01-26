@@ -19,17 +19,19 @@ public abstract class EntityFactory {
      * @param max the maximum value (inclusive)
      * @return a random integer between min and max
      */
-    private int newRandom(int min, int max) {
-        return new Random().nextInt((max - min) + 1) + min;
+    private String newRandomID(int min, int max) {
+        return String.valueOf(new Random().nextInt((max - min) + 1) + min);
     }
 
     /**
-     * Generates a random boolean value.
+     * Generates a random integer between the specified min and max values.
      *
-     * @return a random boolean value
+     * @param min the minimum value (inclusive)
+     * @param max the maximum value (inclusive)
+     * @return a random integer between min and max
      */
-    private boolean newRandomBoolean() {
-        return new Random().nextBoolean();
+    private Integer newRandom(int min, int max) {
+        return new Random().nextInt((max - min) + 1) + min;
     }
 
     /**
@@ -52,7 +54,7 @@ public abstract class EntityFactory {
      */
     protected Student setNewStudent(String name, University university) {
         Student student = new Student();
-        student.setId(newRandom(10001, 20000));
+        student.setId(newRandomID(10001, 20000));
         student.setName(name);
         student.setEmail(name.toLowerCase() + "@example.edu");
         student.setUniversity(university);
@@ -61,7 +63,7 @@ public abstract class EntityFactory {
 
     protected Student setNewStudent(int id, String name, University university) {
         Student student = new Student();
-        student.setId(id);
+        student.setId(String.valueOf(id));
         student.setName(name);
         student.setEmail(name.toLowerCase() + "@example.edu");
         student.setUniversity(university);
@@ -77,7 +79,7 @@ public abstract class EntityFactory {
      */
     protected University setNewUniversity(String name, String country) {
         University university = new University();
-        university.setId(newRandom(1, 10000));
+        university.setId(newRandomID(1, 10000));
         university.setName(name);
         university.setEmail(name.toLowerCase() + "@example.edu");
         university.setCountry(country);
@@ -95,7 +97,7 @@ public abstract class EntityFactory {
      */
     protected University setNewUniversity(int id, String name, String country) {
         University university = new University();
-        university.setId(id);
+        university.setId(String.valueOf(id));
         university.setName(name);
         university.setEmail(name.toLowerCase() + "@example.edu");
         university.setCountry(country);
@@ -112,7 +114,7 @@ public abstract class EntityFactory {
      */
     protected Company setNewCompany(String name, String country) {
         Company company = new Company();
-        company.setId(newRandom(20001, 30000));
+        company.setId(newRandomID(20001, 30000));
         company.setName(name);
         company.setEmail(name.toLowerCase() + "@example.com");
         company.setCountry(country);
@@ -130,7 +132,7 @@ public abstract class EntityFactory {
      */
     protected Company setNewCompany(int id, String name, String country) {
         Company company = new Company();
-        company.setId(id);
+        company.setId(String.valueOf(id));
         company.setName(name);
         company.setEmail(name.toLowerCase() + "@example.com");
         company.setCountry(country);
@@ -222,44 +224,44 @@ public abstract class EntityFactory {
         return communication;
     }
 
-    /**
-     * Creates a new Account instance with the specified name and email.
-     *
-     * @param name the name of the account holder
-     * @param email the email of the account holder
-     * @return a new Account instance
-     */
-    protected Account setNewAccount(String name, String email) {
-        Account account = new Account();
-        account.setUuid("UUID-" + newRandom(1, 999999));
-        account.setName(name);
-        account.setEmail(email);
-        account.setEnrolledInUniId(newRandom(1, 9999));
-        account.setVatNumber(newRandom(1000, 999999));
-        account.setCountry("IT");
-        account.setValidate(newRandomBoolean());
-        return account;
-    }
-
-    /**
-     * Creates a new Account instance with the specified id, name and email.
-     *
-     * @param id the id of the account
-     * @param name the name of the account holder
-     * @param email the email of the account holder
-     * @return a new Account instance
-     */
-    protected Account setNewAccount(int id, String name, String email) {
-        Account account = new Account();
-        account.setUuid("UUID-" + newRandom(1, 999999));
-        account.setName(name);
-        account.setEmail(email);
-        account.setEnrolledInUniId(newRandom(1, 9999));
-        account.setVatNumber(newRandom(1000, 999999));
-        account.setCountry("IT");
-        account.setValidate(newRandomBoolean());
-        return account;
-    }
+//    /**
+//     * Creates a new Account instance with the specified name and email.
+//     *
+//     * @param name the name of the account holder
+//     * @param email the email of the account holder
+//     * @return a new Account instance
+//     */
+//    protected Account setNewAccount(String name, String email) {
+//        Account account = new Account();
+//        account.setUserID("UUID-" + newRandom(1, 999999));
+//        account.setName(name);
+//        account.setEmail(email);
+//        account.setEnrolledInUniId(newRandom(1, 9999));
+//        account.setVatNumber(newRandom(1000, 999999));
+//        account.setCountry("IT");
+//        account.setValidate(newRandomBoolean());
+//        return account;
+//    }
+//
+//    /**
+//     * Creates a new Account instance with the specified id, name and email.
+//     *
+//     * @param id the id of the account
+//     * @param name the name of the account holder
+//     * @param email the email of the account holder
+//     * @return a new Account instance
+//     */
+//    protected Account setNewAccount(int id, String name, String email) {
+//        Account account = new Account();
+//        account.setUserID("UUID-" + newRandom(1, 999999));
+//        account.setName(name);
+//        account.setEmail(email);
+//        account.setEnrolledInUniId(newRandom(1, 9999));
+//        account.setVatNumber(newRandom(1000, 999999));
+//        account.setCountry("IT");
+//        account.setValidate(newRandomBoolean());
+//        return account;
+//    }
 
     /**
      * Creates a new Cv instance for the specified student.
