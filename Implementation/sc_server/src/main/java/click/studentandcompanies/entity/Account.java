@@ -70,7 +70,7 @@ public class Account {
         this.validate = validated;
         this.surname = surname;
         this.uniVat = uniVat;
-        this.birthDate = LocalDate.parse(birthDate.toString());
+        this.birthDate = birthDate;
         this.vatNumber = vatNumber;
         this.uniDesc = uniDescription;
     }

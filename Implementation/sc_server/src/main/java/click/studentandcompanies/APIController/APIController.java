@@ -230,7 +230,7 @@ public class APIController {
 
     //todo, add student_id or company_id to the payload
     @PutMapping("/feedback/private/{RecommendationID}/submit")
-    @Operation(summary = "Submit feedback", description = "The payload is a map with a 'student_id' OR 'company_id' (ownership is checked by the backend), 'rating', and any other optional field.")
+    @Operation(summary = "Submit feedback", description = "The payload is a map with 'user_id' (ownership is checked by the backend), 'rating', and any other optional field.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Feedback submitted successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -238,7 +238,9 @@ public class APIController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> submitFeedback(@PathVariable Integer RecommendationID,
-            @RequestBody Map<String, Object> payload) {
+            @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+        String user_id = GetUuid.getUuid(token);
+        payload.put("user_id", user_id);
         return new SubmitFeedbackCommandCall(RecommendationID, payload, feedbackMechanism).execute();
     }
 
