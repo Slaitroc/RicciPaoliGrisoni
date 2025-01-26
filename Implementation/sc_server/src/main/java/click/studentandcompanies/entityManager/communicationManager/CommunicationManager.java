@@ -29,11 +29,11 @@ public class CommunicationManager {
         this.communicationRepository = communicationRepository;
     }
 
-    public List<Communication> getAllUserCommunications(Integer userID) throws NotFoundException, NoContentException {
+    public List<Communication> getAllUserCommunications(String userID) throws NotFoundException, NoContentException {
         return new GetAllUserCommunicationsCommand(userManager, communicationRepository, userID).execute();
     }
 
-    public Communication getCommunication(Integer commID, Integer userID) throws NotFoundException, UnauthorizedException {
+    public Communication getCommunication(Integer commID, String userID) throws NotFoundException, UnauthorizedException {
         return new GetCommunicationCommand(communicationRepository, commID, userID).execute();
     }
 

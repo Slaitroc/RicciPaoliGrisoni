@@ -17,9 +17,9 @@ import java.util.List;
 
 public class GetSpontaneousApplicationsCommandCall implements APIControllerCommandCall<ResponseEntity<List<DTO>>> {
     SubmissionManager submissionManager;
-    Integer userID;
+    String userID;
 
-    public GetSpontaneousApplicationsCommandCall(Integer userID, SubmissionManager submissionManager) {
+    public GetSpontaneousApplicationsCommandCall(String userID, SubmissionManager submissionManager) {
         this.submissionManager = submissionManager;
         this.userID = userID;
     }

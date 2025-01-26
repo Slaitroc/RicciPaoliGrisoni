@@ -4,7 +4,6 @@ import click.studentandcompanies.entity.Account;
 import click.studentandcompanies.entity.Company;
 import click.studentandcompanies.entity.Student;
 import click.studentandcompanies.entity.University;
-import click.studentandcompanies.entityManager.accountManager.AccountManager;
 import click.studentandcompanies.entityManager.accountManager.AccountManagerCommand;
 import click.studentandcompanies.entityRepository.AccountRepository;
 import click.studentandcompanies.entityRepository.CompanyRepository;
@@ -36,7 +35,7 @@ public class ConfirmUserCommand implements AccountManagerCommand<Account> {
     @Override
     public Account execute() throws BadInputException {
         validatePayload();
-        Account account = accountRepository.findByUuid((String) payload.get("uuid"));
+        Account account = accountRepository.findByUserID((String) payload.get("uuid"));
         if (account == null) {
             throw new NotFoundException("Account not found");
         }
@@ -55,8 +54,10 @@ public class ConfirmUserCommand implements AccountManagerCommand<Account> {
                 student.setEmail(account.getEmail());
                 //The correctness of the university id is already check in the "sendUserData" command.
                 // Therefore, the exception will not be thrown here.
-                University enrolledUni = universityRepository.findById(account.getEnrolledInUniId()).orElseThrow(() ->
-                        new NotFoundException("University not found"));
+                University enrolledUni = universityRepository.findByVatNumber(account.getUniVat());
+                if (enrolledUni == null) {
+                    throw new NotFoundException("University not found");
+                }
                 student.setUniversity(enrolledUni);
                 studentRepository.save(student);
                 break;

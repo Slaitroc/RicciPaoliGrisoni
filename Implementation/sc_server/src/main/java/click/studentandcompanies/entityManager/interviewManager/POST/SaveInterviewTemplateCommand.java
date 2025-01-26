@@ -39,7 +39,7 @@ public class SaveInterviewTemplateCommand implements InterviewManagerCommand<Int
             System.out.println("Company id not found");
             throw new BadInputException("Company id not found");
         }
-        Company company = userManager.getCompanyById((Integer) payload.get("company_id"));
+        Company company = userManager.getCompanyById((String) payload.get("company_id"));
         if(company == null){
             System.out.println("Company not found");
             throw new NotFoundException("Company not found");

@@ -33,7 +33,7 @@ public class SendInterviewAnswerCommand implements SubmissionManagerCommand<Inte
         if(payload.get("student_id") == null){
             throw new BadInputException("Bad student id");
         }
-        Student student = userManager.getStudentById((int) payload.get("student_id"));
+        Student student = userManager.getStudentById((String) payload.get("student_id"));
         if(student == null){
             throw new NotFoundException("Student not found");
         }

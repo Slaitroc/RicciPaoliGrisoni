@@ -17,9 +17,9 @@ import java.util.List;
 public class GetAllUserCommunicationsCommandCall implements APIControllerCommandCall<ResponseEntity<List<DTO>>> {
 
     CommunicationManager communicationManager;
-    Integer userID;
+    String userID;
 
-    public GetAllUserCommunicationsCommandCall(Integer userID, CommunicationManager communicationManager) {
+    public GetAllUserCommunicationsCommandCall(String userID, CommunicationManager communicationManager) {
         this.communicationManager = communicationManager;
         this.userID = userID;
     }

@@ -8,9 +8,8 @@ import jakarta.persistence.*;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_id", nullable = false)
-    private Integer id;
+    private String id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -22,11 +21,11 @@ public class Student {
     @JoinColumn(name = "university_id", nullable = false)
     private University university;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

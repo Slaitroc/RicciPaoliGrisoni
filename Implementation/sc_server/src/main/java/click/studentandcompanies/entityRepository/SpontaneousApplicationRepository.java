@@ -8,10 +8,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface SpontaneousApplicationRepository extends JpaRepository<SpontaneousApplication, Integer> {
-    List<SpontaneousApplication> getSpontaneousApplicationByStudent_Id(Integer studentId);
+    List<SpontaneousApplication> getSpontaneousApplicationByStudent_Id(String studentId);
 
     @Query ("SELECT s FROM SpontaneousApplication s WHERE s.internshipOffer.company.id = :userID")
-    List<SpontaneousApplication> findSpontaneousApplicationByCompanyId(@Param("userID") Integer userID);
+    List<SpontaneousApplication> findSpontaneousApplicationByCompanyId(@Param("userID") String userID);
 
     SpontaneousApplication getSpontaneousApplicationsById(Integer id);
 

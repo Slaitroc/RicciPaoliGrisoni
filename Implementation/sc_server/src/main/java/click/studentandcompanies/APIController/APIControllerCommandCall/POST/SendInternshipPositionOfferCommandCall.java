@@ -42,7 +42,7 @@ public class SendInternshipPositionOfferCommandCall implements APIControllerComm
 
             DTO dto = DTOCreator.createDTO(DTOTypes.INTERNSHIP_POS_OFFER, internshipPosOffer);
             NotificationData data = new NotificationData(NotificationTriggerType.INTERNSHIP_POSITION_OFFER_SENT, dto);
-            List<Integer> studentID = List.of(userManager.getStudentIDByInternshipPosOfferID(internshipPosOffer.getId()));
+            List<String> studentID = List.of(userManager.getStudentIDByInternshipPosOfferID(internshipPosOffer.getId()));
             new NotificationController(notificationManager).sendNotification(studentID, data);
 
             return new ResponseEntity<>(dto, HttpStatus.CREATED);

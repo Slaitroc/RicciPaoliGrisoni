@@ -55,32 +55,6 @@ public class APIController {
         this.accountManager = accountManager;
     }
 
-    @GetMapping("/private/test")
-    public ResponseEntity<DTO> showTraefikHeader(@RequestHeader("X-Custom-Header") String customHeader) {
-        return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, customHeader), HttpStatus.OK);
-
-    }
-
-    @GetMapping("/private/hello")
-    public String sayHello() {
-        return "Hello, Spring Boot!";
-    }
-
-    @GetMapping("/university/{country}/count")
-    public String getCountryCount(@PathVariable String country) {
-        System.out.println("Getting the number of universities in " + country);
-        long count = userManager.getNumberOfUniversitiesByCountry(country);
-        if (count == 0) {
-            if (userManager.areThereAnyUniversities()) {
-                return "There are no universities in " + country;
-            } else {
-                return "There are no universities at all";
-            }
-        } else {
-            return "There are " + count + " universities in " + country;
-        }
-    }
-
     // Here we are returning a ResponseEntity with a list of DTOs.
     // Could also return a specific customized DTO with the list of Internships
     // but frontend libraries works fine with a list of JSON (says ChatGPT)
@@ -92,7 +66,7 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, Company ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getCompanyInternships(@RequestParam("companyID") Integer companyID) {
+    public ResponseEntity<List<DTO>> getCompanyInternships(@RequestParam("companyID") String companyID) {
         return new GetCompanyInternshipsCommandCall(companyID, submissionManager).execute();
     }
 
@@ -105,7 +79,7 @@ public class APIController {
             @ApiResponse(responseCode = "401", description = "Unauthorized, User not authorized to access this resource"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> getStudentCV(@RequestParam("studentID") Integer studentID) {
+    public ResponseEntity<DTO> getStudentCV(@RequestParam("studentID") String studentID) {
         return new GetStudentCVCommandCall(studentID, submissionManager).execute();
     }
 
@@ -120,7 +94,7 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getSpontaneousApplications(@RequestParam("userID") Integer userID) {
+    public ResponseEntity<List<DTO>> getSpontaneousApplications(@RequestParam("userID") String userID) {
         return new GetSpontaneousApplicationsCommandCall(userID, submissionManager).execute();
     }
 
@@ -133,7 +107,7 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getRecommendations(@RequestParam("userID") Integer userID) {
+    public ResponseEntity<List<DTO>> getRecommendations(@RequestParam("userID") String userID) {
         return new GetRecommendationsCommandCall(userID, recommendationProcess).execute();
     }
 
@@ -145,7 +119,7 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, userID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getAllUserCommunications(@RequestParam("userID") Integer userID) {
+    public ResponseEntity<List<DTO>> getAllUserCommunications(@RequestParam("userID") String userID) {
         return new GetAllUserCommunicationsCommandCall(userID, communicationManager).execute();
     }
 
@@ -159,32 +133,8 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Not Found, Communication ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> getCommunication(@PathVariable Integer userID, @RequestParam("commID") Integer commID) {
+    public ResponseEntity<DTO> getCommunication(@PathVariable String userID, @RequestParam("commID") Integer commID) {
         return new GetCommunicationCommandCall(commID, userID, communicationManager).execute();
-    }
-
-    @GetMapping("/dto/test/")
-    public ResponseEntity<DTO> testDTO() {
-        System.out.println("testDTO called");
-        Student student = userManager.getStudentById(1);
-        System.out.println("Student is " + student);
-        if (student == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        System.out.println("final return: " + DTOCreator.createDTO(DTOTypes.STUDENT, student));
-        return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.STUDENT, student), HttpStatus.OK);
-    }
-
-    // Because this is a post request, the data is sent in the body of the request
-    // The @RequestBody annotation tells Spring to convert the body of the request
-    // into a generic Object
-    // Can be the same url as the get request because the method requested is
-    // different
-    @PostMapping("/dto/test/")
-    public HttpStatus testDTO(@RequestBody Object dto) {
-        System.out.println("testDTO called");
-        System.out.println("DTO is " + dto);
-        return HttpStatus.OK;
     }
 
     // Please notice that because we are not yet using the firebase key to uniquely
@@ -419,15 +369,17 @@ public class APIController {
 
     // todo: redo the all fucking thing
     @PutMapping("/acc/private/send-user-data")
-    public ResponseEntity<DTO> sendUserData(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<DTO> sendUserData(@RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+        String uuid = GetUuid.getUuid(token);
+        payload.put("user_id", uuid);
         return new SendUserDataCommandCall(payload, accountManager).execute();
     }
 
-    @PostMapping("/acc/private/confirm-user")
+    /*@PostMapping("/acc/private/confirm-user")
     public HttpStatus confirmedUser(@RequestBody Map<String, Object> payload) {
         new ConfirmUserCommandCall(payload, accountManager).execute();
         return HttpStatus.OK;
-    }
+    }*/
 
     //todo: redo the all fucking thing
     @GetMapping("/acc/private/get-user-data")
@@ -436,11 +388,41 @@ public class APIController {
         return HttpStatus.OK;
     }
 
-    @GetMapping("/acc/private/test-uuid")
-    public void testUuid(@RequestHeader("Authorization") String token) {
-        System.out.println("Token: " + token);
-        String uuid = GetUuid.getUuid(token);
-        System.out.println("UUID: " + uuid);
+    /*---------------------------------*/
+    /*Deprecated API calls*/
+    /*---------------------------------*/
+    /*@GetMapping("/private/test")
+    public ResponseEntity<DTO> showTraefikHeader(@RequestHeader("X-Custom-Header") String customHeader) {
+        return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, customHeader), HttpStatus.OK);
+
     }
 
+    @GetMapping("/private/hello")
+    public String sayHello() {
+        return "Hello, Spring Boot!";
+    }
+
+    @GetMapping("/dto/test/")
+    public ResponseEntity<DTO> testDTO() {
+        System.out.println("testDTO called");
+        Student student = userManager.getStudentById(1);
+        System.out.println("Student is " + student);
+        if (student == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        System.out.println("final return: " + DTOCreator.createDTO(DTOTypes.STUDENT, student));
+        return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.STUDENT, student), HttpStatus.OK);
+    }
+
+    // Because this is a post request, the data is sent in the body of the request
+    // The @RequestBody annotation tells Spring to convert the body of the request
+    // into a generic Object
+    // Can be the same url as the get request because the method requested is
+    // different
+    @PostMapping("/dto/test/")
+    public HttpStatus testDTO(@RequestBody Object dto) {
+        System.out.println("testDTO called");
+        System.out.println("DTO is " + dto);
+        return HttpStatus.OK;
+    }*/
 }

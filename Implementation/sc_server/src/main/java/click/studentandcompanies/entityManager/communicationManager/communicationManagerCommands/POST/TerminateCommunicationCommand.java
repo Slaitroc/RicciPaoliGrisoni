@@ -29,7 +29,7 @@ public class TerminateCommunicationCommand implements CommunicationManagerComman
             System.out.println("University ID is null");
             throw new BadInputException("University ID cannot be null");
         }
-        University university = userManager.getUniversityById((int) payload.get("university_id"));
+        University university = userManager.getUniversityById((String) payload.get("university_id"));
         Communication communication = communicationRepository.findById(communicationID).orElseThrow(() -> {
             System.out.println("Communication not found");
             return new BadInputException("Communication not found");

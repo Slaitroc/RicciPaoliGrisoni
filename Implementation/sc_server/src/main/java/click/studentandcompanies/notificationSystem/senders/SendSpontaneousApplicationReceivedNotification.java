@@ -16,7 +16,7 @@ public class SendSpontaneousApplicationReceivedNotification implements SenderInt
      * @param dto     contains data such as student_name, internship_title, messages, etc.
      */
     @Override
-    public void sendNotification(List<Integer> userIDs, DTO dto, NotificationManager notificationManager) {
+    public void sendNotification(List<String> userIDs, DTO dto, NotificationManager notificationManager) {
         List<String> deviceTokens = getDeviceTokens(userIDs, notificationManager);
         List<String> emails = getEmails(userIDs, notificationManager);
 

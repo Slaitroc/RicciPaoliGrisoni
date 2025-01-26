@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SendTerminateCommunicationNotification implements SenderInterface{
     @Override
-    public void sendNotification(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {
+    public void sendNotification(List<String> userIDs, DTO data, NotificationManager notificationManager) {
         List<String> studentDeviceTokens = getStudentDeviceTokens(userIDs, data, notificationManager);
         List<String> companyDeviceTokens = getCompanyDeviceTokens(userIDs, data, notificationManager);
         List<String> studentEmails = getStudentEmails(userIDs, data, notificationManager);

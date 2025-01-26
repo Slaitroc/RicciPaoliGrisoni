@@ -37,7 +37,8 @@ public class GetUuid {
             System.err.println("HTTP error: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
             return null;
         } catch (Exception e) {
-            // Handle other errors, includin UUID not found
+            e.printStackTrace();
+            // Handle other errors, including UUID not found
             e.printStackTrace();
             System.err.println("Error: " + e.getMessage());
             return null;

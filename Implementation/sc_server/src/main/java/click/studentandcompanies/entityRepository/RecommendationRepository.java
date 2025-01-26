@@ -12,10 +12,10 @@ public interface RecommendationRepository extends JpaRepository<Recommendation, 
     Recommendation getRecommendationById(Integer id);
 
     @Query("SELECT r FROM Recommendation r WHERE r.cv.student.id = :studentId")
-    List<Recommendation> findRecommendationByStudentId(@Param("studentId") Integer studentId);
+    List<Recommendation> findRecommendationByStudentId(@Param("studentId") String studentId);
 
     @Query("SELECT r FROM Recommendation r WHERE r.internshipOffer.company.id = :companyId")
-    List<Recommendation> findRecommendationByCompanyId(@Param("companyId") Integer companyId);
+    List<Recommendation> findRecommendationByCompanyId(@Param("companyId") String companyId);
 
     List<Recommendation> findRecommendationByInternshipOfferId(Integer internshipID);
 

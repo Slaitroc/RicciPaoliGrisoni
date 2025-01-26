@@ -36,7 +36,7 @@ public class AcceptRecommendationCommandCall implements APIControllerCommandCall
         try {
             Recommendation recommendation = recommendationProcess.acceptRecommendation(RecommendationID, payload);
             if (recommendation.getStatus() == RecommendationStatusEnum.acceptedMatch) {
-                List<Integer> userIDs = List.of(recommendation.getInternshipOffer().getCompany().getId(), recommendation.getCv().getStudent().getId());
+                List<String> userIDs = List.of(recommendation.getInternshipOffer().getCompany().getId(), recommendation.getCv().getStudent().getId());
 
                 NotificationData data = new NotificationData(NotificationTriggerType.MATCH_FOUND, DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation));
 

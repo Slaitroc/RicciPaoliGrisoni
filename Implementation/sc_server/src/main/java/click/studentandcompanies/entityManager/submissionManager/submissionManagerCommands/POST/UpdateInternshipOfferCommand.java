@@ -30,7 +30,7 @@ public class UpdateInternshipOfferCommand implements SubmissionManagerCommand<In
             System.out.println("Company id not found");
             throw new BadInputException("Company id not found");
         }
-        Company company = userManager.getCompanyById((Integer) payload.get("company_id"));
+        Company company = userManager.getCompanyById((String) payload.get("company_id"));
         if(company == null){
             System.out.println("Company not found");
             throw new NotFoundException("Company not found");
@@ -101,7 +101,7 @@ public class UpdateInternshipOfferCommand implements SubmissionManagerCommand<In
         String requiredSkills = (String) payload.get("required_skills");
         Integer numberPositions = (Integer) payload.get("number_positions");
         //Get the company (we already checked if the company id is present in the caller method)
-        Company company = userManager.getCompanyById((Integer) payload.get("company_id"));
+        Company company = userManager.getCompanyById((String) payload.get("company_id"));
         return new InternshipOffer(company, title, description, requiredSkills, compensation, location, startDate, endDate, numberPositions, durationHours);
     }
 

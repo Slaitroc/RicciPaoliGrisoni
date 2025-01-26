@@ -16,7 +16,7 @@ public class SendNewCommunicationNotification implements SenderInterface {
      * @param data    Contains the communication data
      */
     @Override
-    public void sendNotification(List<Integer> userIDs, DTO data, NotificationManager notificationManager) {
+    public void sendNotification(List<String> userIDs, DTO data, NotificationManager notificationManager) {
         List<String> DeviceTokens = getDeviceTokens(userIDs, notificationManager);
         List<String> Emails = getEmails(userIDs, notificationManager);
 

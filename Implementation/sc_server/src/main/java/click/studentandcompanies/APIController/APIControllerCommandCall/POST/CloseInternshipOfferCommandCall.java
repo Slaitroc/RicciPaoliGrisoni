@@ -43,7 +43,7 @@ public class CloseInternshipOfferCommandCall implements APIControllerCommandCall
     public ResponseEntity<DTO> execute() {
         try {
             // Retrieve the user IDs of the users involved in the internship (students in this case)
-            List<Integer> userIDs = userManager.getInvolvedUsers(internshipID);
+            List<String> userIDs = userManager.getInvolvedUsers(internshipID);
             // Close the internship offer and get the cancelled internship offer
             submissionManager.closeRelatedApplications(internshipID);
             recommendationProcess.closeRelatedRecommendations(internshipID);

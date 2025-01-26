@@ -18,7 +18,7 @@ public class SendInternshipCancelledNotification implements SenderInterface {
      * @param dto     DTO containing the information of the internship that has been closed
      */
     @Override
-    public void sendNotification(List<Integer> userIDs, DTO dto, NotificationManager notificationManager) {
+    public void sendNotification(List<String> userIDs, DTO dto, NotificationManager notificationManager) {
         List<String> deviceTokens = getDeviceTokens(userIDs, notificationManager);
         List<String> userEmails = getEmails(userIDs, notificationManager);
 
