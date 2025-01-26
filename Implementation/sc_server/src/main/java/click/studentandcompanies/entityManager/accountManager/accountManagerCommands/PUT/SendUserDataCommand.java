@@ -1,6 +1,8 @@
 package click.studentandcompanies.entityManager.accountManager.accountManagerCommands.PUT;
 
 import click.studentandcompanies.entity.Account;
+import click.studentandcompanies.entity.University;
+import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.accountManager.AccountManagerCommand;
 import click.studentandcompanies.entityRepository.AccountRepository;
 import click.studentandcompanies.utils.UserType;
@@ -14,10 +16,11 @@ import java.util.Map;
 public class SendUserDataCommand implements AccountManagerCommand<Account> {
     private final Map<String, Object> payload;
     private final AccountRepository accountRepository;
-
-    public SendUserDataCommand(Map<String, Object> payload, AccountRepository AccountRepository) {
+    private final UserManager userManager;
+    public SendUserDataCommand(Map<String, Object> payload, AccountRepository AccountRepository, UserManager userManager) {
         this.payload = payload;
         this.accountRepository = AccountRepository;
+        this.userManager = userManager;
     }
 
     @Override
@@ -66,6 +69,8 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
                 if(payload.get("uniVat") == null){
                     throw new BadInputException("the vat number of the student's university is required");
                 }
+                List<University> uniList = userManager.getUniversity();
+                uniList.stream().filter(uni -> uni.getVatNumber().equals((Integer) payload.get("uniVat"))).findFirst().orElseThrow(() -> new BadInputException("University not found"));
                 if(payload.get("birthDate") == null){
                     throw new BadInputException("birthDate is required");
                 }

@@ -152,5 +152,9 @@ public class UserManager {
             return interview.getSpontaneousApplication().getStudent().getId();
         }
     }
+
+    public List<University> getUniversity() {
+        return universityRepository.findAll();
+    }
 }
 
