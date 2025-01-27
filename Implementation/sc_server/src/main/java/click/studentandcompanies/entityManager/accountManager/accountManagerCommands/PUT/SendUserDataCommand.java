@@ -1,6 +1,7 @@
 package click.studentandcompanies.entityManager.accountManager.accountManagerCommands.PUT;
 
 import click.studentandcompanies.entity.Account;
+import click.studentandcompanies.entity.Company;
 import click.studentandcompanies.entity.University;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.accountManager.AccountManagerCommand;
@@ -80,6 +81,10 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
                 if (payload.get("vatNumber") == null) {
                     throw new BadInputException("Vat number of company is required");
                 }
+                Integer vatNumber = (Integer) payload.get("vatNumber");
+                if(userManager.getCompany().stream().map(Company::getVatNumber).toList().contains(vatNumber)){
+                    throw new BadInputException("Vat number for this Company is already in use");
+                }
                 if(payload.get("location") == null){
                     throw new BadInputException("Location of the company is required");
                 }
@@ -87,6 +92,10 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
             case UNIVERSITY -> {
                 if (payload.get("vatNumber") == null) {
                     throw new BadInputException("Vat number of university is required");
+                }
+                Integer vatNumber = (Integer) payload.get("vatNumber");
+                if(userManager.getUniversity().stream().map(University::getVatNumber).toList().contains(vatNumber)){
+                    throw new BadInputException("Vat number for this University is already in use");
                 }
                 if(payload.get("uniDescription") == null){
                     throw new BadInputException("Description of the university is required");

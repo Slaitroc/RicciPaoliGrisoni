@@ -156,5 +156,9 @@ public class UserManager {
     public List<University> getUniversity() {
         return universityRepository.findAll();
     }
+
+    public List<Company> getCompany() {
+        return companyRepository.findAll();
+    }
 }
 
