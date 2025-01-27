@@ -2,6 +2,7 @@ package click.studentandcompanies.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -11,9 +12,6 @@ public class University {
     @Id
     @Column(name = "university_id", nullable = false)
     private String id;
-
-    @Column(name = "name", nullable = false, length = 20)
-    private String name;
 
     @Column(name = "email", nullable = false)
     private String email;
@@ -31,6 +29,19 @@ public class University {
     @Size(max = 255)
     @Column(name = "location")
     private String location;
+
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getLocation() {
         return location;
@@ -68,14 +79,6 @@ public class University {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getEmail() {

@@ -35,6 +35,9 @@ public class ConfirmUserCommand implements AccountManagerCommand<Account> {
     @Override
     public Account execute() {
         Account account = accountRepository.findById(user_id).orElseThrow(() -> new NotFoundException("User not found"));
+        if(account.getValidate()){
+            return account;
+        }
         switch (UserType.fromString(account.getUserType())) {
             case STUDENT:
                 Student student = buildStudent(account);
