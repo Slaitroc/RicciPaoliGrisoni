@@ -10,6 +10,7 @@ import click.studentandcompanies.entityRepository.CompanyRepository;
 import click.studentandcompanies.entityRepository.StudentRepository;
 import click.studentandcompanies.entityRepository.UniversityRepository;
 import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,13 +37,17 @@ public class AccountManager {
         return new SendUserDataCommand(payload, accountRepository).execute();
     }
 
-    public Account confirmUser(Map<String, Object> payload) throws BadInputException {
-        return new ConfirmUserCommand(payload, accountRepository, studentRepository, companyRepository, universityRepository).execute();
+    public Account confirmUser(String userID) throws BadInputException {
+        return new ConfirmUserCommand(userID, studentRepository, companyRepository, universityRepository, accountRepository).execute();
     }
 
     public Map<String, Integer> getUniversitiesMap() {
         List<University> universities = universityRepository.findAll();
         return universities.stream().collect(
                 java.util.stream.Collectors.toMap(University::getName, University::getVatNumber));
+    }
+
+    public Account getAccountBy(String userID) {
+        return accountRepository.findById(userID).orElseThrow(() -> new NotFoundException("Account not found"));
     }
 }

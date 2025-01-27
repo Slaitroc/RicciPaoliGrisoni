@@ -9,7 +9,7 @@ import { styled } from "@mui/material/styles";
 import DevicesRoundedIcon from "@mui/icons-material/DevicesRounded";
 import SmartphoneRoundedIcon from "@mui/icons-material/SmartphoneRounded";
 import FormControl from "@mui/material/FormControl";
-import { InputLabel } from "@mui/material";
+import { FormLabel, InputLabel } from "@mui/material";
 import { useGlobalContext } from "../../global/GlobalContext";
 
 const Avatar = styled(MuiAvatar)(({ theme }) => ({
@@ -25,23 +25,23 @@ const ListItemAvatar = styled(MuiListItemAvatar)({
   marginRight: 12,
 });
 
-export default function SCSelectLogin() {
-  const [login, setLogin] = React.useState("10");
-  const { setUserType } = useGlobalContext();
+export default function SCSelectLogin({ setUserType }) {
+  const [selection, setSelection] = React.useState("");
+
   const handleChange = (event) => {
     const selectedValue = event.target.value;
-    const selectedType = options.find(
+    const selectedOption = options.find(
       (option) => option.value === selectedValue
-    )?.type;
-    if (selectedType) {
-      setUserType(selectedType);
+    );
+    if (selectedOption) {
+      setUserType(selectedOption.type);
     }
-    setLogin(selectedValue);
+    setSelection(selectedValue);
   };
 
   const options = [
     {
-      value: "",
+      value: "0",
       label: "Company SignUp",
       icon: <DevicesRoundedIcon />,
       type: "company",
@@ -63,6 +63,7 @@ export default function SCSelectLogin() {
   return (
     <>
       <FormControl>
+        <FormLabel component="legend">Select User Type</FormLabel>
         <InputLabel
           id="login-select-label"
           sx={{
@@ -77,12 +78,9 @@ export default function SCSelectLogin() {
         <Select
           labelId="login-select-label"
           id="login-select"
-          value={login}
+          value={selection}
           onChange={handleChange}
-          displayEmpty
-          // inputProps={{ "aria-label": "Select login" }}
           fullWidth
-          label="Age"
           sx={{
             maxHeight: 56,
             width: 215,
@@ -97,7 +95,7 @@ export default function SCSelectLogin() {
             },
           }}
         >
-          <ListSubheader sx={{ pt: 0 }}>Select Login</ListSubheader>
+          <ListSubheader sx={{ pt: 0 }}>User Types</ListSubheader>
           {options.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               <ListItemAvatar>

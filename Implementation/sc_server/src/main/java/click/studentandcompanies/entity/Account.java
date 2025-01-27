@@ -38,7 +38,7 @@ public class Account {
     @Column(name = "uni_vat")
     private Integer uniVat;
 
-    @Column(name = "birthDate")
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 
     @Size(max = 3)
@@ -61,7 +61,18 @@ public class Account {
         //empty constructor required by JPA
     }
 
-    public Account(String userId, String name, String email, String country, UserType type, Boolean validated, String surname, String uniVat, Date birthDate, Integer vatNumber, String uniDescription) {
+    public Account(String userId, String name, String email, String country, UserType type, Boolean validated, String surname, Integer uniVat, LocalDate birthDate, Integer vatNumber, String uniDescription) {
+        this.userID = userId;
+        this.name = name;
+        this.email = email;
+        this.country = country;
+        this.userType = type.toString();
+        this.validate = validated;
+        this.surname = surname;
+        this.uniVat = uniVat;
+        this.birthDate = birthDate;
+        this.vatNumber = vatNumber;
+        this.uniDesc = uniDescription;
     }
 
     public String getUserID() {

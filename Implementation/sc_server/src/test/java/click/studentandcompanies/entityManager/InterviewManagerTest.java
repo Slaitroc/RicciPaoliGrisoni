@@ -44,12 +44,12 @@ class InterviewManagerTest extends EntityFactory {
         Interview interview = setNewInterview(null, null, null, null);
         interview.setId(100);
         Map<String, Object> payload = new HashMap<>();
-        payload.put("student_id", 10);
+        payload.put("student_id", "10");
         payload.put("answer", Map.of("q1", "answer1"));
 
         Student student = setNewStudent(10, "Alice", setNewUniversity(1, "Uni", "IT"));
         when(interviewRepository.getInterviewById(100)).thenReturn(interview);
-        when(userManager.getStudentById(10)).thenReturn(student);
+        when(userManager.getStudentById("10")).thenReturn(student);
         when(interviewRepository.save(interview)).thenReturn(interview);
 
         Interview result = interviewManager.sendInterviewAnswer(100, payload);
@@ -71,15 +71,15 @@ class InterviewManagerTest extends EntityFactory {
         );
 
         // Student not found
-        when(userManager.getStudentById(10)).thenReturn(null);
+        when(userManager.getStudentById("10")).thenReturn(null);
         assertThrows(NotFoundException.class, () ->
                 interviewManager.sendInterviewAnswer(100, payload)
         );
 
         // Missing answer
-        when(userManager.getStudentById(10)).thenReturn(student); // restore valid student
+        when(userManager.getStudentById("10")).thenReturn(student); // restore valid student
         Map<String, Object> noAnswerPayload = new HashMap<>();
-        noAnswerPayload.put("student_id", 10);
+        noAnswerPayload.put("student_id", "10");
         assertThrows(BadInputException.class, () ->
                 interviewManager.sendInterviewAnswer(100, noAnswerPayload)
         );
@@ -92,12 +92,12 @@ class InterviewManagerTest extends EntityFactory {
         interview.setStatus(InterviewStatusEnum.toBeSubmitted);
 
         Map<String, Object> payload = new HashMap<>();
-        payload.put("company_id", 20);
+        payload.put("company_id", "20");
         payload.put("questions", Map.of("q1", "First question"));
 
         Company company = setNewCompany(20, "Google", "US");
         when(interviewRepository.getInterviewById(200)).thenReturn(interview);
-        when(userManager.getCompanyById(20)).thenReturn(company);
+        when(userManager.getCompanyById("20")).thenReturn(company);
 
         InterviewTemplate template = setNewInterviewTemplate(company);
         when(interviewTemplateRepository.save(any(InterviewTemplate.class))).thenReturn(template);
@@ -130,7 +130,7 @@ class InterviewManagerTest extends EntityFactory {
         );
 
         // Company not found
-        when(userManager.getCompanyById(20)).thenReturn(null);
+        when(userManager.getCompanyById("20")).thenReturn(null);
         assertThrows(NotFoundException.class, () ->
                 interviewManager.sendInterview(200, payload)
         );
@@ -141,11 +141,11 @@ class InterviewManagerTest extends EntityFactory {
         Interview interview = setNewInterview(null, null, null, null);
         interview.setId(300);
 
-        Map<String, Object> payload = Map.of("company_id", 20, "questions", Map.of("q1", "text"));
+        Map<String, Object> payload = Map.of("company_id", "20", "questions", Map.of("q1", "text"));
         Company company = setNewCompany(20, "Google", "US");
 
         when(interviewRepository.getInterviewById(300)).thenReturn(interview);
-        when(userManager.getCompanyById(20)).thenReturn(company);
+        when(userManager.getCompanyById("20")).thenReturn(company);
 
         InterviewTemplate template = setNewInterviewTemplate(company);
         when(interviewTemplateRepository.save(any(InterviewTemplate.class))).thenReturn(template);
@@ -162,13 +162,13 @@ class InterviewManagerTest extends EntityFactory {
 
         // Missing company_id
         Map<String, Object> noCompanyPayload = new HashMap<>(payload);
-        ((Map<String, Object>) noCompanyPayload).remove("company_id");
+        noCompanyPayload.remove("company_id");
         assertThrows(BadInputException.class, () ->
                 interviewManager.saveInterviewTemplate(300, noCompanyPayload)
         );
 
         // Company not found
-        when(userManager.getCompanyById(20)).thenReturn(null);
+        when(userManager.getCompanyById("20")).thenReturn(null);
         assertThrows(NotFoundException.class, () ->
                 interviewManager.saveInterviewTemplate(300, payload)
         );
@@ -186,7 +186,9 @@ class InterviewManagerTest extends EntityFactory {
 //        interview.setInterviewTemplate(template);
 
         Map<String, Object> payload = new HashMap<>();
-        payload.put("company_id", 20);
+        payload.put("company_id", "20");
+
+        System.out.println("payload: " + payload.get("company_id") + " of Type: " + payload.get("company_id").getClass() + "\ncompany: " + company.getId() + " of Type: " + company.getId().getClass());
 
         when(interviewRepository.getInterviewById(400)).thenReturn(interview);
         when(interviewTemplateRepository.getInterviewTemplateById(500)).thenReturn(template);
@@ -212,13 +214,13 @@ class InterviewManagerTest extends EntityFactory {
         );
 
         // Company mismatch => Unauthorized
-        payload.put("company_id", 21);
+        payload.put("company_id", "21");
         assertThrows(UnauthorizedException.class, () ->
                 interviewManager.sendInterviewTemplate(400, 500, payload)
         );
 
         // Already has template or status != toBeSubmitted => BadInput
-        payload.put("company_id", 20);
+        payload.put("company_id", "20");
         interview.setInterviewTemplate(template);
         assertThrows(BadInputException.class, () ->
                 interviewManager.sendInterviewTemplate(400, 500, payload)
@@ -235,7 +237,7 @@ class InterviewManagerTest extends EntityFactory {
         when(interviewRepository.save(interview)).thenReturn(interview);
 
         Map<String, Object> payload = new HashMap<>();
-        payload.put("company_id", 20);
+        payload.put("company_id", "20");
         payload.put("evaluation", 4);
         payload.put("status", "passed");
 
@@ -289,15 +291,15 @@ class InterviewManagerTest extends EntityFactory {
         when(interviewRepository.findById(700)).thenReturn(Optional.of(interview));
 
         Map<String, Object> payload = new HashMap<>();
-        payload.put("company_id", 20);
-        //payload.put("student_id", 10);
+        payload.put("company_id", "20");
+        //payload.put("student_id", "10");
 
         Company company = setNewCompany(20, "Google", "US");
         InternshipOffer offer = setNewInternshipOffer(company);
         Recommendation rec = setNewRecommendation(offer, setNewCv(setNewStudent(10, "Alice", setNewUniversity(1,"Uni","IT"))));
         interview.setRecommendation(rec);
 
-        when(userManager.getCompanyById(20)).thenReturn(company);
+        when(userManager.getCompanyById("20")).thenReturn(company);
 
         // Success
         InternshipPosOffer posOffer = new InternshipPosOffer();
@@ -329,21 +331,19 @@ class InterviewManagerTest extends EntityFactory {
         );
 
         // Company not found
-        when(userManager.getCompanyById(20)).thenReturn(null);
+        when(userManager.getCompanyById("20")).thenReturn(null);
         assertThrows(NotFoundException.class, () ->
                 interviewManager.sendInterviewPositionOffer(700, payload)
         );
 
         // Mismatch company
-        when(userManager.getCompanyById(20)).thenReturn(setNewCompany(21, "Another", "DE"));
-//        Map<String, Object> payload1 = new HashMap<>();
-//        payload.put("company_id", 21);
+        when(userManager.getCompanyById("20")).thenReturn(setNewCompany(21, "Another", "DE"));
         assertThrows(BadInputException.class, () ->
                 interviewManager.sendInterviewPositionOffer(700, payload)
         );
 
         // Interview status != passed => WrongStateException
-        when(userManager.getCompanyById(20)).thenReturn(company);
+        when(userManager.getCompanyById("20")).thenReturn(company);
         interview.setStatus(InterviewStatusEnum.failed);
         assertThrows(WrongStateException.class, () ->
                 interviewManager.sendInterviewPositionOffer(700, payload)
@@ -353,7 +353,7 @@ class InterviewManagerTest extends EntityFactory {
     @Test
     void testAcceptInternshipPositionOffer() {
         Map<String, Object> payload = new HashMap<>();
-        payload.put("userID", 10);
+        payload.put("student_id", "10");
 
         Interview interview = setNewInterview(null, null, null, null);
         InternshipPosOffer posOffer = setNewInternshipPosOffer();
@@ -369,19 +369,19 @@ class InterviewManagerTest extends EntityFactory {
         when(interviewRepository.getInterviewByInternshipPosOffer_Id(900)).thenReturn(interview);
 
         // 1) Success
-        when(userManager.getUserType(10)).thenReturn(UserType.STUDENT);
+        when(userManager.getUserType("10")).thenReturn(UserType.STUDENT);
         InternshipPosOffer result = interviewManager.acceptInternshipPositionOffer(900, payload);
         assertTrue(result.getAcceptance());
 
         // 2) UserType UNKNOWN => BadInput
-        when(userManager.getUserType(10)).thenReturn(UserType.UNKNOWN);
+        when(userManager.getUserType("10")).thenReturn(UserType.UNKNOWN);
         assertThrows(BadInputException.class, () ->
                 interviewManager.acceptInternshipPositionOffer(900, payload)
         );
 
         // 3) If no interview => NotFoundException
         when(interviewRepository.getInterviewByInternshipPosOffer_Id(999)).thenReturn(null);
-        when(userManager.getUserType(10)).thenReturn(UserType.STUDENT);
+        when(userManager.getUserType("10")).thenReturn(UserType.STUDENT);
         assertThrows(NotFoundException.class, () ->
                 interviewManager.acceptInternshipPositionOffer(999, payload)
         );

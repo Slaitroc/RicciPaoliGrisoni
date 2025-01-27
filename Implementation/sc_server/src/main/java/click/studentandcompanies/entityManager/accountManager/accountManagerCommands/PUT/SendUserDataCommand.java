@@ -7,9 +7,10 @@ import click.studentandcompanies.entityManager.accountManager.AccountManagerComm
 import click.studentandcompanies.entityRepository.AccountRepository;
 import click.studentandcompanies.utils.UserType;
 import click.studentandcompanies.utils.exception.BadInputException;
-import org.apache.catalina.User;
 
-import java.util.Date;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -25,13 +26,14 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
 
     @Override
     public Account execute() {
-        UserType type = validatePayload(payload);
+        validatePayload(payload);
+        UserType type = UserType.fromString((String) payload.get("userType"));
         validateByUserTypePayload(payload, type);
         Account Account = createAccount(payload, type);
         return accountRepository.save(Account);
     }
 
-    private UserType validatePayload(Map<String, Object> payload) {
+    private void validatePayload(Map<String, Object> payload) {
         if (payload.get("user_id") == null) {
             throw new BadInputException("user_id is required");
         }
@@ -51,13 +53,6 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
         if (payload.get("country") == null) {
             throw new BadInputException("country is required");
         }
-        UserType userType;
-        try{
-            userType = UserType.valueOf((String) payload.get("userType"));
-        }catch (IllegalArgumentException e){
-            throw new BadInputException("Invalid type");
-        }
-        return userType;
     }
 
     private void validateByUserTypePayload(Map<String, Object> payload, UserType type) {
@@ -75,8 +70,8 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
                     throw new BadInputException("birthDate is required");
                 }
                 try{
-                    Date birthDate = (Date) payload.get("birthDate");
-                }catch (ClassCastException e){
+                    LocalDate birthDate = LocalDate.parse((String) payload.get("birthDate"));
+                }catch (DateTimeParseException e){
                     throw new BadInputException("Invalid birthDate format");
                 }
             }
@@ -93,6 +88,7 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
                     throw new BadInputException("Description of the university is required");
                 }
             }
+            //Default case should only be UNKNOWN when the type is not recognized
             default -> throw new BadInputException("Invalid type");
         }
     }
@@ -106,8 +102,13 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
         Boolean validated = false;
         //Optional fields
         String surname = (String) payload.get("surname") != null ? (String) payload.get("surname") : null;
-        String uniVat = (String) payload.get("uniVat") != null ? (String) payload.get("uniVat") : null;
-        Date birthDate = (Date) payload.get("birthDate") != null ? (Date) payload.get("birthDate") : null;
+        Integer uniVat = (Integer) payload.get("uniVat") != null ? (Integer) payload.get("uniVat") : null;
+        LocalDate birthDate;
+        try {
+            birthDate = LocalDate.parse((String) payload.get("birthDate"));
+        } catch (DateTimeParseException e) {
+            throw new RuntimeException(e); //the date is already validated, this exception should never be thrown
+        }
         Integer vatNumber = (Integer) payload.get("vatNumber") != null ? (Integer) payload.get("vatNumber") : null;
         String uniDescription = (String) payload.get("uniDescription") != null ? (String) payload.get("uniDescription") : null;
         return new Account(userId, name, email, country, type, validated, surname, uniVat, birthDate, vatNumber, uniDescription);

@@ -13,11 +13,12 @@ public class DTOCreator {
     //todo: ask Sam: forse é meglio usare i nomi completi delle proprietá
     // ad esempio company_title o internship_name, company_id invece di (company, internship, name, title, id ...)
     // aiuterebbe il frontend e anche nelle notifiche ho notato puó essere utile
+    //(sam) okie dokie
     private static final Map<DTOTypes, Function<Object, DTO>> functionMap = new HashMap<>();
     static {
         functionMap.put(DTOTypes.ERROR, obj -> createErrorDTO((String) obj));
         functionMap.put(DTOTypes.STUDENT, obj -> createStudentDTO((Student) obj));
-        functionMap.put(DTOTypes.STUDENT_V2, obj -> createStudentDTOV2((Student) obj));
+        //functionMap.put(DTOTypes.STUDENT_V2, obj -> createStudentDTOV2((Student) obj));
         functionMap.put(DTOTypes.UNIVERSITY, obj -> createUniversityDTO((University) obj));
         functionMap.put(DTOTypes.RECOMMENDATION_UPDATED_STATUS, object -> createRecommendationUpdatedStatusDTO((Recommendation) object));
         functionMap.put(DTOTypes.INTERNSHIP_OFFER, object -> createInternshipOfferDTO((InternshipOffer) object));
@@ -40,10 +41,10 @@ public class DTOCreator {
     }
     private static DTO createAccountDTO(Account account) {
         final DTO accountDTO = new DTO();
-        accountDTO.addProperty("user_id", account.getUserID());
+        accountDTO.addProperty("userID", account.getUserID());
         accountDTO.addProperty("name", account.getName());
         accountDTO.addProperty("email", account.getEmail());
-        accountDTO.addProperty("enrolled_in_uni_vat", account.getUniVat());
+        accountDTO.addProperty("uniVat", account.getUniVat());
         accountDTO.addProperty("vatNumber", account.getVatNumber());
         accountDTO.addProperty("country", account.getCountry());
         accountDTO.addProperty("validate", account.getValidate());
@@ -81,17 +82,22 @@ public class DTOCreator {
         final DTO studentDTO = new DTO();
         studentDTO.addProperty("id", student.getId());
         studentDTO.addProperty("name", student.getName());
+        studentDTO.addProperty("surname", student.getSurname());
         studentDTO.addProperty("email", student.getEmail());
+        studentDTO.addProperty("birthDate", student.getBirthdate());
+        studentDTO.addProperty("country", student.getCountry());
+        studentDTO.addProperty("universityID", student.getUniversity().getId());
+        studentDTO.addProperty("universityName", student.getUniversity().getName());
         return studentDTO;
     }
 
-    private static DTO createStudentDTOV2(Student student) {
+    /*private static DTO createStudentDTOV2(Student student) {
         final DTO studentDTO = new DTO();
         studentDTO.addProperty("id", student.getId());
         studentDTO.addProperty("name", student.getName());
         studentDTO.addProperty("email", student.getEmail());
         return studentDTO;
-    }
+    }*/
 
     private static DTO createUniversityDTO(University university) {
         final DTO universityDTO = new DTO();
@@ -100,6 +106,7 @@ public class DTOCreator {
         universityDTO.addProperty("email", university.getEmail());
         universityDTO.addProperty("country", university.getCountry());
         universityDTO.addProperty("vatNumber", university.getVatNumber());
+        universityDTO.addProperty("uniDesc", university.getUniDesc());
         return universityDTO;
     }
 
@@ -109,8 +116,8 @@ public class DTOCreator {
         offerDTO.addProperty("compensation", offer.getCompensation());
         offerDTO.addProperty("description", offer.getDescription());
         offerDTO.addProperty("duration", offer.getDurationHours());
-        offerDTO.addProperty("company_id", offer.getCompany().getId());
-        offerDTO.addProperty("company_name", offer.getCompany().getName());
+        offerDTO.addProperty("companyID", offer.getCompany().getId());
+        offerDTO.addProperty("companyName", offer.getCompany().getName());
         offerDTO.addProperty("endDate", offer.getEndDate());
         offerDTO.addProperty("location", offer.getLocation());
         offerDTO.addProperty("numberPositions", offer.getNumberPositions());
@@ -128,8 +135,8 @@ public class DTOCreator {
         cvDTO.addProperty("project", cv.getProject());
         cvDTO.addProperty("skills", cv.getSkills());
         cvDTO.addProperty("update_time", cv.getUpdateTime());
-        cvDTO.addProperty("work_experience", cv.getWorkExperiences());
-        cvDTO.addProperty("student_id", cv.getStudent().getId());
+        cvDTO.addProperty("workExperience", cv.getWorkExperiences());
+        cvDTO.addProperty("studentID", cv.getStudent().getId());
         cvDTO.addProperty("student_name", cv.getStudent().getName());
         return cvDTO;
     }
@@ -138,9 +145,9 @@ public class DTOCreator {
         final DTO appDTO = new DTO();
         appDTO.addProperty("id", application.getId());
         appDTO.addProperty("status", application.getStatus());
-        appDTO.addProperty("internship_offer_title", application.getInternshipOffer().getTitle());
-        appDTO.addProperty("internship_offer_company_name", application.getInternshipOffer().getCompany().getName());
-        appDTO.addProperty("student_name", application.getStudent().getName());
+        appDTO.addProperty("internshipOfferTitle", application.getInternshipOffer().getTitle());
+        appDTO.addProperty("internshipOfferCompanyName", application.getInternshipOffer().getCompany().getName());
+        appDTO.addProperty("studentName", application.getStudent().getName());
         return appDTO;
     }
 
@@ -150,15 +157,15 @@ public class DTOCreator {
         if(feedback.getComment()!=null){
             feedbackDTO.addProperty("comment", feedback.getComment());
         }
-        feedbackDTO.addProperty("participant_type", feedback.getParticipantType());
+        feedbackDTO.addProperty("participantType", feedback.getParticipantType());
         feedbackDTO.addProperty("rating", feedback.getRating());
         if(feedback.getStudent()!=null){
-            feedbackDTO.addProperty("student_id", feedback.getStudent().getId());
+            feedbackDTO.addProperty("studentID", feedback.getStudent().getId());
         }
         if(feedback.getCompany()!=null) {
-            feedbackDTO.addProperty("company_id", feedback.getCompany().getId());
+            feedbackDTO.addProperty("companyID", feedback.getCompany().getId());
         }
-        feedbackDTO.addProperty("recommendation_id", feedback.getRecommendation().getId());
+        feedbackDTO.addProperty("recommendationID", feedback.getRecommendation().getId());
         return feedbackDTO;
     }
 
@@ -166,12 +173,12 @@ public class DTOCreator {
         final DTO recommendationDTO = new DTO();
         recommendationDTO.addProperty("id", recommendation.getId());
         recommendationDTO.addProperty("status", recommendation.getStatus().toString());
-        recommendationDTO.addProperty("student_name", recommendation.getCv().getStudent().getName());
-        recommendationDTO.addProperty("company_name", recommendation.getInternshipOffer().getCompany().getName());
-        recommendationDTO.addProperty("internship_offer_title", recommendation.getInternshipOffer().getTitle());
-        recommendationDTO.addProperty("student_id", recommendation.getCv().getStudent().getId());
-        recommendationDTO.addProperty("company_id", recommendation.getInternshipOffer().getCompany().getId());
-        recommendationDTO.addProperty("internship_offer_id", recommendation.getInternshipOffer().getId());
+        recommendationDTO.addProperty("studentName", recommendation.getCv().getStudent().getName());
+        recommendationDTO.addProperty("companyName", recommendation.getInternshipOffer().getCompany().getName());
+        recommendationDTO.addProperty("internshipOfferTitle", recommendation.getInternshipOffer().getTitle());
+        recommendationDTO.addProperty("studentID", recommendation.getCv().getStudent().getId());
+        recommendationDTO.addProperty("companyID", recommendation.getInternshipOffer().getCompany().getId());
+        recommendationDTO.addProperty("internshipOfferID", recommendation.getInternshipOffer().getId());
         recommendationDTO.addProperty("score", recommendation.getScore());
         return recommendationDTO;
     }
@@ -182,11 +189,11 @@ public class DTOCreator {
         communicationDTO.addProperty("type", communication.getCommunicationType());
         communicationDTO.addProperty("title", communication.getTitle());
         communicationDTO.addProperty("content", communication.getContent());
-        communicationDTO.addProperty("internshipOffer_id", communication.getInternshipOffer().getId());
-        communicationDTO.addProperty("internshipOffer_title", communication.getInternshipOffer().getTitle());
-        communicationDTO.addProperty("company_name", communication.getInternshipOffer().getCompany().getName());
-        communicationDTO.addProperty("student_name", communication.getStudent().getName());
-        communicationDTO.addProperty("university_name", communication.getUniversity().getName());
+        communicationDTO.addProperty("internshipOfferID", communication.getInternshipOffer().getId());
+        communicationDTO.addProperty("internshipOfferTitle", communication.getInternshipOffer().getTitle());
+        communicationDTO.addProperty("companyName", communication.getInternshipOffer().getCompany().getName());
+        communicationDTO.addProperty("studentName", communication.getStudent().getName());
+        communicationDTO.addProperty("univeristyName", communication.getUniversity().getName());
 
         return communicationDTO;
     }
@@ -196,12 +203,12 @@ public class DTOCreator {
         interviewDTO.addProperty("id", interview.getId());
         interviewDTO.addProperty("status", interview.getStatus().toString());
         if(interview.getSpontaneousApplication() == null) {
-            interviewDTO.addProperty("internship_title", interview.getRecommendation().getInternshipOffer().getTitle());
-            interviewDTO.addProperty("company_name", interview.getRecommendation().getInternshipOffer().getCompany().getName());
+            interviewDTO.addProperty("internshipTitle", interview.getRecommendation().getInternshipOffer().getTitle());
+            interviewDTO.addProperty("companyName", interview.getRecommendation().getInternshipOffer().getCompany().getName());
         }
         else {
-            interviewDTO.addProperty("internship_title", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
-            interviewDTO.addProperty("company_name", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
+            interviewDTO.addProperty("internshipTitle", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
+            interviewDTO.addProperty("companyName", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
         }
         return interviewDTO;
     }

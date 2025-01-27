@@ -30,22 +30,23 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
     public Feedback execute() throws BadInputException{
         validateFeedbackPayload(payload);
 
-        String submitter_id = (String) payload.get("student_id") != null ? (String) payload.get("student_id") : (String) payload.get("company_id");
-        ParticipantTypeEnum participantType = userManager.getParticipantType(submitter_id);
+        String user_id = (String) payload.get("user_id");
+        //String user_id = (String) payload.get("student_id") != null ? (String) payload.get("student_id") : (String) payload.get("company_id");
+        ParticipantTypeEnum participantType = userManager.getParticipantType(user_id);
         Recommendation recommendation = userManager.getRecommendationById(recommendationID);
 
         validateRecommendation(recommendation);
-        validateParticipant(participantType, submitter_id,recommendation);
-        validateSubmitterRecommendations(submitter_id,participantType);
+        validateParticipant(participantType, user_id,recommendation);
+        validateSubmitterRecommendations(user_id,participantType);
 
-        Feedback feedback = createFeedback(recommendationID,submitter_id,participantType,payload);
+        Feedback feedback = createFeedback(recommendationID,user_id,participantType,payload);
         feedbackRepository.save(feedback);
         return feedback;
     }
 
     private void validateFeedbackPayload(Map<String, Object> payload){
-        if(payload.get("student_id")==null && payload.get("company_id")==null){
-            throw new BadInputException("Student_id or company_id is required");
+        if(payload.get("user_id")==null){
+            throw new BadInputException("User_id is required");
         }
         if(payload.get("student_id")!=null && payload.get("company_id")!=null){
             throw new BadInputException("Student_id and company_id can't be both present");
@@ -77,8 +78,8 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
         if(participantType == ParticipantTypeEnum.company && !recommendation.getInternshipOffer().getCompany().getId().equals(submitter_id)){
             throw new BadInputException("Company can only submit feedback for his own recommendation");
         }
-        if(participantType == null || participantType != ParticipantTypeEnum.valueOf((String) payload.get("participant_type"))){
-            throw new BadInputException("Participant_type is not valid");
+        if(participantType == null){
+            throw new BadInputException("Invalid user type");
         }
     }
 
