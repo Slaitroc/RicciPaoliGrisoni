@@ -14,7 +14,7 @@ public interface SenderInterface {
     EmailServiceAdapter EMAIL_SERVICE_ADAPTER = new EmailServiceAdapter();
 
     void sendNotification(List<String> userIDs, DTO data, NotificationManager notificationManager);
-    //void saveNotification(NotificationPayload notificationPayload, List<String> userIDs, NotificationManager notificationManager);
+    void saveNotification(NotificationPayload notificationPayload, List<String> userIDs, NotificationManager notificationManager);
 
     default List<String> getDeviceTokens(List<String> userIDs, NotificationManager notificationManager) {
         List<String> deviceTokens = new ArrayList<>();

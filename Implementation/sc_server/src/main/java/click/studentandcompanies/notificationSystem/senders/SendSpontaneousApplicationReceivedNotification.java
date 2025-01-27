@@ -31,7 +31,13 @@ public class SendSpontaneousApplicationReceivedNotification implements SenderInt
         EmailContent emailContent = new EmailContent(pushTitle, pushBody);
 
         PUSH_NOTIFICATION_ADAPTER.sendPushNotification(deviceTokens, payload);
+        this.saveNotification(payload, userIDs, notificationManager);
         //EMAIL_SERVICE_ADAPTER.sendEmail(emails, emailContent);
 
+    }
+
+    @Override
+    public void saveNotification(NotificationPayload notificationPayload, List<String> userIDs, NotificationManager notificationManager) {
+        notificationManager.saveNotification(userIDs, notificationPayload);
     }
 }

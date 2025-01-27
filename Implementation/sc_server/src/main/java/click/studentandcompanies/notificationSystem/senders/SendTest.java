@@ -23,6 +23,7 @@ public class SendTest implements SenderInterface {
         //EMAIL_SERVICE_ADAPTER.sendEmail(emails, new EmailContent(pushTitle, pushBody));
     }
 
+    @Override
     public void saveNotification(NotificationPayload notificationPayload, List<String> userIDs, NotificationManager notificationManager) {
         System.out.println("Saving notification...");
         notificationManager.saveNotification(userIDs, notificationPayload);

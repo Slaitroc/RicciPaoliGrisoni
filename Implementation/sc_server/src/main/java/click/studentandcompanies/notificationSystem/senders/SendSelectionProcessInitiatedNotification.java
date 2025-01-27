@@ -40,8 +40,15 @@ public class SendSelectionProcessInitiatedNotification implements SenderInterfac
         EmailContent companyEmailContent = new EmailContent(companyTitle, companyBody);
 
         PUSH_NOTIFICATION_ADAPTER.sendPushNotification(studentDeviceTokens, studentPayload);
+        this.saveNotification(studentPayload, userIDs, notificationManager);
         PUSH_NOTIFICATION_ADAPTER.sendPushNotification(companyDeviceTokens, companyPayload);
+        this.saveNotification(companyPayload, userIDs, notificationManager);
         //EMAIL_SERVICE_ADAPTER.sendEmail(studentEmails, studentEmailContent);
         //EMAIL_SERVICE_ADAPTER.sendEmail(companyEmails, companyEmailContent);
+    }
+
+    @Override
+    public void saveNotification(NotificationPayload notificationPayload, List<String> userIDs, NotificationManager notificationManager) {
+        notificationManager.saveNotification(userIDs, notificationPayload);
     }
 }

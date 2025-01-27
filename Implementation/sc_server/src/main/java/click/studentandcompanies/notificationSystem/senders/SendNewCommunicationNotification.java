@@ -33,6 +33,12 @@ public class SendNewCommunicationNotification implements SenderInterface {
         EmailContent emailContent = new EmailContent(pushTitle, pushBody);
 
         PUSH_NOTIFICATION_ADAPTER.sendPushNotification(DeviceTokens, payload);
+        this.saveNotification(payload, userIDs, notificationManager);
         //EMAIL_SERVICE_ADAPTER.sendEmail(Emails, emailContent);
+    }
+
+    @Override
+    public void saveNotification(NotificationPayload notificationPayload, List<String> userIDs, NotificationManager notificationManager) {
+        notificationManager.saveNotification(userIDs, notificationPayload);
     }
 }
