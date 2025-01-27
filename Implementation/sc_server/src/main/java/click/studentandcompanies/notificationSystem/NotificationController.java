@@ -6,10 +6,8 @@ import click.studentandcompanies.notificationSystem.notificationUtils.Notificati
 import click.studentandcompanies.utils.GetUuid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +42,7 @@ public class NotificationController {
     @GetMapping("/private/test-notification")
     public HttpStatus testNotification(@RequestHeader("Authorization") String authToken) {
         String userID = GetUuid.getUuid(authToken);
-        List<String> deviceTokens = notificationManager.getDeviceTokens(userID);
+        List<String> deviceTokens = notificationManager.getDeviceTokensOf(userID);
         for(String deviceToken : deviceTokens) {
             this.sendNotification(List.of(userID), new NotificationData(NotificationTriggerType.TEST, null));
         }

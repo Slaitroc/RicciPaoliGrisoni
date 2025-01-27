@@ -2,6 +2,7 @@ package click.studentandcompanies.notificationSystem;
 
 import click.studentandcompanies.notificationSystem.entity.Contact;
 import click.studentandcompanies.notificationSystem.entityRepository.ContactRepository;
+import com.google.protobuf.MapEntry;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,27 @@ public class NotificationManager {
     }
 
     // todo implement the device token refresh
-    public List<String> getDeviceTokens(String userID) {
-        List<Contact> contacts = contactRepository.getAllById(userID);
+    public List<String> getDeviceTokensOf(String userID) {
+        List<Contact> contacts = contactRepository.getContactsByUserId(userID);
         return contacts.stream().map(Contact::getDeviceToken).toList();
+    }
+
+    //todo, device token should become primary key.
+    //todo if the device token is already in the database, do nothing
+    public HttpStatus saveTokenNotification(Map<String, Object> payload) {
+        if (payload.get("notificationToken") == null) {
+            return HttpStatus.BAD_REQUEST;
+        }
+        String deviceToken = (String) payload.get("notificationToken");
+        //If the pair (userID, deviceToken) is already in the database, do nothing
+        List<Contact> contacts = contactRepository.findAll();
+        for (Contact contact : contacts) {
+            if (contact.getDeviceToken().equals(deviceToken) && contact.getUserId().equals(payload.get("userID"))) {
+                return HttpStatus.OK;
+            }
+        }
+        contactRepository.save(new Contact((String) payload.get("userID"), deviceToken));
+        return HttpStatus.OK;
     }
 
     /*
@@ -41,16 +60,5 @@ public class NotificationManager {
      * System.out.println("Notifica salvata per " + userIds.size() + " utenti.");
      * }
      */
-
-    //todo, device token should become primary key. A date should be added and token older than 1 month should be deleted
-    //todo if the device token is already in the database, do nothing
-    public HttpStatus saveTokenNotification(Map<String, Object> payload) {
-        if (payload.get("notificationToken") == null) {
-            return HttpStatus.BAD_REQUEST;
-        }
-        String deviceToken = (String) payload.get("notificationToken");
-        contactRepository.save(new Contact((String) payload.get("userID"), deviceToken));
-        return HttpStatus.OK;
-    }
 
 }

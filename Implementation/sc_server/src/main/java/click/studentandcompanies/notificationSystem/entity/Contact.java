@@ -1,34 +1,32 @@
 package click.studentandcompanies.notificationSystem.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "contact")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Contact {
     @Id
-    @Column(name = "user_id", nullable = false)
-    private String id;
-
+    @Size(max = 255)
     @Column(name = "device_token", nullable = false)
     private String deviceToken;
 
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "user_id", nullable = false)
+    private String userId;
+
     public Contact() {
-        // empty constructor required by JPA
+        //empty constructor required by JPA
     }
 
-    public Contact(String id, String deviceToken) {
-        this.id = id;
+    public Contact(String userId, String deviceToken) {
+        this.userId = userId;
         this.deviceToken = deviceToken;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getDeviceToken() {
@@ -38,4 +36,13 @@ public class Contact {
     public void setDeviceToken(String deviceToken) {
         this.deviceToken = deviceToken;
     }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
 }

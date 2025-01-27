@@ -17,7 +17,7 @@ public interface SenderInterface {
     default List<String> getDeviceTokens(List<String> userIDs, NotificationManager notificationManager) {
         List<String> deviceTokens = new ArrayList<>();
         for (String userID : userIDs) {
-            deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
+            deviceTokens.addAll(notificationManager.getDeviceTokensOf(userID));
         } //todo: implement the correct function to refresh the device tokens
         return deviceTokens;
     }
@@ -26,7 +26,7 @@ public interface SenderInterface {
         List<String> deviceTokens = new ArrayList<>();
         for (String userID : userIDs) {
             if (userID == data.getProperties().get("student_ID")) {
-                deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
+                deviceTokens.addAll(notificationManager.getDeviceTokensOf(userID));
             }
         }
         return deviceTokens;
@@ -36,7 +36,7 @@ public interface SenderInterface {
         List<String> deviceTokens = new ArrayList<>();
         for (String userID : userIDs) {
             if (userID == data.getProperties().get("company_ID")) {
-                deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
+                deviceTokens.addAll(notificationManager.getDeviceTokensOf(userID));
             }
         }
         return deviceTokens;
@@ -46,7 +46,7 @@ public interface SenderInterface {
         List<String> deviceTokens = new ArrayList<>();
         for (String userID : userIDs) {
             if (userID == data.getProperties().get("university_ID")) {
-                deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
+                deviceTokens.addAll(notificationManager.getDeviceTokensOf(userID));
             }
         }
         return deviceTokens;
