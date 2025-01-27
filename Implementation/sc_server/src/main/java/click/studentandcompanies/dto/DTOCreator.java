@@ -42,11 +42,13 @@ public class DTOCreator {
     private static DTO createAccountDTO(Account account) {
         final DTO accountDTO = new DTO();
         accountDTO.addProperty("userID", account.getUserID());
+        accountDTO.addProperty("userType", account.getUserType());
         accountDTO.addProperty("name", account.getName());
         accountDTO.addProperty("email", account.getEmail());
         accountDTO.addProperty("uniVat", account.getUniVat());
         accountDTO.addProperty("vatNumber", account.getVatNumber());
         accountDTO.addProperty("country", account.getCountry());
+        accountDTO.addProperty("location", account.getLocation());
         accountDTO.addProperty("validate", account.getValidate());
         return accountDTO;
     }
@@ -107,6 +109,7 @@ public class DTOCreator {
         universityDTO.addProperty("country", university.getCountry());
         universityDTO.addProperty("vatNumber", university.getVatNumber());
         universityDTO.addProperty("uniDesc", university.getUniDesc());
+        universityDTO.addProperty("location", university.getLocation());
         return universityDTO;
     }
 
