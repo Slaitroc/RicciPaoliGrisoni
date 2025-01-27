@@ -19,8 +19,8 @@ public class SendInterviewAnswerNotification implements SenderInterface {
         List<String> deviceTokens = getDeviceTokens(userIDs, notificationManager);
         //List<String> emails = getEmails(userIDs, notificationManager);
 
-        String internshipTitle = (String) dto.getProperties().get("internship_title");
-        String studentName = (String) dto.getProperties().get("student_name");
+        String internshipTitle = (String) dto.getProperties().get("internshipTitle");
+        String studentName = (String) dto.getProperties().get("studentName");
 
         String pushTitle = "Interview Completed";
         String pushBody = "The student " + studentName + " has completed the interview template for \""

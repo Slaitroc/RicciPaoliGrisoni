@@ -23,7 +23,7 @@ public class SendInternshipCancelledNotification implements SenderInterface {
         //List<String> userEmails = getEmails(userIDs, notificationManager);
 
         //todo: valuate when to send email or inApp notification and if the content should be different
-        String internshipTitle = (String) dto.getProperties().get("internship_title");
+        String internshipTitle = (String) dto.getProperties().get("title");
 
         String pushTitle = "Internship Offer Cancelled";
         String pushBody = "The internship \"" + internshipTitle + "\" has been closed.";

@@ -20,12 +20,8 @@ public class SendInternshipPositionOfferNotification implements SenderInterface 
         List<String> deviceTokens = getDeviceTokens(userIDs, notificationManager);
         //List<String> emails = getEmails(userIDs, notificationManager);
 
-        String internshipTitle = (String) data.getProperties().get("internship_title");
-        String companyName = (String) data.getProperties().get("company_name");
-
         String pushTitle = "Internship Offer";
-        String pushBody = "Congratulations! You've received an offer for the internship \""
-                + internshipTitle + "\" at " + companyName + ".";
+        String pushBody = "Congratulations! You've received an offer for the internship";
 
         NotificationPayload payload = new NotificationPayload(pushTitle, pushBody);
         EmailContent emailContent = new EmailContent(pushTitle, pushBody);

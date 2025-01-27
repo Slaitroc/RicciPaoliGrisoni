@@ -20,10 +20,10 @@ public class SendNewCommunicationNotification implements SenderInterface {
         List<String> DeviceTokens = getDeviceTokens(userIDs, notificationManager);
         //List<String> Emails = getEmails(userIDs, notificationManager);
 
-        String internshipTitle = (String) data.getProperties().get("internshipOffer_title");
-        String studentName = (String) data.getProperties().get("student_name");
+        String internshipTitle = (String) data.getProperties().get("internshipOfferTitle");
+        String studentName = (String) data.getProperties().get("studentName");
         String communicationTitle = (String) data.getProperties().get("title");
-        String company_name = (String) data.getProperties().get("company_name");
+        String company_name = (String) data.getProperties().get("companyName");
 
         String pushTitle = "New Communication: " + communicationTitle;
         String pushBody = "A new communication has been created for the internship \"" + internshipTitle +

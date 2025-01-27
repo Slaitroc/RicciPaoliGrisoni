@@ -15,10 +15,10 @@ public class SendTerminateCommunicationNotification implements SenderInterface{
         //List<String> studentEmails = getStudentEmails(userIDs, data, notificationManager);
         //List<String> companyEmails = getCompanyEmails(userIDs, data, notificationManager);
 
-        String internshipTitle = (String) data.getProperties().get("internship_title");
-        String studentName = (String) data.getProperties().get("student_name");
+        String internshipTitle = (String) data.getProperties().get("internshipOfferTitle");
+        String studentName = (String) data.getProperties().get("studentName");
         String communicationTitle = (String) data.getProperties().get("title");
-        String company_name = (String) data.getProperties().get("company_name");
+        String company_name = (String) data.getProperties().get("companyName");
 
         String pushTitle = "Communication Terminated: " + communicationTitle;
         String studentPushBody = "The university has terminated the communication for the internship \"" + internshipTitle +

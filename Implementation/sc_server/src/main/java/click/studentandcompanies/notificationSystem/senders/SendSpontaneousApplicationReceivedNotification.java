@@ -20,8 +20,8 @@ public class SendSpontaneousApplicationReceivedNotification implements SenderInt
         List<String> deviceTokens = getDeviceTokens(userIDs, notificationManager);
         //List<String> emails = getEmails(userIDs, notificationManager);
 
-        String internshipTitle = (String) dto.getProperties().get("internship_title");
-        String studentName = (String) dto.getProperties().get("student_name");
+        String internshipTitle = (String) dto.getProperties().get("internshipOfferTitle");
+        String studentName = (String) dto.getProperties().get("studentName");
 
         String pushTitle = "New Spontaneous Application";
         String pushBody = "Student " + studentName + " has sent a spontaneous application for internship \""

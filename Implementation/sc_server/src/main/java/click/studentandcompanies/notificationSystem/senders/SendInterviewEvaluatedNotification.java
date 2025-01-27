@@ -20,8 +20,8 @@ public class SendInterviewEvaluatedNotification implements SenderInterface {
         List<String> deviceTokens = getDeviceTokens(userIDs, notificationManager);
         //List<String> emails = getEmails(userIDs, notificationManager);
 
-        String internshipTitle = (String) data.getProperties().get("internship_title");
-        String company_name = (String) data.getProperties().get("company_name");
+        String internshipTitle = (String) data.getProperties().get("internshipTitle");
+        String company_name = (String) data.getProperties().get("companyName");
 
         String pushTitle = "Interview Evaluated";
         String pushBody = company_name + " has evaluated your interview for the internship \"" + internshipTitle + "\".";

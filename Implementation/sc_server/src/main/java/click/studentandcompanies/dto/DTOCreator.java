@@ -28,7 +28,7 @@ public class DTOCreator {
         functionMap.put(DTOTypes.RECOMMENDATION, object -> createRecommendationDTO((Recommendation) object));
         functionMap.put(DTOTypes.COMMUNICATION, object -> createCommunicationDTO((Communication) object));
         functionMap.put(DTOTypes.INTERVIEW, object -> createInterviewDTO((Interview) object));
-        functionMap.put(DTOTypes.INTERVIEW_TEMPLATE, object -> createInterviewTemplate((InterviewTemplate) object));
+        functionMap.put(DTOTypes.INTERVIEW_TEMPLATE, object -> createInterviewTemplateDTO((InterviewTemplate) object));
         functionMap.put(DTOTypes.INTERNSHIP_POS_OFFER, object -> createInternshipPosOfferDTO((InternshipPosOffer) object));
         functionMap.put(DTOTypes.ACCOUNT, object -> createAccountDTO((Account) object));
         functionMap.put(DTOTypes.UNIVERSITY_MAP, object -> createUniversityMapDTO((Map<String, Integer>) object));
@@ -59,7 +59,7 @@ public class DTOCreator {
         internshipPosOfferDTO.addProperty("acceptance", internshipPosOffer.getAcceptance());
         return internshipPosOfferDTO;
     }
-    private static DTO createInterviewTemplate(InterviewTemplate interviewTemplate){
+    private static DTO createInterviewTemplateDTO(InterviewTemplate interviewTemplate){
         final DTO interviewTemplateDTO = new DTO();
         interviewTemplateDTO.addProperty("id", interviewTemplate.getId());
         interviewTemplateDTO.addProperty("questions", interviewTemplate.getQuestions());
@@ -196,7 +196,7 @@ public class DTOCreator {
         communicationDTO.addProperty("internshipOfferTitle", communication.getInternshipOffer().getTitle());
         communicationDTO.addProperty("companyName", communication.getInternshipOffer().getCompany().getName());
         communicationDTO.addProperty("studentName", communication.getStudent().getName());
-        communicationDTO.addProperty("univeristyName", communication.getUniversity().getName());
+        communicationDTO.addProperty("universityName", communication.getUniversity().getName());
 
         return communicationDTO;
     }
@@ -208,10 +208,12 @@ public class DTOCreator {
         if(interview.getSpontaneousApplication() == null) {
             interviewDTO.addProperty("internshipTitle", interview.getRecommendation().getInternshipOffer().getTitle());
             interviewDTO.addProperty("companyName", interview.getRecommendation().getInternshipOffer().getCompany().getName());
+            interviewDTO.addProperty("studentName", interview.getRecommendation().getCv().getStudent().getName());
         }
         else {
             interviewDTO.addProperty("internshipTitle", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
             interviewDTO.addProperty("companyName", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
+            interviewDTO.addProperty("studentName", interview.getSpontaneousApplication().getStudent().getName());
         }
         return interviewDTO;
     }

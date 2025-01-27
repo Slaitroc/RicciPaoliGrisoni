@@ -23,9 +23,9 @@ public class SendSelectionProcessInitiatedNotification implements SenderInterfac
         //List<String> studentEmails = getStudentEmails(userIDs, data, notificationManager);
         //List<String> companyEmails = getStudentEmails(userIDs, data, notificationManager);
 
-        String internshipTitle = (String) data.getProperties().get("internship_title");
-        String company_name = (String) data.getProperties().get("company_name");
-        String studentName = (String) data.getProperties().get("student_name");
+        String internshipTitle = (String) data.getProperties().get("internshipOfferTitle");
+        String company_name = (String) data.getProperties().get("companyName");
+        String studentName = (String) data.getProperties().get("studentName");
 
         String studentTitle = "Selection Process Initiated";
         String studentBody = "The selection process for the internship \"" + internshipTitle +
