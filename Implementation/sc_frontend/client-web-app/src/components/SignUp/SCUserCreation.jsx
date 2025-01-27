@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as globalStatesInit from "../../global/globalStatesInit";
 import * as account from "../../api-calls/api-wrappers/account-wrapper/account";
-import * as authorization from "../../api-calls/api-wrappers/authorization-wrapper/authorization";
 import { styled } from "@mui/material/styles";
 import { useGlobalContext } from "../../global/GlobalContext";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -47,13 +46,11 @@ const Card = styled(MuiCard)(({ theme }) => ({
 export const SCUserCreation = () => {
   const navigate = useNavigate();
 
-  const { setIsAuthenticated } = useGlobalContext();
-
-  const [userType, setUserType] = React.useState(null);
+  const { setIsAuthenticated, userType, setUserType } = useGlobalContext();
 
   const [country, setCountry] = React.useState(null);
   const [birthDate, setBirthDate] = React.useState(null);
-  const [enrolledInUniVat, setEnrolledInUniVat] = React.useState(null);
+  const [uniVat, setUniVat] = React.useState(null);
   const [location, setLocation] = React.useState(null);
   const [vatNumber, setVatNumber] = React.useState(null);
 
@@ -72,7 +69,7 @@ export const SCUserCreation = () => {
       .then((result) => {
         setFetchedData(result);
         // DEBUG
-        //console.log(result.table);
+        console.log(result.table);
       })
       .catch((error) => {
         console.error("Error during universities retrieval:", error.message);
@@ -91,25 +88,35 @@ export const SCUserCreation = () => {
     //console.log("User type:", userType);
     const userData = {
       userType: userType,
-      email: auth.currentUser?.email ? auth.currentUser.email : "",
-      name: document.getElementById("name")?.value
-        ? document.getElementById("name").value
-        : "",
-      surname: document.getElementById("surname")?.value
-        ? document.getElementById("surname").value
-        : "",
-      enrolledInUniVat: enrolledInUniVat,
-      uniDesc: document.getElementById("description")?.value
-        ? document.getElementById("description").value
-        : "",
-      country: country,
-      birthDate: birthDate,
-      location: document.getElementById("location")?.value
-        ? document.getElementById("location").value
-        : "",
-      vatNumber: document.getElementById("VAT")?.value
-        ? document.getElementById("VAT").value
-        : "",
+      email: auth.currentUser?.email ? auth.currentUser.email : null,
+      name:
+        document.getElementById("name")?.value &&
+        document.getElementById("name").value != ""
+          ? document.getElementById("name").value
+          : null,
+      surname:
+        document.getElementById("surname")?.value &&
+        document.getElementById("surname").value != ""
+          ? document.getElementById("surname").value
+          : null,
+      uniVat: uniVat ? parseInt(uniVat) : null,
+      uniDescription:
+        document.getElementById("description")?.value &&
+        document.getElementById("description").value != ""
+          ? document.getElementById("description").value
+          : null,
+      country: country ? country : null,
+      birthDate: birthDate ? birthDate : null,
+      location:
+        document.getElementById("location")?.value &&
+        document.getElementById("location").value != ""
+          ? document.getElementById("location").value
+          : null,
+      vatNumber:
+        document.getElementById("VAT")?.value &&
+        document.getElementById("VAT").value != ""
+          ? parseInt(document.getElementById("VAT").value)
+          : null,
     };
     console.log(userData);
   });
@@ -135,8 +142,8 @@ export const SCUserCreation = () => {
         document.getElementById("surname").value != ""
           ? document.getElementById("surname").value
           : null,
-      enrolledInUniVat: enrolledInUniVat ? enrolledInUniVat : null,
-      uniDesc:
+      uniVat: uniVat ? parseInt(uniVat) : null,
+      uniDescription:
         document.getElementById("description")?.value &&
         document.getElementById("description").value != ""
           ? document.getElementById("description").value
@@ -151,7 +158,7 @@ export const SCUserCreation = () => {
       vatNumber:
         document.getElementById("VAT")?.value &&
         document.getElementById("VAT").value != ""
-          ? document.getElementById("VAT").value
+          ? parseInt(document.getElementById("VAT").value)
           : null,
     };
     // DEBUG
@@ -225,7 +232,7 @@ export const SCUserCreation = () => {
                     //DANGER date offset of one day --> day 9 became 8
                     //viene inviata anche nel caso di company e university ma il backend la ignora
                     //NOTE ignoring for now
-                    setBirthDate(new Date(date).toISOString())
+                    setBirthDate(new Date(date).toISOString().split("T")[0])
                   }
                   views={["year", "month", "day"]}
                   sx={{
@@ -258,8 +265,7 @@ export const SCUserCreation = () => {
                   disablePortal
                   options={fetchedData.names ? fetchedData.names : []}
                   onChange={(e, value) => {
-                    if (fetchedData?.table.value === null)
-                      value && setEnrolledInUniVat(fetchedData.table[value]);
+                    if (value) setUniVat(fetchedData.table[value]);
                   }}
                   sx={{
                     width: 220,
@@ -401,7 +407,7 @@ export const SCUserCreation = () => {
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="email">VAT number</FormLabel>
+              <FormLabel htmlFor="VAT">VAT number</FormLabel>
               <TextField
                 required
                 fullWidth

@@ -52,8 +52,7 @@ export default function SCSignInCard() {
   const [alertMessage, setAlertMessage] = React.useState("");
   const [alertSeverity, setAlertSeverity] = React.useState("success");
 
-  const { isAuthenticated, setIsAuthenticated, profile, setProfile } =
-    useGlobalContext();
+  const { setIsAuthenticated, setProfile, setUserType } = useGlobalContext();
   const navigate = useNavigate();
 
   const handlePassResetOpen = () => {
@@ -69,6 +68,7 @@ export default function SCSignInCard() {
     if (validateInputs()) {
       authorization.login(email, password).then((response) => {
         if (response.status === 500) {
+          // DEBUG
           console.log("Debugs", response);
           response.json().then((data) => {
             setOpenAlert(true);
@@ -92,6 +92,12 @@ export default function SCSignInCard() {
                   navigate("/signup/user-creation");
                 });
               } else {
+                response.json().then((data) => {
+                  //TODO verifica che la mail sia confermata
+                  setUserType(data.properties.userType);
+                  setProfile(data.properties);
+                  console.log("User data:", data);
+                });
                 navigate("/dashboard");
               }
             });

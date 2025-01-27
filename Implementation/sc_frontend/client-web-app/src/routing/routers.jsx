@@ -52,9 +52,9 @@ const router = createBrowserRouter(
         {
           path: "email-verified",
           element: (
-            <RouteProtector equals={false} navigateTo="/signin">
-              <ConfirmEmail />
-            </RouteProtector>
+            //<RouteProtector equals={false} navigateTo="/signin">
+            <ConfirmEmail />
+            //</RouteProtector>
           ),
         },
       ],

@@ -144,13 +144,10 @@ services:
 
     networks:
       - traefik-network
-      - zero-tier
 
 networks:
   traefik-network:
     driver: bridge
-  zero-tier:
-    external: true
 
 volumes:
   platform_db_data:

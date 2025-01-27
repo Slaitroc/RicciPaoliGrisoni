@@ -21,7 +21,7 @@ export const GlobalProvider = ({ children }) => {
   const [profile, setProfile] = useState(global.INIT_PROFILE);
   const [loading, setLoading] = useState(global.INIT_LOADING);
   const [error, setError] = useState(global.INIT_ERROR);
-  const [userType, setUserType] = useState(global.INIT_USER_TYPE);
+  const [userType, setUserType] = useState(null);
 
   // #region FileUploadContext
   const [selectedFile, setSelectedFile] = useState(null);

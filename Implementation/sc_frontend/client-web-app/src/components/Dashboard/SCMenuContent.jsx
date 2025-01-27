@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as SCIcons from "../Shared/SCIcons";
 import { useGlobalContext } from "../../global/GlobalContext";
-import * as Global from "../../global/globalStatesInit";
+import * as globalStatesInit from "../../global/globalStatesInit";
 
 const studentListItems = [
   {
@@ -199,11 +199,11 @@ export default function SCMenuContent() {
 
   const userListItems = () => {
     switch (userType) {
-      case Global.student:
+      case globalStatesInit.STUDENT_USER_TYPE:
         return studentListItems;
-      case Global.university:
+      case globalStatesInit.UNIVERSITY_USER_TYPE:
         return univesityListItems;
-      case Global.company:
+      case globalStatesInit.COMPANY_USER_TYPE:
         return companyListItems;
       default:
         return [];

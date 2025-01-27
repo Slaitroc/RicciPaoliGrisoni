@@ -1,6 +1,6 @@
-export const STUDENT_USER_TYPE = "student";
-export const COMPANY_USER_TYPE = "company";
-export const UNIVERSITY_USER_TYPE = "university";
+export const STUDENT_USER_TYPE = "STUDENT";
+export const COMPANY_USER_TYPE = "COMPANY";
+export const UNIVERSITY_USER_TYPE = "UNIVERSITY";
 export const universities = ["Politecnico di Milano", "Alma Mater Studiorum"];
 
 export const INIT_IS_AUTHENTICATED = false;
@@ -437,4 +437,3 @@ export const COUNTRIES = [
   { code: "ZM", label: "Zambia", phone: "260" },
   { code: "ZW", label: "Zimbabwe", phone: "263" },
 ];
-

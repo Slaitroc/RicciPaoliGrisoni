@@ -60,12 +60,11 @@ export const login = async (email, password) => {
   });
 };
 
-export const sendEmailConfirmed = async (uuid) => {
+export const sendEmailConfirmed = async () => {
   const token = await getToken();
   return fetchWrapper("/application-api/acc/private/confirm-user", {
     method: "POST",
     headers: { Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ uuid }),
   });
 };
 
