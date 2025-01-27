@@ -34,7 +34,7 @@ public class AccountManager {
     }
 
     public Account sendUserData(Map<String, Object> payload) throws BadInputException {
-        return new SendUserDataCommand(payload, accountRepository).execute();
+        return new SendUserDataCommand(payload, accountRepository, userManager).execute();
     }
 
     public Account confirmUser(String userID) throws BadInputException {
