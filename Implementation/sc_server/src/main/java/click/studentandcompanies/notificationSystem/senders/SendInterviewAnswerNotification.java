@@ -17,7 +17,7 @@ public class SendInterviewAnswerNotification implements SenderInterface {
     @Override
     public void sendNotification(List<String> userIDs, DTO dto, NotificationManager notificationManager) {
         List<String> deviceTokens = getDeviceTokens(userIDs, notificationManager);
-        List<String> emails = getEmails(userIDs, notificationManager);
+        //List<String> emails = getEmails(userIDs, notificationManager);
 
         String internshipTitle = (String) dto.getProperties().get("internship_title");
         String studentName = (String) dto.getProperties().get("student_name");
@@ -30,6 +30,6 @@ public class SendInterviewAnswerNotification implements SenderInterface {
         EmailContent emailContent = new EmailContent(pushTitle, pushBody);
 
         PUSH_NOTIFICATION_ADAPTER.sendPushNotification(deviceTokens, payload);
-        EMAIL_SERVICE_ADAPTER.sendEmail(emails, emailContent);
+        //EMAIL_SERVICE_ADAPTER.sendEmail(emails, emailContent);
     }
 }

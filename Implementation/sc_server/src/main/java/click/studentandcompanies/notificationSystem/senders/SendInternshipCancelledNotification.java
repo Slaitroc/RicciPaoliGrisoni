@@ -20,7 +20,7 @@ public class SendInternshipCancelledNotification implements SenderInterface {
     @Override
     public void sendNotification(List<String> userIDs, DTO dto, NotificationManager notificationManager) {
         List<String> deviceTokens = getDeviceTokens(userIDs, notificationManager);
-        List<String> userEmails = getEmails(userIDs, notificationManager);
+        //List<String> userEmails = getEmails(userIDs, notificationManager);
 
         //todo: valuate when to send email or inApp notification and if the content should be different
         String internshipTitle = (String) dto.getProperties().get("internship_title");
@@ -32,6 +32,6 @@ public class SendInternshipCancelledNotification implements SenderInterface {
         EmailContent emailContent = new EmailContent(pushTitle, pushBody);
 
         PUSH_NOTIFICATION_ADAPTER.sendPushNotification(deviceTokens, payload);
-        EMAIL_SERVICE_ADAPTER.sendEmail(userEmails, emailContent);
+        //EMAIL_SERVICE_ADAPTER.sendEmail(userEmails, emailContent);
     }
 }

@@ -18,7 +18,7 @@ public class SendNewCommunicationNotification implements SenderInterface {
     @Override
     public void sendNotification(List<String> userIDs, DTO data, NotificationManager notificationManager) {
         List<String> DeviceTokens = getDeviceTokens(userIDs, notificationManager);
-        List<String> Emails = getEmails(userIDs, notificationManager);
+        //List<String> Emails = getEmails(userIDs, notificationManager);
 
         String internshipTitle = (String) data.getProperties().get("internshipOffer_title");
         String studentName = (String) data.getProperties().get("student_name");
@@ -33,6 +33,6 @@ public class SendNewCommunicationNotification implements SenderInterface {
         EmailContent emailContent = new EmailContent(pushTitle, pushBody);
 
         PUSH_NOTIFICATION_ADAPTER.sendPushNotification(DeviceTokens, payload);
-        EMAIL_SERVICE_ADAPTER.sendEmail(Emails, emailContent);
+        //EMAIL_SERVICE_ADAPTER.sendEmail(Emails, emailContent);
     }
 }

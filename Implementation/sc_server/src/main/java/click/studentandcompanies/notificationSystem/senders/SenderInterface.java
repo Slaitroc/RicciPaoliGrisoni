@@ -22,7 +22,7 @@ public interface SenderInterface {
         return deviceTokens;
     }
 
-    default List<String> getEmails(List<String> userIDs, NotificationManager notificationManager) {
+    /*default List<String> getEmails(List<String> userIDs, NotificationManager notificationManager) {
         List<String> emails = new ArrayList<>();
         for (String userID : userIDs) {
             emails.add(notificationManager.getUserEmail(userID));
@@ -58,7 +58,7 @@ public interface SenderInterface {
             }
         }
         return emails;
-    }
+    }*/
 
     default List<String> getStudentDeviceTokens(List<String> userIDs, DTO data, NotificationManager notificationManager) {
         List<String> deviceTokens = new ArrayList<>();

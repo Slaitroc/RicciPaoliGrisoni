@@ -12,8 +12,8 @@ public class SendTerminateCommunicationNotification implements SenderInterface{
     public void sendNotification(List<String> userIDs, DTO data, NotificationManager notificationManager) {
         List<String> studentDeviceTokens = getStudentDeviceTokens(userIDs, data, notificationManager);
         List<String> companyDeviceTokens = getCompanyDeviceTokens(userIDs, data, notificationManager);
-        List<String> studentEmails = getStudentEmails(userIDs, data, notificationManager);
-        List<String> companyEmails = getCompanyEmails(userIDs, data, notificationManager);
+        //List<String> studentEmails = getStudentEmails(userIDs, data, notificationManager);
+        //List<String> companyEmails = getCompanyEmails(userIDs, data, notificationManager);
 
         String internshipTitle = (String) data.getProperties().get("internship_title");
         String studentName = (String) data.getProperties().get("student_name");
@@ -33,8 +33,8 @@ public class SendTerminateCommunicationNotification implements SenderInterface{
 
         PUSH_NOTIFICATION_ADAPTER.sendPushNotification(studentDeviceTokens, studentPayload);
         PUSH_NOTIFICATION_ADAPTER.sendPushNotification(companyDeviceTokens, companyPayload);
-        EMAIL_SERVICE_ADAPTER.sendEmail(studentEmails, studentEmailContent);
-        EMAIL_SERVICE_ADAPTER.sendEmail(companyEmails, companyEmailContent);
+        //EMAIL_SERVICE_ADAPTER.sendEmail(studentEmails, studentEmailContent);
+        //EMAIL_SERVICE_ADAPTER.sendEmail(companyEmails, companyEmailContent);
 
     }
 }
