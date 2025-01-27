@@ -80,6 +80,9 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
                 if (payload.get("vatNumber") == null) {
                     throw new BadInputException("Vat number of company is required");
                 }
+                if(payload.get("location") == null){
+                    throw new BadInputException("Location of the company is required");
+                }
             }
             case UNIVERSITY -> {
                 if (payload.get("vatNumber") == null) {
@@ -87,6 +90,9 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
                 }
                 if(payload.get("uniDescription") == null){
                     throw new BadInputException("Description of the university is required");
+                }
+                if(payload.get("location") == null){
+                    throw new BadInputException("Location of the university is required");
                 }
             }
             //Default case should only be UNKNOWN when the type is not recognized
@@ -106,6 +112,7 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
         Integer uniVat = (Integer) payload.get("uniVat") != null ? (Integer) payload.get("uniVat") : null;
         Integer vatNumber = (Integer) payload.get("vatNumber") != null ? (Integer) payload.get("vatNumber") : null;
         String uniDescription = (String) payload.get("uniDescription") != null ? (String) payload.get("uniDescription") : null;
+        String location = (String) payload.get("location") != null ? (String) payload.get("location") : null;
         //BirtDate required a special parsing, so it is handled separately
         if(type == UserType.STUDENT){
             LocalDate birthDate;
@@ -114,9 +121,9 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
             } catch (DateTimeParseException e) {
                 throw new RuntimeException(e); //the date is already validated, this exception should never be thrown
             }
-            return new Account(userId, name, email, country, type, validated, surname, uniVat, birthDate, vatNumber, uniDescription);
+            return new Account(userId, name, email, country, type, validated, surname, uniVat, birthDate, vatNumber, uniDescription, location);
         }else{
-            return new Account(userId, name, email, country, type, validated, surname, uniVat, null, vatNumber, uniDescription);
+            return new Account(userId, name, email, country, type, validated, surname, uniVat, null, vatNumber, uniDescription, location);
         }
     }
 

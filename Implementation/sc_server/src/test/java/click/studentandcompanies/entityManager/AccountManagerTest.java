@@ -57,7 +57,7 @@ class AccountManagerTest extends EntityFactory {
         payload.put("birthDate", LocalDate.now().toString());
 
         Account acc = new Account("UUID-123", "Alice", "alice@example.com", "IT",
-                UserType.STUDENT, false, "Smith", 1234, LocalDate.now(), null, null);
+                UserType.STUDENT, false, "Smith", 1234, LocalDate.now(), null, null, null);
         when(accountRepository.save(any(Account.class))).thenReturn(acc);
 
         // --- Success for STUDENT ---
@@ -162,7 +162,7 @@ class AccountManagerTest extends EntityFactory {
 
         // If account found => Create user based on userType
         Account studentAcc = new Account("UUID-123", "Alice", "alice@example.com", "IT",
-                UserType.STUDENT, false, "Smith", 1234, LocalDate.now(), null, null);
+                UserType.STUDENT, false, "Smith", 1234, LocalDate.now(), null, null, null);
         when(accountRepository.findById("UUID-123")).thenReturn(Optional.of(studentAcc));
 
         // University for the student
@@ -179,7 +179,7 @@ class AccountManagerTest extends EntityFactory {
 
         // Company user
         Account compAcc = new Account("UUID-456", "Google", "google@example.com", "US",
-                UserType.COMPANY, false, null, null, null, 9999, null);
+                UserType.COMPANY, false, null, null, null, 9999, null, "location");
         when(accountRepository.findById("UUID-456")).thenReturn(Optional.of(compAcc));
         when(companyRepository.save(any(Company.class))).thenAnswer(inv -> inv.getArgument(0));
         Account confirmedComp = accountManager.confirmUser("UUID-456");
@@ -188,7 +188,7 @@ class AccountManagerTest extends EntityFactory {
 
         // University user
         Account uniAcc = new Account("UUID-789", "MIT", "mit@example.com", "US",
-                UserType.UNIVERSITY, false, null, null, null, 1111, "desc");
+                UserType.UNIVERSITY, false, null, null, null, 1111, "desc", "location");
         when(accountRepository.findById("UUID-789")).thenReturn(Optional.of(uniAcc));
         when(universityRepository.save(any(University.class))).thenAnswer(inv -> inv.getArgument(0));
         Account confirmedUni = accountManager.confirmUser("UUID-789");
@@ -222,7 +222,7 @@ class AccountManagerTest extends EntityFactory {
     void testGetAccountBy() {
         // Success
         Account acc = new Account("UUID-123", "Alice", "alice@example.com", "IT",
-                UserType.STUDENT, false, "Smith", 1234, LocalDate.now(), null, null);
+                UserType.STUDENT, false, "Smith", 1234, LocalDate.now(), null, null, null);
         when(accountRepository.findById("UUID-123")).thenReturn(Optional.of(acc));
         Account found = accountManager.getAccountBy("UUID-123");
         assertEquals("Alice", found.getName());

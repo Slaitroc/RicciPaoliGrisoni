@@ -2,6 +2,7 @@ package click.studentandcompanies.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "university")
@@ -27,17 +28,30 @@ public class University {
     @Column(name = "uni_desc")
     private String uniDesc;
 
+    @Size(max = 255)
+    @Column(name = "location")
+    private String location;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public University() {
         //empty constructor required by JPA
     }
 
-    public University(String id, String name, String email, String country, Integer vatNumber, String uniDesc) {
+    public University(String id, String name, String email, String country, Integer vatNumber, String uniDesc, String location) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.country = country;
         this.vatNumber = vatNumber;
         this.uniDesc = uniDesc;
+        this.location = location;
     }
 
     public String getUniDesc() {

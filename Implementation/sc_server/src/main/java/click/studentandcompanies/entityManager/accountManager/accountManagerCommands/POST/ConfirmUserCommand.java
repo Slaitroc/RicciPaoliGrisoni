@@ -68,7 +68,8 @@ public class ConfirmUserCommand implements AccountManagerCommand<Account> {
         String email = account.getEmail();
         String country = account.getCountry();
         Integer vatNumber = account.getVatNumber();
-        return new Company(user_id, name, email, country, vatNumber);
+        String location = account.getLocation();
+        return new Company(user_id, name, email, country, vatNumber, location);
     }
 
     private University buildUniversity(Account account) {
@@ -77,6 +78,7 @@ public class ConfirmUserCommand implements AccountManagerCommand<Account> {
         String country = account.getCountry();
         Integer vatNumber = account.getVatNumber();
         String uniDescription = account.getUniDesc();
-        return new University(user_id, name, email, country, vatNumber, uniDescription);
+        String location = account.getLocation();
+        return new University(user_id, name, email, country, vatNumber, uniDescription, location);
     }
 }

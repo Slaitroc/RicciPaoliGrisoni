@@ -57,11 +57,23 @@ public class Account {
     @Column(name = "validate", nullable = false)
     private Boolean validate = false;
 
+    @Size(max = 255)
+    @Column(name = "location")
+    private String location;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public Account() {
         //empty constructor required by JPA
     }
 
-    public Account(String userId, String name, String email, String country, UserType type, Boolean validated, String surname, Integer uniVat, LocalDate birthDate, Integer vatNumber, String uniDescription) {
+    public Account(String userId, String name, String email, String country, UserType type, Boolean validated, String surname, Integer uniVat, LocalDate birthDate, Integer vatNumber, String uniDescription, String location) {
         this.userID = userId;
         this.name = name;
         this.email = email;
@@ -73,6 +85,7 @@ public class Account {
         this.birthDate = birthDate;
         this.vatNumber = vatNumber;
         this.uniDesc = uniDescription;
+        this.location = location;
     }
 
     public String getUserID() {
