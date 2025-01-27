@@ -44,7 +44,7 @@ public class EvaluateInterviewCommandCall implements APIControllerCommandCall<Re
 
             DTO dto = DTOCreator.createDTO(DTOTypes.INTERVIEW, interview);
             NotificationData data = new NotificationData(NotificationTriggerType.INTERVIEW_EVALUATED, dto);
-            new NotificationController(notificationManager).sendNotification(userIDs, data);
+            new NotificationController(notificationManager).sendAndSaveNotification(userIDs, data);
 
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         } catch (BadInputException e) {

@@ -44,7 +44,7 @@ public class SendInterviewAnswerCommandCall implements APIControllerCommandCall<
             DTO dto = DTOCreator.createDTO(DTOTypes.INTERVIEW, interview);
 
             NotificationData data = new NotificationData(NotificationTriggerType.INTERVIEW_ANSWER_SENT, dto);
-            new NotificationController(notificationManager).sendNotification(companyID, data);
+            new NotificationController(notificationManager).sendAndSaveNotification(companyID, data);
 
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         } catch (BadInputException e) {

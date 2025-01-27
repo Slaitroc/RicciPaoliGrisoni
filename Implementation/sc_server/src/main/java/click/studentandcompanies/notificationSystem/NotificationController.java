@@ -27,7 +27,7 @@ public class NotificationController {
         this.notificationManager = notificationManager;
     }
 
-    public void sendNotification(List<String> userIDs, NotificationData data) {
+    public void sendAndSaveNotification(List<String> userIDs, NotificationData data) {
         data.getTriggerType().getSender().sendNotification(userIDs, data.getDTO(), notificationManager);
     }
 
@@ -42,10 +42,7 @@ public class NotificationController {
     @GetMapping("/private/test-notification")
     public HttpStatus testNotification(@RequestHeader("Authorization") String authToken) {
         String userID = GetUuid.getUuid(authToken);
-        List<String> deviceTokens = notificationManager.getDeviceTokensOf(userID);
-        for(String deviceToken : deviceTokens) {
-            this.sendNotification(List.of(userID), new NotificationData(NotificationTriggerType.TEST, null));
-        }
+        this.sendAndSaveNotification(List.of(userID), new NotificationData(NotificationTriggerType.TEST, null));
         return HttpStatus.OK;
     }
 

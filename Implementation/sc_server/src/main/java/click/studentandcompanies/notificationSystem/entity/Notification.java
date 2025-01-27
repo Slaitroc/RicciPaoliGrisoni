@@ -2,6 +2,10 @@ package click.studentandcompanies.notificationSystem.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "notification")
@@ -12,18 +16,25 @@ public class Notification {
     private Integer id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "receiver_id", nullable = false)
-    private Contact receiver;
+    @Lob
+    @Column(name = "body", nullable = false)
+    private String body;
 
+    @Size(max = 255)
     @NotNull
     @Column(name = "title", nullable = false)
     private String title;
 
-    @NotNull
-    @Lob
-    @Column(name = "body", nullable = false)
-    private String body;
+    @ManyToMany(mappedBy = "notifications")
+    private List<Contact> contacts = new ArrayList<>();
+
+    public Notification() {
+    }
+
+    public Notification(String title, String body) {
+        this.body = body;
+        this.title = title;
+    }
 
     public Integer getId() {
         return id;
@@ -33,12 +44,12 @@ public class Notification {
         this.id = id;
     }
 
-    public Contact getReceiver() {
-        return receiver;
+    public String getBody() {
+        return body;
     }
 
-    public void setReceiver(Contact receiver) {
-        this.receiver = receiver;
+    public void setBody(String body) {
+        this.body = body;
     }
 
     public String getTitle() {
@@ -49,12 +60,12 @@ public class Notification {
         this.title = title;
     }
 
-    public String getBody() {
-        return body;
+    public List<Contact> getContacts() {
+        return contacts;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
     }
 
 }

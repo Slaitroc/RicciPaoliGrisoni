@@ -40,7 +40,7 @@ public class AcceptRecommendationCommandCall implements APIControllerCommandCall
 
                 NotificationData data = new NotificationData(NotificationTriggerType.MATCH_FOUND, DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation));
 
-                new NotificationController(notificationManager).sendNotification(userIDs, data);
+                new NotificationController(notificationManager).sendAndSaveNotification(userIDs, data);
                 //todo: call feedback service
             }
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation), HttpStatus.CREATED);

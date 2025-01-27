@@ -39,7 +39,7 @@ public class TerminateCommunicationCommandCall implements APIControllerCommandCa
             List<String> userIDs = List.of(communication.getStudent().getId(), communication.getInternshipOffer().getCompany().getId(), communication.getUniversity().getId());
             DTO dto = DTOCreator.createDTO(DTOTypes.COMMUNICATION, communication);
             NotificationData data = new NotificationData(NotificationTriggerType.TERMINATE_COMMUNICATION, dto);
-            new NotificationController(notificationManager).sendNotification(userIDs, data);
+            new NotificationController(notificationManager).sendAndSaveNotification(userIDs, data);
 
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         } catch (BadInputException e) {

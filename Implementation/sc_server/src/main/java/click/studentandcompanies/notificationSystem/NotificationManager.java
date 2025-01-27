@@ -1,7 +1,11 @@
 package click.studentandcompanies.notificationSystem;
 
 import click.studentandcompanies.notificationSystem.entity.Contact;
+import click.studentandcompanies.notificationSystem.entity.Notification;
 import click.studentandcompanies.notificationSystem.entityRepository.ContactRepository;
+import click.studentandcompanies.notificationSystem.entityRepository.NotificationRepository;
+import click.studentandcompanies.notificationSystem.notificationUtils.NotificationData;
+import click.studentandcompanies.notificationSystem.notificationUtils.NotificationPayload;
 import com.google.protobuf.MapEntry;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,9 +17,11 @@ import java.util.Map;
 public class NotificationManager {
 
     private final ContactRepository contactRepository;
+    private final NotificationRepository notificationRepository;
 
-    public NotificationManager(ContactRepository contactRepository) {
+    public NotificationManager(ContactRepository contactRepository, NotificationRepository notificationRepository) {
         this.contactRepository = contactRepository;
+        this.notificationRepository = notificationRepository;
     }
 
     // todo implement the device token refresh
@@ -40,6 +46,23 @@ public class NotificationManager {
         }
         contactRepository.save(new Contact((String) payload.get("userID"), deviceToken));
         return HttpStatus.OK;
+    }
+
+    //For each notification, save all the contacts that receive it
+    //For each user, retrieve all the contacts and save the notification for each of them
+    public void saveNotification(List<String> userIds, NotificationPayload notificationPayload) {
+        Notification notification = new Notification(notificationPayload.title(), notificationPayload.body());
+        notificationRepository.save(notification);
+        for (String userID : userIds) {
+            List<Contact> contacts = contactRepository.getContactsByUserId(userID);
+            for (Contact contact : contacts) {
+                contact.getNotifications().add(notification);
+                contactRepository.save(contact);
+                notification.getContacts().add(contact);
+                notificationRepository.save(notification);
+            }
+        }
+        System.out.println("notification saved for " + userIds.size() + " users.");
     }
 
     /*

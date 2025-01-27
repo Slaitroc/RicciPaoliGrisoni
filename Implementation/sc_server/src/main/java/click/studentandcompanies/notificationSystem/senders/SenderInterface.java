@@ -4,6 +4,7 @@ import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.notificationSystem.NotificationManager;
 import click.studentandcompanies.notificationSystem.notificationAdapters.EmailServiceAdapter;
 import click.studentandcompanies.notificationSystem.notificationAdapters.PushNotificationAdapter;
+import click.studentandcompanies.notificationSystem.notificationUtils.NotificationPayload;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ public interface SenderInterface {
     EmailServiceAdapter EMAIL_SERVICE_ADAPTER = new EmailServiceAdapter();
 
     void sendNotification(List<String> userIDs, DTO data, NotificationManager notificationManager);
+    //void saveNotification(NotificationPayload notificationPayload, List<String> userIDs, NotificationManager notificationManager);
 
     default List<String> getDeviceTokens(List<String> userIDs, NotificationManager notificationManager) {
         List<String> deviceTokens = new ArrayList<>();

@@ -38,7 +38,7 @@ public class SubmitSpontaneousApplicationCommandCall implements APIControllerCom
 
             DTO dto = DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application);
             NotificationData data = new NotificationData(NotificationTriggerType.SPONTANEOUS_APPLICATION_RECEIVED, dto);
-            new NotificationController(notificationManager).sendNotification(List.of(application.getInternshipOffer().getCompany().getId()), data);
+            new NotificationController(notificationManager).sendAndSaveNotification(List.of(application.getInternshipOffer().getCompany().getId()), data);
 
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         } catch (BadInputException e) {

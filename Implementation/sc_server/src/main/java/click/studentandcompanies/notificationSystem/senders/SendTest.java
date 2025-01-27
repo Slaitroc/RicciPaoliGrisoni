@@ -16,8 +16,15 @@ public class SendTest implements SenderInterface {
         String pushTitle = "Test";
         String pushBody = "This is a test notification.";
 
-        PUSH_NOTIFICATION_ADAPTER.sendPushNotification(deviceTokens, new NotificationPayload(pushTitle, pushBody));
-        //EMAIL_SERVICE_ADAPTER.sendEmail(emails, new EmailContent(pushTitle, pushBody));
+        NotificationPayload payload = new NotificationPayload(pushTitle, pushBody);
+        PUSH_NOTIFICATION_ADAPTER.sendPushNotification(deviceTokens, payload);
 
+        saveNotification(payload, userIDs, notificationManager);
+        //EMAIL_SERVICE_ADAPTER.sendEmail(emails, new EmailContent(pushTitle, pushBody));
+    }
+
+    public void saveNotification(NotificationPayload notificationPayload, List<String> userIDs, NotificationManager notificationManager) {
+        System.out.println("Saving notification...");
+        notificationManager.saveNotification(userIDs, notificationPayload);
     }
 }

@@ -53,7 +53,7 @@ public class CloseInternshipOfferCommandCall implements APIControllerCommandCall
             // Compose a notification data object with the Type of notification to send and the DTO object to include all the data that may be needed
             NotificationData data = new NotificationData(NotificationTriggerType.INTERNSHIP_CANCELLED, dto);
             // Facade with only one method to send the notification to the users to hide complexity and make it easier to use
-            new NotificationController(notificationManager).sendNotification(userIDs, data);
+            new NotificationController(notificationManager).sendAndSaveNotification(userIDs, data);
 
             return new ResponseEntity<>(dto, HttpStatus.OK);
         } catch (NotFoundException e) {
