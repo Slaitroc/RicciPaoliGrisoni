@@ -95,7 +95,8 @@ onAuthStateChanged(auth, (user) => {
 onMessage(messaging, (payload) => {
   console.log("Messaggio ricevuto in foreground:", payload);
   // Mostra una notifica o aggiorna l'interfaccia utente
+  console.log("Notifica:", payload);
   alert(
-    `Notifica: ${payload.notification.title} - ${payload.notification.body}`
+    `Notifica: ${payload.notification?.title} - ${payload.notification?.body}`
   );
 });

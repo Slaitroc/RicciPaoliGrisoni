@@ -42,6 +42,8 @@ public class NotificationManager {
      * }
      */
 
+    //todo, device token should become primary key. A date should be added and token older than 1 month should be deleted
+    //todo if the device token is already in the database, do nothing
     public HttpStatus saveTokenNotification(Map<String, Object> payload) {
         if (payload.get("notificationToken") == null) {
             return HttpStatus.BAD_REQUEST;

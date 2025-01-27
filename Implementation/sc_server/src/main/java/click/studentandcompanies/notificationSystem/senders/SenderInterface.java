@@ -22,6 +22,36 @@ public interface SenderInterface {
         return deviceTokens;
     }
 
+    default List<String> getStudentDeviceTokens(List<String> userIDs, DTO data, NotificationManager notificationManager) {
+        List<String> deviceTokens = new ArrayList<>();
+        for (String userID : userIDs) {
+            if (userID == data.getProperties().get("student_ID")) {
+                deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
+            }
+        }
+        return deviceTokens;
+    }
+
+    default List<String> getCompanyDeviceTokens(List<String> userIDs, DTO data, NotificationManager notificationManager) {
+        List<String> deviceTokens = new ArrayList<>();
+        for (String userID : userIDs) {
+            if (userID == data.getProperties().get("company_ID")) {
+                deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
+            }
+        }
+        return deviceTokens;
+    }
+
+    default List<String> getUniversityDeviceTokens(List<String> userIDs, DTO data, NotificationManager notificationManager) {
+        List<String> deviceTokens = new ArrayList<>();
+        for (String userID : userIDs) {
+            if (userID == data.getProperties().get("university_ID")) {
+                deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
+            }
+        }
+        return deviceTokens;
+    }
+
     /*default List<String> getEmails(List<String> userIDs, NotificationManager notificationManager) {
         List<String> emails = new ArrayList<>();
         for (String userID : userIDs) {
@@ -59,34 +89,4 @@ public interface SenderInterface {
         }
         return emails;
     }*/
-
-    default List<String> getStudentDeviceTokens(List<String> userIDs, DTO data, NotificationManager notificationManager) {
-        List<String> deviceTokens = new ArrayList<>();
-        for (String userID : userIDs) {
-            if (userID == data.getProperties().get("student_ID")) {
-                deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
-            }
-        }
-        return deviceTokens;
-    }
-
-    default List<String> getCompanyDeviceTokens(List<String> userIDs, DTO data, NotificationManager notificationManager) {
-        List<String> deviceTokens = new ArrayList<>();
-        for (String userID : userIDs) {
-            if (userID == data.getProperties().get("company_ID")) {
-                deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
-            }
-        }
-        return deviceTokens;
-    }
-
-    default List<String> getUniversityDeviceTokens(List<String> userIDs, DTO data, NotificationManager notificationManager) {
-        List<String> deviceTokens = new ArrayList<>();
-        for (String userID : userIDs) {
-            if (userID == data.getProperties().get("university_ID")) {
-                deviceTokens.addAll(notificationManager.getDeviceTokens(userID));
-            }
-        }
-        return deviceTokens;
-    }
 }
