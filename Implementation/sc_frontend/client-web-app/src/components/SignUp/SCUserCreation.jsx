@@ -10,6 +10,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { FormLabel } from "@mui/material";
 import { SCCountriesSel } from "../Shared/SCCountriesSel";
 import { Alert } from "@mui/material";
+import { auth } from "../../api-calls/api-wrappers/authorization-wrapper/firebase-utils/firebaseConfig";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
@@ -20,8 +22,6 @@ import Typography from "@mui/material/Typography";
 import MuiCard from "@mui/material/Card";
 import SCSelectLogin from "../Shared/SCSelectLogin";
 import Autocomplete from "@mui/material/Autocomplete";
-import { auth } from "../../api-calls/api-wrappers/authorization-wrapper/firebase-utils/firebaseConfig";
-import { useNavigate } from "react-router-dom";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -49,16 +49,16 @@ export const SCUserCreation = () => {
 
   const { setIsAuthenticated } = useGlobalContext();
 
-  const [userType, setUserType] = React.useState("");
+  const [userType, setUserType] = React.useState(null);
 
-  const [country, setCountry] = React.useState("");
-  const [birthDate, setBirthDate] = React.useState("");
-  const [enrolledInUniVat, setEnrolledInUniVat] = React.useState("");
-  const [location, setLocation] = React.useState("");
-  const [vatNumber, setVatNumber] = React.useState("");
+  const [country, setCountry] = React.useState(null);
+  const [birthDate, setBirthDate] = React.useState(null);
+  const [enrolledInUniVat, setEnrolledInUniVat] = React.useState(null);
+  const [location, setLocation] = React.useState(null);
+  const [vatNumber, setVatNumber] = React.useState(null);
 
   const [nameError, setNameError] = React.useState(false);
-  const [nameErrorMessage, setNameErrorMessage] = React.useState("");
+  const [nameErrorMessage, setNameErrorMessage] = React.useState(null);
 
   const [openAlert, setOpenAlert] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState("");
@@ -71,7 +71,8 @@ export const SCUserCreation = () => {
       .getUniversities()
       .then((result) => {
         setFetchedData(result);
-        console.log(result.table);
+        // DEBUG
+        //console.log(result.table);
       })
       .catch((error) => {
         console.error("Error during universities retrieval:", error.message);
@@ -85,17 +86,12 @@ export const SCUserCreation = () => {
     });
   }, []);
 
-  const validateInputs = (userData) => {
-    let isValid = true;
-    // TODO controllo dati?? avviene già nel backend per ora sorvolo
-    return isValid;
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  //DEBUG
+  React.useEffect(() => {
+    //console.log("User type:", userType);
     const userData = {
       userType: userType,
-      email: auth ? auth.currentUser.email : "",
+      email: auth.currentUser?.email ? auth.currentUser.email : "",
       name: document.getElementById("name")?.value
         ? document.getElementById("name").value
         : "",
@@ -115,6 +111,50 @@ export const SCUserCreation = () => {
         ? document.getElementById("VAT").value
         : "",
     };
+    console.log(userData);
+  });
+
+  const validateInputs = (userData) => {
+    let isValid = true;
+    // TODO controllo dati?? avviene già nel backend per ora sorvolo
+    return isValid;
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const userData = {
+      userType: userType,
+      email: auth ? auth.currentUser.email : null,
+      name:
+        document.getElementById("name")?.value &&
+        document.getElementById("name").value != ""
+          ? document.getElementById("name").value
+          : null,
+      surname:
+        document.getElementById("surname")?.value &&
+        document.getElementById("surname").value != ""
+          ? document.getElementById("surname").value
+          : null,
+      enrolledInUniVat: enrolledInUniVat ? enrolledInUniVat : null,
+      uniDesc:
+        document.getElementById("description")?.value &&
+        document.getElementById("description").value != ""
+          ? document.getElementById("description").value
+          : null,
+      country: country ? country : null,
+      birthDate: birthDate ? birthDate : null,
+      location:
+        document.getElementById("location")?.value &&
+        document.getElementById("location").value != ""
+          ? document.getElementById("location").value
+          : null,
+      vatNumber:
+        document.getElementById("VAT")?.value &&
+        document.getElementById("VAT").value != ""
+          ? document.getElementById("VAT").value
+          : null,
+    };
+    // DEBUG
     console.log(userData);
     if (validateInputs(userData)) {
       account.sendUserData(userData).then((response) => {
@@ -183,6 +223,7 @@ export const SCUserCreation = () => {
                 <DatePicker
                   onChange={(date) =>
                     //DANGER date offset of one day --> day 9 became 8
+                    //viene inviata anche nel caso di company e university ma il backend la ignora
                     //NOTE ignoring for now
                     setBirthDate(new Date(date).toISOString())
                   }
@@ -217,7 +258,8 @@ export const SCUserCreation = () => {
                   disablePortal
                   options={fetchedData.names ? fetchedData.names : []}
                   onChange={(e, value) => {
-                    value && setEnrolledInUniVat(fetchedData.table[value]);
+                    if (fetchedData?.table.value === null)
+                      value && setEnrolledInUniVat(fetchedData.table[value]);
                   }}
                   sx={{
                     width: 220,
@@ -368,6 +410,7 @@ export const SCUserCreation = () => {
                 name="VAT"
                 autoComplete="VAT"
                 variant="outlined"
+                type="number"
                 // error={emailError}
                 // helperText={emailErrorMessage}
                 // color={passwordError ? "error" : "primary"}

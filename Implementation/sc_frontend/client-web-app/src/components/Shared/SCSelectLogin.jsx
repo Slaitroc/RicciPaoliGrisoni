@@ -11,6 +11,7 @@ import SmartphoneRoundedIcon from "@mui/icons-material/SmartphoneRounded";
 import FormControl from "@mui/material/FormControl";
 import { FormLabel, InputLabel } from "@mui/material";
 import { useGlobalContext } from "../../global/GlobalContext";
+import * as globalStatesInit from "../../global/globalStatesInit";
 
 const Avatar = styled(MuiAvatar)(({ theme }) => ({
   width: 28,
@@ -44,19 +45,19 @@ export default function SCSelectLogin({ setUserType }) {
       value: "0",
       label: "Company SignUp",
       icon: <DevicesRoundedIcon />,
-      type: "company",
+      type: globalStatesInit.COMPANY_USER_TYPE,
     },
     {
       value: 10,
       label: "Student SignUp",
       icon: <SmartphoneRoundedIcon />,
-      type: "student",
+      type: globalStatesInit.STUDENT_USER_TYPE,
     },
     {
       value: 20,
       label: "University SignUp",
       icon: <DevicesRoundedIcon />,
-      type: "university",
+      type: globalStatesInit.UNIVERSITY_USER_TYPE,
     },
   ];
 

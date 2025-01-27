@@ -8,6 +8,7 @@ export const getUserData = async () => {
   return apiCalls.getUserData();
 };
 
+//TODO i wrapper servono solo per creare dati appositi dalle chiamate
 export const getUniversities = async () => {
   try {
     const response = await apiCalls.getUniversities();
