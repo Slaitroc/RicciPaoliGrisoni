@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class SendUserDataCommand implements AccountManagerCommand<Account> {
     private final Map<String, Object> payload;
@@ -103,15 +104,20 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
         //Optional fields
         String surname = (String) payload.get("surname") != null ? (String) payload.get("surname") : null;
         Integer uniVat = (Integer) payload.get("uniVat") != null ? (Integer) payload.get("uniVat") : null;
-        LocalDate birthDate;
-        try {
-            birthDate = LocalDate.parse((String) payload.get("birthDate"));
-        } catch (DateTimeParseException e) {
-            throw new RuntimeException(e); //the date is already validated, this exception should never be thrown
-        }
         Integer vatNumber = (Integer) payload.get("vatNumber") != null ? (Integer) payload.get("vatNumber") : null;
         String uniDescription = (String) payload.get("uniDescription") != null ? (String) payload.get("uniDescription") : null;
-        return new Account(userId, name, email, country, type, validated, surname, uniVat, birthDate, vatNumber, uniDescription);
+        //BirtDate required a special parsing, so it is handled separately
+        if(type == UserType.STUDENT){
+            LocalDate birthDate;
+            try {
+                birthDate = LocalDate.parse((String) payload.get("birthDate"));
+            } catch (DateTimeParseException e) {
+                throw new RuntimeException(e); //the date is already validated, this exception should never be thrown
+            }
+            return new Account(userId, name, email, country, type, validated, surname, uniVat, birthDate, vatNumber, uniDescription);
+        }else{
+            return new Account(userId, name, email, country, type, validated, surname, uniVat, null, vatNumber, uniDescription);
+        }
     }
 
 }
