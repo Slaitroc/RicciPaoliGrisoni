@@ -1,8 +1,10 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
+import { SignUp } from "../pages/SignUp";
+import { SCUserCreation } from "../components/SignUp/SCUserCreation";
 import RouteProtector from "./RouteProtector";
 import SCSignInSide from "../pages/SCSignInSide";
-import SCSignUp from "../pages/SCSignUp";
+import { SCSignUp } from "../components/SignUp/SCSignUp";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
 import Main from "../pages/Main";
@@ -139,13 +141,24 @@ const router = createBrowserRouter(
         </RouteProtector>
       ),
     },
+
     {
       path: "signup",
-      element: (
-        <RouteProtector equals={true} navigateTo="/dashboard">
-          <SCSignUp />
-        </RouteProtector>
-      ),
+      element: <SignUp />,
+      children: [
+        {
+          path: "",
+          element: (
+            <RouteProtector equals={true} navigateTo="/dashboard">
+              <SCSignUp />
+            </RouteProtector>
+          ),
+        },
+        {
+          path: "user-creation",
+          element: <SCUserCreation />,
+        },
+      ],
     },
   ],
   {

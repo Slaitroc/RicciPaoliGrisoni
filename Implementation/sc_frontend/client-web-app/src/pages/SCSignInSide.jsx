@@ -12,11 +12,16 @@ export default function SCSignInSide(props) {
   return (
     <SCAppTheme {...props}>
       <CssBaseline enableColorScheme />
-      <SCColorModeSelect
-        sx={{ position: "fixed", top: "1rem", right: "1rem" }}
-      />
-      <Box sx={{ padding: (theme) => theme.spacing(3) }}>
-        <SCBackHomeButton></SCBackHomeButton>
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent="center"
+        gap="50vW"
+        padding={3}
+      >
+        <SCBackHomeButton />
+
+        <SCColorModeSelect />
       </Box>
       <Stack
         direction="column"

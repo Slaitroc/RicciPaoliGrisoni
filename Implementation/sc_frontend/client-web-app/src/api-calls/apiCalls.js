@@ -98,14 +98,14 @@ export const getUniversities = async () => {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
-}
+};
 
 // #region GLOBAL APPLICATION API CALLS
 // These are the apis that are not called directly from the components
 
-export const retrieveProfile = async () => {
+export const getUserData = async () => {
   const token = await getToken();
-  return fetchWrapper("/application-api/acc/private/retrieve-profile", {
+  return fetchWrapper("/application-api/acc/private/get-user-data", {
     method: "GET",
     headers: { Authorization: `Bearer ${token}` },
   });
