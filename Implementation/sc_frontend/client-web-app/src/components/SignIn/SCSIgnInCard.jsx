@@ -15,6 +15,7 @@ import { SitemarkIcon } from "../Templates/sign-in-side/CustomIcons";
 import { useGlobalContext } from "../../global/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "@mui/material";
+import * as account from "../../api-calls/api-wrappers/account-wrapper/account";
 
 import * as authorization from "../../api-calls/api-wrappers/authorization-wrapper/authorization";
 
@@ -37,6 +38,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 export default function SCSignInCard() {
+  //TODO usa getElementByID per prendere i valori dei campi email e password
   // Stati per email e password
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -65,27 +67,45 @@ export default function SCSignInCard() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (validateInputs()) {
-      const response = await authorization.login(email, password);
-      switch (response.code) {
-        case (204, 400):
-          setOpenAlert(true);
-          setAlertSeverity("error");
-          setAlertMessage("Invalid credentials");
-          break;
-        case 200:
-          setOpenAlert(true);
-          setAlertSeverity("success");
-          setAlertMessage("Logged in successfully");
-          setIsAuthenticated(true);
-          // navigate("/dashboard");
-          Notification.requestPermission().then((permission) => {
-            if (permission === "granted") {
-              console.log("Permesso per le notifiche concesso.");
-            } else {
-              console.log("Permesso per le notifiche negato.");
-            }
+      authorization.login(email, password).then((response) => {
+        if (response.status === 500) {
+          console.log("Debugs", response);
+          response.json().then((data) => {
+            setOpenAlert(true);
+            setAlertSeverity("error");
+            setAlertMessage(data.properties.error);
           });
-      }
+        } else if (response.status === 200) {
+          response.json().then((data) => {
+            setIsAuthenticated(true);
+            setOpenAlert(true);
+            setAlertSeverity("success");
+            setAlertMessage(data.properties.message);
+            account.getUserData().then((response) => {
+              if (!response.ok) {
+                // DEBUG
+                console.log("debug");
+                response.json().then((data) => {
+                  setOpenAlert(true);
+                  setAlertSeverity("info");
+                  setAlertMessage(data.properties.error);
+                  navigate("/signup/user-creation");
+                });
+              } else {
+                navigate("/dashboard");
+              }
+            });
+          });
+        }
+      });
+
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          console.log("Permesso per le notifiche concesso.");
+        } else {
+          console.log("Permesso per le notifiche negato.");
+        }
+      });
     }
   };
 
@@ -114,13 +134,6 @@ export default function SCSignInCard() {
 
     return isValid;
   };
-
-  React.useEffect(() => {
-    console.log("isAuthenticated has changed:", isAuthenticated);
-    if (isAuthenticated) {
-      console.log("User is authenticated!");
-    }
-  }, [isAuthenticated]);
 
   return (
     <Card variant="outlined">

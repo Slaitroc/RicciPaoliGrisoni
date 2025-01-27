@@ -4,10 +4,10 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import * as globalStatesInit from "../../global/globalStatesInit";
 
-export const SCCountriesSel = ({ onChange }) => {
+export const SCCountriesSel = ({ id, onChange }) => {
   return (
     <Autocomplete
-      id="country-select-demo"
+      id={id}
       onChange={onChange}
       sx={{
         width: 300,

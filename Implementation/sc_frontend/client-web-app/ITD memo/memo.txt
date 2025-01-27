@@ -15,4 +15,8 @@
 # Firebase
     - ora login, logout e register vengono andate dal backend direttamente a firebase:
         per ora vado avanti così ma sarebbero daspostare nell'auth-api
+    - non sarebbe male dare la possibilità di cancellare l'utente da firebase e nel db
+
+    
+    
     
