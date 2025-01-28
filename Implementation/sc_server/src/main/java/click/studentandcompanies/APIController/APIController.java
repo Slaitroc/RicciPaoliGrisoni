@@ -436,6 +436,11 @@ public class APIController {
         return new GetUserDataCommandCall(userID, accountManager).execute();
     }
 
+    @GetMapping("/hello")
+    public String sayHello() {
+        return "Hello, Spring Boot!";
+    }
+
     /*---------------------------------*/
     /*Deprecated API calls*/
     /*---------------------------------*/
@@ -443,11 +448,6 @@ public class APIController {
     public ResponseEntity<DTO> showTraffickerHeader(@RequestHeader("X-Custom-Header") String customHeader) {
         return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, customHeader), HttpStatus.OK);
 
-    }
-
-    @GetMapping("/private/hello")
-    public String sayHello() {
-        return "Hello, Spring Boot!";
     }
 
     @GetMapping("/dto/test/")

@@ -1,5 +1,4 @@
 package click.studentandcompanies.notificationSystem.notificationUtils;
-
 import click.studentandcompanies.notificationSystem.senders.*;
 
 /**
