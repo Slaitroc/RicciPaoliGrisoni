@@ -1,5 +1,6 @@
 package click.studentandcompanies.entity;
 
+import click.studentandcompanies.entity.dbEnum.InternshipPosOfferStatusEnum;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,8 +11,9 @@ public class InternshipPosOffer {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "acceptance")
-    private Boolean acceptance;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private InternshipPosOfferStatusEnum status;
 
     public Integer getId() {
         return id;
@@ -21,12 +23,12 @@ public class InternshipPosOffer {
         this.id = id;
     }
 
-    public Boolean getAcceptance() {
-        return acceptance;
+    public InternshipPosOfferStatusEnum getStatus() {
+        return status;
     }
 
-    public void setAcceptance(Boolean acceptance) {
-        this.acceptance = acceptance;
+    public void setStatus(InternshipPosOfferStatusEnum status) {
+        this.status = status;
     }
 
 }

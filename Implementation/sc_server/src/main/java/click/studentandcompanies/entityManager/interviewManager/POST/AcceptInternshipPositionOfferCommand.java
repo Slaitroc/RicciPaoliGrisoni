@@ -2,6 +2,7 @@ package click.studentandcompanies.entityManager.interviewManager.POST;
 
 import click.studentandcompanies.entity.InternshipPosOffer;
 import click.studentandcompanies.entity.Interview;
+import click.studentandcompanies.entity.dbEnum.InternshipPosOfferStatusEnum;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManagerCommand;
 import click.studentandcompanies.entityRepository.InterviewRepository;
@@ -43,7 +44,7 @@ public class AcceptInternshipPositionOfferCommand implements InterviewManagerCom
                 throw new NotFoundException("Interview not found");
             }
             InternshipPosOffer internshipPosOffer = getInternshipPosOffer(interview);
-            internshipPosOffer.setAcceptance(true);
+            internshipPosOffer.setStatus(InternshipPosOfferStatusEnum.accepted);
             return internshipPosOffer;
         } if (type == UserType.UNKNOWN) {
             throw new BadInputException("User not found");
@@ -65,7 +66,7 @@ public class AcceptInternshipPositionOfferCommand implements InterviewManagerCom
             throw new UnauthorizedException("User not authorized to accept internship position offer");
         }
         // Check if the Internship Position Offer has already been accepted
-        if(internshipPosOffer.getAcceptance()) {
+        if(internshipPosOffer.getStatus() == InternshipPosOfferStatusEnum.accepted) {
             throw new WrongStateException("Internship Position Offer already accepted");
         }
         return internshipPosOffer;

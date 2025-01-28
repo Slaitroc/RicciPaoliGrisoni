@@ -153,6 +153,16 @@ public class UserManager {
         }
     }
 
+    public String getCompanyIDByInternshipPosOfferID(Integer id) {
+        Interview interview = interviewRepository.getInterviewByInternshipPosOffer_Id(id);
+
+        if(interview.getRecommendation() != null) {
+            return interview.getRecommendation().getInternshipOffer().getCompany().getId();
+        } else {
+            return interview.getSpontaneousApplication().getInternshipOffer().getCompany().getId();
+        }
+    }
+
     public List<University> getUniversity() {
         return universityRepository.findAll();
     }

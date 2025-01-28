@@ -3,7 +3,7 @@ package click.studentandcompanies.entityManager.interviewManager.POST;
 import click.studentandcompanies.entity.Company;
 import click.studentandcompanies.entity.InternshipPosOffer;
 import click.studentandcompanies.entity.Interview;
-import click.studentandcompanies.entity.University;
+import click.studentandcompanies.entity.dbEnum.InternshipPosOfferStatusEnum;
 import click.studentandcompanies.entity.dbEnum.InterviewStatusEnum;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManagerCommand;
@@ -59,7 +59,7 @@ public class SendInterviewPositionOfferCommand implements InterviewManagerComman
             throw new WrongStateException("Interview status is not passed");
         }
         InternshipPosOffer internshipPosOffer = new InternshipPosOffer();
-        internshipPosOffer.setAcceptance(false);
+        internshipPosOffer.setStatus(InternshipPosOfferStatusEnum.pending);
         internshipPosOfferRepository.save(internshipPosOffer);
         interview.setInternshipPosOffer(internshipPosOffer);
         interviewRepository.save(interview);
