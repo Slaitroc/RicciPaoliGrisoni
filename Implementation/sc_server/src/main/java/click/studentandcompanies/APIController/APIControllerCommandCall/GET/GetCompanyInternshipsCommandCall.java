@@ -17,15 +17,21 @@ import java.util.List;
 public class GetCompanyInternshipsCommandCall implements APIControllerCommandCall<ResponseEntity<List<DTO>>> {
     SubmissionManager submissionManager;
     String companyID;
+    String userID;
 
-    public GetCompanyInternshipsCommandCall(String companyID, SubmissionManager submissionManager) {
+    public GetCompanyInternshipsCommandCall(String companyID, String userID, SubmissionManager submissionManager) {
         this.submissionManager = submissionManager;
         this.companyID = companyID;
+        this.userID = userID;
     }
 
     public ResponseEntity<List<DTO>> execute() {
         List<DTO> dtos = new ArrayList<>();
         try{
+            if(userID == null){
+                dtos.add(DTOCreator.createDTO(DTOTypes.ERROR, "User is not logged in"));
+                return new ResponseEntity<>(dtos, HttpStatus.NOT_FOUND);
+            }
             List<InternshipOffer> internshipOffers = submissionManager.getInternshipsByCompany(companyID);
             //For every InternshipOffer in the list, create a DTO and add it to the list of DTOs
             for (InternshipOffer offer : internshipOffers) {

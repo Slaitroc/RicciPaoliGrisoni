@@ -100,20 +100,18 @@ public class APIController {
 
     //_________________________ sub/private/internship __________________________
 
-    // Here we are returning a ResponseEntity with a list of DTOs.
-    // Could also return a specific customized DTO with the list of Internships
-    // but frontend libraries works fine with a list of JSON (says ChatGPT)
-    @GetMapping("/sub/private/internship/")
+    @GetMapping("/sub/private/internship/{companyID}")
     @Operation(summary = "Request Company Internships", description = "Get a list of Internship Offers advertised by a specific company.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Internships retrieved successfully"),
             @ApiResponse(responseCode = "204", description = "No Content, No Company Internships found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, User does not exists"),
             @ApiResponse(responseCode = "404", description = "Not Found, Company ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<DTO>> getCompanyInternships(@RequestHeader("Authorization") String token) {
-        String companyID = GetUuid.getUuid(token);
-        return new GetCompanyInternshipsCommandCall(companyID, submissionManager).execute();
+    public ResponseEntity<List<DTO>> getCompanyInternships(@RequestHeader("Authorization") String token, @PathVariable("companyID") String companyID) {
+        String userID = GetUuid.getUuid(token);
+        return new GetCompanyInternshipsCommandCall(companyID, userID, submissionManager).execute();
     }
 
 
@@ -158,21 +156,21 @@ public class APIController {
     }
 
 
-    //_________________________ sub/private/cv __________________________
 
-    @GetMapping("/sub/private/cv/")
+    @GetMapping("/sub/private/cv/{studentID}")
     @Operation(summary = "Request Student CV", description = "Get the CV of a specific student.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, CV retrieved successfully"),
             @ApiResponse(responseCode = "204", description = "No Content, No CV found"),
-            @ApiResponse(responseCode = "404", description = "Not Found, Student ID not found"),
             @ApiResponse(responseCode = "401", description = "Unauthorized, User not authorized to access this resource"),
+            @ApiResponse(responseCode = "404", description = "Not Found, Student ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> getStudentCV(@RequestHeader("Authorization") String token) {
-        String studentID = GetUuid.getUuid(token);
-        return new GetStudentCVCommandCall(studentID, submissionManager).execute();
+    public ResponseEntity<DTO> getStudentCV(@PathVariable("studentID") String studentID, @RequestHeader("Authorization") String token) {
+        String userID = GetUuid.getUuid(token);
+        return new GetStudentCVCommandCall(studentID, userID, submissionManager).execute();
     }
+    //_________________________ sub/private/cv __________________________
 
 
     @PostMapping("/sub/private/cv/update-cv")
