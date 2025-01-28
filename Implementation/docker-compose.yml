@@ -18,7 +18,7 @@ services:
 
       #____________ROUTERS____________#
       # APPLICATION SERVICE
-      - "traefik.http.routers.application-container.rule=Host(`10.147.19.167`) &&  PathPrefix(`/application-api`)"
+      - "traefik.http.routers.application-container.rule=Host(`10.147.19.235`) &&  PathPrefix(`/application-api`)" #!!!!
       - "traefik.http.routers.application-container.service=application-service"
       - "traefik.http.routers.application-container.entrypoints=web"
       - "traefik.http.routers.application-container.middlewares=cors-headers"
@@ -46,7 +46,7 @@ services:
 
       #____________ROUTERS____________#
       # AUTH SERVICE
-      - "traefik.http.routers.auth-container.rule=Host(`10.147.19.167`) &&  PathPrefix(`/auth-api`)"
+      - "traefik.http.routers.auth-container.rule=Host(`10.147.19.235`) &&  PathPrefix(`/auth-api`)" #!!!!
       - "traefik.http.routers.auth-container.service=auth-service"
       - "traefik.http.routers.auth-container.entrypoints=web"
       - "traefik.http.routers.auth-container.middlewares=cors-headers"
@@ -114,7 +114,7 @@ services:
     image: traefik:latest
     container_name: traefik-container
     ports:
-      - "8445:8445"
+      - "80:80"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro" # Accesso al socket Docker
       - "./proxy/traefik.yaml:/etc/traefik/traefik.yaml"
@@ -123,7 +123,7 @@ services:
       - "traefik.enable=true"
       #____________ROUTERS____________#
       # DASHBOARD ROUTER ---> to traefik
-      - "traefik.http.routers.traefik.rule=HostRegexp(`{host:.+}`)"
+      - "traefik.http.routers.traefik.rule=Host(`10.147.19.235`)" #!!!!
       - "traefik.http.routers.traefik.entrypoints=web"
       - "traefik.http.routers.traefik.service=api@internal"
       # PRIVATE CALLS ROUTER ---> to sc-auth-container
@@ -147,7 +147,6 @@ services:
       - "traefik.http.middlewares.cors-headers.headers.accessControlAllowMethods=GET,POST,PUT,DELETE,OPTIONS"
       - "traefik.http.middlewares.cors-headers.headers.accessControlAllowHeaders=*"
       - "traefik.http.middlewares.cors-headers.headers.accessControlAllowCredentials=true"
-
 
     networks:
       - traefik-network
