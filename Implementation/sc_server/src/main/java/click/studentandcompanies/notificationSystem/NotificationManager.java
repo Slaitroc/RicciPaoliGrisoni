@@ -30,7 +30,7 @@ public class NotificationManager {
 
     //todo, device token should become primary key.
     //todo if the device token is already in the database, do nothing
-    public HttpStatus saveTokenNotification(Map<String, Object> payload) {
+    public synchronized HttpStatus saveTokenNotification(Map<String, Object> payload) {
         if (payload.get("notificationToken") == null) {
             return HttpStatus.BAD_REQUEST;
         }
@@ -39,11 +39,11 @@ public class NotificationManager {
         List<Contact> contacts = contactRepository.findAll();
         for (Contact contact : contacts) {
             if (contact.getDeviceToken().equals(deviceToken) && contact.getUserId().equals(payload.get("userID"))) {
-                System.out.println("Pair" + contact.getUserId() + " " + contact.getDeviceToken() + " already in the database");
+                System.out.println("Pair id " + contact.getContact_id() + " user: " + contact.getUserId() + " - " + contact.getDeviceToken() + " already in the database");
                 return HttpStatus.OK;
             }
         }
-        System.out.println("Pair" + payload.get("userID") + " " + deviceToken + " not in the database, saving it");
+        System.out.println("Pair User: " + payload.get("userID") + " - " + deviceToken + " saved in the database");
         contactRepository.save(new Contact((String) payload.get("userID"), deviceToken));
         return HttpStatus.OK;
     }

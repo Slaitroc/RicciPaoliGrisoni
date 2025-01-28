@@ -8,6 +8,7 @@ import click.studentandcompanies.entity.InternshipOffer;
 import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManager;
 import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NoContentException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import click.studentandcompanies.utils.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class GetInternshipsCommandCall implements APIControllerCommandCall<Respo
         try {
             List<InternshipOffer> internships = submissionManager.getAllInternships();
             if (internships.isEmpty()) {
-                throw new NotFoundException("No internships found");
+                return new ResponseEntity<>(List.of(DTOCreator.createDTO(DTOTypes.ERROR, "No internships found")), HttpStatus.NO_CONTENT);
             }
             List<DTO> internshipDTOs = new ArrayList<>();
             for (InternshipOffer internship : internships) {

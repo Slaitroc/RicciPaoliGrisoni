@@ -94,9 +94,13 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
                 if (payload.get("vatNumber") == null) {
                     throw new BadInputException("Vat number of university is required");
                 }
+                List<University> uniList = userManager.getUniversity();
                 Integer vatNumber = (Integer) payload.get("vatNumber");
-                if(userManager.getUniversity().stream().map(University::getVatNumber).toList().contains(vatNumber)){
+                if(uniList.stream().map(University::getVatNumber).toList().contains(vatNumber)){
                     throw new BadInputException("Vat number for this University is already in use");
+                }
+                if(uniList.stream().map(University::getName).toList().contains((String) payload.get("name"))){
+                    throw new BadInputException("Name of the university is already in use");
                 }
                 if(payload.get("uniDescription") == null){
                     throw new BadInputException("Description of the university is required");
@@ -104,6 +108,7 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
                 if(payload.get("location") == null){
                     throw new BadInputException("Location of the university is required");
                 }
+
             }
             //Default case should only be UNKNOWN when the type is not recognized
             default -> throw new BadInputException("Invalid type");

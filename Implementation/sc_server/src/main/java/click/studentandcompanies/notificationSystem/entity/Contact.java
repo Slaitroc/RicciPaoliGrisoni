@@ -11,7 +11,12 @@ import java.util.List;
 @Table(name = "contact")
 public class Contact {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "contact_id", nullable = false)
+    private Integer contact_id;
+
     @Size(max = 255)
+    @NotNull
     @Column(name = "device_token", nullable = false)
     private String deviceToken;
 
@@ -24,12 +29,20 @@ public class Contact {
     List<Notification> notifications = new ArrayList<>();
 
     public Contact() {
-        //empty constructor required by JPA
+        // empty constructor required by JPA
     }
 
     public Contact(String userId, String deviceToken) {
         this.userId = userId;
         this.deviceToken = deviceToken;
+    }
+
+    public Integer getContact_id() {
+        return contact_id;
+    }
+
+    public void setContact_id(Integer id) {
+        this.contact_id = id;
     }
 
     public String getDeviceToken() {

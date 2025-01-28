@@ -309,6 +309,17 @@ export const getMyInterviews = async () => {
     });
 }
 
+export const getMyTemplateInterviews = async () => {
+    const token = await getToken();
+    return fetchWrapper("/application-api/interview/private/get-my-templates", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+    });
+}
+
 export const sendInterview = async (interviewID, questions) => {
     const token = await getToken();
     return fetchWrapper(`/application-api/interview/private/${interviewID}/send-interview`, {
@@ -321,7 +332,7 @@ export const sendInterview = async (interviewID, questions) => {
     });
 }
 
-export const sendInterviewAnswer = async (interviewID, answer) => {
+export const sendInterviewAnswer = async (InterviewID, answer) => {
     const token = await getToken();
     return fetchWrapper(`/application-api/interview/private/${InterviewID}/send-answer`, {
         method: "POST",
@@ -348,7 +359,7 @@ export const saveInterviewTenplate = async (template) => {
 
 export const sendInterviewTemplate = async (templateInterviewID, interviewID) => {
     const token = await getToken();
-    return fetchWrapper(`/application-api/interview/private/${templateInterviewID}/send-template-interview/${interviewID}`, {
+    return fetchWrapper(`/application-api/interview/private/${templateInterviewID}/send-template/${interviewID}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
