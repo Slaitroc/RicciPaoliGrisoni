@@ -22,12 +22,12 @@ import java.util.Map;
 
 public class CloseInternshipOfferCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
 
-    Integer internshipID;
-    Map<String, Object> payload;
-    SubmissionManager submissionManager;
-    UserManager userManager;
-    NotificationManager notificationManager;
-    RecommendationProcess recommendationProcess;
+    private final Integer internshipID;
+    private final Map<String, Object> payload;
+    private final SubmissionManager submissionManager;
+    private final UserManager userManager;
+    private final NotificationManager notificationManager;
+    private final RecommendationProcess recommendationProcess;
 
     public CloseInternshipOfferCommandCall(Integer internshipID, Map<String, Object> payload, SubmissionManager submissionManager,
                                            UserManager userManager, RecommendationProcess recommendationProcess, NotificationManager notificationManager) {

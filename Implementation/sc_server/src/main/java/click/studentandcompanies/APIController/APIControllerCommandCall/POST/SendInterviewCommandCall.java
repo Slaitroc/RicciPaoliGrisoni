@@ -14,9 +14,9 @@ import org.springframework.http.ResponseEntity;
 import java.util.Map;
 
 public class SendInterviewCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
-    int interviewID;
-    Map<String, Object> payload;
-    InterviewManager interviewManager;
+    private final int interviewID;
+    private final Map<String, Object> payload;
+    private final InterviewManager interviewManager;
 
     public SendInterviewCommandCall(int interviewID, Map<String, Object> payload, InterviewManager interviewManager) {
         this.interviewID = interviewID;
