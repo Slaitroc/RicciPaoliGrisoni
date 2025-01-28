@@ -99,6 +99,58 @@ export const getUniversities = async () => {
   });
 };
 
+export const getCompanyInternships = async (companyID) => {
+  const token = await getToken();
+  console.log(JSON.stringify({ companyID }));
+  console.log("Token: ", token);
+    return fetchWrapper(`/application-api/sub/private/internship/${companyID}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+    });
+}
+
+export const getMyCV = async (studentID) => {
+    const token = await getToken();
+    console.log(JSON.stringify({ studentID }));
+    console.log("Token: ", token);
+        return fetchWrapper(`/application-api/sub/private/cv/${studentID}`, {
+            method: "GET",
+            headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+            },
+        });
+}
+
+export const updateMyCV = async (cv) => {
+    const token = await getToken();
+    console.log(JSON.stringify({ ...cv }));
+    console.log("Token: ", token);
+        return fetchWrapper(`/application-api/sub/private/cv/update-cv`, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ ...cv })
+        });
+}
+
+export const getMySpontaneousApplications = async () => {
+    const token = await getToken();
+    return fetchWrapper("/application-api/sub/private/spontaneous-applications", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+    });
+}
+
+
 // #region GLOBAL APPLICATION API CALLS
 // These are the apis that are not called directly from the components
 
