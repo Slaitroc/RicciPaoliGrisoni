@@ -151,6 +151,44 @@ export const getMySpontaneousApplications = async () => {
 }
 
 
+
+export const updateOffer = async (offer) => {
+  const token = await getToken();
+  return fetchWrapper("/application-api/acc/private/update-offer", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ ...offer }),
+  });
+}
+
+export const getInternshipOffers = async () => {
+  const token = await getToken();
+  return fetchWrapper("/application-api//sub/private/internship/get-internship-offer", {
+    method: "GET",
+    headers: { Authorization: `Bearer ${token}` },
+    });
+}
+
+export const getSpontaneousApplication = async () => {
+    const token = await getToken();
+    return fetchWrapper("/application-api/sub/private/application/spontaneous-applications/get-applications", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+    });
+}
+
+export const sendInternshipApplication = async (application) => {
+
+}
+
+
+
+
+
+
 // #region GLOBAL APPLICATION API CALLS
 // These are the apis that are not called directly from the components
 
@@ -161,6 +199,8 @@ export const getUserData = async () => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+
+
 
 // #endregion GLOBAL APPLICATION API CALLS
 
