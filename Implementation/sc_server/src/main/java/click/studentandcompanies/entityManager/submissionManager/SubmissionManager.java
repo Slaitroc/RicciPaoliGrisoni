@@ -72,4 +72,8 @@ public class SubmissionManager {
     public SpontaneousApplication acceptSpontaneousApplication(Integer spontaneousApplicationID, Map<String, Object> payload) {
         return new AcceptSpontaneousApplicationCommand(spontaneousApplicationRepository, spontaneousApplicationID, payload).execute();
     }
+
+    public SpontaneousApplication rejectSpontaneousApplication(Integer spontaneousApplicationID, Map<String, Object> payload) {
+        return new RejectSpontaneousApplicationCommand(spontaneousApplicationRepository, spontaneousApplicationID, payload).execute();
+    }
 }

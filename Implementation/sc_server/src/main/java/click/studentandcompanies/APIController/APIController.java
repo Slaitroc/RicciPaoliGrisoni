@@ -262,7 +262,7 @@ public class APIController {
     @Operation(summary = "Accept Spontaneous Application", description = "The payload is a map with the 'userID' used to accept an application.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "SpontaneousApplication accepted successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "400", description = "Bad request, the application is already accepted"),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "SpontaneousApplication not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
@@ -277,7 +277,7 @@ public class APIController {
     @Operation(summary = "Reject Spontaneous Application", description = "The payload is a map with the 'userID' used to reject an application.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "SpontaneousApplication rejected successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "400", description = "Bad request, the application is already rejected"),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "SpontaneousApplication not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
