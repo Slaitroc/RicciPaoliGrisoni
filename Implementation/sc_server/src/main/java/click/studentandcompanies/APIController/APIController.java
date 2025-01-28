@@ -442,7 +442,7 @@ public class APIController {
             @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
         String user_id = GetUuid.getUuid(token);
         payload.put("student_id", user_id);
-        return new AcceptInternshipPositionOfferCommandCall(intPosOffID, payload, interviewManager).execute();
+        return new AcceptInternshipPositionOfferCommandCall(intPosOffID, payload, interviewManager, notificationManager, userManager).execute();
     }
 
     @PutMapping("/acc/private/send-user-data")

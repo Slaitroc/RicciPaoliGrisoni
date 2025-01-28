@@ -334,7 +334,7 @@ public abstract class EntityFactory {
     protected InternshipPosOffer setNewInternshipPosOffer() {
         InternshipPosOffer ipo = new InternshipPosOffer();
         ipo.setId(newRandom(70001, 80000));
-        ipo.setAcceptance(false);
+        ipo.setStatus(InternshipPosOfferStatusEnum.pending);
         return ipo;
     }
 

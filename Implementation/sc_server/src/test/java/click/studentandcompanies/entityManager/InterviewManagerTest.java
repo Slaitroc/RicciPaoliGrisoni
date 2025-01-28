@@ -1,6 +1,7 @@
 package click.studentandcompanies.entityManager;
 
 import click.studentandcompanies.entity.*;
+import click.studentandcompanies.entity.dbEnum.InternshipPosOfferStatusEnum;
 import click.studentandcompanies.entity.dbEnum.InterviewStatusEnum;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
 import click.studentandcompanies.entityRepository.*;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Condensed style tests for InterviewManager. 
+ * Condensed style tests for InterviewManager.
  * Each method covers both success and error scenarios.
  */
 class InterviewManagerTest extends EntityFactory {
@@ -371,7 +372,7 @@ class InterviewManagerTest extends EntityFactory {
         // 1) Success
         when(userManager.getUserType("10")).thenReturn(UserType.STUDENT);
         InternshipPosOffer result = interviewManager.acceptInternshipPositionOffer(900, payload);
-        assertTrue(result.getAcceptance());
+        assertSame(InternshipPosOfferStatusEnum.accepted, result.getStatus());
 
         // 2) UserType UNKNOWN => BadInput
         when(userManager.getUserType("10")).thenReturn(UserType.UNKNOWN);
@@ -387,13 +388,13 @@ class InterviewManagerTest extends EntityFactory {
         );
 
         // 4) If acceptance already true => WrongState
-        posOffer.setAcceptance(true);
+        posOffer.setStatus(InternshipPosOfferStatusEnum.accepted);
         assertThrows(WrongStateException.class, () ->
                 interviewManager.acceptInternshipPositionOffer(900, payload)
         );
 
         // 5) Mismatch student => Unauthorized
-        posOffer.setAcceptance(false);
+        posOffer.setStatus(InternshipPosOfferStatusEnum.pending);
         Student other = setNewStudent(99, "OtherStudent", setNewUniversity(2,"OtherUni","FR"));
         rec.getCv().setStudent(other);
         assertThrows(UnauthorizedException.class, () ->
