@@ -152,7 +152,7 @@ public class APIController {
 
     //ACTUALLY, THIS IS NOT IMPLEMENTED YET, DO NOT USE!
     @Deprecated
-    @PostMapping("/sub/private/internship/close-internship/{internshipID}")
+    @PostMapping("/sub/private/internship/{internshipID}/close-internship")
     @Operation(summary = "Close internship", description = "payload will contain the company_id")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK, Internship closed successfully"),
@@ -171,6 +171,9 @@ public class APIController {
                 recommendationProcess, notificationManager).execute();
     }
 
+
+    //_________________________ sub/private/cv __________________________
+
     @GetMapping("/sub/private/cv/{studentID}/get-student-cv")
     @Operation(summary = "Request Student CV", description = "Get the CV of a specific student.")
     @ApiResponses({
@@ -184,7 +187,6 @@ public class APIController {
         String userID = GetUuid.getUuid(token);
         return new GetStudentCVCommandCall(studentID, userID, submissionManager).execute();
     }
-    //_________________________ sub/private/cv __________________________
 
 
     @PostMapping("/sub/private/cv/update-my-cv")
@@ -271,7 +273,7 @@ public class APIController {
 
     //_________________________ recommendation/private __________________________
 
-    @GetMapping("/recommendation/private/get-my-matches/")
+    @GetMapping("/recommendation/private/get-my-matches")
     @Operation(summary = "User requests the list of his Matches", description = "Get the list of the user Recommendations.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Matches retrieved successfully"),
@@ -348,7 +350,7 @@ public class APIController {
     }
 
 
-    @PostMapping("/comm/private/create")
+    @PostMapping("/comm/private/create-comm")
     @Operation(summary = "Create communication", description = "payload will contain the 'student_id', 'internshipOffer_id', 'university_id', 'title', 'content', 'communication_type' (communication, complaint)")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Communication created successfully"),
@@ -462,7 +464,7 @@ public class APIController {
     }
 
 
-    @PostMapping("interview/private/{TemplateInterviewID}/send-template-interview/{InterviewID}")
+    @PostMapping("/interview/private/{TemplateInterviewID}/send-template-interview/{InterviewID}")
     @Operation(summary = "Send interview template", description = "payload will contain the 'company_id'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview template sent successfully"),
@@ -479,7 +481,7 @@ public class APIController {
     }
 
 
-    @PostMapping("interview/private/{InterviewID}/evaluate-interview")
+    @PostMapping("/interview/private/{InterviewID}/evaluate-interview")
     @Operation(summary = "Evaluate interview", description = "payload will contain the 'company_id' the 'evaluation' (a integer from 1 to 5) and the 'status' (failed or passed)")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview evaluated successfully"),
@@ -495,7 +497,7 @@ public class APIController {
     }
 
 
-    @PostMapping("interview/private/{InterviewID}/send-int-pos-off")
+    @PostMapping("/interview/private/{InterviewID}/send-int-pos-off")
     @Operation(summary = "Send interview position offer", description = "payload will contain the 'company_id'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview position offer sent successfully"),
