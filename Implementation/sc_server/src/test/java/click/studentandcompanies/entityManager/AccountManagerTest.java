@@ -61,9 +61,9 @@ class AccountManagerTest extends EntityFactory {
         Account acc = new Account("UUID-123", "Alice", "alice@example.com", "IT",
                 UserType.STUDENT, false, "Smith", 1234, LocalDate.now(), null, null, null);
         when(accountRepository.save(any(Account.class))).thenReturn(acc);
-        University uni = setNewUniversity(1,"MIT", "IT");
+        University uni = setNewUniversity(1, "MIT", "IT");
         uni.setVatNumber(1234);
-        when(universityRepository.findAll()).thenReturn(List.of(uni));
+        when(userManager.getUniversity()).thenReturn(List.of(uni));
 
         // --- Success for STUDENT ---
         Account result = accountManager.sendUserData(payload);
