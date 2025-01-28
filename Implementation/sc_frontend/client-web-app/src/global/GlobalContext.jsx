@@ -3,10 +3,12 @@ import * as global from "./globalStatesInit";
 import { onAuthStateChanged } from "firebase/auth";
 import { getToken, onMessage } from "firebase/messaging";
 import * as firebaseConfig from "../api-calls/api-wrappers/authorization-wrapper/firebase-utils/firebaseConfig";
+import * as apiCalls from "../api-calls/apiCalls";
 import * as account from "../api-calls/api-wrappers/account-wrapper/account";
 import SCNotificationAlert from "../components/Shared/SCNotificationAlert";
 import { RouterProvider } from "react-router-dom";
 import router from "../routing/routers";
+import { use } from "react";
 
 const GlobalContext = React.createContext();
 
@@ -20,8 +22,7 @@ export const useGlobalContext = () => {
 };
 
 export const GlobalProvider = ({ children }) => {
-  // const navigate = useNavigate();
-
+  
   // NOTIFICATION
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
@@ -30,7 +31,6 @@ export const GlobalProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     global.INIT_IS_AUTHENTICATED
   );
-  const [navigateReference, setNavigateReference] = useState(null);
 
   // PROFILE
   const [profile, setProfile] = useState(global.INIT_PROFILE);
@@ -95,6 +95,7 @@ export const GlobalProvider = ({ children }) => {
         // Invia il token FCM al server
         if (token) {
           // FIX crea wrapper notification
+          console.log("FCM token:", token);
           apiCalls.sendNotificationToken(token).then((response) => {
             if (!response.ok) {
               console.error("Errore durante l'invio del token FCM:", response);
@@ -135,8 +136,6 @@ export const GlobalProvider = ({ children }) => {
     previewUrl,
     showNotification,
     notificationMessage,
-    navigateReference,
-    setNavigateReference,
     setNotificationMessage,
     setShowNotification,
     setUserType,

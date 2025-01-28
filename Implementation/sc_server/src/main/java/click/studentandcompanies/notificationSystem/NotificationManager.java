@@ -4,9 +4,7 @@ import click.studentandcompanies.notificationSystem.entity.Contact;
 import click.studentandcompanies.notificationSystem.entity.Notification;
 import click.studentandcompanies.notificationSystem.entityRepository.ContactRepository;
 import click.studentandcompanies.notificationSystem.entityRepository.NotificationRepository;
-import click.studentandcompanies.notificationSystem.notificationUtils.NotificationData;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationPayload;
-import com.google.protobuf.MapEntry;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -41,9 +39,11 @@ public class NotificationManager {
         List<Contact> contacts = contactRepository.findAll();
         for (Contact contact : contacts) {
             if (contact.getDeviceToken().equals(deviceToken) && contact.getUserId().equals(payload.get("userID"))) {
+                System.out.println("Pair" + contact.getUserId() + " " + contact.getDeviceToken() + " already in the database");
                 return HttpStatus.OK;
             }
         }
+        System.out.println("Pair" + payload.get("userID") + " " + deviceToken + " not in the database, saving it");
         contactRepository.save(new Contact((String) payload.get("userID"), deviceToken));
         return HttpStatus.OK;
     }

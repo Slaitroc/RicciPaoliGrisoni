@@ -79,7 +79,7 @@ export const SCUserCreation = () => {
   React.useEffect(() => {
     account.getUserData().then((response) => {
       //TODO altro?
-      if (response.ok) navigate("/dashboard");
+      if (response.status === 200) navigate("/dashboard");
     });
   }, []);
 
