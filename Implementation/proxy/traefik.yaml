@@ -2,7 +2,7 @@ api:
   dashboard: true
 entryPoints:
   web:
-    address: ":80"
+    address: ":8445"
     # http:
     #   redirections:
     #     entryPoint:
