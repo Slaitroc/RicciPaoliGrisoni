@@ -69,4 +69,8 @@ public class InterviewManager {
     public InternshipPosOffer acceptInternshipPositionOffer(Integer intPosOffID, Map<String, Object> payload) throws NotFoundException, BadInputException, UnauthorizedException, WrongStateException {
         return new AcceptInternshipPositionOfferCommand(intPosOffID, payload, interviewRepository, userManager).execute();
     }
+
+    public InternshipPosOffer rejectInternshipPositionOffer(Integer intPosOffID, Map<String, Object> payload) throws NotFoundException, BadInputException, UnauthorizedException, WrongStateException {
+        return new RejectInternshipPositionOfferCommand(intPosOffID, payload, internshipPosOfferRepository, userManager).execute();
+    }
 }

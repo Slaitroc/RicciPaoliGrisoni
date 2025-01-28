@@ -45,9 +45,10 @@ public class AcceptInternshipPositionOfferCommand implements InterviewManagerCom
             }
             InternshipPosOffer internshipPosOffer = getInternshipPosOffer(interview);
             internshipPosOffer.setStatus(InternshipPosOfferStatusEnum.accepted);
+            //interviewRepository.save(internshipPosOffer);
             return internshipPosOffer;
         } if (type == UserType.UNKNOWN) {
-            throw new BadInputException("User not found");
+            throw new NotFoundException("User not found");
         } else {
             throw new UnauthorizedException("User not authorized to accept internship position offer");
         }
