@@ -120,7 +120,7 @@ export const getUserData = async () => {
 // These are the calls used for testing purposes in specific testing pages that won't be available in production
 
 export const testRequest = async () => {
-  return fetchWrapper("/application-api/sub/private/internships/?companyID=8", {
+  return fetchWrapper("/application-api/sub/private/internship/8", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
