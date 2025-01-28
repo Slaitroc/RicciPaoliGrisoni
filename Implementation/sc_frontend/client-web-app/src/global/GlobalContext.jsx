@@ -2,8 +2,11 @@ import React, { useContext, useState, useEffect, useCallback } from "react";
 import * as global from "./globalStatesInit";
 import { onAuthStateChanged } from "firebase/auth";
 import { getToken, onMessage } from "firebase/messaging";
-import * as apiCalls from "../api-calls/apiCalls";
 import * as firebaseConfig from "../api-calls/api-wrappers/authorization-wrapper/firebase-utils/firebaseConfig";
+import * as account from "../api-calls/api-wrappers/account-wrapper/account";
+import SCNotificationAlert from "../components/Shared/SCNotificationAlert";
+import { RouterProvider } from "react-router-dom";
+import router from "../routing/routers";
 
 const GlobalContext = React.createContext();
 
@@ -17,6 +20,8 @@ export const useGlobalContext = () => {
 };
 
 export const GlobalProvider = ({ children }) => {
+  // const navigate = useNavigate();
+
   // NOTIFICATION
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
@@ -25,6 +30,7 @@ export const GlobalProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     global.INIT_IS_AUTHENTICATED
   );
+  const [navigator, setNavigator] = useState(null);
 
   // PROFILE
   const [profile, setProfile] = useState(global.INIT_PROFILE);
@@ -57,6 +63,7 @@ export const GlobalProvider = ({ children }) => {
     // NOTIFICATION & AUTHENTICATION
     // Registra il Service Worker e ottieni il token FCM
     let token = null;
+    console.log("Service Worker supportato dal browser.");
     navigator.serviceWorker
       .register("/firebase-messaging-sw.js")
       .then((registration) => {
@@ -84,8 +91,28 @@ export const GlobalProvider = ({ children }) => {
       if (user) {
         console.log("Utente autenticato:", user.email);
         setIsAuthenticated(true);
+        // Controlla se l'utente è stato creato
+        account.getUserData().then((response) => {
+          if (response.status === 204) {
+            console.log("Dati utente non trovati. Creazione nuovo utente.");
+            // Naviga alla pagina di creazione utente
+            if (navigator) navigate("/signup/user-creation");
+            else console.error("Navigator not found.");
+          } else if (response.ok) {
+            response.json().then((data) => {
+              //TODO verifica che la mail sia confermata
+              setUserType(data.properties.userType);
+              setProfile(data.properties);
+              console.log("Fetched User data:", data);
+              // Naviga alla dashboard
+              if (navigator) navigate("/dashboard");
+              else console.error("Navigator not found.");
+            });
+          }
+        });
         // Invia il token FCM al server
         if (token) {
+          // FIX crea wrapper notification
           apiCalls.sendNotificationToken(token).then((response) => {
             if (!response.ok) {
               console.error("Errore durante l'invio del token FCM:", response);
@@ -116,28 +143,28 @@ export const GlobalProvider = ({ children }) => {
     });
   }, []);
 
+  const value = {
+    isAuthenticated,
+    profile,
+    loading,
+    error,
+    userType,
+    selectedFile,
+    previewUrl,
+    showNotification,
+    notificationMessage,
+    navigator,
+    setNavigator,
+    setNotificationMessage,
+    setShowNotification,
+    setUserType,
+    setIsAuthenticated,
+    setProfile,
+    handleFileChange,
+    removePhoto,
+  };
+
   return (
-    <GlobalContext.Provider
-      value={{
-        isAuthenticated,
-        profile,
-        loading,
-        error,
-        userType,
-        selectedFile,
-        previewUrl,
-        showNotification,
-        notificationMessage,
-        setNotificationMessage,
-        setShowNotification,
-        setUserType,
-        setIsAuthenticated,
-        setProfile,
-        handleFileChange,
-        removePhoto,
-      }}
-    >
-      {children}
-    </GlobalContext.Provider>
+    <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
   );
 };
