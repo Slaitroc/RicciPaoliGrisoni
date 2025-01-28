@@ -103,7 +103,10 @@ export const getInternshipOffers = async () => {
     const token = await getToken();
     return fetchWrapper("/application-api/sub/private/internship/get-internship-offer", {
         method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
     });
 }
 
@@ -136,7 +139,7 @@ export const getStudentCV = async (studentID) => {
     const token = await getToken();
     console.log(JSON.stringify({ studentID }));
     console.log("Token: ", token);
-        return fetchWrapper(`/sub/private/cv/${studentID}/get-student-cv`, {
+        return fetchWrapper(`/application-api/sub/private/cv/${studentID}/get-student-cv`, {
             method: "GET",
             headers: {
             "Content-Type": "application/json",
@@ -176,7 +179,10 @@ export const submitSpontaneousApplication = async (internshipOfferID) => {
     const token = await getToken();
     return fetchWrapper(`/application-api/sub/private/application/${internshipOfferID}/submit`, {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
     });
 }
 
@@ -184,15 +190,217 @@ export const acceptSpontaneousApplication = async (applicationID) => {
     const token = await getToken();
     return fetchWrapper(`/application-api/sub/private/application/${applicationID}/accept`, {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
     });
-
 }
 
+export const rejectSpontaneousApplication = async (applicationID) => {
+    const token = await getToken();
+    return fetchWrapper(`/application-api/sub/private/application/${applicationID}/reject`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+    });
+}
 
+export const getMyRecommendations = async () => {
+    const token = await getToken();
+    return fetchWrapper("/application-api/recommendation/private/get-my-matches", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+    });
+}
 
+export const acceptRecommendation = async (recommendationID) => {
+    const token = await getToken();
+    return fetchWrapper(`/application-api/recommendation/private/${recommendationID}/accept`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+    });
+}
 
+export const rejectRecommendation = async (recommendationID) => {
+    const token = await getToken();
+    return fetchWrapper(`/application-api/recommendation/private/${recommendationID}/reject`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+    });
+}
 
+export const getMyCommunications = async () => {
+    const token = await getToken();
+    return fetchWrapper("/application-api/comm/private/get-my-comm", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+    });
+}
+
+export const getCommunication = async (communicationID) => {
+    const token = await getToken();
+    return fetchWrapper(`/comm/private/communication/${communicationID}/get-comm`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+    });
+}
+
+export const createCommunication = async (communication) => {
+    const token = await getToken();
+    return fetchWrapper("/application-api/comm/private/create-comm", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ ...communication }),
+    });
+}
+
+export const terminateCommunication = async (communicationID) => {
+    const token = await getToken();
+    return fetchWrapper(`/application-api/comm/private/${communicationID}/terminate`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+    });
+}
+
+export const submitFeedback = async (feedback) => {
+    const token = await getToken();
+    return fetchWrapper("/application-api/comm/private/submit-feedback", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ ...feedback }),
+    });
+}
+
+export const getMyInterviews = async () => {
+    const token = await getToken();
+    return fetchWrapper("/application-api/interview/private/get-my-interviews", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+    });
+}
+
+export const sendInterview = async (interviewID, questions) => {
+    const token = await getToken();
+    return fetchWrapper(`/application-api/interview/private/${interviewID}/send-interview`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ ...questions }),
+    });
+}
+
+export const sendInterviewAnswer = async (interviewID, answer) => {
+    const token = await getToken();
+    return fetchWrapper(`/application-api/interview/private/${InterviewID}/send-answer`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ ...answer }),
+    });
+}
+
+//todo perché gli serve una interview per salvare il template?
+export const saveInterviewTenplate = async (template) => {
+    const token = await getToken();
+    return fetchWrapper("/application-api/interview/private/${InterviewID}/save-template", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ ...template }),
+    });
+}
+
+export const sendInterviewTemplate = async (templateInterviewID, interviewID) => {
+    const token = await getToken();
+    return fetchWrapper(`/application-api/interview/private/${templateInterviewID}/send-template-interview/${interviewID}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+    });
+}
+
+export const sendInterviewEvaluation = async (interviewID, evaluation) => {
+    const token = await getToken();
+    return fetchWrapper(`/application-api/interview/private/${interviewID}/evaluate-interview`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ ...evaluation }),
+    });
+}
+
+export const sendInternshipPositionOffer = async (interviewID) => {
+    const token = await getToken();
+    return fetchWrapper(`/application-api/interview/private/${interviewID}/send-int-pos-off`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+    });
+}
+
+export const acceptInternshipPositionOffer = async (intPosOffID) => {
+    const token = await getToken();
+    return fetchWrapper(`/application-api/interview/private/${intPosOffID}/accept-int-pos-off`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+    });
+}
+
+export const rejectInternshipPositionOffer = async (intPosOffID) => {
+    const token = await getToken();
+    return fetchWrapper(`/application-api/interview/private/${intPosOffID}/reject-int-pos-off`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+    });
+}
 
 // #region GLOBAL APPLICATION API CALLS
 // These are the apis that are not called directly from the components
