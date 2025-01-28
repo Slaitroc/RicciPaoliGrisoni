@@ -39,7 +39,6 @@ public class GetUuid {
         } catch (Exception e) {
             e.printStackTrace();
             // Handle other errors, including UUID not found
-            e.printStackTrace();
             System.err.println("Error: " + e.getMessage());
             return null;
         }
