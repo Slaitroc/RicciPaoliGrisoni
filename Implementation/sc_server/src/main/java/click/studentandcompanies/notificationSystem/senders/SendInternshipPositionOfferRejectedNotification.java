@@ -2,20 +2,19 @@ package click.studentandcompanies.notificationSystem.senders;
 
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.notificationSystem.NotificationManager;
-import click.studentandcompanies.notificationSystem.notificationUtils.EmailContent;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationPayload;
 
 import java.util.List;
 
-public class SendInternshipPositionOfferAcceptedNotification implements SenderInterface{
+public class SendInternshipPositionOfferRejectedNotification implements SenderInterface{
 
     @Override
     public void sendNotification(List<String> userIDs, DTO data, NotificationManager notificationManager) {
         List<String> deviceTokens = getDeviceTokens(userIDs, notificationManager);
         //List<String> emails = getEmails(userIDs, notificationManager);
 
-        String pushTitle = "Accepted Internship Offer";
-        String pushBody = "Congratulations! The candidate has accepted the internship offer";
+        String pushTitle = "Refuse Internship Offer";
+        String pushBody = "The candidate has refused the internship offer";
 
         NotificationPayload payload = new NotificationPayload(pushTitle, pushBody);
         //EmailContent emailContent = new EmailContent(pushTitle, pushBody);
@@ -23,6 +22,7 @@ public class SendInternshipPositionOfferAcceptedNotification implements SenderIn
         PUSH_NOTIFICATION_ADAPTER.sendPushNotification(deviceTokens, payload);
         this.saveNotification(payload, userIDs, notificationManager);
         //EMAIL_SERVICE_ADAPTER.sendEmail(emails, emailContent);
+
         saveNotification(payload, userIDs, notificationManager);
     }
 

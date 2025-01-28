@@ -6,7 +6,7 @@ import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.Account;
 import click.studentandcompanies.entityManager.accountManager.AccountManager;
-import com.google.api.gax.rpc.NotFoundException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -25,7 +25,8 @@ public class GetUserDataCommandCall implements APIControllerCommandCall<Response
             Account account = accountManager.getAccountBy(userID);
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ACCOUNT, account), HttpStatus.OK);
         }catch (NotFoundException e) {
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
+            //it is correct, the front-end will handle this, we need to send a response with no content (204)
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NO_CONTENT);
         }catch (Exception e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }

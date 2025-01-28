@@ -503,6 +503,21 @@ public class APIController {
         return new AcceptInternshipPositionOfferCommandCall(intPosOffID, payload, interviewManager, notificationManager, userManager).execute();
     }
 
+
+    @PostMapping("/interview/private/reject-int-pos-off/")
+    @Operation(summary = "Close internship", description = "payload will contain the student_id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK, Internship closed successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, User is not the owner of the internship"),
+            @ApiResponse(responseCode = "404", description = "Internship not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> rejectInternshipPositionOffer(@RequestParam("intPosOffID") Integer intPosOffID, @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+        String user_id = GetUuid.getUuid(token);
+        payload.put("student_id", user_id);
+        return new RejectInternshipPositionOfferCommandCall(intPosOffID, payload, interviewManager, notificationManager, userManager).execute();
+    }
     /*---------------------------------*/
     /*Deprecated API calls*/
     /*---------------------------------*/

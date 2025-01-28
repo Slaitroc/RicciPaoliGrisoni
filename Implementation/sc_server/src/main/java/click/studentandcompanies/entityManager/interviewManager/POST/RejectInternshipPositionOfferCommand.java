@@ -1,7 +1,6 @@
 package click.studentandcompanies.entityManager.interviewManager.POST;
 
 import click.studentandcompanies.entity.InternshipPosOffer;
-import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entity.dbEnum.InternshipPosOfferStatusEnum;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManagerCommand;
@@ -16,14 +15,14 @@ import click.studentandcompanies.utils.exception.WrongStateException;
 import java.util.Map;
 import java.util.Objects;
 
-public class AcceptInternshipPositionOfferCommand implements InterviewManagerCommand<InternshipPosOffer> {
+public class RejectInternshipPositionOfferCommand implements InterviewManagerCommand<InternshipPosOffer> {
 
     private final Integer intPosOffID;
     private final InternshipPosOfferRepository internshipPosOfferRepository;
     private final UserManager userManager;
     private final Map<String, Object> payload;
 
-    public AcceptInternshipPositionOfferCommand(Integer intPosOffID, Map<String, Object> payload, InternshipPosOfferRepository internshipPosOfferRepository, UserManager userManager) {
+    public RejectInternshipPositionOfferCommand(Integer intPosOffID, Map<String, Object> payload, InternshipPosOfferRepository internshipPosOfferRepository, UserManager userManager) {
         this.intPosOffID = intPosOffID;
         this.internshipPosOfferRepository = internshipPosOfferRepository;
         this.userManager = userManager;
@@ -34,7 +33,7 @@ public class AcceptInternshipPositionOfferCommand implements InterviewManagerCom
     public InternshipPosOffer execute() throws NotFoundException, BadInputException, UnauthorizedException, WrongStateException {
         validateInput(payload, intPosOffID);
         InternshipPosOffer internshipPosOffer = internshipPosOfferRepository.getById(intPosOffID);
-        internshipPosOffer.setStatus(InternshipPosOfferStatusEnum.accepted);
+        internshipPosOffer.setStatus(InternshipPosOfferStatusEnum.rejected);
         return internshipPosOfferRepository.save(internshipPosOffer);
     }
 
@@ -46,7 +45,7 @@ public class AcceptInternshipPositionOfferCommand implements InterviewManagerCom
         if(type == UserType.UNKNOWN){
             throw new BadInputException("Unknown user");
         }else if(type != UserType.STUDENT){
-            throw new UnauthorizedException("Only students can accept internship position offers");
+            throw new UnauthorizedException("Only students can reject internship position offers");
         }
         InternshipPosOffer internshipPosOffer = internshipPosOfferRepository.findById(intPosOffID).orElse(null);
         if(internshipPosOffer == null){
@@ -56,7 +55,8 @@ public class AcceptInternshipPositionOfferCommand implements InterviewManagerCom
             throw new WrongStateException("Internship Position Offer is not pending");
         }
         if(!(userManager.getStudentIDByInternshipPosOfferID(intPosOffID).equals(payload.get("student_id")))){
-            throw new UnauthorizedException("Student not authorized to accept internship position offer");
+            throw new UnauthorizedException("Student not authorized to reject internship position offer");
         }
     }
+
 }
