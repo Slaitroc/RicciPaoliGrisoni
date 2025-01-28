@@ -322,7 +322,7 @@ public class APIController {
 
     //_________________________ comm/private __________________________
 
-    @GetMapping("/comm/private/communications/get-my-comm")
+    @GetMapping("/comm/private/get-my-comm")
     @Operation(summary = "User userID requests the communication commID", description = "Get the communication commID for the user userID.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Communication retrieved successfully"),
@@ -403,7 +403,7 @@ public class APIController {
 
     //_________________________ interview/private __________________________
 
-    @GetMapping("/interview/private/get-interviews")
+    @GetMapping("/interview/private/get-my-interviews")
     @Operation(summary = "User requests the list of his Interviews", description = "Get the list of the user Interviews.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Interviews retrieved successfully"),
@@ -415,6 +415,23 @@ public class APIController {
         String userID = GetUuid.getUuid(token);
         return new GetInterviewsCommandCall(userID, interviewManager).execute();
     }
+
+
+    @PostMapping("/interview/private/{InterviewID}/send-interview")
+    @Operation(summary = "Send interview", description = "payload will contain the 'questions' and the 'company_id'")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Interview sent successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Interview not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> sendInterview(@PathVariable Integer InterviewID,
+                                             @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+        String company_id = GetUuid.getUuid(token);
+        payload.put("company_id", company_id);
+        return new SendInterviewCommandCall(InterviewID, payload, interviewManager).execute();
+    }
+
 
     @PostMapping("/interview/private/{InterviewID}/send-answer")
     @Operation(summary = "Send interview answer", description = "payload will contain the 'student_id' and the 'answer'")
@@ -433,23 +450,7 @@ public class APIController {
     }
 
 
-    @PostMapping("/interview/private/{InterviewID}/end-interview")
-    @Operation(summary = "Send interview", description = "payload will contain the 'questions' and the 'company_id'")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Interview sent successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "404", description = "Interview not found"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
-    public ResponseEntity<DTO> sendInterview(@PathVariable Integer InterviewID,
-            @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
-        String company_id = GetUuid.getUuid(token);
-        payload.put("company_id", company_id);
-        return new SendInterviewCommandCall(InterviewID, payload, interviewManager).execute();
-    }
-
-
-    @PostMapping("/interview/private/{InterviewID}/save-template-interview")
+    @PostMapping("/interview/private/{InterviewID}/save-template")
     @Operation(summary = "Save interview template", description = "payload will contain the 'questions' and the 'company_id'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview template saved successfully"),
