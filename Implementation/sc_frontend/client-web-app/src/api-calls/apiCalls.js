@@ -99,11 +99,19 @@ export const getUniversities = async () => {
   });
 };
 
+export const getInternshipOffers = async () => {
+    const token = await getToken();
+    return fetchWrapper("/application-api/sub/private/internship/get-internship-offer", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+    });
+}
+
 export const getCompanyInternships = async (companyID) => {
   const token = await getToken();
   console.log(JSON.stringify({ companyID }));
   console.log("Token: ", token);
-    return fetchWrapper(`/application-api/sub/private/internship/${companyID}`, {
+    return fetchWrapper(`/application-api/sub/private/internship/${companyID}/get-company-internships`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -112,11 +120,23 @@ export const getCompanyInternships = async (companyID) => {
     });
 }
 
-export const getMyCV = async (studentID) => {
+export const updateOffer = async (offer) => {
+    const token = await getToken();
+    return fetchWrapper("/application-api/sub/private/internship/update-my-offer", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ ...offer }),
+    });
+}
+
+export const getStudentCV = async (studentID) => {
     const token = await getToken();
     console.log(JSON.stringify({ studentID }));
     console.log("Token: ", token);
-        return fetchWrapper(`/application-api/sub/private/cv/${studentID}`, {
+        return fetchWrapper(`/sub/private/cv/${studentID}/get-student-cv`, {
             method: "GET",
             headers: {
             "Content-Type": "application/json",
@@ -139,9 +159,11 @@ export const updateMyCV = async (cv) => {
         });
 }
 
+
+
 export const getMySpontaneousApplications = async () => {
     const token = await getToken();
-    return fetchWrapper("/application-api/sub/private/spontaneous-applications", {
+    return fetchWrapper("/application-api/sub/private/application/get-applications", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -150,37 +172,20 @@ export const getMySpontaneousApplications = async () => {
     });
 }
 
-
-
-export const updateOffer = async (offer) => {
-  const token = await getToken();
-  return fetchWrapper("/application-api/acc/private/update-offer", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ ...offer }),
-  });
-}
-
-export const getInternshipOffers = async () => {
-  const token = await getToken();
-  return fetchWrapper("/application-api//sub/private/internship/get-internship-offer", {
-    method: "GET",
-    headers: { Authorization: `Bearer ${token}` },
-    });
-}
-
-export const getSpontaneousApplication = async () => {
+export const submitSpontaneousApplication = async (internshipOfferID) => {
     const token = await getToken();
-    return fetchWrapper("/application-api/sub/private/application/spontaneous-applications/get-applications", {
-        method: "GET",
+    return fetchWrapper(`/application-api/sub/private/application/${internshipOfferID}/submit`, {
+        method: "POST",
         headers: { Authorization: `Bearer ${token}` },
     });
 }
 
-export const sendInternshipApplication = async (application) => {
+export const acceptSpontaneousApplication = async (applicationID) => {
+    const token = await getToken();
+    return fetchWrapper(`/application-api/sub/private/application/${applicationID}/accept`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+    });
 
 }
 
