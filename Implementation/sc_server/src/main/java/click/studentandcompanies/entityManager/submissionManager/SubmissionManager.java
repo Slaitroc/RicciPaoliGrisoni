@@ -68,4 +68,8 @@ public class SubmissionManager {
     public void closeRelatedApplications(Integer internshipID) {
         new CloseRelatedApplicationsCommand(spontaneousApplicationRepository, internshipID).execute();
     }
+
+    public SpontaneousApplication acceptSpontaneousApplication(Integer spontaneousApplicationID, Map<String, Object> payload) {
+        return new AcceptSpontaneousApplicationCommand(spontaneousApplicationRepository, spontaneousApplicationID, payload).execute();
+    }
 }

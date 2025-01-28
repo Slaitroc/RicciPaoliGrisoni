@@ -104,7 +104,7 @@ export default function SCSignInCard() {
           });
         }
       });
-
+      // TODO sicuri vada qui?
       Notification.requestPermission().then((permission) => {
         if (permission === "granted") {
           console.log("Permesso per le notifiche concesso.");

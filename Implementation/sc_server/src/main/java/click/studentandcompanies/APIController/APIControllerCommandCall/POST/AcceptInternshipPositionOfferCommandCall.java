@@ -17,9 +17,9 @@ import java.util.Map;
 
 public class AcceptInternshipPositionOfferCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
 
-    InterviewManager interviewManager;
-    Integer intPosOffID;
-    Map<String, Object> payload;
+    private final InterviewManager interviewManager;
+    private final Integer intPosOffID;
+    private final Map<String, Object> payload;
 
     public AcceptInternshipPositionOfferCommandCall(Integer intPosOffID, Map<String, Object> payload, InterviewManager interviewManager) {
         this.intPosOffID = intPosOffID;
