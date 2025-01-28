@@ -388,7 +388,18 @@ public class APIController {
 
     //_________________________ interview/private __________________________
 
-    //todo add the getters for interviews
+    @GetMapping("/interview/private/get-interviews/")
+    @Operation(summary = "User requests the list of his Interviews", description = "Get the list of the user Interviews.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, Interviews retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request, User is not a student or a company"),
+            @ApiResponse(responseCode = "404", description = "No Interviews found for this user"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<List<DTO>> getInterviews(@RequestHeader("Authorization") String token) {
+        String userID = GetUuid.getUuid(token);
+        return new GetInterviewsCommandCall(userID, interviewManager).execute();
+    }
 
     @PostMapping("/interview/private/send-answer/{InterviewID}")
     @Operation(summary = "Send interview answer", description = "payload will contain the 'student_id' and the 'answer'")
