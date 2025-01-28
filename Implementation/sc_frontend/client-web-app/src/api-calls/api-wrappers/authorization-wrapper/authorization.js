@@ -100,7 +100,8 @@ export const register = async (email, password) => {
     // Invia email di verifica
     const actionCodeSettings = {
       //DANGER - url di reindirizzamento nella email di verifica
-      url: `${BASE_DOMAIN}:5173/email-verified`,
+      //url: `${BASE_DOMAIN}:5174/email-verified`, //DANGER TO CHANGE IF PC CHANGE
+      url: `http://localhost:5174/email-verified`, //DANGER TO CHANGE IF PC CHANGE
       handleCodeInApp: true, // Indica che l'app gestirà l'URL
     };
     await firebaseAuth.sendEmailVerification(
