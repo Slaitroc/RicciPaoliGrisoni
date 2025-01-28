@@ -13,12 +13,12 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 
-public class RefuseRecommendationCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
+public class RejectRecommendationCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
     private final int RecommendationID;
     private final RecommendationProcess recommendationProcess;
     private final Map<String, Object> payload;
 
-    public RefuseRecommendationCommandCall(int RecommendationID, RecommendationProcess recommendationProcess, Map<String, Object> payload) {
+    public RejectRecommendationCommandCall(int RecommendationID, RecommendationProcess recommendationProcess, Map<String, Object> payload) {
         this.RecommendationID = RecommendationID;
         this.recommendationProcess = recommendationProcess;
         this.payload = payload;
@@ -27,7 +27,7 @@ public class RefuseRecommendationCommandCall implements APIControllerCommandCall
     @Override
     public ResponseEntity<DTO> execute() {
         try {
-            Recommendation recommendation = recommendationProcess.refuseRecommendation(RecommendationID, payload);
+            Recommendation recommendation = recommendationProcess.rejectRecommendation(RecommendationID, payload);
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation), HttpStatus.CREATED);
         } catch (BadInputException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);

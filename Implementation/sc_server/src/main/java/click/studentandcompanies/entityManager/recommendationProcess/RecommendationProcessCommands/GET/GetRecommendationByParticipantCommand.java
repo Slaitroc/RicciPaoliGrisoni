@@ -31,7 +31,7 @@ public class GetRecommendationByParticipantCommand implements RecommendationProc
             case UNIVERSITY -> throw new BadInputException("User is not a company or student");
             default -> throw new NotFoundException("User not found");
         };
-        recommendations = recommendations.stream().filter(recommendation -> recommendation.getStatus() != RecommendationStatusEnum.refusedMatch).toList();
+        recommendations = recommendations.stream().filter(recommendation -> recommendation.getStatus() != RecommendationStatusEnum.rejectedMatch).toList();
         if(type == UserType.STUDENT){
             recommendations = recommendations.stream().filter(recommendation -> recommendation.getStatus() != RecommendationStatusEnum.acceptedByStudent).toList();
         }else{

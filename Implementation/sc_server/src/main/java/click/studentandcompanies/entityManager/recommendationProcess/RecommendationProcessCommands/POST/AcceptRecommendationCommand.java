@@ -60,7 +60,7 @@ public class AcceptRecommendationCommand implements RecommendationProcessCommand
                 (userType == UserType.COMPANY && recommendation.getStatus() == RecommendationStatusEnum.acceptedByCompany) ||
                 recommendation.getStatus() == RecommendationStatusEnum.acceptedMatch){
             throw new BadInputException("Recommendation already accepted");
-        }else if(recommendation.getStatus() == RecommendationStatusEnum.refusedMatch){
+        }else if(recommendation.getStatus() == RecommendationStatusEnum.rejectedMatch){
             throw new BadInputException("Recommendation already refused");
         }
     }

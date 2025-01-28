@@ -43,8 +43,8 @@ public class RecommendationProcess {
         return new AcceptRecommendationCommand(userManager, recommendationID, payload, recommendationRepository).execute();
     }
 
-    public Recommendation refuseRecommendation(Integer recommendationID, Map<String, Object> payload) throws BadInputException, NotFoundException {
-        return new RefuseRecommendationCommand(userManager, recommendationID, payload, recommendationRepository).execute();
+    public Recommendation rejectRecommendation(Integer recommendationID, Map<String, Object> payload) throws BadInputException, NotFoundException {
+        return new RejectRecommendationCommand(userManager, recommendationID, payload, recommendationRepository).execute();
     }
 
     public List<Recommendation> getRecommendationsByParticipant(String userID) throws BadInputException, NotFoundException, NoContentException {

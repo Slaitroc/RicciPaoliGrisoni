@@ -106,7 +106,7 @@ class RecommendationProcessTest {
 
 
     @Test
-    void testRefuseRecommendation() throws BadInputException, NotFoundException {
+    void testRejectRecommendation() throws BadInputException, NotFoundException {
         Recommendation recommendation = new Recommendation();
         recommendation.setStatus(RecommendationStatusEnum.pendingMatch);
         when(recommendationRepository.getRecommendationById(1)).thenReturn(recommendation);
@@ -116,22 +116,22 @@ class RecommendationProcessTest {
 
         // Case 1: UserType STUDENT
         when(userManager.getUserType("user123")).thenReturn(UserType.STUDENT);
-        Recommendation result = recommendationProcess.refuseRecommendation(1, payload);
-        assertEquals(RecommendationStatusEnum.refusedMatch, result.getStatus());
+        Recommendation result = recommendationProcess.rejectRecommendation(1, payload);
+        assertEquals(RecommendationStatusEnum.rejectedMatch, result.getStatus());
         verify(recommendationRepository).save(any(Recommendation.class));
 
         // Case 2: UserType COMPANY
         recommendation.setStatus(RecommendationStatusEnum.pendingMatch); // Status Reset
         when(userManager.getUserType("user123")).thenReturn(UserType.COMPANY);
-        result = recommendationProcess.refuseRecommendation(1, payload);
-        assertEquals(RecommendationStatusEnum.refusedMatch, result.getStatus());
+        result = recommendationProcess.rejectRecommendation(1, payload);
+        assertEquals(RecommendationStatusEnum.rejectedMatch, result.getStatus());
         verify(recommendationRepository, times(2)).save(any(Recommendation.class)); // Called twice
 
         // Case 3: UserType UNIVERSITY (not valid)
         when(userManager.getUserType("user123")).thenReturn(UserType.UNIVERSITY);
         BadInputException exception = assertThrows(
                 BadInputException.class,
-                () -> recommendationProcess.refuseRecommendation(1, payload)
+                () -> recommendationProcess.rejectRecommendation(1, payload)
         );
         assertEquals("Universities can't refuse recommendations", exception.getMessage());
 
@@ -139,7 +139,7 @@ class RecommendationProcessTest {
         when(userManager.getUserType("user123")).thenReturn(UserType.UNKNOWN);
         exception = assertThrows(
                 BadInputException.class,
-                () -> recommendationProcess.refuseRecommendation(1, payload)
+                () -> recommendationProcess.rejectRecommendation(1, payload)
         );
         assertEquals("Unknown user type", exception.getMessage());
     }
