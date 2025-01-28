@@ -80,6 +80,9 @@ public class UserManager {
     }
 
     public UserType getUserType(String id) {
+        if(id == null) {
+            return UserType.UNKNOWN;
+        }
         if (studentRepository.getStudentById(id) != null) {
             return UserType.STUDENT;
         } else if (companyRepository.getCompanyById(id) != null) {
