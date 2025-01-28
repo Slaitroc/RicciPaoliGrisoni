@@ -30,7 +30,7 @@ export const GlobalProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     global.INIT_IS_AUTHENTICATED
   );
-  const [navigator, setNavigator] = useState(null);
+  const [navigateReference, setNavigateReference] = useState(null);
 
   // PROFILE
   const [profile, setProfile] = useState(global.INIT_PROFILE);
@@ -92,24 +92,6 @@ export const GlobalProvider = ({ children }) => {
         console.log("Utente autenticato:", user.email);
         setIsAuthenticated(true);
         // Controlla se l'utente è stato creato
-        account.getUserData().then((response) => {
-          if (response.status === 204) {
-            console.log("Dati utente non trovati. Creazione nuovo utente.");
-            // Naviga alla pagina di creazione utente
-            if (navigator) navigate("/signup/user-creation");
-            else console.error("Navigator not found.");
-          } else if (response.ok) {
-            response.json().then((data) => {
-              //TODO verifica che la mail sia confermata
-              setUserType(data.properties.userType);
-              setProfile(data.properties);
-              console.log("Fetched User data:", data);
-              // Naviga alla dashboard
-              if (navigator) navigate("/dashboard");
-              else console.error("Navigator not found.");
-            });
-          }
-        });
         // Invia il token FCM al server
         if (token) {
           // FIX crea wrapper notification
@@ -153,8 +135,8 @@ export const GlobalProvider = ({ children }) => {
     previewUrl,
     showNotification,
     notificationMessage,
-    navigator,
-    setNavigator,
+    navigateReference,
+    setNavigateReference,
     setNotificationMessage,
     setShowNotification,
     setUserType,
