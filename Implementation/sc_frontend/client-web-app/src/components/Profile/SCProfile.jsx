@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { v4 as uuidv4 } from "uuid";
+import { useGlobalContext } from "../../global/GlobalContext";
 
 const cardData = [
   {
@@ -68,6 +69,17 @@ const StyledTypography = styled(Typography)({
 });
 
 export default function SCProfile() {
+  const { profile, setProfile } = useGlobalContext();
+
+  //DEBUG
+  React.useEffect(() => {
+    console.log("Profile data:", profile);
+  }, [profile]);
+
+  React.useEffect(() => {
+    console.log("Profile data:", profile);
+  }, []);
+
   const [focusedCardIndex, setFocusedCardIndex] = React.useState(null);
 
   const handleFocus = (index) => {

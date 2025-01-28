@@ -26,24 +26,31 @@ import Account from "../pages/Account";
 import SwipePage from "../pages/SwipePage";
 import { FirebaseTestPage } from "../pages/FirebaseTestPage";
 import ConfirmEmail from "../pages/ConfirmEmail";
+import { RouteBase } from "../pages/RouteBase";
 // Router Configurations
 const router = createBrowserRouter(
   [
     {
       path: "/",
-      element: <Main />,
+      element: <RouteBase />,
       children: [
         {
           path: "/",
-          element: <Home />,
-        },
-        {
-          path: "about",
-          element: <About />,
-        },
-        {
-          path: "contacts",
-          element: <Contact />,
+          element: <Main />,
+          children: [
+            {
+              path: "/",
+              element: <Home />,
+            },
+            {
+              path: "about",
+              element: <About />,
+            },
+            {
+              path: "contacts",
+              element: <Contact />,
+            },
+          ],
         },
         {
           path: "firebase-test",
@@ -57,106 +64,105 @@ const router = createBrowserRouter(
             //</RouteProtector>
           ),
         },
-      ],
-    },
-    {
-      path: "dashboard",
-      element: (
-        <RouteProtector equals={false} navigateTo="/signin">
-          <Dashboard />
-        </RouteProtector>
-      ),
-      children: [
         {
-          path: "",
-          element: <Overview />,
+          path: "dashboard",
+          element: (
+            <RouteProtector equals={false} navigateTo="/signin">
+              <Dashboard />
+            </RouteProtector>
+          ),
+          children: [
+            {
+              path: "",
+              element: <Overview />,
+            },
+            {
+              path: "about",
+              element: <About />,
+            },
+            {
+              path: "contacts",
+              element: <Contact />,
+            },
+            {
+              path: "settings",
+              element: <Settings />,
+            },
+            {
+              path: "feedback",
+              element: <Feedback />,
+            },
+            {
+              path: "cv",
+              element: <CV />,
+            },
+            {
+              path: "university",
+              element: <University />,
+            },
+            {
+              path: "internship-offers",
+              element: <InternshipOffers />,
+            },
+            {
+              path: "applications",
+              element: <Applications />,
+            },
+            {
+              path: "recommendations",
+              element: <Recommendations />,
+            },
+            {
+              path: "interviews",
+              element: <Interviews />,
+            },
+            {
+              path: "confirmed-internships",
+              element: <ConfInternships />,
+            },
+            {
+              path: "communications",
+              element: <Communications />,
+            },
+            {
+              path: "profile",
+              element: <Profile />,
+            },
+            {
+              path: "account",
+              element: <Account />,
+            },
+            {
+              path: "swipe-card",
+              element: <SwipePage />,
+            },
+          ],
         },
         {
-          path: "about",
-          element: <About />,
-        },
-        {
-          path: "contacts",
-          element: <Contact />,
-        },
-        {
-          path: "settings",
-          element: <Settings />,
-        },
-        {
-          path: "feedback",
-          element: <Feedback />,
-        },
-        {
-          path: "cv",
-          element: <CV />,
-        },
-        {
-          path: "university",
-          element: <University />,
-        },
-        {
-          path: "internship-offers",
-          element: <InternshipOffers />,
-        },
-        {
-          path: "applications",
-          element: <Applications />,
-        },
-        {
-          path: "recommendations",
-          element: <Recommendations />,
-        },
-        {
-          path: "interviews",
-          element: <Interviews />,
-        },
-        {
-          path: "confirmed-internships",
-          element: <ConfInternships />,
-        },
-        {
-          path: "communications",
-          element: <Communications />,
-        },
-        {
-          path: "profile",
-          element: <Profile />,
-        },
-        {
-          path: "account",
-          element: <Account />,
-        },
-        {
-          path: "swipe-card",
-          element: <SwipePage />,
-        },
-      ],
-    },
-    {
-      path: "signin",
-      element: (
-        <RouteProtector equals={true} navigateTo="/dashboard">
-          <SCSignInSide />
-        </RouteProtector>
-      ),
-    },
-
-    {
-      path: "signup",
-      element: <SignUp />,
-      children: [
-        {
-          path: "",
+          path: "signin",
           element: (
             <RouteProtector equals={true} navigateTo="/dashboard">
-              <SCSignUp />
+              <SCSignInSide />
             </RouteProtector>
           ),
         },
         {
-          path: "user-creation",
-          element: <SCUserCreation />,
+          path: "signup",
+          element: <SignUp />,
+          children: [
+            {
+              path: "",
+              element: (
+                <RouteProtector equals={true} navigateTo="/dashboard">
+                  <SCSignUp />
+                </RouteProtector>
+              ),
+            },
+            {
+              path: "user-creation",
+              element: <SCUserCreation />,
+            },
+          ],
         },
       ],
     },

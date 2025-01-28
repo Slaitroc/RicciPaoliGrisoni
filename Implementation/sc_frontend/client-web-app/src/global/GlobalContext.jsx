@@ -22,10 +22,9 @@ export const useGlobalContext = () => {
 };
 
 export const GlobalProvider = ({ children }) => {
-  
   // NOTIFICATION
   const [showNotification, setShowNotification] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notification, setNotification] = useState([]);
 
   // AUTHENTICATION
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -113,12 +112,10 @@ export const GlobalProvider = ({ children }) => {
     onMessage(firebaseConfig.messaging, (payload) => {
       console.log("Messaggio ricevuto in foreground:", payload);
       // Mostra una notifica o aggiorna l'interfaccia utente
-      setShowNotification(true);
-      setNotificationMessage(
-        `Notifica: ${payload.notification.title} - ${payload.notification.body}`
-      );
+      setNotification((prev) => [...prev, payload]);
+      // Rimuove automaticamente la notifica dopo 5 secondi
       setTimeout(() => {
-        setShowNotification(false);
+        setNotification((prev) => prev.filter((n) => n !== payload));
       }, 5000);
       // alert(
       //   `Notifica: ${payload.notification.title} - ${payload.notification.body}`
@@ -135,8 +132,8 @@ export const GlobalProvider = ({ children }) => {
     selectedFile,
     previewUrl,
     showNotification,
-    notificationMessage,
-    setNotificationMessage,
+    notification,
+    setNotification,
     setShowNotification,
     setUserType,
     setIsAuthenticated,
