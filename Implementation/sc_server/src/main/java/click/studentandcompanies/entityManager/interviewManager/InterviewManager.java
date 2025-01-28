@@ -2,13 +2,13 @@ package click.studentandcompanies.entityManager.interviewManager;
 
 import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entityManager.UserManager;
+import click.studentandcompanies.entityManager.interviewManager.GET.GetInterviewTemplatesCommand;
 import click.studentandcompanies.entityManager.interviewManager.GET.GetInterviewsCall;
 import click.studentandcompanies.entityManager.interviewManager.POST.*;
 import click.studentandcompanies.entityRepository.InternshipPosOfferRepository;
 import click.studentandcompanies.entityRepository.InterviewRepository;
 import click.studentandcompanies.entityRepository.InterviewTemplateRepository;
 import click.studentandcompanies.entityManager.interviewManager.POST.SendInterviewAnswerCommand;
-import click.studentandcompanies.utils.UserType;
 import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import click.studentandcompanies.utils.exception.UnauthorizedException;
@@ -79,5 +79,9 @@ public class InterviewManager {
 
     public List<Interview> getInterview(String userID) throws NotFoundException, BadInputException {
         return new GetInterviewsCall(userID, interviewRepository, userManager).execute();
+    }
+
+    public List<InterviewTemplate> getTemplates(String companyId) {
+        return new GetInterviewTemplatesCommand(companyId, interviewTemplateRepository, userManager).execute();
     }
 }

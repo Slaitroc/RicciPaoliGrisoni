@@ -416,6 +416,19 @@ public class APIController {
         return new GetInterviewsCommandCall(userID, interviewManager).execute();
     }
 
+    @GetMapping("/interview/private/get-my-templates")
+    @Operation(summary = "Get interview", description = "Payload will contain the 'company_id'")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Interview retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Interview not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<List<DTO>> getTemplateInterviews(@RequestHeader("Authorization") String token) {
+        String company_id = GetUuid.getUuid(token);
+        return new GetInterviewTemplatesCommandCall(interviewManager, company_id).execute();
+    }
+
 
     @PostMapping("/interview/private/{InterviewID}/send-interview")
     @Operation(summary = "Send interview", description = "payload will contain the 'questions' and the 'company_id'")
@@ -465,7 +478,7 @@ public class APIController {
     }
 
 
-    @PostMapping("/interview/private/{TemplateInterviewID}/send-template-interview/{InterviewID}")
+    @PostMapping("/interview/private/{TemplateInterviewID}/send-template/{InterviewID}")
     @Operation(summary = "Send interview template", description = "payload will contain the 'company_id'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview template sent successfully"),
