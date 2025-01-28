@@ -115,7 +115,7 @@ public class APIController {
 
 
 
-    @GetMapping("/sub/private/internship/{companyID}")
+    @GetMapping("/sub/private/internship/{companyID}/get-company-internships")
     @Operation(summary = "Request Company Internships", description = "Get a list of Internship Offers advertised by a specific company.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Internships retrieved successfully"),
@@ -135,7 +135,7 @@ public class APIController {
     // check if the company is the owner of the offer)
     // title, description, compensation, location, start_date, end_date,
     // duration_hours and any other (optional) field
-    @PostMapping("/sub/private/internship/update-offer")
+    @PostMapping("/sub/private/internship/update-my-offer")
     @Operation(summary = "Update internship offer", description = "The payload is a map with the 'company_id', optionally the 'internshipOffer_id' if we are UPDATING an existing offer (the backend will check if the company is the owner of the offer), 'title', 'description', 'compensation', 'location', 'start_date', 'end_date', 'duration_hours', and any other (optional) field.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Internship offer updated successfully"),
@@ -150,7 +150,8 @@ public class APIController {
         return new UpdateInternshipOfferCommandCall(payload, submissionManager, recommendationProcess).execute();
     }
 
-
+    //ACTUALLY, THIS IS NOT IMPLEMENTED YET, DO NOT USE!
+    @Deprecated
     @PostMapping("/sub/private/internship/close-internship/{internshipID}")
     @Operation(summary = "Close internship", description = "payload will contain the company_id")
     @ApiResponses({
@@ -170,7 +171,7 @@ public class APIController {
                 recommendationProcess, notificationManager).execute();
     }
 
-    @GetMapping("/sub/private/cv/{studentID}")
+    @GetMapping("/sub/private/cv/{studentID}/get-student-cv")
     @Operation(summary = "Request Student CV", description = "Get the CV of a specific student.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, CV retrieved successfully"),
@@ -186,7 +187,7 @@ public class APIController {
     //_________________________ sub/private/cv __________________________
 
 
-    @PostMapping("/sub/private/cv/update-cv")
+    @PostMapping("/sub/private/cv/update-my-cv")
     @Operation(summary = "Update student's CV", description = "The payload is a map with the 'student_id', 'update_time', and other optional fields used to update a student's CV.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "CV updated successfully"),
@@ -205,7 +206,7 @@ public class APIController {
 
     // API called by student and companies when looking for their spontaneous
     // applications
-    @GetMapping("sub/private/application/spontaneous-applications/")
+    @GetMapping("/sub/private/application/get-applications")
     @Operation(summary = "User requests the list of his Spontaneous Applications", description = "Get a list of Spontaneous Applications submitted by a specific student or submitted to a specific company.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Spontaneous Applications retrieved successfully"),
@@ -237,7 +238,7 @@ public class APIController {
     }
 
 
-    @PostMapping("sub/private/application/{SpontaneousApplicationID}/accept")
+    @PostMapping("/sub/private/application/{SpontaneousApplicationID}/accept")
     @Operation(summary = "Accept Spontaneous Application", description = "The payload is a map with the 'userID' used to accept an application.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "SpontaneousApplication accepted successfully"),
@@ -253,7 +254,7 @@ public class APIController {
     }
 
 
-    @PostMapping("sub/private/application/{SpontaneousApplicationID}/reject")
+    @PostMapping("/sub/private/application/{SpontaneousApplicationID}/reject")
     @Operation(summary = "Reject Spontaneous Application", description = "The payload is a map with the 'userID' used to reject an application.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "SpontaneousApplication rejected successfully"),
@@ -270,7 +271,7 @@ public class APIController {
 
     //_________________________ recommendation/private __________________________
 
-    @GetMapping("/recommendation/private/get-matches/")
+    @GetMapping("/recommendation/private/get-my-matches/")
     @Operation(summary = "User requests the list of his Matches", description = "Get the list of the user Recommendations.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Matches retrieved successfully"),
@@ -319,7 +320,7 @@ public class APIController {
 
     //_________________________ comm/private __________________________
 
-    @GetMapping("/comm/private/communications/")
+    @GetMapping("/comm/private/communications/get-my-comm")
     @Operation(summary = "User userID requests the communication commID", description = "Get the communication commID for the user userID.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Communication retrieved successfully"),
@@ -333,7 +334,7 @@ public class APIController {
     }
 
 
-    @GetMapping("/comm/private/communication/{commID}")
+    @GetMapping("/comm/private/communication/{commID}/get-comm")
     @Operation(summary = "User userID requests the communication commID", description = "Get the communication commID for the user userID.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Communication retrieved successfully"),
@@ -347,7 +348,7 @@ public class APIController {
     }
 
 
-    @PostMapping("comm/private/create")
+    @PostMapping("/comm/private/create")
     @Operation(summary = "Create communication", description = "payload will contain the 'student_id', 'internshipOffer_id', 'university_id', 'title', 'content', 'communication_type' (communication, complaint)")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Communication created successfully"),
@@ -400,7 +401,7 @@ public class APIController {
 
     //_________________________ interview/private __________________________
 
-    @GetMapping("/interview/private/get-interviews/")
+    @GetMapping("/interview/private/get-interviews")
     @Operation(summary = "User requests the list of his Interviews", description = "Get the list of the user Interviews.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Interviews retrieved successfully"),
@@ -413,7 +414,7 @@ public class APIController {
         return new GetInterviewsCommandCall(userID, interviewManager).execute();
     }
 
-    @PostMapping("/interview/private/send-answer/{InterviewID}")
+    @PostMapping("/interview/private/{InterviewID}/send-answer")
     @Operation(summary = "Send interview answer", description = "payload will contain the 'student_id' and the 'answer'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview answer sent successfully"),
@@ -430,7 +431,7 @@ public class APIController {
     }
 
 
-    @PostMapping("/interview/private/send-interview/{InterviewID}")
+    @PostMapping("/interview/private/{InterviewID}/end-interview")
     @Operation(summary = "Send interview", description = "payload will contain the 'questions' and the 'company_id'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview sent successfully"),
@@ -446,7 +447,7 @@ public class APIController {
     }
 
 
-    @PostMapping("/interview/private/save-template-interview/{InterviewID}")
+    @PostMapping("/interview/private/{InterviewID}/save-template-interview")
     @Operation(summary = "Save interview template", description = "payload will contain the 'questions' and the 'company_id'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview template saved successfully"),
@@ -478,7 +479,7 @@ public class APIController {
     }
 
 
-    @PostMapping("interview/private/evaluate-interview/{InterviewID}")
+    @PostMapping("interview/private/{InterviewID}/evaluate-interview")
     @Operation(summary = "Evaluate interview", description = "payload will contain the 'company_id' the 'evaluation' (a integer from 1 to 5) and the 'status' (failed or passed)")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview evaluated successfully"),
@@ -510,7 +511,7 @@ public class APIController {
                 notificationManager).execute();
     }
 
-    @PostMapping("/interview/private/accept-int-pos-off/{intPosOffID}")
+    @PostMapping("/interview/private/{intPosOffID}/accept-int-pos-off")
     @Operation(summary = "Close internship", description = "payload will contain the student_id")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK, Internship closed successfully"),
@@ -527,7 +528,7 @@ public class APIController {
     }
 
 
-    @PostMapping("/interview/private/reject-int-pos-off/{intPosOffID}")
+    @PostMapping("/interview/private/{intPosOffID}/reject-int-pos-off")
     @Operation(summary = "Close internship", description = "payload will contain the student_id")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK, Internship closed successfully"),
