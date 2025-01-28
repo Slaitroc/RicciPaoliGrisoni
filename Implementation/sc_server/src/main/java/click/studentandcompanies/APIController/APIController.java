@@ -100,6 +100,21 @@ public class APIController {
 
     //_________________________ sub/private/internship __________________________
 
+    @GetMapping("/sub/private/internship/get-internship-offer")
+    @Operation(summary = "Request Internships", description = "Get a list of all Internship Offers")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, Internships retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "No Internships found"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, User id not found, user should probably log in"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<List<DTO>> getInternships(@RequestHeader("Authorization") String token) {
+        String userID = GetUuid.getUuid(token);
+        return new GetInternshipsCommandCall(userID, submissionManager).execute();
+    }
+
+
+
     @GetMapping("/sub/private/internship/{companyID}")
     @Operation(summary = "Request Company Internships", description = "Get a list of Internship Offers advertised by a specific company.")
     @ApiResponses({
@@ -154,8 +169,6 @@ public class APIController {
         return new CloseInternshipOfferCommandCall(internshipID, payload, submissionManager, userManager,
                 recommendationProcess, notificationManager).execute();
     }
-
-
 
     @GetMapping("/sub/private/cv/{studentID}")
     @Operation(summary = "Request Student CV", description = "Get the CV of a specific student.")
