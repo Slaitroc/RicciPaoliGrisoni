@@ -59,5 +59,4 @@ public class RejectInternshipPositionOfferCommand implements InterviewManagerCom
         }
     }
 
-
 }

@@ -5,6 +5,7 @@ import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entity.dbEnum.InternshipPosOfferStatusEnum;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManagerCommand;
+import click.studentandcompanies.entityRepository.InternshipPosOfferRepository;
 import click.studentandcompanies.entityRepository.InterviewRepository;
 import click.studentandcompanies.utils.UserType;
 import click.studentandcompanies.utils.exception.BadInputException;
@@ -18,58 +19,44 @@ import java.util.Objects;
 public class AcceptInternshipPositionOfferCommand implements InterviewManagerCommand<InternshipPosOffer> {
 
     private final Integer intPosOffID;
-    private final InterviewRepository interviewRepository;
+    private final InternshipPosOfferRepository internshipPosOfferRepository;
     private final UserManager userManager;
-    private final String student_id;
+    private final Map<String, Object> payload;
 
-    public AcceptInternshipPositionOfferCommand(Integer intPosOffID, Map<String, Object> payload, InterviewRepository interviewRepository, UserManager userManager) {
+    public AcceptInternshipPositionOfferCommand(Integer intPosOffID, Map<String, Object> payload, InternshipPosOfferRepository internshipPosOfferRepository, UserManager userManager) {
         this.intPosOffID = intPosOffID;
-        this.interviewRepository = interviewRepository;
+        this.internshipPosOfferRepository = internshipPosOfferRepository;
         this.userManager = userManager;
-        // Check if the payload is in the correct format
-        try {
-            this.student_id = (String) payload.get("student_id");
-        } catch (Exception e) {
-            throw new BadInputException("student_id not provided correctly");
-        }
+        this.payload = payload;
     }
 
     @Override
     public InternshipPosOffer execute() throws NotFoundException, BadInputException, UnauthorizedException, WrongStateException {
-        UserType type = userManager.getUserType(student_id);
-        // Check if the user is a student
-        if (type == UserType.STUDENT) {
-            Interview interview = interviewRepository.getInterviewByInternshipPosOffer_Id(intPosOffID);
-            if (interview == null) {
-                throw new NotFoundException("Interview not found");
-            }
-            InternshipPosOffer internshipPosOffer = getInternshipPosOffer(interview);
-            internshipPosOffer.setStatus(InternshipPosOfferStatusEnum.accepted);
-            //interviewRepository.save(internshipPosOffer);
-            return internshipPosOffer;
-        } if (type == UserType.UNKNOWN) {
-            throw new NotFoundException("User not found");
-        } else {
-            throw new UnauthorizedException("User not authorized to accept internship position offer");
-        }
+        validateInput(payload, intPosOffID);
+        InternshipPosOffer internshipPosOffer = internshipPosOfferRepository.getById(intPosOffID);
+        internshipPosOffer.setStatus(InternshipPosOfferStatusEnum.accepted);
+        return internshipPosOfferRepository.save(internshipPosOffer);
     }
 
-    private InternshipPosOffer getInternshipPosOffer(Interview interview) throws NotFoundException, UnauthorizedException, WrongStateException {
-        InternshipPosOffer internshipPosOffer = interview.getInternshipPosOffer();
-        if(internshipPosOffer == null) {
+    private void validateInput(Map<String, Object> payload, Integer intPosOffID){
+        if(payload.get("student_id") == null){
+            throw new BadInputException("student_id not provided correctly");
+        }
+        UserType type = userManager.getUserType((String) payload.get("student_id"));
+        if(type == UserType.UNKNOWN){
+            throw new BadInputException("Unknown user");
+        }else if(type != UserType.STUDENT){
+            throw new UnauthorizedException("Only students can accept internship position offers");
+        }
+        InternshipPosOffer internshipPosOffer = internshipPosOfferRepository.findById(intPosOffID).orElse(null);
+        if(internshipPosOffer == null){
             throw new NotFoundException("Internship Position Offer not found");
         }
-        // Check if the student whose ID is passed through the payload is the same as the student who owns the Internship Position Offer
-        if(interview.getRecommendation() != null && !Objects.equals(interview.getRecommendation().getCv().getStudent().getId(), student_id)) {
-            throw new UnauthorizedException("User not authorized to accept internship position offer");
+        if(internshipPosOffer.getStatus() != InternshipPosOfferStatusEnum.pending){
+            throw new WrongStateException("Internship Position Offer is not pending");
         }
-        if(interview.getSpontaneousApplication() != null && !Objects.equals(interview.getSpontaneousApplication().getStudent().getId(), student_id)) {
-            throw new UnauthorizedException("User not authorized to accept internship position offer");
+        if(!(userManager.getStudentIDByInternshipPosOfferID(intPosOffID).equals(payload.get("student_id")))){
+            throw new UnauthorizedException("Student not authorized to accept internship position offer");
         }
-        // Check if the Internship Position Offer has already been accepted
-        if(internshipPosOffer.getStatus() == InternshipPosOfferStatusEnum.accepted) {
-            throw new WrongStateException("Internship Position Offer already accepted");
-        }
-        return internshipPosOffer;
     }
 }
