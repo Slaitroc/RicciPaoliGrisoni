@@ -171,6 +171,9 @@ public class APIController {
                 recommendationProcess, notificationManager).execute();
     }
 
+
+    //_________________________ sub/private/cv __________________________
+
     @GetMapping("/sub/private/cv/{studentID}/get-student-cv")
     @Operation(summary = "Request Student CV", description = "Get the CV of a specific student.")
     @ApiResponses({
@@ -184,7 +187,6 @@ public class APIController {
         String userID = GetUuid.getUuid(token);
         return new GetStudentCVCommandCall(studentID, userID, submissionManager).execute();
     }
-    //_________________________ sub/private/cv __________________________
 
 
     @PostMapping("/sub/private/cv/update-my-cv")
