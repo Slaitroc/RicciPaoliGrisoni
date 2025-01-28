@@ -17,14 +17,14 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Map;
 
-public class AcceptSpontaneousApplicationCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
+public class RejectSpontaneousApplicationCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
 
     private final Integer spontaneousApplicationID;
     private final SubmissionManager submissionManager;
     private final NotificationManager notificationManager;
     private final Map<String, Object> payload;
 
-    public AcceptSpontaneousApplicationCommandCall(Integer spontaneousApplicationID, SubmissionManager submissionManager, NotificationManager notificationManager, Map<String, Object> payload) {
+    public RejectSpontaneousApplicationCommandCall(Integer spontaneousApplicationID, SubmissionManager submissionManager, NotificationManager notificationManager, Map<String, Object> payload) {
         this.spontaneousApplicationID = spontaneousApplicationID;
         this.submissionManager = submissionManager;
         this.notificationManager = notificationManager;
@@ -34,15 +34,15 @@ public class AcceptSpontaneousApplicationCommandCall implements APIControllerCom
     @Override
     public ResponseEntity<DTO> execute() {
         try {
-            SpontaneousApplication application = submissionManager.acceptSpontaneousApplication(spontaneousApplicationID, payload);
+            SpontaneousApplication application = submissionManager.rejectSpontaneousApplication(spontaneousApplicationID, payload);
 
             List<String> userIDs = List.of(application.getStudent().getId());
 
-            NotificationData data = new NotificationData(NotificationTriggerType.SPONTANEOUS_APPLICATION_ACCEPTED, DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application));
+            NotificationData data = new NotificationData(NotificationTriggerType.SPONTANEOUS_APPLICATION_REJECTED, DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application));
 
             new NotificationController(notificationManager).sendAndSaveNotification(userIDs, data);
 
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application), HttpStatus.OK);
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application), HttpStatus.CREATED);
         } catch (IllegalCallerException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (NotFoundException e) {

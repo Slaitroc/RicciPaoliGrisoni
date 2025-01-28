@@ -11,13 +11,13 @@ import click.studentandcompanies.utils.exception.NotFoundException;
 
 import java.util.Map;
 
-public class RefuseRecommendationCommand implements RecommendationProcessCommand<Recommendation> {
+public class RejectRecommendationCommand implements RecommendationProcessCommand<Recommendation> {
     private final UserManager userManager;
     private final Integer recommendationID;
     private final RecommendationRepository recommendationRepository;
     private final Map<String, Object> payload;
 
-    public RefuseRecommendationCommand(UserManager userManager, Integer recommendationID, Map<String, Object> payload, RecommendationRepository recommendationRepository) {
+    public RejectRecommendationCommand(UserManager userManager, Integer recommendationID, Map<String, Object> payload, RecommendationRepository recommendationRepository) {
         this.userManager = userManager;
         this.recommendationID = recommendationID;
         this.payload = payload;
@@ -37,12 +37,12 @@ public class RefuseRecommendationCommand implements RecommendationProcessCommand
         if(userType == UserType.UNKNOWN){
             throw new BadInputException("Unknown user type");
         }else if(userType == UserType.UNIVERSITY){
-            throw new BadInputException("Universities can't refuse recommendations");
+            throw new BadInputException("Universities can't reject recommendations");
         }
 
         checkIfResponseAlreadySent(recommendation, userType);
 
-        recommendation.setStatus(RecommendationStatusEnum.refusedMatch);
+        recommendation.setStatus(RecommendationStatusEnum.rejectedMatch);
         recommendationRepository.save(recommendation);
         return recommendation;
     }
@@ -52,7 +52,7 @@ public class RefuseRecommendationCommand implements RecommendationProcessCommand
                 (userType == UserType.COMPANY && recommendation.getStatus() == RecommendationStatusEnum.acceptedByCompany) ||
                 recommendation.getStatus() == RecommendationStatusEnum.acceptedMatch){
             throw new BadInputException("Recommendation already accepted");
-        }else if(recommendation.getStatus() == RecommendationStatusEnum.refusedMatch){
+        }else if(recommendation.getStatus() == RecommendationStatusEnum.rejectedMatch){
             throw new BadInputException("Recommendation already refused");
         }
     }

@@ -177,21 +177,6 @@ public class APIController {
         return new AcceptRecommendationCommandCall(RecommendationID, recommendationProcess, notificationManager, payload).execute();
     }
 
-    @PostMapping("sub/private/application/{SpontaneousApplicationID}/accept")
-    @Operation(summary = "Accept Spontaneous Application", description = "The payload is a map with the 'userID' used to accept an application.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "SpontaneousApplication accepted successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "404", description = "SpontaneousApplication not found"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
-    public ResponseEntity<DTO> acceptSpontaneousApplication(@PathVariable Integer SpontaneousApplicationID, @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
-        String user_id = GetUuid.getUuid(token);
-        payload.put("user_id", user_id);
-        return new AcceptSpontaneousApplicationCommandCall(SpontaneousApplicationID, submissionManager, notificationManager, payload).execute();
-    }
-
     // The payload is a map with the userID
     @PostMapping("/recommendations/private/{RecommendationID}/reject")
     @Operation(summary = "Reject recommendation", description = "Reject a recommendation by providing the 'userID' in the payload.")
@@ -204,7 +189,7 @@ public class APIController {
     public ResponseEntity<DTO> refuseRecommendation(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
         String user_id = GetUuid.getUuid(token);
         payload.put("user_id", user_id);
-        return new RefuseRecommendationCommandCall(RecommendationID, recommendationProcess, payload).execute();
+        return new RejectRecommendationCommandCall(RecommendationID, recommendationProcess, payload).execute();
     }
 
     @PostMapping("/sub/private/update-cv")
@@ -271,6 +256,36 @@ public class APIController {
         payload.put("student_id", student_id);
         return new SubmitSpontaneousApplicationCommandCall(InternshipOfferID, payload, submissionManager,
                 notificationManager).execute();
+    }
+
+    @PostMapping("sub/private/application/{SpontaneousApplicationID}/accept")
+    @Operation(summary = "Accept Spontaneous Application", description = "The payload is a map with the 'userID' used to accept an application.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "SpontaneousApplication accepted successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request, the application is already accepted"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "SpontaneousApplication not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> acceptSpontaneousApplication(@PathVariable Integer SpontaneousApplicationID, @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+        String user_id = GetUuid.getUuid(token);
+        payload.put("user_id", user_id);
+        return new AcceptSpontaneousApplicationCommandCall(SpontaneousApplicationID, submissionManager, notificationManager, payload).execute();
+    }
+
+    @PostMapping("sub/private/application/{SpontaneousApplicationID}/reject")
+    @Operation(summary = "Reject Spontaneous Application", description = "The payload is a map with the 'userID' used to reject an application.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "SpontaneousApplication rejected successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request, the application is already rejected"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "SpontaneousApplication not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> rejectSpontaneousApplication(@PathVariable Integer SpontaneousApplicationID, @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+        String user_id = GetUuid.getUuid(token);
+        payload.put("user_id", user_id);
+        return new RejectSpontaneousApplicationCommandCall(SpontaneousApplicationID, submissionManager, notificationManager, payload).execute();
     }
 
     @PostMapping("/interviews/private/send-answer/{InterviewID}")
