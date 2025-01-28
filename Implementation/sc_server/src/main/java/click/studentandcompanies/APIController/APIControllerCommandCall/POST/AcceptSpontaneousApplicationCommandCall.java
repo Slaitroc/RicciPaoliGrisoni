@@ -42,7 +42,7 @@ public class AcceptSpontaneousApplicationCommandCall implements APIControllerCom
 
             new NotificationController(notificationManager).sendAndSaveNotification(userIDs, data);
 
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application), HttpStatus.CREATED);
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.SPONTANEOUS_APPLICATION, application), HttpStatus.OK);
         } catch (IllegalCallerException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (NotFoundException e) {
