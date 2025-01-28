@@ -4,5 +4,5 @@ public enum SpontaneousApplicationStatusEnum
 {
     toBeEvaluated,
     acceptedApplication,
-    refusedApplication
+    rejectedApplication
 }

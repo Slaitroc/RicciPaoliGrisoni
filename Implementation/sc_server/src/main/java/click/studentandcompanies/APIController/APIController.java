@@ -4,7 +4,6 @@ import click.studentandcompanies.APIController.APIControllerCommandCall.GET.*;
 import click.studentandcompanies.APIController.APIControllerCommandCall.POST.*;
 import click.studentandcompanies.APIController.APIControllerCommandCall.PUT.*;
 import click.studentandcompanies.dto.*;
-import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entityManager.*;
 import click.studentandcompanies.entityManager.accountManager.AccountManager;
 import click.studentandcompanies.entityManager.communicationManager.CommunicationManager;
@@ -15,7 +14,6 @@ import click.studentandcompanies.entityManager.submissionManager.SubmissionManag
 import click.studentandcompanies.notificationSystem.NotificationManager;
 import click.studentandcompanies.utils.GetUuid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -147,7 +145,7 @@ public class APIController {
 
     //Public call, no token needed
     @GetMapping("/acc/get-universities")
-    @Operation(summary = "Get a map Name-VatNumber of all universities", description = "")
+    @Operation(summary = "Get Universities", description = "Get the list of all the registered Universities.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Universities retrieved successfully"),
             @ApiResponse(responseCode = "204", description = "No Content, No Universities found"),
@@ -177,6 +175,21 @@ public class APIController {
         String user_id = GetUuid.getUuid(token);
         payload.put("user_id", user_id);
         return new AcceptRecommendationCommandCall(RecommendationID, recommendationProcess, notificationManager, payload).execute();
+    }
+
+    @PostMapping("sub/private/application/{SpontaneousApplicationID}/accept")
+    @Operation(summary = "Accept Spontaneous Application", description = "The payload is a map with the 'userID' used to accept an application.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "SpontaneousApplication accepted successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "SpontaneousApplication not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> acceptSpontaneousApplication(@PathVariable Integer SpontaneousApplicationID, @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+        String user_id = GetUuid.getUuid(token);
+        payload.put("user_id", user_id);
+        return new AcceptSpontaneousApplicationCommandCall(SpontaneousApplicationID, submissionManager, notificationManager, payload).execute();
     }
 
     // The payload is a map with the userID
