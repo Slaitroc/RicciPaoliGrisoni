@@ -11,6 +11,7 @@ import click.studentandcompanies.entityManager.submissionManager.SubmissionManag
 import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 
+import java.util.List;
 import java.util.Map;
 
 public class SubmitSpontaneousApplicationCommand implements SubmissionManagerCommand<SpontaneousApplication> {
@@ -43,7 +44,13 @@ public class SubmitSpontaneousApplicationCommand implements SubmissionManagerCom
             System.out.println("Student not found");
             throw new BadInputException("Bad studentID provided not found");
         }
-
+        List<SpontaneousApplication> spontaneousApplications = spontaneousApplicationRepository.findAll();
+        for(SpontaneousApplication sa : spontaneousApplications){
+            if(sa.getStudent().getId().equals(student.getId()) && sa.getInternshipOffer().getId() == internshipOfferID){
+                System.out.println("A spontaneous application for this student and this internship offer already exists");
+                throw new BadInputException("A spontaneous application for this student and this internship offer already exists");
+            }
+        }
         SpontaneousApplication spontaneousApplication = new SpontaneousApplication(student, internshipOffer, SpontaneousApplicationStatusEnum.toBeEvaluated);
         return spontaneousApplicationRepository.save(spontaneousApplication);
     }
