@@ -1,14 +1,10 @@
-import { Box, Button, Chip, FormLabel, TextField } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React from "react";
 import * as apiCalls from "../api-calls/apiCalls";
 import * as firebaseAuth from "firebase/auth";
 import { auth } from "../api-calls/api-wrappers/authorization-wrapper/firebase-utils/firebaseConfig";
 
 export const ConfirmEmail = () => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [token, setToken] = React.useState("");
-
   const clickConfirmEmail = async () => {
     apiCalls
       .sendEmailConfirmed()
