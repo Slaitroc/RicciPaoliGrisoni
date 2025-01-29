@@ -41,7 +41,7 @@ export const getUniversitiesv2 = async () => {
         const universities = ["No universities found"];
         return { success: true, names: universities, table: null };
       } else if (response.ok) {
-        response.json().then((body) => {
+        return response.json().then((body) => {
           const universities = [];
           Object.keys(body.properties).forEach((key) => {
             universities.push(key);

@@ -14,7 +14,7 @@ export const getFormattedCompanyInternships = async (companyID) => {
             if (response.status === 204) {
                 return { success: false, data: null, message: "No internship offers found for this company", severity: "info"} 
             } else if (response.status === 404) {
-                return { success: false, data: null, message: "Company does not exist", severity: "error" };
+                return { success: false, data: null, message: response.properties.error, severity: "error" };
             } else {
                 return response.json().then((payload) => {
                     const formattedData = payload.map((internship) => {
