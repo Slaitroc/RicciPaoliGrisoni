@@ -66,12 +66,23 @@ export const SCUserCreation = () => {
 
   React.useEffect(() => {
     account
-      .getUniversities()
+      .getUniversitiesv2()
       .then((result) => {
-        setFetchedData(result);
+        if (result.success === true) {
+          setFetchedData(result);
+        }
+        if (result.success === false) {
+          setOpenAlert(true);
+          setAlertSeverity(result.severity);
+          setAlertMessage(result.message);
+        }
       })
       .catch((error) => {
-        console.error("Error during universities retrieval:", error.message);
+        //NOTE gestione errore critico
+        console.error("Critical error during getUniversities:", error);
+        setOpenAlert(true);
+        setAlertSeverity("error");
+        setAlertMessage("Error: Unable to fetch universities");
       });
   }, []);
 
@@ -269,7 +280,9 @@ export const SCUserCreation = () => {
                   disablePortal
                   options={fetchedData.names ? fetchedData.names : []}
                   onChange={(e, value) => {
-                    if (value) setUniVat(fetchedData.table[value]);
+                    if (value && fetchedData.table) {
+                      setUniVat(fetchedData.table[value]);
+                    }
                   }}
                   sx={{
                     width: 220,
