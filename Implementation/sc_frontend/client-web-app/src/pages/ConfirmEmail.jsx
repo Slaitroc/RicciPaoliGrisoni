@@ -3,13 +3,17 @@ import React from "react";
 import * as apiCalls from "../api-calls/apiCalls";
 import * as firebaseAuth from "firebase/auth";
 import { auth } from "../api-calls/api-wrappers/authorization-wrapper/firebase-utils/firebaseConfig";
+import { useGlobalContext } from "../global/GlobalContext";
 
 export const ConfirmEmail = () => {
+  const { setIsEmailVerified } = useGlobalContext();
+
   const clickConfirmEmail = async () => {
     apiCalls
       .sendEmailConfirmed()
       .then((response) => {
         if (response.status === 201) {
+          setIsEmailVerified(true);
           console.log("Email confirmed ---> User unlocked");
         } else if (!response.ok) {
           console.log("Email not confirmed");
