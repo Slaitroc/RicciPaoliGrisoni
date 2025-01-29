@@ -2,6 +2,7 @@ import { ConfirmEmail } from "../pages/ConfirmEmail";
 import { RouteBase } from "../pages/RouteBase";
 import { SCEditCv } from "../components/CV/SCEditCV";
 import { SCBrowseInternshipPreview } from "../components/BrowseInternshipOffers/SCBrowseInternshipPreview";
+import SCBrowseInternshipOffers from "../components/BrowseInternshipOffers/SCBrowseInternshipOffers";
 import { SCSignUp } from "../components/SignUp/SCSignUp";
 import { createBrowserRouter } from "react-router-dom";
 import { SignUp } from "../pages/SignUp";
