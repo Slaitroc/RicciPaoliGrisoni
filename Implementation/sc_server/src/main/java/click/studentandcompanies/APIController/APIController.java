@@ -208,7 +208,7 @@ public class APIController {
 
     // API called by student and companies when looking for their spontaneous
     // applications
-    @GetMapping("/sub/private/application/get-applications")
+    @GetMapping("/sub/private/application/get-my-applications")
     @Operation(summary = "User requests the list of his Spontaneous Applications", description = "Get a list of Spontaneous Applications submitted by a specific student or submitted to a specific company.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Spontaneous Applications retrieved successfully"),

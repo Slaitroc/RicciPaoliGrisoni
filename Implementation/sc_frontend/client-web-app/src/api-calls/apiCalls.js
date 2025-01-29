@@ -178,7 +178,7 @@ export const updateMyCV = async (cv) => {
 export const getMySpontaneousApplications = async () => {
   const token = await getToken();
   return fetchWrapper(
-    "/application-api/sub/private/application/get-applications",
+    "/application-api/sub/private/application/get-my-applications",
     {
       method: "GET",
       headers: {

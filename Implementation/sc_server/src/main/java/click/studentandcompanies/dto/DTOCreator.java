@@ -153,6 +153,7 @@ public class DTOCreator {
         appDTO.addProperty("internshipOfferTitle", application.getInternshipOffer().getTitle());
         appDTO.addProperty("internshipOfferCompanyName", application.getInternshipOffer().getCompany().getName());
         appDTO.addProperty("studentName", application.getStudent().getName());
+        appDTO.addProperty("studentID", application.getStudent().getId());
         return appDTO;
     }
 

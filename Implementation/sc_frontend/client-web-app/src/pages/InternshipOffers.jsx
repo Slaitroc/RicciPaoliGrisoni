@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import SCIntOffers from "../components/InternshipOffers/SCIntOffer";
 import SCIntOffersPreview from "../components/InternshipOffers/SCIntOffersPreview";
 import { useGlobalContext } from "../global/GlobalContext";
-import { getCompanyInternships } from "../api-calls/apiCalls";
 import { Alert } from "@mui/material";
 import Card from "@mui/material/Card";
 import { getFormattedCompanyInternships } from "../api-calls/api-wrappers/submission-wrapper/internshipOffer";
@@ -13,25 +11,6 @@ const InternshipOffers = () => {
   const [openAlert, setOpenAlert] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState("");
   const [alertSeverity, setAlertSeverity] = React.useState("success");
-
-  //fetch the internship offers of this company, handle the error and set the data if it is successful
-  const validateResponse = (response) => {
-    console.log("Internship offers:", response);
-    if (response.status === 404) {
-      console.log("Company do not exits");
-      setOpenAlert(true);
-      setAlertSeverity("error");
-      setAlertMessage(response.properties.message);
-    } else if (response.status == 204) {
-      console.log("No internship offers found for this company");
-      setOpenAlert(true);
-      setAlertSeverity("info");
-      setAlertMessage("No internship offers found for this company");
-    } else {
-      console.log("Internship offers found", response.properties);
-      setOfferData(response);
-    }
-  };
 
   //When the component mounts, fetch the internship offers of this company
   useEffect(() => {
@@ -61,8 +40,8 @@ const InternshipOffers = () => {
             <Alert severity={alertSeverity}>{alertMessage}</Alert>
             <div style={{ margin: '20px 0' }}></div>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <SCIntOffersPreview offerData={offerData} />
-        </div>
+              <SCIntOffersPreview offerData={offerData} />
+            </div>
           </>
         )}
         {!openAlert && <SCIntOffersPreview offerData={offerData} />}      
