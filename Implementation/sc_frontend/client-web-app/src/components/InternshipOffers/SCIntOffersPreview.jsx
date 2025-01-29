@@ -12,7 +12,7 @@ import { SCAddIcon } from "../Shared/SCIcons";
 import { useInternshipOffersContext } from "./InternshipOffersContext";
 
 export const SCIntOffersPreview = () => {
-  const { offerData, openAlert } = useInternshipOffersContext();
+  const { offerData } = useInternshipOffersContext();
   return (
     <>
       <div style={{ margin: "20px 0" }}></div>

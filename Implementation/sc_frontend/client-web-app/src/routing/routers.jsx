@@ -2,7 +2,7 @@ import { ConfirmEmail } from "../pages/ConfirmEmail";
 import { RouteBase } from "../pages/RouteBase";
 import { SCEditCv } from "../components/CV/SCEditCV";
 import { SCBrowseInternshipPreview } from "../components/BrowseInternshipOffers/SCBrowseInternshipPreview";
-import SCBrowseInternshipOffers from "../components/BrowseInternshipOffers/SCBrowseInternshipOffers";
+import SCBrowseInternshipOffer from "../components/BrowseInternshipOffers/SCBrowseInternshipOffer";
 import { SCSignUp } from "../components/SignUp/SCSignUp";
 import { createBrowserRouter } from "react-router-dom";
 import { SignUp } from "../pages/SignUp";
@@ -39,7 +39,6 @@ import SCCv from "../components/CV/SCCV";
 import SCIntOffers from "../components/InternshipOffers/SCIntOffer";
 import SCIntOffersPreview from "../components/InternshipOffers/SCIntOffersPreview";
 import BrowseInternshipOffers from "../pages/BrowseInternshipOffers";
-import SCBrowseInternshipOffers from "../components/BrowseInternshipOffers/SCBrowseInternshipOffers";
 import {
   INIT_USER_TYPE,
   STUDENT_USER_TYPE,
@@ -173,7 +172,7 @@ const router = createBrowserRouter(
                 },
                 {
                   path: "internship-detail",
-                  element: <SCBrowseInternshipOffers />,
+                  element: <SCBrowseInternshipOffer />,
                 },
               ],
             },

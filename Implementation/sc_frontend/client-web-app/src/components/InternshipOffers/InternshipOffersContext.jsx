@@ -35,18 +35,19 @@ export const InternshipOffersProvider = ({ children }) => {
       setAlertSeverity("error");
       setAlertMessage("User is not a company");
       console.log("User is not a company");
+    } else {
+      internshipOffer
+        .getFormattedCompanyInternships(profile.userID)
+        .then((response) => {
+          if (response.success === false) {
+            setOpenAlert(true);
+            setAlertSeverity(response.severity);
+            setAlertMessage(response.message);
+          } else {
+            setOfferData(response.data);
+          }
+        });
     }
-    internshipOffer
-      .getFormattedCompanyInternships(profile.userID)
-      .then((response) => {
-        if (response.success === false) {
-          setOpenAlert(true);
-          setAlertSeverity(response.severity);
-          setAlertMessage(response.message);
-        } else {
-          setOfferData(response.data);
-        }
-      });
   }, []);
 
   const value = {
