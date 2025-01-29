@@ -29,7 +29,7 @@ const studentListItems = [
     key: uuidv4(),
     text: "Browse Internships",
     icon: <SCIcons.SCManageSearchIcon />,
-    route: "/dashboard/internship-offers",
+    route: "/dashboard/browse-internship-offers",
   },
   {
     key: uuidv4(),
@@ -86,7 +86,7 @@ const univesityListItems = [
     key: uuidv4(),
     text: "Browse Internship",
     icon: <SCIcons.SCManageSearchIcon />,
-    route: "/dashboard/internship-offers",
+    route: "/dashboard/browse-internship-offers",
   },
   {
     key: uuidv4(),
@@ -125,7 +125,7 @@ const companyListItems = [
     key: uuidv4(),
     text: "Browse Internship",
     icon: <SCIcons.SCManageSearchIcon />,
-    route: "/dashboard/internship-offers",
+    route: "/dashboard/browse-internship-offers",
   },
   {
     key: uuidv4(),

@@ -9,8 +9,10 @@ import {
   Button,
 } from "@mui/material";
 import { SCAddIcon } from "../Shared/SCIcons";
+import { useInternshipOffersContext } from "./InternshipOffersContext";
 
-export const SCIntOffersPreview = ({ offerData, offerClickHandler }) => {
+export const SCIntOffersPreview = () => {
+  const { offerData } = useInternshipOffersContext();
   return (
     <>
       <Box paddingLeft={5}>

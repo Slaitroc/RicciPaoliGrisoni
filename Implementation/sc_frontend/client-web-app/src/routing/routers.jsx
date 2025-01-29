@@ -1,11 +1,15 @@
-import React from "react";
+import { ConfirmEmail } from "../pages/ConfirmEmail";
+import { RouteBase } from "../pages/RouteBase";
+import { SCEditCv } from "../components/CV/SCEditCV";
+import { SCBrowseInternshipPreview } from "../components/BrowseInternshipOffers/SCBrowseInternshipPreview";
+import { SCSignUp } from "../components/SignUp/SCSignUp";
 import { createBrowserRouter } from "react-router-dom";
 import { SignUp } from "../pages/SignUp";
 import { SCUserCreation } from "../components/SignUp/SCUserCreation";
+import React from "react";
 import EmailRouteProtector from "./EmailRouteProtector";
 import AuthRouteProtector from "./AuthRouteProtector";
 import SCSignInSide from "../pages/SCSignInSide";
-import { SCSignUp } from "../components/SignUp/SCSignUp";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
 import Main from "../pages/Main";
@@ -25,11 +29,11 @@ import InternshipOffers from "../pages/InternshipOffers";
 import Profile from "../pages/Profile";
 import Account from "../pages/Account";
 import SwipePage from "../pages/SwipePage";
-import { ConfirmEmail } from "../pages/ConfirmEmail";
 import VerifyEmail from "../pages/VerifyEmail";
-import { RouteBase } from "../pages/RouteBase";
 import SCCv from "../components/CV/SCCV";
-import { SCEditCv } from "../components/CV/SCEditCV";
+import SCIntOffers from "../components/InternshipOffers/SCIntOffer";
+import SCIntOffersPreview from "../components/InternshipOffers/SCIntOffersPreview";
+import BrowseInternshipOffers from "../pages/BrowseInternshipOffers";
 // Router Configurations
 
 const router = createBrowserRouter(
@@ -121,6 +125,30 @@ const router = createBrowserRouter(
             {
               path: "internship-offers",
               element: <InternshipOffers />,
+              children: [
+                {
+                  path: "",
+                  element: <SCIntOffersPreview />,
+                },
+                {
+                  path: "internship-detail",
+                  element: <SCIntOffers />,
+                },
+              ],
+            },
+            {
+              path: "browse-internship-offers",
+              element: <BrowseInternshipOffers />,
+              children: [
+                {
+                  path: "",
+                  element: <SCBrowseInternshipPreview />,
+                },
+                {
+                  path: "internship-detail",
+                  element: <SCBrowseInternshipOffers />,
+                },
+              ],
             },
             {
               path: "applications",

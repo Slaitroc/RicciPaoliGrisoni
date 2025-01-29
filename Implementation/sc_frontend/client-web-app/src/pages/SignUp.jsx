@@ -45,7 +45,6 @@ export const SignUp = (props) => {
       <SignUpContainer direction="column" justifyContent="space-between">
         <Box display="flex" flexDirection="row" justifyContent="center" gap="50vW" padding={3}>
         <SCBackHomeButton/>
-
         <SCColorModeSelect />
       </Box>
         <Outlet />

@@ -3,7 +3,10 @@ import SCIntOffersPreview from "../components/InternshipOffers/SCIntOffersPrevie
 import { useGlobalContext } from "../global/GlobalContext";
 import { Alert } from "@mui/material";
 import Card from "@mui/material/Card";
-import { getFormattedCompanyInternships } from "../api-calls/api-wrappers/submission-wrapper/internshipOffer";
+
+import { Outlet } from "react-router-dom";
+import { InternshipOffersProvider } from "../components/InternshipOffers/InternshipOffersContext";
+
 const InternshipOffers = () => {
   const { profile } = useGlobalContext();
   const [offerData, setOfferData] = useState(null);
@@ -13,32 +16,11 @@ const InternshipOffers = () => {
   const [alertSeverity, setAlertSeverity] = React.useState("success");
 
   //When the component mounts, fetch the internship offers of this company
-  useEffect(() => {
-    console.log("Profile:", profile);
-    if (profile.userType != "COMPANY") {
-      setOpenAlert(true);
-      setAlertSeverity("error");
-      setAlertMessage("User is not a company");
-      console.log("User is not a company");
-    }
-    getFormattedCompanyInternships(profile.userID).then((response) => {
-      if (response.success === false) {
-        setOpenAlert(true);
-        setAlertSeverity(response.severity);
-        setAlertMessage(response.message);
-      } else {
-        setOfferData(response.data);
-      }
-    });
-  }, []);
-
-  const handleOfferClick = (offer) => {
-    console.log("Selected Offer:", offer);
-  };
 
   return (
-    <>
-      <Card variant="outlined">
+    <InternshipOffersProvider>
+      <Outlet />
+      {/* <Card variant="outlined">
         {openAlert && (
           <>
             <Alert severity={alertSeverity}>{alertMessage}</Alert>
@@ -54,8 +36,8 @@ const InternshipOffers = () => {
             offerClickHandler={handleOfferClick}
           />
         )}
-      </Card>
-    </>
+      </Card> */}
+    </InternshipOffersProvider>
   );
 };
 
