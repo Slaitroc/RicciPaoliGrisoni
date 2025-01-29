@@ -13,14 +13,13 @@ import { auth } from "../../api-calls/api-wrappers/authorization-wrapper/firebas
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
 import FormControl from "@mui/material/FormControl";
-import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import MuiCard from "@mui/material/Card";
 import SCSelectLogin from "../Shared/SCSelectLogin";
 import Autocomplete from "@mui/material/Autocomplete";
+import * as logger from "../../logger/logger";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -99,42 +98,42 @@ export const SCUserCreation = () => {
   }, []);
 
   //DEBUG
-  // React.useEffect(() => {
-  //   //console.log("User type:", userType);
-  //   const userData = {
-  //     userType: userType,
-  //     email: auth.currentUser?.email ? auth.currentUser.email : null,
-  //     name:
-  //       document.getElementById("name")?.value &&
-  //       document.getElementById("name").value != ""
-  //         ? document.getElementById("name").value
-  //         : null,
-  //     surname:
-  //       document.getElementById("surname")?.value &&
-  //       document.getElementById("surname").value != ""
-  //         ? document.getElementById("surname").value
-  //         : null,
-  //     uniVat: uniVat ? parseInt(uniVat) : null,
-  //     uniDescription:
-  //       document.getElementById("description")?.value &&
-  //       document.getElementById("description").value != ""
-  //         ? document.getElementById("description").value
-  //         : null,
-  //     country: country ? country : null,
-  //     birthDate: birthDate ? birthDate : null,
-  //     location:
-  //       document.getElementById("location")?.value &&
-  //       document.getElementById("location").value != ""
-  //         ? document.getElementById("location").value
-  //         : null,
-  //     vatNumber:
-  //       document.getElementById("VAT")?.value &&
-  //       document.getElementById("VAT").value != ""
-  //         ? parseInt(document.getElementById("VAT").value)
-  //         : null,
-  //   };
-  //   console.log(userData);
-  // });
+  React.useEffect(() => {
+    logger.debug("User type:", userType);
+    const userData = {
+      userType: userType,
+      email: auth.currentUser?.email ? auth.currentUser.email : null,
+      name:
+        document.getElementById("name")?.value &&
+        document.getElementById("name").value != ""
+          ? document.getElementById("name").value
+          : null,
+      surname:
+        document.getElementById("surname")?.value &&
+        document.getElementById("surname").value != ""
+          ? document.getElementById("surname").value
+          : null,
+      uniVat: uniVat ? parseInt(uniVat) : null,
+      uniDescription:
+        document.getElementById("description")?.value &&
+        document.getElementById("description").value != ""
+          ? document.getElementById("description").value
+          : null,
+      country: country ? country : null,
+      birthDate: birthDate ? birthDate : null,
+      location:
+        document.getElementById("location")?.value &&
+        document.getElementById("location").value != ""
+          ? document.getElementById("location").value
+          : null,
+      vatNumber:
+        document.getElementById("VAT")?.value &&
+        document.getElementById("VAT").value != ""
+          ? parseInt(document.getElementById("VAT").value)
+          : null,
+    };
+    logger.debug(userData);
+  });
 
   const validateInputs = (userData) => {
     let isValid = true;

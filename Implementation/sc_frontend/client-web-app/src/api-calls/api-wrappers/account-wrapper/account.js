@@ -1,13 +1,19 @@
 import * as apiCalls from "../../apiCalls";
+import * as logger from "../../../logger/logger";
 
 export const sendUserData = async (userData) => {
   return apiCalls.sendUserData(userData);
 };
 
 export const getUserData = async () => {
+  if ((await apiCalls.getToken()) == "") {
+    logger.error("Token assente....rimando il fetch");
+  }
   return apiCalls.getUserData();
 };
-
+/**
+ * @deprecated Use getUniversitiesv2 instead.
+ */
 export const getUniversities = async () => {
   try {
     const response = await apiCalls.getUniversities();

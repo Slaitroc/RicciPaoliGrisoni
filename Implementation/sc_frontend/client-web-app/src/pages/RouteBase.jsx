@@ -4,6 +4,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import * as account from "../api-calls/api-wrappers/account-wrapper/account.js";
 import { onAuthStateChanged } from "firebase/auth";
 import * as firebaseConfig from "../api-calls/api-wrappers/authorization-wrapper/firebase-utils/firebaseConfig.js";
+import * as logger from "../logger/logger.js";
 
 export const RouteBase = () => {
   const { isAuthenticated, setUserType, setProfile, setIsEmailVerified } =
@@ -13,18 +14,21 @@ export const RouteBase = () => {
   useEffect(() => {
     onAuthStateChanged(firebaseConfig.auth, (user) => {
       if (user) {
-        console.log("Main page useEffect - isAuthenticated");
         account.getUserData().then((response) => {
-          console.log("Response:", response);
+          if (response.status === 400) {
+            logger.debug("- ROUTE BASE: Token mancante nella richiesta.");
+          }
           if (response.status === 204) {
-            console.log("Dati utente non trovati. Creazione nuovo utente.");
+            logger.debug(
+              "- ROUTE BASE: Dati utente non trovati. Creazione nuovo utente."
+            );
             setIsEmailVerified(false);
             // Naviga alla pagina di creazione utente
             //FIX //navigate("/signup/user-creation");
           }
           if (response.status === 200) {
             response.json().then((data) => {
-              console.log("Fetched User data:", data);
+              logger.debug("- ROUTE BASE: Fetched User data:", data);
               setUserType(data.properties.userType);
               setProfile(data.properties);
               if (data.properties.validate) setIsEmailVerified(true);
@@ -37,7 +41,6 @@ export const RouteBase = () => {
           }
         });
       } else {
-        console.log("Main page useEffect - not isAuthenticated");
       }
     });
   }, []);

@@ -4,12 +4,12 @@ import * as apiCalls from "../api-calls/apiCalls";
 import React, { useContext, useState, useEffect, useCallback } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { getToken, onMessage } from "firebase/messaging";
+import * as logger from "../logger/logger";
 
 const GlobalContext = React.createContext();
 
 export const useGlobalContext = () => {
   const context = useContext(GlobalContext);
-  //console.log("Context value:", context);
   if (!context) {
     throw new Error("useGlobalContext must be used within a GlobalProvider");
   }
@@ -58,11 +58,13 @@ export const GlobalProvider = ({ children }) => {
     // NOTIFICATION & AUTHENTICATION
     // Registra il Service Worker e ottieni il token FCM
     let token = null;
-    console.log("Service Worker supportato dal browser.");
+    logger.debug("GlobalProvider mounted");
+    logger.log("Service Worker registration...");
     navigator.serviceWorker
       .register("/firebase-messaging-sw.js")
       .then((registration) => {
-        console.log("Service Worker registrato:", registration);
+        //logger.log("Service Worker registrato:", registration);
+        logger.log("Service Worker registrato.");
         return getToken(firebaseConfig.messaging, {
           vapidKey:
             "BC7y3aEdX7NmWTt2tmdW1uV7lCgC52PooEkUiOXS5yQP3SLCV97jcpFkVg3JhOL9sCI9kPsrW1JaIDULKHEW0o8",
@@ -71,53 +73,48 @@ export const GlobalProvider = ({ children }) => {
       })
       .then((currentToken) => {
         if (currentToken) {
-          console.log("Token FCM:", currentToken);
+          logger.log("Token FCM:", currentToken);
           token = currentToken;
           //NOTE Qui inviamo il token ogni volta perché il backend se già esiste non lo salva
         } else {
-          console.log("Nessun token FCM disponibile.");
+          logger.log("Nessun token FCM disponibile.");
         }
       })
       .catch((error) => {
-        console.error("Errore durante l'ottenimento del token FCM:", error);
+        logger.error("Errore durante l'ottenimento del token FCM:", error);
       });
 
     onAuthStateChanged(firebaseConfig.auth, (user) => {
       if (user) {
-        console.log("Utente autenticato:", user.email);
+        logger.log("Utente autenticato:", user.email);
         setIsAuthenticated(true);
         // Controlla se l'email è stata verificata
         if (!user.emailVerified) {
-          //LOG
-          console.log("Email non verificata con firebase.");
+          logger.log("Email non verificata con firebase.");
         } else {
-          //LOG
-          console.log("Email verificata.");
+          logger.log("Email verificata.");
           setIsEmailVerified(true);
         }
         // Invia il token FCM al server
         if (token) {
           // FIX crea wrapper notification
-          //LOG
-          console.log("FCM token:", token);
+          logger.log("FCM token:", token);
           apiCalls.sendNotificationToken(token).then((response) => {
             if (!response.ok) {
-              //LOG
-              console.error("Errore durante l'invio del token FCM:", response);
+              logger.log("Errore durante l'invio del token FCM:", response);
             } else {
-              //LOG
-              console.log("Token FCM inviato con successo.");
+              logger.log("Token FCM inviato con successo.");
             }
           });
         }
       } else {
-        console.log("Nessun utente autenticato. Token FCM non inviato.");
+        logger.log("Nessun utente autenticato. Token FCM non inviato.");
         setIsAuthenticated(false);
       }
     });
     // Gestisce le notifiche in foreground
     onMessage(firebaseConfig.messaging, (payload) => {
-      console.log("Messaggio ricevuto in foreground:", payload);
+      logger.log("Messaggio ricevuto in foreground:", payload);
       // Mostra una notifica o aggiorna l'interfaccia utente
       setNotification((prev) => [...prev, payload]);
       // Rimuove automaticamente la notifica dopo 5 secondi
@@ -128,6 +125,10 @@ export const GlobalProvider = ({ children }) => {
       //   `Notifica: ${payload.notification.title} - ${payload.notification.body}`
       // );
     });
+
+    return () => {
+      logger.debug("GlobalProvider unmounted");
+    };
   }, []);
 
   const value = {
