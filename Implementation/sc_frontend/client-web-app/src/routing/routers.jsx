@@ -7,6 +7,8 @@ import { SCSignUp } from "../components/SignUp/SCSignUp";
 import { createBrowserRouter } from "react-router-dom";
 import { SignUp } from "../pages/SignUp";
 import { SCUserCreation } from "../components/SignUp/SCUserCreation";
+import SCApplicationPreview from "../components/Applications/SCApplicationPreview";
+import SCApplication from "../components/Applications/SCApplication";
 import React from "react";
 import EmailRouteProtector from "./EmailRouteProtector";
 import AuthRouteProtector from "./AuthRouteProtector";
@@ -157,6 +159,16 @@ const router = createBrowserRouter(
             {
               path: "applications",
               element: <Applications />,
+              children: [
+                {
+                  path: "",
+                  element: <SCApplicationPreview />,
+                },
+                {
+                  path: "application-detail",
+                  element: <SCApplication />,
+                },
+              ],
             },
             {
               path: "recommendations",

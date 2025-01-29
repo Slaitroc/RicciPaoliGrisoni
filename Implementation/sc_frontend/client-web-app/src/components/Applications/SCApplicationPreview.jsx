@@ -1,7 +1,11 @@
 import React from "react";
 import { Grid2, Card, CardContent, Typography } from "@mui/material";
+import { useApplicationContext } from "./ApplicationsContext";
 
-export const SCApplication = ({ applicationData, buttonAction }) => {
+export const SCApplication = () => {
+  const { applicationData } = useApplicationContext();
+
+  console.log("Application data:", applicationData);
   return (
     <>
       {applicationData != null ? (
