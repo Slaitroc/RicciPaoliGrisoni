@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 
 export const SCBrowseInternshipPreview = () => {
-  const { offerData } = useBrowseInternshipContext();
+  const { offerData, clickOnOffer } = useBrowseInternshipContext();
   console.log("Offer Data:", offerData);
   return (
     <>
@@ -21,7 +21,7 @@ export const SCBrowseInternshipPreview = () => {
             return (
               <Grid2 key={item.id} xs={12} sm={6} md={4}>
                 <Card
-                  onClick={() => offerClickHandler(item)} // Added click handler
+                  onClick={() => clickOnOffer(item)} // Added click handler
                   sx={{
                     height: "auto",
                     width: 500,

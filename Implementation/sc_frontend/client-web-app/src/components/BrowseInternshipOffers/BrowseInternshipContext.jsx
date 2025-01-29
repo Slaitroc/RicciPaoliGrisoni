@@ -14,6 +14,10 @@ export const useBrowseInternshipContext = () => {
   return context;
 };
 
+export const clickOnOffer = (offer) => {
+  console.log("Offer Clicked:", offer);
+};
+
 export const BrowseInternshipOffersProvider = ({ children }) => {
   const [offerData, setOfferData] = React.useState([]);
   const [openAlert, setOpenAlert] = React.useState(false);
@@ -36,6 +40,7 @@ export const BrowseInternshipOffersProvider = ({ children }) => {
   const value = {
     offerData,
     openAlert,
+    clickOnOffer,
   };
 
   return (

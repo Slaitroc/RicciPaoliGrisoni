@@ -17,6 +17,10 @@ export const useApplicationContext = () => {
   return context;
 };
 
+export const clickOnApplication = (item) => {
+  console.log("Clicked on application:", item);
+};
+
 export const ApplicationsProvider = ({ children }) => {
   const navigate = useNavigate();
   const { profile } = useGlobalContext();
@@ -49,18 +53,14 @@ export const ApplicationsProvider = ({ children }) => {
       });
   }, []);
 
-  const handleSpontaneousClick = (profile) => {
-    console.log("Selected Application:", profile);
-  };
-
   const handleErrorButtonClick = () => {
     navigate("/dashboard/browse-internship-offers");
   };
 
   const value = {
     handleErrorButtonClick,
-    handleSpontaneousClick,
     applicationData,
+    clickOnApplication,
   };
 
   return (

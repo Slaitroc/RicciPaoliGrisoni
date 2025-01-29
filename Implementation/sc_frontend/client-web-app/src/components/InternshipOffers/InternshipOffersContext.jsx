@@ -15,6 +15,10 @@ export const useInternshipOffersContext = () => {
   return context;
 };
 
+export const clickOnOffer = (offer) => {
+  console.log("Offer Clicked:", offer);
+};
+
 export const InternshipOffersProvider = ({ children }) => {
   const { profile } = useGlobalContext();
 
@@ -54,6 +58,7 @@ export const InternshipOffersProvider = ({ children }) => {
     handleOfferClick,
     offerData,
     openAlert,
+    clickOnOffer,
   };
 
   return (
