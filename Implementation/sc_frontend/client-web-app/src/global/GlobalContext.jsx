@@ -1,14 +1,9 @@
-import React, { useContext, useState, useEffect, useCallback } from "react";
 import * as global from "./globalStatesInit";
-import { onAuthStateChanged } from "firebase/auth";
-import { getToken, onMessage } from "firebase/messaging";
 import * as firebaseConfig from "../api-calls/api-wrappers/authorization-wrapper/firebase-utils/firebaseConfig";
 import * as apiCalls from "../api-calls/apiCalls";
-import * as account from "../api-calls/api-wrappers/account-wrapper/account";
-import SCNotificationAlert from "../components/Shared/SCNotificationAlert";
-import { RouterProvider } from "react-router-dom";
-import router from "../routing/routers";
-import { use } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { getToken, onMessage } from "firebase/messaging";
 
 const GlobalContext = React.createContext();
 
