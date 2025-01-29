@@ -1,12 +1,12 @@
 import { fetchWrapper } from "./fetchWrapper";
 import { auth } from "./api-wrappers/authorization-wrapper/firebase-utils/firebaseConfig";
+import * as logger from "../logger/logger";
 
 // #region UTILITIES
 
 export const getToken = async () => {
   const user = auth.currentUser;
   if (!user) {
-    console.error("Utente non autenticato. Nessun token disponibile.");
     return ""; // Token vuoto se l'utente non è autenticato
   }
   return await user.getIdToken();
@@ -24,7 +24,7 @@ export const getToken = async () => {
 
 export const sendNotificationToken = async (notificationToken) => {
   const token = await getToken();
-  console.log("Token: ", token);
+  logger.debug("Token: ", token);
   return fetchWrapper("/notification-api/private/send-token", {
     method: "POST",
     headers: {
@@ -71,8 +71,8 @@ export const sendEmailConfirmed = async () => {
 export const sendUserData = async (userData) => {
   const token = await getToken();
   //FIX remove logs
-  console.log(JSON.stringify({ ...userData }));
-  console.log("Token: ", token);
+  logger.debug(JSON.stringify({ ...userData }));
+  logger.debug("Token: ", token);
   return fetchWrapper("/application-api/acc/private/send-user-data", {
     method: "PUT",
     headers: {
@@ -116,8 +116,8 @@ export const getInternshipOffers = async () => {
 
 export const getCompanyInternships = async (companyID) => {
   const token = await getToken();
-  console.log(JSON.stringify({ companyID }));
-  console.log("Token: ", token);
+  logger.debug(JSON.stringify({ companyID }));
+  logger.debug("Token: ", token);
   return fetchWrapper(
     `/application-api/sub/private/internship/${companyID}/get-company-internships`,
     {
@@ -147,8 +147,8 @@ export const updateOffer = async (offer) => {
 
 export const getStudentCV = async (studentID) => {
   const token = await getToken();
-  console.log(JSON.stringify({ studentID }));
-  console.log("Token: ", token);
+  logger.debug(JSON.stringify({ studentID }));
+  logger.debug("Token: ", token);
   return fetchWrapper(
     `/application-api/sub/private/cv/${studentID}/get-student-cv`,
     {
@@ -163,8 +163,8 @@ export const getStudentCV = async (studentID) => {
 
 export const updateMyCV = async (cv) => {
   const token = await getToken();
-  console.log(JSON.stringify({ ...cv }));
-  console.log("Token: ", token);
+  logger.debug(JSON.stringify({ ...cv }));
+  logger.debug("Token: ", token);
   return fetchWrapper(`/application-api/sub/private/cv/update-cv`, {
     method: "POST",
     headers: {
