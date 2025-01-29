@@ -4,6 +4,7 @@ import { SignUp } from "../pages/SignUp";
 import { SCUserCreation } from "../components/SignUp/SCUserCreation";
 import EmailRouteProtector from "./EmailRouteProtector";
 import AuthRouteProtector from "./AuthRouteProtector";
+import UserCreationRouteProtector from "./UserCreationRouteProtector";
 import SCSignInSide from "../pages/SCSignInSide";
 import { SCSignUp } from "../components/SignUp/SCSignUp";
 import About from "../pages/About";
@@ -74,9 +75,11 @@ const router = createBrowserRouter(
           path: "dashboard",
           element: (
             <AuthRouteProtector>
-              <EmailRouteProtector>
-                <Dashboard />
-              </EmailRouteProtector>
+              <UserCreationRouteProtector>
+                <EmailRouteProtector>
+                  <Dashboard />
+                </EmailRouteProtector>
+              </UserCreationRouteProtector>
             </AuthRouteProtector>
           ),
           children: [
