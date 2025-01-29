@@ -22,29 +22,38 @@ const InternshipOffers = () => {
       console.log("User is not a company");
     }
     getFormattedCompanyInternships(profile.userID).then((response) => {
-      if(response.success === false){
+      if (response.success === false) {
         setOpenAlert(true);
         setAlertSeverity(response.severity);
         setAlertMessage(response.message);
-      }else{
+      } else {
         setOfferData(response.data);
       }
     });
   }, []);
-  
+
+  const handleOfferClick = (offer) => {
+    console.log("Selected Offer:", offer);
+  };
+
   return (
     <>
       <Card variant="outlined">
         {openAlert && (
           <>
             <Alert severity={alertSeverity}>{alertMessage}</Alert>
-            <div style={{ margin: '20px 0' }}></div>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div style={{ margin: "20px 0" }}></div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <SCIntOffersPreview offerData={offerData} />
             </div>
           </>
         )}
-        {!openAlert && <SCIntOffersPreview offerData={offerData} />}      
+        {!openAlert && (
+          <SCIntOffersPreview
+            offerData={offerData}
+            offerClickHandler={handleOfferClick}
+          />
+        )}
       </Card>
     </>
   );
