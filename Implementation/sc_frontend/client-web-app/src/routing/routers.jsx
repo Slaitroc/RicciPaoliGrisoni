@@ -24,9 +24,11 @@ import InternshipOffers from "../pages/InternshipOffers";
 import Profile from "../pages/Profile";
 import Account from "../pages/Account";
 import SwipePage from "../pages/SwipePage";
-import { EmailConfirm } from "../pages/EmailConfirm";
-import ConfirmEmail from "../pages/ConfirmEmail";
+import { ConfirmEmail } from "../pages/ConfirmEmail";
+import VerifyEmail from "../pages/VerifyEmail";
 import { RouteBase } from "../pages/RouteBase";
+import SCCv from "../components/CV/SCCV";
+import { SCEditCv } from "../components/CV/SCEditCV";
 // Router Configurations
 const router = createBrowserRouter(
   [
@@ -54,13 +56,13 @@ const router = createBrowserRouter(
         },
         {
           path: "confirm-email",
-          element: <EmailConfirm />,
+          element: <ConfirmEmail />,
         },
         {
           path: "email-verified",
           element: (
             //<RouteProtector equals={false} navigateTo="/signin">
-            <ConfirmEmail />
+            <VerifyEmail />
             //</RouteProtector>
           ),
         },
@@ -99,6 +101,16 @@ const router = createBrowserRouter(
             {
               path: "cv",
               element: <CV />,
+              children: [
+                {
+                  path: "",
+                  element: <SCCv />,
+                },
+                {
+                  path: "edit",
+                  element: <SCEditCv />,
+                },
+              ],
             },
             {
               path: "university",
