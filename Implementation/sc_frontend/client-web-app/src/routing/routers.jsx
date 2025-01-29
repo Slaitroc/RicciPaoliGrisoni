@@ -2,7 +2,8 @@ import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import { SignUp } from "../pages/SignUp";
 import { SCUserCreation } from "../components/SignUp/SCUserCreation";
-import RouteProtector from "./RouteProtector";
+import EmailRouteProtector from "./EmailRouteProtector";
+import AuthRouteProtector from "./AuthRouteProtector";
 import SCSignInSide from "../pages/SCSignInSide";
 import { SCSignUp } from "../components/SignUp/SCSignUp";
 import About from "../pages/About";
@@ -30,6 +31,7 @@ import { RouteBase } from "../pages/RouteBase";
 import SCCv from "../components/CV/SCCV";
 import { SCEditCv } from "../components/CV/SCEditCV";
 // Router Configurations
+
 const router = createBrowserRouter(
   [
     {
@@ -56,22 +58,23 @@ const router = createBrowserRouter(
         },
         {
           path: "confirm-email",
-          element: <ConfirmEmail />,
+          element:  
+            <ConfirmEmail />
         },
         {
           path: "email-verified",
-          element: <VerifyEmail />,
+          element: (
+            <VerifyEmail />
+          ),
         },
         {
           path: "dashboard",
           element: (
-            // <RouteProtector
-            //   requireAuth={true}
-            //   requireEmailVerification={true}
-            //   redirectTo="/signin"
-            // >
-            <Dashboard />
-            // </RouteProtector>
+            <AuthRouteProtector>
+              <EmailRouteProtector>
+                <Dashboard />
+              </EmailRouteProtector>
+            </AuthRouteProtector>
           ),
           children: [
             {
@@ -152,7 +155,12 @@ const router = createBrowserRouter(
         },
         {
           path: "signin",
-          element: <SCSignInSide />,
+          element: 
+          (
+          <AuthRouteProtector redirectTo="/dashboard">
+            <SCSignInSide />
+          </AuthRouteProtector>
+          ),
         },
         {
           path: "signup",
@@ -165,10 +173,7 @@ const router = createBrowserRouter(
             {
               path: "user-creation",
               element: (
-                //TODO modificare logica route protector per navigare alla dashboard se l'utente è già registrato
-                //<RouteProtector isAuth={true} authNavigateTo="/dashboard">
                 <SCUserCreation />
-                //</RouteProtector>
               ),
             },
           ],
