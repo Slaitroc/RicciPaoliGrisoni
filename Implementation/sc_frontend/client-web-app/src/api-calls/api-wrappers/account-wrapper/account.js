@@ -8,7 +8,6 @@ export const getUserData = async () => {
   return apiCalls.getUserData();
 };
 
-//TODO i wrapper servono solo per creare dati appositi dalle chiamate
 export const getUniversities = async () => {
   try {
     const response = await apiCalls.getUniversities();
@@ -29,7 +28,46 @@ export const getUniversities = async () => {
       return { names: universities, table: null };
     }
   } catch (error) {
-    console.error("Error during getUniversities:", error.message);
+    //NOTE lancio errore critico
     throw error;
   }
+};
+
+export const getUniversitiesv2 = async () => {
+  return apiCalls
+    .getUniversities()
+    .then((response) => {
+      if (response.status === 204) {
+        const universities = ["No universities found"];
+        return { success: true, names: universities, table: null };
+      } else if (response.ok) {
+        response.json().then((body) => {
+          const universities = [];
+          Object.keys(body.properties).forEach((key) => {
+            universities.push(key);
+          });
+          return { success: true, names: universities, table: body.properties };
+        });
+      } else {
+        response.json().then((data) => {
+          console.error("Error during getUniversities:", data.properties.error);
+          const universities = ["Fetch error"];
+          return {
+            success: false,
+            names: universities,
+            table: null,
+            message: data.properties.error,
+            severity: "error",
+          };
+        });
+      }
+    })
+    .catch((error) => {
+      //NOTE lancio errore critico
+      console.error(
+        "Error critico durante il fetch di getUniversities():",
+        error.message
+      );
+      throw error;
+    });
 };

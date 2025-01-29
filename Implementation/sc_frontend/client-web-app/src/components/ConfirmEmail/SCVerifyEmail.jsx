@@ -3,7 +3,7 @@ import { getAuth, applyActionCode } from "firebase/auth";
 import { useGlobalContext } from "../../global/GlobalContext";
 import * as apiCalls from "../../api-calls/apiCalls";
 
-export const SCConfirmEmail = () => {
+export const SCVerifyEmail = () => {
   const [message, setMessage] = useState("Verifying your email...");
   const auth = getAuth();
   const { uuid } = useGlobalContext();
