@@ -18,61 +18,80 @@ export const SCIntOffersPreview = ({ offerData }) => {
           Create New Internship Offer
         </Button>
       </Box>
+      {offerData != null ? (
       <Grid2 padding={5} container spacing={3}>
         {offerData.map((item) => {
           return (
             <Grid2 key={item.id} xs={12} sm={6} md={4}>
               <Card
+                onClick={() => console.log("Selected Offer:", item)} // Added click handler
                 sx={{
                   height: "auto",
                   width: 500,
                   display: "flex",
                   flexDirection: "column",
+                  "&:hover, &:focus-visible": {
+                    backgroundColor: "rgba(255, 255, 255, 0.8)", // Lower opacity white background
+                    cursor: "pointer",
+                    ".MuiTypography-body1": {
+                      color: "gray", // Change text color to black on hover/focus
+                    },
+                    ".MuiTypography-body2, .MuiTypography-h5": {
+                      color: "Black", 
+                    },
+                    outline: "3px solid",
+                    outlineColor: "hsla(210, 98%, 48%, 0.5)",
+                    outlineOffset: "2px",
+                  },
                 }}
               >
                 <CardContent>
                   <Typography variant="h5" gutterBottom color="text.primary">
-                    {item.content[0].content[0].content}
+                    {item.title}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     <Typography
+                      component="span"
                       display="inline"
                       variant="body2"
                       sx={{ color: "text.primary" }}
                     >
                       Description:
                     </Typography>
-                    {item.content[0].content[1].content}
+                    {" " + item.description}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     <Typography
+                      component="span"
                       display="inline"
                       variant="body2"
                       sx={{ color: "text.primary" }}
                     >
-                      Education Level:
+                      Skill Required:
                     </Typography>
-                    {item.content[1].content[1].content}
+                    {" " + item.requiredSkills}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     <Typography
+                      component="span"
                       display="inline"
                       variant="body2"
                       sx={{ color: "text.primary" }}
                     >
-                      Languages:
+                      Compensation:
                     </Typography>
-                    {item.content[1].content[2].content}
+                    {" " + item.compensation}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     <Typography
+                      component="span"
                       display="inline"
                       variant="body2"
                       sx={{ color: "text.primary" }}
                     >
-                      Duration:
+                      Duration in hours:
                     </Typography>
-                    {item.content[0].content[2].content}
+                    {" " + item.duration}
                   </Typography>
                 </CardContent>
               </Card>
@@ -80,6 +99,7 @@ export const SCIntOffersPreview = ({ offerData }) => {
           );
         })}
       </Grid2>
+      ) : null}
     </>
   );
 };

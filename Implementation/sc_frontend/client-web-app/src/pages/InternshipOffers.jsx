@@ -5,8 +5,9 @@ import { useGlobalContext } from "../global/GlobalContext";
 import { getCompanyInternships } from "../api-calls/apiCalls";
 import { Alert } from "@mui/material";
 import Card from "@mui/material/Card";
+import { getFormattedCompanyInternships } from "../api-calls/api-wrappers/submission-wrapper/internshipOffer";
 const InternshipOffers = () => {
-  /*const [offerData, setOfferData] = useState([
+  const [offerDataOld, setOfferDataOld] = useState([
     {
       id: 0,
       content: [
@@ -745,7 +746,7 @@ const InternshipOffers = () => {
         },
       ],
     },
-  ]);*/
+  ]);
 
   const { profile } = useGlobalContext();
   const [offerData, setOfferData] = useState(null);
@@ -782,17 +783,22 @@ const InternshipOffers = () => {
       setAlertMessage("User is not a company");
       console.log("User is not a company");
     }
-    getCompanyInternships(profile.userID).then((response) => {
-      validateResponse(response);
+    getFormattedCompanyInternships(profile.userID).then((response) => {
+      if(response.success === false){
+        setOpenAlert(true);
+        setAlertSeverity(response.severity);
+        setAlertMessage(response.message);
+      }else{
+        setOfferData(response.data);
+      }
     });
   }, []);
-
+  
   return (
     <>
       <Card variant="outlined">
         {openAlert && <Alert severity={alertSeverity}>{alertMessage}</Alert>}
       </Card>
-      {offerData != null ? <SCIntOffersPreview offerData={offerData} /> : null}
     </>
   );
 
