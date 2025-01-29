@@ -102,10 +102,10 @@ export const GlobalProvider = ({ children }) => {
           console.log("FCM token:", token);
           apiCalls.sendNotificationToken(token).then((response) => {
             if (!response.ok) {
-          //LOG
+              //LOG
               console.error("Errore durante l'invio del token FCM:", response);
             } else {
-          //LOG
+              //LOG
               console.log("Token FCM inviato con successo.");
             }
           });

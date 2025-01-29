@@ -90,24 +90,6 @@ const univesityListItems = [
   },
   {
     key: uuidv4(),
-    text: "Recommendations Stats",
-    icon: <SCIcons.SCJoinInnerIcon />,
-    route: "/dashboard/recommendations",
-  },
-  {
-    key: uuidv4(),
-    text: "Interviews Stats",
-    icon: <SCIcons.SCCollectionsBookmarkIcon />,
-    route: "/dashboard/interviews",
-  },
-  {
-    key: uuidv4(),
-    text: "Confirmed Internship",
-    icon: <SCIcons.SCApartmentIcon />,
-    route: "/dashboard/confirmed-internships",
-  },
-  {
-    key: uuidv4(),
     text: "Communications",
     icon: <SCIcons.SCInboxIcon />,
     route: "/dashboard/communications",
@@ -151,6 +133,7 @@ const companyListItems = [
     icon: <SCIcons.SCCollectionsBookmarkIcon />,
     route: "/dashboard/interviews",
   },
+  // _______??__________
   {
     key: uuidv4(),
     text: "Confirmed Internship",
