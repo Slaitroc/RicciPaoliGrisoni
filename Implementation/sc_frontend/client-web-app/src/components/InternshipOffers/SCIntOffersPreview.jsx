@@ -18,6 +18,7 @@ export const SCIntOffersPreview = ({ offerData }) => {
           Create New Internship Offer
         </Button>
       </Box>
+      {offerData != null ? (
       <Grid2 padding={5} container spacing={3}>
         {offerData.map((item) => {
           return (
@@ -32,47 +33,51 @@ export const SCIntOffersPreview = ({ offerData }) => {
               >
                 <CardContent>
                   <Typography variant="h5" gutterBottom color="text.primary">
-                    {item.content[0].content[0].content}
+                    {item.title}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     <Typography
+                      component="span"
                       display="inline"
                       variant="body2"
                       sx={{ color: "text.primary" }}
                     >
                       Description:
                     </Typography>
-                    {item.content[0].content[1].content}
+                    {" " + item.description}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     <Typography
+                      component="span"
                       display="inline"
                       variant="body2"
                       sx={{ color: "text.primary" }}
                     >
-                      Education Level:
+                      Skill Required:
                     </Typography>
-                    {item.content[1].content[1].content}
+                    {" " + item.requiredSkills}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     <Typography
+                      component="span"
                       display="inline"
                       variant="body2"
                       sx={{ color: "text.primary" }}
                     >
-                      Languages:
+                      Compensation:
                     </Typography>
-                    {item.content[1].content[2].content}
+                    {" " + item.compensation}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     <Typography
+                      component="span"
                       display="inline"
                       variant="body2"
                       sx={{ color: "text.primary" }}
                     >
-                      Duration:
+                      Duration in hours:
                     </Typography>
-                    {item.content[0].content[2].content}
+                    {" " + item.duration}
                   </Typography>
                 </CardContent>
               </Card>
@@ -80,6 +85,7 @@ export const SCIntOffersPreview = ({ offerData }) => {
           );
         })}
       </Grid2>
+      ) : null}
     </>
   );
 };
