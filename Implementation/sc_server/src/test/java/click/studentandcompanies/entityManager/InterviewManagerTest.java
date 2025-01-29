@@ -367,7 +367,11 @@ class InterviewManagerTest extends EntityFactory {
         );
         interview.setRecommendation(rec);
         interview.setSpontaneousApplication(null);
+        when(internshipPosOfferRepository.findById(900)).thenReturn(Optional.of(posOffer));
+        when(internshipPosOfferRepository.getById(900)).thenReturn(posOffer);
+        when(internshipPosOfferRepository.save(posOffer)).thenReturn(posOffer);
         when(interviewRepository.getInterviewByInternshipPosOffer_Id(900)).thenReturn(interview);
+        when(userManager.getStudentIDByInternshipPosOfferID(900)).thenReturn("10");
 
         // 1) Success
         when(userManager.getUserType("10")).thenReturn(UserType.STUDENT);
@@ -395,8 +399,7 @@ class InterviewManagerTest extends EntityFactory {
 
         // 5) Mismatch student => Unauthorized
         posOffer.setStatus(InternshipPosOfferStatusEnum.pending);
-        Student other = setNewStudent(99, "OtherStudent", setNewUniversity(2,"OtherUni","FR"));
-        rec.getCv().setStudent(other);
+        payload.put("student_id", "99");
         assertThrows(UnauthorizedException.class, () ->
                 interviewManager.acceptInternshipPositionOffer(900, payload)
         );
