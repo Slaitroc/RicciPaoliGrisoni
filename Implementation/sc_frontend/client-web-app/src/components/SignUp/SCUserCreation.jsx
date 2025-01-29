@@ -99,42 +99,42 @@ export const SCUserCreation = () => {
   }, []);
 
   //DEBUG
-  React.useEffect(() => {
-    //console.log("User type:", userType);
-    const userData = {
-      userType: userType,
-      email: auth.currentUser?.email ? auth.currentUser.email : null,
-      name:
-        document.getElementById("name")?.value &&
-        document.getElementById("name").value != ""
-          ? document.getElementById("name").value
-          : null,
-      surname:
-        document.getElementById("surname")?.value &&
-        document.getElementById("surname").value != ""
-          ? document.getElementById("surname").value
-          : null,
-      uniVat: uniVat ? parseInt(uniVat) : null,
-      uniDescription:
-        document.getElementById("description")?.value &&
-        document.getElementById("description").value != ""
-          ? document.getElementById("description").value
-          : null,
-      country: country ? country : null,
-      birthDate: birthDate ? birthDate : null,
-      location:
-        document.getElementById("location")?.value &&
-        document.getElementById("location").value != ""
-          ? document.getElementById("location").value
-          : null,
-      vatNumber:
-        document.getElementById("VAT")?.value &&
-        document.getElementById("VAT").value != ""
-          ? parseInt(document.getElementById("VAT").value)
-          : null,
-    };
-    console.log(userData);
-  });
+  // React.useEffect(() => {
+  //   //console.log("User type:", userType);
+  //   const userData = {
+  //     userType: userType,
+  //     email: auth.currentUser?.email ? auth.currentUser.email : null,
+  //     name:
+  //       document.getElementById("name")?.value &&
+  //       document.getElementById("name").value != ""
+  //         ? document.getElementById("name").value
+  //         : null,
+  //     surname:
+  //       document.getElementById("surname")?.value &&
+  //       document.getElementById("surname").value != ""
+  //         ? document.getElementById("surname").value
+  //         : null,
+  //     uniVat: uniVat ? parseInt(uniVat) : null,
+  //     uniDescription:
+  //       document.getElementById("description")?.value &&
+  //       document.getElementById("description").value != ""
+  //         ? document.getElementById("description").value
+  //         : null,
+  //     country: country ? country : null,
+  //     birthDate: birthDate ? birthDate : null,
+  //     location:
+  //       document.getElementById("location")?.value &&
+  //       document.getElementById("location").value != ""
+  //         ? document.getElementById("location").value
+  //         : null,
+  //     vatNumber:
+  //       document.getElementById("VAT")?.value &&
+  //       document.getElementById("VAT").value != ""
+  //         ? parseInt(document.getElementById("VAT").value)
+  //         : null,
+  //   };
+  //   console.log(userData);
+  // });
 
   const validateInputs = (userData) => {
     let isValid = true;

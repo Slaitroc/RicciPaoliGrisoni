@@ -139,6 +139,7 @@ export const GlobalProvider = ({ children }) => {
     isEmailVerified,
     setNotification,
     setShowNotification,
+    setIsEmailVerified,
     setUserType,
     setIsAuthenticated,
     setProfile,

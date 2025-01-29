@@ -1,40 +1,22 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import { Navigate } from "react-router-dom";
 import { useGlobalContext } from "../global/GlobalContext";
 
-/**
- * EmailRouteProtector component to protect routes based on email verification status.
- *
- * @param {Object} props - The component props.
- * @param {React.ReactNode} props.children - The child components to render if the condition is met.
- * @param {boolean} props.requireEmailVerification - The expected email verification status to allow access.
- * @returns {React.ReactNode} - The children if the condition is met, otherwise a <Navigate /> component.
- */
-const EmailRouteProtector = ({ 
-  children}) => {
+const EmailRouteProtector = ({ children, invertBehavior = false }) => {
   const { isEmailVerified } = useGlobalContext();
-  const [pass, setPass] = useState(true);
-    
-  useEffect(() => {
-    console.log("isEmailVerified", isEmailVerified);
 
-    // if the email verification is required and the user 
-    // is not verified the user is redirected to the confirm email page
-    if (!isEmailVerified) {
-      console.log("Redirecting to confirm email");
-      setPass(false);
-    } else {
-      setPass(true);
-    }
-  }, [isEmailVerified]);
+  // Debug
+  // console.log("Email verification status:", isEmailVerified);
 
-  if (!pass) {
-    return <Navigate to="/confirm-email" />;
+  if (invertBehavior) {
+    return isEmailVerified ? <Navigate to={"/dashboard"} replace /> : children;
   }
 
-  return children;
+  return isEmailVerified ? (
+    children
+  ) : (
+    <Navigate to={"/confirm-email"} replace />
+  );
 };
-
 
 export default EmailRouteProtector;

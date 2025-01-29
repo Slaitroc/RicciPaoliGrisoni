@@ -58,14 +58,17 @@ const router = createBrowserRouter(
         },
         {
           path: "confirm-email",
-          element:  
-            <ConfirmEmail />
+          element: (
+            <AuthRouteProtector>
+              <EmailRouteProtector invertBehavior={true}>
+                <ConfirmEmail />
+              </EmailRouteProtector>
+            </AuthRouteProtector>
+          ),
         },
         {
           path: "email-verified",
-          element: (
-            <VerifyEmail />
-          ),
+          element: <VerifyEmail />,
         },
         {
           path: "dashboard",
@@ -155,11 +158,10 @@ const router = createBrowserRouter(
         },
         {
           path: "signin",
-          element: 
-          (
-          <AuthRouteProtector redirectTo="/dashboard">
-            <SCSignInSide />
-          </AuthRouteProtector>
+          element: (
+            <AuthRouteProtector redirectTo="/dashboard" invertBehavior={true}>
+              <SCSignInSide />
+            </AuthRouteProtector>
           ),
         },
         {
@@ -168,13 +170,18 @@ const router = createBrowserRouter(
           children: [
             {
               path: "",
-              element: <SCSignUp />,
+              element: (
+                <AuthRouteProtector
+                  redirectTo="/dashboard"
+                  invertBehavior={true}
+                >
+                  <SCSignUp />
+                </AuthRouteProtector>
+              ),
             },
             {
               path: "user-creation",
-              element: (
-                <SCUserCreation />
-              ),
+              element: <SCUserCreation />,
             },
           ],
         },
