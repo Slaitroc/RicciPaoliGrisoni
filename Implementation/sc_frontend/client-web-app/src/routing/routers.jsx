@@ -2,10 +2,13 @@ import { ConfirmEmail } from "../pages/ConfirmEmail";
 import { RouteBase } from "../pages/RouteBase";
 import { SCEditCv } from "../components/CV/SCEditCV";
 import { SCBrowseInternshipPreview } from "../components/BrowseInternshipOffers/SCBrowseInternshipPreview";
+import SCBrowseInternshipOffers from "../components/BrowseInternshipOffers/SCBrowseInternshipOffers";
 import { SCSignUp } from "../components/SignUp/SCSignUp";
 import { createBrowserRouter } from "react-router-dom";
 import { SignUp } from "../pages/SignUp";
 import { SCUserCreation } from "../components/SignUp/SCUserCreation";
+import SCApplicationPreview from "../components/Applications/SCApplicationPreview";
+import SCApplication from "../components/Applications/SCApplication";
 import React from "react";
 import EmailRouteProtector from "./EmailRouteProtector";
 import AuthRouteProtector from "./AuthRouteProtector";
@@ -183,6 +186,16 @@ const router = createBrowserRouter(
                   <Applications />
                 </UserCreationRouteProtector>
               ),
+              children: [
+                {
+                  path: "",
+                  element: <SCApplicationPreview />,
+                },
+                {
+                  path: "application-detail",
+                  element: <SCApplication />,
+                },
+              ],
             },
             {
               path: "recommendations",

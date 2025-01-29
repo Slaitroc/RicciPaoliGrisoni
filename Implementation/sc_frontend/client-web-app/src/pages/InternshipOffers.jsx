@@ -20,23 +20,6 @@ const InternshipOffers = () => {
   return (
     <InternshipOffersProvider>
       <Outlet />
-      {/* <Card variant="outlined">
-        {openAlert && (
-          <>
-            <Alert severity={alertSeverity}>{alertMessage}</Alert>
-            <div style={{ margin: "20px 0" }}></div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <SCIntOffersPreview offerData={offerData} />
-            </div>
-          </>
-        )}
-        {!openAlert && (
-          <SCIntOffersPreview
-            offerData={offerData}
-            offerClickHandler={handleOfferClick}
-          />
-        )}
-      </Card> */}
     </InternshipOffersProvider>
   );
 };

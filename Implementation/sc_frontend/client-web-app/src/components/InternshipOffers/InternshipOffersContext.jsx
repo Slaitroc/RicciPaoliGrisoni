@@ -18,14 +18,14 @@ export const useInternshipOffersContext = () => {
 export const InternshipOffersProvider = ({ children }) => {
   const { profile } = useGlobalContext();
 
-  const [offerData, setofferData] = React.useState([]);
+  const [offerData, setOfferData] = React.useState([]);
   const [openAlert, setOpenAlert] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState("");
   const [alertSeverity, setAlertSeverity] = React.useState("success");
 
   const handleOfferClick = (offer) => {
     console.log("Selected Offer:", offer);
-    navigate(`/dashboard/internship-offer/internship-detail/${offer.id}`);
+    //navigate(`/dashboard/internship-offer/internship-detail/${offer.id}`);
   };
 
   useEffect(() => {
@@ -49,17 +49,17 @@ export const InternshipOffersProvider = ({ children }) => {
       });
   }, []);
 
-  const value = { handleOfferClick, offerData };
+  const value = {
+    handleOfferClick,
+    offerData,
+    openAlert,
+  };
 
   return (
     <InternshipOffersContext.Provider value={value}>
       {openAlert && (
         <>
           <Alert severity={alertSeverity}>{alertMessage}</Alert>
-          <div style={{ margin: "20px 0" }}></div>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-             {/* <SCIntOffersPreview offerData={offerData} /> */}
-          </div>
         </>
       )}
       {children}
