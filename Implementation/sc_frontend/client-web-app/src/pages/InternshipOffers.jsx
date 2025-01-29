@@ -771,22 +771,9 @@ const InternshipOffers = () => {
       }else{
         setOfferData(response.data);
       }
-      //console.log(response.message);
-      //if(response.status === 404){
-      //  setOpenAlert(true);
-      //  setAlertSeverity("error");
-      //  setAlertMessage(response.message);
-      //}else if(response.status === 204){
-      //  setOpenAlert(true);
-      //  setAlertSeverity("info");
-      //  setAlertMessage(response.message);
-      //}else{
-      //  setOfferData(response.data);
-      //  console.log("Offer data:", response.data);
-      //}
     });
   }, []);
-
+  
   return (
     <>
       <Card variant="outlined">
@@ -803,12 +790,6 @@ const InternshipOffers = () => {
       </Card>
     </>
   );
-
-  //return (
-  //  <Card variant="outlined">
-  //    {openAlert && <Alert severity={alertSeverity}>{alertMessage}</Alert>}      
-  //  </Card>
-  //);
 };
 
 export default InternshipOffers;

@@ -24,11 +24,25 @@ export const SCIntOffersPreview = ({ offerData }) => {
           return (
             <Grid2 key={item.id} xs={12} sm={6} md={4}>
               <Card
+                onClick={() => console.log("Selected Offer:", item)} // Added click handler
                 sx={{
                   height: "auto",
                   width: 500,
                   display: "flex",
                   flexDirection: "column",
+                  "&:hover, &:focus-visible": {
+                    backgroundColor: "rgba(255, 255, 255, 0.8)", // Lower opacity white background
+                    cursor: "pointer",
+                    ".MuiTypography-body1": {
+                      color: "gray", // Change text color to black on hover/focus
+                    },
+                    ".MuiTypography-body2, .MuiTypography-h5": {
+                      color: "Black", 
+                    },
+                    outline: "3px solid",
+                    outlineColor: "hsla(210, 98%, 48%, 0.5)",
+                    outlineOffset: "2px",
+                  },
                 }}
               >
                 <CardContent>
