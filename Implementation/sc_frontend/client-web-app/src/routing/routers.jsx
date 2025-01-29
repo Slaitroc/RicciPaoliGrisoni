@@ -69,14 +69,12 @@ const router = createBrowserRouter(
         {
           path: "dashboard",
           element: (
-            <RouteProtector isAuth={false} authNavigateTo="/signin">
               <RouteProtector
-                isAuth={true}
-                emailCheck={true}
-                authNavigateTo="none"
+                requireAuth={true}
+                requireEmailVerification={true}
+                redirectTo= "/signin"
               >
                 <Dashboard />
-              </RouteProtector>
             </RouteProtector>
           ),
           children: [
@@ -94,7 +92,7 @@ const router = createBrowserRouter(
             },
             {
               path: "settings",
-              element: <Settings />,
+              element: <Settings /> 	,
             },
             {
               path: "feedback",
@@ -144,7 +142,7 @@ const router = createBrowserRouter(
             },
             {
               path: "profile",
-              element: <Profile />,
+              element:<Profile />,
             },
             {
               path: "account",
@@ -159,9 +157,7 @@ const router = createBrowserRouter(
         {
           path: "signin",
           element: (
-            <RouteProtector isAuth={true} authNavigateTo="/dashboard">
               <SCSignInSide />
-            </RouteProtector>
           ),
         },
         {
@@ -171,9 +167,7 @@ const router = createBrowserRouter(
             {
               path: "",
               element: (
-                <RouteProtector isAuth={true} authNavigateTo="/dashboard">
                   <SCSignUp />
-                </RouteProtector>
               ),
             },
             {
