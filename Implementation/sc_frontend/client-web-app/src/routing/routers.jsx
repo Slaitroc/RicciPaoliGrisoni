@@ -24,7 +24,7 @@ import InternshipOffers from "../pages/InternshipOffers";
 import Profile from "../pages/Profile";
 import Account from "../pages/Account";
 import SwipePage from "../pages/SwipePage";
-import { FirebaseTestPage } from "../pages/FirebaseTestPage";
+import { EmailConfirm } from "../pages/EmailConfirm";
 import ConfirmEmail from "../pages/ConfirmEmail";
 import { RouteBase } from "../pages/RouteBase";
 // Router Configurations
@@ -53,8 +53,8 @@ const router = createBrowserRouter(
           ],
         },
         {
-          path: "firebase-test",
-          element: <FirebaseTestPage />,
+          path: "confirm-email",
+          element: <EmailConfirm />,
         },
         {
           path: "email-verified",
@@ -67,8 +67,14 @@ const router = createBrowserRouter(
         {
           path: "dashboard",
           element: (
-            <RouteProtector equals={false} navigateTo="/signin">
-              <Dashboard />
+            <RouteProtector isAuth={false} authNavigateTo="/signin">
+              <RouteProtector
+                isAuth={true}
+                emailCheck={true}
+                authNavigateTo="none"
+              >
+                <Dashboard />
+              </RouteProtector>
             </RouteProtector>
           ),
           children: [
@@ -141,7 +147,7 @@ const router = createBrowserRouter(
         {
           path: "signin",
           element: (
-            <RouteProtector equals={true} navigateTo="/dashboard">
+            <RouteProtector isAuth={true} authNavigateTo="/dashboard">
               <SCSignInSide />
             </RouteProtector>
           ),
@@ -153,7 +159,7 @@ const router = createBrowserRouter(
             {
               path: "",
               element: (
-                <RouteProtector equals={true} navigateTo="/dashboard">
+                <RouteProtector isAuth={true} authNavigateTo="/dashboard">
                   <SCSignUp />
                 </RouteProtector>
               ),

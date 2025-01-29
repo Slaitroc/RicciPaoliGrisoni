@@ -23,7 +23,9 @@ export const getUniversities = async () => {
       });
       return { names: universities, table: body.properties };
     } else {
-      const universities = "Fetch error";
+      const data = await response.json();
+      console.error("Error during getUniversities:", data.properties.error);
+      const universities = ["Fetch error"];
       return { names: universities, table: null };
     }
   } catch (error) {

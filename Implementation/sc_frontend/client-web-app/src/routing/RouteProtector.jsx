@@ -14,18 +14,31 @@ import { Navigate } from "react-router-dom";
  */
 const RouteProtector = ({
   children,
-  equals = false,
-  navigateTo = "/dashboard",
+  isAuth = false,
+  authNavigateTo = "/dashboard",
+  emailCheck = false,
 }) => {
+  const { isAuthenticated, isEmailVerified } = useGlobalContext();
 
-  const { isAuthenticated } = useGlobalContext();
-  return isAuthenticated == equals ? <Navigate to={navigateTo} /> : children;
+  let navigateTo;
+  if (isAuth === true && emailCheck === true) {
+    if (isEmailVerified === false) {
+      navigateTo = "/confirm-email";
+    } else {
+      navigateTo = authNavigateTo;
+    }
+  } else {
+    navigateTo = authNavigateTo;
+  }
+  if (authNavigateTo === "none") isAuth = !isAuthenticated;
+  return isAuthenticated == isAuth ? <Navigate to={navigateTo} /> : children;
 };
 
 RouteProtector.propTypes = {
   children: PropTypes.node.isRequired,
-  equals: PropTypes.bool,
-  navigateTo: PropTypes.string,
+  isAuth: PropTypes.bool,
+  emailCheck: PropTypes.bool,
+  authNavigateTo: PropTypes.string,
 };
 
 export default RouteProtector;

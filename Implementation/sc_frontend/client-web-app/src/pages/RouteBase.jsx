@@ -24,11 +24,11 @@ export const RouteBase = () => {
           }
           if (response.status === 200) {
             response.json().then((data) => {
-              //TODO verifica che la mail sia confermata
               console.log("Fetched User data:", data);
               setUserType(data.properties.userType);
               setProfile(data.properties);
               // Naviga alla dashboard
+              //TODO verifica che la mail sia confermata
               navigate("/dashboard");
             });
           }

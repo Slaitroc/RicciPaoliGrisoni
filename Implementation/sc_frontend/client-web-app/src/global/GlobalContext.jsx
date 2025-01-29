@@ -30,6 +30,7 @@ export const GlobalProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     global.INIT_IS_AUTHENTICATED
   );
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
 
   // PROFILE
   const [profile, setProfile] = useState(global.INIT_PROFILE);
@@ -90,6 +91,14 @@ export const GlobalProvider = ({ children }) => {
       if (user) {
         console.log("Utente autenticato:", user.email);
         setIsAuthenticated(true);
+        // Controlla se l'email è stata verificata
+        if (!user.emailVerified) {
+          console.log("Email non verificata.");
+          setIsEmailVerified(false);
+        } else {
+          console.log("Email verificata.");
+          setIsEmailVerified(true);
+        }
         // Controlla se l'utente è stato creato
         // Invia il token FCM al server
         if (token) {
@@ -133,6 +142,7 @@ export const GlobalProvider = ({ children }) => {
     previewUrl,
     showNotification,
     notification,
+    isEmailVerified,
     setNotification,
     setShowNotification,
     setUserType,
