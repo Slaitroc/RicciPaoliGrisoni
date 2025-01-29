@@ -1,6 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useGlobalContext } from "../global/GlobalContext";
+import PropTypes from "prop-types";
 
 const UserCreationRouteProtector = ({ children }) => {
   const { profile } = useGlobalContext();
@@ -15,6 +16,10 @@ const UserCreationRouteProtector = ({ children }) => {
   ) : (
     children
   );
+};
+
+UserCreationRouteProtector.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default UserCreationRouteProtector;

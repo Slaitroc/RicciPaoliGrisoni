@@ -1,8 +1,7 @@
 import React from "react";
-import SCIntOffers from "../InternshipOffers/SCIntOffer";
 
 const SCBrowseInternshipOffers = () => {
-  return <></>;
+  return <> </>;
 };
 
 export default SCBrowseInternshipOffers;

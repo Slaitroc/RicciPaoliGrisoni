@@ -76,7 +76,16 @@ public class StartRecommendationProcessCommandOffer extends RecommendationProces
 
     private void createRecommendation(float score, Cv cv){
         if(score > computeDynamicThreshold(userManager.getAllFeedbacks())){
+
+            //todo se in futuro si vuole correggere sto algoritmo e eliminare i match deprecati bisogna resettare tutti i match di questo studente
+            // cosí stiamo solo facendo in modo che uno studente e una internship abbiano solo un match
+            Recommendation oldRecommendation = recommendationRepository.findRecommendationByInternshipOfferAndCv(internshipOffer, cv);
+            if(oldRecommendation != null && oldRecommendation.getStatus() != RecommendationStatusEnum.pendingMatch){
+                return;
+            }else if(oldRecommendation != null ) recommendationRepository.removeRecommendationById(oldRecommendation.getId());
+
             Recommendation recommendation = new Recommendation(internshipOffer, cv, RecommendationStatusEnum.pendingMatch, score);
+
             recommendationList.add(recommendation);
         }
     }

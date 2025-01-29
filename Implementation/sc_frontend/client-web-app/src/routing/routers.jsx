@@ -2,14 +2,18 @@ import { ConfirmEmail } from "../pages/ConfirmEmail";
 import { RouteBase } from "../pages/RouteBase";
 import { SCEditCv } from "../components/CV/SCEditCV";
 import { SCBrowseInternshipPreview } from "../components/BrowseInternshipOffers/SCBrowseInternshipPreview";
+import SCBrowseInternshipOffer from "../components/BrowseInternshipOffers/SCBrowseInternshipOffer";
 import { SCSignUp } from "../components/SignUp/SCSignUp";
 import { createBrowserRouter } from "react-router-dom";
 import { SignUp } from "../pages/SignUp";
 import { SCUserCreation } from "../components/SignUp/SCUserCreation";
+import SCApplicationPreview from "../components/Applications/SCApplicationPreview";
+import SCApplication from "../components/Applications/SCApplication";
 import React from "react";
 import EmailRouteProtector from "./EmailRouteProtector";
 import AuthRouteProtector from "./AuthRouteProtector";
 import UserCreationRouteProtector from "./UserCreationRouteProtector";
+import UserTypeRouteProtector from "./UserTypeRouteProtector";
 import SCSignInSide from "../pages/SCSignInSide";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
@@ -35,7 +39,13 @@ import SCCv from "../components/CV/SCCV";
 import SCIntOffers from "../components/InternshipOffers/SCIntOffer";
 import SCIntOffersPreview from "../components/InternshipOffers/SCIntOffersPreview";
 import BrowseInternshipOffers from "../pages/BrowseInternshipOffers";
-import SCBrowseInternshipOffers from "../components/BrowseInternshipOffers/SCBrowseInternshipOffers";
+import {
+  INIT_USER_TYPE,
+  STUDENT_USER_TYPE,
+  COMPANY_USER_TYPE,
+  UNIVERSITY_USER_TYPE,
+} from "../global/globalStatesInit";
+
 // Router Configurations
 
 const router = createBrowserRouter(
@@ -110,7 +120,11 @@ const router = createBrowserRouter(
             },
             {
               path: "cv",
-              element: <CV />,
+              element: (
+                <UserCreationRouteProtector allowedTypes={[STUDENT_USER_TYPE]}>
+                  <CV />
+                </UserCreationRouteProtector>
+              ),
               children: [
                 {
                   path: "",
@@ -124,11 +138,19 @@ const router = createBrowserRouter(
             },
             {
               path: "university",
-              element: <University />,
+              element: (
+                <UserTypeRouteProtector allowedTypes={[UNIVERSITY_USER_TYPE]}>
+                  <University />
+                </UserTypeRouteProtector>
+              ),
             },
             {
               path: "internship-offers",
-              element: <InternshipOffers />,
+              element: (
+                <UserTypeRouteProtector allowedTypes={[COMPANY_USER_TYPE]}>
+                  <InternshipOffers />
+                </UserTypeRouteProtector>
+              ),
               children: [
                 {
                   path: "",
@@ -150,25 +172,59 @@ const router = createBrowserRouter(
                 },
                 {
                   path: "internship-detail",
-                  element: <SCBrowseInternshipOffers />,
+                  element: <SCBrowseInternshipOffer />,
                 },
               ],
             },
             {
               path: "applications",
-              element: <Applications />,
+              element: (
+                <UserCreationRouteProtector
+                  allowedTypes={[STUDENT_USER_TYPE, COMPANY_USER_TYPE]}
+                >
+                  <Applications />
+                </UserCreationRouteProtector>
+              ),
+              children: [
+                {
+                  path: "",
+                  element: <SCApplicationPreview />,
+                },
+                {
+                  path: "application-detail",
+                  element: <SCApplication />,
+                },
+              ],
             },
             {
               path: "recommendations",
-              element: <Recommendations />,
+              element: (
+                <UserCreationRouteProtector
+                  allowedTypes={[STUDENT_USER_TYPE, COMPANY_USER_TYPE]}
+                >
+                  <Recommendations />
+                </UserCreationRouteProtector>
+              ),
             },
             {
               path: "interviews",
-              element: <Interviews />,
+              element: (
+                <UserCreationRouteProtector
+                  allowedTypes={[STUDENT_USER_TYPE, COMPANY_USER_TYPE]}
+                >
+                  <Interviews />
+                </UserCreationRouteProtector>
+              ),
             },
             {
               path: "confirmed-internships",
-              element: <ConfInternships />,
+              element: (
+                <UserCreationRouteProtector
+                  allowedTypes={[STUDENT_USER_TYPE, COMPANY_USER_TYPE]}
+                >
+                  <ConfInternships />
+                </UserCreationRouteProtector>
+              ),
             },
             {
               path: "communications",
@@ -184,7 +240,11 @@ const router = createBrowserRouter(
             },
             {
               path: "swipe-card",
-              element: <SwipePage />,
+              element: (
+                <UserCreationRouteProtector allowedTypes={[STUDENT_USER_TYPE]}>
+                  <SwipePage />
+                </UserCreationRouteProtector>
+              ),
             },
           ],
         },

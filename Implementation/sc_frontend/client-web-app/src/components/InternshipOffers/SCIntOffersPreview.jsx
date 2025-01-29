@@ -12,21 +12,25 @@ import { SCAddIcon } from "../Shared/SCIcons";
 import { useInternshipOffersContext } from "./InternshipOffersContext";
 
 export const SCIntOffersPreview = () => {
-  const { offerData } = useInternshipOffersContext();
+  const { offerData, clickOnOffer } = useInternshipOffersContext();
+
   return (
     <>
-      <Box paddingLeft={5}>
-        <Button startIcon={<SCAddIcon />} variant="outlined">
-          Create New Internship Offer
-        </Button>
-      </Box>
+      <div style={{ margin: "20px 0" }}></div>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Box paddingLeft={5}>
+          <Button startIcon={<SCAddIcon />} variant="outlined">
+            Create New Internship Offer
+          </Button>
+        </Box>
+      </div>
       {offerData != null ? (
         <Grid2 padding={5} container spacing={3}>
           {offerData.map((item) => {
             return (
               <Grid2 key={item.id} xs={12} sm={6} md={4}>
                 <Card
-                  onClick={() => offerClickHandler(item)} // Added click handler
+                  onClick={() => clickOnOffer(item)} // Added click handler
                   sx={{
                     height: "auto",
                     width: 500,

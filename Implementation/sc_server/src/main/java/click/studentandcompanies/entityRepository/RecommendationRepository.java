@@ -1,11 +1,12 @@
 package click.studentandcompanies.entityRepository;
 
+import click.studentandcompanies.entity.Cv;
+import click.studentandcompanies.entity.InternshipOffer;
 import click.studentandcompanies.entity.Recommendation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Arrays;
 import java.util.List;
 
 public interface RecommendationRepository extends JpaRepository<Recommendation, Integer> {
@@ -20,4 +21,8 @@ public interface RecommendationRepository extends JpaRepository<Recommendation, 
     List<Recommendation> findRecommendationByInternshipOfferId(Integer internshipID);
 
     void removeRecommendationByInternshipOffer_Id(Integer internshipOfferId);
+
+    Recommendation findRecommendationByInternshipOfferAndCv(InternshipOffer internshipOffer, Cv cv);
+
+    void removeRecommendationById(Integer id);
 }

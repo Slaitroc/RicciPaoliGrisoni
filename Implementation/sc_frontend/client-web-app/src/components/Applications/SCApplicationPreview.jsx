@@ -1,7 +1,11 @@
 import React from "react";
 import { Grid2, Card, CardContent, Typography } from "@mui/material";
+import { useApplicationContext } from "./ApplicationsContext";
 
-export const SCApplication = ({ applicationData, buttonAction }) => {
+export const SCApplication = () => {
+  const { applicationData, clickOnApplication } = useApplicationContext();
+
+  console.log("Application data:", applicationData);
   return (
     <>
       {applicationData != null ? (
@@ -10,7 +14,7 @@ export const SCApplication = ({ applicationData, buttonAction }) => {
             return (
               <Grid2 key={item.id} xs={12} sm={6} md={4}>
                 <Card
-                  onClick={() => buttonAction(item)} // Added click handler
+                  onClick={() => clickOnApplication(item)} // Added click handler
                   sx={{
                     height: "auto",
                     width: 500,
