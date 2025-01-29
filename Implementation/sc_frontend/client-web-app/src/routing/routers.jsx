@@ -166,7 +166,12 @@ const router = createBrowserRouter(
             },
             {
               path: "user-creation",
-              element: <SCUserCreation />,
+              element: (
+                //TODO modificare logica route protector per navigare alla dashboard se l'utente è già registrato
+                //<RouteProtector isAuth={true} authNavigateTo="/dashboard">
+                <SCUserCreation />
+                //</RouteProtector>
+              ),
             },
           ],
         },

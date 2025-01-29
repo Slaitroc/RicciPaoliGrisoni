@@ -46,7 +46,8 @@ const Card = styled(MuiCard)(({ theme }) => ({
 export const SCUserCreation = () => {
   const navigate = useNavigate();
 
-  const { setIsAuthenticated, userType, setUserType } = useGlobalContext();
+  const { setIsAuthenticated, userType, setUserType, setProfile } =
+    useGlobalContext();
 
   const [country, setCountry] = React.useState(null);
   const [birthDate, setBirthDate] = React.useState(null);
@@ -68,8 +69,6 @@ export const SCUserCreation = () => {
       .getUniversities()
       .then((result) => {
         setFetchedData(result);
-        // DEBUG
-        console.log(result.table);
       })
       .catch((error) => {
         console.error("Error during universities retrieval:", error.message);
@@ -79,7 +78,12 @@ export const SCUserCreation = () => {
   React.useEffect(() => {
     account.getUserData().then((response) => {
       //TODO altro?
-      if (response.status === 200) navigate("/dashboard");
+      if (response.status === 200) {
+        response.json().then((data) => {
+          setProfile(data.properties);
+          navigate("/dashboard");
+        });
+      }
     });
   }, []);
 
@@ -182,7 +186,7 @@ export const SCUserCreation = () => {
             setOpenAlert(true);
             setAlertSeverity("success");
             setAlertMessage("User created successfully");
-            navigate("/dashboard");
+            window.location.reload();
           });
         }
       });

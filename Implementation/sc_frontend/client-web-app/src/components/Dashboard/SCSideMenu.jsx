@@ -24,7 +24,7 @@ const Drawer = styled(MuiDrawer)({
 });
 
 export default function SCSideMenu() {
-  const { previewUrl } = useGlobalContext();
+  const { previewUrl, profile } = useGlobalContext();
 
   return (
     <>
@@ -66,10 +66,10 @@ export default function SCSideMenu() {
               variant="body2"
               sx={{ fontWeight: 500, lineHeight: "16px" }}
             >
-              {TEXT.USER_NAME}
+              {profile?.name || TEXT.NO_NAME}
             </Typography>
             <Typography variant="caption" sx={{ color: "text.secondary" }}>
-              useremail@email.com
+              {profile?.email || TEXT.NO_EMAIL}
             </Typography>
           </Box>
           <SCOptionsMenu />

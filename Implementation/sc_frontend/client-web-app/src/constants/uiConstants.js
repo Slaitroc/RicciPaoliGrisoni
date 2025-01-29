@@ -9,4 +9,6 @@ export const TEXT = {
       : globalStateInit.INIT_USER_TYPE == globalStateInit.student
       ? "Student Name"
       : "University Name",
+  NO_NAME: "No user name",
+  NO_EMAIL: "No email",
 };
