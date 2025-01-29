@@ -88,8 +88,7 @@ export const GlobalProvider = ({ children }) => {
         setIsAuthenticated(true);
         // Controlla se l'email è stata verificata
         if (!user.emailVerified) {
-          console.log("Email non verificata.");
-          setIsEmailVerified(false);
+          console.log("Email non verificata con firebase.");
         } else {
           console.log("Email verificata.");
           setIsEmailVerified(true);
