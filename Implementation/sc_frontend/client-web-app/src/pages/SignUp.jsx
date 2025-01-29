@@ -3,9 +3,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Stack from "@mui/material/Stack";
 import SCAppTheme from "../components/Shared/SCAppTheme";
 import SCColorModeSelect from "../components/Shared/SCColorModeSelect";
-import { Box, styled } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import { Box, Button, styled } from "@mui/material";
+import { Outlet, useNavigate } from "react-router-dom";
 import SCBackHomeButton from "../components/Dashboard/SCBackHomeButton";
+import * as authorization from "../api-calls/api-wrappers/authorization-wrapper/authorization";
+import { useGlobalContext } from "../global/GlobalContext";
 
 const SignUpContainer = styled(Stack)(({ theme }) => ({
   minHeight: "100vh", // Altezza minima dell'intero viewport
@@ -34,19 +36,53 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export const SignUp = (props) => {
+  const {
+    isAuthenticated,
+    setProfile,
+    setIsEmailVerified,
+    setIsAuthenticated,
+    setUserType,
+  } = useGlobalContext();
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Submit");
+  };
+
+  const clickLogout = async () => {
+    authorization
+      .logout()
+      .then(() => {
+        // GLOBAL STATE
+        setIsAuthenticated(false);
+        setUserType(null);
+        setProfile(null);
+        setIsEmailVerified(false);
+        // NAV
+        navigate("/");
+      })
+      .catch((err) => {
+        console.error("Error during logout:", err.message);
+      });
   };
 
   return (
     <SCAppTheme {...props}>
       <CssBaseline enableColorScheme />
       <SignUpContainer direction="column" justifyContent="space-between">
-        <Box display="flex" flexDirection="row" justifyContent="center" gap="50vW" padding={3}>
-        <SCBackHomeButton/>
-        <SCColorModeSelect />
-      </Box>
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="center"
+          gap="20vW"
+          padding={3}
+        >
+          <SCBackHomeButton />
+          <Button onClick={clickLogout} variant="outlined">
+            Logout
+          </Button>
+          <SCColorModeSelect />
+        </Box>
         <Outlet />
       </SignUpContainer>
     </SCAppTheme>

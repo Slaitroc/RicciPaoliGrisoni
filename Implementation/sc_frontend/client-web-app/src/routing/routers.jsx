@@ -35,6 +35,7 @@ import SCCv from "../components/CV/SCCV";
 import SCIntOffers from "../components/InternshipOffers/SCIntOffer";
 import SCIntOffersPreview from "../components/InternshipOffers/SCIntOffersPreview";
 import BrowseInternshipOffers from "../pages/BrowseInternshipOffers";
+import SCBrowseInternshipOffers from "../components/BrowseInternshipOffers/SCBrowseInternshipOffers";
 // Router Configurations
 
 const router = createBrowserRouter(
