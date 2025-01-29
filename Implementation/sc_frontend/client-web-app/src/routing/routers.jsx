@@ -9,6 +9,7 @@ import { SCUserCreation } from "../components/SignUp/SCUserCreation";
 import React from "react";
 import EmailRouteProtector from "./EmailRouteProtector";
 import AuthRouteProtector from "./AuthRouteProtector";
+import UserCreationRouteProtector from "./UserCreationRouteProtector";
 import SCSignInSide from "../pages/SCSignInSide";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
@@ -78,9 +79,11 @@ const router = createBrowserRouter(
           path: "dashboard",
           element: (
             <AuthRouteProtector>
-              <EmailRouteProtector>
-                <Dashboard />
-              </EmailRouteProtector>
+              <UserCreationRouteProtector>
+                <EmailRouteProtector>
+                  <Dashboard />
+                </EmailRouteProtector>
+              </UserCreationRouteProtector>
             </AuthRouteProtector>
           ),
           children: [
