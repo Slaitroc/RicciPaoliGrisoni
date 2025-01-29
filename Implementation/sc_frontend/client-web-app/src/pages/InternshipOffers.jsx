@@ -764,19 +764,26 @@ const InternshipOffers = () => {
       console.log("User is not a company");
     }
     getFormattedCompanyInternships(profile.userID).then((response) => {
-      console.log(response.message);
-      if(response.status === 404){
+      if(response.success === false){
         setOpenAlert(true);
-        setAlertSeverity("error");
-        setAlertMessage(response.message);
-      }else if(response.status === 204){
-        setOpenAlert(true);
-        setAlertSeverity("info");
+        setAlertSeverity(response.severity);
         setAlertMessage(response.message);
       }else{
         setOfferData(response.data);
-        console.log("Offer data:", response.data);
       }
+      //console.log(response.message);
+      //if(response.status === 404){
+      //  setOpenAlert(true);
+      //  setAlertSeverity("error");
+      //  setAlertMessage(response.message);
+      //}else if(response.status === 204){
+      //  setOpenAlert(true);
+      //  setAlertSeverity("info");
+      //  setAlertMessage(response.message);
+      //}else{
+      //  setOfferData(response.data);
+      //  console.log("Offer data:", response.data);
+      //}
     });
   }, []);
 

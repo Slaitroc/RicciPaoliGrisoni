@@ -9,35 +9,37 @@ export const getCompanyInternships = async (companyID) => {
 };
 
 export const getFormattedCompanyInternships = async (companyID) => {
-    return apiCalls.getCompanyInternships(companyID).then((response) => {
-        if (response.status === 204) {
-            return { status: 204, data: {}, message: "No internship offers found for this company" };
-        } else if (response.status === 404) {
-            return { status: 404, data: [], message: "Company does not exist" };
-        } else {
-            return response.json().then((payload) => {
-                const formattedData = payload.map((internship) => {
-                    const { properties } = internship;
-                    return {
-                        id: properties.id,
-                        title: properties.title,
-                        companyID: properties.companyID,
-                        companyName: properties.companyName,
-                        description: properties.description,
-                        startDate: properties.startDate,
-                        endDate: properties.endDate,
-                        duration: properties.duration,
-                        location: properties.location,
-                        compensation: properties.compensation,
-                        numberPositions: properties.numberPositions,
-                        requiredSkills: properties.requiredSkills,
-                    };
+    try{
+        return apiCalls.getCompanyInternships(companyID).then((response) => {
+            if (response.status === 204) {
+                return { success: false, data: null, message: "No internship offers found for this company", severity: "info"} 
+            } else if (response.status === 404) {
+                return { success: false, data: null, message: "Company does not exist", severity: "error" };
+            } else {
+                return response.json().then((payload) => {
+                    const formattedData = payload.map((internship) => {
+                        const { properties } = internship;
+                        return {
+                            id: properties.id,
+                            title: properties.title,
+                            companyID: properties.companyID,
+                            companyName: properties.companyName,
+                            description: properties.description,
+                            startDate: properties.startDate,
+                            endDate: properties.endDate,
+                            duration: properties.duration,
+                            location: properties.location,
+                            compensation: properties.compensation,
+                            numberPositions: properties.numberPositions,
+                            requiredSkills: properties.requiredSkills,
+                        };
+                    });
+                    return { success: true, data: formattedData, message: "Internship offers fetched successfully", severity: "success" };
                 });
-                return { status: 200, data: formattedData, message: "Internship offers found" };
-            });
-        }
-    }).catch((error) => {
-        console.error("Error fetching internships:", error);
-        return { status: 500, data: [], message: "Internal server error" };
-    });
+            }
+        })
+    }catch (error){
+        //NOTE lancio errore critico
+        throw error;
+    }
 };
