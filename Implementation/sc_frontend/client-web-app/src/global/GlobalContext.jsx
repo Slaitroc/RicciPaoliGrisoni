@@ -88,20 +88,24 @@ export const GlobalProvider = ({ children }) => {
         setIsAuthenticated(true);
         // Controlla se l'email è stata verificata
         if (!user.emailVerified) {
+          //LOG
           console.log("Email non verificata con firebase.");
         } else {
+          //LOG
           console.log("Email verificata.");
           setIsEmailVerified(true);
         }
-        // Controlla se l'utente è stato creato
         // Invia il token FCM al server
         if (token) {
           // FIX crea wrapper notification
+          //LOG
           console.log("FCM token:", token);
           apiCalls.sendNotificationToken(token).then((response) => {
             if (!response.ok) {
+          //LOG
               console.error("Errore durante l'invio del token FCM:", response);
             } else {
+          //LOG
               console.log("Token FCM inviato con successo.");
             }
           });

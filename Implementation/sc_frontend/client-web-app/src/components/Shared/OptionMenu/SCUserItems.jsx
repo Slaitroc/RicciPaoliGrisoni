@@ -17,7 +17,7 @@ const MenuItem = styled(MuiMenuItem)({
 });
 
 const SCUserItems = ({ anchorEl, handleClose, open }) => {
-  const { setIsAuthenticated } = useGlobalContext();
+  const { setIsAuthenticated, setUserType, setProfile, setIsEmailVerified } = useGlobalContext();
   const navigate = useNavigate();
 
   const clickLogout = () => {
@@ -25,7 +25,14 @@ const SCUserItems = ({ anchorEl, handleClose, open }) => {
     authorization
       .logout()
       .then(() => {
+        // GLOBAL STATE
         setIsAuthenticated(false);
+        setUserType(null);
+        setProfile(null);
+        setIsEmailVerified(false);
+        // NAV
+        navigate("/");
+
       })
       .catch((err) => {
         console.error("Error during logout:", err.message);
@@ -34,11 +41,13 @@ const SCUserItems = ({ anchorEl, handleClose, open }) => {
 
   const clickProfile = () => {
     handleClose();
+    // NAV
     navigate("/dashboard/profile");
   };
 
   const clickAccountSettings = () => {
     handleClose();
+    // NAV
     navigate("/dashboard/account");
   };
 

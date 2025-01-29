@@ -81,26 +81,6 @@ export default function SCSignInCard() {
             setOpenAlert(true);
             setAlertSeverity("success");
             setAlertMessage(data.properties.message);
-            // account.getUserData().then((response) => {
-            //   if (response.status === 204) {
-            //     // DEBUG
-            //     console.log("debug");
-            //     setOpenAlert(true);
-            //     setAlertSeverity("info");
-            //     setAlertMessage(
-            //       "User data not found. Please create a new user."
-            //     );
-            //     navigate("/signup/user-creation");
-            //   } else {
-            //     response.json().then((data) => {
-            //       //TODO verifica che la mail sia confermata
-            //       setUserType(data.properties.userType);
-            //       setProfile(data.properties);
-            //       console.log("User data:", data);
-            //     });
-            //     navigate("/dashboard");
-            //   }
-            // });
           });
         }
       });
