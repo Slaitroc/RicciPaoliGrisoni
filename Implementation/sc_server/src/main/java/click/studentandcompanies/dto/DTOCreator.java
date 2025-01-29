@@ -50,6 +50,8 @@ public class DTOCreator {
         accountDTO.addProperty("country", account.getCountry());
         accountDTO.addProperty("location", account.getLocation());
         accountDTO.addProperty("validate", account.getValidate());
+        accountDTO.addProperty("uniDesc", account.getUniDesc());
+        accountDTO.addProperty("birthDate", account.getBirthDate());
         return accountDTO;
     }
 
