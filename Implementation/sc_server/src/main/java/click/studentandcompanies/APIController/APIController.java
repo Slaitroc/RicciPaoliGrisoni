@@ -384,7 +384,6 @@ public class APIController {
 
     //_________________________ feedback/private __________________________
 
-    //todo, add student_id or company_id to the payload
     @PutMapping("/feedback/private/{RecommendationID}/submit")
     @Operation(summary = "Submit feedback", description = "The payload is a map with 'user_id' (ownership is checked by the backend), 'rating', and any other optional field.")
     @ApiResponses({

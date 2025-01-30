@@ -389,7 +389,7 @@ export const sendInterviewAnswer = async (InterviewID, answer) => {
 };
 
 //todo perché gli serve una interview per salvare il template?
-export const saveInterviewTenplate = async (template) => {
+export const saveInterviewTemplate = async (template) => {
   const token = await getToken();
   return fetchWrapper(
     "/application-api/interview/private/${InterviewID}/save-template",
@@ -444,6 +444,19 @@ export const sendInternshipPositionOffer = async (interviewID) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const getMyInternshipPositionOffers = async () => {
+  const token = await getToken();
+  return fetchWrapper(
+    "/application-api//interview/private/get-my-int-pos-off",
+    {
+      method: "GET",
+      headers: {
         Authorization: `Bearer ${token}`,
       },
     }
