@@ -15,16 +15,21 @@ export const SCBrowseInternshipPreview = () => {
   console.log("Offer Data:", offerData);
   return (
     <>
-      {offerData != null ? (
+      {offerData && (
         <Grid2 padding={5} container spacing={3}>
           {offerData.map((item) => {
             return (
-              <Grid2 key={item.id} xs={12} sm={6} md={4}>
+              <Grid2
+                item
+                key={item.id}
+                size={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 4 }}
+                display="flex"
+              >
                 <Card
                   onClick={() => clickOnOffer(item)} // Added click handler
                   sx={{
                     height: "auto",
-                    width: 500,
+                    width: "100%",
                     display: "flex",
                     flexDirection: "column",
                     "&:hover, &:focus-visible": {
@@ -42,16 +47,27 @@ export const SCBrowseInternshipPreview = () => {
                     },
                   }}
                 >
-                  <CardContent>
+                  <CardContent sx={{ flexGrow: 1 }}>
                     <Typography variant="h5" gutterBottom color="text.primary">
                       {item.title}
                     </Typography>
-                    <Typography variant="body1" color="text.secondary">
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        color: "text.secondary",
+                        wordWrap: "break-word",
+                        overflowWrap: "break-word",
+                      }}
+                    >
                       <Typography
                         component="span"
                         display="inline"
                         variant="body2"
-                        sx={{ color: "text.primary" }}
+                        sx={{
+                          color: "text.primary",
+                          wordWrap: "break-word",
+                          overflowWrap: "break-word",
+                        }}
                       >
                         Description:
                       </Typography>
@@ -62,7 +78,11 @@ export const SCBrowseInternshipPreview = () => {
                         component="span"
                         display="inline"
                         variant="body2"
-                        sx={{ color: "text.primary" }}
+                        sx={{
+                          color: "text.primary",
+                          wordWrap: "break-word",
+                          overflowWrap: "break-word",
+                        }}
                       >
                         Skill Required:
                       </Typography>
@@ -73,7 +93,11 @@ export const SCBrowseInternshipPreview = () => {
                         component="span"
                         display="inline"
                         variant="body2"
-                        sx={{ color: "text.primary" }}
+                        sx={{
+                          color: "text.primary",
+                          wordWrap: "break-word",
+                          overflowWrap: "break-word",
+                        }}
                       >
                         Compensation:
                       </Typography>
@@ -84,7 +108,11 @@ export const SCBrowseInternshipPreview = () => {
                         component="span"
                         display="inline"
                         variant="body2"
-                        sx={{ color: "text.primary" }}
+                        sx={{
+                          color: "text.primary",
+                          wordWrap: "break-word",
+                          overflowWrap: "break-word",
+                        }}
                       >
                         Duration in hours:
                       </Typography>
@@ -96,7 +124,7 @@ export const SCBrowseInternshipPreview = () => {
             );
           })}
         </Grid2>
-      ) : null}
+      )}
     </>
   );
 };
