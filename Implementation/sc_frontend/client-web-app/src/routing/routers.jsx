@@ -125,9 +125,9 @@ const router = createBrowserRouter(
             {
               path: "cv",
               element: (
-                <UserCreationRouteProtector allowedTypes={[STUDENT_USER_TYPE]}>
+                <UserTypeRouteProtector allowedTypes={[STUDENT_USER_TYPE]}>
                   <CV />
-                </UserCreationRouteProtector>
+                </UserTypeRouteProtector>
               ),
               children: [
                 {
@@ -183,11 +183,11 @@ const router = createBrowserRouter(
             {
               path: "applications",
               element: (
-                <UserCreationRouteProtector
+                <UserTypeRouteProtector
                   allowedTypes={[STUDENT_USER_TYPE, COMPANY_USER_TYPE]}
                 >
                   <Applications />
-                </UserCreationRouteProtector>
+                </UserTypeRouteProtector>
               ),
               children: [
                 {
@@ -203,21 +203,21 @@ const router = createBrowserRouter(
             {
               path: "recommendations",
               element: (
-                <UserCreationRouteProtector
+                <UserTypeRouteProtector
                   allowedTypes={[STUDENT_USER_TYPE, COMPANY_USER_TYPE]}
                 >
                   <Recommendations />
-                </UserCreationRouteProtector>
+                </UserTypeRouteProtector>
               ),
             },
             {
               path: "interviews",
               element: (
-                <UserCreationRouteProtector
+                <UserTypeRouteProtector
                   allowedTypes={[STUDENT_USER_TYPE, COMPANY_USER_TYPE]}
                 >
                   <Interviews />
-                </UserCreationRouteProtector>
+                </UserTypeRouteProtector>
               ),
               children: [
                 {
@@ -234,11 +234,11 @@ const router = createBrowserRouter(
             {
               path: "internship-positions-offers",
               element: (
-                <UserCreationRouteProtector
+                <UserTypeRouteProtector
                   allowedTypes={[STUDENT_USER_TYPE, COMPANY_USER_TYPE]}
                 >
                   <InterviewPosOffer />
-                </UserCreationRouteProtector>
+                </UserTypeRouteProtector>
               ),
               children: [
                 {
@@ -266,9 +266,9 @@ const router = createBrowserRouter(
             {
               path: "swipe-card",
               element: (
-                <UserCreationRouteProtector allowedTypes={[STUDENT_USER_TYPE]}>
+                <UserTypeRouteProtector allowedTypes={[STUDENT_USER_TYPE]}>
                   <SwipePage />
-                </UserCreationRouteProtector>
+                </UserTypeRouteProtector>
               ),
             },
           ],
