@@ -30,6 +30,8 @@ export const getFormattedInterviewPosOffers = async () => {
               id: properties.id,
               status: properties.status,
               interviewID: properties.interviewID,
+              companyName: properties.companyName,
+              internshipTitle: properties.internshipTitle,
             };
           });
           return {

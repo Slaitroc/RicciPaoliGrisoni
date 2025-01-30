@@ -59,6 +59,8 @@ public class DTOCreator {
         final DTO internshipPosOfferDTO = new DTO();
         internshipPosOfferDTO.addProperty("id", internshipPosOffer.getId());
         internshipPosOfferDTO.addProperty("status", internshipPosOffer.getStatus().toString());
+        internshipPosOfferDTO.addProperty("internshipTitle", internshipPosOffer.getInterview().getRecommendation().getInternshipOffer().getTitle());
+        internshipPosOfferDTO.addProperty("companyName", internshipPosOffer.getInterview().getRecommendation().getInternshipOffer().getCompany().getName());
         internshipPosOfferDTO.addProperty("interviewID", internshipPosOffer.getInterview().getId());
         return internshipPosOfferDTO;
     }

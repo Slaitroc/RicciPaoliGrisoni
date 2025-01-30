@@ -11,6 +11,7 @@ export const IntPosOfferPreview = () => {
       {intPosOfferData != null ? (
         <Grid2 padding={5} container spacing={3}>
           {intPosOfferData.map((item) => {
+            logger.debug("item: ", item);
             return (
               <Grid2 key={item.id} xs={12} sm={6} md={4}>
                 <Card
@@ -30,7 +31,12 @@ export const IntPosOfferPreview = () => {
                         color: "Black",
                       },
                       outline: "3px solid",
-                      outlineColor: "hsla(210, 98%, 48%, 0.5)",
+                      outlineColor:
+                        item.status === "accepted"
+                          ? "green"
+                          : item.status === "rejected"
+                          ? "red"
+                          : "hsla(210, 98%, 48%, 0.5)", // Green for accepted, red for rejected, blue for pending
                       outlineOffset: "2px",
                     },
                   }}
@@ -46,11 +52,11 @@ export const IntPosOfferPreview = () => {
                         variant="body2"
                         sx={{ color: "text.primary" }}
                       >
-                        Interview Position Offer ID:
+                        Company:
                       </Typography>
-                      {" " + item.id}
+                      {" " + item.companyName}
                     </Typography>
-                    <Typography variant="body1" color="text.secondary">
+                    <Typography variant="body1" color={"text.secondary"}>
                       <Typography
                         component="span"
                         display="inline"
