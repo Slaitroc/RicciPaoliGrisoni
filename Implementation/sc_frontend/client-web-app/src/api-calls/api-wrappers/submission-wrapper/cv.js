@@ -1,13 +1,14 @@
+import * as logger from "../../../logger/logger";
 import * as apiCalls from "../../apiCalls";
 
-export const getStudentCV = async () => {
+export const getStudentCV = async (userID) => {
   return apiCalls
-    .getStudentCV()
+    .getStudentCV(userID)
     .then((response) => {
       if (response.status === 204) {
         return {
-          success: false,
-          cv: null,
+          success: true,
+          data: { cv: null },
           message: "No CV found... Let's create one!",
           severity: "info",
         };
@@ -16,7 +17,7 @@ export const getStudentCV = async () => {
         return response.json().then((data) => {
           return {
             success: false,
-            cv: null,
+            data: { cv: null },
             message: data.properties.error,
             severity: "error",
           };
@@ -26,7 +27,7 @@ export const getStudentCV = async () => {
         return response.json().then((data) => {
           return {
             success: false,
-            cv: null,
+            data: { cv: null },
             message: data.properties.error,
             severity: "error",
           };
@@ -36,7 +37,7 @@ export const getStudentCV = async () => {
         return response.json().then((data) => {
           return {
             success: false,
-            cv: null,
+            data: { cv: null },
             message: data.properties.error,
             severity: "error",
           };
@@ -44,9 +45,31 @@ export const getStudentCV = async () => {
       }
       if (response.ok) {
         return response.json().then((data) => {
+          const fieldMap = new Map();
+          fieldMap.set("studentID", "Student ID");
+          fieldMap.set("id", "Curriculum ID");
+          fieldMap.set("studentName", "Student Name");
+          fieldMap.set("contacts", "Contacts");
+          fieldMap.set("spokenLanguage", "Spoken Language");
+          fieldMap.set("education", "Education");
+          fieldMap.set("certifications", "Certifications");
+          fieldMap.set("workExperience", "Work Experience");
+          fieldMap.set("project", "Projects");
+          fieldMap.set("skills", "Skills");
+
+          const orderedCV = {};
+          fieldMap.forEach((label, key) => {
+            orderedCV[key] = {
+              serverField: key, // Nome del campo nel server
+              label, // Label desiderata
+              value: data.properties[key], // Valore ricevuto dal server
+            };
+          });
+          logger.focus("OrderedCV", orderedCV);
+
           return {
             success: true,
-            cv: data.properties,
+            data: { cv: orderedCV },
             message: "CV fetched successfully",
             severity: "success",
           };
@@ -54,23 +77,28 @@ export const getStudentCV = async () => {
       }
     })
     .catch((error) => {
-      //NOTE lancio errore critico
       throw error;
     });
 };
 
-export const updateMyCV = async (cv) => {
+export const updateMyCV = async (cvData) => {
+  const formattedCvData = {};
+  Object.entries(cvData).forEach(([key, value]) => {
+    if (key === "studentID" || key === "id" || key === "studentName") {
+      return;
+    }
+    formattedCvData[key] = value.value;
+  });
+
   return apiCalls
-    .updateMyCV(cv)
+    .updateMyCV(formattedCvData)
     .then((response) => {
       if (response.status === 201) {
-        return response.body().then((data) => {
-          return {
-            success: true,
-            message: "CV updated successfully",
-            severity: "success",
-          };
-        });
+        return {
+          success: true,
+          message: "CV updated successfully",
+          severity: "success",
+        };
       }
       if (!response.ok) {
         return response.body().then((data) => {
@@ -83,7 +111,6 @@ export const updateMyCV = async (cv) => {
       }
     })
     .catch((error) => {
-      //NOTE lancio errore critico
       throw error;
     });
 };
