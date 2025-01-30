@@ -54,7 +54,7 @@ export const ApplicationsProvider = ({ children }) => {
   }, []);
 
   const handleErrorButtonClick = () => {
-    //NAV
+    //NAV to browse internship offers
     navigate("/dashboard/browse-internship-offers");
   };
 

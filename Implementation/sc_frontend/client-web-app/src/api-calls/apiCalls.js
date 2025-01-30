@@ -29,7 +29,6 @@ export const sendNotificationToken = async (notificationToken) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      // DANGER - può essere nullo il token?? significa che l'utente non è loggato
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ notificationToken }),
@@ -70,9 +69,6 @@ export const sendEmailConfirmed = async () => {
 
 export const sendUserData = async (userData) => {
   const token = await getToken();
-  //FIX remove logs
-  logger.debug(JSON.stringify({ ...userData }));
-  logger.debug("Token: ", token);
   return fetchWrapper("/application-api/acc/private/send-user-data", {
     method: "PUT",
     headers: {

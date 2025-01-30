@@ -50,7 +50,7 @@ import {
   UNIVERSITY_USER_TYPE,
 } from "../global/globalStatesInit";
 
-// Router Configurations
+//NAV Router Configurations
 
 const router = createBrowserRouter(
   [

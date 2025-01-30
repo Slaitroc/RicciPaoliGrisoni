@@ -202,7 +202,7 @@ export default function SCSignInCard() {
           Don&apos;t have an account?{" "}
           <span>
             <Link
-            //NAV
+            //NAV to signup
               onClick={() => {
                 navigate("/signup");
               }}

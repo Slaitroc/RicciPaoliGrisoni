@@ -55,7 +55,6 @@ export const getFormattedCompanyInternships = async (companyID) => {
       }
     });
   } catch (error) {
-    //NOTE lancio errore critico
     throw error;
   }
 };
@@ -100,7 +99,6 @@ export const getFormattedInternships = async () => {
       }
     });
   } catch (error) {
-    //NOTE lancio errore critico
     throw error;
   }
 };

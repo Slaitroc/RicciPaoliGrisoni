@@ -77,7 +77,6 @@ export const SCUserCreation = () => {
         }
       })
       .catch((error) => {
-        //NOTE gestione errore critico
         console.error("Critical error during getUniversities:", error);
         setOpenAlert(true);
         setAlertSeverity("error");
@@ -91,7 +90,7 @@ export const SCUserCreation = () => {
       if (response.status === 200) {
         response.json().then((data) => {
           setProfile(data.properties);
-          //NAV 
+          //NAV to dashboard  
           navigate("/dashboard");
         });
       }
@@ -246,7 +245,7 @@ export const SCUserCreation = () => {
                   onChange={(date) =>
                     //DANGER date offset of one day --> day 9 became 8
                     //viene inviata anche nel caso di company e university ma il backend la ignora
-                    //NOTE ignoring for now
+                    //ignoring for now
                     setBirthDate(new Date(date).toISOString().split("T")[0])
                   }
                   views={["year", "month", "day"]}

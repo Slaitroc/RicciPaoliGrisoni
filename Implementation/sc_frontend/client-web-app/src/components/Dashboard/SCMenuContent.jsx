@@ -175,7 +175,7 @@ export default function SCMenuContent() {
 
   const handleItemClick = (item) => {
     setSelectedItem(item.key);
-    //NAV
+    //NAV to item.route (Menu Content)
     navigate(item.route);
   };
 

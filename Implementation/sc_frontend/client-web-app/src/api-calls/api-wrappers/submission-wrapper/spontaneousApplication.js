@@ -52,7 +52,6 @@ export const getFormattedSpontaneousApplications = async () => {
       }
     });
   } catch {
-    //NOTE lancio errore critico
     throw error;
   }
 };
