@@ -12,22 +12,16 @@ import {
 import { LoadingPage } from "../pages/LoadingPage";
 import * as logger from "../logger/logger";
 
-
 const UserTypeRouteProtector = ({ children, allowedTypes }) => {
   const { userType, loading } = useGlobalContext();
 
   if (loading) return <LoadingPage />;
-  else {
-    if (userType === INIT_USER_TYPE) {
-      return <div>Loading user type...</div>;
-    }
 
-    if (!allowedTypes.includes(userType)) {
-      return <Navigate to="/dashboard" replace />;
-    }
-
-    return children;
+  if (!allowedTypes.includes(userType)) {
+    return <Navigate to="/dashboard" replace />;
   }
+
+  return children;
 };
 
 UserTypeRouteProtector.propTypes = {
