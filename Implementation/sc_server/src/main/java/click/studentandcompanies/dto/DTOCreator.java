@@ -20,7 +20,6 @@ public class DTOCreator {
         functionMap.put(DTOTypes.STUDENT, obj -> createStudentDTO((Student) obj));
         //functionMap.put(DTOTypes.STUDENT_V2, obj -> createStudentDTOV2((Student) obj));
         functionMap.put(DTOTypes.UNIVERSITY, obj -> createUniversityDTO((University) obj));
-        functionMap.put(DTOTypes.RECOMMENDATION_UPDATED_STATUS, object -> createRecommendationUpdatedStatusDTO((Recommendation) object));
         functionMap.put(DTOTypes.INTERNSHIP_OFFER, object -> createInternshipOfferDTO((InternshipOffer) object));
         functionMap.put(DTOTypes.CV, object -> createCVDTO((Cv) object));
         functionMap.put(DTOTypes.SPONTANEOUS_APPLICATION, object -> createSpontaneousApplicationDTO((SpontaneousApplication) object));
@@ -183,10 +182,10 @@ public class DTOCreator {
         recommendationDTO.addProperty("id", recommendation.getId());
         recommendationDTO.addProperty("status", recommendation.getStatus().toString());
         recommendationDTO.addProperty("studentName", recommendation.getCv().getStudent().getName());
-        recommendationDTO.addProperty("companyName", recommendation.getInternshipOffer().getCompany().getName());
-        recommendationDTO.addProperty("internshipOfferTitle", recommendation.getInternshipOffer().getTitle());
         recommendationDTO.addProperty("studentID", recommendation.getCv().getStudent().getId());
+        recommendationDTO.addProperty("companyName", recommendation.getInternshipOffer().getCompany().getName());
         recommendationDTO.addProperty("companyID", recommendation.getInternshipOffer().getCompany().getId());
+        recommendationDTO.addProperty("internshipOfferTitle", recommendation.getInternshipOffer().getTitle());
         recommendationDTO.addProperty("internshipOfferID", recommendation.getInternshipOffer().getId());
         recommendationDTO.addProperty("score", recommendation.getScore());
         return recommendationDTO;

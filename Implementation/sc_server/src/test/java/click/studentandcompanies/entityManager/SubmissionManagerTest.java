@@ -218,7 +218,7 @@ class SubmissionManagerTest extends EntityFactory {
         when(userManager.getUserType("10")).thenReturn(UserType.STUDENT);
         SpontaneousApplication app1 = new SpontaneousApplication();
         SpontaneousApplication app2 = new SpontaneousApplication();
-        when(spontaneousApplicationRepository.getSpontaneousApplicationByStudent_Id("10"))
+        when(spontaneousApplicationRepository.findSpontaneousApplicationByStudentId("10"))
                 .thenReturn(List.of(app1, app2));
         List<SpontaneousApplication> result = submissionManager.getSpontaneousApplicationsByParticipant("10");
         assertEquals(2, result.size());
@@ -245,7 +245,7 @@ class SubmissionManagerTest extends EntityFactory {
 
         // No content
         when(userManager.getUserType("40")).thenReturn(UserType.STUDENT);
-        when(spontaneousApplicationRepository.getSpontaneousApplicationByStudent_Id("40"))
+        when(spontaneousApplicationRepository.findSpontaneousApplicationByStudentId("40"))
                 .thenReturn(Collections.emptyList());
         assertThrows(NoContentException.class, () ->
                 submissionManager.getSpontaneousApplicationsByParticipant("40")

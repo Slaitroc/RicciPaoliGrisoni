@@ -38,12 +38,12 @@ public class AcceptRecommendationCommandCall implements APIControllerCommandCall
             if (recommendation.getStatus() == RecommendationStatusEnum.acceptedMatch) {
                 List<String> userIDs = List.of(recommendation.getInternshipOffer().getCompany().getId(), recommendation.getCv().getStudent().getId());
 
-                NotificationData data = new NotificationData(NotificationTriggerType.MATCH_FOUND, DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation));
+                NotificationData data = new NotificationData(NotificationTriggerType.MATCH_FOUND, DTOCreator.createDTO(DTOTypes.RECOMMENDATION, recommendation));
 
                 new NotificationController(notificationManager).sendAndSaveNotification(userIDs, data);
                 //todo: call feedback service
             }
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation), HttpStatus.CREATED);
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.RECOMMENDATION, recommendation), HttpStatus.CREATED);
         } catch (IllegalCallerException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (NotFoundException e) {

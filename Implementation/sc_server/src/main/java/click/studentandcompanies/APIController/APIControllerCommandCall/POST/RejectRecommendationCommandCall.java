@@ -28,7 +28,7 @@ public class RejectRecommendationCommandCall implements APIControllerCommandCall
     public ResponseEntity<DTO> execute() {
         try {
             Recommendation recommendation = recommendationProcess.rejectRecommendation(RecommendationID, payload);
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.RECOMMENDATION_UPDATED_STATUS, recommendation), HttpStatus.CREATED);
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.RECOMMENDATION, recommendation), HttpStatus.CREATED);
         } catch (BadInputException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (NotFoundException e) {
