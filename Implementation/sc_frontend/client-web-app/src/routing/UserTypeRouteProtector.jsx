@@ -1,6 +1,6 @@
 // UserTypeRouteProtector.jsx
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useGlobalContext } from "../global/GlobalContext";
 import { CircularProgress } from "@mui/material";
 import PropTypes from "prop-types";
@@ -15,16 +15,17 @@ const UserTypeRouteProtector = ({ children, allowedTypes }) => {
   const { userType, loading } = useGlobalContext();
 
   if (loading) return <CircularProgress size="3rem" />;
+  else {
+    if (userType === INIT_USER_TYPE) {
+      return <div>Loading user type...</div>;
+    }
 
-  if (userType === INIT_USER_TYPE) {
-    return <div>Loading user type...</div>;
+    if (!allowedTypes.includes(userType)) {
+      return <Navigate to="/dashboard" replace />;
+    }
+
+    return children;
   }
-
-  if (!allowedTypes.includes(userType)) {
-    return <Navigate to="/dashboard" replace />;
-  }
-
-  return children;
 };
 
 UserTypeRouteProtector.propTypes = {
