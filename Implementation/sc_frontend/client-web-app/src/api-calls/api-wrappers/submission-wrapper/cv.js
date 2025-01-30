@@ -4,7 +4,7 @@ export const getStudentCV = async () => {
   return apiCalls
     .getStudentCV()
     .then((response) => {
-      if (respose.status === 204) {
+      if (response.status === 204) {
         return {
           success: false,
           cv: null,

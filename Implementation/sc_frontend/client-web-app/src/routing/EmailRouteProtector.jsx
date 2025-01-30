@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useGlobalContext } from "../global/GlobalContext";
-import { CircularProgress } from "@mui/material";
+import { LoadingPage } from "../pages/LoadingPage";
 
 const EmailRouteProtector = ({ children, invertBehavior = false }) => {
   const { isEmailVerified, loading, setLoading } = useGlobalContext();
@@ -10,7 +10,7 @@ const EmailRouteProtector = ({ children, invertBehavior = false }) => {
   console.log("EMAIL- Email verification status:", isEmailVerified);
   console.log("EMAIL- Loading status:", loading);
 
-  if (loading) return <CircularProgress size="3rem" />;
+  if (loading) return <LoadingPage/>;
   else {
     if (invertBehavior) {
       return isEmailVerified ? (

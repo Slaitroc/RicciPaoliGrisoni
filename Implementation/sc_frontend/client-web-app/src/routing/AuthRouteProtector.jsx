@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "../global/GlobalContext";
 import { Navigate, useLocation } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
+import { LoadingPage } from "../pages/LoadingPage";
 
 const AuthRouteProtector = ({
   children,
@@ -14,7 +14,7 @@ const AuthRouteProtector = ({
   console.log("AUTH- isAuthenticated:", isAuthenticated);
   console.log("AUTH- Loading status:", loading);
 
-  if (loading) return <CircularProgress size="3rem" />;
+  if (loading) return <LoadingPage/>;
   else {
     if (invertBehavior) {
       return isAuthenticated ? <Navigate to={redirectTo} replace /> : children;
