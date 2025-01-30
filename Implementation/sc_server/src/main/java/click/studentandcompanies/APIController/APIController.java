@@ -210,7 +210,7 @@ public class APIController {
     })
     public ResponseEntity<DTO> updateCV(@RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
         String student_id = GetUuid.getUuid(token);
-        payload.put("student_id", student_id);
+        payload.put("studentID", student_id);
         return new UpdateCVCommandCall(payload, submissionManager, recommendationProcess).execute();
     }
 

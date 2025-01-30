@@ -151,6 +151,7 @@ public class DTOCreator {
         cvDTO.addProperty("studentName", cv.getStudent().getName());
         cvDTO.addProperty("contact", cv.getContacts());
         cvDTO.addProperty("spokenLanguages", cv.getSpokenLanguages());
+        cvDTO.addProperty("updateTime", cv.getUpdateTime());
         return cvDTO;
     }
 

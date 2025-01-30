@@ -48,12 +48,8 @@ public class UpdateCVCommand implements SubmissionManagerCommand<Cv> {
         Instant updateTime;
 
         //Save non-nullable fields
-        if(payload.get("updateTime")==null){
-            System.out.println("Update time not found");
-            throw new BadInputException("Update time not found");
-        }
         studentId = (String) payload.get("studentID");
-        updateTime = Instant.parse(String.valueOf(payload.get("updateTime")));
+        updateTime = Instant.now();
 
         //Save nullable fields
         String skills = (String) payload.get("skills") != null ? (String) payload.get("skills") : "";
@@ -68,11 +64,6 @@ public class UpdateCVCommand implements SubmissionManagerCommand<Cv> {
     }
 
     private Cv updateCV(Map<String, Object> payload, Cv cv){
-        Instant updateTime = Instant.parse(String.valueOf(payload.get("updateTime")));
-        if(payload.get("updateTime")==null){
-            System.out.println("Update time not found");
-            throw new BadInputException("Update time not found");
-        }
         if(payload.get("skills")!=null)
             cv.setSkills((String) payload.get("skills"));
         if(payload.get("workExperiences")!=null)
@@ -84,7 +75,7 @@ public class UpdateCVCommand implements SubmissionManagerCommand<Cv> {
         if(payload.get("certifications")!=null)
             cv.setCertifications((String) payload.get("certifications"));
         if (payload.get("updateTime")!=null)
-            cv.setUpdateTime(updateTime);
+            cv.setUpdateTime(Instant.now());
         if(payload.get("spokenLanguages")!=null)
             cv.setSpokenLanguages((String) payload.get("spokenLanguages"));
         if(payload.get("contacts")!=null)
