@@ -31,7 +31,7 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   padding: "8px 12px",
 }));
 
-//NAV
+//NAV - Add the routes to the menuElements array
 const menuElements = [
   { key: uuidv4(), text: "Home", handleOnClick: (navigate) => navigate("/") },
   {
@@ -100,7 +100,7 @@ export default function AppAppBar() {
             }}
           >
             <Button
-            //NAV
+            //NAV to signin
               onClick={() => navigate("/signin")}
               color="primary"
               variant="text"
@@ -109,7 +109,7 @@ export default function AppAppBar() {
               Sign in
             </Button>
             <Button
-            //NAV
+            //NAV to signup
               onClick={() => navigate("/signup")}
               color="primary"
               variant="contained"
@@ -161,7 +161,7 @@ export default function AppAppBar() {
                 <Divider sx={{ my: 3 }} />
                 <MenuItem>
                   <Button
-                  //NAV
+                  //NAV to signup
                     onClick={() => navigate("/signup")}
                     color="primary"
                     variant="contained"
@@ -172,7 +172,7 @@ export default function AppAppBar() {
                 </MenuItem>
                 <MenuItem>
                   <Button
-                  //NAV
+                  //NAV to signin
                     onClick={() => navigate("/signin")}
                     color="primary"
                     variant="outlined"

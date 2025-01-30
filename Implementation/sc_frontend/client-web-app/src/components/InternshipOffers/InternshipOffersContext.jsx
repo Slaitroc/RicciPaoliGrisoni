@@ -29,7 +29,7 @@ export const InternshipOffersProvider = ({ children }) => {
 
   const handleOfferClick = (offer) => {
     console.log("Selected Offer:", offer);
-    //NAV
+    //NAV to internship detail
     //navigate(`/dashboard/internship-offer/internship-detail/${offer.id}`);
   };
 

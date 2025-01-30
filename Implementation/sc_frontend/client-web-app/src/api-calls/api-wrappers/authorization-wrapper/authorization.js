@@ -2,6 +2,7 @@ import * as apiCalls from "../../apiCalls";
 import * as firebaseAuth from "firebase/auth";
 import { auth } from "./firebase-utils/firebaseConfig";
 import { FRONTEND_DOMAIN } from "../../apiConfig";
+import * as logger from "../../../logger/logger";
 
 export const login = async (email, password) => {
   try {
@@ -68,7 +69,7 @@ export const logout = async () => {
         }),
     };
   } catch (err) {
-    // DEBUG
+    enableLogger
     //console.error("Error during logout:", err.message);
     return {
       status: 500,
@@ -124,8 +125,7 @@ export const register = async (email, password) => {
         }),
     };
   } catch (err) {
-    // DEBUG
-    // console.error("Error during registration:", err.message);
+    logger.error("Error during registration:", err.message);
     if (err.code === "auth/email-already-in-use") {
       return {
         status: 500,

@@ -34,7 +34,6 @@ export const getUniversities = async () => {
       return { names: universities, table: null };
     }
   } catch (error) {
-    //NOTE lancio errore critico
     throw error;
   }
 };
@@ -69,11 +68,6 @@ export const getUniversitiesv2 = async () => {
       }
     })
     .catch((error) => {
-      //NOTE lancio errore critico
-      console.error(
-        "Error critico durante il fetch di getUniversities():",
-        error.message
-      );
       throw error;
     });
 };
