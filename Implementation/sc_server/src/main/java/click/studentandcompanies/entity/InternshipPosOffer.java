@@ -15,6 +15,17 @@ public class InternshipPosOffer {
     @Enumerated(EnumType.STRING)
     private InternshipPosOfferStatusEnum status;
 
+    @OneToOne(mappedBy = "internshipPosOffer")
+    private Interview interview;
+
+    public Interview getInterview() {
+        return interview;
+    }
+
+    public void setInterview(Interview interview) {
+        this.interview = interview;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -59,6 +59,7 @@ public class DTOCreator {
         final DTO internshipPosOfferDTO = new DTO();
         internshipPosOfferDTO.addProperty("id", internshipPosOffer.getId());
         internshipPosOfferDTO.addProperty("status", internshipPosOffer.getStatus().toString());
+        internshipPosOfferDTO.addProperty("interviewID", internshipPosOffer.getInterview().getId());
         return internshipPosOfferDTO;
     }
     private static DTO createInterviewTemplateDTO(InterviewTemplate interviewTemplate){
