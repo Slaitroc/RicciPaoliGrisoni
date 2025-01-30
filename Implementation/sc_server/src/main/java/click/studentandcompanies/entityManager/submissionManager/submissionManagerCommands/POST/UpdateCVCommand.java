@@ -74,12 +74,11 @@ public class UpdateCVCommand implements SubmissionManagerCommand<Cv> {
             cv.setProject((String) payload.get("project"));
         if(payload.get("certifications")!=null)
             cv.setCertifications((String) payload.get("certifications"));
-        if (payload.get("updateTime")!=null)
-            cv.setUpdateTime(Instant.now());
         if(payload.get("spokenLanguages")!=null)
             cv.setSpokenLanguages((String) payload.get("spokenLanguages"));
         if(payload.get("contacts")!=null)
             cv.setContacts((String) payload.get("contacts"));
+        cv.setUpdateTime(Instant.now());
         return cv;
     }
 }
