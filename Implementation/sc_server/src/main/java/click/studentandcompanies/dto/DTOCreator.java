@@ -54,6 +54,7 @@ public class DTOCreator {
         accountDTO.addProperty("userID", account.getUserID());
         accountDTO.addProperty("userType", account.getUserType());
         accountDTO.addProperty("name", account.getName());
+        accountDTO.addProperty("surname", account.getSurname());
         accountDTO.addProperty("email", account.getEmail());
         accountDTO.addProperty("uniVat", account.getUniVat());
         accountDTO.addProperty("vatNumber", account.getVatNumber());
