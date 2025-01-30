@@ -6,6 +6,7 @@ import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.communicationManager.communicationManagerCommands.GET.GetAllUserCommunicationsCommand;
 import click.studentandcompanies.entityManager.communicationManager.communicationManagerCommands.GET.GetCommunicationMessagesCommand;
 import click.studentandcompanies.entityManager.communicationManager.communicationManagerCommands.POST.CreateCommunicationCommand;
+import click.studentandcompanies.entityManager.communicationManager.communicationManagerCommands.POST.CreateMessageCommand;
 import click.studentandcompanies.entityManager.communicationManager.communicationManagerCommands.POST.TerminateCommunicationCommand;
 import click.studentandcompanies.entityRepository.CommunicationRepository;
 import click.studentandcompanies.entityRepository.MessageRepository;
@@ -40,6 +41,10 @@ public class CommunicationManager {
 
     public Communication createCommunication(Map<String, Object> payload) throws NotFoundException, BadInputException{
         return new CreateCommunicationCommand(communicationRepository, userManager, payload).execute();
+    }
+
+    public Message createMessage(String userID, Integer commID, Map<String, Object> payload) throws NotFoundException, UnauthorizedException, BadInputException{
+        return new CreateMessageCommand(messageRepository, communicationRepository, userManager, userID, commID, payload).execute();
     }
 
     public Communication terminateCommunication(int communicationID, Map<String, Object> payload) throws BadInputException, UnauthorizedException{

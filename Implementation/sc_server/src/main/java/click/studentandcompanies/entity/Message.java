@@ -17,7 +17,7 @@ public class Message {
 
     @NotNull
     @Column(name = "time_stamp", nullable = false)
-    private Instant timeStamp = Instant.now();;
+    private Instant timeStamp = Instant.now();
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
