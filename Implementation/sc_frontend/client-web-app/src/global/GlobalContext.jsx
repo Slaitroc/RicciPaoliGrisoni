@@ -4,6 +4,7 @@ import * as apiCalls from "../api-calls/apiCalls";
 import React, { useContext, useState, useEffect, useCallback } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { getToken, onMessage } from "firebase/messaging";
+import { useLocation } from "react-router-dom";
 import * as logger from "../logger/logger";
 import * as account from "../api-calls/api-wrappers/account-wrapper/account";
 
@@ -86,26 +87,43 @@ export const GlobalProvider = ({ children }) => {
         logger.error("Errore durante l'ottenimento del token FCM:", error);
       });
 
-    onAuthStateChanged(firebaseConfig.auth, (user) => {
+    onAuthStateChanged(firebaseConfig.auth, async (user) => {
       if (user) {
-        account.getUserData().then((response) => {
-          if (response.status === 400) {
-            logger.debug("- AUTH: Token mancante nella richiesta.");
-          }
-          if (response.status === 204) {
-            logger.debug("- AUTH: Dati utente non trovati.");
-            setIsEmailVerified(false);
-          }
-          if (response.status === 200) {
-            response.json().then((data) => {
-              logger.debug("- AUTH: Dati utente:", data);
-              setUserType(data.properties.userType);
-              setProfile(data.properties);
-              if (data.properties.validate) setIsEmailVerified(true);
-              else setIsEmailVerified(false);
-            });
-          }
-        });
+        // account.getUserData().then((response) => {
+        //   if (response.status === 400) {
+        //     logger.debug("- AUTH: Token mancante nella richiesta.");
+        //   }
+        //   if (response.status === 204) {
+        //     logger.debug("- AUTH: Dati utente non trovati.");
+        //     setIsEmailVerified(false);
+        //   }
+        //   if (response.status === 200) {
+        //     response.json().then((data) => {
+        //       logger.debug("- AUTH: Dati utente:", data);
+        //       setUserType(data.properties.userType);
+        //       setProfile(data.properties);
+        //       if (data.properties.validate) setIsEmailVerified(true);
+        //       else setIsEmailVerified(false);
+        //     });
+        //   }
+        // });
+        const response = await account.getUserData();
+        if (response.status === 400) {
+          logger.debug("- AUTH: Token mancante nella richiesta.");
+        }
+        if (response.status === 204) {
+          logger.debug("- AUTH: Dati utente non trovati.");
+          setIsEmailVerified(false);
+        }
+        if (response.status === 200) {
+          const data = await response.json();
+          logger.debug("- AUTH: Dati utente:", data);
+          setUserType(data.properties.userType);
+          setProfile(data.properties);
+          if (data.properties.validate) setIsEmailVerified(true);
+          else setIsEmailVerified(false);
+        }
+
         logger.log("- AUTH: Utente autenticato:", user.email);
         setIsAuthenticated(true);
         // Controlla se l'email è stata verificata
