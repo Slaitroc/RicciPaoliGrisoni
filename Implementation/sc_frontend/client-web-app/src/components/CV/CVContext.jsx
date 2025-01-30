@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import * as cv from "../../api-calls/api-wrappers/submission-wrapper/cv";
 import * as logger from "../../logger/logger";
 import { Alert } from "@mui/material";
+import { useGlobalContext } from "../../global/GlobalContext";
 
 const CVContext = React.createContext();
 
@@ -14,22 +15,86 @@ export const useCVContext = () => {
 };
 
 export const CVProvider = ({ children }) => {
-  const [cvData, setCvData] = React.useState([]);
+  const { profile } = useGlobalContext();
+
+  const [cvData, setCvData] = React.useState({
+    studentID: {
+      serverField: "studentID",
+      label: "Student ID",
+      value: "",
+    },
+    id: {
+      serverField: "id",
+      label: "Curriculum ID",
+      value: "",
+    },
+    studentName: {
+      serverField: "studentName",
+      label: "Student Name",
+      value: profile.name + " " + profile.surname,
+    },
+    contacts: {
+      serverField: "contacts",
+      label: "Contacts",
+      value: "Update with your infos!",
+    },
+    spokenLanguage: {
+      serverField: "spokenLanguage",
+      label: "Spoken Language",
+      value: "Update with your infos!",
+    },
+    education: {
+      serverField: "education",
+      label: "Education",
+      value: "Update with your infos!",
+    },
+    certifications: {
+      serverField: "certifications",
+      label: "Certifications",
+      value: "Update with your infos!",
+    },
+    workExperience: {
+      serverField: "workExperience",
+      label: "Work Experience",
+      value: "Update with your infos!",
+    },
+    updateTime: {
+      serverField: "updateTime",
+      label: "Update Time",
+      value: null,
+    },
+    project: {
+      serverField: "project",
+      label: "Projects",
+      value: "Update with your infos!",
+    },
+    skills: {
+      serverField: "skills",
+      label: "Skills",
+      value: "Update with your infos!",
+    },
+  });
   const [openAlert, setOpenAlert] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState("");
   const [alertSeverity, setAlertSeverity] = React.useState("success");
 
   useEffect(() => {
     logger.debug("CVProvider mounted");
-    cv.getStudentCV()
+    cv.getStudentCV(profile.userID)
       .then((response) => {
         if (response.success === false) {
           setOpenAlert(true);
           setAlertSeverity(response.severity);
           setAlertMessage(response.message);
         } else {
-          setOpenAlert(false);
-          setCVData(response.data);
+          if (response.data.cv === null) {
+            setOpenAlert(true);
+            setAlertSeverity(response.severity);
+            setAlertMessage(response.message);
+          } else {
+            setOpenAlert(false);
+            setCvData(response.data.cv);
+          }
         }
       })
       .catch((error) => {
@@ -46,10 +111,14 @@ export const CVProvider = ({ children }) => {
   const value = {
     cvData,
     setCvData,
+    setOpenAlert,
+    setAlertMessage,
+    setAlertSeverity,
   };
 
   return (
     <CVContext.Provider value={value}>
+      <div style={{height: "30px"}}></div>
       {openAlert && <Alert severity={alertSeverity}>{alertMessage}</Alert>}
       {children}
     </CVContext.Provider>
