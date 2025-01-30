@@ -27,10 +27,6 @@ public class Communication {
     private String title;
 
     @Lob
-    @Column(name = "content", nullable = false)
-    private String content;
-
-    @Lob
     @Enumerated(EnumType.STRING)
     @Column(name = "communication_type", nullable = false)
     private CommunicationTypeEnum communicationType;
@@ -39,12 +35,11 @@ public class Communication {
         //empty constructor, required by JPA
     }
 
-    public Communication(Student student, InternshipOffer internshipOffer, University university, String title, String content, CommunicationTypeEnum communicationType) {
+    public Communication(Student student, InternshipOffer internshipOffer, University university, String title, CommunicationTypeEnum communicationType) {
         this.student = student;
         this.internshipOffer = internshipOffer;
         this.university = university;
         this.title = title;
-        this.content = content;
         this.communicationType = communicationType;
     }
 
@@ -86,14 +81,6 @@ public class Communication {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public CommunicationTypeEnum getCommunicationType() {
