@@ -61,9 +61,10 @@ export default function SCCv() {
         <Box sx={{ mt: 4, p: 2, border: "1px solid gray", borderRadius: 2 }}>
           <Box display="flex" justifyContent="center">
             <Button
-              variant="contained"
+              variant="outlined"
               onClick={onEditClick}
               sx={{
+                whiteSpace: "nowrap",
                 width: "20%",
               }}
             >
