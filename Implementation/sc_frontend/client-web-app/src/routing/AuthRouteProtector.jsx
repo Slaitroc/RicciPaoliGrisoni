@@ -1,21 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "../global/GlobalContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
+import { LoadingPage } from "../pages/LoadingPage";
 
 const AuthRouteProtector = ({
   children,
   redirectTo = "/signin",
   invertBehavior = false,
 }) => {
-  const { isAuthenticated } = useGlobalContext();
+  const { isAuthenticated, loading, setLoading } = useGlobalContext();
+  const location = useLocation();
 
-  // console.log(`Auth Check - isAuth: ${isAuthenticated}, invert: ${invertBehavior}`);
+  console.log("AUTH- isAuthenticated:", isAuthenticated);
+  console.log("AUTH- Loading status:", loading);
 
-  if (invertBehavior) {
-    return isAuthenticated ? <Navigate to={redirectTo} replace /> : children;
+  if (loading) return <LoadingPage/>;
+  else {
+    if (invertBehavior) {
+      return isAuthenticated ? <Navigate to={redirectTo} replace /> : children;
+    }
+
+    return isAuthenticated ? children : <Navigate to={redirectTo} replace />;
   }
-
-  return isAuthenticated ? children : <Navigate to={redirectTo} replace />;
 };
 
 export default AuthRouteProtector;

@@ -1,12 +1,10 @@
 package click.studentandcompanies.entityManager.interviewManager.POST;
 
 import click.studentandcompanies.entity.InternshipPosOffer;
-import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entity.dbEnum.InternshipPosOfferStatusEnum;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManagerCommand;
 import click.studentandcompanies.entityRepository.InternshipPosOfferRepository;
-import click.studentandcompanies.entityRepository.InterviewRepository;
 import click.studentandcompanies.utils.UserType;
 import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
@@ -15,7 +13,6 @@ import click.studentandcompanies.utils.exception.WrongStateException;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class AcceptInternshipPositionOfferCommand implements InterviewManagerCommand<InternshipPosOffer> {
 

@@ -4,7 +4,9 @@ import * as apiCalls from "../api-calls/apiCalls";
 import React, { useContext, useState, useEffect, useCallback } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { getToken, onMessage } from "firebase/messaging";
+import { useLocation } from "react-router-dom";
 import * as logger from "../logger/logger";
+import * as account from "../api-calls/api-wrappers/account-wrapper/account";
 
 const GlobalContext = React.createContext();
 
@@ -58,6 +60,7 @@ export const GlobalProvider = ({ children }) => {
     // NOTIFICATION & AUTHENTICATION
     // Registra il Service Worker e ottieni il token FCM
     let token = null;
+
     logger.debug("GlobalProvider mounted");
     logger.log("Service Worker registration...");
     navigator.serviceWorker
@@ -84,37 +87,78 @@ export const GlobalProvider = ({ children }) => {
         logger.error("Errore durante l'ottenimento del token FCM:", error);
       });
 
-    onAuthStateChanged(firebaseConfig.auth, (user) => {
+    onAuthStateChanged(firebaseConfig.auth, async (user) => {
       if (user) {
-        logger.log("Utente autenticato:", user.email);
+        // account.getUserData().then((response) => {
+        //   if (response.status === 400) {
+        //     logger.debug("- AUTH: Token mancante nella richiesta.");
+        //   }
+        //   if (response.status === 204) {
+        //     logger.debug("- AUTH: Dati utente non trovati.");
+        //     setIsEmailVerified(false);
+        //   }
+        //   if (response.status === 200) {
+        //     response.json().then((data) => {
+        //       logger.debug("- AUTH: Dati utente:", data);
+        //       setUserType(data.properties.userType);
+        //       setProfile(data.properties);
+        //       if (data.properties.validate) setIsEmailVerified(true);
+        //       else setIsEmailVerified(false);
+        //     });
+        //   }
+        // });
+        const response = await account.getUserData();
+        if (response.status === 400) {
+          logger.debug("- AUTH: Token mancante nella richiesta.");
+        }
+        if (response.status === 204) {
+          logger.debug("- AUTH: Dati utente non trovati.");
+          setIsEmailVerified(false);
+        }
+        if (response.status === 200) {
+          const data = await response.json();
+          logger.debug("- AUTH: Dati utente:", data);
+          setUserType(data.properties.userType);
+          setProfile(data.properties);
+          if (data.properties.validate) setIsEmailVerified(true);
+          else setIsEmailVerified(false);
+        }
+
+        logger.log("- AUTH: Utente autenticato:", user.email);
         setIsAuthenticated(true);
         // Controlla se l'email è stata verificata
         if (!user.emailVerified) {
-          logger.log("Email non verificata con firebase.");
+          logger.log("- AUTH: Email non verificata con firebase.");
         } else {
-          logger.log("Email verificata.");
+          logger.log("- AUTH: Email verificata.");
           setIsEmailVerified(true);
         }
         // Invia il token FCM al server
         if (token) {
           // FIX crea wrapper notification
-          logger.log("FCM token:", token);
+          logger.log("- AUTH: FCM token:", token);
           apiCalls.sendNotificationToken(token).then((response) => {
             if (!response.ok) {
-              logger.log("Errore durante l'invio del token FCM:", response);
+              logger.log(
+                "- AUTH: Errore durante l'invio del token FCM:",
+                response
+              );
             } else {
-              logger.log("Token FCM inviato con successo.");
+              logger.log("- AUTH: Token FCM inviato con successo.");
             }
           });
         }
       } else {
-        logger.log("Nessun utente autenticato. Token FCM non inviato.");
+        logger.log("- AUTH: Nessun utente autenticato.");
+        logger.log("- AUTH:  Token FCM non inviato.");
         setIsAuthenticated(false);
       }
+      setLoading(false);
     });
+
     // Gestisce le notifiche in foreground
     onMessage(firebaseConfig.messaging, (payload) => {
-      logger.log("Messaggio ricevuto in foreground:", payload);
+      logger.log("- NOTIFICATION: Messaggio ricevuto in foreground:", payload);
       // Mostra una notifica o aggiorna l'interfaccia utente
       setNotification((prev) => [...prev, payload]);
       // Rimuove automaticamente la notifica dopo 5 secondi
@@ -135,6 +179,7 @@ export const GlobalProvider = ({ children }) => {
     isAuthenticated,
     profile,
     loading,
+    setLoading,
     error,
     userType,
     selectedFile,

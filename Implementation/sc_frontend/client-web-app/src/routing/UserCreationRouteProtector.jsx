@@ -1,21 +1,24 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useGlobalContext } from "../global/GlobalContext";
 import PropTypes from "prop-types";
+import { LoadingPage } from "../pages/LoadingPage";
 
 const UserCreationRouteProtector = ({ children }) => {
-  const { profile } = useGlobalContext();
+  const { profile, loading } = useGlobalContext();
 
   // Debug
-  // console.log("Email verification status:", isEmailVerified);
+  console.log("USER- Profile status:", profile);
+  console.log("USER- Loading status:", loading);
 
-  console.log("Profile:", profile);
-
-  return profile === null ? (
-    <Navigate to={"/signup/user-creation"} replace />
-  ) : (
-    children
-  );
+  if (loading) return <LoadingPage/>;
+  else {
+    return profile === null ? (
+      <Navigate to={"/signup/user-creation"} replace />
+    ) : (
+      children
+    );
+  }
 };
 
 UserCreationRouteProtector.propTypes = {

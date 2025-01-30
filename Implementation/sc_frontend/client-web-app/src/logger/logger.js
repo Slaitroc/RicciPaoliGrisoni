@@ -55,3 +55,14 @@ export const debug = (...args) => {
     );
   }
 };
+
+export const focus = (...args) => {
+  if (debugMode) {
+    console.log(
+      "%cFOCUS:%c",
+      "color: orange; font-weight: bold;",
+      "color: inherit;",
+      ...args
+    );
+  }
+};

@@ -1,6 +1,6 @@
 // UserTypeRouteProtector.jsx
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useGlobalContext } from "../global/GlobalContext";
 import PropTypes from "prop-types";
 import {
@@ -9,19 +9,23 @@ import {
   COMPANY_USER_TYPE,
   UNIVERSITY_USER_TYPE,
 } from "../global/globalStatesInit";
+import { LoadingPage } from "../pages/LoadingPage";
 
 const UserTypeRouteProtector = ({ children, allowedTypes }) => {
-  const { userType } = useGlobalContext();
+  const { userType, loading } = useGlobalContext();
 
-  if (userType === INIT_USER_TYPE) {
-    return <div>Loading user type...</div>;
+  if (loading) return <LoadingPage />;
+  else {
+    if (userType === INIT_USER_TYPE) {
+      return <div>Loading user type...</div>;
+    }
+
+    if (!allowedTypes.includes(userType)) {
+      return <Navigate to="/dashboard" replace />;
+    }
+
+    return children;
   }
-
-  if (!allowedTypes.includes(userType)) {
-    return <Navigate to="/dashboard" replace />;
-  }
-
-  return children;
 };
 
 UserTypeRouteProtector.propTypes = {
