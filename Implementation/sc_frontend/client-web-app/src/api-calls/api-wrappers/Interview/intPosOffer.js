@@ -1,12 +1,14 @@
 import * as apiCalls from "../../apiCalls";
 import * as logger from "../../../logger/logger";
+
 export const getInterviews = async () => {
   return apiCalls.getInterviews();
 };
 
-export const getFormattedInterviews = async () => {
+export const getFormattedInterviewPosOffers = async () => {
   try {
-    return apiCalls.getMyInterviews().then((response) => {
+    return apiCalls.getMyInternshipPositionOffers().then((response) => {
+      logger.debug("getFormattedInterviewPosOffers response: ", response);
       if (response.status === 400 || response.status === 404) {
         return response.json().then((errorData) => {
           // Extract error message from the parsed array structure
@@ -27,17 +29,13 @@ export const getFormattedInterviews = async () => {
             return {
               id: properties.id,
               status: properties.status,
-              internshipTitle: properties.internshipTitle,
-              companyName: properties.companyName,
-              companyID: properties.companyID,
-              studentName: properties.studentName,
-              studentID: properties.studentID,
+              interviewID: properties.interviewID,
             };
           });
           return {
             status: true,
             data: formattedData,
-            message: "Interviews fetched successfully",
+            message: "Internship Position Offer fetched successfully",
             severity: "success",
           };
         });

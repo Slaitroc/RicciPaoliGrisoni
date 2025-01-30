@@ -452,15 +452,12 @@ export const sendInternshipPositionOffer = async (interviewID) => {
 
 export const getMyInternshipPositionOffers = async () => {
   const token = await getToken();
-  return fetchWrapper(
-    "/application-api//interview/private/get-my-int-pos-off",
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  return fetchWrapper("/application-api/interview/private/get-my-int-pos-off", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
 export const acceptInternshipPositionOffer = async (intPosOffID) => {
