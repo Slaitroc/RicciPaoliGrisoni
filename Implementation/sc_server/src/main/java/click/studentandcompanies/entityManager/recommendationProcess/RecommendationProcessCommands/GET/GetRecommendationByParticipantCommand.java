@@ -32,6 +32,7 @@ public class GetRecommendationByParticipantCommand implements RecommendationProc
             default -> throw new NotFoundException("User not found");
         };
         recommendations = recommendations.stream().filter(recommendation -> recommendation.getStatus() != RecommendationStatusEnum.rejectedMatch).toList();
+        recommendations = recommendations.stream().filter(recommendation -> recommendation.getStatus() != RecommendationStatusEnum.acceptedMatch).toList();
         if(type == UserType.STUDENT){
             recommendations = recommendations.stream().filter(recommendation -> recommendation.getStatus() != RecommendationStatusEnum.acceptedByStudent).toList();
         }else{

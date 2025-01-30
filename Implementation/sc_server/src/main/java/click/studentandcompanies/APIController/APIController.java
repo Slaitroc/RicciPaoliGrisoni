@@ -129,6 +129,17 @@ public class APIController {
         return new GetCompanyInternshipsCommandCall(companyID, userID, submissionManager).execute();
     }
 
+    @GetMapping("/sub/private/internship/{internshipID}/get-internship")
+    @Operation(summary = "Request Internship", description = "Get the Internship Offer with the specified ID.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, Internship retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Not Found, Internship ID not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> getInternship(@PathVariable("internshipID") Integer internshipID, @RequestHeader("Authorization") String token) {
+        return new GetSpecificInternshipCommandCall(internshipID, submissionManager).execute();
+    }
+
 
     // The payload is a map with the "company_id", optionally the
     // "internshipOffer_id" if we are UPDATING an existing offer (the backend will
