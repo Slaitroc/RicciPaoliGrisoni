@@ -4,15 +4,17 @@ import { useGlobalContext } from "../global/GlobalContext";
 import PropTypes from "prop-types";
 import { LoadingPage } from "../pages/LoadingPage";
 
-const UserCreationRouteProtector = ({ children }) => {
+const UserCreationRouteProtector = ({ children, invertBehavior = false }) => {
   const { profile, loading } = useGlobalContext();
 
   // Debug
   console.log("USER- Profile status:", profile);
   console.log("USER- Loading status:", loading);
 
-  if (loading) return <LoadingPage/>;
-  else {
+  if (loading) return <LoadingPage />;
+  else if (invertBehavior) {
+    return profile === null ? children : <Navigate to={"/dashboard"} replace />;
+  } else {
     return profile === null ? (
       <Navigate to={"/signup/user-creation"} replace />
     ) : (

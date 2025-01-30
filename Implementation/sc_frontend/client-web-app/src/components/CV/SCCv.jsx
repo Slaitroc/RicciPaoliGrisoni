@@ -96,6 +96,7 @@ export default function SCCv() {
   const [showEdit, setShowEdit] = useState(false);
 
   const onEditClick = () => {
+    //NAV
     navigate("/dashboard/cv/edit");
     // return () => setShowEdit(bool);
   };

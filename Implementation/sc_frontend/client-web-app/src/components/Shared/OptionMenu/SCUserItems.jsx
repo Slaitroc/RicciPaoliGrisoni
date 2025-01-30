@@ -30,7 +30,7 @@ const SCUserItems = ({ anchorEl, handleClose, open }) => {
         setUserType(null);
         setProfile(null);
         setIsEmailVerified(false);
-        // NAV
+        // NAV logout
         navigate("/");
 
       })

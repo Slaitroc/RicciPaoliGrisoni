@@ -65,6 +65,7 @@ export const SCSignUp = () => {
             setAlertSeverity("success");
             setAlertMessage(response.json().message);
             setIsAuthenticated(true);
+            //NAV userCreation
             navigate("/signup/user-creation");
           });
         }
@@ -76,6 +77,7 @@ export const SCSignUp = () => {
           });
         }
         if (response.ok) {
+          //NAV
           navigate("/dashboard");
         }
       });

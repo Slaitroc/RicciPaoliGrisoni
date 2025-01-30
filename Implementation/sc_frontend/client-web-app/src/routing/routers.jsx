@@ -298,7 +298,11 @@ const router = createBrowserRouter(
             },
             {
               path: "user-creation",
-              element: <SCUserCreation />,
+              element: (
+                <UserCreationRouteProtector invertBehavior={true}>
+                  <SCUserCreation />
+                </UserCreationRouteProtector>
+              ),
             },
           ],
         },
