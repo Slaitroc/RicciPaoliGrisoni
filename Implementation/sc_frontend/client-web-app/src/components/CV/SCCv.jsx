@@ -98,7 +98,11 @@ export default function SCCv() {
           <Box key={uuidv4()} sx={{ mb: 2 }}>
             <Box display="flex" flexDirection="column" gap={1}>
               <Typography variant="h6">Student Name:</Typography>
-              <Typography variant="body1" whiteSpace="pre-line">
+              <Typography
+                variant="body1"
+                whiteSpace="pre-line"
+                color="text.secondary"
+              >
                 {profile.name + " " + profile.surname}
               </Typography>
             </Box>
@@ -115,7 +119,11 @@ export default function SCCv() {
               <Box key={uuidv4()} id={cv.id} sx={{ mb: 2 }}>
                 <Box display="flex" flexDirection="column" gap={1}>
                   <Typography variant="h6">{cv[1].label}:</Typography>
-                  <Typography variant="body1" whiteSpace="pre-line">
+                  <Typography
+                    variant="body1"
+                    whiteSpace="pre-line"
+                    color="text.secondary"
+                  >
                     {cv[1].value || "No content provided."}
                   </Typography>
                 </Box>
