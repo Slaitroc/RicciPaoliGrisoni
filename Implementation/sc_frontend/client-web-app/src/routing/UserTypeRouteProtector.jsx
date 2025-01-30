@@ -10,6 +10,8 @@ import {
   UNIVERSITY_USER_TYPE,
 } from "../global/globalStatesInit";
 import { LoadingPage } from "../pages/LoadingPage";
+import * as logger from "../logger/logger";
+
 
 const UserTypeRouteProtector = ({ children, allowedTypes }) => {
   const { userType, loading } = useGlobalContext();

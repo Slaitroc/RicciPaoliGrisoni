@@ -2,15 +2,15 @@ import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useGlobalContext } from "../global/GlobalContext";
 import { LoadingPage } from "../pages/LoadingPage";
+import * as logger from "../logger/logger";
 
 const EmailRouteProtector = ({ children, invertBehavior = false }) => {
   const { isEmailVerified, loading, setLoading } = useGlobalContext();
 
-  // Debug
-  console.log("EMAIL- Email verification status:", isEmailVerified);
-  console.log("EMAIL- Loading status:", loading);
+  // logger.focus("EMAIL- Email verification status:", isEmailVerified);
+  // logger.focus("EMAIL- Loading status:", loading);
 
-  if (loading) return <LoadingPage/>;
+  if (loading) return <LoadingPage />;
   else {
     if (invertBehavior) {
       return isEmailVerified ? (

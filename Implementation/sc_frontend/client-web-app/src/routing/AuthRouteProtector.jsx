@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "../global/GlobalContext";
 import { Navigate, useLocation } from "react-router-dom";
 import { LoadingPage } from "../pages/LoadingPage";
+import * as logger from "../logger/logger";
 
 const AuthRouteProtector = ({
   children,
@@ -11,10 +12,10 @@ const AuthRouteProtector = ({
   const { isAuthenticated, loading, setLoading } = useGlobalContext();
   const location = useLocation();
 
-  console.log("AUTH- isAuthenticated:", isAuthenticated);
-  console.log("AUTH- Loading status:", loading);
+  // logger.focus("AUTH- isAuthenticated:", isAuthenticated);
+  // logger.focus("AUTH- Loading status:", loading);
 
-  if (loading) return <LoadingPage/>;
+  if (loading) return <LoadingPage />;
   else {
     if (invertBehavior) {
       return isAuthenticated ? <Navigate to={redirectTo} replace /> : children;
