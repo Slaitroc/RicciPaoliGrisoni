@@ -67,7 +67,7 @@ export default function SCNavbarBreadcrumbs() {
           decodeURIComponent(value);
 
         return isLast ? (
-          <Typography key={to} variant="body1" sx={{ fontWeight: 600 }}>
+          <Typography key={to} variant="body1" sx={{ fontWeight: 600,  }}>
             {label}
           </Typography>
         ) : (
