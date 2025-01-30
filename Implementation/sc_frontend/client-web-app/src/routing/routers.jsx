@@ -256,15 +256,6 @@ const router = createBrowserRouter(
             {
               path: "communications",
               element: <Communications />,
-              children: [
-                {
-                  path: "",
-                  element: <SCCommunications />,
-                },
-                {
-                  path: "communication-detail",
-                  element: <SCCommunicationDetail
-                }
             },
             {
               path: "profile",
