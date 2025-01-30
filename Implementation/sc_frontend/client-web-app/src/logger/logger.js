@@ -25,44 +25,52 @@ export const disableLogger = () => {
 
 export const log = (...args) => {
   if (logger) {
-    console.log(
+    console.groupCollapsed(
       "%cLOG:%c",
       "color: green; font-weight: bold;",
       "color: inherit;",
       ...args
     );
+    console.trace();
+    console.groupEnd();
   }
 };
 
 export const error = (...args) => {
   if (logger) {
-    console.error(
+    console.groupCollapsed(
       "%cLOG - ERROR:%c",
       "color: red; font-weight: bold;",
       "color: inherit;",
       ...args
     );
+    console.trace();
+    console.groupEnd();
   }
 };
 
 export const debug = (...args) => {
   if (debugMode) {
-    console.log(
+    console.groupCollapsed(
       "%cDEBUG:%c",
       "color: purple; font-weight: bold;",
       "color: inherit;",
       ...args
     );
+    console.trace();
+    console.groupEnd();
   }
 };
 
 export const focus = (...args) => {
   if (debugMode) {
-    console.log(
+    console.groupCollapsed(
       "%cFOCUS:%c",
       "color: orange; font-weight: bold;",
       "color: inherit;",
       ...args
     );
+    console.trace();
+    console.groupEnd();
   }
 };
