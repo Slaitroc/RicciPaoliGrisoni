@@ -104,7 +104,7 @@ public class APIController {
     @Operation(summary = "Request Internships", description = "Get a list of all Internship Offers")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Internships retrieved successfully"),
-            @ApiResponse(responseCode = "404", description = "No Internships found"),
+            @ApiResponse(responseCode = "204", description = "No Internships found"),
             @ApiResponse(responseCode = "401", description = "Unauthorized, User id not found, user should probably log in"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })

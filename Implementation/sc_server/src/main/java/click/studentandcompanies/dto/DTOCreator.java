@@ -211,12 +211,16 @@ public class DTOCreator {
         if(interview.getSpontaneousApplication() == null) {
             interviewDTO.addProperty("internshipTitle", interview.getRecommendation().getInternshipOffer().getTitle());
             interviewDTO.addProperty("companyName", interview.getRecommendation().getInternshipOffer().getCompany().getName());
+            interviewDTO.addProperty("companyID", interview.getRecommendation().getInternshipOffer().getCompany().getId());
             interviewDTO.addProperty("studentName", interview.getRecommendation().getCv().getStudent().getName());
+            interviewDTO.addProperty("studentID", interview.getRecommendation().getCv().getStudent().getId());
         }
         else {
             interviewDTO.addProperty("internshipTitle", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
             interviewDTO.addProperty("companyName", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
+            interviewDTO.addProperty("companyID", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getId());
             interviewDTO.addProperty("studentName", interview.getSpontaneousApplication().getStudent().getName());
+            interviewDTO.addProperty("studentID", interview.getSpontaneousApplication().getStudent().getId());
         }
         return interviewDTO;
     }

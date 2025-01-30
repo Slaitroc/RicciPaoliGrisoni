@@ -39,6 +39,8 @@ import SCCv from "../components/CV/SCCV";
 import SCIntOffers from "../components/InternshipOffers/SCIntOffer";
 import SCIntOffersPreview from "../components/InternshipOffers/SCIntOffersPreview";
 import BrowseInternshipOffers from "../pages/BrowseInternshipOffers";
+import SCInterview from "../components/Interviews/SCInterview";
+import SCInterviewPreview from "../components/Interviews/SCInterviewPreview";
 import {
   INIT_USER_TYPE,
   STUDENT_USER_TYPE,
@@ -215,6 +217,16 @@ const router = createBrowserRouter(
                   <Interviews />
                 </UserCreationRouteProtector>
               ),
+              children: [
+                {
+                  path: "",
+                  element: <SCInterviewPreview />,
+                },
+                {
+                  path: "interview-detail",
+                  element: <SCInterview />,
+                },
+              ],
             },
             {
               path: "confirmed-internships",
