@@ -24,8 +24,9 @@ import CV from "../pages/CV";
 import Overview from "../pages/Overview";
 import Applications from "../pages/Applications";
 import Interviews from "../pages/Interviews";
-import Recommendations from "../pages/Recommandations";
+import Recommendations from "../pages/Recommendations";
 import Communications from "../pages/Communications";
+import SCCommunicationDetail from "../components/Communications/SCCommunicationDetail";
 import University from "../pages/University";
 import InternshipOffers from "../pages/InternshipOffers";
 import Profile from "../pages/Profile";
@@ -49,6 +50,7 @@ import {
   COMPANY_USER_TYPE,
   UNIVERSITY_USER_TYPE,
 } from "../global/globalStatesInit";
+import SCCommunications from "../components/Communications/SCCommunications";
 
 //NAV Router Configurations
 
@@ -254,6 +256,15 @@ const router = createBrowserRouter(
             {
               path: "communications",
               element: <Communications />,
+              children: [
+                {
+                  path: "",
+                  element: <SCCommunications />,
+                },
+                {
+                  path: "communication-detail",
+                  element: <SCCommunicationDetail
+                }
             },
             {
               path: "profile",
