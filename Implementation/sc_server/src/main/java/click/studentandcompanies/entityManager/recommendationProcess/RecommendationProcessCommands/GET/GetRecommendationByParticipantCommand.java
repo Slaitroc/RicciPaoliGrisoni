@@ -38,7 +38,7 @@ public class GetRecommendationByParticipantCommand implements RecommendationProc
             recommendations = recommendations.stream().filter(recommendation -> recommendation.getStatus() != RecommendationStatusEnum.acceptedByCompany).toList();
         }
         //todo check if in the front end a empty list is a valid response
-        if (recommendations.isEmpty()) throw new NoContentException("No eligible recommendations found");
+        if (recommendations.isEmpty()) throw new NoContentException("No eligible recommendations found at the moment, try again later");
         return recommendations;
     }
 }

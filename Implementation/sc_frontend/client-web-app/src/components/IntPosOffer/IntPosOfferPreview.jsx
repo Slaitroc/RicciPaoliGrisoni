@@ -15,20 +15,30 @@ export const IntPosOfferPreview = () => {
             return (
               <Grid2 key={item.id} xs={12} sm={6} md={4}>
                 <Card
-                  onClick={() => clickOnIntPosOffer(item)} // Added click handler
+                  onClick={() => clickOnIntPosOffer(item)}
                   sx={{
                     height: "auto",
                     width: 500,
                     display: "flex",
                     flexDirection: "column",
                     "&:hover, &:focus-visible": {
-                      backgroundColor: "rgba(255, 255, 255, 0.8)", // Lower opacity white background
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
                       cursor: "pointer",
                       ".MuiTypography-body1": {
-                        color: "gray", // Change text color to black on hover/focus
+                        color: "gray",
                       },
                       ".MuiTypography-body2, .MuiTypography-h5": {
                         color: "Black",
+                      },
+                      // Target status text specifically on hover
+                      ".status-text .MuiTypography-body1": {
+                        color: (theme) =>
+                          item.status === "accepted"
+                            ? theme.palette.success.main
+                            : item.status === "rejected"
+                            ? theme.palette.error.main
+                            : theme.palette.text.secondary,
+                        fontWeight: "bold",
                       },
                       outline: "3px solid",
                       outlineColor:
@@ -36,7 +46,7 @@ export const IntPosOfferPreview = () => {
                           ? "green"
                           : item.status === "rejected"
                           ? "red"
-                          : "hsla(210, 98%, 48%, 0.5)", // Green for accepted, red for rejected, blue for pending
+                          : "hsla(210, 98%, 48%, 0.5)",
                       outlineOffset: "2px",
                     },
                   }}
@@ -56,17 +66,20 @@ export const IntPosOfferPreview = () => {
                       </Typography>
                       {" " + item.companyName}
                     </Typography>
-                    <Typography variant="body1" color={"text.secondary"}>
-                      <Typography
-                        component="span"
-                        display="inline"
-                        variant="body2"
-                        sx={{ color: "text.primary" }}
-                      >
-                        Status:
+                    {/* Wrapped status text for specific styling */}
+                    <div className="status-text">
+                      <Typography variant="body1" color="text.secondary">
+                        <Typography
+                          component="span"
+                          display="inline"
+                          variant="body2"
+                          sx={{ color: "text.primary" }}
+                        >
+                          Status:
+                        </Typography>
+                        {" " + item.status}
                       </Typography>
-                      {" " + item.status}
-                    </Typography>
+                    </div>
                     <Typography variant="body1" color="text.secondary">
                       <Typography
                         component="span"
