@@ -16,7 +16,7 @@ export const getFormattedInterviewPosOffers = async () => {
             errorData[0]?.properties?.error || "Unknown error occurred";
           logger.error(errorMessage);
           return {
-            status: false,
+            success: false,
             data: null,
             message: errorMessage,
             severity: "error",
@@ -35,7 +35,7 @@ export const getFormattedInterviewPosOffers = async () => {
             };
           });
           return {
-            status: true,
+            success: true,
             data: formattedData,
             message: "Internship Position Offer fetched successfully",
             severity: "success",

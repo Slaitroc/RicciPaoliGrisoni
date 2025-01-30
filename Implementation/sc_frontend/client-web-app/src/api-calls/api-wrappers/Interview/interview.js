@@ -14,7 +14,7 @@ export const getFormattedInterviews = async () => {
             errorData[0]?.properties?.error || "Unknown error occurred";
           logger.error(errorMessage);
           return {
-            status: false,
+            success: false,
             data: null,
             message: errorMessage,
             severity: "error",

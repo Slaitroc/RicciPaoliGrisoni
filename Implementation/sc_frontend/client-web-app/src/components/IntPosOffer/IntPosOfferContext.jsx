@@ -37,7 +37,7 @@ export const IntPosOfferProvider = ({ children }) => {
       intPosOffer
         .getFormattedInterviewPosOffers(profile.userID)
         .then((response) => {
-          if (response.status === false) {
+          if (response.success === false) {
             setOpenAlert(true);
             setAlertSeverity(response.severity);
             setAlertMessage(response.message);

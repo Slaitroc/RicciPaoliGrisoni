@@ -50,7 +50,8 @@ import {
   COMPANY_USER_TYPE,
   UNIVERSITY_USER_TYPE,
 } from "../global/globalStatesInit";
-//import SCCommunications from "../components/Communications/SCCommunications";
+import SCRecommendations from "../components/Recommendations/SCRecommendations";
+import SCCommunications from "../components/Communications/SCCommunications";
 
 //NAV Router Configurations
 
@@ -211,6 +212,12 @@ const router = createBrowserRouter(
                   <Recommendations />
                 </UserTypeRouteProtector>
               ),
+              children: [
+                {
+                  path: "",
+                  element: <SCRecommendations />,
+                },
+              ],
             },
             {
               path: "interviews",

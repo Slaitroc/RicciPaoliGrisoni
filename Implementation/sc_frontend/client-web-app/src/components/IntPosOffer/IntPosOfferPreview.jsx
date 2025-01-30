@@ -5,7 +5,6 @@ import { useIntPosOfferContext } from "./IntPosOfferContext";
 
 export const IntPosOfferPreview = () => {
   const { intPosOfferData, clickOnIntPosOffer } = useIntPosOfferContext();
-  logger.debug("intPosOfferData: ", intPosOfferData);
   return (
     <>
       {intPosOfferData != null ? (
