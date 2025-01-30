@@ -358,6 +358,7 @@ class InterviewManagerTest extends EntityFactory {
 
         Interview interview = setNewInterview(null, null, null, null);
         InternshipPosOffer posOffer = setNewInternshipPosOffer();
+        posOffer.setId(900);
         interview.setInternshipPosOffer(posOffer);
 
         Student student = setNewStudent(10, "Alice", setNewUniversity(1, "Uni", "IT"));
@@ -375,6 +376,7 @@ class InterviewManagerTest extends EntityFactory {
 
         // 1) Success
         when(userManager.getUserType("10")).thenReturn(UserType.STUDENT);
+        when(internshipPosOfferRepository.findAll()).thenReturn(List.of(posOffer));
         InternshipPosOffer result = interviewManager.acceptInternshipPositionOffer(900, payload);
         assertSame(InternshipPosOfferStatusEnum.accepted, result.getStatus());
 
@@ -387,6 +389,7 @@ class InterviewManagerTest extends EntityFactory {
         // 3) If no interview => NotFoundException
         when(interviewRepository.getInterviewByInternshipPosOffer_Id(999)).thenReturn(null);
         when(userManager.getUserType("10")).thenReturn(UserType.STUDENT);
+        posOffer.setStatus(InternshipPosOfferStatusEnum.pending);
         assertThrows(NotFoundException.class, () ->
                 interviewManager.acceptInternshipPositionOffer(999, payload)
         );

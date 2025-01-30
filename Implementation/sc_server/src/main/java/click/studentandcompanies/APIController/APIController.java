@@ -336,17 +336,17 @@ public class APIController {
     }
 
 
-    @GetMapping("/comm/private/communication/{commID}/get-comm")
-    @Operation(summary = "User userID requests the communication commID", description = "Get the communication commID for the user userID.")
+    @GetMapping("/comm/private/{commID}/get-messages")
+    @Operation(summary = "Get communication messages", description = "Get the messages of a specific communication.")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Ok, Communication retrieved successfully"),
+            @ApiResponse(responseCode = "200", description = "Ok, Messages retrieved successfully"),
             @ApiResponse(responseCode = "401", description = "Unauthorized, User is not participating in the communication"),
             @ApiResponse(responseCode = "404", description = "Not Found, Communication ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> getCommunication(@RequestHeader("Authorization") String token, @PathVariable("commID") Integer commID) {
+    public ResponseEntity<List<DTO>> getCommunication(@RequestHeader("Authorization") String token, @PathVariable("commID") Integer commID) {
         String userID = GetUuid.getUuid(token);
-        return new GetCommunicationCommandCall(commID, userID, communicationManager).execute();
+        return new GetCommunicationMessagesCommandCall(commID, userID, communicationManager).execute();
     }
 
 
@@ -362,6 +362,21 @@ public class APIController {
         String student_id = GetUuid.getUuid(token);
         payload.put("student_id", student_id);
         return new CreateCommunicationCommandCall(communicationManager, notificationManager, payload).execute();
+    }
+
+
+    @PostMapping("/comm/private/{commID}/send-messages")
+    @Operation(summary = "Create communication", description = "payload will contain the 'student_id', 'internshipOffer_id', 'university_id', 'title', 'content', 'communication_type' (communication, complaint)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Message created successfully"),
+            @ApiResponse(responseCode = "400", description = "payload is missing body field"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, User is not participating in the communication"),
+            @ApiResponse(responseCode = "404", description = "Sender or Communication not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> createCommunicationMessage(@PathVariable("commID") Integer commID, @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+        String userID = GetUuid.getUuid(token);
+        return new CreateCommunicationMessageCommandCall(communicationManager, userID, commID, payload).execute();
     }
 
 

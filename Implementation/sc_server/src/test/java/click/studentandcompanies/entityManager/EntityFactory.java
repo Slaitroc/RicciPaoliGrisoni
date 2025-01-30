@@ -200,7 +200,6 @@ public abstract class EntityFactory {
         communication.setUniversity(student.getUniversity());
         communication.setCommunicationType(CommunicationTypeEnum.communication);
         communication.setTitle("Communication Title " + communication.getId());
-        communication.setContent("Default content");
         return communication;
     }
 
@@ -220,8 +219,16 @@ public abstract class EntityFactory {
         communication.setUniversity(student.getUniversity());
         communication.setCommunicationType(CommunicationTypeEnum.communication);
         communication.setTitle("Communication Title " + communication.getId());
-        communication.setContent("Default content");
         return communication;
+    }
+
+    public Message setNewMessage(int id, String body, String senderName, Communication communication) {
+        Message message = new Message();
+        message.setId(id);
+        message.setBody(body);
+        message.setSenderName(senderName);
+        message.setCommunication(communication);
+        return message;
     }
 
 //    /**
