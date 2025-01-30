@@ -30,7 +30,7 @@ public class GetCommunicationMessagesCommand implements CommunicationManagerComm
     public List<Message> execute() throws NotFoundException, UnauthorizedException{
         Communication communication = communicationRepository.findById(commID).orElseThrow(() -> new NotFoundException("Communication not found"));
 
-        List<Message> messages = messageRepository.getMessagesByCommunication_Id(commID);
+        List<Message> messages = messageRepository.getMessagesByCommunication_IdOrderByTimeStamp(commID);
         if (messages.isEmpty()) {
             throw new NoContentException("No messages in communication");
         }
