@@ -25,12 +25,12 @@ const SCUserItems = ({ anchorEl, handleClose, open }) => {
     authorization
       .logout()
       .then(() => {
-        // GLOBAL STATE
+        // GLOBAL STATE reset
         setIsAuthenticated(false);
         setUserType(null);
         setProfile(null);
         setIsEmailVerified(false);
-        // NAV logout
+        // NAV to home
         navigate("/");
 
       })
@@ -41,13 +41,13 @@ const SCUserItems = ({ anchorEl, handleClose, open }) => {
 
   const clickProfile = () => {
     handleClose();
-    // NAV
+    // NAV to profile
     navigate("/dashboard/profile");
   };
 
   const clickAccountSettings = () => {
     handleClose();
-    // NAV
+    // NAV to account settings
     navigate("/dashboard/account");
   };
 

@@ -53,12 +53,12 @@ export const SignUp = (props) => {
     authorization
       .logout()
       .then(() => {
-        // GLOBAL STATE
+        // GLOBAL STATE reset
         setIsAuthenticated(false);
         setUserType(null);
         setProfile(null);
         setIsEmailVerified(false);
-        // NAV
+        // NAV to home
         navigate("/");
       })
       .catch((err) => {
