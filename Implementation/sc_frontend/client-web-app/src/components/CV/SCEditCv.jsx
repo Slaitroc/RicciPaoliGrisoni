@@ -11,6 +11,8 @@ import {
   Badge,
   IconButton,
   badgeClasses,
+  Typography,
+  Alert,
 } from "@mui/material";
 import * as logger from "../../logger/logger";
 import Grid from "@mui/material/Grid2";
@@ -23,6 +25,7 @@ export const SCEditCv = () => {
     useCVContext();
   const [cvSnapshot, setCvSnapshot] = React.useState(cvData);
   const newCvDataRef = React.useRef(cvSnapshot);
+  const [openTipAlert, setOpenTipAlert] = React.useState(true);
 
   const handleFieldChange = (field, value) => {
     newCvDataRef.current[field].value = value;
@@ -65,7 +68,13 @@ export const SCEditCv = () => {
   return (
     <Box display="flex" flexDirection="column" height="100%" gap={2}>
       <Box sx={{ mt: 2, p: 2, border: "1px solid gray", borderRadius: 2 }}>
-        <Box paddingBottom={3}>
+        <Box
+          display="flex"
+          paddingBottom={3}
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Badge
             color="error"
             variant="dot"
@@ -76,7 +85,35 @@ export const SCEditCv = () => {
               <ArrowBackIcon />
             </IconButton>
           </Badge>
+          <Typography variant="h6 " gutterBottom>
+            Last Update:{" "}
+            {new Date(cvData.updateTime.value).toLocaleString("it-IT", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </Typography>
         </Box>
+        {openTipAlert && (
+          <Alert
+            severity="info"
+            sx={{ mb: 2 }}
+            onClose={() => setOpenTipAlert(false)}
+          >
+            <Typography variant="body1">
+              Edit your data and click Save Changes to update your CV.
+            </Typography>
+            <Typography variant="h6" inline>
+                Remember:
+              <Typography inline variant="body1">
+              Using keywords instead of long phrases increases the chances of
+              getting a match in the recommendation process.
+              </Typography>
+            </Typography>
+          </Alert>
+        )}
         <Grid
           container
           spacing={3}
@@ -92,7 +129,11 @@ export const SCEditCv = () => {
               key !== "updateTime"
             ) {
               return (
-                <Grid item="true" size={{ xs: 12, sm: 12, md: 12, lg: 6 }} key={key}>
+                <Grid
+                  item="true"
+                  size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+                  key={key}
+                >
                   <Box display="flex">
                     <FormControl sx={{ flexGrow: 1 }}>
                       <FormLabel>{value.label}</FormLabel>
