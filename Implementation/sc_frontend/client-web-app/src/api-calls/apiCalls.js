@@ -280,7 +280,7 @@ export const getMyCommunications = async () => {
   });
 };
 
-export const getCommunication = async (communicationID) => {
+export const getCommunicationMessages = async (communicationID) => {
   const token = await getToken();
   return fetchWrapper(
     `/application-api/comm/private/${communicationID}/get-messages`,
@@ -307,15 +307,18 @@ export const createCommunication = async (communication) => {
 };
 
 export const sendMessage = async (communicationID, message) => {
-    const token = await getToken();
-    return fetchWrapper(`/application-api/comm/private/${communicationID}/send-messages`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ ...message }),
-    });
+  const token = await getToken();
+  return fetchWrapper(
+    `/application-api/comm/private/${communicationID}/send-messages`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ ...message }),
+    }
+  );
 };
 
 export const terminateCommunication = async (communicationID) => {
