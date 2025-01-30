@@ -1,4 +1,5 @@
 import * as apiCalls from "../../apiCalls";
+import * as logger from "../../../logger/logger";
 
 export const getInternshipOffers = async () => {
   return apiCalls.getInternshipOffers();
@@ -62,7 +63,8 @@ export const getFormattedCompanyInternships = async (companyID) => {
 export const getFormattedInternships = async () => {
   try {
     return apiCalls.getInternshipOffers().then((response) => {
-      if (response.status === 404) {
+      logger.debug("getFormattedInternships status: ", response.status);
+      if (response.status === 204) {
         return {
           success: false,
           data: null,

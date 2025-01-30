@@ -8,15 +8,6 @@ import { Outlet } from "react-router-dom";
 import { InternshipOffersProvider } from "../components/InternshipOffers/InternshipOffersContext";
 
 const InternshipOffers = () => {
-  const { profile } = useGlobalContext();
-  const [offerData, setOfferData] = useState(null);
-
-  const [openAlert, setOpenAlert] = React.useState(false);
-  const [alertMessage, setAlertMessage] = React.useState("");
-  const [alertSeverity, setAlertSeverity] = React.useState("success");
-
-  //When the component mounts, fetch the internship offers of this company
-
   return (
     <InternshipOffersProvider>
       <Outlet />
