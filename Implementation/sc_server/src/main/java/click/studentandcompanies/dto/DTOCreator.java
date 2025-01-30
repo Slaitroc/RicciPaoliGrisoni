@@ -17,8 +17,6 @@ public class DTOCreator {
     private static final Map<DTOTypes, Function<Object, DTO>> functionMap = new HashMap<>();
     static {
         //functionMap.put(DTOTypes.STUDENT_V2, obj -> createStudentDTOV2((Student) obj));
-        functionMap.put(DTOTypes.UNIVERSITY, obj -> createUniversityDTO((University) obj));
-        functionMap.put(DTOTypes.INTERNSHIP_OFFER, object -> createInternshipOfferDTO((InternshipOffer) object));
         functionMap.put(DTOTypes.CV, object -> createCVDTO((Cv) object));
         functionMap.put(DTOTypes.ERROR, obj -> createErrorDTO((String) obj));
         functionMap.put(DTOTypes.STUDENT, obj -> createStudentDTO((Student) obj));
@@ -34,7 +32,6 @@ public class DTOCreator {
         functionMap.put(DTOTypes.INTERVIEW_TEMPLATE, object -> createInterviewTemplateDTO((InterviewTemplate) object));
         functionMap.put(DTOTypes.INTERNSHIP_POS_OFFER, object -> createInternshipPosOfferDTO((InternshipPosOffer) object));
         functionMap.put(DTOTypes.SPONTANEOUS_APPLICATION, object -> createSpontaneousApplicationDTO((SpontaneousApplication) object));
-        functionMap.put(DTOTypes.RECOMMENDATION_UPDATED_STATUS, object -> createRecommendationUpdatedStatusDTO((Recommendation) object));
     }
 
     private static DTO createMessageDTO(Message object) {
@@ -83,13 +80,6 @@ public class DTOCreator {
         interviewTemplateDTO.addProperty("questions", interviewTemplate.getQuestions());
         interviewTemplateDTO.addProperty("company", interviewTemplate.getCompany().getName());
         return interviewTemplateDTO;
-    }
-
-    private static DTO createRecommendationUpdatedStatusDTO(Recommendation recommendation) {
-        final DTO recommendationDTO = new DTO();
-        recommendationDTO.addProperty("id", recommendation.getId());
-        recommendationDTO.addProperty("status", recommendation.getStatus().toString());
-        return recommendationDTO;
     }
 
     private static DTO createErrorDTO(String message) {
@@ -155,10 +145,12 @@ public class DTOCreator {
         cvDTO.addProperty("education", cv.getEducation());
         cvDTO.addProperty("project", cv.getProject());
         cvDTO.addProperty("skills", cv.getSkills());
-        cvDTO.addProperty("update_time", cv.getUpdateTime());
+        cvDTO.addProperty("updateTime", cv.getUpdateTime());
         cvDTO.addProperty("workExperience", cv.getWorkExperiences());
         cvDTO.addProperty("studentID", cv.getStudent().getId());
-        cvDTO.addProperty("student_name", cv.getStudent().getName());
+        cvDTO.addProperty("studentName", cv.getStudent().getName());
+        cvDTO.addProperty("contact", cv.getContacts());
+        cvDTO.addProperty("spokenLanguages", cv.getSpokenLanguages());
         return cvDTO;
     }
 

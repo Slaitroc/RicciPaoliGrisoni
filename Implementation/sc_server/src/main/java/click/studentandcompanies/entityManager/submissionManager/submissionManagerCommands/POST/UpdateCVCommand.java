@@ -24,11 +24,11 @@ public class UpdateCVCommand implements SubmissionManagerCommand<Cv> {
 
     @Override
     public Cv execute() {
-        if(payload.get("student_id")==null){
+        if(payload.get("studentID")==null){
             System.out.println("Student id not found");
             throw new BadInputException("Student id not found");
         }
-        Student student  = userManager.getStudentById((String) payload.get("student_id"));
+        Student student  = userManager.getStudentById((String) payload.get("studentID"));
         if(student == null){
             System.out.println("Student not found");
             throw new NotFoundException("Student not found");
@@ -48,41 +48,47 @@ public class UpdateCVCommand implements SubmissionManagerCommand<Cv> {
         Instant updateTime;
 
         //Save non-nullable fields
-        if(payload.get("update_time")==null){
+        if(payload.get("updateTime")==null){
             System.out.println("Update time not found");
             throw new BadInputException("Update time not found");
         }
-        studentId = (String) payload.get("student_id");
-        updateTime = Instant.parse(String.valueOf(payload.get("update_time")));
+        studentId = (String) payload.get("studentID");
+        updateTime = Instant.parse(String.valueOf(payload.get("updateTime")));
 
         //Save nullable fields
         String skills = (String) payload.get("skills") != null ? (String) payload.get("skills") : "";
-        String workExperiences = (String) payload.get("work_experiences") != null ? (String) payload.get("work_experiences") : "";
+        String workExperiences = (String) payload.get("workExperiences") != null ? (String) payload.get("workExperiences") : "";
         String education = (String) payload.get("education") != null ? (String) payload.get("education") : "";
         String project = (String) payload.get("project") != null ? (String) payload.get("project") : "";
         String certifications = (String) payload.get("certifications") != null ? (String) payload.get("certifications") : "";
+        String spokenLanguages = (String) payload.get("spokenLanguages") != null ? (String) payload.get("spokenLanguages") : "";
+        String contacts = (String) payload.get("contacts") != null ? (String) payload.get("contacts") : "";
 
-        return new Cv(userManager.getStudentById(studentId), skills, workExperiences, education, project, certifications, updateTime);
+        return new Cv(userManager.getStudentById(studentId), skills, workExperiences, education, project, certifications, updateTime, spokenLanguages, contacts);
     }
 
     private Cv updateCV(Map<String, Object> payload, Cv cv){
-        Instant updateTime = Instant.parse(String.valueOf(payload.get("update_time")));
-        if(payload.get("update_time")==null){
+        Instant updateTime = Instant.parse(String.valueOf(payload.get("updateTime")));
+        if(payload.get("updateTime")==null){
             System.out.println("Update time not found");
             throw new BadInputException("Update time not found");
         }
         if(payload.get("skills")!=null)
             cv.setSkills((String) payload.get("skills"));
-        if(payload.get("work_experiences")!=null)
-            cv.setWorkExperiences((String) payload.get("work_experiences"));
+        if(payload.get("workExperiences")!=null)
+            cv.setWorkExperiences((String) payload.get("workExperiences"));
         if(payload.get("education")!=null)
             cv.setEducation((String) payload.get("education"));
         if(payload.get("project")!=null)
             cv.setProject((String) payload.get("project"));
         if(payload.get("certifications")!=null)
             cv.setCertifications((String) payload.get("certifications"));
-        if (payload.get("update_time")!=null)
+        if (payload.get("updateTime")!=null)
             cv.setUpdateTime(updateTime);
+        if(payload.get("spokenLanguages")!=null)
+            cv.setSpokenLanguages((String) payload.get("spokenLanguages"));
+        if(payload.get("contacts")!=null)
+            cv.setContacts((String) payload.get("contacts"));
         return cv;
     }
 }
