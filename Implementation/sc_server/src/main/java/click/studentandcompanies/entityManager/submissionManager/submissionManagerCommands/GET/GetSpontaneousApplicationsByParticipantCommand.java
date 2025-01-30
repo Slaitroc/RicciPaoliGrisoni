@@ -27,7 +27,7 @@ public class GetSpontaneousApplicationsByParticipantCommand implements Submissio
     public List<SpontaneousApplication> execute() throws NotFoundException, NoContentException, BadInputException {
         UserType type = userManager.getUserType(userID);
         List<SpontaneousApplication> applications = switch (type) {
-            case STUDENT -> spontaneousApplicationRepository.getSpontaneousApplicationByStudent_Id(userID);
+            case STUDENT -> spontaneousApplicationRepository.findSpontaneousApplicationByStudentId(userID);
             case COMPANY -> spontaneousApplicationRepository.findSpontaneousApplicationByCompanyId(userID);
             case UNIVERSITY -> throw new BadInputException("User is not a company or student");
             default -> throw new NotFoundException("User not found");

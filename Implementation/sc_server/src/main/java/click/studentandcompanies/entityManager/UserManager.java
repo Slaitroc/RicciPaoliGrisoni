@@ -173,5 +173,22 @@ public class UserManager {
     public List<Company> getCompany() {
         return companyRepository.findAll();
     }
+
+    public List<Interview> getInterviewsByStudentID(String studentID) {
+        List<Interview> retrieveInterview = interviewRepository.findAll();
+        List<Interview> studentInterviews = new ArrayList<>();
+        for(Interview interview : retrieveInterview){
+            if(interview.getRecommendation() != null){
+                if(interview.getRecommendation().getCv().getStudent().getId().equals(studentID)){
+                    studentInterviews.add(interview);
+                }
+            }else{
+                if(interview.getSpontaneousApplication().getStudent().getId().equals(studentID)){
+                    studentInterviews.add(interview);
+                }
+            }
+        }
+        return studentInterviews;
+    }
 }
 

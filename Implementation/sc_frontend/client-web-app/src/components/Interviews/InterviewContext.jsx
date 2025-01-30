@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { useGlobalContext } from "../../global/GlobalContext";
 import { Alert } from "@mui/material";
 import * as interview from "../../api-calls/api-wrappers/Interview/interview";
@@ -26,22 +26,24 @@ export const InterviewProvider = ({ children }) => {
   const [alertMessage, setAlertMessage] = React.useState("");
   const [alertSeverity, setAlertSeverity] = React.useState("success");
 
-  if (profile.userType != "STUDENT" && profile.userType != "COMPANY") {
-    console.log("User is not a student or company");
-    setOpenAlert(true);
-    setAlertSeverity("error");
-    setAlertMessage("User is not a student or company");
-  } else {
-    interview.getFormattedInterviews(profile.userID).then((response) => {
-      if (response.status === false) {
-        setOpenAlert(true);
-        setAlertSeverity(response.severity);
-        setAlertMessage(response.message);
-      } else {
-        setInterviewData(response.data);
-      }
-    });
-  }
+  useEffect(() => {
+    if (profile.userType != "STUDENT" && profile.userType != "COMPANY") {
+      console.log("User is not a student or company");
+      setOpenAlert(true);
+      setAlertSeverity("error");
+      setAlertMessage("User is not a student or company");
+    } else {
+      interview.getFormattedInterviews(profile.userID).then((response) => {
+        if (response.status === false) {
+          setOpenAlert(true);
+          setAlertSeverity(response.severity);
+          setAlertMessage(response.message);
+        } else {
+          setInterviewData(response.data);
+        }
+      });
+    }
+  }, []);
 
   const value = {
     interviewData,
@@ -51,7 +53,6 @@ export const InterviewProvider = ({ children }) => {
 
   return (
     <InterviewContext.Provider value={value}>
-      {console.log("open alert", openAlert)}
       {openAlert && (
         <>
           <Alert severity={alertSeverity}>{alertMessage}</Alert>

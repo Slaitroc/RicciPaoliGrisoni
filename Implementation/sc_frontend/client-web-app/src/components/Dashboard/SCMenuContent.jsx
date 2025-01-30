@@ -51,9 +51,9 @@ const studentListItems = [
   },
   {
     key: uuidv4(),
-    text: "Confirmed Internship",
+    text: "Internship Positions Offers",
     icon: <SCIcons.SCApartmentIcon />,
-    route: "/dashboard/confirmed-internships",
+    route: "/dashboard/internship-positions-offers",
   },
   {
     key: uuidv4(),
@@ -136,9 +136,9 @@ const companyListItems = [
   // _______??__________
   {
     key: uuidv4(),
-    text: "Confirmed Internship",
+    text: "Internship Positions Offers",
     icon: <SCIcons.SCApartmentIcon />,
-    route: "/dashboard/confirmed-internships",
+    route: "/dashboard/internship-positions-offers",
   },
   {
     key: uuidv4(),

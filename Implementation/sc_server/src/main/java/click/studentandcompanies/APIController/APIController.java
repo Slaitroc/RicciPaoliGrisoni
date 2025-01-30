@@ -384,7 +384,6 @@ public class APIController {
 
     //_________________________ feedback/private __________________________
 
-    //todo, add student_id or company_id to the payload
     @PutMapping("/feedback/private/{RecommendationID}/submit")
     @Operation(summary = "Submit feedback", description = "The payload is a map with 'user_id' (ownership is checked by the backend), 'rating', and any other optional field.")
     @ApiResponses({
@@ -427,6 +426,19 @@ public class APIController {
     public ResponseEntity<List<DTO>> getTemplateInterviews(@RequestHeader("Authorization") String token) {
         String company_id = GetUuid.getUuid(token);
         return new GetInterviewTemplatesCommandCall(interviewManager, company_id).execute();
+    }
+
+    @GetMapping("/interview/private/get-my-int-pos-off")
+    @Operation(summary = "Get internship position offer", description = "Payload will contain the 'student_id'")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Internship positions offer retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Internship position offer not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<List<DTO>> getInternshipPositionOffers(@RequestHeader("Authorization") String token) {
+        String student_id = GetUuid.getUuid(token);
+        return new GetInternshipPositionOffersCommandCall(interviewManager, student_id).execute();
     }
 
 
@@ -516,6 +528,7 @@ public class APIController {
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview position offer sent successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "401", description = "Student is not the owner of the Interview position offer"),
             @ApiResponse(responseCode = "404", description = "Interview not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })

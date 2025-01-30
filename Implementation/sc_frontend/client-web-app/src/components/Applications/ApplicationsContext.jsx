@@ -41,7 +41,7 @@ export const ApplicationsProvider = ({ children }) => {
       console.log("User is a university");
     }
     spontaneousApplication
-      .getFormattedSpontaneousApplications(profile.userID)
+      .getFormattedSpontaneousApplications()
       .then((response) => {
         if (response.success === false) {
           setOpenAlert(true);

@@ -1,8 +1,6 @@
 import { ConfirmEmail } from "../pages/ConfirmEmail";
 import { RouteBase } from "../pages/RouteBase";
 import { SCEditCv } from "../components/CV/SCEditCV";
-import { SCBrowseInternshipPreview } from "../components/BrowseInternshipOffers/SCBrowseInternshipPreview";
-import SCBrowseInternshipOffer from "../components/BrowseInternshipOffers/SCBrowseInternshipOffer";
 import { SCSignUp } from "../components/SignUp/SCSignUp";
 import { createBrowserRouter } from "react-router-dom";
 import { SignUp } from "../pages/SignUp";
@@ -28,7 +26,6 @@ import Applications from "../pages/Applications";
 import Interviews from "../pages/Interviews";
 import Recommendations from "../pages/Recommandations";
 import Communications from "../pages/Communications";
-import ConfInternships from "../pages/ConfInternships";
 import University from "../pages/University";
 import InternshipOffers from "../pages/InternshipOffers";
 import Profile from "../pages/Profile";
@@ -41,6 +38,11 @@ import SCIntOffersPreview from "../components/InternshipOffers/SCIntOffersPrevie
 import BrowseInternshipOffers from "../pages/BrowseInternshipOffers";
 import SCInterview from "../components/Interviews/SCInterview";
 import SCInterviewPreview from "../components/Interviews/SCInterviewPreview";
+import SCBrowseInternshipPreview from "../components/BrowseInternshipOffers/SCBrowseInternshipPreview";
+import SCBrowseInternshipOffer from "../components/BrowseInternshipOffers/SCBrowseInternshipOffer";
+import IntPosOfferPreview from "../components/IntPosOffer/IntPosOfferPreview";
+import IntPosOffer from "../components/IntPosOffer/IntPosOffer";
+import InterviewPosOffer from "../pages/InterviewPosOffer";
 import {
   INIT_USER_TYPE,
   STUDENT_USER_TYPE,
@@ -228,15 +230,26 @@ const router = createBrowserRouter(
                 },
               ],
             },
+            //todo this should be called internship positions offers
             {
-              path: "confirmed-internships",
+              path: "internship-positions-offers",
               element: (
                 <UserCreationRouteProtector
                   allowedTypes={[STUDENT_USER_TYPE, COMPANY_USER_TYPE]}
                 >
-                  <ConfInternships />
+                  <InterviewPosOffer />
                 </UserCreationRouteProtector>
               ),
+              children: [
+                {
+                  path: "",
+                  element: <IntPosOfferPreview />,
+                },
+                {
+                  path: "Internship-positions-offer-detail",
+                  element: <IntPosOffer />,
+                },
+              ],
             },
             {
               path: "communications",

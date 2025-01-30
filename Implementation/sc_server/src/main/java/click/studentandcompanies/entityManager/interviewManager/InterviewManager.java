@@ -2,6 +2,7 @@ package click.studentandcompanies.entityManager.interviewManager;
 
 import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entityManager.UserManager;
+import click.studentandcompanies.entityManager.interviewManager.GET.GetInternshipPosOfferCommand;
 import click.studentandcompanies.entityManager.interviewManager.GET.GetInterviewTemplatesCommand;
 import click.studentandcompanies.entityManager.interviewManager.GET.GetInterviewsCall;
 import click.studentandcompanies.entityManager.interviewManager.POST.*;
@@ -83,5 +84,9 @@ public class InterviewManager {
 
     public List<InterviewTemplate> getTemplates(String companyId) {
         return new GetInterviewTemplatesCommand(companyId, interviewTemplateRepository, userManager).execute();
+    }
+
+    public List<InternshipPosOffer> getInterviewPosOffersOfStudent(String studentID) throws BadInputException, NotFoundException {
+        return new GetInternshipPosOfferCommand(studentID, internshipPosOfferRepository, userManager).execute();
     }
 }

@@ -73,7 +73,7 @@ export default function SCConfInt() {
     <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
       <div>
         <Typography variant="h1" gutterBottom>
-          Confirmed Internship
+          Internship Positions Offers
         </Typography>
       </div>
       <Grid container spacing={2} columns={12}>
