@@ -2,6 +2,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useGlobalContext } from "../global/GlobalContext";
+import { CircularProgress } from "@mui/material";
 import PropTypes from "prop-types";
 import {
   INIT_USER_TYPE,
@@ -11,7 +12,9 @@ import {
 } from "../global/globalStatesInit";
 
 const UserTypeRouteProtector = ({ children, allowedTypes }) => {
-  const { userType } = useGlobalContext();
+  const { userType, loading } = useGlobalContext();
+
+  if (loading) return <CircularProgress size="3rem" />;
 
   if (userType === INIT_USER_TYPE) {
     return <div>Loading user type...</div>;

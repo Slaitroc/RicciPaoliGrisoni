@@ -5,6 +5,7 @@ import React, { useContext, useState, useEffect, useCallback } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { getToken, onMessage } from "firebase/messaging";
 import * as logger from "../logger/logger";
+import * as account from "../api-calls/api-wrappers/account-wrapper/account";
 
 const GlobalContext = React.createContext();
 
@@ -58,6 +59,7 @@ export const GlobalProvider = ({ children }) => {
     // NOTIFICATION & AUTHENTICATION
     // Registra il Service Worker e ottieni il token FCM
     let token = null;
+
     logger.debug("GlobalProvider mounted");
     logger.log("Service Worker registration...");
     navigator.serviceWorker
@@ -159,6 +161,7 @@ export const GlobalProvider = ({ children }) => {
     isAuthenticated,
     profile,
     loading,
+    setLoading,
     error,
     userType,
     selectedFile,
