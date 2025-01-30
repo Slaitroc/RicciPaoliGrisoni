@@ -6,6 +6,7 @@ import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.Message;
 import click.studentandcompanies.entityManager.communicationManager.CommunicationManager;
+import click.studentandcompanies.utils.exception.NoContentException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import click.studentandcompanies.utils.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,9 @@ import java.util.List;
 
 public class GetCommunicationMessagesCommandCall implements APIControllerCommandCall<ResponseEntity<List<DTO>>> {
 
-    Integer commID;
-    String userID;
-    CommunicationManager communicationManager;
+    private final Integer commID;
+    private final String userID;
+    private final CommunicationManager communicationManager;
 
     public GetCommunicationMessagesCommandCall(Integer commID, String userID, CommunicationManager communicationManager) {
         this.commID = commID;
@@ -37,11 +38,13 @@ public class GetCommunicationMessagesCommandCall implements APIControllerCommand
             }
 
             return new ResponseEntity<>(dtos, HttpStatus.OK);
+        }catch (NoContentException e){
+            return new ResponseEntity<>(List.of(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage())), HttpStatus.NO_CONTENT);
         }catch (NotFoundException e){
             return new ResponseEntity<>(List.of(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage())), HttpStatus.NOT_FOUND);
         }catch (UnauthorizedException e){
             return new ResponseEntity<>(List.of(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage())), HttpStatus.UNAUTHORIZED);
-        } catch (Exception e){
+        }catch (Exception e){
             return new ResponseEntity<>(List.of(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage())), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

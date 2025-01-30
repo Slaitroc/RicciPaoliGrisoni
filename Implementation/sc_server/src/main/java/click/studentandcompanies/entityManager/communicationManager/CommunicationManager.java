@@ -36,7 +36,7 @@ public class CommunicationManager {
     }
 
     public List<Message> getCommunicationMessages(Integer commID, String userID) throws NotFoundException, UnauthorizedException {
-        return new GetCommunicationMessagesCommand(messageRepository, commID, userID).execute();
+        return new GetCommunicationMessagesCommand(messageRepository, communicationRepository, commID, userID).execute();
     }
 
     public Communication createCommunication(Map<String, Object> payload) throws NotFoundException, BadInputException{

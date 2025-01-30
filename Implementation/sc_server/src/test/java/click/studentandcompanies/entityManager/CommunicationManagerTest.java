@@ -146,24 +146,40 @@ class CommunicationManagerTest extends EntityFactory {
                                             setNewCompany(20, "Google", "US")));
         comm.setId(100);
 
+        Communication comm2 = setNewCommunication(
+                setNewStudent(10, "Marco",
+                        setNewUniversity(1, "Uni", "IT")),
+                setNewInternshipOffer(
+                        setNewCompany(22, "Amazon", "US")));
+        comm.setId(110);
+
         when(communicationRepository.getCommunicationById(100)).thenReturn(comm);
         when(messageRepository.getMessagesByCommunication_Id(100)).thenReturn(List.of(
                 setNewMessage(1, "Hello", "Marco", comm),
                 setNewMessage(2, "Hi", "Google", comm)
         ));
+        when(messageRepository.getMessagesByCommunication_Id(110)).thenReturn(List.of());
 
         // Authorized
         when(userManager.getUserType("10")).thenReturn(UserType.STUDENT);
+        when(userManager.getUserType("999")).thenReturn(UserType.UNKNOWN);
+        when(communicationRepository.findById(100)).thenReturn(Optional.of(comm));
         List<Message> fetched = communicationManager.getCommunicationMessages(100, "10");
         assertEquals(1, fetched.getFirst().getId());
+        assertEquals("Hi", fetched.getLast().getBody());
 
         // NotFound
         when(communicationRepository.getCommunicationById(999)).thenReturn(null);
+        when(messageRepository.getMessagesByCommunication_Id(999)).thenReturn(null);
         assertThrows(NotFoundException.class, () -> communicationManager.getCommunicationMessages(999, "10"));
-
         // Unauthorized
         when(userManager.getUserType("99")).thenReturn(UserType.STUDENT);
         assertThrows(UnauthorizedException.class, () -> communicationManager.getCommunicationMessages(100, "99"));
+        assertThrows(UnauthorizedException.class, () -> communicationManager.getCommunicationMessages(100, "999"));
+
+        // NoContent
+        when(communicationRepository.findById(110)).thenReturn(Optional.of(comm2));
+        assertThrows(NoContentException.class, () -> communicationManager.getCommunicationMessages(110, "10"));
     }
 
     @Test
