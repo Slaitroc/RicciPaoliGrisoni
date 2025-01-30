@@ -141,12 +141,11 @@ export const updateOffer = async (offer) => {
   );
 };
 
-export const getStudentCV = async (studentID) => {
+export const getStudentCV = async (userID) => {
   const token = await getToken();
-  logger.debug(JSON.stringify({ studentID }));
-  logger.debug("Token: ", token);
+  logger.focus(userID);
   return fetchWrapper(
-    `/application-api/sub/private/cv/${studentID}/get-student-cv`,
+    `/application-api/sub/private/cv/${userID}/get-student-cv`,
     {
       method: "GET",
       headers: {
@@ -157,17 +156,15 @@ export const getStudentCV = async (studentID) => {
   );
 };
 
-export const updateMyCV = async (cv) => {
+export const updateMyCV = async (cvData) => {
   const token = await getToken();
-  logger.debug(JSON.stringify({ ...cv }));
-  logger.debug("Token: ", token);
-  return fetchWrapper(`/application-api/sub/private/cv/update-cv`, {
+  return fetchWrapper(`/application-api/sub/private/cv/update-my-cv`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ ...cv }),
+    body: JSON.stringify({ ...cvData }),
   });
 };
 
