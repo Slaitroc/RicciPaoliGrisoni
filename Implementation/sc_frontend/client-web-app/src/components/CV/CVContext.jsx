@@ -38,8 +38,8 @@ export const CVProvider = ({ children }) => {
       label: "Contacts",
       value: "Update with your infos!",
     },
-    spokenLanguage: {
-      serverField: "spokenLanguage",
+    spokenLanguages: {
+      serverField: "spokenLanguages",
       label: "Spoken Language",
       value: "Update with your infos!",
     },
@@ -53,14 +53,14 @@ export const CVProvider = ({ children }) => {
       label: "Certifications",
       value: "Update with your infos!",
     },
-    workExperience: {
-      serverField: "workExperience",
+    workExperiences: {
+      serverField: "workExperiences",
       label: "Work Experience",
       value: "Update with your infos!",
     },
     updateTime: {
       serverField: "updateTime",
-      label: "Update Time",
+      label: "Last Update",
       value: null,
     },
     project: {
@@ -77,7 +77,6 @@ export const CVProvider = ({ children }) => {
   const [openAlert, setOpenAlert] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState("");
   const [alertSeverity, setAlertSeverity] = React.useState("success");
-
   useEffect(() => {
     logger.debug("CVProvider mounted");
     cv.getStudentCV(profile.userID)
@@ -118,7 +117,6 @@ export const CVProvider = ({ children }) => {
 
   return (
     <CVContext.Provider value={value}>
-      <div style={{height: "30px"}}></div>
       {openAlert && <Alert severity={alertSeverity}>{alertMessage}</Alert>}
       {children}
     </CVContext.Provider>

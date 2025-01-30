@@ -48,12 +48,13 @@ export const getStudentCV = async (userID) => {
           const fieldMap = new Map();
           fieldMap.set("studentID", "Student ID");
           fieldMap.set("id", "Curriculum ID");
+          fieldMap.set("updateTime", "Last Update");
           fieldMap.set("studentName", "Student Name");
           fieldMap.set("contacts", "Contacts");
-          fieldMap.set("spokenLanguage", "Spoken Language");
+          fieldMap.set("spokenLanguages", "Spoken Language");
           fieldMap.set("education", "Education");
           fieldMap.set("certifications", "Certifications");
-          fieldMap.set("workExperience", "Work Experience");
+          fieldMap.set("workExperiences", "Work Experience");
           fieldMap.set("project", "Projects");
           fieldMap.set("skills", "Skills");
 
@@ -65,7 +66,7 @@ export const getStudentCV = async (userID) => {
               value: data.properties[key], // Valore ricevuto dal server
             };
           });
-          logger.focus("OrderedCV", orderedCV);
+          logger.focus("Received OrderedCV", orderedCV);
 
           return {
             success: true,
@@ -89,6 +90,8 @@ export const updateMyCV = async (cvData) => {
     }
     formattedCvData[key] = value.value;
   });
+
+  logger.focus("Sent CV", formattedCvData);
 
   return apiCalls
     .updateMyCV(formattedCvData)
