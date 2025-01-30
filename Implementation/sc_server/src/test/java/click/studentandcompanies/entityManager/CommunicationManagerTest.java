@@ -4,6 +4,7 @@ import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entity.dbEnum.CommunicationTypeEnum;
 import click.studentandcompanies.entityManager.communicationManager.CommunicationManager;
 import click.studentandcompanies.entityRepository.CommunicationRepository;
+import click.studentandcompanies.entityRepository.MessageRepository;
 import click.studentandcompanies.utils.UserType;
 import click.studentandcompanies.utils.exception.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +22,8 @@ class CommunicationManagerTest extends EntityFactory {
     private UserManager userManager;
     @Mock
     private CommunicationRepository communicationRepository;
+    @Mock
+    private MessageRepository messageRepository;
     @InjectMocks
     private CommunicationManager communicationManager;
 
@@ -134,7 +137,7 @@ class CommunicationManagerTest extends EntityFactory {
     }
 
     @Test
-    void testGetCommunication() throws NotFoundException, UnauthorizedException {
+    void testGetCommunicationMessages() throws NotFoundException, UnauthorizedException {
         // Communication exists
         Communication comm = setNewCommunication(
                                     setNewStudent(10, "Marco",
@@ -144,19 +147,23 @@ class CommunicationManagerTest extends EntityFactory {
         comm.setId(100);
 
         when(communicationRepository.getCommunicationById(100)).thenReturn(comm);
+        when(messageRepository.getMessagesByCommunication_Id(100)).thenReturn(List.of(
+                setNewMessage(1, "Hello", "Marco", comm),
+                setNewMessage(2, "Hi", "Google", comm)
+        ));
 
         // Authorized
         when(userManager.getUserType("10")).thenReturn(UserType.STUDENT);
-        Communication fetched = communicationManager.getCommunication(100, "10");
-        assertEquals(100, fetched.getId());
+        List<Message> fetched = communicationManager.getCommunicationMessages(100, "10");
+        assertEquals(1, fetched.getFirst().getId());
 
         // NotFound
         when(communicationRepository.getCommunicationById(999)).thenReturn(null);
-        assertThrows(NotFoundException.class, () -> communicationManager.getCommunication(999, "10"));
+        assertThrows(NotFoundException.class, () -> communicationManager.getCommunicationMessages(999, "10"));
 
         // Unauthorized
         when(userManager.getUserType("99")).thenReturn(UserType.STUDENT);
-        assertThrows(UnauthorizedException.class, () -> communicationManager.getCommunication(100, "99"));
+        assertThrows(UnauthorizedException.class, () -> communicationManager.getCommunicationMessages(100, "99"));
     }
 
     @Test

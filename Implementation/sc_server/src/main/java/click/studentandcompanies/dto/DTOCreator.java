@@ -16,22 +16,33 @@ public class DTOCreator {
     //(sam) okie dokie
     private static final Map<DTOTypes, Function<Object, DTO>> functionMap = new HashMap<>();
     static {
+        //functionMap.put(DTOTypes.STUDENT_V2, obj -> createStudentDTOV2((Student) obj));
+        functionMap.put(DTOTypes.CV, object -> createCVDTO((Cv) object));
         functionMap.put(DTOTypes.ERROR, obj -> createErrorDTO((String) obj));
         functionMap.put(DTOTypes.STUDENT, obj -> createStudentDTO((Student) obj));
-        //functionMap.put(DTOTypes.STUDENT_V2, obj -> createStudentDTOV2((Student) obj));
-        functionMap.put(DTOTypes.UNIVERSITY, obj -> createUniversityDTO((University) obj));
-        functionMap.put(DTOTypes.RECOMMENDATION_UPDATED_STATUS, object -> createRecommendationUpdatedStatusDTO((Recommendation) object));
-        functionMap.put(DTOTypes.INTERNSHIP_OFFER, object -> createInternshipOfferDTO((InternshipOffer) object));
-        functionMap.put(DTOTypes.CV, object -> createCVDTO((Cv) object));
-        functionMap.put(DTOTypes.SPONTANEOUS_APPLICATION, object -> createSpontaneousApplicationDTO((SpontaneousApplication) object));
+        functionMap.put(DTOTypes.ACCOUNT, object -> createAccountDTO((Account) object));
+        functionMap.put(DTOTypes.MESSAGE, object -> createMessageDTO((Message) object));
         functionMap.put(DTOTypes.FEEDBACK, object -> createFeedbackDTO((Feedback) object));
-        functionMap.put(DTOTypes.RECOMMENDATION, object -> createRecommendationDTO((Recommendation) object));
-        functionMap.put(DTOTypes.COMMUNICATION, object -> createCommunicationDTO((Communication) object));
         functionMap.put(DTOTypes.INTERVIEW, object -> createInterviewDTO((Interview) object));
+        functionMap.put(DTOTypes.UNIVERSITY, obj -> createUniversityDTO((University) obj));
+        functionMap.put(DTOTypes.COMMUNICATION, object -> createCommunicationDTO((Communication) object));
+        functionMap.put(DTOTypes.UNIVERSITY_MAP, object -> createUniversityMapDTO((Map<String, Integer>) object));
+        functionMap.put(DTOTypes.RECOMMENDATION, object -> createRecommendationDTO((Recommendation) object));
+        functionMap.put(DTOTypes.INTERNSHIP_OFFER, object -> createInternshipOfferDTO((InternshipOffer) object));
         functionMap.put(DTOTypes.INTERVIEW_TEMPLATE, object -> createInterviewTemplateDTO((InterviewTemplate) object));
         functionMap.put(DTOTypes.INTERNSHIP_POS_OFFER, object -> createInternshipPosOfferDTO((InternshipPosOffer) object));
-        functionMap.put(DTOTypes.ACCOUNT, object -> createAccountDTO((Account) object));
-        functionMap.put(DTOTypes.UNIVERSITY_MAP, object -> createUniversityMapDTO((Map<String, Integer>) object));
+        functionMap.put(DTOTypes.SPONTANEOUS_APPLICATION, object -> createSpontaneousApplicationDTO((SpontaneousApplication) object));
+        functionMap.put(DTOTypes.RECOMMENDATION_UPDATED_STATUS, object -> createRecommendationUpdatedStatusDTO((Recommendation) object));
+    }
+
+    private static DTO createMessageDTO(Message object) {
+        final DTO messageDTO = new DTO();
+        messageDTO.addProperty("id", object.getId());
+        messageDTO.addProperty("body", object.getBody());
+        messageDTO.addProperty("timeStamp", object.getTimeStamp());
+        messageDTO.addProperty("senderName", object.getSenderName());
+        messageDTO.addProperty("receiverID", object.getCommunication().getTitle());
+        return messageDTO;
     }
 
     private static DTO createUniversityMapDTO(Map<String, Integer> universities) {
@@ -197,7 +208,6 @@ public class DTOCreator {
         communicationDTO.addProperty("id", communication.getId());
         communicationDTO.addProperty("type", communication.getCommunicationType());
         communicationDTO.addProperty("title", communication.getTitle());
-        communicationDTO.addProperty("content", communication.getContent());
         communicationDTO.addProperty("internshipOfferID", communication.getInternshipOffer().getId());
         communicationDTO.addProperty("internshipOfferTitle", communication.getInternshipOffer().getTitle());
         communicationDTO.addProperty("companyName", communication.getInternshipOffer().getCompany().getName());

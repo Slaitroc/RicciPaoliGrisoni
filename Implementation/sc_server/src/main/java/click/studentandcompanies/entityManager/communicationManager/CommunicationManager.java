@@ -1,40 +1,41 @@
 package click.studentandcompanies.entityManager.communicationManager;
 
 import click.studentandcompanies.entity.Communication;
+import click.studentandcompanies.entity.Message;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.communicationManager.communicationManagerCommands.GET.GetAllUserCommunicationsCommand;
-import click.studentandcompanies.entityManager.communicationManager.communicationManagerCommands.GET.GetCommunicationCommand;
+import click.studentandcompanies.entityManager.communicationManager.communicationManagerCommands.GET.GetCommunicationMessagesCommand;
 import click.studentandcompanies.entityManager.communicationManager.communicationManagerCommands.POST.CreateCommunicationCommand;
 import click.studentandcompanies.entityManager.communicationManager.communicationManagerCommands.POST.TerminateCommunicationCommand;
 import click.studentandcompanies.entityRepository.CommunicationRepository;
-import click.studentandcompanies.utils.UserType;
+import click.studentandcompanies.entityRepository.MessageRepository;
 import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NoContentException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import click.studentandcompanies.utils.exception.UnauthorizedException;
-import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class CommunicationManager {
     private final UserManager userManager;
     private final CommunicationRepository communicationRepository;
+    private final MessageRepository messageRepository;
 
-    public CommunicationManager(UserManager userManager, CommunicationRepository communicationRepository) {
+    public CommunicationManager(UserManager userManager, CommunicationRepository communicationRepository, MessageRepository messageRepository) {
         this.userManager = userManager;
         this.communicationRepository = communicationRepository;
+        this.messageRepository = messageRepository;
     }
 
     public List<Communication> getAllUserCommunications(String userID) throws NotFoundException, NoContentException {
         return new GetAllUserCommunicationsCommand(userManager, communicationRepository, userID).execute();
     }
 
-    public Communication getCommunication(Integer commID, String userID) throws NotFoundException, UnauthorizedException {
-        return new GetCommunicationCommand(communicationRepository, commID, userID).execute();
+    public List<Message> getCommunicationMessages(Integer commID, String userID) throws NotFoundException, UnauthorizedException {
+        return new GetCommunicationMessagesCommand(messageRepository, commID, userID).execute();
     }
 
     public Communication createCommunication(Map<String, Object> payload) throws NotFoundException, BadInputException{

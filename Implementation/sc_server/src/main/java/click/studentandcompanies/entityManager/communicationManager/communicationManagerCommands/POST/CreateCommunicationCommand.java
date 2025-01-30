@@ -9,7 +9,6 @@ import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import click.studentandcompanies.utils.exception.WrongStateException;
 
-import java.util.List;
 import java.util.Map;
 
 public class CreateCommunicationCommand implements CommunicationManagerCommands<Communication> {
@@ -30,12 +29,12 @@ public class CreateCommunicationCommand implements CommunicationManagerCommands<
         InternshipOffer internshipOffer = userManager.getInternshipOfferById((Integer) payload.get("internshipOffer_id"));
         University university = userManager.getUniversityById((String) payload.get("university_id"));
         CommunicationTypeEnum communicationType = CommunicationTypeEnum.valueOf((String) payload.get("communication_type"));
-        Communication communication = new Communication(student, internshipOffer, university, (String) payload.get("title"), (String) payload.get("content"), communicationType);
+        Communication communication = new Communication(student, internshipOffer, university, (String) payload.get("title"), communicationType);
         communicationRepository.save(communication);
         return communication;
     }
 
-    //payload will contain the 'student_id', 'internshipOffer_id', 'university_id', 'title', 'content', 'communication_type'
+    //payload will contain the 'student_id', 'internshipOffer_id', 'university_id', 'title', 'communication_type'
     private void validateInput(Map<String, Object> payload) {
         if (payload.get("student_id") == null) {
             System.out.println("Student id not found");
@@ -52,10 +51,6 @@ public class CreateCommunicationCommand implements CommunicationManagerCommands<
         if (payload.get("title") == null) {
             System.out.println("Title not found");
             throw new BadInputException("Title not found");
-        }
-        if (payload.get("content") == null) {
-            System.out.println("Content not found");
-            throw new BadInputException("Content not found");
         }
         if(payload.get("communication_type") == null){
             System.out.println("Communication type not found");

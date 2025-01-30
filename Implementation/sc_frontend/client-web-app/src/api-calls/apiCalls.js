@@ -287,7 +287,7 @@ export const getMyCommunications = async () => {
 export const getCommunication = async (communicationID) => {
   const token = await getToken();
   return fetchWrapper(
-    `/comm/private/communication/${communicationID}/get-comm`,
+    `/comm/private/communication/${communicationID}/get-messages`,
     {
       method: "GET",
       headers: {

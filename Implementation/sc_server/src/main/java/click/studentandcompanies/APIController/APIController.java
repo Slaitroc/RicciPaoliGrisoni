@@ -336,17 +336,17 @@ public class APIController {
     }
 
 
-    @GetMapping("/comm/private/communication/{commID}/get-comm")
-    @Operation(summary = "User userID requests the communication commID", description = "Get the communication commID for the user userID.")
+    @GetMapping("/comm/private/communication/{commID}/get-messages")
+    @Operation(summary = "Get communication messages", description = "Get the messages of a specific communication.")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Ok, Communication retrieved successfully"),
+            @ApiResponse(responseCode = "200", description = "Ok, Messages retrieved successfully"),
             @ApiResponse(responseCode = "401", description = "Unauthorized, User is not participating in the communication"),
             @ApiResponse(responseCode = "404", description = "Not Found, Communication ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> getCommunication(@RequestHeader("Authorization") String token, @PathVariable("commID") Integer commID) {
+    public ResponseEntity<List<DTO>> getCommunication(@RequestHeader("Authorization") String token, @PathVariable("commID") Integer commID) {
         String userID = GetUuid.getUuid(token);
-        return new GetCommunicationCommandCall(commID, userID, communicationManager).execute();
+        return new GetCommunicationMessagesCommandCall(commID, userID, communicationManager).execute();
     }
 
 
