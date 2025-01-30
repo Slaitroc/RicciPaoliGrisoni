@@ -86,35 +86,59 @@ export const GlobalProvider = ({ children }) => {
 
     onAuthStateChanged(firebaseConfig.auth, (user) => {
       if (user) {
-        logger.log("Utente autenticato:", user.email);
+        account.getUserData().then((response) => {
+          if (response.status === 400) {
+            logger.debug("- AUTH: Token mancante nella richiesta.");
+          }
+          if (response.status === 204) {
+            logger.debug("- AUTH: Dati utente non trovati.");
+            setIsEmailVerified(false);
+          }
+          if (response.status === 200) {
+            response.json().then((data) => {
+              logger.debug("- AUTH: Dati utente:", data);
+              setUserType(data.properties.userType);
+              setProfile(data.properties);
+              if (data.properties.validate) setIsEmailVerified(true);
+              else setIsEmailVerified(false);
+            });
+          }
+        });
+        logger.log("- AUTH: Utente autenticato:", user.email);
         setIsAuthenticated(true);
         // Controlla se l'email è stata verificata
         if (!user.emailVerified) {
-          logger.log("Email non verificata con firebase.");
+          logger.log("- AUTH: Email non verificata con firebase.");
         } else {
-          logger.log("Email verificata.");
+          logger.log("- AUTH: Email verificata.");
           setIsEmailVerified(true);
         }
         // Invia il token FCM al server
         if (token) {
           // FIX crea wrapper notification
-          logger.log("FCM token:", token);
+          logger.log("- AUTH: FCM token:", token);
           apiCalls.sendNotificationToken(token).then((response) => {
             if (!response.ok) {
-              logger.log("Errore durante l'invio del token FCM:", response);
+              logger.log(
+                "- AUTH: Errore durante l'invio del token FCM:",
+                response
+              );
             } else {
-              logger.log("Token FCM inviato con successo.");
+              logger.log("- AUTH: Token FCM inviato con successo.");
             }
           });
         }
       } else {
-        logger.log("Nessun utente autenticato. Token FCM non inviato.");
+        logger.log("- AUTH: Nessun utente autenticato.");
+        logger.log("- AUTH:  Token FCM non inviato.");
         setIsAuthenticated(false);
       }
+      setLoading(false);
     });
+
     // Gestisce le notifiche in foreground
     onMessage(firebaseConfig.messaging, (payload) => {
-      logger.log("Messaggio ricevuto in foreground:", payload);
+      logger.log("- NOTIFICATION: Messaggio ricevuto in foreground:", payload);
       // Mostra una notifica o aggiorna l'interfaccia utente
       setNotification((prev) => [...prev, payload]);
       // Rimuove automaticamente la notifica dopo 5 secondi
