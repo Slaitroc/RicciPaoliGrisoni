@@ -91,6 +91,7 @@ export const SCUserCreation = () => {
       if (response.status === 200) {
         response.json().then((data) => {
           setProfile(data.properties);
+          //NAV 
           navigate("/dashboard");
         });
       }

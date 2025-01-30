@@ -9,6 +9,7 @@ function SCBackHomeButton({ showBadge = false, ...props }) {
   const navigate = useNavigate(); // Inizializza il navigatore
 
   const handleClick = () => {
+    //NAV
     navigate("/"); // Naviga alla home ("/" è il percorso della home)
   };
 
