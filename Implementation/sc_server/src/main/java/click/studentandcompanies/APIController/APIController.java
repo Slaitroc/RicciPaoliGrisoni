@@ -374,7 +374,7 @@ public class APIController {
     })
     public ResponseEntity<DTO> createCommunication(@RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
         String student_id = GetUuid.getUuid(token);
-        payload.put("student_id", student_id);
+        payload.put("user_id", student_id);
         return new CreateCommunicationCommandCall(communicationManager, notificationManager, payload).execute();
     }
 
