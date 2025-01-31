@@ -75,10 +75,13 @@ public class DTOCreator {
             internshipPosOfferDTO.addProperty("internshipTitle", internshipPosOffer.getInterview().getRecommendation().getInternshipOffer().getTitle());
             internshipPosOfferDTO.addProperty("internshipOfferID", internshipPosOffer.getInterview().getRecommendation().getInternshipOffer().getId());
             internshipPosOfferDTO.addProperty("companyName", internshipPosOffer.getInterview().getRecommendation().getInternshipOffer().getCompany().getName());
+            internshipPosOfferDTO.addProperty("studentName", internshipPosOffer.getInterview().getRecommendation().getCv().getStudent().getName());
+
         }else { //spontaneous application
             internshipPosOfferDTO.addProperty("internshipTitle", internshipPosOffer.getInterview().getSpontaneousApplication().getInternshipOffer().getTitle());
             internshipPosOfferDTO.addProperty("internshipOfferID", internshipPosOffer.getInterview().getSpontaneousApplication().getInternshipOffer().getId());
             internshipPosOfferDTO.addProperty("companyName", internshipPosOffer.getInterview().getSpontaneousApplication().getInternshipOffer().getCompany().getName());
+            internshipPosOfferDTO.addProperty("studentName", internshipPosOffer.getInterview().getSpontaneousApplication().getStudent().getName());
         }
         return internshipPosOfferDTO;
     }
