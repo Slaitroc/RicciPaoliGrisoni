@@ -40,7 +40,7 @@ public class DTOCreator {
         messageDTO.addProperty("body", object.getBody());
         messageDTO.addProperty("timeStamp", object.getTimeStamp());
         messageDTO.addProperty("senderName", object.getSenderName());
-        messageDTO.addProperty("receiverID", object.getCommunication().getTitle());
+        messageDTO.addProperty("communicationTitle", object.getCommunication().getTitle());
         return messageDTO;
     }
 

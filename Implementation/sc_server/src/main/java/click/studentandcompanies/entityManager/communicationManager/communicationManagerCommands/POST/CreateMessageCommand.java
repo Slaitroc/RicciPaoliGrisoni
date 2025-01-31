@@ -36,7 +36,7 @@ public class CreateMessageCommand implements CommunicationManagerCommands<Messag
         //here I check if the communication exists
         Communication communication = communicationRepository.findById(commID).orElseThrow(() -> new NotFoundException("Communication not found"));
         Message message = new Message();
-        ;
+
         Recommendation recommendationOfCommunication = communication.getInternshipPosOff().getInterview().getRecommendation();
         SpontaneousApplication spontaneousApplicationOfCommunication = communication.getInternshipPosOff().getInterview().getSpontaneousApplication();
         //complete the message with the communication and the body and save it

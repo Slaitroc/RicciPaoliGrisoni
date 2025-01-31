@@ -390,7 +390,7 @@ public class APIController {
     })
     public ResponseEntity<DTO> createCommunicationMessage(@PathVariable("commID") Integer commID, @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
         String userID = GetUuid.getUuid(token);
-        return new CreateCommunicationMessageCommandCall(communicationManager, userID, commID, payload).execute();
+        return new CreateCommunicationMessageCommandCall(communicationManager, userID, commID, payload, notificationManager).execute();
     }
 
 
