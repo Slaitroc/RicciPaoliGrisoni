@@ -41,15 +41,15 @@ const SCDashboard = (props) => {
               : alpha(theme.palette.background.default, 1),
           })}
         >
-          <Box display="flex" flexDirection="column" padding={2}>
+          <Box display="flex" flexDirection="column" paddingTop={2} paddingBottom={1} paddingRight={4} paddingLeft={4}>
             <Box>
               <SCHeader />
             </Box>
-            <Box padding={3}>
+            <Box paddingLeft={0} paddingTop={3}>
+              <Box height={{xs: "30px", sm:"30px", md: "0px"}}></Box>
               <Outlet />
             </Box>
           </Box>
-          {/* <MainGrid /> */}
         </Box>
       </Box>
     </AppTheme>

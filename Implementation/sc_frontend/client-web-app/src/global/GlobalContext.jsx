@@ -88,30 +88,14 @@ export const GlobalProvider = ({ children }) => {
       });
 
     onAuthStateChanged(firebaseConfig.auth, async (user) => {
-      if (user) {
-        // account.getUserData().then((response) => {
-        //   if (response.status === 400) {
-        //     logger.debug("- AUTH: Token mancante nella richiesta.");
-        //   }
-        //   if (response.status === 204) {
-        //     logger.debug("- AUTH: Dati utente non trovati.");
-        //     setIsEmailVerified(false);
-        //   }
-        //   if (response.status === 200) {
-        //     response.json().then((data) => {
-        //       logger.debug("- AUTH: Dati utente:", data);
-        //       setUserType(data.properties.userType);
-        //       setProfile(data.properties);
-        //       if (data.properties.validate) setIsEmailVerified(true);
-        //       else setIsEmailVerified(false);
-        //     });
-        //   }
-        // });
-        const response = await account.getUserData();
-        if (response.status === 400) {
-          logger.debug("- AUTH: Token mancante nella richiesta.");
-        }
-        if (response.status === 204) {
+      try{
+
+        if (user) {
+          const response = await account.getUserData();
+          if (response.status === 400) {
+            logger.debug("- AUTH: Token mancante nella richiesta.");
+          }
+          if (response.status === 204) {
           logger.debug("- AUTH: Dati utente non trovati.");
           setIsEmailVerified(false);
         }
@@ -123,7 +107,7 @@ export const GlobalProvider = ({ children }) => {
           if (data.properties.validate) setIsEmailVerified(true);
           else setIsEmailVerified(false);
         }
-
+        
         logger.log("- AUTH: Utente autenticato:", user.email);
         setIsAuthenticated(true);
         // Controlla se l'email è stata verificata
@@ -154,6 +138,11 @@ export const GlobalProvider = ({ children }) => {
         setIsAuthenticated(false);
       }
       setLoading(false);
+    } catch (error) {
+      logger.error("Errore durante la verifica dell'utente:", error);
+      setIsAuthenticated(false);
+      setLoading(false);
+    }
     });
 
     // Gestisce le notifiche in foreground
