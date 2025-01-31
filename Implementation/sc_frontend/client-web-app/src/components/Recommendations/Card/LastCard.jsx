@@ -141,7 +141,7 @@ export default function RecommendationCard({ profile }) {
               variant="body2"
               sx={{ color: "text.primary", fontWeight: "bold" }}
             >
-              Extra Information1:
+              Extra Information 1:
             </Typography>
             {" extra information 1"}
           </Typography>

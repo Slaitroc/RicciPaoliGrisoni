@@ -106,10 +106,10 @@ export const SCEditCv = () => {
               Edit your data and click Save Changes to update your CV.
             </Typography>
             <Typography variant="h6" inline>
-                Remember:
+              Remember:
               <Typography inline variant="body1">
-              Using keywords instead of long phrases increases the chances of
-              getting a match in the recommendation process.
+                Using keywords instead of long phrases increases the chances of
+                getting a match in the recommendation process.
               </Typography>
             </Typography>
           </Alert>
