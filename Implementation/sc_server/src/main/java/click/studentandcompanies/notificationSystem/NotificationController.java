@@ -46,5 +46,11 @@ public class NotificationController {
         return HttpStatus.OK;
     }
 
+    @GetMapping("/private/get-notifications")
+    public List<NotificationDTO> getNotifications(@RequestHeader("Authorization") String authToken) {
+        String userID = GetUuid.getUuid(authToken);
+        return notificationManager.getNotifications(userID).stream().map(notification -> new NotificationDTO(notification.getId(), notification.getTitle(), notification.getBody())).toList();
+    }
+
 
 }

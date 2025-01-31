@@ -22,6 +22,7 @@ export const GlobalProvider = ({ children }) => {
   // NOTIFICATION
   const [showNotification, setShowNotification] = useState(false);
   const [notification, setNotification] = useState([]);
+  const [showNotificationAlert, setShowNotificationAlert] = useState(false);
 
   // AUTHENTICATION
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -175,7 +176,7 @@ export const GlobalProvider = ({ children }) => {
     showNotification,
     notification,
     isEmailVerified,
-    setNotification,
+    setShowNotificationAlert,
     setShowNotification,
     setIsEmailVerified,
     setUserType,

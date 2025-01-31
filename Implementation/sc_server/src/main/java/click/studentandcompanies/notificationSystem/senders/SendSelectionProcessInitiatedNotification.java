@@ -31,7 +31,7 @@ public class SendSelectionProcessInitiatedNotification implements SenderInterfac
         String studentBody = "The selection process for the internship \"" + internshipTitle +
                 "\" for the company " + company_name + " has been initiated.";
         String companyTitle = "Selection Process Initiated";
-        String companyBody = studentName + " is your new candidate for the internship " + internshipTitle;
+        String companyBody = studentName + " is your new candidate for the internship \"" + internshipTitle + "\".";
 
         NotificationPayload studentPayload = new NotificationPayload(studentTitle, studentBody);
         EmailContent studentEmailContent = new EmailContent(studentTitle, studentBody);

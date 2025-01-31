@@ -15,7 +15,7 @@ public class SendInternshipPositionOfferAcceptedNotification implements SenderIn
         //List<String> emails = getEmails(userIDs, notificationManager);
 
         String pushTitle = "Accepted Internship Offer";
-        String pushBody = "Congratulations! The candidate has accepted the internship offer";
+        String pushBody = "Congratulations! The candidate has accepted the internship offer \"" + data.getProperties().get("internshipTitle") + "\".";
 
         NotificationPayload payload = new NotificationPayload(pushTitle, pushBody);
         //EmailContent emailContent = new EmailContent(pushTitle, pushBody);

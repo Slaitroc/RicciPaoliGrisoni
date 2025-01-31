@@ -70,9 +70,16 @@ public class DTOCreator {
         final DTO internshipPosOfferDTO = new DTO();
         internshipPosOfferDTO.addProperty("id", internshipPosOffer.getId());
         internshipPosOfferDTO.addProperty("status", internshipPosOffer.getStatus().toString());
-        internshipPosOfferDTO.addProperty("internshipTitle", internshipPosOffer.getInterview().getRecommendation().getInternshipOffer().getTitle());
-        internshipPosOfferDTO.addProperty("companyName", internshipPosOffer.getInterview().getRecommendation().getInternshipOffer().getCompany().getName());
         internshipPosOfferDTO.addProperty("interviewID", internshipPosOffer.getInterview().getId());
+        if(internshipPosOffer.getInterview().getRecommendation() != null) {
+            internshipPosOfferDTO.addProperty("internshipTitle", internshipPosOffer.getInterview().getRecommendation().getInternshipOffer().getTitle());
+            internshipPosOfferDTO.addProperty("internshipOfferID", internshipPosOffer.getInterview().getRecommendation().getInternshipOffer().getId());
+            internshipPosOfferDTO.addProperty("companyName", internshipPosOffer.getInterview().getRecommendation().getInternshipOffer().getCompany().getName());
+        }else { //spontaneous application
+            internshipPosOfferDTO.addProperty("internshipTitle", internshipPosOffer.getInterview().getSpontaneousApplication().getInternshipOffer().getTitle());
+            internshipPosOfferDTO.addProperty("internshipOfferID", internshipPosOffer.getInterview().getSpontaneousApplication().getInternshipOffer().getId());
+            internshipPosOfferDTO.addProperty("companyName", internshipPosOffer.getInterview().getSpontaneousApplication().getInternshipOffer().getCompany().getName());
+        }
         return internshipPosOfferDTO;
     }
     private static DTO createInterviewTemplateDTO(InterviewTemplate interviewTemplate){
@@ -205,7 +212,7 @@ public class DTOCreator {
         communicationDTO.addProperty("type", communication.getCommunicationType());
         communicationDTO.addProperty("title", communication.getTitle());
         communicationDTO.addProperty("content", communication.getContent());
-        communicationDTO.addProperty("communicationType", communication.getCommunicationType());
+        communicationDTO.addProperty("participantType", communication.getParticipantType());
         communicationDTO.addProperty("communicationType", communication.getCommunicationType());
         communicationDTO.addProperty("updateTime", communication.getUpdateTime());
         /*--------------------*/
