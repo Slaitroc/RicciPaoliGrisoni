@@ -365,7 +365,7 @@ public class APIController {
 
 
     @PostMapping("/comm/private/create-comm")
-    @Operation(summary = "Create communication", description = "payload will contain the 'student_id', 'internshipOffer_id', 'university_id', 'title', 'content', 'communication_type' (communication, complaint)")
+    @Operation(summary = "Create communication", description = "payload will contain the ")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Communication created successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -373,8 +373,8 @@ public class APIController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> createCommunication(@RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
-        String student_id = GetUuid.getUuid(token);
-        payload.put("user_id", student_id);
+        String user_id = GetUuid.getUuid(token);
+        payload.put("user_id", user_id);
         return new CreateCommunicationCommandCall(communicationManager, notificationManager, payload).execute();
     }
 
