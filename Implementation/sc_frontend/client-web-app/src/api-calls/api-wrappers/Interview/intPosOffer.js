@@ -24,19 +24,9 @@ export const getFormattedInterviewPosOffers = async () => {
         });
       } else {
         return response.json().then((payload) => {
-          const formattedData = payload.map((interview) => {
-            const { properties } = interview;
-            return {
-              id: properties.id,
-              status: properties.status,
-              interviewID: properties.interviewID,
-              companyName: properties.companyName,
-              internshipTitle: properties.internshipTitle,
-            };
-          });
           return {
             success: true,
-            data: formattedData,
+            data: payload.map((item) => item.properties),
             message: "Internship Position Offer fetched successfully",
             severity: "success",
           };
