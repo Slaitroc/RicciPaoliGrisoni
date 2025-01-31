@@ -24,7 +24,6 @@ export const getToken = async () => {
 
 export const sendNotificationToken = async (notificationToken) => {
   const token = await getToken();
-  logger.debug("Token: ", token);
   return fetchWrapper("/notification-api/private/send-token", {
     method: "POST",
     headers: {
@@ -112,8 +111,6 @@ export const getInternshipOffers = async () => {
 
 export const getCompanyInternships = async (companyID) => {
   const token = await getToken();
-  logger.debug(JSON.stringify({ companyID }));
-  logger.debug("Token: ", token);
   return fetchWrapper(
     `/application-api/sub/private/internship/${companyID}/get-company-internships`,
     {
@@ -143,7 +140,6 @@ export const updateOffer = async (offer) => {
 
 export const getStudentCV = async (userID) => {
   const token = await getToken();
-  logger.focus(userID);
   return fetchWrapper(
     `/application-api/sub/private/cv/${userID}/get-student-cv`,
     {
