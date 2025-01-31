@@ -205,26 +205,40 @@ public class DTOCreator {
         communicationDTO.addProperty("title", communication.getTitle());
         communicationDTO.addProperty("content", communication.getContent());
         communicationDTO.addProperty("communicationType", communication.getCommunicationType());
-        communicationDTO.addProperty("studentID", communication.getStudent().getId());
-        communicationDTO.addProperty("studentName", communication.getStudent().getName());
         communicationDTO.addProperty("companyID", communication.getCompany().getId());
         communicationDTO.addProperty("companyName", communication.getCompany().getName());
         /*--------------------*/
-        if(communication.getStudent()!=null){ //the student is the creator of the communication, so it is saved in the DB
+        if (communication.getStudent() != null){ //the student is the creator of the communication, so it is saved in the DB
+            communicationDTO.addProperty("studentID", communication.getStudent().getId());
+            communicationDTO.addProperty("studentName", communication.getStudent().getName());
             communicationDTO.addProperty("universityID", communication.getStudent().getUniversity().getId());
             communicationDTO.addProperty("universityName", communication.getStudent().getUniversity().getName());
-        }else{ //the student is not the creator of the communication, I need to retrieve it
             Recommendation recommendationOfCommunication = communication.getInternshipPosOff().getInterview().getRecommendation();
             SpontaneousApplication spontaneousApplicationOfCommunication = communication.getInternshipPosOff().getInterview().getSpontaneousApplication();
             if(recommendationOfCommunication != null) {
+                communicationDTO.addProperty("companyID", recommendationOfCommunication.getInternshipOffer().getCompany().getId());
+                communicationDTO.addProperty("companyName", recommendationOfCommunication.getInternshipOffer().getCompany().getName());
+            }else{
+                communicationDTO.addProperty("companyID", spontaneousApplicationOfCommunication.getInternshipOffer().getCompany().getId());
+                communicationDTO.addProperty("companyName", spontaneousApplicationOfCommunication.getInternshipOffer().getCompany().getName());
+            }
+        }else{ //the student is not the creator of the communication
+            communicationDTO.addProperty("companyID", communication.getCompany().getId());
+            communicationDTO.addProperty("companyName", communication.getCompany().getName());
+            Recommendation recommendationOfCommunication = communication.getInternshipPosOff().getInterview().getRecommendation();
+            SpontaneousApplication spontaneousApplicationOfCommunication = communication.getInternshipPosOff().getInterview().getSpontaneousApplication();
+            if(recommendationOfCommunication != null) {
+                communicationDTO.addProperty("studentID", recommendationOfCommunication.getCv().getStudent().getId());
+                communicationDTO.addProperty("studentName", recommendationOfCommunication.getCv().getStudent().getName());
                 communicationDTO.addProperty("universityID", recommendationOfCommunication.getCv().getStudent().getUniversity().getId());
                 communicationDTO.addProperty("universityName", recommendationOfCommunication.getCv().getStudent().getUniversity().getName());
             }else{
+                communicationDTO.addProperty("studentID", spontaneousApplicationOfCommunication.getStudent().getId());
+                communicationDTO.addProperty("studentName", spontaneousApplicationOfCommunication.getStudent().getName());
                 communicationDTO.addProperty("universityID", spontaneousApplicationOfCommunication.getStudent().getUniversity().getId());
                 communicationDTO.addProperty("universityName", spontaneousApplicationOfCommunication.getStudent().getUniversity().getName());
             }
         }
-
         return communicationDTO;
     }
 
