@@ -26,7 +26,8 @@ import Applications from "../pages/Applications";
 import Interviews from "../pages/Interviews";
 import Recommendations from "../pages/Recommendations";
 import Communications from "../pages/Communications";
-//import SCCommunicationDetail from "../components/Communications/SCCommunicationDetail";
+import SCCommunications from "../components/Communications/SCCommunications";
+import SCCommunicationDetail from "../components/Communications/CommunicationsList";
 import University from "../pages/University";
 import InternshipOffers from "../pages/InternshipOffers";
 import Profile from "../pages/Profile";
@@ -45,12 +46,10 @@ import IntPosOfferPreview from "../components/IntPosOffer/IntPosOfferPreview";
 import IntPosOffer from "../components/IntPosOffer/IntPosOffer";
 import InterviewPosOffer from "../pages/InterviewPosOffer";
 import {
-  INIT_USER_TYPE,
   STUDENT_USER_TYPE,
   COMPANY_USER_TYPE,
   UNIVERSITY_USER_TYPE,
 } from "../global/globalStatesInit";
-//import SCCommunications from "../components/Communications/SCCommunications";
 
 //NAV Router Configurations
 
@@ -163,7 +162,7 @@ const router = createBrowserRouter(
                   element: <SCIntOffersPreview />,
                 },
                 {
-                  path: "internship-detail",
+                  path: "details/:id",
                   element: <SCIntOffers />,
                 },
               ],
@@ -177,7 +176,7 @@ const router = createBrowserRouter(
                   element: <SCBrowseInternshipPreview />,
                 },
                 {
-                  path: "internship-detail",
+                  path: "details/:id",
                   element: <SCBrowseInternshipOffer />,
                 },
               ],
@@ -197,7 +196,7 @@ const router = createBrowserRouter(
                   element: <SCApplicationPreview />,
                 },
                 {
-                  path: "application-detail",
+                  path: "details/:id",
                   element: <SCApplication />,
                 },
               ],
@@ -227,7 +226,7 @@ const router = createBrowserRouter(
                   element: <SCInterviewPreview />,
                 },
                 {
-                  path: "interview-detail",
+                  path: "details/:id",
                   element: <SCInterview />,
                 },
               ],
@@ -256,6 +255,20 @@ const router = createBrowserRouter(
             {
               path: "communications",
               element: <Communications />,
+              children: [
+                {
+                  path: "",
+                  element: <SCCommunications />,
+                },
+                {
+                  path: "details/:id",
+                  element: <SCCommunicationDetail />,
+                },
+                {
+                  path: "new",
+                  element: <SCCommunicationDetail />,
+                },
+              ],
             },
             {
               path: "profile",
