@@ -2,7 +2,7 @@ import * as intPosOffer from "../../api-calls/api-wrappers/Interview/intPosOffer
 import React, { createContext, useEffect } from "react";
 import { useGlobalContext } from "../../global/GlobalContext";
 import Alert from "@mui/material/Alert";
-
+import * as logger from "../../logger/logger";
 const IntPosOfferContext = createContext();
 
 export const useIntPosOfferContext = () => {
@@ -28,11 +28,11 @@ export const IntPosOfferProvider = ({ children }) => {
   const [alertSeverity, setAlertSeverity] = React.useState("success");
 
   useEffect(() => {
-    if (profile.userType != "STUDENT") {
-      console.log("User is not a student");
+    if (profile.userType != "STUDENT" && profile.userType != "COMPANY") {
+      logger.error("User is not a student or a company");
       setOpenAlert(true);
       setAlertSeverity("error");
-      setAlertMessage("User is not a student");
+      setAlertMessage("User is not a student or a company");
     } else {
       intPosOffer
         .getFormattedInterviewPosOffers(profile.userID)

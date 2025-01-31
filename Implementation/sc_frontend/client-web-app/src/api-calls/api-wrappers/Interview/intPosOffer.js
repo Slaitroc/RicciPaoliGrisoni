@@ -19,7 +19,7 @@ export const getFormattedInterviewPosOffers = async () => {
             success: false,
             data: null,
             message: errorMessage,
-            severity: "error",
+            severity: response.status === 400 ? "error" : "info",
           };
         });
       } else {

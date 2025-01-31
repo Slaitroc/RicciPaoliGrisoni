@@ -34,11 +34,7 @@ const ExpandMore = styled((props) => {
   ],
 }));
 
-export default function RecommendationCard({
-  recommendation,
-  offer,
-  borderColor,
-}) {
+export default function RecommendationCard({ profile }) {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -57,17 +53,18 @@ export default function RecommendationCard({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        border: "4px solid white  ",
       }}
     >
       <CardHeader
         avatar={
           <Avatar
             sx={{
-              bgcolor: getBackgroundColor(recommendation.companyName.charAt(0)),
+              bgcolor: getBackgroundColor("S"),
             }}
-            aria-label="Company"
+            aria-label="Student&Company"
           >
-            {recommendation.companyName.charAt(0)}
+            {"S"}
           </Avatar>
         }
         title={
@@ -78,12 +75,14 @@ export default function RecommendationCard({
               textAlign: "center",
             }}
           >
-            {recommendation.companyName}
+            {"Student&Company"}
           </span>
         }
         subheader={
           <span style={{ display: "block", textAlign: "center" }}>
-            {offer.title}
+            {
+              "There are no more recommendations available for you at the moment."
+            }
           </span>
         }
         sx={{
@@ -103,7 +102,9 @@ export default function RecommendationCard({
             hyphens: "auto",
           }}
         >
-          {offer.description}
+          {profile.userType == "STUDENT"
+            ? "Please check back later, browse all internship offers or try updating your CV."
+            : "Create a new Internship Offer or check back later."}
         </Typography>
       </CardContent>
 
@@ -131,7 +132,7 @@ export default function RecommendationCard({
           }}
         >
           <Typography sx={{ marginBottom: 2, fontWeight: "bold" }}>
-            Further information:
+            Further information will be displayed here:
           </Typography>
           <Typography variant="body1" color="text.secondary">
             <Typography
@@ -140,53 +141,9 @@ export default function RecommendationCard({
               variant="body2"
               sx={{ color: "text.primary", fontWeight: "bold" }}
             >
-              Required skills:
+              Extra Information1:
             </Typography>
-            {" " + offer.requiredSkills}
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            <Typography
-              component="span"
-              display="inline"
-              variant="body2"
-              sx={{ color: "text.primary", fontWeight: "bold" }}
-            >
-              Location:
-            </Typography>
-            {" " + offer.location}
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            <Typography
-              component="span"
-              display="inline"
-              variant="body2"
-              sx={{ color: "text.primary", fontWeight: "bold" }}
-            >
-              Duration:
-            </Typography>
-            {" " + offer.duration}
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            <Typography
-              component="span"
-              display="inline"
-              variant="body2"
-              sx={{ color: "text.primary", fontWeight: "bold" }}
-            >
-              Compensation:
-            </Typography>
-            {" " + offer.compensation}
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            <Typography
-              component="span"
-              display="inline"
-              variant="body2"
-              sx={{ color: "text.primary", fontWeight: "bold" }}
-            >
-              Affinity Score:
-            </Typography>
-            {" " + (recommendation.score / 2) * 100 + "%"}
+            {" extra information 1"}
           </Typography>
         </CardContent>
       </Collapse>

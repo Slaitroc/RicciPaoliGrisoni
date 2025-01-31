@@ -1,10 +1,10 @@
 import * as React from "react";
 import * as logger from "../../logger/logger";
 import { useRecommendationsContext } from "./RecommendationsContext";
-import AnimatedCard from "./AnimatedCard";
+import AnimatedCard from "./Card/AnimatedCard";
 import { Button, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
+import LastCard from "./Card/LastCard";
 export default function SCRecommendations() {
   const { recommendationOfferList, profile } = useRecommendationsContext();
 
@@ -46,6 +46,9 @@ export default function SCRecommendations() {
           maxWidth: 500,
         }}
       >
+        <div style={{ position: "absolute", zIndex: 0 }}>
+          <LastCard profile={profile} />
+        </div>
         {recommendationOfferList.map((item, index) => (
           <AnimatedCard
             key={item.recommendation.id}
@@ -53,6 +56,7 @@ export default function SCRecommendations() {
             index={index}
             isHidden={isHiddenArray[index]}
             removeCard={updateIsHiddenArray}
+            style={{ position: "absolute" }}
           />
         ))}
       </div>

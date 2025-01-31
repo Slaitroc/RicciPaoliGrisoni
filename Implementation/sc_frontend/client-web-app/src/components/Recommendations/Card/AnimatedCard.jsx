@@ -1,7 +1,7 @@
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import RecommendationCard from "./RecommendationCard";
-import * as apiCall from "../../api-calls/apiCalls";
-import * as logger from "../../logger/logger";
+import * as apiCall from "../../../api-calls/apiCalls";
+import * as logger from "../../../logger/logger";
 const AnimatedCard = ({
   item,
   index,
@@ -28,7 +28,7 @@ const AnimatedCard = ({
 
   const borderColor = useTransform(
     x,
-    [-SWIPELIMIT, -SWIPELIMIT / 2, 0, SWIPELIMIT / 2, SWIPELIMIT],
+    [-SWIPELIMIT, -SWIPELIMIT + 1, 0, SWIPELIMIT - 1, SWIPELIMIT],
     [
       REJECTBORDERCOLOR,
       REJECTBORDERCOLOR,
@@ -37,7 +37,6 @@ const AnimatedCard = ({
       ACCEPTBORDERCOLOR,
     ]
   );
-
   if (isHidden) return null;
 
   const handleDragEnd = () => {
@@ -49,6 +48,9 @@ const AnimatedCard = ({
       console.log("Swiped left");
       apiCall.rejectRecommendation(item.recommendation.id);
     } else {
+      console.log("Not swiped enough");
+      animate(x, 0, { duration: 0.2, ease: "easeOut" });
+      x.set(0);
       return;
     }
     animate(x, x.get() * 5, { duration: 0.2, ease: "easeOut" }).then(() => {
@@ -70,7 +72,8 @@ const AnimatedCard = ({
         alignItems: "center",
       }}
       drag="x"
-      dragConstraints={{ left: 0, right: 0 }}
+      dragConstraints={{ left: -SWIPELIMIT * 2, right: +SWIPELIMIT * 2 }}
+      dragElastic={0}
       onDragEnd={handleDragEnd}
       onDrag={() => {
         logger.debug(x.get());

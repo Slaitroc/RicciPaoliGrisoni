@@ -51,6 +51,7 @@ import {
   UNIVERSITY_USER_TYPE,
 } from "../global/globalStatesInit";
 import SCRecommendations from "../components/Recommendations/SCRecommendations";
+//import SCCommunications from "../components/Communications/SCCommunications";
 
 //NAV Router Configurations
 
