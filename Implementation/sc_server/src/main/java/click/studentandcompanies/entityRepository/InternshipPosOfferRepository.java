@@ -7,4 +7,6 @@ public interface InternshipPosOfferRepository extends JpaRepository<InternshipPo
 
     //NOTE weird warnings? dangerous?
     InternshipPosOffer getById(Integer id);
+
+    InternshipPosOffer getInternshipPosOfferById(Integer id);
 }
