@@ -248,7 +248,7 @@ const router = createBrowserRouter(
                   element: <IntPosOfferPreview />,
                 },
                 {
-                  path: "Internship-positions-offer-detail",
+                  path: "details/:id",
                   element: <IntPosOffer />,
                 },
               ],
