@@ -28,6 +28,7 @@ import Recommendations from "../pages/Recommendations";
 import Communications from "../pages/Communications";
 import SCCommunications from "../components/Communications/SCCommunications";
 import SCCommunicationDetail from "../components/Communications/CommunicationsList";
+import SCNewCommunication from "../components/Communications/SCNewCommunication";
 import University from "../pages/University";
 import InternshipOffers from "../pages/InternshipOffers";
 import Profile from "../pages/Profile";
@@ -278,8 +279,8 @@ const router = createBrowserRouter(
                   element: <SCCommunicationDetail />,
                 },
                 {
-                  path: "new",
-                  element: <SCCommunicationDetail />,
+                  path: "new/:type",
+                  element: <SCNewCommunication />,
                 },
               ],
             },

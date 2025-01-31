@@ -4,16 +4,12 @@ import { Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { CommunicationsList } from "./CommunicationsList";
 import { SCAddIcon } from "../Shared/SCIcons";
-import {
-  CommunicationsProvider,
-  useCommunicationsContext,
-} from "./CommunicationsContext";
+import { useCommunicationsContext } from "./CommunicationsContext";
 import { log } from "../../logger/logger";
 
 // SCCommunications.jsx
 export default function SCCommunications() {
   const navigate = useNavigate();
-  const { clickOnCommunication } = useCommunicationsContext();
 
   return (
     <Box sx={{ p: 3 }}>
@@ -25,21 +21,21 @@ export default function SCCommunications() {
         <Button
           variant="outlined"
           startIcon={<SCAddIcon />}
-          onClick={() => navigate("new")}
+          onClick={() => navigate("new/communication")}
         >
           New Communication
         </Button>
         <Button
           variant="outlined"
           startIcon={<SCAddIcon />}
-          onClick={() => navigate("new")}
+          onClick={() => navigate("new/complaint")}
         >
           New Complaint
         </Button>
       </Box>
 
       <CommunicationsList
-        onItemClick={(data) => clickOnCommunication(data, navigate)}
+        onItemClick={(communication) => onItemClicked(communication)}
       />
     </Box>
   );
