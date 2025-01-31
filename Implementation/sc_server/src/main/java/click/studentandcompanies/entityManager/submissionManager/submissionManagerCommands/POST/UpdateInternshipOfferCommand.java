@@ -37,8 +37,8 @@ public class UpdateInternshipOfferCommand implements SubmissionManagerCommand<In
             throw new NotFoundException("Company not found");
         }
 
-        if(payload.get("internshipOffer_id")!=null){ //If the offer id is present, we are UPDATING it
-            InternshipOffer updatedOffer = internshipOfferRepository.getInternshipOfferById((Integer) payload.get("internshipOffer_id"));
+        if(payload.get("id")!=null){ //If the offer id is present, we are UPDATING it
+            InternshipOffer updatedOffer = internshipOfferRepository.getInternshipOfferById((Integer) payload.get("id"));
             if(updatedOffer == null){
                 System.out.println("Internship offer not found");
                 throw new NotFoundException("Internship offer not found");
@@ -76,31 +76,31 @@ public class UpdateInternshipOfferCommand implements SubmissionManagerCommand<In
             System.out.println("Location not found");
             throw new BadInputException("Location not found");
         }
-        Integer durationHours = (Integer) payload.get("duration_hours");
+        Integer durationHours = (Integer) payload.get("duration");
         if(durationHours == null){
             System.out.println("Duration hours not found");
             throw new BadInputException("Duration hours not found");
         }
         //If a problem occurs with the parsing of the dates, the exception will be thrown by the LocalDate.parse method
-        //This means that start_date and end_date are never null if they are present in the payload and the format is correct
-        if (payload.get("start_date") == null) {
+        //This means that start_date and endDate are never null if they are present in the payload and the format is correct
+        if (payload.get("startDate") == null) {
             System.out.println("Start date not found");
             throw new BadInputException("Start date not found");
         }
-        LocalDate startDate = LocalDate.parse((String) payload.get("start_date"));
-        if (payload.get("end_date") == null) {
+        LocalDate startDate = LocalDate.parse((String) payload.get("startDate"));
+        if (payload.get("endDate") == null) {
             System.out.println("End date not found");
             throw new BadInputException("End date not found");
         }
-        LocalDate endDate = LocalDate.parse((String) payload.get("end_date"));
+        LocalDate endDate = LocalDate.parse((String) payload.get("endDate"));
         //Check if the start date is before the end date
         if(startDate.isAfter(endDate)){
             System.out.println("Start date is after end date");
             throw new BadInputException("Start date is after end date");
         }
         //Save nullable fields
-        String requiredSkills = (String) payload.get("required_skills");
-        Integer numberPositions = (Integer) payload.get("number_positions");
+        String requiredSkills = (String) payload.get("requiredSkills");
+        Integer numberPositions = (Integer) payload.get("numberPositions");
         //Get the company (we already checked if the company id is present in the caller method)
         Company company = userManager.getCompanyById((String) payload.get("company_id"));
         return new InternshipOffer(company, title, description, requiredSkills, compensation, location, startDate, endDate, numberPositions, durationHours);
@@ -111,20 +111,20 @@ public class UpdateInternshipOfferCommand implements SubmissionManagerCommand<In
             updatedOffer.setTitle((String) payload.get("title"));
         if(payload.get("description")!=null)
             updatedOffer.setDescription((String) payload.get("description"));
-        if(payload.get("required_skills")!=null)
-            updatedOffer.setRequiredSkills((String) payload.get("required_skills"));
+        if(payload.get("requiredSkills")!=null)
+            updatedOffer.setRequiredSkills((String) payload.get("requiredSkills"));
         if(payload.get("compensation")!=null)
             updatedOffer.setCompensation((Integer) payload.get("compensation"));
         if(payload.get("location")!=null)
             updatedOffer.setLocation((String) payload.get("location"));
-        if(payload.get("start_date")!=null)
-            updatedOffer.setStartDate(LocalDate.parse((String) payload.get("start_date")));
-        if(payload.get("end_date")!=null)
-            updatedOffer.setEndDate(LocalDate.parse((String) payload.get("end_date")));
-        if(payload.get("number_positions")!=null)
-            updatedOffer.setNumberPositions((Integer) payload.get("number_positions"));
-        if(payload.get("duration_hours")!=null)
-            updatedOffer.setDurationHours((Integer) payload.get("duration_hours"));
+        if(payload.get("startDate")!=null)
+            updatedOffer.setStartDate(LocalDate.parse((String) payload.get("startDate")));
+        if(payload.get("endDate")!=null)
+            updatedOffer.setEndDate(LocalDate.parse((String) payload.get("endDate")));
+        if(payload.get("numberPositions")!=null)
+            updatedOffer.setNumberPositions((Integer) payload.get("numberPositions"));
+        if(payload.get("duration")!=null)
+            updatedOffer.setDurationHours((Integer) payload.get("duration"));
         updatedOffer.setUpdateTime(Instant.now());
         return updatedOffer;
     }

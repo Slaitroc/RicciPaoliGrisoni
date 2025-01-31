@@ -134,19 +134,19 @@ public class DTOCreator {
 
     private static DTO createInternshipOfferDTO(InternshipOffer offer) {
         final DTO offerDTO = new DTO();
+        offerDTO.addProperty("companyName", offer.getCompany().getName());
+        offerDTO.addProperty("companyID", offer.getCompany().getId());
         offerDTO.addProperty("id", offer.getId());
-        offerDTO.addProperty("compensation", offer.getCompensation());
+        offerDTO.addProperty("updateTime", offer.getUpdateTime());
+        offerDTO.addProperty("title", offer.getTitle());
         offerDTO.addProperty("description", offer.getDescription());
         offerDTO.addProperty("duration", offer.getDurationHours());
-        offerDTO.addProperty("companyID", offer.getCompany().getId());
-        offerDTO.addProperty("companyName", offer.getCompany().getName());
-        offerDTO.addProperty("endDate", offer.getEndDate());
         offerDTO.addProperty("location", offer.getLocation());
         offerDTO.addProperty("numberPositions", offer.getNumberPositions());
         offerDTO.addProperty("requiredSkills", offer.getRequiredSkills());
         offerDTO.addProperty("startDate", offer.getStartDate());
-        offerDTO.addProperty("title", offer.getTitle());
-        offerDTO.addProperty("updateTime", offer.getUpdateTime());
+        offerDTO.addProperty("endDate", offer.getEndDate());
+        offerDTO.addProperty("compensation", offer.getCompensation());
         return offerDTO;
     }
 
