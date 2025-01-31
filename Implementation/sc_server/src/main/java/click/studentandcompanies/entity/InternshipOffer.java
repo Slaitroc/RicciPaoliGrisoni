@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 @Entity
@@ -49,6 +50,18 @@ public class InternshipOffer {
     @Column(name = "duration_hours", nullable = false)
     private Integer durationHours;
 
+    @Column(name = "update_time", nullable = false)
+    private Instant updateTime;
+
+    public Instant getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Instant updateTime) {
+        this.updateTime = updateTime;
+    }
+
+
     public InternshipOffer(Company company, String title, String description, String requiredSkills, Integer compensation, String location, LocalDate startDate, LocalDate endDate, Integer numberPositions, Integer durationHours) {
         this.company = company;
         this.title = title;
@@ -60,6 +73,7 @@ public class InternshipOffer {
         this.endDate = endDate;
         this.numberPositions = numberPositions;
         this.durationHours = durationHours;
+        this.updateTime = Instant.now();
     }
 
     public InternshipOffer() {

@@ -5,6 +5,8 @@ import click.studentandcompanies.entity.dbEnum.ParticipantTypeEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.Instant;
+
 @Entity
 @Table(name = "communication")
 public class Communication {
@@ -45,6 +47,12 @@ public class Communication {
     @Column(name = "communication_type", nullable = false)
     private CommunicationTypeEnum communicationType;
 
+    @Column(name = "updateTime", nullable = false)
+    private Instant updateTime;
+
+    public Instant getUpdateTime() {
+        return updateTime;
+    }
     public Communication() {
         // Empty constructor required by JPA
     }
@@ -56,6 +64,7 @@ public class Communication {
         this.title = title;
         this.content = content;
         this.communicationType = communicationType;
+        this.updateTime = Instant.now();
     }
 
     public Integer getId() {
