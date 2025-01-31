@@ -322,7 +322,7 @@ public abstract class EntityFactory {
         feedback.setRecommendation(recommendation);
         feedback.setParticipantType(participantType);
         feedback.setRating(newRandom(1, 5));
-        feedback.setComment("Default comment");
+        //feedback.setComment("Default comment");
         feedback.setUploadTime(Instant.now());
 
         if (participantType == ParticipantTypeEnum.student) {

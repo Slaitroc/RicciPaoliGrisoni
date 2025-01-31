@@ -199,7 +199,7 @@ export default function RecommendationCard({ recommendation, otherPair }) {
   };
 
   const cardSeenByCompany = () => {
-    logger.debug("Other pair: ", otherPair);
+    //logger.debug("Other pair: ", otherPair);
     return (
       <Card
         sx={{

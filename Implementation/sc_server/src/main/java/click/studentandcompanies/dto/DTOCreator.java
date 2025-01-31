@@ -180,9 +180,6 @@ public class DTOCreator {
     private static DTO createFeedbackDTO(Feedback feedback){
         final DTO feedbackDTO = new DTO();
         feedbackDTO.addProperty("id", feedback.getId());
-        if(feedback.getComment()!=null){
-            feedbackDTO.addProperty("comment", feedback.getComment());
-        }
         feedbackDTO.addProperty("participantType", feedback.getParticipantType());
         feedbackDTO.addProperty("rating", feedback.getRating());
         if(feedback.getStudent()!=null){

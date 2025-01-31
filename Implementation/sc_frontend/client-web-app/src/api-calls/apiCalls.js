@@ -352,16 +352,19 @@ export const terminateCommunication = async (communicationID) => {
   );
 };
 
-export const submitFeedback = async (feedback) => {
+export const submitFeedback = async (payload, recommendationID) => {
   const token = await getToken();
-  return fetchWrapper("/application-api/comm/private/submit-feedback", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ ...feedback }),
-  });
+  return fetchWrapper(
+    `/application-api/feedback/private/${recommendationID}/submit`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ ...payload }),
+    }
+  );
 };
 
 export const getMyInterviews = async () => {

@@ -12,7 +12,7 @@ export const SCApplication = () => {
         <Grid2 padding={5} container spacing={3}>
           {applicationData.map((item) => {
             return (
-              <Grid2 key={item.id} xs={12} sm={6} md={4}>
+              <Grid2 item="true" key={item.id} xs={12} sm={6} md={4}>
                 <Card
                   onClick={() => clickOnApplication(item)} // Added click handler
                   sx={{

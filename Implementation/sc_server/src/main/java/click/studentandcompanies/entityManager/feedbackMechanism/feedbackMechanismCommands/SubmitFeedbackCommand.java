@@ -31,7 +31,6 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
         validateFeedbackPayload(payload);
 
         String user_id = (String) payload.get("user_id");
-        //String user_id = (String) payload.get("student_id") != null ? (String) payload.get("student_id") : (String) payload.get("company_id");
         ParticipantTypeEnum participantType = userManager.getParticipantType(user_id);
         Recommendation recommendation = userManager.getRecommendationById(recommendationID);
 
@@ -48,24 +47,11 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
         if(payload.get("user_id")==null){
             throw new BadInputException("User_id is required");
         }
-        if(payload.get("student_id")!=null && payload.get("company_id")!=null){
-            throw new BadInputException("Student_id and company_id can't be both present");
-        }
-        if(payload.get("participant_type")==null){
-            throw new BadInputException("Participant_type is required");
-        }
         if(payload.get("rating")==null){
             throw new BadInputException("Rating is required");
         }
         if((Integer) payload.get("rating") < 1 || (Integer) payload.get("rating") > 5){
             throw new BadInputException("Rating must be between 1 and 5");
-        }
-        if(payload.get("upload_time")==null){
-            throw new BadInputException("Upload time is required");
-        }
-        Instant uploadTime = Instant.parse(String.valueOf(payload.get("upload_time")));
-        if(uploadTime.isAfter(Instant.now())){
-            throw new BadInputException("Upload time can't be in the future");
         }
     }
 
@@ -97,9 +83,7 @@ public class SubmitFeedbackCommand implements FeedbackMechanismCommand<Feedback>
 
     private Feedback createFeedback(Integer recommendationID,String submitterID ,ParticipantTypeEnum participantType,Map<String, Object> payload){
         Integer rating = (Integer) payload.get("rating");
-        String comment = (String) payload.get("comment") != null ? (String) payload.get("comment") : "";
-        Instant uploadTime = Instant.parse(String.valueOf(payload.get("upload_time")));
-        Feedback feedback = new Feedback(userManager.getRecommendationById(recommendationID), participantType, rating, comment, uploadTime);
+        Feedback feedback = new Feedback(userManager.getRecommendationById(recommendationID), participantType, rating, Instant.now());
         if(participantType == ParticipantTypeEnum.student){
             feedback.setStudent(userManager.getStudentById(submitterID));
         }else{
