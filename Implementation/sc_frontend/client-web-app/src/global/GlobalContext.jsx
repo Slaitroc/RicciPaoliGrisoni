@@ -76,11 +76,11 @@ export const GlobalProvider = ({ children }) => {
       })
       .then((currentToken) => {
         if (currentToken) {
-          logger.log("Token FCM:", currentToken);
+          logger.debug("Token FCM:", currentToken);
           token = currentToken;
           //NOTE Qui inviamo il token ogni volta perché il backend se già esiste non lo salva
         } else {
-          logger.log("Nessun token FCM disponibile.");
+          logger.debug("Nessun token FCM disponibile.");
         }
       })
       .catch((error) => {
@@ -88,61 +88,60 @@ export const GlobalProvider = ({ children }) => {
       });
 
     onAuthStateChanged(firebaseConfig.auth, async (user) => {
-      try{
-
+      try {
         if (user) {
           const response = await account.getUserData();
+          logger.debug("- AUTH: Token:", (await user.getIdToken()).toString());
           if (response.status === 400) {
             logger.debug("- AUTH: Token mancante nella richiesta.");
           }
           if (response.status === 204) {
-          logger.debug("- AUTH: Dati utente non trovati.");
-          setIsEmailVerified(false);
-        }
-        if (response.status === 200) {
-          const data = await response.json();
-          logger.debug("- AUTH: Dati utente:", data);
-          setUserType(data.properties.userType);
-          setProfile(data.properties);
-          if (data.properties.validate) setIsEmailVerified(true);
-          else setIsEmailVerified(false);
-        }
-        
-        logger.log("- AUTH: Utente autenticato:", user.email);
-        setIsAuthenticated(true);
-        // Controlla se l'email è stata verificata
-        if (!user.emailVerified) {
-          logger.log("- AUTH: Email non verificata con firebase.");
+            logger.debug("- AUTH: Dati utente non trovati.");
+            setIsEmailVerified(false);
+          }
+          if (response.status === 200) {
+            const data = await response.json();
+            logger.debug("- AUTH: Dati utente:", data);
+            setUserType(data.properties.userType);
+            setProfile(data.properties);
+            if (data.properties.validate) setIsEmailVerified(true);
+            else setIsEmailVerified(false);
+          }
+
+          logger.log("- AUTH: Utente autenticato:", user.email);
+          setIsAuthenticated(true);
+          // Controlla se l'email è stata verificata
+          if (!user.emailVerified) {
+            logger.log("- AUTH: Email non verificata con firebase.");
+          } else {
+            logger.log("- AUTH: Email verificata.");
+            setIsEmailVerified(true);
+          }
+          // Invia il token FCM al server
+          if (token) {
+            logger.debug("- AUTH: FCM token:", token);
+            apiCalls.sendNotificationToken(token).then((response) => {
+              if (!response.ok) {
+                logger.log(
+                  "- AUTH: Errore durante l'invio del token FCM:",
+                  response
+                );
+              } else {
+                logger.log("- AUTH: Token FCM inviato con successo.");
+              }
+            });
+          }
         } else {
-          logger.log("- AUTH: Email verificata.");
-          setIsEmailVerified(true);
+          logger.log("- AUTH: Nessun utente autenticato.");
+          logger.log("- AUTH:  Token FCM non inviato.");
+          setIsAuthenticated(false);
         }
-        // Invia il token FCM al server
-        if (token) {
-          // FIX crea wrapper notification
-          logger.log("- AUTH: FCM token:", token);
-          apiCalls.sendNotificationToken(token).then((response) => {
-            if (!response.ok) {
-              logger.log(
-                "- AUTH: Errore durante l'invio del token FCM:",
-                response
-              );
-            } else {
-              logger.log("- AUTH: Token FCM inviato con successo.");
-            }
-          });
-        }
-      } else {
-        logger.log("- AUTH: Nessun utente autenticato.");
-        logger.log("- AUTH:  Token FCM non inviato.");
+        setLoading(false);
+      } catch (error) {
+        logger.error("Errore durante la verifica dell'utente:", error);
         setIsAuthenticated(false);
+        setLoading(false);
       }
-      setLoading(false);
-    } catch (error) {
-      logger.error("Errore durante la verifica dell'utente:", error);
-      setIsAuthenticated(false);
-      setLoading(false);
-    }
     });
 
     // Gestisce le notifiche in foreground
