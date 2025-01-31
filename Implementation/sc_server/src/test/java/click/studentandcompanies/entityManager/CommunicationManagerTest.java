@@ -154,11 +154,11 @@ class CommunicationManagerTest extends EntityFactory {
         comm.setId(110);
 
         when(communicationRepository.getCommunicationById(100)).thenReturn(comm);
-        when(messageRepository.getMessagesByCommunication_Id(100)).thenReturn(List.of(
+        when(messageRepository.getMessagesByCommunication_IdOrderByTimeStamp(100)).thenReturn(List.of(
                 setNewMessage(1, "Hello", "Marco", comm),
                 setNewMessage(2, "Hi", "Google", comm)
         ));
-        when(messageRepository.getMessagesByCommunication_Id(110)).thenReturn(List.of());
+        when(messageRepository.getMessagesByCommunication_IdOrderByTimeStamp(110)).thenReturn(List.of());
 
         // Authorized
         when(userManager.getUserType("10")).thenReturn(UserType.STUDENT);
@@ -170,7 +170,7 @@ class CommunicationManagerTest extends EntityFactory {
 
         // NotFound
         when(communicationRepository.getCommunicationById(999)).thenReturn(null);
-        when(messageRepository.getMessagesByCommunication_Id(999)).thenReturn(null);
+        when(messageRepository.getMessagesByCommunication_IdOrderByTimeStamp(999)).thenReturn(null);
         assertThrows(NotFoundException.class, () -> communicationManager.getCommunicationMessages(999, "10"));
         // Unauthorized
         when(userManager.getUserType("99")).thenReturn(UserType.STUDENT);

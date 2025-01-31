@@ -203,10 +203,11 @@ public class DTOCreator {
         communicationDTO.addProperty("id", communication.getId());
         communicationDTO.addProperty("type", communication.getCommunicationType());
         communicationDTO.addProperty("title", communication.getTitle());
-        communicationDTO.addProperty("internshipOfferTitle", communication.getInternshipOffer().getTitle());
         communicationDTO.addProperty("companyName", communication.getInternshipOffer().getCompany().getName());
         communicationDTO.addProperty("studentName", communication.getStudent().getName());
         communicationDTO.addProperty("universityName", communication.getUniversity().getName());
+        communicationDTO.addProperty("internshipOfferID", communication.getInternshipOffer().getId());
+        communicationDTO.addProperty("internshipOfferTitle", communication.getInternshipOffer().getTitle());
 
         return communicationDTO;
     }

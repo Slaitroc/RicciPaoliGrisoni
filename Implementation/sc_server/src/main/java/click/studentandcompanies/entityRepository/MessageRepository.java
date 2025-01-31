@@ -10,5 +10,7 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
     Message getMessageById(Integer id);
 
     List<Message> getMessagesByCommunication_Id(Integer communicationId);
+    
+    List<Message> getMessagesByCommunication_IdOrderByTimeStamp(Integer communicationId);
 
 }
