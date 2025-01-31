@@ -32,7 +32,6 @@ public class DTOCreator {
         functionMap.put(DTOTypes.INTERVIEW_TEMPLATE, object -> createInterviewTemplateDTO((InterviewTemplate) object));
         functionMap.put(DTOTypes.INTERNSHIP_POS_OFFER, object -> createInternshipPosOfferDTO((InternshipPosOffer) object));
         functionMap.put(DTOTypes.SPONTANEOUS_APPLICATION, object -> createSpontaneousApplicationDTO((SpontaneousApplication) object));
-        functionMap.put(DTOTypes.RECOMMENDATION_UPDATED_STATUS, object -> createRecommendationUpdatedStatusDTO((Recommendation) object));
     }
 
     private static DTO createMessageDTO(Message object) {
@@ -55,6 +54,7 @@ public class DTOCreator {
         accountDTO.addProperty("userID", account.getUserID());
         accountDTO.addProperty("userType", account.getUserType());
         accountDTO.addProperty("name", account.getName());
+        accountDTO.addProperty("surname", account.getSurname());
         accountDTO.addProperty("email", account.getEmail());
         accountDTO.addProperty("uniVat", account.getUniVat());
         accountDTO.addProperty("vatNumber", account.getVatNumber());
@@ -81,13 +81,6 @@ public class DTOCreator {
         interviewTemplateDTO.addProperty("questions", interviewTemplate.getQuestions());
         interviewTemplateDTO.addProperty("company", interviewTemplate.getCompany().getName());
         return interviewTemplateDTO;
-    }
-
-    private static DTO createRecommendationUpdatedStatusDTO(Recommendation recommendation) {
-        final DTO recommendationDTO = new DTO();
-        recommendationDTO.addProperty("id", recommendation.getId());
-        recommendationDTO.addProperty("status", recommendation.getStatus().toString());
-        return recommendationDTO;
     }
 
     private static DTO createErrorDTO(String message) {
@@ -153,10 +146,12 @@ public class DTOCreator {
         cvDTO.addProperty("education", cv.getEducation());
         cvDTO.addProperty("project", cv.getProject());
         cvDTO.addProperty("skills", cv.getSkills());
-        cvDTO.addProperty("update_time", cv.getUpdateTime());
-        cvDTO.addProperty("workExperience", cv.getWorkExperiences());
+        cvDTO.addProperty("updateTime", cv.getUpdateTime());
+        cvDTO.addProperty("workExperiences", cv.getWorkExperiences());
         cvDTO.addProperty("studentID", cv.getStudent().getId());
-        cvDTO.addProperty("student_name", cv.getStudent().getName());
+        cvDTO.addProperty("studentName", cv.getStudent().getName());
+        cvDTO.addProperty("contacts", cv.getContacts());
+        cvDTO.addProperty("spokenLanguages", cv.getSpokenLanguages());
         return cvDTO;
     }
 
@@ -194,10 +189,10 @@ public class DTOCreator {
         recommendationDTO.addProperty("id", recommendation.getId());
         recommendationDTO.addProperty("status", recommendation.getStatus().toString());
         recommendationDTO.addProperty("studentName", recommendation.getCv().getStudent().getName());
-        recommendationDTO.addProperty("companyName", recommendation.getInternshipOffer().getCompany().getName());
-        recommendationDTO.addProperty("internshipOfferTitle", recommendation.getInternshipOffer().getTitle());
         recommendationDTO.addProperty("studentID", recommendation.getCv().getStudent().getId());
+        recommendationDTO.addProperty("companyName", recommendation.getInternshipOffer().getCompany().getName());
         recommendationDTO.addProperty("companyID", recommendation.getInternshipOffer().getCompany().getId());
+        recommendationDTO.addProperty("internshipOfferTitle", recommendation.getInternshipOffer().getTitle());
         recommendationDTO.addProperty("internshipOfferID", recommendation.getInternshipOffer().getId());
         recommendationDTO.addProperty("score", recommendation.getScore());
         return recommendationDTO;
@@ -208,10 +203,11 @@ public class DTOCreator {
         communicationDTO.addProperty("id", communication.getId());
         communicationDTO.addProperty("type", communication.getCommunicationType());
         communicationDTO.addProperty("title", communication.getTitle());
-        communicationDTO.addProperty("internshipOfferTitle", communication.getInternshipOffer().getTitle());
         communicationDTO.addProperty("companyName", communication.getInternshipOffer().getCompany().getName());
         communicationDTO.addProperty("studentName", communication.getStudent().getName());
         communicationDTO.addProperty("universityName", communication.getUniversity().getName());
+        communicationDTO.addProperty("internshipOfferID", communication.getInternshipOffer().getId());
+        communicationDTO.addProperty("internshipOfferTitle", communication.getInternshipOffer().getTitle());
 
         return communicationDTO;
     }

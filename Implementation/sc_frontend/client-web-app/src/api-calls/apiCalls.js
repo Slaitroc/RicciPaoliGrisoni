@@ -164,6 +164,19 @@ export const updateMyCV = async (cvData) => {
   });
 };
 
+export const getSpecificOffer = async (offerID) => {
+  const token = await getToken();
+  return fetchWrapper(
+    `/application-api/sub/private/internship/${offerID}/get-internship`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
 export const getMySpontaneousApplications = async () => {
   const token = await getToken();
   return fetchWrapper(

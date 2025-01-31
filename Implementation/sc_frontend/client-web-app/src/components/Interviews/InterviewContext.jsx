@@ -34,7 +34,7 @@ export const InterviewProvider = ({ children }) => {
       setAlertMessage("User is not a student or company");
     } else {
       interview.getFormattedInterviews(profile.userID).then((response) => {
-        if (response.status === false) {
+        if (response.success === false) {
           setOpenAlert(true);
           setAlertSeverity(response.severity);
           setAlertMessage(response.message);

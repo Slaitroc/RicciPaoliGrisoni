@@ -80,4 +80,10 @@ public class SubmissionManager {
     public List<InternshipOffer> getAllInternships() {
        return internshipOfferRepository.findAll();
     }
+
+    public InternshipOffer getSpecificInternship(Integer internshipID) throws NotFoundException {
+        InternshipOffer internshipOffer = internshipOfferRepository.findById(internshipID).orElse(null);
+        if(internshipOffer == null) throw new NotFoundException("Internship not found");
+        return internshipOffer;
+    }
 }

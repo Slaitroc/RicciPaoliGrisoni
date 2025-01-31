@@ -42,21 +42,9 @@ export const getFormattedCommunications = async () => {
         });
       } else {
         return response.json().then((payload) => {
-          const formattedData = payload.map((communication) => {
-            const { properties } = communication;
-            return {
-              id: properties.id,
-              type: properties.type,
-              title: properties.title,
-              internshipOfferTitle: properties.internshipOfferTitle,
-              companyName: properties.companyName,
-              studentName: properties.studentName,
-              universityName: properties.universityName,
-            };
-          });
           return {
             success: true,
-            data: formattedData,
+            data: payload.map((item) => item.properties),
             message: "Communications fetched successfully",
             severity: "success",
           };

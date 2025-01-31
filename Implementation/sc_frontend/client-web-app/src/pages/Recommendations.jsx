@@ -1,8 +1,13 @@
 import React from "react";
-import SCRecommendations from "../components/Recommendations/SCRecommendations";
+import { RecommendationsProvider } from "../components/Recommendations/RecommendationsContext";
+import { Outlet } from "react-router-dom";
 
 const Recommendation = () => {
-  return <SCRecommendations></SCRecommendations>;
+  return (
+    <RecommendationsProvider>
+      <Outlet />
+    </RecommendationsProvider>
+  );
 };
 
 export default Recommendation;

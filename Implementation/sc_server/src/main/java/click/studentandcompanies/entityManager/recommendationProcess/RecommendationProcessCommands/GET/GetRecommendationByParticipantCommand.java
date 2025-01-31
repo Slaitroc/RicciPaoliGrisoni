@@ -32,13 +32,14 @@ public class GetRecommendationByParticipantCommand implements RecommendationProc
             default -> throw new NotFoundException("User not found");
         };
         recommendations = recommendations.stream().filter(recommendation -> recommendation.getStatus() != RecommendationStatusEnum.rejectedMatch).toList();
+        recommendations = recommendations.stream().filter(recommendation -> recommendation.getStatus() != RecommendationStatusEnum.acceptedMatch).toList();
         if(type == UserType.STUDENT){
             recommendations = recommendations.stream().filter(recommendation -> recommendation.getStatus() != RecommendationStatusEnum.acceptedByStudent).toList();
         }else{
             recommendations = recommendations.stream().filter(recommendation -> recommendation.getStatus() != RecommendationStatusEnum.acceptedByCompany).toList();
         }
         //todo check if in the front end a empty list is a valid response
-        if (recommendations.isEmpty()) throw new NoContentException("No eligible recommendations found");
+        if (recommendations.isEmpty()) throw new NoContentException("No eligible recommendations found at the moment, try again later");
         return recommendations;
     }
 }
