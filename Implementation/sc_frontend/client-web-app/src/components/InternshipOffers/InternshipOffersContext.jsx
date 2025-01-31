@@ -1,7 +1,9 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useGlobalContext } from "../../global/GlobalContext";
 import * as internshipOffer from "../../api-calls/api-wrappers/submission-wrapper/internshipOffer";
 import { Alert } from "@mui/material";
+import * as logger from "../../logger/logger";
+import { useParams } from "react-router-dom";
 
 const InternshipOffersContext = React.createContext();
 
@@ -15,26 +17,47 @@ export const useInternshipOffersContext = () => {
   return context;
 };
 
-export const clickOnOffer = (offer) => {
-  console.log("Offer Clicked:", offer);
-};
-
 export const InternshipOffersProvider = ({ children }) => {
   const { profile } = useGlobalContext();
+  const { id } = useParams();
 
-  const [offerData, setOfferData] = React.useState([]);
-  const [openAlert, setOpenAlert] = React.useState(false);
-  const [alertMessage, setAlertMessage] = React.useState("");
-  const [alertSeverity, setAlertSeverity] = React.useState("success");
+  const [offersArray, setOffersArray] = useState([]);
+  const [offerDataSnapshot, setOfferDataSnapshot] = useState(null);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState("success");
 
-  const handleOfferClick = (offer) => {
-    console.log("Selected Offer:", offer);
-    //NAV to internship detail
-    //navigate(`/dashboard/internship-offer/internship-detail/${offer.id}`);
+  const updateInternshipOffer = useCallback((id, data) => {
+    //TODO logica per inviare il dato...la metto qua o nel component?
+    setOffersArray((prev) => {
+      return prev.map((item) => {
+        if (item.id === id) {
+          return { ...item, ...data };
+        }
+        return item;
+      });
+    });
+  }, []);
+
+  const reloadSnapshot = (OfferID) => {
+    logger.debug("InternshipOffersArray", offersArray);
+    const snapshot = offersArray.reduce((acc, item) => {
+      if (item.id.value == OfferID) return { ...acc, ...item };
+      return acc;
+    }, {});
+    if (Object.keys(snapshot).length === 0) {
+      setOpenAlert(true);
+      setAlertSeverity("error");
+      setAlertMessage("Offer not found");
+    } else {
+      setOpenAlert(false);
+      setOfferDataSnapshot(snapshot);
+    }
+    logger.debug("InternshipOffer Snapshot", offerDataSnapshot);
   };
 
   useEffect(() => {
-    console.log("Profile:", profile);
+    logger.focus("Company Profile:", profile);
     if (profile.userType != "COMPANY") {
       setOpenAlert(true);
       setAlertSeverity("error");
@@ -44,22 +67,49 @@ export const InternshipOffersProvider = ({ children }) => {
       internshipOffer
         .getFormattedCompanyInternships(profile.userID)
         .then((response) => {
+          logger.focus("fetched internship offers", response);
           if (response.success === false) {
             setOpenAlert(true);
             setAlertSeverity(response.severity);
             setAlertMessage(response.message);
           } else {
-            setOfferData(response.data);
+            setOffersArray(response.data);
+            setOpenAlert(false);
           }
         });
     }
   }, []);
 
+  useEffect(() => {
+    if (id === undefined || id === null || id === "") {
+      return;
+    }
+    if (offersArray.length === 0) {
+      return;
+    }
+    logger.debug("InternshipOffersArray", offersArray);
+    const snapshot = offersArray.reduce((acc, item) => {
+      if (item.id.value == id) return { ...acc, ...item };
+      return acc;
+    }, {});
+    if (Object.keys(snapshot).length === 0) {
+      setOpenAlert(true);
+      setAlertSeverity("error");
+      setAlertMessage("Offer not found");
+    } else {
+      setOpenAlert(false);
+      setOfferDataSnapshot(snapshot);
+    }
+    logger.debug("InternshipOffer Snapshot", offerDataSnapshot);
+  }, [id, offersArray]);
+
   const value = {
-    handleOfferClick,
-    offerData,
+    offersArray,
     openAlert,
-    clickOnOffer,
+    offerDataSnapshot,
+    setOfferDataSnapshot,
+    updateInternshipOffer,
+    reloadSnapshot,
   };
 
   return (

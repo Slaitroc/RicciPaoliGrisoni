@@ -10,9 +10,19 @@ import {
 } from "@mui/material";
 import { SCAddIcon } from "../Shared/SCIcons";
 import { useInternshipOffersContext } from "./InternshipOffersContext";
+import * as logger from "../../logger/logger";
+import { useNavigate } from "react-router-dom";
 
 export const SCIntOffersPreview = () => {
-  const { offerData, clickOnOffer } = useInternshipOffersContext();
+  const navigate = useNavigate();
+  const { offersArray, reloadSnapshot } = useInternshipOffersContext();
+
+  const handleOfferClick = (id) => {
+    console.log("Selected Offer:", id);
+    reloadSnapshot(id);
+    //NAV to internship detail
+    navigate(`/dashboard/internship-offers/details/${id}`);
+  };
 
   return (
     <>
@@ -24,13 +34,13 @@ export const SCIntOffersPreview = () => {
           </Button>
         </Box>
       </div>
-      {offerData != null ? (
+      {offersArray && (
         <Grid2 padding={5} container spacing={3}>
-          {offerData.map((item) => {
+          {offersArray.map((item) => {
             return (
-              <Grid2 key={item.id} xs={12} sm={6} md={4}>
+              <Grid2 item="true" key={item.id.value} xs={12} sm={6} md={4}>
                 <Card
-                  onClick={() => clickOnOffer(item)} // Added click handler
+                  onClick={() => handleOfferClick(item.id.value)}
                   sx={{
                     height: "auto",
                     width: 500,
@@ -53,8 +63,39 @@ export const SCIntOffersPreview = () => {
                 >
                   <CardContent>
                     <Typography variant="h5" gutterBottom color="text.primary">
-                      {item.title}
+                      {item.title.value}
                     </Typography>
+                    {Object.entries(item).map((field) => {
+                      if (
+                        field[0] === "id" ||
+                        field[0] === "title" ||
+                        field[0] === "startDate" ||
+                        field[0] === "endDate" ||
+                        field[0] === "companyName" ||
+                        field[0] === "numberPositions" ||
+                        field[0] === "location" ||
+                        field[0] === "companyID" ||
+                        field[0] === "duration"
+                      )
+                        return null;
+                      return (
+                        <Typography
+                          key={field[0]}
+                          variant="body1"
+                          color="text.secondary"
+                        >
+                          <Typography
+                            component="span"
+                            display="inline"
+                            variant="body2"
+                            sx={{ color: "text.primary" }}
+                          >
+                            {field[1].label}:
+                          </Typography>
+                          {" " + field[1].value}
+                        </Typography>
+                      );
+                    })}
                     <Typography variant="body1" color="text.secondary">
                       <Typography
                         component="span"
@@ -62,42 +103,9 @@ export const SCIntOffersPreview = () => {
                         variant="body2"
                         sx={{ color: "text.primary" }}
                       >
-                        Description:
+                        {item.duration.label}:
                       </Typography>
-                      {" " + item.description}
-                    </Typography>
-                    <Typography variant="body1" color="text.secondary">
-                      <Typography
-                        component="span"
-                        display="inline"
-                        variant="body2"
-                        sx={{ color: "text.primary" }}
-                      >
-                        Skill Required:
-                      </Typography>
-                      {" " + item.requiredSkills}
-                    </Typography>
-                    <Typography variant="body1" color="text.secondary">
-                      <Typography
-                        component="span"
-                        display="inline"
-                        variant="body2"
-                        sx={{ color: "text.primary" }}
-                      >
-                        Compensation:
-                      </Typography>
-                      {" " + item.compensation}
-                    </Typography>
-                    <Typography variant="body1" color="text.secondary">
-                      <Typography
-                        component="span"
-                        display="inline"
-                        variant="body2"
-                        sx={{ color: "text.primary" }}
-                      >
-                        Duration in hours:
-                      </Typography>
-                      {" " + item.duration}
+                      {" " + item.duration.value}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -105,7 +113,7 @@ export const SCIntOffersPreview = () => {
             );
           })}
         </Grid2>
-      ) : null}
+      )}
     </>
   );
 };
