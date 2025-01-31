@@ -33,8 +33,7 @@ const dashboardBreadcrumbLabels = {
   interviews: "Interviews",
   "interviews/interview-detail": "Interview Details",
   "internship-positions-offers": "Internship Position Offers",
-  "internship-positions-offers/Internship-positions-offer-detail":
-    "Internship Position Details",
+  "internship-positions-offers/details/:id": "Details",
   communications: "Communications",
   profile: "Profile",
   account: "Account Settings",
@@ -67,7 +66,7 @@ export default function SCNavbarBreadcrumbs() {
           decodeURIComponent(value);
 
         return isLast ? (
-          <Typography key={to} variant="body1" sx={{ fontWeight: 600,  }}>
+          <Typography key={to} variant="body1" sx={{ fontWeight: 600 }}>
             {label}
           </Typography>
         ) : (
