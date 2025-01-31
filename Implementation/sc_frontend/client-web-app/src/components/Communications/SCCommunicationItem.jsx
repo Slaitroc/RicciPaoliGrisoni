@@ -18,7 +18,7 @@ import { SCLinkIcon } from "../Shared/SCIcons";
 export const SCCommunicationItem = ({ communication }) => {
   const navigate = useNavigate();
   const clickOnInternship = (internshipOfferId) => {
-    navigate(`dashboard/internship-offer/details/${internshipOfferId}`);
+    navigate(`/dashboard/internship-offer/details/${internshipOfferId}`);
   };
   const clickOnCommunication = (communicationId) => {
     navigate(`/dashboard/communications/details/${communicationId}`);
@@ -38,7 +38,7 @@ export const SCCommunicationItem = ({ communication }) => {
               variant="outlined"
               icon={<SCLinkIcon />}
               onClick={(e) =>
-                clickOnInternship(communication.internshipOfferId)
+                clickOnInternship(communication.internshipOfferID)
               }
             />
           </Box>
@@ -53,19 +53,36 @@ export const SCCommunicationItem = ({ communication }) => {
                 <Avatar alt="University" src="/static/images/avatar/3.jpg" />
               </AvatarGroup>
             </ListItemAvatar>
-            <ListItemText
-              sx={{ paddingLeft: 2 }}
-              primary={
-                <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                  {communication.title}
-                </Typography>
-              }
-              secondary={
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  {communication.internshipOfferTitle}
-                </Typography>
-              }
-            />
+            <Box
+              display="flex"
+              flexDirection="column"
+              paddingLeft={2}
+              paddingRight={2}
+            >
+              <Typography
+                variant="h5"
+                sx={{ fontWeight: "bold" }}
+                maxWidth={240}
+              >
+                {communication.title}
+              </Typography>
+              <Typography
+                variant="h8"
+                sx={{ color: "text.secondary" }}
+                maxWidth={240}
+              >
+                {communication.internshipOfferTitle}
+              </Typography>
+              <Typography variant="h10" sx={{ color: "text.secondary" }}>
+                By:{" "}
+                {communication.participantType === "student"
+                  ? communication.studentName
+                  : communication.companyName}
+              </Typography>
+            </Box>
+            <Typography variant="h8" sx={{ color: "text.secondary" }}>
+              {communication.content}
+            </Typography>
           </Box>
         </ListItemButton>
       </ListItem>
