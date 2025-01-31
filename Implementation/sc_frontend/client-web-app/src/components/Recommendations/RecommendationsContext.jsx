@@ -1,5 +1,6 @@
 import * as recommendation from "../../api-calls/api-wrappers/recommendation/recommendation";
 import * as offer from "../../api-calls/api-wrappers/submission-wrapper/internshipOffer";
+import * as cv from "../../api-calls/api-wrappers/submission-wrapper/cv";
 import * as logger from "../../logger/logger";
 import React, { createContext, useEffect } from "react";
 import { useGlobalContext } from "../../global/GlobalContext";
@@ -34,6 +35,18 @@ export const RecommendationsProvider = ({ children }) => {
   const [alertSeverity, setAlertSeverity] = React.useState("success");
 
   useEffect(() => {
+    if (profile.userType === "STUDENT") {
+      fetchIfStudent();
+    } else if (profile.userType === "COMPANY") {
+      fetchIfCompany();
+    } else {
+      setOpenAlert(true);
+      setAlertSeverity("error");
+      setAlertMessage("User type not recognized");
+    }
+  }, []);
+
+  const fetchIfStudent = async () => {
     recommendation.getRecommendations().then((response) => {
       if (!response.success) {
         setOpenAlert(true);
@@ -76,7 +89,51 @@ export const RecommendationsProvider = ({ children }) => {
         });
       }
     });
-  }, []);
+  };
+
+  const fetchIfCompany = async () => {
+    recommendation.getRecommendations().then((response) => {
+      if (!response.success) {
+        setOpenAlert(true);
+        setAlertSeverity(response.severity);
+        setAlertMessage(response.message);
+      } else {
+        //logger.debug("responseData ", response.data);
+        setRecommendationsData(response.data);
+        response.data.forEach((recommendationItem) => {
+          cv.getStudentCV(recommendationItem.studentID).then((cvResponse) => {
+            if (!cvResponse.success) {
+              logger.error(cvResponse.message);
+            } else {
+              //logger.debug("cv: ", cvResponse.data);
+              setRecommendationOfferList((prev) => {
+                // Check if the recommendation already exists
+                const exists = prev.some(
+                  (item) => item.recommendation.id === recommendationItem.id
+                );
+                if (exists) {
+                  return prev;
+                }
+                // Create a new list with the new entry and sort it
+                const newList = [
+                  ...prev,
+                  {
+                    recommendation: recommendationItem,
+                    cv: cvResponse.data,
+                  },
+                ];
+                newList.sort(
+                  (a, b) => a.recommendation.id - b.recommendation.id
+                );
+                //logger.debug("newList: ", newList);
+                return newList;
+              });
+            }
+          });
+        });
+      }
+    });
+  };
 
   const value = {
     recommendationsData,

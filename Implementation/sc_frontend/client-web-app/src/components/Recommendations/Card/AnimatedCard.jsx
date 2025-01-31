@@ -1,5 +1,6 @@
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import RecommendationCard from "./RecommendationCard";
+import { useGlobalContext } from "../../../global/GlobalContext";
 import * as apiCall from "../../../api-calls/apiCalls";
 import * as logger from "../../../logger/logger";
 const AnimatedCard = ({
@@ -58,6 +59,8 @@ const AnimatedCard = ({
     });
   };
 
+  const { profile } = useGlobalContext();
+
   return (
     <motion.div
       style={{
@@ -81,7 +84,8 @@ const AnimatedCard = ({
     >
       <RecommendationCard
         recommendation={item.recommendation}
-        offer={item.offer}
+        //its cv.cv probably a hack but it works, we got not time right now to fix it
+        otherPair={profile.userType === "STUDENT" ? item.offer : item.cv.cv}
         borderColor={borderColor}
         sx={{ width: "100%", height: "100%" }}
       />

@@ -36,12 +36,12 @@ public class CreateCommunicationCommand implements CommunicationManagerCommands<
             throw new BadInputException("User id not found");
         }
         try {
-            ParticipantTypeEnum.valueOf((String) payload.get("user_id"));
+            ParticipantTypeEnum.valueOf(userManager.getUserType((String) payload.get("user_id")).toString().toLowerCase());
         } catch (IllegalArgumentException e) {
             System.out.println("Only Student or Company can create communication");
             throw new BadInputException("Only Student or Company can create communication");
         }
-        ParticipantTypeEnum participantType = ParticipantTypeEnum.valueOf((String) payload.get("user_id"));
+        ParticipantTypeEnum participantType = ParticipantTypeEnum.valueOf(userManager.getUserType((String) payload.get("user_id")).toString().toLowerCase());
         validatePayloadByParticipantType(payload, participantType);
         if (payload.get("internshipOfferID") == null) {
             System.out.println("Internship offer id not found");
