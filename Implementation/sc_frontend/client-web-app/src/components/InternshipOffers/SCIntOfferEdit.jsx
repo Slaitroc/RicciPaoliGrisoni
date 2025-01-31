@@ -1,6 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useCVContext } from "./CVContext";
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   FormControl,
   FormLabel,
@@ -18,27 +17,33 @@ import * as logger from "../../logger/logger";
 import Grid from "@mui/material/Grid2";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import * as cv from "../../api-calls/api-wrappers/submission-wrapper/cv";
+import { useInternshipOffersContext } from "./InternshipOffersContext";
 
-export const SCEditCv = () => {
+export const SCIntOfferEdit = () => {
   const navigate = useNavigate();
-  const { cvData, setCvData, setOpenAlert, setAlertMessage, setAlertSeverity } =
-    useCVContext();
-  const [cvSnapshot, setCvSnapshot] = React.useState(cvData);
-  const newCvDataRef = React.useRef(cvSnapshot);
+  const { id } = useParams();
+  const {
+    offerDataSnapshot,
+    setOpenAlert,
+    setAlertMessage,
+    setAlertSeverity,
+    updateInternshipOffer,
+  } = useInternshipOffersContext();
+  const newOfferDataRef = React.useRef(offerDataSnapshot);
   const [openTipAlert, setOpenTipAlert] = React.useState(true);
 
   const handleFieldChange = (field, value) => {
-    newCvDataRef.current[field].value = value;
+    newOfferDataRef.current[field].value = value;
   };
 
   const clickBack = () => {
     //NAV to CV
-    navigate("/dashboard/cv");
+    navigate(`/dashboard/internship-offers/details/${id}`);
   };
 
   const clickUpdateCvData = () => {
-    logger.focus(newCvDataRef.current);
-    const updatedData = { ...newCvDataRef.current };
+    logger.focus(newOfferDataRef.current);
+    const updatedData = { ...newOfferDataRef.current };
 
     setCvData(updatedData);
     logger.log("updateCvData", updatedData);
@@ -87,7 +92,7 @@ export const SCEditCv = () => {
           </Badge>
           <Typography variant="h6 " gutterBottom>
             Last Update:{" "}
-            {new Date(cvData.updateTime.value).toLocaleString("it-IT", {
+            {new Date().toLocaleString("it-IT", {
               year: "numeric",
               month: "2-digit",
               day: "2-digit",
@@ -103,13 +108,14 @@ export const SCEditCv = () => {
             onClose={() => setOpenTipAlert(false)}
           >
             <Typography variant="body1">
-              Edit your data and click Save Changes to update your CV.
+              Edit your data and click Save Changes to update your Internship
+              Offer.
             </Typography>
             <Typography variant="h6" inline="true">
-                Remember:
+              Remember:
               <Typography inline="true" variant="body1">
-              Using keywords instead of long phrases increases the chances of
-              getting a match in the recommendation process.
+                Using keywords instead of long phrases increases the chances of
+                getting a match in the recommendation process.
               </Typography>
             </Typography>
           </Alert>
@@ -121,42 +127,43 @@ export const SCEditCv = () => {
           columns={12}
           alignItems="stretch"
         >
-          {Object.entries(cvSnapshot).map(([key, value]) => {
-            if (
-              key !== "id" &&
-              key !== "studentID" &&
-              key !== "studentName" &&
-              key !== "updateTime"
-            ) {
-              return (
-                <Grid
-                  item="true"
-                  size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
-                  key={key}
-                >
-                  <Box display="flex">
-                    <FormControl sx={{ flexGrow: 1 }}>
-                      <FormLabel>{value.label}</FormLabel>
-                      <TextField
-                        multiline
-                        variant="outlined"
-                        defaultValue={value.value}
-                        name={key}
-                        onBlur={(e) => handleFieldChange(key, e.target.value)}
-                        sx={{
-                          flexGrow: 1,
-                          "& .MuiOutlinedInput-root": {
-                            minHeight: "auto",
-                            height: "auto",
-                          },
-                        }}
-                      />
-                    </FormControl>
-                  </Box>
-                </Grid>
-              );
-            } else return null;
-          })}
+          {offerDataSnapshot &&
+            Object.entries(offerDataSnapshot).map(([key, value]) => {
+              if (
+                key !== "id" &&
+                key !== "companyID" &&
+                key !== "companyName" &&
+                key !== "updateTime"
+              ) {
+                return (
+                  <Grid
+                    item="true"
+                    size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+                    key={key}
+                  >
+                    <Box display="flex">
+                      <FormControl sx={{ flexGrow: 1 }}>
+                        <FormLabel>{value.label}</FormLabel>
+                        <TextField
+                          multiline
+                          variant="outlined"
+                          defaultValue={value.value}
+                          name={key}
+                          onBlur={(e) => handleFieldChange(key, e.target.value)}
+                          sx={{
+                            flexGrow: 1,
+                            "& .MuiOutlinedInput-root": {
+                              minHeight: "auto",
+                              height: "auto",
+                            },
+                          }}
+                        />
+                      </FormControl>
+                    </Box>
+                  </Grid>
+                );
+              } else return null;
+            })}
         </Grid>
 
         {/* Pulsante per inviare tutti i dati */}
@@ -164,9 +171,9 @@ export const SCEditCv = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={clickUpdateCvData}
+            onClick={() => updateInternshipOffer(id, newOfferDataRef.current)}
           >
-            Salva Modifiche
+            Update Offer
           </Button>
         </Box>
       </Box>

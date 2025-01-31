@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Card,
+  Alert,
   FormControl,
   FormLabel,
   TextField,
@@ -12,29 +13,24 @@ import {
 import Typography from "@mui/material/Typography";
 import { v4 as uuidv4 } from "uuid";
 import { useGlobalContext } from "../../global/GlobalContext";
-
-const key = uuidv4();
+import { useNavigate, useParams } from "react-router-dom";
+import { useInternshipOffersContext } from "./InternshipOffersContext";
+import * as logger from "../../logger/logger";
 
 export default function SCIntOffers({ offerData }) {
-  const [temporalData, setTemporalData] = useState(
-    offerData.map((item) => ({
-      id: item.id,
-      content: item.content.map((subitem) => ({
-        id: subitem.id,
-        content: subitem.content,
-      })),
-    }))
-  );
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { openAlert, alertMessage, alertSeverity, offerDataSnapshot } =
+    useInternshipOffersContext();
 
-  const [showEdit, setShowEdit] = useState(false);
+  const { previewUrl, profile } = useGlobalContext();
 
-  const onEditClick = (bool) => {
-    return () => setShowEdit(bool);
+  const onEditClick = () => {
+    navigate(`/dashboard/internship-offers/edit/${id}`);
   };
-
   const updateTemporalData = (itemID, subItemID, event) => {
     const newContent = event.target.value;
-    const updatedOfferData = temporalData.map((item) =>
+    const updatedOfferData = offerDataSnapshot.map((item) =>
       item.id === itemID
         ? {
             ...item,
@@ -46,9 +42,8 @@ export default function SCIntOffers({ offerData }) {
           }
         : item
     );
-    setTemporalData(updatedOfferData);
+    setOfferDataSnapshot(updatedOfferData);
   };
-
   const updateOfferData = (itemID, subItemID) => {
     const updatedOfferData = offerData.map((item) =>
       item.id === itemID
@@ -58,7 +53,7 @@ export default function SCIntOffers({ offerData }) {
               subitem.id === subItemID
                 ? {
                     ...subitem,
-                    content: temporalData
+                    content: offerDataSnapshot
                       .find((tempItem) => tempItem.id === itemID)
                       .content.find(
                         (tempSubItem) => tempSubItem.id === subItemID
@@ -75,105 +70,89 @@ export default function SCIntOffers({ offerData }) {
   return (
     <>
       <Box display="flex" flexDirection="column" height="100%" gap={2}>
-        <Box sx={{ mt: 4, p: 2, border: "1px solid gray", borderRadius: 2 }}>
-          <Box gap={1} display="flex" flexDirection="row" paddingBottom={3}>
-            <Avatar src={""} alt="Preview" />
-            <Typography variant="h3" gutterBottom>
-              Internship Offer Summary
-            </Typography>
-          </Box>
-          {offerData.map((item) => (
-            <Box>
-              <Typography variant="h4">{item.title}</Typography>
-              {item.content.map((subitem) => (
-                <Box key={uuidv4()} id={subitem.id} sx={{ mb: 0 }} padding={1}>
-                  <Typography variant="h6">{subitem.title}</Typography>
-                  <Typography variant="body1" whiteSpace="pre-line">
-                    {subitem.content || "No content provided."}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
-          ))}
-        </Box>
-        <Box display="flex" justifyContent="center">
-          <Button
-            variant="contained"
-            onClick={onEditClick(!showEdit)}
-            sx={{
-              width: "20%",
-            }}
+        {openAlert && <Alert severity={alertSeverity}>{alertMessage}</Alert>}
+        <Box sx={{ mt: 2, p: 2, border: "1px solid gray", borderRadius: 2 }}>
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-between"
           >
-            Edit Internship Offer
-          </Button>
-        </Box>
-
-        {showEdit && (
-          <>
-            {offerData.map((item) => {
+            <Box gap={1} display="flex" flexDirection="row" paddingBottom={3}>
+              <Avatar src={previewUrl} alt="Preview" />
+              <Typography variant="h5" gutterBottom>
+                Internship Offer Summary
+              </Typography>
+            </Box>
+            {offerDataSnapshot && (
+              <Box display="flex" flexDirection="column" alignItems="end">
+                <Typography variant="h6 " gutterBottom>
+                  Last Update:{" "}
+                  {new Date().toLocaleString("it-IT", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </Typography>
+                <Button
+                  variant="outlined"
+                  onClick={onEditClick}
+                  align="left"
+                  sx={{
+                    whiteSpace: "nowrap",
+                    width: "50%",
+                    paddingX: 6,
+                  }}
+                >
+                  Edit Offer
+                </Button>
+              </Box>
+            )}
+          </Box>
+          <Box key={uuidv4()} sx={{ mb: 2 }}>
+            <Box display="flex" flexDirection="column" gap={1}>
+              <Typography variant="h6">Company Name:</Typography>
+              <Typography
+                variant="body1"
+                whiteSpace="pre-line"
+                color="text.secondary"
+              >
+                {profile.name}
+              </Typography>
+            </Box>
+          </Box>
+          {offerDataSnapshot &&
+            Object.entries(offerDataSnapshot).map((field) => {
+              if (
+                field[0] === "companyID" ||
+                field[0] === "id" ||
+                field[0] === "updateTime" ||
+                field[0] === "companyName"
+              )
+                return null;
               return (
-                <React.Fragment key={key}>
-                  <Typography variant="h4">{item.title}</Typography>
-                  <Box display="flex" flexDirection="column" gap={6}>
-                    {item.content.map((subitem) => {
-                      return (
-                        <Box display="flex" flexDirection="row" gap={6}>
-                          <FormControl sx={{ width: "100%" }}>
-                            <FormLabel>{subitem.title}</FormLabel>
-                            <TextField
-                              multiline
-                              variant="outlined"
-                              placeholder={subitem.title}
-                              onChange={(e) =>
-                                updateTemporalData(item.id, subitem.id, e)
-                              }
-                              sx={{
-                                "& .MuiOutlinedInput-root": {
-                                  minHeight: "auto", // Altezza minima dinamica
-                                  height: "auto", // Altezza complessiva non fissa
-                                },
-                              }}
-                            />
-                            <Box
-                              display="flex"
-                              justifyContent="left"
-                              padding={2}
-                            >
-                              <Button
-                                onClick={() =>
-                                  updateOfferData(item.id, subitem.id)
-                                }
-                                variant="outlined"
-                                sx={{
-                                  width: "20%",
-                                  height: "60%",
-                                  // "&.MuiButton-root": {
-                                  //   border: "1px solid grey", // Modifica solo questo bottone
-                                  // },
-                                }}
-                              >
-                                Update
-                              </Button>
-                            </Box>
-                          </FormControl>
-                          <FormControl sx={{ width: "100%" }}>
-                            <FormLabel>{subitem.title}</FormLabel>
-                            <Card
-                              sx={{ width: "100%", whiteSpace: "pre-line" }}
-                            >
-                              {" "}
-                              {subitem.content}
-                            </Card>
-                          </FormControl>
-                        </Box>
-                      );
-                    })}
+                <Box key={uuidv4()} id={field.id} sx={{ mb: 2 }}>
+                  <Box display="flex" flexDirection="column" gap={1}>
+                    <Typography variant="h6">{field[1].label}:</Typography>
+                    <Typography
+                      variant="body1"
+                      whiteSpace="pre-line"
+                      color="text.secondary"
+                    >
+                      {((value) => {
+                        if (value && value !== 0) {
+                          return value;
+                        } else {
+                          return "No content provided.";
+                        }
+                      })(field[1].value) && field[1].value}
+                    </Typography>
                   </Box>
-                </React.Fragment>
+                </Box>
               );
             })}
-          </>
-        )}
+        </Box>
       </Box>
     </>
   );

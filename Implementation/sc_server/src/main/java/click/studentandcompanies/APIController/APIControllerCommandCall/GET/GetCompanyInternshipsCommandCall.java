@@ -27,25 +27,27 @@ public class GetCompanyInternshipsCommandCall implements APIControllerCommandCal
 
     public ResponseEntity<List<DTO>> execute() {
         List<DTO> dtos = new ArrayList<>();
-        try{
-            if(userID == null){
-                dtos.add(DTOCreator.createDTO(DTOTypes.ERROR, "User is not logged in"));
+        try {
+            if (userID == null) {
+                dtos.add(DTOCreator.createDTO(DTOTypes.ERROR,
+                        "User did not sent his information, please complete the registration process"));
                 return new ResponseEntity<>(dtos, HttpStatus.NOT_FOUND);
             }
             List<InternshipOffer> internshipOffers = submissionManager.getInternshipsByCompany(companyID);
-            //For every InternshipOffer in the list, create a DTO and add it to the list of DTOs
+            // For every InternshipOffer in the list, create a DTO and add it to the list of
+            // DTOs
             for (InternshipOffer offer : internshipOffers) {
                 dtos.add(DTOCreator.createDTO(DTOTypes.INTERNSHIP_OFFER, offer));
             }
-            //Return the list of DTOs with a status code of 200 (OK)
+            // Return the list of DTOs with a status code of 200 (OK)
             return new ResponseEntity<>(dtos, HttpStatus.OK);
-        }catch (NotFoundException e){
+        } catch (NotFoundException e) {
             dtos.add(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()));
             return new ResponseEntity<>(dtos, HttpStatus.NOT_FOUND);
-        }catch (NoContentException e){
+        } catch (NoContentException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch (Exception e){
+        } catch (Exception e) {
             dtos.add(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()));
             return new ResponseEntity<>(dtos, HttpStatus.INTERNAL_SERVER_ERROR);
         }

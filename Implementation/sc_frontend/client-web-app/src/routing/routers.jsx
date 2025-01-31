@@ -35,7 +35,7 @@ import Account from "../pages/Account";
 import SwipePage from "../pages/SwipePage";
 import VerifyEmail from "../pages/VerifyEmail";
 import SCCv from "../components/CV/SCCV";
-import SCIntOffers from "../components/InternshipOffers/SCIntOffer";
+import SCIntOffer from "../components/InternshipOffers/SCIntOffer";
 import SCIntOffersPreview from "../components/InternshipOffers/SCIntOffersPreview";
 import BrowseInternshipOffers from "../pages/BrowseInternshipOffers";
 import SCInterview from "../components/Interviews/SCInterview";
@@ -51,6 +51,7 @@ import {
   UNIVERSITY_USER_TYPE,
 } from "../global/globalStatesInit";
 import SCRecommendations from "../components/Recommendations/SCRecommendations";
+import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
 //import SCCommunications from "../components/Communications/SCCommunications";
 
 //NAV Router Configurations
@@ -165,7 +166,11 @@ const router = createBrowserRouter(
                 },
                 {
                   path: "details/:id",
-                  element: <SCIntOffers />,
+                  element: <SCIntOffer />,
+                },
+                {
+                  path: "edit/:id",
+                  element: <SCIntOfferEdit />,
                 },
               ],
             },
