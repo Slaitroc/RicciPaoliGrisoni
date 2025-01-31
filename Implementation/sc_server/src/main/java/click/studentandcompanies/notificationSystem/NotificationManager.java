@@ -5,6 +5,7 @@ import click.studentandcompanies.notificationSystem.entity.Notification;
 import click.studentandcompanies.notificationSystem.entityRepository.ContactRepository;
 import click.studentandcompanies.notificationSystem.entityRepository.NotificationRepository;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationPayload;
+import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +64,11 @@ public class NotificationManager {
             }
         }
         System.out.println("notification saved for " + userIds.size() + " users.");
+    }
+
+    public List<Notification> getNotifications(String userID) {
+        Contact contact = contactRepository.getContactsByUserId(userID).getFirst();
+        return contact.getNotifications();
     }
 
     /*

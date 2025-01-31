@@ -3,7 +3,7 @@ import Stack from "@mui/material/Stack";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import SCNavbarBreadcrumbs from "./SCNavbarBreadcrumbs";
 import SCAvatarOptionsMenu from "../Shared/OptionMenu/SCAvatarOptionsMenu";
-
+import NotificationContainer from "../Notification/NotificationContainer";
 import SCMenuButton from "./SCMenuButton";
 import SCColorModeIconDropdown from "./SCColorModeIconDropdown";
 
@@ -23,9 +23,7 @@ export default function SCHeader() {
       <SCNavbarBreadcrumbs />
       <Stack direction="row" sx={{ gap: 1 }}>
         <SCColorModeIconDropdown />
-        <SCMenuButton showBadge aria-label="Open notifications">
-          <NotificationsRoundedIcon />
-        </SCMenuButton>
+        <NotificationContainer />
         <SCAvatarOptionsMenu />
       </Stack>
     </Stack>

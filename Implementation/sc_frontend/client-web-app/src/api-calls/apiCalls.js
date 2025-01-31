@@ -34,6 +34,17 @@ export const sendNotificationToken = async (notificationToken) => {
   });
 };
 
+export const getNotifications = async () => {
+  const token = await getToken();
+  return fetchWrapper("/notification-api/private/get-notifications", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 // #endregion GLOBAL NOTIFICATION API CALLS
 
 // #endregion NOTIFICATION API CALLS

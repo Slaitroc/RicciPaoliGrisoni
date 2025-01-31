@@ -14,7 +14,7 @@ public class SendInternshipPositionOfferRejectedNotification implements SenderIn
         //List<String> emails = getEmails(userIDs, notificationManager);
 
         String pushTitle = "Refuse Internship Offer";
-        String pushBody = "The candidate has refused the internship offer";
+        String pushBody = "The candidate has refused the internship offer \"" + data.getProperties().get("internshipTitle") + "\".";
 
         NotificationPayload payload = new NotificationPayload(pushTitle, pushBody);
         //EmailContent emailContent = new EmailContent(pushTitle, pushBody);
