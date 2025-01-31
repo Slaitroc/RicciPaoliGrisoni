@@ -17,7 +17,7 @@ export const getFormattedInterviews = async () => {
             success: false,
             data: null,
             message: errorMessage,
-            severity: "error",
+            severity: response.status === 400 ? "error" : "info",
           };
         });
       } else {

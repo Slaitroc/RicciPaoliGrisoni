@@ -9,6 +9,7 @@ import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import click.studentandcompanies.utils.exception.UnauthorizedException;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -124,6 +125,7 @@ public class UpdateInternshipOfferCommand implements SubmissionManagerCommand<In
             updatedOffer.setNumberPositions((Integer) payload.get("number_positions"));
         if(payload.get("duration_hours")!=null)
             updatedOffer.setDurationHours((Integer) payload.get("duration_hours"));
+        updatedOffer.setUpdateTime(Instant.now());
         return updatedOffer;
     }
 }

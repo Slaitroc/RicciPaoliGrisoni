@@ -18,7 +18,8 @@ public enum NotificationTriggerType {
     SPONTANEOUS_APPLICATION_REJECTED(new SendSpontaneousApplicationRejectedNotification()),
     INTERNSHIP_POSITION_OFFER_ACCEPTED(new SendInternshipPositionOfferAcceptedNotification()),
     INTERNSHIP_POSITION_OFFER_REJECTED(new SendInternshipPositionOfferRejectedNotification()),
-    TEST(new SendTest());
+    TEST(new SendTest()),
+    MESSAGE_CREATED(new SendMessageCreatedNotification());
 
     private final SenderInterface sender;
 

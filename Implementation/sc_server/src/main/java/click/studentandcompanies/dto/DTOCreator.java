@@ -38,9 +38,9 @@ public class DTOCreator {
         final DTO messageDTO = new DTO();
         messageDTO.addProperty("id", object.getId());
         messageDTO.addProperty("body", object.getBody());
-        messageDTO.addProperty("timeStamp", object.getTimeStamp());
+        messageDTO.addProperty("updateTime", object.getTimeStamp());
         messageDTO.addProperty("senderName", object.getSenderName());
-        messageDTO.addProperty("receiverID", object.getCommunication().getTitle());
+        messageDTO.addProperty("communicationTitle", object.getCommunication().getTitle());
         return messageDTO;
     }
 
@@ -136,6 +136,7 @@ public class DTOCreator {
         offerDTO.addProperty("requiredSkills", offer.getRequiredSkills());
         offerDTO.addProperty("startDate", offer.getStartDate());
         offerDTO.addProperty("title", offer.getTitle());
+        offerDTO.addProperty("updateTime", offer.getUpdateTime());
         return offerDTO;
     }
 
@@ -203,12 +204,12 @@ public class DTOCreator {
         communicationDTO.addProperty("id", communication.getId());
         communicationDTO.addProperty("type", communication.getCommunicationType());
         communicationDTO.addProperty("title", communication.getTitle());
-        communicationDTO.addProperty("companyName", communication.getInternshipOffer().getCompany().getName());
-        communicationDTO.addProperty("studentName", communication.getStudent().getName());
-        communicationDTO.addProperty("universityName", communication.getUniversity().getName());
-        communicationDTO.addProperty("internshipOfferID", communication.getInternshipOffer().getId());
-        communicationDTO.addProperty("internshipOfferTitle", communication.getInternshipOffer().getTitle());
-
+        communicationDTO.addProperty("content", communication.getContent());
+        communicationDTO.addProperty("communicationType", communication.getCommunicationType());
+        communicationDTO.addProperty("communicationType", communication.getCommunicationType());
+        communicationDTO.addProperty("updateTime", communication.getUpdateTime());
+        /*--------------------*/
+        computeNullableDataCommunication(communication, communicationDTO);
         return communicationDTO;
     }
 
@@ -231,5 +232,48 @@ public class DTOCreator {
             interviewDTO.addProperty("studentID", interview.getSpontaneousApplication().getStudent().getId());
         }
         return interviewDTO;
+    }
+
+    //this is probably a hack, but I don't have time right now to refactor, again, the whole thing
+    private static void computeNullableDataCommunication(Communication communication, DTO communicationDTO) {
+        if (communication.getStudent() != null){ //the student is the creator of the communication, so it is saved in the DB
+            communicationDTO.addProperty("studentID", communication.getStudent().getId());
+            communicationDTO.addProperty("studentName", communication.getStudent().getName());
+            communicationDTO.addProperty("universityID", communication.getStudent().getUniversity().getId());
+            communicationDTO.addProperty("universityName", communication.getStudent().getUniversity().getName());
+            Recommendation recommendationOfCommunication = communication.getInternshipPosOff().getInterview().getRecommendation();
+            SpontaneousApplication spontaneousApplicationOfCommunication = communication.getInternshipPosOff().getInterview().getSpontaneousApplication();
+            if(recommendationOfCommunication != null) {
+                communicationDTO.addProperty("companyID", recommendationOfCommunication.getInternshipOffer().getCompany().getId());
+                communicationDTO.addProperty("companyName", recommendationOfCommunication.getInternshipOffer().getCompany().getName());
+                communicationDTO.addProperty("internshipOfferID", recommendationOfCommunication.getInternshipOffer().getId());
+                communicationDTO.addProperty("internshipOfferTitle", recommendationOfCommunication.getInternshipOffer().getTitle());
+            }else{
+                communicationDTO.addProperty("companyID", spontaneousApplicationOfCommunication.getInternshipOffer().getCompany().getId());
+                communicationDTO.addProperty("companyName", spontaneousApplicationOfCommunication.getInternshipOffer().getCompany().getName());
+                communicationDTO.addProperty("internshipOfferID", spontaneousApplicationOfCommunication.getInternshipOffer().getId());
+                communicationDTO.addProperty("internshipOfferTitle", spontaneousApplicationOfCommunication.getInternshipOffer().getTitle());
+            }
+        }else{ //the student is not the creator of the communication
+            communicationDTO.addProperty("companyID", communication.getCompany().getId());
+            communicationDTO.addProperty("companyName", communication.getCompany().getName());
+            Recommendation recommendationOfCommunication = communication.getInternshipPosOff().getInterview().getRecommendation();
+            SpontaneousApplication spontaneousApplicationOfCommunication = communication.getInternshipPosOff().getInterview().getSpontaneousApplication();
+            if(recommendationOfCommunication != null) {
+                communicationDTO.addProperty("studentID", recommendationOfCommunication.getCv().getStudent().getId());
+                communicationDTO.addProperty("studentName", recommendationOfCommunication.getCv().getStudent().getName());
+                communicationDTO.addProperty("universityID", recommendationOfCommunication.getCv().getStudent().getUniversity().getId());
+                communicationDTO.addProperty("universityName", recommendationOfCommunication.getCv().getStudent().getUniversity().getName());
+                communicationDTO.addProperty("internshipOfferID", recommendationOfCommunication.getInternshipOffer().getId());
+                communicationDTO.addProperty("internshipOfferTitle", recommendationOfCommunication.getInternshipOffer().getTitle());
+            }else{
+                communicationDTO.addProperty("studentID", spontaneousApplicationOfCommunication.getStudent().getId());
+                communicationDTO.addProperty("studentName", spontaneousApplicationOfCommunication.getStudent().getName());
+                communicationDTO.addProperty("universityID", spontaneousApplicationOfCommunication.getStudent().getUniversity().getId());
+                communicationDTO.addProperty("universityName", spontaneousApplicationOfCommunication.getStudent().getUniversity().getName());
+                communicationDTO.addProperty("internshipOfferID", spontaneousApplicationOfCommunication.getInternshipOffer().getId());
+                communicationDTO.addProperty("internshipOfferTitle", spontaneousApplicationOfCommunication.getInternshipOffer().getTitle());
+            }
+        }
     }
 }
