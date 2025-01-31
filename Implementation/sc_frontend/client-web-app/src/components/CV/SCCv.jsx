@@ -26,7 +26,6 @@ export default function SCCv() {
   //   cvData ? cvData.map((item) => ({ id: item.id, content: item.content })) : []
   // );
 
-  const [showEdit, setShowEdit] = useState(false);
 
   const onEditClick = () => {
     //NAV to CV edit
@@ -34,26 +33,7 @@ export default function SCCv() {
     // return () => setShowEdit(bool);
   };
 
-  const updateTemporalData = (id, event) => {
-    const newContent = event.target.value;
-    const updatedCvData = temporalData.map((item) =>
-      item.id === id ? { ...item, content: newContent } : item
-    );
-    setTemporalData(updatedCvData);
-  };
-
-  const updateCvData = (id) => {
-    const updatedCvData = cvData.map((item) =>
-      item.id === id
-        ? {
-            ...item,
-            content: temporalData.find((tempItem) => tempItem.id === id)
-              .content,
-          }
-        : item
-    );
-    setCvData(updatedCvData);
-  };
+ 
 
   return (
     <>
