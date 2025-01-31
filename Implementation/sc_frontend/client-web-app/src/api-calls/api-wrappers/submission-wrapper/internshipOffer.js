@@ -1,5 +1,6 @@
 import * as apiCalls from "../../apiCalls";
 import * as logger from "../../../logger/logger";
+import * as wrapperUtils from "../wrapperUtils";
 
 export const getInternshipOffers = async () => {
   return apiCalls.getInternshipOffers();
@@ -10,8 +11,9 @@ export const getCompanyInternships = async (companyID) => {
 };
 
 export const getFormattedCompanyInternships = async (companyID) => {
-  try {
-    return apiCalls.getCompanyInternships(companyID).then((response) => {
+  return apiCalls
+    .getCompanyInternships(companyID)
+    .then((response) => {
       if (response.status === 204) {
         return {
           success: false,
@@ -19,50 +21,50 @@ export const getFormattedCompanyInternships = async (companyID) => {
           message: "No internship offers found for this company",
           severity: "info",
         };
-      } else if (response.status === 404) {
+      } else if (response.status === 200) {
+        return response.json().then((payload) => {
+          const fieldMap = new Map();
+          fieldMap.set("id", "Internship ID");
+          fieldMap.set("companyID", "Company ID");
+          fieldMap.set("companyName", "Company Name");
+          fieldMap.set("title", "Title");
+          fieldMap.set("startDate", "Start Date");
+          fieldMap.set("endDate", "End Date");
+          fieldMap.set("duration", "Duration");
+          fieldMap.set("numberPositions", "Number of Positions");
+          fieldMap.set("location", "Location");
+          fieldMap.set("description", "Description");
+          fieldMap.set("requiredSkills", "Required Skills");
+          fieldMap.set("compensation", "Compensation");
+
+          logger.debug(
+            wrapperUtils.formatLabeledArrayContent(fieldMap, payload)
+          );
+          return {
+            success: true,
+            data: wrapperUtils.formatLabeledArrayContent(fieldMap, payload),
+            message: "Internship offers fetched successfully",
+            severity: "success",
+          };
+        });
+      } else {
         return {
           success: false,
           data: null,
           message: response.properties.error,
           severity: "error",
         };
-      } else {
-        return response.json().then((payload) => {
-          const formattedData = payload.map((internship) => {
-            const { properties } = internship;
-            return {
-              id: properties.id,
-              title: properties.title,
-              companyID: properties.companyID,
-              companyName: properties.companyName,
-              description: properties.description,
-              startDate: properties.startDate,
-              endDate: properties.endDate,
-              duration: properties.duration,
-              location: properties.location,
-              compensation: properties.compensation,
-              numberPositions: properties.numberPositions,
-              requiredSkills: properties.requiredSkills,
-            };
-          });
-          return {
-            success: true,
-            data: formattedData,
-            message: "Internship offers fetched successfully",
-            severity: "success",
-          };
-        });
       }
+    })
+    .catch((error) => {
+      throw error;
     });
-  } catch (error) {
-    throw error;
-  }
 };
 
 export const getFormattedInternships = async () => {
   try {
     return apiCalls.getInternshipOffers().then((response) => {
-      logger.debug("getFormattedInternships status: ", response.status);
+      logger.focus("getFormattedInternships status: ", response);
       if (response.status === 204) {
         return {
           success: false,
@@ -72,26 +74,9 @@ export const getFormattedInternships = async () => {
         };
       } else {
         return response.json().then((payload) => {
-          const formattedData = payload.map((internship) => {
-            const { properties } = internship;
-            return {
-              id: properties.id,
-              title: properties.title,
-              companyID: properties.companyID,
-              companyName: properties.companyName,
-              description: properties.description,
-              startDate: properties.startDate,
-              endDate: properties.endDate,
-              duration: properties.duration,
-              location: properties.location,
-              compensation: properties.compensation,
-              numberPositions: properties.numberPositions,
-              requiredSkills: properties.requiredSkills,
-            };
-          });
           return {
             success: true,
-            data: formattedData,
+            data: payload.map((offer) => offer.properties),
             message: "Internship offers fetched successfully",
             severity: "success",
           };
