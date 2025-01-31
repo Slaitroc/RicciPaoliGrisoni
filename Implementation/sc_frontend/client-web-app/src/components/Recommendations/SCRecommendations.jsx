@@ -1,17 +1,29 @@
 import * as React from "react";
 import * as logger from "../../logger/logger";
 import { useRecommendationsContext } from "./RecommendationsContext";
-import RecommendationCard from "./RecommendationCard";
-import { Grid2 } from "@mui/material";
-import { useMotionValue, useTransform, motion, animate } from "framer-motion";
+import AnimatedCard from "./AnimatedCard";
 import { Button, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 export default function SCRecommendations() {
-  const {
-    recommendationOfferList,
-    handleDragEnd,
-    profile,
-    handleErrorButtonClick,
-  } = useRecommendationsContext();
+  const { recommendationOfferList, profile } = useRecommendationsContext();
+
+  const navigate = useNavigate();
+  const handleErrorButtonClick = () => {
+    profile.userType === "STUDENT"
+      ? navigate("/dashboard/browse-internship-offers")
+      : navigate("/dashboard/internship-offers");
+  };
+
+  const [isHiddenArray, setIsHiddenArray] = React.useState([]);
+
+  const updateIsHiddenArray = (index) => {
+    setIsHiddenArray((prev) => {
+      const newArray = [...prev];
+      newArray[index] = true;
+      return newArray;
+    });
+  };
 
   return (
     <Box
@@ -20,10 +32,7 @@ export default function SCRecommendations() {
       alignItems="center"
       width="100%"
       padding={2}
-      sx={{
-        boxSizing: "border-box",
-        minHeight: "80vh",
-      }}
+      sx={{ boxSizing: "border-box", minHeight: "80vh" }}
     >
       {/* Card Container */}
       <div
@@ -37,43 +46,24 @@ export default function SCRecommendations() {
           maxWidth: 500,
         }}
       >
-        {recommendationOfferList.map((recommendationOffer) => (
-          <motion.div
-            key={recommendationOffer.recommendation.id}
-            style={{
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-            onDragEnd={handleDragEnd}
-          >
-            <RecommendationCard
-              recommendation={recommendationOffer.recommendation}
-              offer={recommendationOffer.offer}
-              sx={{ width: "100%", height: "100%" }}
-            />
-          </motion.div>
+        {recommendationOfferList.map((item, index) => (
+          <AnimatedCard
+            key={item.recommendation.id}
+            item={item}
+            index={index}
+            isHidden={isHiddenArray[index]}
+            removeCard={updateIsHiddenArray}
+          />
         ))}
       </div>
 
-      {profile.userType === "STUDENT" && (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-          }}
-        >
-          <Button variant="outlined" onClick={handleErrorButtonClick}>
-            Browse All Internship Offers!
-          </Button>
-        </Box>
-      )}
+      <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+        <Button variant="outlined" onClick={handleErrorButtonClick}>
+          {profile.userType === "STUDENT"
+            ? "Browse All Internship Offers!"
+            : "See your Offer!"}
+        </Button>
+      </Box>
     </Box>
   );
 }

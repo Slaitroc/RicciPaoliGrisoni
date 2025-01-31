@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -308,8 +309,9 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Recommendation not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> acceptRecommendation(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<DTO> acceptRecommendation(@PathVariable Integer RecommendationID, @RequestHeader("Authorization") String token) {
         String user_id = GetUuid.getUuid(token);
+        Map<String, Object> payload = new HashMap<>();
         payload.put("user_id", user_id);
         return new AcceptRecommendationCommandCall(RecommendationID, recommendationProcess, notificationManager, payload).execute();
     }
@@ -324,8 +326,9 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Recommendation not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> refuseRecommendation(@PathVariable Integer RecommendationID, @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<DTO> refuseRecommendation(@PathVariable Integer RecommendationID, @RequestHeader("Authorization") String token) {
         String user_id = GetUuid.getUuid(token);
+        Map<String, Object> payload = new HashMap<>();
         payload.put("user_id", user_id);
         return new RejectRecommendationCommandCall(RecommendationID, recommendationProcess, payload).execute();
     }
