@@ -163,7 +163,7 @@ const router = createBrowserRouter(
                   element: <SCIntOffersPreview />,
                 },
                 {
-                  path: "internship-detail",
+                  path: "details/:id",
                   element: <SCIntOffers />,
                 },
               ],
@@ -177,7 +177,7 @@ const router = createBrowserRouter(
                   element: <SCBrowseInternshipPreview />,
                 },
                 {
-                  path: "internship-detail",
+                  path: "details/:id",
                   element: <SCBrowseInternshipOffer />,
                 },
               ],
@@ -197,7 +197,7 @@ const router = createBrowserRouter(
                   element: <SCApplicationPreview />,
                 },
                 {
-                  path: "application-detail",
+                  path: "details/:id",
                   element: <SCApplication />,
                 },
               ],
@@ -227,7 +227,7 @@ const router = createBrowserRouter(
                   element: <SCInterviewPreview />,
                 },
                 {
-                  path: "interview-detail",
+                  path: "details/:id",
                   element: <SCInterview />,
                 },
               ],
