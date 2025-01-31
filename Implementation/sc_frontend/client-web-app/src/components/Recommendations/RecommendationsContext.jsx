@@ -67,7 +67,7 @@ export const RecommendationsProvider = ({ children }) => {
                     },
                   ];
                   newList.sort(
-                    (a, b) => b.recommendation.id - a.recommendation.id
+                    (a, b) => a.recommendation.id - b.recommendation.id
                   );
                   return newList;
                 });

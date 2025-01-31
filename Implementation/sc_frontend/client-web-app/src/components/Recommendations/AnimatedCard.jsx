@@ -1,7 +1,7 @@
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import RecommendationCard from "./RecommendationCard";
 import * as apiCall from "../../api-calls/apiCalls";
-
+import * as logger from "../../logger/logger";
 const AnimatedCard = ({
   item,
   index,
@@ -12,7 +12,7 @@ const AnimatedCard = ({
   ZOOMLIMIT = 1.2,
   BORDERCOLOR = "white",
   ACCEPTBORDERCOLOR = "green",
-  REJECTBORDERCOLOR = "green",
+  REJECTBORDERCOLOR = "red",
 }) => {
   const x = useMotionValue(0);
   const rotate = useTransform(
@@ -28,10 +28,10 @@ const AnimatedCard = ({
 
   const borderColor = useTransform(
     x,
-    [-SWIPELIMIT, -SWIPELIMIT + 1, 0, SWIPELIMIT - 1, SWIPELIMIT],
+    [-SWIPELIMIT, -SWIPELIMIT / 2, 0, SWIPELIMIT / 2, SWIPELIMIT],
     [
       REJECTBORDERCOLOR,
-      BORDERCOLOR,
+      REJECTBORDERCOLOR,
       BORDERCOLOR,
       BORDERCOLOR,
       ACCEPTBORDERCOLOR,
@@ -60,11 +60,11 @@ const AnimatedCard = ({
     <motion.div
       style={{
         position: "absolute",
-        width: "100%",
-        height: "100%",
         x,
         rotate,
         scale,
+        border: `4px solid`,
+        borderColor,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -72,6 +72,9 @@ const AnimatedCard = ({
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
       onDragEnd={handleDragEnd}
+      onDrag={() => {
+        logger.debug(x.get());
+      }}
     >
       <RecommendationCard
         recommendation={item.recommendation}
