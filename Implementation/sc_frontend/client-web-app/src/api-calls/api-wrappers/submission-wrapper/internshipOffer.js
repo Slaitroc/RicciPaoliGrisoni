@@ -163,7 +163,7 @@ export const sendUpdateMyOffer = async (offerData) => {
       payload[key] = offerData[key].value;
     }
   }
-  logger.focus("PRESEND DATA ", payload);
+  focus("PRESEND DATA ", payload);
   return apiCalls.updateOffer(payload).then((response) => {
     if (response.status === 201) {
       return response.json().then((payload) => {
