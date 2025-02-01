@@ -115,13 +115,6 @@ export const InternshipOffersProvider = ({ children }) => {
     fetchedData();
   }, []);
   const fetchedData = async () => {
-    if (profile.userType != "COMPANY") {
-      openAlertProc();
-      setAlertSeverity("error");
-      setAlertMessage("User is not a company");
-      console.log("User is not a company");
-      return;
-    } else {
       return await internshipOffer
         .getFormattedCompanyInternships(profile.userID)
         .then((response) => {
