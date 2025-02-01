@@ -70,11 +70,11 @@ export const ApplicationsProvider = ({ children }) => {
       {children}
       <div style={{ margin: "20px 0" }}></div>
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <Box paddingLeft={5}>
+        {/* <Box paddingLeft={5}>
           <Button variant="outlined" onClick={handleErrorButtonClick}>
             Browse All Internship Offers
           </Button>
-        </Box>
+        </Box> */}
       </div>
     </ApplicationContext.Provider>
   );

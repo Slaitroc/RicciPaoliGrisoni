@@ -13,12 +13,12 @@ import { useGlobalContext } from "../../global/GlobalContext";
 import * as globalStatesInit from "../../global/globalStatesInit";
 
 const studentListItems = [
-  {
-    key: uuidv4(),
-    text: "Overview",
-    icon: <SCIcons.SCDashboardIcon />,
-    route: "/dashboard",
-  },
+  // {
+  //   key: uuidv4(),
+  //   text: "Overview",
+  //   icon: <SCIcons.SCDashboardIcon />,
+  //   route: "/dashboard",
+  // },
   {
     key: uuidv4(),
     text: "Cv",
@@ -39,7 +39,7 @@ const studentListItems = [
   },
   {
     key: uuidv4(),
-    text: "Recommendation Process",
+    text: "Recommendations",
     icon: <SCIcons.SCJoinInnerIcon />,
     route: "/dashboard/recommendations",
   },
@@ -70,12 +70,12 @@ const studentListItems = [
 ];
 
 const univesityListItems = [
-  {
-    key: uuidv4(),
-    text: "Overview",
-    icon: <SCIcons.SCDashboardIcon />,
-    route: "/dashboard",
-  },
+  // {
+  //   key: uuidv4(),
+  //   text: "Overview",
+  //   icon: <SCIcons.SCDashboardIcon />,
+  //   route: "/dashboard",
+  // },
   {
     key: uuidv4(),
     text: "University",
@@ -84,7 +84,7 @@ const univesityListItems = [
   },
   {
     key: uuidv4(),
-    text: "Browse Internship",
+    text: "Browse All Internships",
     icon: <SCIcons.SCManageSearchIcon />,
     route: "/dashboard/browse-internship-offers",
   },
@@ -97,21 +97,21 @@ const univesityListItems = [
 ];
 
 const companyListItems = [
+  // {
+  //   key: uuidv4(),
+  //   text: "Overview",
+  //   icon: <SCIcons.SCDashboardIcon />,
+  //   route: "/dashboard",
+  // },
   {
     key: uuidv4(),
-    text: "Overview",
-    icon: <SCIcons.SCDashboardIcon />,
-    route: "/dashboard",
-  },
-  {
-    key: uuidv4(),
-    text: "Browse Internship",
+    text: "Browse All Internships",
     icon: <SCIcons.SCManageSearchIcon />,
     route: "/dashboard/browse-internship-offers",
   },
   {
     key: uuidv4(),
-    text: "Internship Offers",
+    text: "Your Internship Offers",
     icon: <SCIcons.SCAccountBoxIcon />,
     route: "/dashboard/internship-offers",
   },
@@ -123,7 +123,7 @@ const companyListItems = [
   },
   {
     key: uuidv4(),
-    text: "Recommendation Process",
+    text: "Recommendations",
     icon: <SCIcons.SCJoinInnerIcon />,
     route: "/dashboard/recommendations",
   },
