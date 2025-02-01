@@ -1,17 +1,15 @@
+import React from "react";
+import { createBrowserRouter } from "react-router-dom";
+
 import {
   STUDENT_USER_TYPE,
   COMPANY_USER_TYPE,
   UNIVERSITY_USER_TYPE,
 } from "../global/globalStatesInit";
-import { ConfirmEmail } from "../pages/ConfirmEmail";
-import { RouteBase } from "../pages/RouteBase";
-import { SCEditCv } from "../components/CV/SCEditCV";
-import { SCSignUp } from "../components/SignUp/SCSignUp";
-import { createBrowserRouter } from "react-router-dom";
-import { SignUp } from "../pages/SignUp";
-import { SCUserCreation } from "../components/SignUp/SCUserCreation";
-import SCApplicationPreview from "../components/Applications/SCApplicationPreview";
-import React from "react";
+
+import ConfirmEmail from "../pages/ConfirmEmail";
+import RouteBase from "../pages/RouteBase";
+import SignUp from "../pages/SignUp";
 import SCSignInSide from "../pages/SCSignInSide";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
@@ -32,35 +30,34 @@ import Interviews from "../pages/Interviews";
 import BrowseInternshipOffers from "../pages/BrowseInternshipOffers";
 import InterviewPosOffer from "../pages/InterviewPosOffer";
 import Recommendations from "../pages/Recommendations";
-import EmailRouteProtector from "./EmailRouteProtector";
-import AuthRouteProtector from "./AuthRouteProtector";
-import UserCreationRouteProtector from "./UserCreationRouteProtector";
-import UserTypeRouteProtector from "./UserTypeRouteProtector";
+import VerifyEmail from "../pages/VerifyEmail";
+import InternshipOffers from "../pages/InternshipOffers";
+
+import SCEditCv from "../components/CV/SCEditCV";
+import SCSignUp from "../components/SignUp/SCSignUp";
+import SCUserCreation from "../components/SignUp/SCUserCreation";
+import SCApplicationPreview from "../components/Applications/SCApplicationPreview";
 import SCCommunications from "../components/Communications/SCCommunications";
 import SCCommunicationDetails from "../components/Communications/SCCommunicationDetails";
 import SCNewCommunication from "../components/Communications/SCNewCommunication";
-import VerifyEmail from "../pages/VerifyEmail";
 import SCCv from "../components/CV/SCCV";
-import SCInterview from "../components/interviews/SCIntOffer";
+// import SCInterview from "../components/interviews/SCIntOffer";
 import SCInterviewsPreview from "../components/Interviews/SCInterviewsPreview";
-import { SCInterviewEdit } from "../components/interviews/SCInterviewEdit";
-import InternshipOffers from "../pages/InternshipOffers";
-import { SCNewIntOffer } from "../components/InternshipOffers/SCNewIntOffer";
-import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
+import SCInterviewEdit from "../components/interviews/SCInterviewEdit";
+import SCNewIntOffer from "../components/InternshipOffers/SCNewIntOffer";
+import SCIntOfferEdit from "../components/InternshipOffers/SCIntOfferEdit";
 import SCIntOffer from "../components/InternshipOffers/SCIntOffer";
 import SCIntOffersPreview from "../components/InternshipOffers/SCIntOffersPreview";
-import BrowseInternshipOffers from "../pages/BrowseInternshipOffers";
-import { SCInterviewsPreview } from "../components/Interviews/SCInterviewsPreview";
 import SCBrowseInternshipPreview from "../components/BrowseInternshipOffers/SCBrowseInternshipPreview";
 import SCBrowseInternshipOffer from "../components/BrowseInternshipOffers/SCBrowseInternshipOffer";
 import IntPosOfferPreview from "../components/IntPosOffer/IntPosOfferPreview";
 import IntPosOffer from "../components/IntPosOffer/IntPosOffer";
 import SCRecommendations from "../components/Recommendations/SCRecommendations";
-import { SCInterviewEdit } from "../components/interviews/SCInterviewEdit";
-import { SCNewIntOffer } from "../components/InternshipOffers/SCNewIntOffer";
-import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
-import SCInterview from "../components/Interviews/SCIntreview";
-import InterviewPosOffer from "../pages/InterviewPosOffer";
+
+import EmailRouteProtector from "./EmailRouteProtector";
+import AuthRouteProtector from "./AuthRouteProtector";
+import UserCreationRouteProtector from "./UserCreationRouteProtector";
+import UserTypeRouteProtector from "./UserTypeRouteProtector";
 
 //NAV Router Configurations
 
