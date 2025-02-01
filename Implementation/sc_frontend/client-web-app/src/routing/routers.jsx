@@ -54,6 +54,10 @@ import IntPosOffer from "../components/IntPosOffer/IntPosOffer";
 // import InterviewPosOffer from "../pages/InterviewPosOffer";
 import SCRecommendations from "../components/Recommendations/SCRecommendations";
 import { SCInterviewEdit } from "../components/interviews/SCInterviewEdit";
+import { SCNewIntOffer } from "../components/InternshipOffers/SCNewIntOffer";
+import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
+import SCInterview from "../components/interviews/SCIntOffer";
+import InterviewPosOffer from "../pages/InterviewPosOffer";
 
 //NAV Router Configurations
 
