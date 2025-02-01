@@ -365,7 +365,7 @@ public class APIController {
 
 
     @PostMapping("/comm/private/create-comm")
-    @Operation(summary = "Create communication", description = "payload will contain the ")
+    @Operation(summary = "Create communication", description = "payload will contain the 'user_id', 'internshipPosOfferID', 'title', 'content', 'communicationType'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Communication created successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
