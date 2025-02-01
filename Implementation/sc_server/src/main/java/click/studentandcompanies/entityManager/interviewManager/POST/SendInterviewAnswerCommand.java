@@ -42,6 +42,7 @@ public class SendInterviewAnswerCommand implements SubmissionManagerCommand<Inte
             throw new BadInputException("Bad answer");
         }
         interview.setAnswer(answer.toString());
+        interview.setHasAnswered(true);
         return interviewRepository.save(interview);
     }
 }

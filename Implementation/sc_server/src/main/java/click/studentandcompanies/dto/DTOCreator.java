@@ -240,6 +240,9 @@ public class DTOCreator {
             interviewDTO.addProperty("studentName", interview.getSpontaneousApplication().getStudent().getName());
             interviewDTO.addProperty("studentID", interview.getSpontaneousApplication().getStudent().getId());
         }
+        interviewDTO.addProperty("answers", interview.getAnswer());
+        interviewDTO.addProperty("evaluation", interview.getEvaluation());
+        interviewDTO.addProperty("hasAnswered", interview.getHasAnswered());
         return interviewDTO;
     }
 
