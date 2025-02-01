@@ -61,13 +61,13 @@ export default function SCRecommendations() {
         ))}
       </div>
 
-      <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+      {/* <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
         <Button variant="outlined" onClick={handleErrorButtonClick}>
           {profile.userType === "STUDENT"
             ? "Browse All Internship Offers!"
             : "See your Offer!"}
         </Button>
-      </Box>
+      </Box> */}
     </Box>
   );
 }
