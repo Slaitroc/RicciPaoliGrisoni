@@ -171,7 +171,9 @@ public class DTOCreator {
         appDTO.addProperty("id", application.getId());
         appDTO.addProperty("status", application.getStatus());
         appDTO.addProperty("internshipOfferTitle", application.getInternshipOffer().getTitle());
+        appDTO.addProperty("internshipOfferID", application.getInternshipOffer().getId());
         appDTO.addProperty("internshipOfferCompanyName", application.getInternshipOffer().getCompany().getName());
+        appDTO.addProperty("internshipOfferCompanyID", application.getInternshipOffer().getCompany().getId());
         appDTO.addProperty("studentName", application.getStudent().getName());
         appDTO.addProperty("studentID", application.getStudent().getId());
         return appDTO;

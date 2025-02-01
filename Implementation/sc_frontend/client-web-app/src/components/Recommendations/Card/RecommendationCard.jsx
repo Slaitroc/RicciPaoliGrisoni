@@ -137,61 +137,14 @@ export default function RecommendationCard({ recommendation, otherPair }) {
             <Typography sx={{ marginBottom: 2, fontWeight: "bold" }}>
               Further information:
             </Typography>
-            <Typography variant="body1" color="text.secondary">
-              <Typography
-                component="span"
-                display="inline"
-                variant="body2"
-                sx={{ color: "text.primary", fontWeight: "bold" }}
-              >
-                Required skills:
-              </Typography>
-              {" " + otherPair.requiredSkills}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              <Typography
-                component="span"
-                display="inline"
-                variant="body2"
-                sx={{ color: "text.primary", fontWeight: "bold" }}
-              >
-                Location:
-              </Typography>
-              {" " + otherPair.location}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              <Typography
-                component="span"
-                display="inline"
-                variant="body2"
-                sx={{ color: "text.primary", fontWeight: "bold" }}
-              >
-                Duration:
-              </Typography>
-              {" " + otherPair.duration}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              <Typography
-                component="span"
-                display="inline"
-                variant="body2"
-                sx={{ color: "text.primary", fontWeight: "bold" }}
-              >
-                Compensation:
-              </Typography>
-              {" " + otherPair.compensation}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              <Typography
-                component="span"
-                display="inline"
-                variant="body2"
-                sx={{ color: "text.primary", fontWeight: "bold" }}
-              >
-                Affinity Score:
-              </Typography>
-              {" " + (recommendation.score / 2) * 100 + "%"}
-            </Typography>
+            {renderDetail("Required skills", otherPair.requiredSkills)}
+            {renderDetail("Location", otherPair.location)}
+            {renderDetail("Duration", otherPair.duration)}
+            {renderDetail("Compensation", otherPair.compensation)}
+            {renderDetail(
+              "Affinity Score",
+              (recommendation.score / 2) * 100 + "%"
+            )}
           </CardContent>
         </Collapse>
       </Card>
@@ -287,86 +240,35 @@ export default function RecommendationCard({ recommendation, otherPair }) {
             <Typography sx={{ marginBottom: 2, fontWeight: "bold" }}>
               Further information:
             </Typography>
-            <Typography variant="body1" color="text.secondary">
-              <Typography
-                component="span"
-                display="inline"
-                variant="body2"
-                sx={{ color: "text.primary", fontWeight: "bold" }}
-              >
-                Certifications:
-              </Typography>
-              {" " + otherPair.certifications.value}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              <Typography
-                component="span"
-                display="inline"
-                variant="body2"
-                sx={{ color: "text.primary", fontWeight: "bold" }}
-              >
-                Education:
-              </Typography>
-              {" " + otherPair.education.value}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              <Typography
-                component="span"
-                display="inline"
-                variant="body2"
-                sx={{ color: "text.primary", fontWeight: "bold" }}
-              >
-                Project:
-              </Typography>
-              {" " + otherPair.project.value}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              <Typography
-                component="span"
-                display="inline"
-                variant="body2"
-                sx={{ color: "text.primary", fontWeight: "bold" }}
-              >
-                Skills:
-              </Typography>
-              {" " + otherPair.skills.value}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              <Typography
-                component="span"
-                display="inline"
-                variant="body2"
-                sx={{ color: "text.primary", fontWeight: "bold" }}
-              >
-                Spoken Languages:
-              </Typography>
-              {" " + otherPair.spokenLanguages.value}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              <Typography
-                component="span"
-                display="inline"
-                variant="body2"
-                sx={{ color: "text.primary", fontWeight: "bold" }}
-              >
-                Work Experiences:
-              </Typography>
-              {" " + otherPair.workExperiences.value}
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              <Typography
-                component="span"
-                display="inline"
-                variant="body2"
-                sx={{ color: "text.primary", fontWeight: "bold" }}
-              >
-                Affinity Score:
-              </Typography>
-              {" " + (recommendation.score / 2) * 100 + "%"}
-            </Typography>
+            {renderDetail("Certifications", otherPair.certifications.value)}
+            {renderDetail("Education", otherPair.education.value)}
+            {renderDetail("Project", otherPair.project.value)}
+            {renderDetail("Skills", otherPair.skills.value)}
+            {renderDetail("Spoken Languages", otherPair.spokenLanguages.value)}
+            {renderDetail("Work Experiences", otherPair.workExperiences.value)}
+            {renderDetail(
+              "Affinity Score",
+              (recommendation.score / 2) * 100 + "%"
+            )}
           </CardContent>
         </Collapse>
       </Card>
+    );
+  };
+
+  const renderDetail = (label, value) => {
+    return (
+      <Typography variant="body1" color="text.secondary">
+        <Typography
+          component="span"
+          display="inline"
+          variant="body2"
+          sx={{ color: "text.primary", fontWeight: "bold" }}
+        >
+          {label}:
+        </Typography>
+        {" " + value}
+      </Typography>
     );
   };
 

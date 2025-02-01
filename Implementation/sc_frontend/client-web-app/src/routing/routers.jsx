@@ -203,10 +203,10 @@ const router = createBrowserRouter(
                   path: "",
                   element: <SCApplicationPreview />,
                 },
-                {
-                  path: "details/:id",
-                  element: <SCApplication />,
-                },
+                //{
+                //  path: "details/:id",
+                //  element: <SCApplication />,
+                //},
               ],
             },
             {
