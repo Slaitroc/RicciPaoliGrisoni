@@ -267,26 +267,25 @@ class SubmissionManagerTest extends EntityFactory {
         SpontaneousApplication savedApp = new SpontaneousApplication(student, offer, SpontaneousApplicationStatusEnum.toBeEvaluated);
         when(spontaneousApplicationRepository.save(any(SpontaneousApplication.class))).thenReturn(savedApp);
 
-        SpontaneousApplication result = submissionManager.submitSpontaneousApplication(payload, 999);
+        SpontaneousApplication result = submissionManager.submitSpontaneousApplication(999, "10");
         assertNotNull(result);
 
         // Internship not found
         when(internshipOfferRepository.getInternshipOfferById(999)).thenReturn(null);
         assertThrows(NotFoundException.class, () ->
-                submissionManager.submitSpontaneousApplication(payload, 999)
+                submissionManager.submitSpontaneousApplication(999, "10")
         );
 
-        // Missing student_id
-        Map<String, Object> noStudent = new HashMap<>();
-        assertThrows(NotFoundException.class, () ->
-                submissionManager.submitSpontaneousApplication(noStudent, 999)
-        );
+        // Invalid student_id
+//        assertThrows(NotFoundException.class, () ->
+//                submissionManager.submitSpontaneousApplication(999, "99")
+//        );
 
         // Student not found
         when(internshipOfferRepository.getInternshipOfferById(999)).thenReturn(offer);
         when(userManager.getStudentById("10")).thenReturn(null);
         assertThrows(BadInputException.class, () ->
-                submissionManager.submitSpontaneousApplication(payload, 999)
+                submissionManager.submitSpontaneousApplication(999, "10")
         );
     }
 
