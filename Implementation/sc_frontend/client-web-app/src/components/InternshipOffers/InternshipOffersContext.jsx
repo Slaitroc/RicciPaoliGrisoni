@@ -1,14 +1,21 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useContext,
+  createContext,
+  useRef,
+} from "react";
 import { useGlobalContext } from "../../global/GlobalContext";
-import * as internshipOffer from "../../api-calls/api-wrappers/submission-wrapper/internshipOffer";
 import { Alert } from "@mui/material";
 import * as logger from "../../logger/logger";
 import { useParams } from "react-router-dom";
+import * as internshipOffer from "../../api-calls/api-wrappers/submission-wrapper/internshipOffer";
 
-const InternshipOffersContext = React.createContext();
+const InternshipOffersContext = createContext();
 
 export const useInternshipOffersContext = () => {
-  const context = React.useContext(InternshipOffersContext);
+  const context = useContext(InternshipOffersContext);
   if (!context) {
     throw new Error(
       "useInternshipOffersContext must be used within a InternshipOffersProvider"
@@ -20,6 +27,7 @@ export const useInternshipOffersContext = () => {
 export const InternshipOffersProvider = ({ children }) => {
   const { profile } = useGlobalContext();
   const { id } = useParams();
+  const newOfferRef = useRef({});
 
   const [offersArray, setOffersArray] = useState([]);
   const [offerDataSnapshot, setOfferDataSnapshot] = useState(null);
@@ -27,8 +35,17 @@ export const InternshipOffersProvider = ({ children }) => {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("success");
 
-  const updateInternshipOffer = useCallback((id, data) => {
-    //TODO logica per inviare il dato...la metto qua o nel component?
+  const [forceRender, setForceRender] = useState(0);
+
+  //DEBUG
+  useEffect(() => {
+    logger.focus("OFFER-ARRAY", offersArray);
+    logger.focus("SNAPSHOT", offerDataSnapshot);
+    logger.focus("REF", id, newOfferRef?.current);
+  }, [offersArray, offerDataSnapshot, forceRender]);
+
+  const updateInternshipOffer = (id, data) => {
+    internshipOffer.sendUpdateMyOffer(data);
     setOffersArray((prev) => {
       return prev.map((item) => {
         if (item.id === id) {
@@ -37,10 +54,10 @@ export const InternshipOffersProvider = ({ children }) => {
         return item;
       });
     });
-  }, []);
+    reloadSnapshot(id);
+  };
 
   const reloadSnapshot = (OfferID) => {
-    logger.debug("InternshipOffersArray", offersArray);
     const snapshot = offersArray.reduce((acc, item) => {
       if (item.id.value == OfferID) return { ...acc, ...item };
       return acc;
@@ -53,31 +70,33 @@ export const InternshipOffersProvider = ({ children }) => {
       setOpenAlert(false);
       setOfferDataSnapshot(snapshot);
     }
-    logger.debug("InternshipOffer Snapshot", offerDataSnapshot);
   };
 
   useEffect(() => {
-    logger.focus("Company Profile:", profile);
-    if (profile.userType != "COMPANY") {
-      setOpenAlert(true);
-      setAlertSeverity("error");
-      setAlertMessage("User is not a company");
-      console.log("User is not a company");
-    } else {
-      internshipOffer
-        .getFormattedCompanyInternships(profile.userID)
-        .then((response) => {
-          logger.focus("fetched internship offers", response);
-          if (response.success === false) {
-            setOpenAlert(true);
-            setAlertSeverity(response.severity);
-            setAlertMessage(response.message);
-          } else {
-            setOffersArray(response.data);
-            setOpenAlert(false);
-          }
-        });
-    }
+    const fetchedData = async () => {
+      if (profile.userType != "COMPANY") {
+        setOpenAlert(true);
+        setAlertSeverity("error");
+        setAlertMessage("User is not a company");
+        console.log("User is not a company");
+        return;
+      } else {
+        return await internshipOffer
+          .getFormattedCompanyInternships(profile.userID)
+          .then((response) => {
+            if (response.success === false) {
+              setOpenAlert(true);
+              setAlertSeverity(response.severity);
+              setAlertMessage(response.message);
+            } else {
+              setOffersArray(response.data);
+              setOpenAlert(false);
+            }
+          });
+      }
+    };
+
+    fetchedData();
   }, []);
 
   useEffect(() => {
@@ -87,7 +106,6 @@ export const InternshipOffersProvider = ({ children }) => {
     if (offersArray.length === 0) {
       return;
     }
-    logger.debug("InternshipOffersArray", offersArray);
     const snapshot = offersArray.reduce((acc, item) => {
       if (item.id.value == id) return { ...acc, ...item };
       return acc;
@@ -99,8 +117,8 @@ export const InternshipOffersProvider = ({ children }) => {
     } else {
       setOpenAlert(false);
       setOfferDataSnapshot(snapshot);
+      newOfferRef.current = snapshot;
     }
-    logger.debug("InternshipOffer Snapshot", offerDataSnapshot);
   }, [id, offersArray]);
 
   const value = {
@@ -110,6 +128,8 @@ export const InternshipOffersProvider = ({ children }) => {
     setOfferDataSnapshot,
     updateInternshipOffer,
     reloadSnapshot,
+    newOfferRef,
+    setForceRender,
   };
 
   return (
