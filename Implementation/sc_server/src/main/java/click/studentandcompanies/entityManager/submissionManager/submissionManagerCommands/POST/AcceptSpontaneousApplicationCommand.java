@@ -34,7 +34,7 @@ public class AcceptSpontaneousApplicationCommand implements SubmissionManagerCom
         if(application == null){
             throw new NotFoundException("Application not found");
         }
-        if(!payload.get("user_id").equals(application.getStudent().getId())){
+        if(!payload.get("company_id").equals(application.getInternshipOffer().getCompany().getId())){
             throw new UnauthorizedException("You are not authorized to accept this application");
         }
         if(application.getStatus() == SpontaneousApplicationStatusEnum.toBeEvaluated){

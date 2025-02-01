@@ -59,15 +59,15 @@ export default function SCNewCommunication() {
     const toBeSentData = {
       title: formData.title,
       content: formData.content,
-      internshipPositionOfferID:
-        formData.selectedOffer.internshipPositionOfferID,
+      internshipPosOfferID: formData.selectedOffer.id,
+      communicationType: type,
     };
 
     if (!Object.values(newErrors).includes(true)) {
       focus("To be send data:", toBeSentData);
       // navigate("/dashboard/communications");
     }
-    // communication.createCommunication(formData);
+    communication.createCommunication(toBeSentData);
   };
 
   return (

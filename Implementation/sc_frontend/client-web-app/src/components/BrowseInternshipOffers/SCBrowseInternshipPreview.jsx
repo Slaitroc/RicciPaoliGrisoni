@@ -20,7 +20,7 @@ export const SCBrowseInternshipPreview = () => {
           {offerData.map((item) => {
             return (
               <Grid2
-                item
+                item="true"
                 key={item.id}
                 size={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 4 }}
                 display="flex"

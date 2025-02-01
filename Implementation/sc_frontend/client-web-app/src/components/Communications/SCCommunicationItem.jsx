@@ -1,5 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import * as logger from "../../logger/logger";
+import { useCommunicationsContext } from "./CommunicationsContext";
+import * as messages from "../../api-calls/api-wrappers/communication-wrapper/communication";
 import {
   ListItem,
   ListItemAvatar,
@@ -16,11 +19,30 @@ import { SCLinkIcon } from "../Shared/SCIcons";
 
 // SCMessageItem.jsx
 export const SCCommunicationItem = ({ communication }) => {
+  const { setMessagesData, setOpenAlert, setAlertMessage, setAlertSeverity } =
+    useCommunicationsContext();
+
   const navigate = useNavigate();
   const clickOnInternship = (internshipOfferId) => {
     navigate(`/dashboard/internship-offer/details/${internshipOfferId}`);
   };
-  const clickOnCommunication = (communicationId) => {
+  const clickOnCommunication = async (communicationId) => {
+    try {
+      const response = await messages.getFormattedMessages(communicationId);
+      if (!response.success) {
+        setOpenAlert(true);
+        setAlertSeverity(response.severity);
+        setAlertMessage(response.message);
+      } else {
+        logger.focus("Messages fetched successfully", response.data);
+        setMessagesData(response.data);
+      }
+    } catch (error) {
+      setOpenAlert(true);
+      setAlertSeverity("error");
+      setAlertMessage("Error fetching communications");
+      logger.focus("Error fetching communications", error);
+    }
     navigate(`/dashboard/communications/details/${communicationId}`);
   };
   return (
@@ -58,6 +80,7 @@ export const SCCommunicationItem = ({ communication }) => {
               flexDirection="column"
               paddingLeft={2}
               paddingRight={2}
+              minWidth={240}
             >
               <Typography
                 variant="h5"

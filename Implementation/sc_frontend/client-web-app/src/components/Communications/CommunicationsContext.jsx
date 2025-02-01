@@ -1,7 +1,6 @@
 import * as communication from "../../api-calls/api-wrappers/communication-wrapper/communication";
 import * as internshipPositionOffer from "../../api-calls/api-wrappers/Interview/intPosOffer";
 import React, { createContext, useEffect } from "react";
-import { useGlobalContext } from "../../global/GlobalContext";
 import * as logger from "../../logger/logger";
 import Alert from "@mui/material/Alert";
 
@@ -18,9 +17,8 @@ export const useCommunicationsContext = () => {
 };
 
 export const CommunicationsProvider = ({ children }) => {
-  const { profile } = useGlobalContext();
-
   const [communicationsData, setCommunicationsData] = React.useState([]);
+  const [messagesData, setMessagesData] = React.useState([]);
   const [internshipPositionOffers, setInternshipPositionOffers] =
     React.useState([]);
   const [openAlert, setOpenAlert] = React.useState(false);
@@ -36,6 +34,7 @@ export const CommunicationsProvider = ({ children }) => {
           setAlertSeverity(response.severity);
           setAlertMessage(response.message);
         } else {
+          setOpenAlert(false);
           logger.log("Communications fetched successfully");
           logger.log(response.data);
           setCommunicationsData(response.data);
@@ -70,11 +69,20 @@ export const CommunicationsProvider = ({ children }) => {
     communicationsData,
     openAlert,
     internshipPositionOffers,
+    messagesData,
+    setMessagesData,
+    setOpenAlert,
+    setAlertMessage,
+    setAlertSeverity,
   };
 
   return (
     <CommunicationsContext.Provider value={value}>
-      {openAlert && <Alert severity={alertSeverity}>{alertMessage}</Alert>}
+      {openAlert && (
+        <Alert severity={alertSeverity} sx={{ marginY: 3 }}>
+          {alertMessage}
+        </Alert>
+      )}
       {children}
     </CommunicationsContext.Provider>
   );

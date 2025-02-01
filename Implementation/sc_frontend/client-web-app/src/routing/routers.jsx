@@ -3,8 +3,8 @@ import {
   COMPANY_USER_TYPE,
   UNIVERSITY_USER_TYPE,
 } from "../global/globalStatesInit";
-import { SCNewIntOffer } from "../components/InternshipOffers/SCNewIntOffer";
-import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
+// import { SCNewIntOffer } from "../components/InternshipOffers/SCNewIntOffer";
+// import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
 import { ConfirmEmail } from "../pages/ConfirmEmail";
 import { RouteBase } from "../pages/RouteBase";
 import { SCEditCv } from "../components/CV/SCEditCV";
@@ -34,7 +34,7 @@ import Interviews from "../pages/Interviews";
 import Recommendations from "../pages/Recommendations";
 import Communications from "../pages/Communications";
 import SCCommunications from "../components/Communications/SCCommunications";
-import SCCommunicationDetail from "../components/Communications/CommunicationsList";
+import SCCommunicationDetails from "../components/Communications/SCCommunicationDetails";
 import SCNewCommunication from "../components/Communications/SCNewCommunication";
 import University from "../pages/University";
 import InternshipOffers from "../pages/InternshipOffers";
@@ -51,11 +51,9 @@ import SCBrowseInternshipPreview from "../components/BrowseInternshipOffers/SCBr
 import SCBrowseInternshipOffer from "../components/BrowseInternshipOffers/SCBrowseInternshipOffer";
 import IntPosOfferPreview from "../components/IntPosOffer/IntPosOfferPreview";
 import IntPosOffer from "../components/IntPosOffer/IntPosOffer";
-import InterviewPosOffer from "../pages/InterviewPosOffer";
+// import InterviewPosOffer from "../pages/InterviewPosOffer";
 import SCRecommendations from "../components/Recommendations/SCRecommendations";
-import SCInterview from "../components/interviews/SCIntOffer";
 import { SCInterviewEdit } from "../components/interviews/SCInterviewEdit";
-//import SCCommunications from "../components/Communications/SCCommunications";
 
 //NAV Router Configurations
 
@@ -209,10 +207,10 @@ const router = createBrowserRouter(
                   path: "",
                   element: <SCApplicationPreview />,
                 },
-                {
-                  path: "details/:id",
-                  element: <SCApplication />,
-                },
+                //{
+                //  path: "details/:id",
+                //  element: <SCApplication />,
+                //},
               ],
             },
             {
@@ -290,7 +288,7 @@ const router = createBrowserRouter(
                 },
                 {
                   path: "details/:id",
-                  element: <SCCommunicationDetail />,
+                  element: <SCCommunicationDetails />,
                 },
                 {
                   path: "new/:type",

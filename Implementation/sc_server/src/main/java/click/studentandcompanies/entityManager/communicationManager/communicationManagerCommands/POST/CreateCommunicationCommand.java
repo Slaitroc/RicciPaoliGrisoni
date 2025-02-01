@@ -29,7 +29,7 @@ public class CreateCommunicationCommand implements CommunicationManagerCommands<
         return communicationRepository.save(createCommunication(payload));
     }
 
-    //payload will contain the 'student_id', 'internshipOffer_id', 'university_id', 'title', 'communication_type'
+    //payload will contain the 'user_id', 'internshipPosOfferID', 'title', 'content', 'communicationType'
     private void validateInput(Map<String, Object> payload) {
         if (payload.get("user_id") == null) {
             System.out.println("User id not found");
@@ -43,11 +43,11 @@ public class CreateCommunicationCommand implements CommunicationManagerCommands<
         }
         ParticipantTypeEnum participantType = ParticipantTypeEnum.valueOf(userManager.getUserType((String) payload.get("user_id")).toString().toLowerCase());
         validatePayloadByParticipantType(payload, participantType);
-        if (payload.get("internshipOfferID") == null) {
+        if (payload.get("internshipPosOfferID") == null) {
             System.out.println("Internship offer id not found");
             throw new BadInputException("Internship offer id not found");
         }
-        InternshipPosOffer internshipPosOffer = userManager.getInternshipPosOfferById((Integer) payload.get("internshipOfferID"));
+        InternshipPosOffer internshipPosOffer = userManager.getInternshipPosOfferById((Integer) payload.get("internshipPosOfferID"));
         if (internshipPosOffer == null) {
             System.out.println("Internship offer not found");
             throw new NotFoundException("Internship offer not found");
@@ -99,14 +99,14 @@ public class CreateCommunicationCommand implements CommunicationManagerCommands<
     private Communication createCommunication(Map<String, Object> payload) {
         Student student = null;
         Company company = null;
-        ParticipantTypeEnum participantType = ParticipantTypeEnum.valueOf((String) payload.get("user_id"));
+        ParticipantTypeEnum participantType = ParticipantTypeEnum.valueOf(userManager.getUserType((String) payload.get("user_id")).toString().toLowerCase());
         if(participantType == ParticipantTypeEnum.student){
             student = userManager.getStudentById((String) payload.get("user_id"));
         }else{
             company = userManager.getCompanyById((String) payload.get("user_id"));
         }
-        InternshipPosOffer internshipPosOffer = userManager.getInternshipPosOfferById((Integer) payload.get("internshipOfferID"));
+        InternshipPosOffer internshipPosOffer = userManager.getInternshipPosOfferById((Integer) payload.get("internshipPosOfferID"));
         CommunicationTypeEnum communicationType = CommunicationTypeEnum.valueOf((String) payload.get("communicationType"));
-        return new Communication(student, company, internshipPosOffer, (String) payload.get("title"), (String) payload.get("content"), communicationType);
+        return new Communication(student, company, participantType, internshipPosOffer, (String) payload.get("title"), (String) payload.get("content"), communicationType);
     }
 }
