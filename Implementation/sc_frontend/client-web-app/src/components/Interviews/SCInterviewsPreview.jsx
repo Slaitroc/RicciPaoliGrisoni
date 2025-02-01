@@ -118,4 +118,4 @@ export const SCInterviewsPreview = () => {
   );
 };
 
-export default SCInterviewsPreview;
+
