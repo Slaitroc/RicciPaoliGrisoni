@@ -22,25 +22,28 @@ export const formatArrayContent = (fieldMap, data) => {
 /**
  * Formats the content of an array of objects by mapping their properties to a new structure.
  *
- * @param {Map<string, string>} fieldMap - A map where keys are the original property names and values are the labels to be used.
- * @param {Array<Object>} data - An array of objects, each containing a `properties` object with key-value pairs to be formatted.
- * @returns {Array<Object>} - An array of objects where each object contains the original keys mapped to objects with `key`, `label`, and `value` properties.
+ * @param {Map<string, string>} fieldMap - Mappa dove le chiavi sono i nomi originali dei campi e i valori sono le etichette.
+ * @param {Map<string, string>} fieldTypeMap - Mappa dove le chiavi sono i nomi originali dei campi e i valori sono i tipi dei campi.
+ * @param {Array<Object>} data - Un array di oggetti, ciascuno con un `properties` contenente le chiavi da formattare.
+ * @returns {Array<Object>} - Un array di oggetti con chiavi originali mappate a oggetti con `key`, `label`, `value` e `type`.
  */
-export const formatLabeledArrayContent = (fieldMap, data) => {
+export const formatLabeledArrayContent = (fieldMap, fieldTypeMap, data) => {
   return data.map((offer) => {
     const formattedObject = {};
 
-    // Iteriamo su fieldMap per mantenere l'ordine
+    // Iteriamo su fieldMap per mantenere l'ordine e aggiungere i campi
     fieldMap.forEach((label, key) => {
       if (offer.properties.hasOwnProperty(key)) {
         formattedObject[key] = {
           serverValue: key,
           label: label, // `label` viene direttamente da `fieldMap`
           value: offer.properties[key], // Valore corrispondente da `offer`
+          type: fieldTypeMap.get(key) || "string", // Se il tipo non è definito, di default è "text"
         };
       }
     });
 
-    return formattedObject; // Ora restituisce un oggetto JS, non una Map
+    return formattedObject;
   });
 };
+
