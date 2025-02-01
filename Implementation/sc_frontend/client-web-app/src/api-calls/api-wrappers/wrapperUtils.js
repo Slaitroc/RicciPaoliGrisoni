@@ -47,3 +47,21 @@ export const formatLabeledArrayContent = (fieldMap, fieldTypeMap, data) => {
   });
 };
 
+export const formatLabeledObjectContent = (fieldMap, fieldTypeMap, offer) => {
+  const formattedObject = {};
+
+  // Iteriamo su fieldMap per mantenere l'ordine e aggiungere i campi
+  fieldMap.forEach((label, key) => {
+    // Verifichiamo se l'oggetto offer contiene la proprietà desiderata
+    if (offer.properties && offer.properties.hasOwnProperty(key)) {
+      formattedObject[key] = {
+        serverValue: key,
+        label: label, // il label preso direttamente da fieldMap
+        value: offer.properties[key], // il valore corrispondente
+        type: fieldTypeMap.get(key) || "string", // se il tipo non è definito, di default è "string"
+      };
+    }
+  });
+
+  return formattedObject;
+};

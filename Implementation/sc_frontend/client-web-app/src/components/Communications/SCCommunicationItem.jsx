@@ -24,7 +24,9 @@ export const SCCommunicationItem = ({ communication }) => {
 
   const navigate = useNavigate();
   const clickOnInternship = (internshipOfferId) => {
-    navigate(`/dashboard/internship-offer/details/${internshipOfferId}`);
+    navigate(
+      `/dashboard/browse-internship-offers/details/${internshipOfferId}`
+    );
   };
   const clickOnCommunication = async (communicationId) => {
     try {

@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Grid2, TextField, IconButton } from "@mui/material";
 import { SCSendIcon, SCCachedIcon } from "../Shared/SCIcons";
 import { useGlobalContext } from "../../global/GlobalContext";
 import { useCommunicationsContext } from "./CommunicationsContext";
 import SCMessageItem from "./SCMessageItem";
-import { focus, log } from "../../logger/logger";
+import { focus } from "../../logger/logger";
 import * as message from "../../api-calls/api-wrappers/communication-wrapper/communication";
-import { reload } from "firebase/auth";
 
 const SCCommunicationDetails = () => {
   const { id } = useParams();
@@ -20,6 +19,17 @@ const SCCommunicationDetails = () => {
   } = useCommunicationsContext();
   const { profile } = useGlobalContext();
   const [messageText, setMessageText] = useState("");
+
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({
+        top: containerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messagesData]);
 
   const reloadMessages = async () => {
     try {
@@ -43,9 +53,13 @@ const SCCommunicationDetails = () => {
 
   const sendMessageTrigger = async () => {
     if (messageText !== "") {
-      const toBeSentData = {
-        body: messageText,
-      };
+      const toBeSentData = { body: messageText };
+      if (messageText.length > 6000) {
+        setOpenAlert(true);
+        setAlertSeverity("error");
+        setAlertMessage("Message too long");
+        return;
+      }
       focus("Sending message", toBeSentData);
       try {
         const response = await message.sendMessage(id, toBeSentData);
@@ -65,21 +79,22 @@ const SCCommunicationDetails = () => {
   };
 
   return (
-    // vh = viewport height (height of the browser window)
+    // Il container principale occupa l'85% dell'altezza della viewport
     <Box sx={{ display: "flex", flexDirection: "column", height: "85vh" }}>
-      {/* Scrollable Message box */}
+      {/* Container scrollabile dei messaggi */}
       <Box
+        ref={containerRef}
         sx={{
           flexGrow: 1,
           overflowY: "auto",
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-end",
-          p: 1,
+          p: 2,
           bgcolor: "background.paper",
         }}
       >
-        <Grid2 sx={{ width: "100%" }}>
+        <Grid2 sx={{ width: "100%", minHeight: 0 }}>
           {messagesData?.map((data) => (
             <Box
               key={data.id}
@@ -96,7 +111,7 @@ const SCCommunicationDetails = () => {
         </Grid2>
       </Box>
 
-      {/* Input bar */}
+      {/* Barra di input */}
       <Box
         sx={{
           display: "flex",
