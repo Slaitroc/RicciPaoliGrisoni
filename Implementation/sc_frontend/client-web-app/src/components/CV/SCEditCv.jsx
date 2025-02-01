@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCVContext } from "./CVContext";
 import {
@@ -18,14 +18,15 @@ import * as logger from "../../logger/logger";
 import Grid from "@mui/material/Grid2";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import * as cv from "../../api-calls/api-wrappers/submission-wrapper/cv";
+import { useRef } from "react";
 
 export const SCEditCv = () => {
   const navigate = useNavigate();
   const { cvData, setCvData, setOpenAlert, setAlertMessage, setAlertSeverity } =
     useCVContext();
-  const [cvSnapshot, setCvSnapshot] = React.useState(cvData);
-  const newCvDataRef = React.useRef(cvSnapshot);
-  const [openTipAlert, setOpenTipAlert] = React.useState(true);
+  const [cvSnapshot, setCvSnapshot] = useState(cvData);
+  const newCvDataRef = useRef(cvSnapshot);
+  const [openTipAlert, setOpenTipAlert] = useState(true);
 
   const handleFieldChange = (field, value) => {
     newCvDataRef.current[field].value = value;
@@ -106,10 +107,10 @@ export const SCEditCv = () => {
               Edit your data and click Save Changes to update your CV.
             </Typography>
             <Typography variant="h6" inline="true">
-                Remember:
+              Remember:
               <Typography inline="true" variant="body1">
-              Using keywords instead of long phrases increases the chances of
-              getting a match in the recommendation process.
+                Using keywords instead of long phrases increases the chances of
+                getting a match in the recommendation process.
               </Typography>
             </Typography>
           </Alert>

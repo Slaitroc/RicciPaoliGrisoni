@@ -85,14 +85,6 @@ export const getFormattedCompanyInternships = async (companyID) => {
           fieldTypeMap.set("compensation", "int");
           fieldMap.set("updateTime", "Last Update");
           fieldTypeMap.set("updateTime", "date-time");
-
-          // logger.debug(
-          //   wrapperUtils.formatLabeledArrayContent(
-          //     fieldMap,
-          //     fieldTypeMap,
-          //     payload
-          //   )
-          // );
           return {
             success: true,
             data: wrapperUtils.formatLabeledArrayContent(
@@ -156,11 +148,14 @@ export const sendUpdateMyOffer = async (offerData) => {
   logger.focus("PRESEND DATA ", payload);
   return apiCalls.updateOffer(payload).then((response) => {
     if (response.status === 201) {
-      return {
-        success: true,
-        message: "Internship offer sent successfully",
-        severity: "success",
-      };
+      return response.json().then((payload) => {
+        return {
+          success: true,
+          data: payload.properties,
+          message: "Internship offers fetched successfully",
+          severity: "success",
+        };
+      });
     } else {
       return response.json().then((data) => {
         return {

@@ -16,37 +16,119 @@ import {
 import * as logger from "../../logger/logger";
 import Grid from "@mui/material/Grid2";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import * as cv from "../../api-calls/api-wrappers/submission-wrapper/cv";
 import { useInternshipOffersContext } from "./InternshipOffersContext";
 import NumberInput from "../Shared/InputHanlders/NumberInput";
 import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-export const SCIntOfferEdit = () => {
+export const SCNewIntOffer = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
   const {
     offerDataSnapshot,
-    updateInternshipOffer,
-    offersArray,
+    setOfferDataSnapshot,
     newOfferRef,
     setForceRender,
-    openAlertProc,
+    createInternshipOffer,
   } = useInternshipOffersContext();
   const [openTipAlert, setOpenTipAlert] = useState(true);
+
+  useEffect(() => {
+    const emptyObj = {
+      id: {
+        serverValue: "id",
+        label: "Internship ID",
+        value: undefined,
+        type: "string",
+      },
+      companyID: {
+        serverValue: "companyID",
+        label: "Company ID",
+        value: undefined,
+        type: "string",
+      },
+      companyName: {
+        serverValue: "companyName",
+        label: "Company Name",
+        value: undefined,
+        type: "string",
+      },
+      title: {
+        serverValue: "title",
+        label: "Title",
+        value: undefined,
+        type: "string",
+      },
+      startDate: {
+        serverValue: "startDate",
+        label: "Start Date",
+        value: undefined,
+        type: "date",
+      },
+      endDate: {
+        serverValue: "endDate",
+        label: "End Date",
+        value: undefined,
+        type: "date",
+      },
+      duration: {
+        serverValue: "duration",
+        label: "Duration",
+        value: undefined,
+        type: "int",
+      },
+      numberPositions: {
+        serverValue: "numberPositions",
+        label: "Number of Positions",
+        value: undefined,
+        type: "int",
+      },
+      location: {
+        serverValue: "location",
+        label: "Location",
+        value: undefined,
+        type: "string",
+      },
+      description: {
+        serverValue: "description",
+        label: "Description",
+        value: undefined,
+        type: "string",
+      },
+      requiredSkills: {
+        serverValue: "requiredSkills",
+        label: "Required Skills",
+        value: undefined,
+        type: "string",
+      },
+      compensation: {
+        serverValue: "compensation",
+        label: "Compensation",
+        value: undefined,
+        type: "int",
+      },
+      updateTime: {
+        serverValue: "updateTime",
+        label: "Last Update",
+        value: undefined,
+        type: "date-time",
+      },
+    };
+
+    newOfferRef.current = emptyObj;
+    setOfferDataSnapshot(emptyObj);
+    // logger.focus("EMPTY VALUES OBJECT", newOfferRef.current);
+  }, []);
 
   const handleFieldChange = (field, value) => {
     logger.focus(field, value);
     newOfferRef.current[field].value = value;
     setForceRender((prev) => prev + 1);
-    //TODO check data
   };
 
   const clickBack = () => {
-    openAlertProc();
-    //NAV to internship detail
-    navigate(`/dashboard/internship-offers/details/${id}`);
+    // NAV to internship details
+    navigate(`/dashboard/internship-offers/`);
   };
 
   return (
@@ -69,20 +151,6 @@ export const SCIntOfferEdit = () => {
               <ArrowBackIcon />
             </IconButton>
           </Badge>
-          <Typography variant="h6 " gutterBottom>
-            Last Update:{" "}
-            {offerDataSnapshot &&
-              new Date(offerDataSnapshot.updateTime.value).toLocaleString(
-                "it-IT",
-                {
-                  year: "numeric",
-                  month: "2-digit",
-                  day: "2-digit",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                }
-              )}
-          </Typography>
         </Box>
         {openTipAlert && (
           <Alert
@@ -91,8 +159,8 @@ export const SCIntOfferEdit = () => {
             onClose={() => setOpenTipAlert(false)}
           >
             <Typography variant="body1">
-              Edit your data and click Save Changes to update your Internship
-              Offer.
+              Create your Internship Offer and click Send Internship to send it
+              to the world!
             </Typography>
             <Typography variant="h6" inline="true">
               Remember:
@@ -126,7 +194,6 @@ export const SCIntOfferEdit = () => {
                       key={key}
                     >
                       {((item) => {
-                        //logger.focus("ITEMMMMMM:", item);
                         if (item.type === "string")
                           return (
                             <Box display="flex">
@@ -135,7 +202,7 @@ export const SCIntOfferEdit = () => {
                                 <TextField
                                   multiline
                                   variant="outlined"
-                                  defaultValue={item.value}
+                                  placeholder={item.label}
                                   name={item.serverValue}
                                   onBlur={(e) =>
                                     handleFieldChange(
@@ -189,46 +256,78 @@ export const SCIntOfferEdit = () => {
                         else if (item.type === "int") {
                           if (item.serverValue === "compensation")
                             return (
-                              <NumberInput
-                                label={item.label}
-                                step={50}
-                                min={0}
-                                allowWheelScrub={true}
-                                defaultValue={
-                                  offerDataSnapshot.compensation.value
-                                }
-                                onValueChange={(value, event) =>
-                                  handleFieldChange(item.serverValue, value)
-                                }
-                              />
+                              <Box
+                                display="flex"
+                                flexDirection="column"
+                                gap={0}
+                              >
+                                <NumberInput
+                                  label={item.label}
+                                  step={50}
+                                  min={0}
+                                  defaultValue={500}
+                                  allowWheelScrub={true}
+                                  onValueChange={(value, event) =>
+                                    handleFieldChange(item.serverValue, value)
+                                  }
+                                />
+                                <Typography
+                                  variant="body2"
+                                  color="text.secondary"
+                                >
+                                  (min: 0, step: 50)
+                                </Typography>
+                              </Box>
                             );
                           if (item.serverValue === "numberPositions")
                             return (
-                              <NumberInput
-                                label={item.label}
-                                step={1}
-                                min={1}
-                                allowWheelScrub={true}
-                                defaultValue={
-                                  offerDataSnapshot.numberPositions.value
-                                }
-                                onValueChange={(value, event) =>
-                                  handleFieldChange(item.serverValue, value)
-                                }
-                              />
+                              <Box
+                                display="flex"
+                                flexDirection="column"
+                                gap={0}
+                              >
+                                <NumberInput
+                                  label={item.label}
+                                  step={1}
+                                  min={1}
+                                  defaultValue={1}
+                                  allowWheelScrub={true}
+                                  onValueChange={(value, event) =>
+                                    handleFieldChange(item.serverValue, value)
+                                  }
+                                />
+                                <Typography
+                                  variant="body2"
+                                  color="text.secondary"
+                                >
+                                  (min: 1, step: 1)
+                                </Typography>
+                              </Box>
                             );
                           if (item.serverValue === "duration")
                             return (
-                              <NumberInput
-                                label={item.label + ` in hours`}
-                                step={1}
-                                min={20}
-                                allowWheelScrub={true}
-                                defaultValue={offerDataSnapshot.duration.value}
-                                onValueChange={(value, event) =>
-                                  handleFieldChange(item.serverValue, value)
-                                }
-                              />
+                              <Box
+                                display="flex"
+                                flexDirection="column"
+                                gap={0}
+                              >
+                                <NumberInput
+                                  label={item.label + ` in hours`}
+                                  step={1}
+                                  min={20}
+                                  defaultValue={20}
+                                  allowWheelScrub={true}
+                                  onValueChange={(value, event) =>
+                                    handleFieldChange(item.serverValue, value)
+                                  }
+                                />
+                                <Typography
+                                  variant="body2"
+                                  color="text.secondary"
+                                >
+                                  (min: 20, step: 1)
+                                </Typography>
+                              </Box>
                             );
                         }
                       })(value)}
@@ -245,10 +344,10 @@ export const SCIntOfferEdit = () => {
             variant="contained"
             color="primary"
             onClick={() => {
-              updateInternshipOffer(id, newOfferRef.current);
+              createInternshipOffer(newOfferRef.current);
             }}
           >
-            Update Offer
+            Create New Internship Offer
           </Button>
         </Box>
       </Box>

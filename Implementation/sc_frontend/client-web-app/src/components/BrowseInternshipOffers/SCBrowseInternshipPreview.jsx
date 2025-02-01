@@ -12,7 +12,7 @@ import {
 
 export const SCBrowseInternshipPreview = () => {
   const { offerData, clickOnOffer } = useBrowseInternshipContext();
-  console.log("Offer Data:", offerData);
+  //console.log("Offer Data:", offerData);
   return (
     <>
       {offerData && (

@@ -1,11 +1,11 @@
 import React, {
-  useCallback,
   useEffect,
   useState,
   useContext,
   createContext,
   useRef,
 } from "react";
+import { useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../global/GlobalContext";
 import { Alert } from "@mui/material";
 import * as logger from "../../logger/logger";
@@ -25,17 +25,33 @@ export const useInternshipOffersContext = () => {
 };
 
 export const InternshipOffersProvider = ({ children }) => {
+  const navigate = useNavigate();
   const { profile } = useGlobalContext();
   const { id } = useParams();
   const newOfferRef = useRef({});
 
   const [offersArray, setOffersArray] = useState([]);
   const [offerDataSnapshot, setOfferDataSnapshot] = useState(null);
+  const [alertClose, setAlertClose] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
-  const [alertSeverity, setAlertSeverity] = useState("success");
+  const [alertSeverity, setAlertSeverity] = useState();
 
   const [forceRender, setForceRender] = useState(0);
+
+  const closeAlertWithDelay = () => {
+    if (!alertClose) {
+      setAlertClose(true);
+      setTimeout(() => {
+        setOpenAlert(false);
+      }, 3000);
+    }
+  };
+
+  const openAlertProc = () => {
+    setAlertClose(false);
+    setOpenAlert(true);
+  };
 
   //DEBUG
   useEffect(() => {
@@ -44,17 +60,40 @@ export const InternshipOffersProvider = ({ children }) => {
     logger.focus("REF", id, newOfferRef?.current);
   }, [offersArray, offerDataSnapshot, forceRender]);
 
-  const updateInternshipOffer = (id, data) => {
-    internshipOffer.sendUpdateMyOffer(data);
-    setOffersArray((prev) => {
-      return prev.map((item) => {
-        if (item.id === id) {
-          return { ...item, ...data };
-        }
-        return item;
-      });
-    });
-    reloadSnapshot(id);
+  const updateInternshipOffer = async (id, data) => {
+    const response = await internshipOffer.sendUpdateMyOffer(data);
+    logger.focus("RESPONSE", response);
+    if (response.success === true) {
+      await fetchedData();
+      setAlertSeverity(response.severity);
+      setAlertMessage(response.message);
+      openAlertProc();
+
+      reloadSnapshot(response.data.id);
+      //navigate(`/dashboard/internship-offers/details/${response.data.id}`);
+    } else {
+      setAlertSeverity(response.severity);
+      setAlertMessage(response.message);
+      closeAlertWithDelay();
+    }
+  };
+
+  const createInternshipOffer = async (data) => {
+    const response = await internshipOffer.sendUpdateMyOffer(data);
+    if (response.success === true) {
+      logger.log("SONO DENTRO");
+      await fetchedData();
+      setAlertSeverity(response.severity);
+      setAlertMessage(response.message);
+      openAlertProc();
+      closeAlertWithDelay();
+      reloadSnapshot(response.data.id);
+      navigate(`/dashboard/internship-offers/details/${response.data.id}`);
+    } else {
+      setAlertSeverity(response.severity);
+      setAlertMessage(response.message);
+      openAlertProc();
+    }
   };
 
   const reloadSnapshot = (OfferID) => {
@@ -63,41 +102,40 @@ export const InternshipOffersProvider = ({ children }) => {
       return acc;
     }, {});
     if (Object.keys(snapshot).length === 0) {
-      setOpenAlert(true);
+      openAlertProc();
       setAlertSeverity("error");
       setAlertMessage("Offer not found");
     } else {
-      setOpenAlert(false);
+      closeAlertWithDelay();
       setOfferDataSnapshot(snapshot);
     }
   };
 
   useEffect(() => {
-    const fetchedData = async () => {
-      if (profile.userType != "COMPANY") {
-        setOpenAlert(true);
-        setAlertSeverity("error");
-        setAlertMessage("User is not a company");
-        console.log("User is not a company");
-        return;
-      } else {
-        return await internshipOffer
-          .getFormattedCompanyInternships(profile.userID)
-          .then((response) => {
-            if (response.success === false) {
-              setOpenAlert(true);
-              setAlertSeverity(response.severity);
-              setAlertMessage(response.message);
-            } else {
-              setOffersArray(response.data);
-              setOpenAlert(false);
-            }
-          });
-      }
-    };
-
     fetchedData();
   }, []);
+  const fetchedData = async () => {
+    if (profile.userType != "COMPANY") {
+      openAlertProc();
+      setAlertSeverity("error");
+      setAlertMessage("User is not a company");
+      console.log("User is not a company");
+      return;
+    } else {
+      return await internshipOffer
+        .getFormattedCompanyInternships(profile.userID)
+        .then((response) => {
+          if (response.success === false) {
+            openAlertProc();
+            setAlertSeverity(response.severity);
+            setAlertMessage(response.message);
+          } else {
+            setOffersArray(response.data);
+            closeAlertWithDelay();
+          }
+        });
+    }
+  };
 
   useEffect(() => {
     if (id === undefined || id === null || id === "") {
@@ -111,11 +149,12 @@ export const InternshipOffersProvider = ({ children }) => {
       return acc;
     }, {});
     if (Object.keys(snapshot).length === 0) {
-      setOpenAlert(true);
+      openAlertProc();
       setAlertSeverity("error");
       setAlertMessage("Offer not found");
     } else {
-      setOpenAlert(false);
+      closeAlertWithDelay();
+
       setOfferDataSnapshot(snapshot);
       newOfferRef.current = snapshot;
     }
@@ -130,6 +169,8 @@ export const InternshipOffersProvider = ({ children }) => {
     reloadSnapshot,
     newOfferRef,
     setForceRender,
+    createInternshipOffer,
+    openAlertProc,
   };
 
   return (

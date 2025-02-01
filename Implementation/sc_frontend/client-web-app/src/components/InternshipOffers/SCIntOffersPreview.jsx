@@ -17,6 +17,15 @@ export const SCIntOffersPreview = () => {
   const navigate = useNavigate();
   const { offersArray, reloadSnapshot } = useInternshipOffersContext();
 
+  const clickCreateOffer = () => {
+    navigate("/dashboard/internship-offers/create");
+    //inizializza il REF
+    //naviga alla pagina copia di edit ma senza id
+    //quando il quella pagina clicco create new offer invio i dati al server che mi ritorna l'id dell'offerta
+    //navigo alla pagina di dettaglio
+    //aggiorno la pagina
+  };
+
   const handleOfferClick = (id) => {
     console.log("Selected Offer:", id);
     reloadSnapshot(id);
@@ -29,7 +38,11 @@ export const SCIntOffersPreview = () => {
       <div style={{ margin: "20px 0" }}></div>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Box paddingLeft={5}>
-          <Button startIcon={<SCAddIcon />} variant="outlined">
+          <Button
+            onClick={clickCreateOffer}
+            startIcon={<SCAddIcon />}
+            variant="outlined"
+          >
             Create New Internship Offer
           </Button>
         </Box>
