@@ -99,7 +99,7 @@ public class CreateCommunicationCommand implements CommunicationManagerCommands<
     private Communication createCommunication(Map<String, Object> payload) {
         Student student = null;
         Company company = null;
-        ParticipantTypeEnum participantType = ParticipantTypeEnum.valueOf((String) payload.get("user_id"));
+        ParticipantTypeEnum participantType = ParticipantTypeEnum.valueOf(userManager.getUserType((String) payload.get("user_id")).toString().toLowerCase());
         if(participantType == ParticipantTypeEnum.student){
             student = userManager.getStudentById((String) payload.get("user_id"));
         }else{
@@ -107,6 +107,6 @@ public class CreateCommunicationCommand implements CommunicationManagerCommands<
         }
         InternshipPosOffer internshipPosOffer = userManager.getInternshipPosOfferById((Integer) payload.get("internshipPosOfferID"));
         CommunicationTypeEnum communicationType = CommunicationTypeEnum.valueOf((String) payload.get("communicationType"));
-        return new Communication(student, company, internshipPosOffer, (String) payload.get("title"), (String) payload.get("content"), communicationType);
+        return new Communication(student, company, participantType, internshipPosOffer, (String) payload.get("title"), (String) payload.get("content"), communicationType);
     }
 }
