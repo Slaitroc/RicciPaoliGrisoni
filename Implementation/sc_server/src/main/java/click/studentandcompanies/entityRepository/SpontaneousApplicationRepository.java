@@ -15,6 +15,8 @@ public interface SpontaneousApplicationRepository extends JpaRepository<Spontane
     @Query ("SELECT s FROM SpontaneousApplication s WHERE s.internshipOffer.company.id = :userID")
     List<SpontaneousApplication> findSpontaneousApplicationByCompanyId(@Param("userID") String userID);
 
+    List<SpontaneousApplication> getSpontaneousApplicationByStudent_IdAndInternshipOffer_Id(String studentId, Integer internshipOfferId);
+
     List<SpontaneousApplication> findAllByInternshipOfferId(Integer internshipID);
 
     void removeSpontaneousApplicationByInternshipOffer_Id(Integer internshipOfferId);

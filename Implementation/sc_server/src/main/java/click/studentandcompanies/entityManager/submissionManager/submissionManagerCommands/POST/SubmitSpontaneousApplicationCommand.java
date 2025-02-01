@@ -10,23 +10,25 @@ import click.studentandcompanies.entityRepository.SpontaneousApplicationReposito
 import click.studentandcompanies.entityManager.submissionManager.SubmissionManagerCommand;
 import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
+import click.studentandcompanies.utils.exception.WrongStateException;
 
 import java.util.List;
 import java.util.Map;
 
 public class SubmitSpontaneousApplicationCommand implements SubmissionManagerCommand<SpontaneousApplication> {
-    Map<String, Object> payload;
+    String student_id;
     SpontaneousApplicationRepository spontaneousApplicationRepository;
     InternshipOfferRepository internshipOfferRepository;
     UserManager userManager;
     int internshipOfferID;
 
-    public SubmitSpontaneousApplicationCommand(Map<String, Object> payload, UserManager userManager, SpontaneousApplicationRepository spontaneousApplicationRepository, InternshipOfferRepository internshipOfferRepository, int internshipOfferID) {
-        this.payload = payload;
+    public SubmitSpontaneousApplicationCommand(UserManager userManager, SpontaneousApplicationRepository spontaneousApplicationRepository, InternshipOfferRepository internshipOfferRepository, String student_id, int internshipOfferID) {
         this.userManager = userManager;
+        this.student_id = student_id;
         this.spontaneousApplicationRepository = spontaneousApplicationRepository;
         this.internshipOfferRepository = internshipOfferRepository;
-        this.internshipOfferID = internshipOfferID;}
+        this.internshipOfferID = internshipOfferID;
+    }
 
     @Override
     public SpontaneousApplication execute() {
@@ -35,22 +37,17 @@ public class SubmitSpontaneousApplicationCommand implements SubmissionManagerCom
             System.out.println("Internship offer not found");
             throw new NotFoundException("Internship offer not found");
         }
-        if(payload.get("student_id")==null){
-            System.out.println("Student id not found");
-            throw new NotFoundException("Student id not found");
+        Student student = userManager.getStudentById(student_id);
+//        if(student == null){
+//            System.out.println("Student not found");
+//            throw new BadInputException("Bad studentID provided not found");
+//        }
+
+        if(spontaneousApplicationRepository.getSpontaneousApplicationByStudent_IdAndInternshipOffer_Id(student_id, internshipOfferID) != null){
+            System.out.println("Spontaneous application already exists");
+            throw new WrongStateException("Spontaneous application already exists");
         }
-        Student student = userManager.getStudentById((String) payload.get("student_id"));
-        if(student == null){
-            System.out.println("Student not found");
-            throw new BadInputException("Bad studentID provided not found");
-        }
-        List<SpontaneousApplication> spontaneousApplications = spontaneousApplicationRepository.findAll();
-        for(SpontaneousApplication sa : spontaneousApplications){
-            if(sa.getStudent().getId().equals(student.getId()) && sa.getInternshipOffer().getId() == internshipOfferID){
-                System.out.println("A spontaneous application for this student and this internship offer already exists");
-                throw new BadInputException("A spontaneous application for this student and this internship offer already exists");
-            }
-        }
+
         SpontaneousApplication spontaneousApplication = new SpontaneousApplication(student, internshipOffer, SpontaneousApplicationStatusEnum.toBeEvaluated);
         return spontaneousApplicationRepository.save(spontaneousApplication);
     }

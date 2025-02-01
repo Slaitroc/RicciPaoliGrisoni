@@ -247,7 +247,7 @@ public class APIController {
                                                             @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
         String student_id = GetUuid.getUuid(token);
         payload.put("student_id", student_id);
-        return new SubmitSpontaneousApplicationCommandCall(InternshipOfferID, payload, submissionManager,
+        return new SubmitSpontaneousApplicationCommandCall(InternshipOfferID, student_id, submissionManager,
                 notificationManager).execute();
     }
 
