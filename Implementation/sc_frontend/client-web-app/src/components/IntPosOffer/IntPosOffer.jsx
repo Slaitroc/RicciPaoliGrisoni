@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import * as apiCall from "../../api-calls/apiCalls";
 import { useIntPosOfferContext } from "./IntPosOfferContext";
 import * as cv from "../../api-calls/api-wrappers/submission-wrapper/cv";
 import * as offer from "../../api-calls/api-wrappers/submission-wrapper/internshipOffer";
 import * as logger from "../../logger/logger";
+import * as intPosOffer from "../../api-calls/api-wrappers/Interview/intPosOffer";
 import {
   Box,
   Typography,
@@ -14,29 +14,45 @@ import {
 } from "@mui/material";
 //todo show alert can accept more than one
 
-const onAccept = (item, onClose, intPosOfferData, setIntPosOfferData) => {
-  logger.debug("Accepted positionOffer", item);
-  apiCall.acceptInternshipPositionOffer(item.id);
-
-  const updatedIntPosOffer = intPosOfferData.map((intPosOff) => {
-    if (intPosOff.id === item.id) {
-      return { ...intPosOff, status: "accepted" };
+const onAccept = (
+  item,
+  onClose,
+  intPosOfferData,
+  setIntPosOfferData,
+  setOpenAlert,
+  setAlertMessage,
+  setAlertSeverity
+) => {
+  intPosOffer.acceptInternshipPositionOffer(item.id).then((response) => {
+    if (response.success === false) {
+      logger.error(
+        "Failed to accept internship position offer",
+        response.message
+      );
+      setOpenAlert(true);
+      setAlertMessage(response.message);
+      setAlertSeverity("error");
+    } else {
+      const updatedIntPosOffer = intPosOfferData.map((intPosOff) => {
+        if (intPosOff.id === item.id) {
+          return { ...intPosOff, status: "accepted" };
+        }
+        return intPosOff;
+      });
+      setIntPosOfferData(updatedIntPosOffer);
     }
-    return application;
+    onClose();
   });
-  console.log(updatedIntPosOffer);
-  setIntPosOfferData(updatedIntPosOffer);
-  onClose();
 };
 
 const onReject = (item, onClose, intPosOfferData, setIntPosOfferData) => {
-  logger.debug("Rejected positionOffer", item);
-  apiCall.rejectInternshipPositionOffer(item.id);
+  //i don't care about the response. if it fails, it will be shown in the logs, the user will just reject again
+  intPosOffer.rejectInternshipPositionOffer(item.id);
   const updatedIntPosOffer = intPosOfferData.map((intPosOff) => {
     if (intPosOff.id === item.id) {
       return { ...intPosOff, status: "rejected" };
     }
-    return application;
+    return intPosOff;
   });
   setIntPosOfferData(updatedIntPosOffer);
   onClose();
@@ -45,19 +61,22 @@ const onReject = (item, onClose, intPosOfferData, setIntPosOfferData) => {
 //default export
 const IntPosOffer = ({ item, onClose, profile }) => {
   const [otherPair, setOtherPair] = React.useState(null);
-  const { intPosOfferData, setIntPosOfferData } = useIntPosOfferContext();
-  logger.debug("Profile from intPosOffer", profile);
+  const {
+    intPosOfferData,
+    setIntPosOfferData,
+    setOpenAlert,
+    setAlertMessage,
+    setAlertSeverity,
+  } = useIntPosOfferContext();
+
   useEffect(() => {
-    //logger.debug("Item", item);
     if (profile.userType === "COMPANY") {
       cv.getStudentCV(item.studentID).then((response) => {
         setOtherPair(response.data.cv);
-        //logger.debug("CV", response.data.cv);
       });
     } else {
       offer.getSpecificOffer(item.internshipOfferID).then((response) => {
         setOtherPair(response.data);
-        //logger.debug("Offer", response.data);
       });
     }
   }, []);
@@ -129,6 +148,9 @@ const IntPosOffer = ({ item, onClose, profile }) => {
             item={item}
             intPosOfferData={intPosOfferData}
             setIntPosOfferData={setIntPosOfferData}
+            setOpenAlert={setOpenAlert}
+            setAlertMessage={setAlertMessage}
+            setAlertSeverity={setAlertSeverity}
           />
         </Box>
       </Box>
@@ -183,6 +205,9 @@ const Buttons = ({
   item,
   intPosOfferData,
   setIntPosOfferData,
+  setOpenAlert,
+  setAlertMessage,
+  setAlertSeverity,
 }) => {
   const buttonStyles = {
     minWidth: "120px",
@@ -230,7 +255,15 @@ const Buttons = ({
         <Button
           variant="contained"
           onClick={() =>
-            onAccept(item, onClose, intPosOfferData, setIntPosOfferData)
+            onAccept(
+              item,
+              onClose,
+              intPosOfferData,
+              setIntPosOfferData,
+              setOpenAlert,
+              setAlertMessage,
+              setAlertSeverity
+            )
           }
           sx={{
             ...buttonStyles,

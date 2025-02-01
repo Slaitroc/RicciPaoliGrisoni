@@ -7,16 +7,19 @@ import IntPosOffer from "./IntPosOffer";
 
 // Main component
 export const IntPosOfferPreview = () => {
-  const { intPosOfferData } = useIntPosOfferContext();
+  const { intPosOfferData, setOpenAlert, openAlert } = useIntPosOfferContext();
   const [selectedItem, setSelectedItem] = React.useState(null);
   const { profile } = useGlobalContext();
+
   const handleClick = (item) => {
+    setOpenAlert(false);
     setSelectedItem(item);
   };
 
   const handleClose = () => {
     setSelectedItem(null);
   };
+
   return (
     <>
       {selectedItem && (

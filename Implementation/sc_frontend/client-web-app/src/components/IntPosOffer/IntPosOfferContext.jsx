@@ -47,7 +47,9 @@ export const IntPosOfferProvider = ({ children }) => {
   const value = {
     setIntPosOfferData,
     intPosOfferData,
-    openAlert,
+    setOpenAlert,
+    setAlertMessage,
+    setAlertSeverity,
   };
 
   return (
