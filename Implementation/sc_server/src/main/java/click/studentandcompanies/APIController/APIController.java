@@ -243,8 +243,7 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Internship not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> submitSpontaneousApplication(@PathVariable Integer InternshipOfferID,
-                                                            @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<DTO> submitSpontaneousApplication(@PathVariable Integer InternshipOfferID, @RequestHeader("Authorization") String token) {
         String student_id = GetUuid.getUuid(token);
         return new SubmitSpontaneousApplicationCommandCall(InternshipOfferID, student_id, submissionManager,
                 notificationManager).execute();
