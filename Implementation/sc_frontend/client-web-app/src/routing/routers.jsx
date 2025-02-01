@@ -3,8 +3,8 @@ import {
   COMPANY_USER_TYPE,
   UNIVERSITY_USER_TYPE,
 } from "../global/globalStatesInit";
-import { SCNewIntOffer } from "../components/InternshipOffers/SCNewIntOffer";
-import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
+// import { SCNewIntOffer } from "../components/InternshipOffers/SCNewIntOffer";
+// import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
 import { ConfirmEmail } from "../pages/ConfirmEmail";
 import { RouteBase } from "../pages/RouteBase";
 import { SCEditCv } from "../components/CV/SCEditCV";
@@ -51,9 +51,8 @@ import SCBrowseInternshipPreview from "../components/BrowseInternshipOffers/SCBr
 import SCBrowseInternshipOffer from "../components/BrowseInternshipOffers/SCBrowseInternshipOffer";
 import IntPosOfferPreview from "../components/IntPosOffer/IntPosOfferPreview";
 import IntPosOffer from "../components/IntPosOffer/IntPosOffer";
-import InterviewPosOffer from "../pages/InterviewPosOffer";
+// import InterviewPosOffer from "../pages/InterviewPosOffer";
 import SCRecommendations from "../components/Recommendations/SCRecommendations";
-import SCInterview from "../components/interviews/SCIntOffer";
 import { SCInterviewEdit } from "../components/interviews/SCInterviewEdit";
 
 //NAV Router Configurations
