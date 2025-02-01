@@ -1,3 +1,10 @@
+import {
+  STUDENT_USER_TYPE,
+  COMPANY_USER_TYPE,
+  UNIVERSITY_USER_TYPE,
+} from "../global/globalStatesInit";
+import { SCNewIntOffer } from "../components/InternshipOffers/SCNewIntOffer";
+import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
 import { ConfirmEmail } from "../pages/ConfirmEmail";
 import { RouteBase } from "../pages/RouteBase";
 import { SCEditCv } from "../components/CV/SCEditCV";
@@ -39,20 +46,15 @@ import SCCv from "../components/CV/SCCV";
 import SCIntOffer from "../components/InternshipOffers/SCIntOffer";
 import SCIntOffersPreview from "../components/InternshipOffers/SCIntOffersPreview";
 import BrowseInternshipOffers from "../pages/BrowseInternshipOffers";
-import SCInterview from "../components/Interviews/SCInterview";
-import SCInterviewPreview from "../components/Interviews/SCInterviewPreview";
+import SCInterviewsPreview from "../components/Interviews/SCInterviewsPreview";
 import SCBrowseInternshipPreview from "../components/BrowseInternshipOffers/SCBrowseInternshipPreview";
 import SCBrowseInternshipOffer from "../components/BrowseInternshipOffers/SCBrowseInternshipOffer";
 import IntPosOfferPreview from "../components/IntPosOffer/IntPosOfferPreview";
 import IntPosOffer from "../components/IntPosOffer/IntPosOffer";
 import InterviewPosOffer from "../pages/InterviewPosOffer";
-import {
-  STUDENT_USER_TYPE,
-  COMPANY_USER_TYPE,
-  UNIVERSITY_USER_TYPE,
-} from "../global/globalStatesInit";
 import SCRecommendations from "../components/Recommendations/SCRecommendations";
-import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
+import SCInterview from "../components/interviews/SCIntOffer";
+import { SCInterviewEdit } from "../components/interviews/SCInterviewEdit";
 //import SCCommunications from "../components/Communications/SCCommunications";
 
 //NAV Router Configurations
@@ -166,6 +168,10 @@ const router = createBrowserRouter(
                   element: <SCIntOffersPreview />,
                 },
                 {
+                  path: "create",
+                  element: <SCNewIntOffer />,
+                },
+                {
                   path: "details/:id",
                   element: <SCIntOffer />,
                 },
@@ -237,11 +243,19 @@ const router = createBrowserRouter(
               children: [
                 {
                   path: "",
-                  element: <SCInterviewPreview />,
+                  element: <SCInterviewsPreview />,
                 },
                 {
                   path: "details/:id",
                   element: <SCInterview />,
+                },
+                {
+                  path: "edit/:id",
+                  element: <SCInterviewEdit />,
+                },
+                {
+                  path: "create",
+                  element: <SCInterviewEdit />, //FIX put the right page
                 },
               ],
             },
