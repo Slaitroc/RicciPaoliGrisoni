@@ -1,12 +1,12 @@
 import React from "react";
-import { InterviewProvider } from "../components/Interviews/InterviewContext";
+import { InterviewsProvider } from "../components/Interviews/InterviewsContext";
 import { Outlet } from "react-router-dom";
 
 const Interviews = () => {
   return (
-    <InterviewProvider>
+    <InterviewsProvider>
       <Outlet />
-    </InterviewProvider>
+    </InterviewsProvider>
   );
 };
 
