@@ -196,5 +196,10 @@ public class UserManager {
     public InternshipPosOffer getInternshipPosOfferById(Integer id) {
         return internshipPosOfferRepository.getInternshipPosOfferById(id);
     }
+
+    //Its probably a hack to make the userManager save the interview but idk how to do it from the ReccomendationManager
+    public void saveInterview(Interview interview) {
+        interviewRepository.save(interview);
+    }
 }
 

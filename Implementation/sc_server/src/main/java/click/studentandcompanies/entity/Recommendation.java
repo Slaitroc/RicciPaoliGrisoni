@@ -20,9 +20,6 @@ public class Recommendation {
     @JoinColumn(name = "cv_id", nullable = false)
     private Cv cv;
 
-    @OneToOne(mappedBy = "recommendation", optional = true)
-    private Interview interview;
-
     @Lob
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -80,14 +77,6 @@ public class Recommendation {
 
     public void setStatus(RecommendationStatusEnum status) {
         this.status = status;
-    }
-
-    public void setInterview(Interview interview) {
-        this.interview = interview;
-    }
-
-    public Interview getInterview() {
-        return interview;
     }
 
 }
