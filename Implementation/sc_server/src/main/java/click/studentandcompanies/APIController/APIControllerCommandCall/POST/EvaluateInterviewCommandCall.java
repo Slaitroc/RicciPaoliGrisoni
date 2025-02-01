@@ -36,7 +36,6 @@ public class EvaluateInterviewCommandCall implements APIControllerCommandCall<Re
     public ResponseEntity<DTO> execute() {
         try {
             Interview interview = interviewManager.evaluateInterview(interviewId, payload);
-
             List<String> userIDs = new ArrayList<>();
             if (interview.getSpontaneousApplication() != null)
                 userIDs.add(interview.getRecommendation().getCv().getStudent().getId());
@@ -52,6 +51,7 @@ public class EvaluateInterviewCommandCall implements APIControllerCommandCall<Re
         } catch (NotFoundException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

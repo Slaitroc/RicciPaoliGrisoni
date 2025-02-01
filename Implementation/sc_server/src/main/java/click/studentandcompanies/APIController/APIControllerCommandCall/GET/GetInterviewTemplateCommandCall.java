@@ -1,10 +1,11 @@
-package click.studentandcompanies.APIController.APIControllerCommandCall.POST;
+package click.studentandcompanies.APIController.APIControllerCommandCall.GET;
 
 import click.studentandcompanies.APIController.APIControllerCommandCall.APIControllerCommandCall;
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.Interview;
+import click.studentandcompanies.entity.InterviewTemplate;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
 import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
@@ -12,37 +13,28 @@ import click.studentandcompanies.utils.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Map;
-
-public class SendInterviewTemplateCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
-    private final int interviewID;
-    private final int templateID;
-    private final Map<String, Object> payload;
+public class GetInterviewTemplateCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
     private final InterviewManager interviewManager;
-
-    public SendInterviewTemplateCommandCall(InterviewManager interviewManager, int interviewID, int templateID, Map<String, Object> payload) {
+    private final Integer templateID;
+    private final String companyID;
+    public GetInterviewTemplateCommandCall(InterviewManager interviewManager, Integer templateID, String companyID) {
         this.interviewManager = interviewManager;
-        this.interviewID = interviewID;
         this.templateID = templateID;
-        this.payload = payload;
+        this.companyID = companyID;
     }
 
     @Override
     public ResponseEntity<DTO> execute() {
-        try {
-            //Interview interview = interviewManager.sendInterviewTemplate(interviewID, templateID, payload);
-            //todo call the notification manager to inform the student
-            //return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.INTERVIEW, interview), HttpStatus.CREATED);
-            return null;
-        } catch (NotFoundException e) {
+        try{
+            InterviewTemplate interviewTemplate = interviewManager.getInterviewTemplate(templateID, companyID);
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.INTERVIEW_TEMPLATE, interviewTemplate), HttpStatus.OK);
+        }catch (NotFoundException e){
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
-        } catch (BadInputException e) {
+        }catch (BadInputException | UnauthorizedException e){
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
-        } catch (UnauthorizedException e) {
-            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.UNAUTHORIZED);
-        } catch (Exception e) {
+        }catch (Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

@@ -47,10 +47,13 @@ public class SendInterviewAnswerCommandCall implements APIControllerCommandCall<
             new NotificationController(notificationManager).sendAndSaveNotification(companyID, data);
 
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
-        } catch (BadInputException e) {
+        } catch (BadInputException | WrongThreadException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (NotFoundException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

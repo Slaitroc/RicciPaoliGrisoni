@@ -43,7 +43,7 @@ public class SubmitSpontaneousApplicationCommand implements SubmissionManagerCom
 //            throw new BadInputException("Bad studentID provided not found");
 //        }
 
-        if(spontaneousApplicationRepository.getSpontaneousApplicationByStudent_IdAndInternshipOffer_Id(student_id, internshipOfferID) != null){
+        if(!spontaneousApplicationRepository.getSpontaneousApplicationByStudent_IdAndInternshipOffer_Id(student_id, internshipOfferID).isEmpty()){
             System.out.println("Spontaneous application already exists");
             throw new WrongStateException("Spontaneous application already exists");
         }

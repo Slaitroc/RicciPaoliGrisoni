@@ -8,6 +8,7 @@ import click.studentandcompanies.notificationSystem.senders.*;
 public enum NotificationTriggerType {
     MATCH_FOUND(new SendSelectionProcessInitiatedNotification()),
     NEW_COMMUNICATION(new SendNewCommunicationNotification()),
+    INTERVIEW_ASSIGNED(new SendInterviewAssignedNotification()),
     INTERVIEW_EVALUATED(new SendInterviewEvaluatedNotification()),
     INTERNSHIP_CANCELLED(new SendInternshipCancelledNotification()),
     INTERVIEW_ANSWER_SENT(new SendInterviewAnswerNotification()),
