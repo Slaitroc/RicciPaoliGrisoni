@@ -1,6 +1,8 @@
 package click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.POST;
 
+import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entity.Recommendation;
+import click.studentandcompanies.entity.dbEnum.InterviewStatusEnum;
 import click.studentandcompanies.entity.dbEnum.RecommendationStatusEnum;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.RecommendationRepository;
@@ -50,6 +52,8 @@ public class AcceptRecommendationCommand implements RecommendationProcessCommand
             }
         }else{
             recommendation.setStatus(RecommendationStatusEnum.acceptedMatch);
+            Interview interview = new Interview(InterviewStatusEnum.toBeSubmitted, recommendation, null);
+            userManager.saveInterview(interview);
         }
         recommendationRepository.save(recommendation);
         return recommendation;
