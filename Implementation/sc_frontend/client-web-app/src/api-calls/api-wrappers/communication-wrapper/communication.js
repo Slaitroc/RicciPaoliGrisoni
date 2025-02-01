@@ -66,9 +66,9 @@ export const getFormattedMessages = async (communicationID) => {
 
         if (response.status === 204) {
           return {
-            success: false,
+            success: true,
             data: null,
-            message: "No communications found",
+            message: "No messages in communication",
             severity: "info",
           };
         } else if (!response.ok) {
