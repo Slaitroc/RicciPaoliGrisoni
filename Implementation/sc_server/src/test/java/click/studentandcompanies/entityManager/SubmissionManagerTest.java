@@ -255,9 +255,6 @@ class SubmissionManagerTest extends EntityFactory {
     @Test
     void testSubmitSpontaneousApplication() throws BadInputException, NotFoundException {
         // Success
-        Map<String, Object> payload = new HashMap<>();
-        payload.put("student_id", "10");
-
         Student student = setNewStudent(10, "Alice", setNewUniversity(1, "Uni", "IT"));
         when(userManager.getStudentById("10")).thenReturn(student);
 

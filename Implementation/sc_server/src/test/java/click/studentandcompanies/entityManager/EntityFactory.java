@@ -192,16 +192,18 @@ public abstract class EntityFactory {
      * @param internshipOffer the internship offer related to the communication
      * @return a new Communication instance
      */
-//    public Communication setNewCommunication(Student student, InternshipOffer internshipOffer) {
-//        Communication communication = new Communication();
-//        communication.setId(newRandom(40001, 50000));
-//        communication.setStudent(student);
-//        communication.setInternshipOffer(internshipOffer);
-//        communication.setUniversity(student.getUniversity());
-//        communication.setCommunicationType(CommunicationTypeEnum.communication);
-//        communication.setTitle("Communication Title " + communication.getId());
-//        return communication;
-//    }
+    public Communication setNewCommunication(Student student, Company company) {
+        Communication communication = new Communication();
+        communication.setId(newRandom(40001, 50000));
+        communication.setStudent(student);
+        communication.setCompany(company);
+        communication.setCommunicationType(CommunicationTypeEnum.communication);
+        communication.setTitle("Communication Title " + communication.getId());
+        communication.setContent("Default content");
+        communication.setParticipantType(ParticipantTypeEnum.student);
+
+        return communication;
+    }
 
     /**
      * Creates a new Communication instance for the specified id, student and internship offer.
@@ -211,16 +213,18 @@ public abstract class EntityFactory {
      * @param internshipOffer the internship offer related to the communication
      * @return a new Communication instance
      */
-//    public Communication setNewCommunication(int id, Student student, InternshipOffer internshipOffer) {
-//        Communication communication = new Communication();
-//        communication.setId(id);
-//        communication.setStudent(student);
-//        communication.setInternshipOffer(internshipOffer);
-//        communication.setUniversity(student.getUniversity());
-//        communication.setCommunicationType(CommunicationTypeEnum.communication);
-//        communication.setTitle("Communication Title " + communication.getId());
-//        return communication;
-//    }
+    public Communication setNewCommunication(int id, Student student, Company company) {
+        Communication communication = new Communication();
+        communication.setId(id);
+        communication.setStudent(student);
+        communication.setCompany(company);
+        communication.setCommunicationType(CommunicationTypeEnum.communication);
+        communication.setTitle("Communication Title " + communication.getId());
+        communication.setContent("Default content");
+        communication.setParticipantType(ParticipantTypeEnum.student);
+
+        return communication;
+    }
 
     public Message setNewMessage(int id, String body, String senderName, Communication communication) {
         Message message = new Message();
