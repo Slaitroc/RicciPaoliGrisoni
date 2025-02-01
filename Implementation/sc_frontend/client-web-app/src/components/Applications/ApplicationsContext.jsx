@@ -55,8 +55,9 @@ export const ApplicationsProvider = ({ children }) => {
   };
 
   const value = {
-    handleErrorButtonClick,
     applicationData,
+    handleErrorButtonClick,
+    setApplicationData,
   };
 
   return (

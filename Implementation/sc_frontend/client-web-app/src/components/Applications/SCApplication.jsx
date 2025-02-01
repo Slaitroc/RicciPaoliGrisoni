@@ -11,32 +11,52 @@ import * as logger from "../../logger/logger";
 import * as apiCall from "../../api-calls/apiCalls";
 import * as cv from "../../api-calls/api-wrappers/submission-wrapper/cv";
 import * as offer from "../../api-calls/api-wrappers/submission-wrapper/internshipOffer";
+import { useApplicationContext } from "./ApplicationsContext";
 
-const onAccept = (item, onClose) => {
+const onAccept = (item, onClose, applicationData, setApplicationData) => {
   logger.debug("Accepted application", item);
   apiCall.acceptSpontaneousApplication(item.id);
+
+  const updatedApplications = applicationData.map((application) => {
+    if (application.id === item.id) {
+      return { ...application, status: "acceptedApplication" };
+    }
+    return application;
+  });
+  console.log(updatedApplications);
+  setApplicationData(updatedApplications);
   onClose();
 };
 
-const onReject = (item, onClose) => {
+const onReject = (item, onClose, applicationData, setApplicationData) => {
   logger.debug("Rejected application", item);
   apiCall.rejectSpontaneousApplication(item.id);
+  const updatedApplications = applicationData.map((application) => {
+    if (application.id === item.id) {
+      return { ...application, status: "rejectedApplication" };
+    }
+    return application;
+  });
+  console.log(updatedApplications);
+  setApplicationData(updatedApplications);
   onClose();
 };
+
+//export default
 const SCApplication = ({ item, onClose, profile }) => {
   const [otherPair, setOtherPair] = React.useState(null);
-
+  const { applicationData, setApplicationData } = useApplicationContext();
   useEffect(() => {
     logger.debug("Item", item);
     if (profile.userType === "COMPANY") {
       cv.getStudentCV(item.studentID).then((response) => {
         setOtherPair(response.data.cv);
-        logger.debug("CV", response.data.cv);
+        //logger.debug("CV", response.data.cv);
       });
     } else {
       offer.getSpecificOffer(item.internshipOfferID).then((response) => {
         setOtherPair(response.data);
-        logger.debug("Offer", response.data);
+        //logger.debug("Offer", response.data);
       });
     }
   }, []);
@@ -104,14 +124,26 @@ const SCApplication = ({ item, onClose, profile }) => {
           </CardContent>
         </Card>
         <Box sx={{ display: "flex", justifyContent: "space-around", mt: 2 }}>
-          <Buttons userType={profile.userType} onClose={onClose} item={item} />
+          <Buttons
+            userType={profile.userType}
+            onClose={onClose}
+            item={item}
+            applicationData={applicationData}
+            setApplicationData={setApplicationData}
+          />
         </Box>
       </Box>
     </Box>
   );
 };
 
-const Buttons = ({ userType, onClose, item }) => {
+const Buttons = ({
+  userType,
+  onClose,
+  item,
+  applicationData,
+  setApplicationData,
+}) => {
   const buttonStyles = {
     minWidth: "120px",
     padding: "8px 24px",
@@ -123,7 +155,9 @@ const Buttons = ({ userType, onClose, item }) => {
       <>
         <Button
           variant="contained"
-          onClick={() => onReject(item, onClose)}
+          onClick={() =>
+            onReject(item, onClose, applicationData, setApplicationData)
+          }
           sx={{
             ...buttonStyles,
             backgroundColor: "#f44336",
@@ -155,7 +189,9 @@ const Buttons = ({ userType, onClose, item }) => {
         </Button>
         <Button
           variant="contained"
-          onClick={() => onAccept(item, onClose)}
+          onClick={() =>
+            onAccept(item, onClose, applicationData, setApplicationData)
+          }
           sx={{
             ...buttonStyles,
             backgroundColor: "#4caf50",
