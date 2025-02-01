@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid2, Card, CardContent, Typography } from "@mui/material";
-import { useInterviewContext } from "../Interviews/InterviewContext";
+import { useInterviewContext } from "./InterviewContext";
 
 export const SCInterviewPreview = () => {
   const { interviewData, clickOnInterview } = useInterviewContext();
