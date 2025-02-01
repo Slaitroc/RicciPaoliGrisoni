@@ -1,5 +1,5 @@
 import * as apiCalls from "../../apiCalls";
-import * as logger from "../../../logger/logger";
+import { log, focus, debug } from "../../../logger/logger";
 import * as wrapperUtils from "../wrapperUtils";
 
 export const getInternshipOffers = async () => {
@@ -22,23 +22,41 @@ export const getSpecificOffer = async (offerID) => {
         };
       } else {
         return response.json().then((payload) => {
-          const { properties } = payload;
+          // Definizione delle mappe per etichette e tipi (come già fatto per l'array)
+          const fieldMap = new Map();
+          const fieldTypeMap = new Map();
+
+          fieldMap.set("id", "Internship ID");
+          fieldMap.set("companyID", "Company ID");
+          fieldMap.set("companyName", "Company Name");
+          fieldMap.set("title", "Title");
+          fieldTypeMap.set("title", "string");
+          fieldMap.set("startDate", "Start Date");
+          fieldTypeMap.set("startDate", "date");
+          fieldMap.set("endDate", "End Date");
+          fieldTypeMap.set("endDate", "date");
+          fieldMap.set("duration", "Duration");
+          fieldTypeMap.set("duration", "int");
+          fieldMap.set("numberPositions", "Number of Positions");
+          fieldTypeMap.set("numberPositions", "int");
+          fieldMap.set("location", "Location");
+          fieldMap.set("description", "Description");
+          fieldMap.set("requiredSkills", "Required Skills");
+          fieldMap.set("compensation", "Compensation");
+          fieldTypeMap.set("compensation", "int");
+          fieldMap.set("updateTime", "Last Update");
+          fieldTypeMap.set("updateTime", "date-time");
+
+          // Formattiamo l'offerta utilizzando la funzione definita sopra
+          const formattedOffer = wrapperUtils.formatLabeledObjectContent(
+            fieldMap,
+            fieldTypeMap,
+            payload
+          );
+
           return {
             success: true,
-            data: {
-              id: properties.id,
-              title: properties.title,
-              companyID: properties.companyID,
-              companyName: properties.companyName,
-              description: properties.description,
-              startDate: properties.startDate,
-              endDate: properties.endDate,
-              duration: properties.duration,
-              location: properties.location,
-              compensation: properties.compensation,
-              numberPositions: properties.numberPositions,
-              requiredSkills: properties.requiredSkills,
-            },
+            data: formattedOffer,
             message: "Internship offer fetched successfully",
             severity: "success",
           };
@@ -114,7 +132,7 @@ export const getFormattedCompanyInternships = async (companyID) => {
 export const getFormattedInternships = async () => {
   try {
     return apiCalls.getInternshipOffers().then((response) => {
-      logger.focus("getFormattedInternships status: ", response);
+      debug("getFormattedInternships status: ", response);
       if (response.status === 204) {
         return {
           success: false,
