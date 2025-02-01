@@ -8,8 +8,10 @@ import Divider from "@mui/material/Divider";
 import * as apiCalls from "../../api-calls/apiCalls";
 import * as logger from "../../logger/logger";
 import { useGlobalContext } from "../../global/GlobalContext";
+
 export const NotificationContainer = () => {
-  const { setShowNotificationAlert } = useGlobalContext();
+  const { setShowNotificationAlert, showNotificationAlert } =
+    useGlobalContext();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [notifications, setNotifications] = useState([]);
@@ -33,7 +35,7 @@ export const NotificationContainer = () => {
   return (
     <>
       <SCMenuButton
-        showBadge
+        showBadge={showNotificationAlert}
         aria-label="Open notifications"
         onClick={handleClick}
       >

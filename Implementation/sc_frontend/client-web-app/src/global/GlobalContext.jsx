@@ -148,15 +148,11 @@ export const GlobalProvider = ({ children }) => {
     // Gestisce le notifiche in foreground
     onMessage(firebaseConfig.messaging, (payload) => {
       logger.log("- NOTIFICATION: Messaggio ricevuto in foreground:", payload);
-      // Mostra una notifica o aggiorna l'interfaccia utente
+      setShowNotificationAlert(true);
       setNotification((prev) => [...prev, payload]);
-      // Rimuove automaticamente la notifica dopo 5 secondi
       setTimeout(() => {
         setNotification((prev) => prev.filter((n) => n !== payload));
       }, 5000);
-      // alert(
-      //   `Notifica: ${payload.notification.title} - ${payload.notification.body}`
-      // );
     });
 
     return () => {
@@ -177,6 +173,7 @@ export const GlobalProvider = ({ children }) => {
     notification,
     isEmailVerified,
     setShowNotificationAlert,
+    showNotificationAlert,
     setShowNotification,
     setIsEmailVerified,
     setUserType,
