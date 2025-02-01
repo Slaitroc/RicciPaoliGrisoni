@@ -11,7 +11,6 @@ import { createBrowserRouter } from "react-router-dom";
 import { SignUp } from "../pages/SignUp";
 import { SCUserCreation } from "../components/SignUp/SCUserCreation";
 import SCApplicationPreview from "../components/Applications/SCApplicationPreview";
-import SCApplication from "../components/Applications/SCApplication";
 import React from "react";
 import SCSignInSide from "../pages/SCSignInSide";
 import About from "../pages/About";
@@ -50,11 +49,18 @@ import { SCNewIntOffer } from "../components/InternshipOffers/SCNewIntOffer";
 import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
 import SCIntOffer from "../components/InternshipOffers/SCIntOffer";
 import SCIntOffersPreview from "../components/InternshipOffers/SCIntOffersPreview";
+import BrowseInternshipOffers from "../pages/BrowseInternshipOffers";
+import { SCInterviewsPreview } from "../components/Interviews/SCInterviewsPreview";
 import SCBrowseInternshipPreview from "../components/BrowseInternshipOffers/SCBrowseInternshipPreview";
 import SCBrowseInternshipOffer from "../components/BrowseInternshipOffers/SCBrowseInternshipOffer";
 import IntPosOfferPreview from "../components/IntPosOffer/IntPosOfferPreview";
 import IntPosOffer from "../components/IntPosOffer/IntPosOffer";
 import SCRecommendations from "../components/Recommendations/SCRecommendations";
+import { SCInterviewEdit } from "../components/interviews/SCInterviewEdit";
+import { SCNewIntOffer } from "../components/InternshipOffers/SCNewIntOffer";
+import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
+import SCInterview from "../components/Interviews/SCIntreview";
+import InterviewPosOffer from "../pages/InterviewPosOffer";
 
 //NAV Router Configurations
 
@@ -272,10 +278,6 @@ const router = createBrowserRouter(
                 {
                   path: "",
                   element: <IntPosOfferPreview />,
-                },
-                {
-                  path: "details/:id",
-                  element: <IntPosOffer />,
                 },
               ],
             },

@@ -473,7 +473,7 @@ public class APIController {
     }
 
     @GetMapping("/interview/private/get-my-int-pos-off")
-    @Operation(summary = "Get internship position offer", description = "Payload will contain the 'student_id'")
+    @Operation(summary = "Get internship position offer", description = "Payload will contain the 'user_id'")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Internship positions offer retrieved successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -481,8 +481,8 @@ public class APIController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<List<DTO>> getInternshipPositionOffers(@RequestHeader("Authorization") String token) {
-        String student_id = GetUuid.getUuid(token);
-        return new GetInternshipPositionOffersCommandCall(interviewManager, student_id).execute();
+        String user_id = GetUuid.getUuid(token);
+        return new GetInternshipPositionOffersCommandCall(interviewManager, user_id).execute();
     }
 
 
@@ -593,9 +593,9 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Internship not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> acceptInternshipPositionOffer(@PathVariable("intPosOffID") Integer intPosOffID,
-            @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<DTO> acceptInternshipPositionOffer(@PathVariable("intPosOffID") Integer intPosOffID, @RequestHeader("Authorization") String token) {
         String user_id = GetUuid.getUuid(token);
+        Map<String, Object> payload = new HashMap<>();
         payload.put("student_id", user_id);
         return new AcceptInternshipPositionOfferCommandCall(intPosOffID, payload, interviewManager, notificationManager, userManager).execute();
     }
@@ -610,8 +610,9 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "Internship not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> rejectInternshipPositionOffer(@PathVariable("intPosOffID") Integer intPosOffID, @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<DTO> rejectInternshipPositionOffer(@PathVariable("intPosOffID") Integer intPosOffID, @RequestHeader("Authorization") String token) {
         String user_id = GetUuid.getUuid(token);
+        Map<String, Object> payload = new HashMap<>();
         payload.put("student_id", user_id);
         return new RejectInternshipPositionOfferCommandCall(intPosOffID, payload, interviewManager, notificationManager, userManager).execute();
     }

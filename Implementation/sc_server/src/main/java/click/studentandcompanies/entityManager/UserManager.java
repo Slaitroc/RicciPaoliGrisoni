@@ -193,6 +193,23 @@ public class UserManager {
         return studentInterviews;
     }
 
+    public List<Interview> getInterviewsByCompanyID(String companyID) {
+        List<Interview> retrieveInterview = interviewRepository.findAll();
+        List<Interview> companyInterviews = new ArrayList<>();
+        for(Interview interview : retrieveInterview){
+            if(interview.getRecommendation() != null){
+                if(interview.getRecommendation().getInternshipOffer().getCompany().getId().equals(companyID)){
+                    companyInterviews.add(interview);
+                }
+            }else{
+                if(interview.getSpontaneousApplication().getInternshipOffer().getCompany().getId().equals(companyID)){
+                    companyInterviews.add(interview);
+                }
+            }
+        }
+        return companyInterviews;
+    }
+
     public InternshipPosOffer getInternshipPosOfferById(Integer id) {
         return internshipPosOfferRepository.getInternshipPosOfferById(id);
     }

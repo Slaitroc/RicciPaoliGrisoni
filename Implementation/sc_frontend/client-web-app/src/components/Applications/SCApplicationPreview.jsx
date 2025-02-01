@@ -87,7 +87,11 @@ const PreviewCard = ({ item, onClick, renderDetail }) => {
         </Typography>
         {renderDetail("Student Name", item.studentName)}
         {renderDetail("Company Name", item.internshipOfferCompanyName)}
-        {renderDetail("Status", item.status)}
+        {item.status === "toBeEvaluated"
+          ? renderDetail("Status", "To Be Evaluated")
+          : item.status === "acceptedApplication"
+          ? renderDetail("Status", "Accepted Application")
+          : renderDetail("Status", "Rejected Application")}
       </CardContent>
     </Card>
   );
