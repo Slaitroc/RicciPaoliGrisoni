@@ -87,8 +87,8 @@ public class InterviewManager {
         return new GetInterviewTemplatesCommand(companyId, interviewTemplateRepository, userManager).execute();
     }
 
-    public List<InternshipPosOffer> getInterviewPosOffersOfStudent(String studentID) throws BadInputException, NotFoundException {
-        return new GetInternshipPosOfferCommand(studentID, internshipPosOfferRepository, userManager).execute();
+    public List<InternshipPosOffer> getInterviewPosOffersOfUser(String userID) throws BadInputException, NotFoundException {
+        return new GetInternshipPosOfferCommand(userID, internshipPosOfferRepository, userManager).execute();
     }
 
     public List<Interview> getMatchNotInterviewed(String companyID) throws BadInputException, NotFoundException{

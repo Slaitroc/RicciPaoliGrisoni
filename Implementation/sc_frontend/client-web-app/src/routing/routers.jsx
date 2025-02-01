@@ -274,10 +274,6 @@ const router = createBrowserRouter(
                   path: "",
                   element: <IntPosOfferPreview />,
                 },
-                {
-                  path: "details/:id",
-                  element: <IntPosOffer />,
-                },
               ],
             },
             {

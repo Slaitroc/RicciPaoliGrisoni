@@ -15,10 +15,6 @@ export const useIntPosOfferContext = () => {
   return context;
 };
 
-export const clickOnIntPosOffer = (intPosOffer) => {
-  console.log("IntPosOffer Clicked:", intPosOffer);
-};
-
 export const IntPosOfferProvider = ({ children }) => {
   const { profile } = useGlobalContext();
 
@@ -49,9 +45,9 @@ export const IntPosOfferProvider = ({ children }) => {
   }, []);
 
   const value = {
+    setIntPosOfferData,
     intPosOfferData,
     openAlert,
-    clickOnIntPosOffer,
   };
 
   return (
