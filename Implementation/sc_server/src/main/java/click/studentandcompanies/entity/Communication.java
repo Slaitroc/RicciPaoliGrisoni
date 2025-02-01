@@ -57,9 +57,10 @@ public class Communication {
         // Empty constructor required by JPA
     }
 
-    public Communication(Student student, Company company, InternshipPosOffer internshipPosOff, String title, String content, CommunicationTypeEnum communicationType) {
+    public Communication(Student student, Company company, ParticipantTypeEnum participantType,InternshipPosOffer internshipPosOff, String title, String content, CommunicationTypeEnum communicationType) {
         this.student = student;
         this.company = company;
+        this.participantType = participantType;
         this.internshipPosOff = internshipPosOff;
         this.title = title;
         this.content = content;

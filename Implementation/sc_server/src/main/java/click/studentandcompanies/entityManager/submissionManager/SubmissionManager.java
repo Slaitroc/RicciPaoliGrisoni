@@ -3,6 +3,7 @@ import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.CvRepository;
 import click.studentandcompanies.entityRepository.InternshipOfferRepository;
+import click.studentandcompanies.entityRepository.InterviewRepository;
 import click.studentandcompanies.entityRepository.SpontaneousApplicationRepository;
 import click.studentandcompanies.entityManager.submissionManager.submissionManagerCommands.GET.*;
 import click.studentandcompanies.entityManager.submissionManager.submissionManagerCommands.POST.*;
@@ -24,15 +25,17 @@ public class SubmissionManager {
     private final InternshipOfferRepository internshipOfferRepository;
     private final SpontaneousApplicationRepository spontaneousApplicationRepository;
     private final UserManager userManager;
+    private final InterviewRepository interviewRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public SubmissionManager(CvRepository cvRepository, InternshipOfferRepository internshipOfferRepository, SpontaneousApplicationRepository spontaneousApplicationRepository, UserManager userManager) {
+    public SubmissionManager(CvRepository cvRepository, InternshipOfferRepository internshipOfferRepository, SpontaneousApplicationRepository spontaneousApplicationRepository, UserManager userManager, InterviewRepository interviewRepository) {
         this.cvRepository = cvRepository;
         this.internshipOfferRepository = internshipOfferRepository;
         this.spontaneousApplicationRepository = spontaneousApplicationRepository;
         this.userManager = userManager;
+        this.interviewRepository = interviewRepository;
     }
 
     public List<InternshipOffer> getInternshipsByCompany(String companyID) throws NotFoundException, NoContentException {
@@ -70,7 +73,7 @@ public class SubmissionManager {
     }
 
     public SpontaneousApplication acceptSpontaneousApplication(Integer spontaneousApplicationID, Map<String, Object> payload) {
-        return new AcceptSpontaneousApplicationCommand(spontaneousApplicationRepository, spontaneousApplicationID, payload).execute();
+        return new AcceptSpontaneousApplicationCommand(spontaneousApplicationRepository, interviewRepository, spontaneousApplicationID, payload).execute();
     }
 
     public SpontaneousApplication rejectSpontaneousApplication(Integer spontaneousApplicationID, Map<String, Object> payload) {

@@ -31,20 +31,9 @@ export const getFormattedSpontaneousApplications = async () => {
         };
       } else {
         return response.json().then((payload) => {
-          const formattedData = payload.map((application) => {
-            const { properties } = application;
-            return {
-              id: properties.id,
-              status: properties.status,
-              internshipOfferTitle: properties.internshipOfferTitle,
-              internshipOfferCompanyName: properties.internshipOfferCompanyName,
-              studentName: properties.studentName,
-              studentID: properties.studentID,
-            };
-          });
           return {
             success: true,
-            data: formattedData,
+            data: payload.map((item) => item.properties),
             message: "Spontaneous applications fetched successfully",
             severity: "success",
           };

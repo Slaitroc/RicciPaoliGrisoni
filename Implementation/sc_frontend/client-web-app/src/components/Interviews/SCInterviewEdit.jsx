@@ -17,22 +17,22 @@ import * as logger from "../../logger/logger";
 import Grid from "@mui/material/Grid2";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import * as cv from "../../api-calls/api-wrappers/submission-wrapper/cv";
-import { useInternshipOffersContext } from "./InternshipOffersContext";
+import { useInterviewsContext } from "./InterviewsContext";
 import NumberInput from "../Shared/InputHanlders/NumberInput";
 import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-export const SCIntOfferEdit = () => {
+export const SCInterviewEdit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const {
     offerDataSnapshot,
-    updateInternshipOffer,
+    updateInterview,
     offersArray,
     newOfferRef,
     setForceRender,
-  } = useInternshipOffersContext();
+  } = useInterviewsContext();
   const [openTipAlert, setOpenTipAlert] = useState(true);
 
   const handleFieldChange = (field, value) => {
@@ -272,7 +272,7 @@ export const SCIntOfferEdit = () => {
             variant="contained"
             color="primary"
             onClick={() => {
-              updateInternshipOffer(id, newOfferRef.current);
+              updateInterview(id, newOfferRef.current);
             }}
           >
             Update Offer

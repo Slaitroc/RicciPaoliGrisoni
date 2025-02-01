@@ -33,6 +33,7 @@ public class CreateMessageCommand implements CommunicationManagerCommands<Messag
     @Override
     public Message execute() throws NotFoundException, UnauthorizedException {
         UserType type = userManager.getUserType(userID);
+        //System.out.println("type: " + type);
         //here I check if the communication exists
         Communication communication = communicationRepository.findById(commID).orElseThrow(() -> new NotFoundException("Communication not found"));
         Message message = new Message();
@@ -66,6 +67,7 @@ public class CreateMessageCommand implements CommunicationManagerCommands<Messag
                         message.setSenderName(spontaneousApplicationOfCommunication.getStudent().getName());
                     }
                 }
+                return;
             }
             case COMPANY: {
                 if(recommendationOfCommunication!=null){
@@ -81,6 +83,7 @@ public class CreateMessageCommand implements CommunicationManagerCommands<Messag
                         message.setSenderName(spontaneousApplicationOfCommunication.getInternshipOffer().getCompany().getName());
                     }
                 }
+                return;
             }
             case UNIVERSITY: {
                 if(recommendationOfCommunication!=null){
@@ -96,6 +99,7 @@ public class CreateMessageCommand implements CommunicationManagerCommands<Messag
                         message.setSenderName(spontaneousApplicationOfCommunication.getStudent().getUniversity().getName());
                     }
                 }
+                return;
             }
             default: throw new UnauthorizedException("User not found");
         }

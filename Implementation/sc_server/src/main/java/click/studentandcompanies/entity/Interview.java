@@ -11,6 +11,22 @@ public class Interview {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Lob
+    @Column(name = "answer", columnDefinition = "TEXT")
+    private String answer;
+
+    @Column(name="evaluation")
+    private Integer evaluation;
+
+    @Lob
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private InterviewStatusEnum status;
+
+    @OneToOne
+    @JoinColumn(name = "internship_pos_offer_id")
+    private InternshipPosOffer internshipPosOffer;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "interview_template_id", nullable = true)
     private InterviewTemplate interviewTemplate;
@@ -23,23 +39,16 @@ public class Interview {
     @JoinColumn(name = "spontaneous_application_id")
     private SpontaneousApplication spontaneousApplication;
 
-    @OneToOne
-    @JoinColumn(name = "internship_pos_offer_id")
-    private InternshipPosOffer internshipPosOffer;
 
-    @Lob
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private InterviewStatusEnum status;
+    public Interview() {
+        //empty constructor required by JPA
+    }
 
-    @Lob
-    @Column(name = "answer", columnDefinition = "TEXT")
-    private String answer;
-
-    @Column(name="evaluation")
-    private Integer evaluation;
-
-
+    public Interview(InterviewStatusEnum status, Recommendation recommendation, SpontaneousApplication spontaneousApplication){
+        this.status = status;
+        this.recommendation = recommendation;
+        this.spontaneousApplication = spontaneousApplication;
+    }
 
     public String getAnswer() {
         return answer;

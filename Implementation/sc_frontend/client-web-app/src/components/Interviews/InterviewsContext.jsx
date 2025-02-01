@@ -1,5 +1,4 @@
 import React, {
-  useCallback,
   useEffect,
   useState,
   useContext,
@@ -8,23 +7,23 @@ import React, {
 } from "react";
 import { useGlobalContext } from "../../global/GlobalContext";
 import { Alert } from "@mui/material";
-import * as logger from "../../logger/logger";
 import { useParams } from "react-router-dom";
-import * as internshipOffer from "../../api-calls/api-wrappers/submission-wrapper/internshipOffer";
+import * as logger from "../../logger/logger";
+import * as interview from "../../api-calls/api-wrappers/Interview/interview";
 
-const InternshipOffersContext = createContext();
+const InterviewsContext = createContext();
 
-export const useInternshipOffersContext = () => {
-  const context = useContext(InternshipOffersContext);
+export const useInterviewsContext = () => {
+  const context = useContext(InterviewsContext);
   if (!context) {
     throw new Error(
-      "useInternshipOffersContext must be used within a InternshipOffersProvider"
+      "useInterviewsContext must be used within a InterviewsProvider"
     );
   }
   return context;
 };
 
-export const InternshipOffersProvider = ({ children }) => {
+export const InterviewsProvider = ({ children }) => {
   const { profile } = useGlobalContext();
   const { id } = useParams();
   const newOfferRef = useRef({});
@@ -44,16 +43,16 @@ export const InternshipOffersProvider = ({ children }) => {
     logger.focus("REF", id, newOfferRef?.current);
   }, [offersArray, offerDataSnapshot, forceRender]);
 
-  const updateInternshipOffer = (id, data) => {
-    internshipOffer.sendUpdateMyOffer(data);
-    setOffersArray((prev) => {
-      return prev.map((item) => {
-        if (item.id === id) {
-          return { ...item, ...data };
-        }
-        return item;
-      });
-    });
+  const updateInterview = (id, data) => {
+    // interview.sendUpdateMyOffer(data);
+    // setOffersArray((prev) => {
+    //   return prev.map((item) => {
+    //     if (item.id === id) {
+    //       return { ...item, ...data };
+    //     }
+    //     return item;
+    //   });
+    // });
     reloadSnapshot(id);
   };
 
@@ -81,18 +80,18 @@ export const InternshipOffersProvider = ({ children }) => {
         console.log("User is not a company");
         return;
       } else {
-        return await internshipOffer
-          .getFormattedCompanyInternships(profile.userID)
-          .then((response) => {
-            if (response.success === false) {
-              setOpenAlert(true);
-              setAlertSeverity(response.severity);
-              setAlertMessage(response.message);
-            } else {
-              setOffersArray(response.data);
-              setOpenAlert(false);
-            }
-          });
+        // return await interview
+        //   .getFormattedCompanyInternships(profile.userID)
+        //   .then((response) => {
+        //     if (response.success === false) {
+        //       setOpenAlert(true);
+        //       setAlertSeverity(response.severity);
+        //       setAlertMessage(response.message);
+        //     } else {
+        //       setOffersArray(response.data);
+        //       setOpenAlert(false);
+        //     }
+        //   });
       }
     };
 
@@ -126,20 +125,20 @@ export const InternshipOffersProvider = ({ children }) => {
     openAlert,
     offerDataSnapshot,
     setOfferDataSnapshot,
-    updateInternshipOffer,
+    updateInterview,
     reloadSnapshot,
     newOfferRef,
     setForceRender,
   };
 
   return (
-    <InternshipOffersContext.Provider value={value}>
+    <InterviewsContext.Provider value={value}>
       {openAlert && (
         <>
           <Alert severity={alertSeverity}>{alertMessage}</Alert>
         </>
       )}
       {children}
-    </InternshipOffersContext.Provider>
+    </InterviewsContext.Provider>
   );
 };

@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -28,44 +27,8 @@ export default function SCIntOffers({ offerData }) {
   const onEditClick = () => {
     navigate(`/dashboard/internship-offers/edit/${id}`);
   };
-  const updateTemporalData = (itemID, subItemID, event) => {
-    const newContent = event.target.value;
-    const updatedOfferData = offerDataSnapshot.map((item) =>
-      item.id === itemID
-        ? {
-            ...item,
-            content: item.content.map((subitem) =>
-              subitem.id === subItemID
-                ? { ...subitem, content: newContent }
-                : subitem
-            ),
-          }
-        : item
-    );
-    setOfferDataSnapshot(updatedOfferData);
-  };
-  const updateOfferData = (itemID, subItemID) => {
-    const updatedOfferData = offerData.map((item) =>
-      item.id === itemID
-        ? {
-            ...item,
-            content: item.content.map((subitem) =>
-              subitem.id === subItemID
-                ? {
-                    ...subitem,
-                    content: offerDataSnapshot
-                      .find((tempItem) => tempItem.id === itemID)
-                      .content.find(
-                        (tempSubItem) => tempSubItem.id === subItemID
-                      ).content,
-                  }
-                : subitem
-            ),
-          }
-        : item
-    );
-    setOfferData(updatedOfferData);
-  };
+
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -87,13 +50,16 @@ export default function SCIntOffers({ offerData }) {
               <Box display="flex" flexDirection="column" alignItems="end">
                 <Typography variant="h6 " gutterBottom>
                   Last Update:{" "}
-                  {new Date().toLocaleString("it-IT", {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                  {new Date(offerDataSnapshot.updateTime.value).toLocaleString(
+                    "it-IT",
+                    {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }
+                  )}
                 </Typography>
                 <Button
                   variant="outlined"

@@ -253,7 +253,7 @@ public class APIController {
 
 
     @PostMapping("/sub/private/application/{SpontaneousApplicationID}/accept")
-    @Operation(summary = "Accept Spontaneous Application", description = "The payload is a map with the 'userID' used to accept an application.")
+    @Operation(summary = "Accept Spontaneous Application", description = "The payload is a map with the 'company_id' of the company that accepts the application.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "SpontaneousApplication accepted successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request, the application is already accepted"),
@@ -261,15 +261,16 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "SpontaneousApplication not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> acceptSpontaneousApplication(@PathVariable Integer SpontaneousApplicationID, @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
-        String user_id = GetUuid.getUuid(token);
-        payload.put("user_id", user_id);
+    public ResponseEntity<DTO> acceptSpontaneousApplication(@PathVariable Integer SpontaneousApplicationID, @RequestHeader("Authorization") String token) {
+        String company_id = GetUuid.getUuid(token);
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("company_id", company_id);
         return new AcceptSpontaneousApplicationCommandCall(SpontaneousApplicationID, submissionManager, notificationManager, payload).execute();
     }
 
 
     @PostMapping("/sub/private/application/{SpontaneousApplicationID}/reject")
-    @Operation(summary = "Reject Spontaneous Application", description = "The payload is a map with the 'userID' used to reject an application.")
+    @Operation(summary = "Reject Spontaneous Application", description = "The payload is a map with the 'company_id' used to reject an application.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "SpontaneousApplication rejected successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request, the application is already rejected"),
@@ -277,9 +278,10 @@ public class APIController {
             @ApiResponse(responseCode = "404", description = "SpontaneousApplication not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> rejectSpontaneousApplication(@PathVariable Integer SpontaneousApplicationID, @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<DTO> rejectSpontaneousApplication(@PathVariable Integer SpontaneousApplicationID, @RequestHeader("Authorization") String token) {
         String user_id = GetUuid.getUuid(token);
-        payload.put("user_id", user_id);
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("company_id", user_id);
         return new RejectSpontaneousApplicationCommandCall(SpontaneousApplicationID, submissionManager, notificationManager, payload).execute();
     }
 
@@ -365,7 +367,7 @@ public class APIController {
 
 
     @PostMapping("/comm/private/create-comm")
-    @Operation(summary = "Create communication", description = "payload will contain the ")
+    @Operation(summary = "Create communication", description = "payload will contain the 'user_id', 'internshipPosOfferID', 'title', 'content', 'communicationType'")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Communication created successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -442,6 +444,19 @@ public class APIController {
     public ResponseEntity<List<DTO>> getInterviews(@RequestHeader("Authorization") String token) {
         String userID = GetUuid.getUuid(token);
         return new GetInterviewsCommandCall(userID, interviewManager).execute();
+    }
+
+    @GetMapping("/interview/private/get-match-not-interviewed")
+    @Operation(summary = "Get match not interviewed", description = "Get the list of students matched with the company that have not assigned an interview yet.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Match retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Students not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<List<DTO>> getMatchNotInterviewed(@RequestHeader("Authorization") String token) {
+        String company_id = GetUuid.getUuid(token);
+        return new GetMatchNotInterviewedCommandCall(interviewManager, company_id).execute();
     }
 
     @GetMapping("/interview/private/get-my-templates")
