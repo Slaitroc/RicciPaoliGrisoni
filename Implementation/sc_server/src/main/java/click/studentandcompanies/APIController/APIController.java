@@ -446,6 +446,18 @@ public class APIController {
         return new GetInterviewsCommandCall(userID, interviewManager).execute();
     }
 
+    @GetMapping("/interview/private/{interviewID}/get-interview")
+    @Operation(summary = "Get interview", description = "Get the interview with the specified ID.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Interview retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Interview not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<DTO> getInterview(@PathVariable Integer interviewID, @RequestHeader("Authorization") String token) {
+        String userID = GetUuid.getUuid(token);
+        return new GetInterviewCommandCall(userID, interviewID, interviewManager).execute();
+    }
+
     @GetMapping("/interview/private/get-match-not-interviewed")
     @Operation(summary = "Get match not interviewed", description = "Get the list of students matched with the company that have not assigned an interview yet.")
     @ApiResponses({

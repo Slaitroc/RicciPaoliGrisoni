@@ -2,6 +2,7 @@ package click.studentandcompanies.entity;
 
 import click.studentandcompanies.entity.dbEnum.InterviewStatusEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "interview")
@@ -39,6 +40,17 @@ public class Interview {
     @JoinColumn(name = "spontaneous_application_id")
     private SpontaneousApplication spontaneousApplication;
 
+    @NotNull
+    @Column(name = "hasAnswered", nullable = false)
+    private Boolean hasAnswered;
+
+    public Boolean getHasAnswered() {
+        return hasAnswered;
+    }
+
+    public void setHasAnswered(Boolean hasAnswered) {
+        this.hasAnswered = hasAnswered;
+    }
 
     public Interview() {
         //empty constructor required by JPA
@@ -48,6 +60,7 @@ public class Interview {
         this.status = status;
         this.recommendation = recommendation;
         this.spontaneousApplication = spontaneousApplication;
+        this.hasAnswered = false;
     }
 
     public String getAnswer() {
