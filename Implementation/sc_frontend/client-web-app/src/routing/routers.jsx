@@ -27,7 +27,7 @@ import Interviews from "../pages/Interviews";
 import Recommendations from "../pages/Recommendations";
 import Communications from "../pages/Communications";
 import SCCommunications from "../components/Communications/SCCommunications";
-import SCCommunicationDetail from "../components/Communications/CommunicationsList";
+import SCCommunicationDetails from "../components/Communications/SCCommunicationDetails";
 import SCNewCommunication from "../components/Communications/SCNewCommunication";
 import University from "../pages/University";
 import InternshipOffers from "../pages/InternshipOffers";
@@ -53,7 +53,6 @@ import {
 } from "../global/globalStatesInit";
 import SCRecommendations from "../components/Recommendations/SCRecommendations";
 import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
-//import SCCommunications from "../components/Communications/SCCommunications";
 
 //NAV Router Configurations
 
@@ -276,7 +275,7 @@ const router = createBrowserRouter(
                 },
                 {
                   path: "details/:id",
-                  element: <SCCommunicationDetail />,
+                  element: <SCCommunicationDetails />,
                 },
                 {
                   path: "new/:type",

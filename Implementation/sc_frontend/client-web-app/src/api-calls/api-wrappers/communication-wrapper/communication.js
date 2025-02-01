@@ -71,49 +71,21 @@ export const getFormattedMessages = async (communicationID) => {
             message: "No communications found",
             severity: "info",
           };
-        } else if (response.status === 401) {
-          return response.json().then((data) => {
+        } else if (!response.ok) {
+          return response.body().then((data) => {
             return {
               success: false,
-              data: null,
-              message: response.properties.error,
-              severity: "error",
-            };
-          });
-        } else if (response.status === 404) {
-          return response.json().then((data) => {
-            return {
-              success: false,
-              data: null,
-              message: response.properties.error,
-              severity: "error",
-            };
-          });
-        } else if (response.status === 500) {
-          return response.json().then((data) => {
-            return {
-              success: false,
-              data: null,
-              message: response.properties.error,
+              message: data.properties.error,
               severity: "error",
             };
           });
         } else {
           return response.json().then((payload) => {
-            const formattedData = payload.map((message) => {
-              const { properties } = message;
-              return {
-                id: properties.id,
-                body: properties.body,
-                timeStamp: properties.timeStamp,
-                senderName: properties.senderName,
-                receiverID: properties.receiverID,
-              };
-            });
+            logger.log("Payload fetched successfully", payload);
             return {
               success: true,
-              data: formattedData,
-              message: response.properties.error,
+              data: payload.map((item) => item.properties),
+              message: "Messages fetched successfully",
               severity: "success",
             };
           });
@@ -123,4 +95,65 @@ export const getFormattedMessages = async (communicationID) => {
     // NOTE: Lancio errore critico
     throw error;
   }
+};
+
+export const createCommunication = async (communicationData) => {
+  logger.debug("Communication submitted: ", communicationData);
+
+  return apiCalls
+    .createCommunication(communicationData)
+    .then((response) => {
+      if (response.status === 201) {
+        return {
+          success: true,
+          message: "Communication created successfully",
+          severity: "success",
+        };
+      }
+      if (!response.ok) {
+        return response.body().then((data) => {
+          return {
+            success: false,
+            message: data.properties.error,
+            severity: "error",
+          };
+        });
+      }
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const sendMessage = async (communicationID, message) => {
+  logger.debug(
+    "Message submitted: ",
+    message,
+    "to communication: ",
+    communicationID
+  );
+
+  return apiCalls
+    .sendMessage(communicationID, message)
+    .then((response) => {
+      if (response.status === 201) {
+        return {
+          success: true,
+          message: "Message sent successfully",
+          severity: "success",
+        };
+      }
+      if (!response.ok) {
+        return response.body().then((data) => {
+          return {
+            success: false,
+            message: data.properties.error,
+            severity: "error",
+          };
+        });
+      }
+    })
+    .catch((error) => {
+      throw error;
+    });
 };

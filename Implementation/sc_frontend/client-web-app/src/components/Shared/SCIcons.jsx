@@ -25,6 +25,11 @@ import LinkIcon from "@mui/icons-material/Link";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CachedIcon from "@mui/icons-material/Cached";
+
+export const SCCachedIcon = () => {
+  return <CachedIcon />;
+};
 
 export const SCAddIcon = () => {
   return <AddIcon />;

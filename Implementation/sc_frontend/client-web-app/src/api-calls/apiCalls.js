@@ -323,7 +323,7 @@ export const createCommunication = async (communication) => {
   });
 };
 
-export const sendMessage = async (communicationID, message) => {
+export const sendMessage = async (communicationID, body) => {
   const token = await getToken();
   return fetchWrapper(
     `/application-api/comm/private/${communicationID}/send-messages`,
@@ -333,7 +333,7 @@ export const sendMessage = async (communicationID, message) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ ...message }),
+      body: JSON.stringify({ ...body }),
     }
   );
 };
