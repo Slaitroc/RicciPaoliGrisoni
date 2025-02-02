@@ -1,6 +1,5 @@
 package click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.recommendationAlgorithm;
 
-import click.studentandcompanies.Config;
 import click.studentandcompanies.entity.Cv;
 import click.studentandcompanies.entity.Feedback;
 import click.studentandcompanies.utils.RecommendationAlgortimSetting;
@@ -121,9 +120,9 @@ public class RecommendationProcessUtil {
             return RecommendationAlgortimSetting.DEFAULT_THRESHOLD.getValue();
         }
         //Exponential function to ensure the threshold stays in range [0,1] * scaleFactor
-        double threshold = Math.exp(- numerator / denominator) * Config.getScaleFactor();
+        double threshold = Math.exp(- numerator / denominator) * 0.5;
         System.out.println("dynamic threshold: " + threshold);
-        return threshold*Config.getScaleFactor();
+        return threshold*0.5;
     }
 
     private Directory loadIndexFolder(Path indexDirectoryPath){

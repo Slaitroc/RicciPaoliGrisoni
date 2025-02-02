@@ -1,7 +1,6 @@
 package click.studentandcompanies.APIController.APIControllerCommandCall.POST;
 
 import click.studentandcompanies.APIController.APIControllerCommandCall.APIControllerCommandCall;
-import click.studentandcompanies.Config;
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
@@ -51,12 +50,12 @@ public class CreateCommunicationMessageCommandCall implements APIControllerComma
         }catch (NotFoundException e){
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
         }catch (UnauthorizedException e){
-            Config.printStackTrace(e);
+            e.printStackTrace();
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.UNAUTHORIZED);
         }catch (BadInputException e){
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
         }catch (Exception e){
-            Config.printStackTrace(e);
+            e.printStackTrace();
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

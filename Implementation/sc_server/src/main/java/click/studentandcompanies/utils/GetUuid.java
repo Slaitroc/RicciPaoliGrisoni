@@ -1,6 +1,5 @@
 package click.studentandcompanies.utils;
 
-import click.studentandcompanies.Config;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -34,11 +33,11 @@ public class GetUuid {
             return uuid;
         } catch (HttpClientErrorException e) {
             // Handle specific HTTP errors
-            Config.printStackTrace(e);
+            e.printStackTrace();
             System.err.println("HTTP error: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
             return null;
         } catch (Exception e) {
-            Config.printStackTrace(e);
+            e.printStackTrace();
             // Handle other errors, including UUID not found
             System.err.println("Error: " + e.getMessage());
             return null;

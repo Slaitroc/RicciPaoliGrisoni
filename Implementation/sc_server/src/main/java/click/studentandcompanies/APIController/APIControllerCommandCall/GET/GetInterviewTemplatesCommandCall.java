@@ -1,14 +1,12 @@
 package click.studentandcompanies.APIController.APIControllerCommandCall.GET;
 
 import click.studentandcompanies.APIController.APIControllerCommandCall.APIControllerCommandCall;
-import click.studentandcompanies.Config;
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.InterviewTemplate;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
 import click.studentandcompanies.utils.exception.BadInputException;
-import click.studentandcompanies.utils.exception.NoContentException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +41,7 @@ public class GetInterviewTemplatesCommandCall implements APIControllerCommandCal
         }catch (BadInputException e){
             return new ResponseEntity<>(List.of(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage())), HttpStatus.BAD_REQUEST);
         }catch (Exception e){
-            Config.printStackTrace(e);
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
