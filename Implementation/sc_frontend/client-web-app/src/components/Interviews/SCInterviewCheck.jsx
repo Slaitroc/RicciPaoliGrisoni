@@ -121,12 +121,12 @@ export const SCInterviewCheck = () => {
   });
 
   const answerRef = useRef({
-    answer6: "",
-    answer3: "",
-    answer2: "",
-    answer5: "",
-    answer4: "",
     answer1: "",
+    answer2: "",
+    answer3: "",
+    answer4: "",
+    answer5: "",
+    answer6: "",
   });
 
   const questionLabels = {
@@ -179,13 +179,13 @@ export const SCInterviewCheck = () => {
   const handleFieldChange = (toUpdate, updateValue) => {
     logger.focus("aggiorna", toUpdate, updateValue);
     questionsRef.current[toUpdate] = updateValue;
-    logger.focus("aggiorna", questionsRef.current);
+    setQuestions({ ...questionsRef.current });
   };
 
   const handleFieldAnswerChange = (toUpdate, updateValue) => {
     logger.focus("aggiorna", toUpdate, updateValue);
     answerRef.current[toUpdate] = updateValue;
-    logger.focus("aggiorna", questionsRef.current);
+    setAnswers({ ...answerRef.current });
   };
 
   const clickBackToDetails = () => {
@@ -225,7 +225,7 @@ export const SCInterviewCheck = () => {
                             onBlur={
                               (e) =>
                                 handleFieldAnswerChange(
-                                  mapQuestionAnswer.value,
+                                  mapQuestionAnswer[key],
                                   e.target.value
                                 ) //DANGER
                             }
