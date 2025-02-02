@@ -59,9 +59,9 @@ public class InterviewManager {
         return interviewTemplate;
     }*/
 
-    /*public Interview sendInterviewTemplate(int interviewID, int templateID, Map<String, Object> payload) throws NotFoundException, BadInputException, UnauthorizedException {
-        return new SendInterviewTemplateCommand(interviewID, templateID, payload, interviewRepository, interviewTemplateRepository).execute();
-    }*/
+    public Interview sendInterviewTemplate(int interviewID, int templateID, String companyID) throws NotFoundException, BadInputException, UnauthorizedException {
+        return new SendInterviewTemplateCommand(interviewID, templateID, companyID, userManager, interviewRepository, interviewTemplateRepository).execute();
+    }
 
     public List<InterviewTemplate> getInterviewTemplates(String companyId) {
         return new GetInterviewTemplatesCommand(companyId, interviewRepository, userManager).execute();

@@ -502,7 +502,7 @@ public class APIController {
         String company_id = GetUuid.getUuid(token);
         return new GetInterviewQuizCommandCall(interviewManager, quizID, company_id).execute();
     }
-//todo i'm here
+
     @GetMapping("/interview/private/get-my-int-pos-off")
     @Operation(summary = "Get internship position offer", description = "Payload will contain the 'user_id'")
     @ApiResponses({
@@ -563,7 +563,7 @@ public class APIController {
         return new SaveInterviewTemplateCommandCall(InterviewID, interviewManager, payload).execute();
     }
 
-    //todo
+
     @PostMapping("/interview/private/{TemplateInterviewID}/send-template/{InterviewID}")
     @Operation(summary = "Send interview template", description = "payload will contain the 'company_id'")
     @ApiResponses({
@@ -573,10 +573,9 @@ public class APIController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> sendInterviewTemplate(@PathVariable Integer TemplateInterviewID,
-            @PathVariable Integer InterviewID, @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+            @PathVariable Integer InterviewID, @RequestHeader("Authorization") String token) {
         String company_id = GetUuid.getUuid(token);
-        payload.put("company_id", company_id);
-        return new SendInterviewTemplateCommandCall(interviewManager, InterviewID, TemplateInterviewID, payload)
+        return new SendInterviewTemplateCommandCall(interviewManager, InterviewID, TemplateInterviewID, company_id, notificationManager)
                 .execute();
     }
 
