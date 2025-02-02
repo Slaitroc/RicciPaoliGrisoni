@@ -9,7 +9,7 @@ import { styled } from "@mui/material/styles";
 import { v4 as uuidv4 } from "uuid";
 import { useGlobalContext } from "../../global/GlobalContext";
 import * as account from "../../api-calls/api-wrappers/account-wrapper/account.js";
-
+import * as logger from "../../logger/logger";
 const StyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -28,7 +28,6 @@ const StyledCard = styled(Card)(({ theme }) => ({
     outlineOffset: "2px",
   },
 }));
-
 
 const StyledCardContent = styled(CardContent)({
   display: "flex",
@@ -51,25 +50,38 @@ const StyledTypography = styled(Typography)({
   textOverflow: "ellipsis",
 });
 
-
-
 export default function SCProfile() {
   const [uniName, setUniName] = React.useState("N/A");
   const { profile } = useGlobalContext();
 
   //Only when the component mounts, print the profile object and get the university name if the user is a student
+  //React.useEffect(() => {
+  //  console.log("Profile page - profile:", profile);
+  //  account.getUniversities().then((response) => {
+  //    const uniTable = response.table;
+  //    if (!uniTable || profile.userType != "STUDENT" ) return;
+  //    for (const [name, vat] of Object.entries(uniTable)) {
+  //      if (vat === profile.uniVat) {
+  //        setUniName(name);
+  //        break;
+  //      }
+  //    }
+  //  });
+  //}, []);
+
   React.useEffect(() => {
+    setUniName("N/A");
     console.log("Profile page - profile:", profile);
-    account.getUniversities().then((response) => {
-      const uniTable = response.table;
-      if (!uniTable || profile.userType != "STUDENT" ) return;
-      for (const [name, vat] of Object.entries(uniTable)) {
-        if (vat === profile.uniVat) {
-          setUniName(name);
-          break;
-        }
+    account.getUniversitiesv2().then((response) => {
+      logger.debug("getUniversitiesv2 response:", response);
+      if (response.success) {
+        response.names.forEach((name) => {
+          if (profile.uniVat === response.table[name]) {
+            setUniName(name);
+          }
+        });
       }
-    }); 
+    });
   }, []);
 
   const profileData = [
@@ -77,7 +89,10 @@ export default function SCProfile() {
     {
       key: uuidv4(),
       title: "Name",
-      description: profile.name || "N/A",
+      description:
+        profile.userType === "COMPANY" && profile.name === "ferrari"
+          ? "FERRARI🏎️"
+          : profile.name,
     },
     {
       key: uuidv4(),
@@ -129,7 +144,7 @@ export default function SCProfile() {
             key: uuidv4(),
             title: "University Description",
             description: profile.uniDesc || "N/A",
-          }
+          },
         ]
       : profile.userType === "STUDENT"
       ? [
@@ -143,9 +158,9 @@ export default function SCProfile() {
             title: "University",
             description: uniName,
           },
-        ] 
-        : []), //if no userType is found, return an empty array (no additional fields)
-    ];
+        ]
+      : []), //if no userType is found, return an empty array (no additional fields)
+  ];
 
   const [focusedCardIndex, setFocusedCardIndex] = React.useState(null);
 

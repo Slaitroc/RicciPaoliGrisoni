@@ -67,7 +67,7 @@ export const acceptInternshipPositionOffer = async (id) => {
 
 export const rejectInternshipPositionOffer = async (id) => {
   try {
-    return apiCalls.rejectInternshipPositionOffer(item.id);
+    return apiCalls.rejectInternshipPositionOffer(id);
   } catch (error) {
     logger.error(error);
   }
