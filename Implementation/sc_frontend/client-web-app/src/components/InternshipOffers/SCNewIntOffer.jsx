@@ -5,7 +5,6 @@ import {
   FormLabel,
   TextField,
   Button,
-  Card,
   Box,
   Badge,
   IconButton,
@@ -127,7 +126,7 @@ export const SCNewIntOffer = () => {
   };
 
   const clickBack = () => {
-    // NAV to internship details
+    // NAV to internship offers
     navigate(`/dashboard/internship-offers/`);
   };
 
