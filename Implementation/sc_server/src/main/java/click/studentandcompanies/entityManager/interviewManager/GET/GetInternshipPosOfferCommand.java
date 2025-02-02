@@ -9,6 +9,8 @@ import click.studentandcompanies.entityManager.interviewManager.InterviewManager
 import click.studentandcompanies.entityRepository.InternshipPosOfferRepository;
 import click.studentandcompanies.utils.UserType;
 import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NoContentException;
+import click.studentandcompanies.utils.exception.UnauthorizedException;
 
 import java.util.List;
 import java.util.Objects;
@@ -27,13 +29,25 @@ public class GetInternshipPosOfferCommand implements InterviewManagerCommand<Lis
     @Override
     public List<InternshipPosOffer> execute() {
         UserType userType = userManager.getUserType(userID);
-        List<InternshipPosOffer> interviews;
-        if(userType == UserType.COMPANY){
-            return userManager.getInterviewsByCompanyID(userID).stream().map(Interview::getInternshipPosOffer).filter(Objects::nonNull).toList();
-        }else if(userType == UserType.STUDENT){
-            return userManager.getInterviewsByStudentID(userID).stream().map(Interview::getInternshipPosOffer).filter(Objects::nonNull).toList();
-        }else{
-            throw new BadInputException("User is not a student or a company");
+        List<InternshipPosOffer> internshipPosOffers;
+        if (userType == UserType.COMPANY) {
+            internshipPosOffers = userManager.getInterviewsByCompanyID(userID).stream()
+                    .map(Interview::getInternshipPosOffer)
+                    .filter(Objects::nonNull)
+                    .toList();
+        } else if (userType == UserType.STUDENT) {
+            internshipPosOffers = userManager.getInterviewsByStudentID(userID).stream()
+                    .map(Interview::getInternshipPosOffer)
+                    .filter(Objects::nonNull)
+                    .toList();
+        } else {
+            throw new UnauthorizedException("User is not a student or a company");
         }
+
+        if (internshipPosOffers.isEmpty()) {
+            throw new NoContentException("No internship position offers found for this user");
+        }
+
+        return internshipPosOffers;
     }
 }
