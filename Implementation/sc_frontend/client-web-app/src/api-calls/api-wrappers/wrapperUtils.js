@@ -1,4 +1,5 @@
 /**
+ *
  * Compiles an ordered map from the given field map and data.
  *
  * @param {Map} fieldMap - A map containing the ordered fields to be included in the resulting map.
@@ -17,6 +18,32 @@ export const formatArrayContent = (fieldMap, data) => {
       }
       return mapClone;
     });
+};
+
+
+/**
+ * Formats the content of the data object based on the provided field map and field type.
+ *
+ * @param {Map} fieldMap - A map where the keys are field names and the values are labels.
+ * @param {Map} fieldType - A map where the keys are field names and the values are types.
+ * @param {Object} data - The data object to be formatted.
+ * @returns {Object} - A new object with formatted content.
+ */
+export const formatContent = (fieldMap, fieldType, data) => {
+  const formattedObject = {};
+  for (const key in data) {
+    if (data.hasOwnProperty(key)) {
+      if (fieldMap.has(key)) {
+        formattedObject[key] = {
+          serverValue: key,
+          value: data[key],
+          type: fieldType.get(key) || "string",
+          label: fieldMap.get(key),
+        };
+      }
+    }
+  }
+  return formattedObject;
 };
 
 /**
@@ -46,4 +73,3 @@ export const formatLabeledArrayContent = (fieldMap, fieldTypeMap, data) => {
     return formattedObject;
   });
 };
-
