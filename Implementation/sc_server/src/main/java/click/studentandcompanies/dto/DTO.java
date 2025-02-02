@@ -1,12 +1,12 @@
 package click.studentandcompanies.dto;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public class DTO implements Serializable {
-    private final Map<String, Object> properties = new HashMap<>();
+    private final Map<String, Object> properties = new LinkedHashMap<>();
 
     public void addProperty(String key, Object value) {
         properties.put(key, value);

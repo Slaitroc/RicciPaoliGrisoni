@@ -183,7 +183,12 @@ export const SCInterviewCheck = () => {
                             placeholder={key}
                             id={`${key}`}
                             onBlur={(e) =>
-                              handleFieldAnswerChange(answerRef.curernt[], e.target.value)
+                              logger.debug(
+                                "thighs happen here: " +
+                                  key +
+                                  "value: " +
+                                  e.target.value
+                              ) || handleFieldAnswerChange(key, e.target.value)
                             }
                             sx={{
                               flexGrow: 1,
