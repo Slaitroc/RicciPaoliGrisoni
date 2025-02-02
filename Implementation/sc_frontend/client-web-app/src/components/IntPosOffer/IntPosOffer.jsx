@@ -71,11 +71,14 @@ const IntPosOffer = ({ item, onClose, profile }) => {
 
   useEffect(() => {
     if (profile.userType === "COMPANY") {
+      logger.debug("item", item);
       cv.getStudentCV(item.studentID).then((response) => {
+        logger.debug("response CV: ", response);
         setOtherPair(response.data.cv);
       });
     } else {
       offer.getSpecificOffer(item.internshipOfferID).then((response) => {
+        logger.debug("response Offers: ", response.data);
         setOtherPair(response.data);
       });
     }
@@ -174,11 +177,11 @@ const detailsSeeByCompany = (otherPair) => {
 const detailsSeeByStudent = (otherPair) => {
   return (
     <>
-      {renderDetail("Company Name", otherPair.companyName)}
-      {renderDetail("Required skills", otherPair.requiredSkills)}
-      {renderDetail("Location", otherPair.location)}
-      {renderDetail("Duration", otherPair.duration)}
-      {renderDetail("Compensation", otherPair.compensation)}
+      {renderDetail("Company Name", otherPair.companyName.value)}
+      {renderDetail("Required skills", otherPair.requiredSkills.value)}
+      {renderDetail("Location", otherPair.location.value)}
+      {renderDetail("Duration", otherPair.duration.value)}
+      {renderDetail("Compensation", otherPair.compensation.value)}
     </>
   );
 };

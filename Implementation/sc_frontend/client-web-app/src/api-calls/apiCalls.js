@@ -378,7 +378,7 @@ export const getMyInterviews = async () => {
   });
 };
 
-export const geInterview = async (id) => {
+export const getInterview = async (id) => {
   const token = await getToken();
   return fetchWrapper(
     `/application-api/interview/private/${id}/get-interview`,
