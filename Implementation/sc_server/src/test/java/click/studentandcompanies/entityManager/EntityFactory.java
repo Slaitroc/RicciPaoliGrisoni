@@ -185,13 +185,6 @@ public abstract class EntityFactory {
         return internshipOffer;
     }
 
-    /**
-     * Creates a new Communication instance for the specified student and internship offer.
-     *
-     * @param student the student involved in the communication
-     * @param internshipOffer the internship offer related to the communication
-     * @return a new Communication instance
-     */
     public Communication setNewCommunication(Student student, Company company) {
         Communication communication = new Communication();
         communication.setId(newRandom(40001, 50000));
@@ -205,14 +198,7 @@ public abstract class EntityFactory {
         return communication;
     }
 
-    /**
-     * Creates a new Communication instance for the specified id, student and internship offer.
-     *
-     * @param id the id of the communication
-     * @param student the student involved in the communication
-     * @param internshipOffer the internship offer related to the communication
-     * @return a new Communication instance
-     */
+
     public Communication setNewCommunication(int id, Student student, Company company) {
         Communication communication = new Communication();
         communication.setId(id);
@@ -398,7 +384,7 @@ public abstract class EntityFactory {
         recommendation.setId(newRandom(100001, 110000));
         recommendation.setInternshipOffer(internshipOffer);
         recommendation.setCv(cv);
-        recommendation.setStatus(RecommendationStatusEnum.pendingMatch);
+        recommendation.setStatus(RecommendationStatusEnum.acceptedMatch);
         recommendation.setScore(newRandomFloat(0.0f, 1.0f));
         return recommendation;
     }

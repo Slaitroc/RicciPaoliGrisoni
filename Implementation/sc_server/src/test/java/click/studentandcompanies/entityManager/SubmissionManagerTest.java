@@ -103,8 +103,8 @@ class SubmissionManagerTest extends EntityFactory {
         Student student = setNewStudent(10, "Alice", uni);
 
         Map<String, Object> payload = new HashMap<>();
-        payload.put("student_id", "10");
-        payload.put("update_time", Instant.now().toString());
+        payload.put("studentID", "10");
+        payload.put("updateTime", Instant.now().toString());
         payload.put("skills", "New skills");
 
         when(userManager.getStudentById("10")).thenReturn(student);
@@ -125,9 +125,9 @@ class SubmissionManagerTest extends EntityFactory {
         result = submissionManager.updateCvCall(payload);
         assertNotNull(result);
 
-        // Missing student_id
+        // Missing studentID
         Map<String, Object> badPayload = new HashMap<>(payload);
-        badPayload.remove("student_id");
+        badPayload.remove("studentID");
         assertThrows(BadInputException.class, () ->
                 submissionManager.updateCvCall(badPayload)
         );
@@ -159,9 +159,9 @@ class SubmissionManagerTest extends EntityFactory {
         payload.put("description", "Desc");
         payload.put("compensation", 1000);
         payload.put("location", "Remote");
-        payload.put("duration_hours", 40);
-        payload.put("start_date", LocalDate.now().toString());
-        payload.put("end_date", LocalDate.now().plusDays(1).toString());
+        payload.put("duration", 40);
+        payload.put("startDate", LocalDate.now().toString());
+        payload.put("endDate", LocalDate.now().plusDays(1).toString());
         InternshipOffer newOffer = setNewInternshipOffer(company);
         when(internshipOfferRepository.save(any(InternshipOffer.class))).thenReturn(newOffer);
 
@@ -192,6 +192,7 @@ class SubmissionManagerTest extends EntityFactory {
 
         // Offer not found
         when(userManager.getCompanyById("20")).thenReturn(company);
+        payload.put("id", 999);
         when(internshipOfferRepository.getInternshipOfferById(999)).thenReturn(null);
         assertThrows(NotFoundException.class, () ->
                 submissionManager.updateInternshipOffer(payload)
@@ -205,8 +206,8 @@ class SubmissionManagerTest extends EntityFactory {
         );
 
         // Start date > end date
-        payload.remove("internshipOffer_id");
-        payload.put("end_date", LocalDate.now().minusDays(1).toString());
+        payload.remove("id");
+        payload.put("endDate", LocalDate.now().minusDays(1).toString());
         assertThrows(BadInputException.class, () ->
                 submissionManager.updateInternshipOffer(payload)
         );
@@ -217,6 +218,9 @@ class SubmissionManagerTest extends EntityFactory {
         // Student scenario
         when(userManager.getUserType("10")).thenReturn(UserType.STUDENT);
         SpontaneousApplication app1 = new SpontaneousApplication();
+        app1.setId(1);
+        app1.setInternshipOffer(setNewInternshipOffer(888, setNewCompany(20, "Google", "US")));
+        app1.setStatus(SpontaneousApplicationStatusEnum.toBeEvaluated);
         SpontaneousApplication app2 = new SpontaneousApplication();
         when(spontaneousApplicationRepository.findSpontaneousApplicationByStudentId("10"))
                 .thenReturn(List.of(app1, app2));
@@ -260,9 +264,9 @@ class SubmissionManagerTest extends EntityFactory {
 
         InternshipOffer offer = setNewInternshipOffer(999, setNewCompany(20, "Google", "US"));
         when(internshipOfferRepository.getInternshipOfferById(999)).thenReturn(offer);
-        when(spontaneousApplicationRepository.getSpontaneousApplicationByStudent_IdAndInternshipOffer_Id("10", 999))
-                .thenReturn(null);
 
+        when(spontaneousApplicationRepository.getSpontaneousApplicationByStudent_IdAndInternshipOffer_Id("10", 999))
+                .thenReturn(Collections.emptyList());
         SpontaneousApplication savedApp = new SpontaneousApplication(student, offer, SpontaneousApplicationStatusEnum.toBeEvaluated);
         when(spontaneousApplicationRepository.save(any(SpontaneousApplication.class))).thenReturn(savedApp);
 
