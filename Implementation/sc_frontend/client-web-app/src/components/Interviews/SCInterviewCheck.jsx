@@ -83,6 +83,7 @@ export const SCInterviewCheck = () => {
       const response = interview.sendInterviewAnswers(id, answerRef.current);
       if (response.success === true) {
         setAnswers(response.data);
+        navigate(`/dashboard/interviews/details/${id}`);
       } else {
         openAlertProc("Failed to send answers", "error");
       }
@@ -97,6 +98,7 @@ export const SCInterviewCheck = () => {
       const response = interview.sendEvaluation(id, evaluation);
       if (response.success === true) {
         setInterviewObject(response.data);
+        navigate(`/dashboard/interviews/details/${id}`);
       } else {
         openAlertProc("Failed to evaluate interview", "error");
       }
@@ -168,6 +170,7 @@ export const SCInterviewCheck = () => {
       setQuestions(questionsRef.current);
       if (response.success === true) {
         setInterviewObject(response.data);
+        navigate(`/dashboard/interviews/details/${id}`);
       } else {
         logger.error("Failed to send interview", response.error);
       }
@@ -259,7 +262,7 @@ export const SCInterviewCheck = () => {
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  1. {questions?.question1}
+                  {questions?.question1}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
                   {interviewObject.hasAnswered?.value && answers?.answer1}
@@ -348,7 +351,7 @@ export const SCInterviewCheck = () => {
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  1. {questions?.question1}
+                  {questions?.question1}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
                   {interviewObject?.hasAnswered?.value && answers?.answer1}
@@ -485,7 +488,7 @@ export const SCInterviewCheck = () => {
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  1. {questions?.question1}
+                  {questions?.question1}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
                   {interviewObject.hasAnswered?.value && answers?.answer1}
@@ -499,7 +502,7 @@ export const SCInterviewCheck = () => {
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  2. {questions?.question2}
+                  {questions?.question2}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
                   {interviewObject.hasAnswered?.value && answers?.answer2}
@@ -513,7 +516,7 @@ export const SCInterviewCheck = () => {
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  3. {questions?.question3}
+                  {questions?.question3}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
                   {interviewObject.hasAnswered?.value && answers?.answer3}
@@ -527,7 +530,7 @@ export const SCInterviewCheck = () => {
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  4. {questions?.question4}
+                  {questions?.question4}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
                   {interviewObject.hasAnswered?.value && answers?.answer4}
@@ -541,7 +544,7 @@ export const SCInterviewCheck = () => {
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  5. {questions?.question5}
+                  {questions?.question5}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
                   {interviewObject.hasAnswered?.value && answers?.answer5}
@@ -555,7 +558,7 @@ export const SCInterviewCheck = () => {
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  6. {questions?.question6}
+                  {questions?.question6}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
                   {interviewObject.hasAnswered?.value && answers?.answer6}
@@ -610,25 +613,21 @@ export const SCInterviewCheck = () => {
       } else if (status === "passed" || status === "failed") {
         return (
           <>
-            <Typography
-              padding={5}
-              variant="h3"
-              inline="true"
-              align="center"
-              display="flex"
-            >
-              {(interviewObject?.status?.value === "passed"
-                ? "PASSED"
-                : "FAILED") + (` : ${evaluation}` && "  N/A")}
-            </Typography>
+            <Box padding={6} gap={5} alignItems="center">
+              <Typography variant="h1" align="center" display="flex">
+                {(interviewObject?.status?.value === "passed"
+                  ? "PASSED"
+                  : "FAILED") + (` : ${evaluation}` && "  N/A")}
+              </Typography>
+            </Box>
             <Grid
               item="true"
-              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              size={{ xs: 12, sm: 12, md: 12, lg: 12 }}
               key={answers?.answer1}
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  1. {questions?.question1}
+                  {questions?.question1}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
                   {interviewObject.hasAnswered?.value && answers?.answer1}
@@ -640,14 +639,12 @@ export const SCInterviewCheck = () => {
               size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
               key={answers?.answer2}
             >
-              <Box display="flex" flexDirection="column">
-                <Typography variant="h6" color="text.primary">
-                  2. {questions?.question2}
-                </Typography>
-                <Typography variant="h6" color="text.secondary">
-                  {interviewObject.hasAnswered?.value && answers?.answer2}
-                </Typography>
-              </Box>
+              <Typography variant="h6" color="text.primary">
+                {questions?.question2}
+              </Typography>
+              <Typography variant="h6" color="text.secondary">
+                {interviewObject.hasAnswered?.value && answers?.answer2}
+              </Typography>
             </Grid>
             <Grid
               item="true"
@@ -656,7 +653,7 @@ export const SCInterviewCheck = () => {
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  3. {questions?.question3}
+                  {questions?.question3}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
                   {interviewObject.hasAnswered?.value && answers?.answer3}
@@ -670,7 +667,7 @@ export const SCInterviewCheck = () => {
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  4. {questions?.question4}
+                  {questions?.question4}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
                   {interviewObject.hasAnswered?.value && answers?.answer4}
@@ -684,7 +681,7 @@ export const SCInterviewCheck = () => {
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  5. {questions?.question5}
+                  {questions?.question5}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
                   {interviewObject.hasAnswered?.value && answers?.answer5}
@@ -698,7 +695,7 @@ export const SCInterviewCheck = () => {
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  6. {questions?.question6}
+                  {questions?.question6}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
                   {interviewObject.hasAnswered?.value && answers?.answer6}
@@ -975,9 +972,6 @@ export const SCInterviewCheck = () => {
                         id,
                         evaluationRef.current
                       );
-                      if (response?.success) {
-                        navigate(`/dashboard/interviews/details/${id}`);
-                      }
                     }}
                   >
                     Send Evaluation
@@ -1030,9 +1024,6 @@ export const SCInterviewCheck = () => {
                     align="center"
                     onClick={async () => {
                       const response = await sendInterview();
-                      if (response?.success) {
-                        navigate(`/dashboard/interviews/details/${id}`);
-                      }
                     }}
                     sx={{ height: 70 }}
                   >
