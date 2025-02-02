@@ -120,9 +120,9 @@ public class RecommendationProcessUtil {
             return RecommendationAlgortimSetting.DEFAULT_THRESHOLD.getValue();
         }
         //Exponential function to ensure the threshold stays in range [0,1]
-        double threshold = Math.exp(- numerator / denominator);
+        double threshold = Math.exp(- numerator / denominator)/2;
         System.out.println("dynamic threshold: " + threshold);
-        return threshold;
+        return threshold/2;
     }
 
     private Directory loadIndexFolder(Path indexDirectoryPath){

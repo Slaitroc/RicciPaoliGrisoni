@@ -10,17 +10,15 @@ export const getFormattedInterviewPosOffers = async () => {
     return apiCalls.getMyInternshipPositionOffers().then(async (response) => {
       logger.debug("getFormattedInterviewPosOffers response: ", response);
       if (response.status === 200) {
-        focus("here3");
-        return (payload = response.json().then((payload) => {
+        return response.json().then((payload) => {
           return {
             success: true,
             data: payload.map((item) => item.properties),
             message: "Internship Position Offer fetched successfully",
             severity: "success",
           };
-        }));
+        });
       } else if (response.status === 204) {
-        focus("here2");
         return {
           success: true,
           data: null,
@@ -28,7 +26,6 @@ export const getFormattedInterviewPosOffers = async () => {
           severity: "info",
         };
       } else {
-        focus("here1");
         return {
           success: false,
           data: null,
