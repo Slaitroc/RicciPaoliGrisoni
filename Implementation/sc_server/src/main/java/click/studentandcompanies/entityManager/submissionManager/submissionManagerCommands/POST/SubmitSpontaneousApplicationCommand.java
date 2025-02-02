@@ -44,8 +44,8 @@ public class SubmitSpontaneousApplicationCommand implements SubmissionManagerCom
 //        }
 
         if(!spontaneousApplicationRepository.getSpontaneousApplicationByStudent_IdAndInternshipOffer_Id(student_id, internshipOfferID).isEmpty()){
-            System.out.println("Spontaneous application already exists");
-            throw new WrongStateException("Spontaneous application already exists");
+            System.out.println("A spontaneous application already exists for this offer");
+            throw new WrongStateException("A spontaneous application already exists for this offer");
         }
 
         SpontaneousApplication spontaneousApplication = new SpontaneousApplication(student, internshipOffer, SpontaneousApplicationStatusEnum.toBeEvaluated);

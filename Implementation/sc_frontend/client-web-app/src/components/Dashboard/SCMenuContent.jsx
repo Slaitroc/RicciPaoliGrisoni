@@ -133,6 +133,12 @@ const companyListItems = [
     icon: <SCIcons.SCCollectionsBookmarkIcon />,
     route: "/dashboard/interviews",
   },
+  {
+    key: uuidv4(),
+    text: "Interviews Templates",
+    icon: <SCIcons.SCManageSearchIcon />,
+    route: "/dashboard/internship-offers-template",
+  },
   // _______??__________
   {
     key: uuidv4(),
@@ -146,12 +152,6 @@ const companyListItems = [
     icon: <SCIcons.SCInboxIcon />,
     route: "/dashboard/communications",
   },
-  // {
-  //   key: uuidv4(),
-  //   text: "Swipe",
-  //   icon: <SCIcons.SCHomeIcon />,
-  //   route: "/dashboard/swipe-card",
-  // },
 ];
 
 const secondaryListItems = [

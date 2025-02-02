@@ -28,7 +28,7 @@ public class GetMatchNotInterviewedCommandCall implements APIControllerCommandCa
         try{
             List<Interview> interviews = interviewManager.getMatchNotInterviewed(companyID);
             if(interviews.isEmpty()){
-                throw new NotFoundException("No match found");
+                throw new NotFoundException("No unassigned match found. Try again later");
             }
             List<DTO> dtos = new ArrayList<>();
             for(Interview interview : interviews){

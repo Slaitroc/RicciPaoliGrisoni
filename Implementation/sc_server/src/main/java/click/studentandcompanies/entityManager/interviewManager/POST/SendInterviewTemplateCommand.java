@@ -4,6 +4,7 @@ import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entity.InterviewTemplate;
 import click.studentandcompanies.entity.Recommendation;
 import click.studentandcompanies.entity.SpontaneousApplication;
+import click.studentandcompanies.entity.dbEnum.InterviewStatusEnum;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManagerCommand;
 import click.studentandcompanies.entityRepository.InterviewRepository;
@@ -51,6 +52,7 @@ public class SendInterviewTemplateCommand implements InterviewManagerCommand<Int
             throw new UnauthorizedException("This company is not allowed to send interview to this student");
         }
         interview.setInterviewTemplate(interviewTemplate);
+        interview.setStatus(InterviewStatusEnum.submitted);
         return interviewRepository.save(interview);
     }
 }
