@@ -492,15 +492,15 @@ public class APIController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> getTemplateInterview(@PathVariable Integer templateID, @RequestHeader("Authorization") String token) {
-        String company_id = GetUuid.getUuid(token);
-        return new GetInterviewTemplateCommandCall(interviewManager, templateID, company_id).execute();
+        String user_id = GetUuid.getUuid(token);
+        return new GetInterviewTemplateCommandCall(interviewManager, templateID, user_id).execute();
     }
 
     @GetMapping("/interview/private/{quizID}/get-quiz")
     @Operation(summary = "Get interview quiz", description = "Return the specified interview quiz")
     public ResponseEntity<DTO> getQuizInterview(@PathVariable Integer quizID, @RequestHeader("Authorization") String token) {
-        String company_id = GetUuid.getUuid(token);
-        return new GetInterviewQuizCommandCall(interviewManager, quizID, company_id).execute();
+        String user_id = GetUuid.getUuid(token);
+        return new GetInterviewQuizCommandCall(interviewManager, quizID, user_id).execute();
     }
 
     @GetMapping("/interview/private/get-my-int-pos-off")

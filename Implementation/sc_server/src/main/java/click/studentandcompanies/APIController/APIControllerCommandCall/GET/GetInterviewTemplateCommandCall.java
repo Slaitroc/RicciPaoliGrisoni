@@ -16,17 +16,17 @@ import org.springframework.http.ResponseEntity;
 public class GetInterviewTemplateCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
     private final InterviewManager interviewManager;
     private final Integer templateID;
-    private final String companyID;
-    public GetInterviewTemplateCommandCall(InterviewManager interviewManager, Integer templateID, String companyID) {
+    private final String userID;
+    public GetInterviewTemplateCommandCall(InterviewManager interviewManager, Integer templateID, String userID) {
         this.interviewManager = interviewManager;
         this.templateID = templateID;
-        this.companyID = companyID;
+        this.userID = userID;
     }
 
     @Override
     public ResponseEntity<DTO> execute() {
         try{
-            InterviewTemplate interviewTemplate = interviewManager.getInterviewTemplate(templateID, companyID);
+            InterviewTemplate interviewTemplate = interviewManager.getInterviewTemplate(templateID, userID);
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.INTERVIEW_TEMPLATE, interviewTemplate), HttpStatus.OK);
         }catch (NotFoundException e){
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);

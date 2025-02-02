@@ -16,22 +16,22 @@ import java.util.List;
 
 public class GetInterviewQuizCommand implements InterviewManagerCommand<InterviewQuiz> {
     private final int interviewID;
-    private final String companyID;
+    private final String userID;
     private final InterviewRepository interviewRepository;
     private final UserManager userManager;
 
-    public GetInterviewQuizCommand(int interviewID, String companyID, InterviewRepository interviewRepository, UserManager userManager) {
+    public GetInterviewQuizCommand(int interviewID, String userID, InterviewRepository interviewRepository, UserManager userManager) {
         this.interviewID = interviewID;
-        this.companyID = companyID;
+        this.userID = userID;
         this.interviewRepository = interviewRepository;
         this.userManager = userManager;
     }
 
     @Override
     public InterviewQuiz execute() {
-        UserType userType = userManager.getUserType(companyID);
-        if(userType != UserType.COMPANY){
-            throw new BadInputException("User is not a company");
+        UserType userType = userManager.getUserType(userID);
+        if(userType != UserType.COMPANY && userType != UserType.STUDENT){
+            throw new BadInputException("User is not a company or a student");
         }
         Interview interview = interviewRepository.findById(interviewID).orElse(null);
         if(interview == null){

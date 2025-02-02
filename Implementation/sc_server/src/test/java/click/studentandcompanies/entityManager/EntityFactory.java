@@ -358,7 +358,7 @@ public abstract class EntityFactory {
      * @param ipo the internship position offer related to the interview
      * @return a new Interview instance
      */
-    protected Interview setNewInterview(InterviewTemplate interviewTemplate, Recommendation recommendation,
+    /*protected Interview setNewInterview(InterviewTemplate interviewTemplate, Recommendation recommendation,
                                         SpontaneousApplication spontaneousApplication, InternshipPosOffer ipo) {
         Interview interview = new Interview();
         interview.setId(newRandom(80001, 90000));
@@ -370,7 +370,7 @@ public abstract class EntityFactory {
         interview.setAnswer("No answer yet");
         interview.setEvaluation(null);
         return interview;
-    }
+    }*/
 
     /**
      * Creates a new InterviewTemplate instance for the specified company.
@@ -378,13 +378,13 @@ public abstract class EntityFactory {
      * @param company the company creating the interview template
      * @return a new InterviewTemplate instance
      */
-    protected InterviewTemplate setNewInterviewTemplate(Company company) {
+    /*protected InterviewTemplate setNewInterviewTemplate(Company company) {
         InterviewTemplate template = new InterviewTemplate();
         template.setId(newRandom(90001, 100000));
         template.setCompany(company);
         template.setQuestions("1) Tell us about yourself?\n2) Why do you want this job?");
         return template;
-    }
+    }*/
 
     /**
      * Creates a new Recommendation instance for the specified internship offer and CV.

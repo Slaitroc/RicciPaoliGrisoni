@@ -14,31 +14,31 @@ import java.util.List;
 
 public class GetInterviewTemplateCommand implements InterviewManagerCommand<InterviewTemplate> {
     private final Integer templateID;
-    private final String companyID;
+    private final String userID;
     private final InterviewTemplateRepository interviewTemplateRepository;
     private final UserManager userManager;
 
-    public GetInterviewTemplateCommand(Integer templateID, String companyID, InterviewTemplateRepository interviewTemplateRepository, UserManager userManager) {
+    public GetInterviewTemplateCommand(Integer templateID, String userID, InterviewTemplateRepository interviewTemplateRepository, UserManager userManager) {
         this.templateID = templateID;
-        this.companyID = companyID;
+        this.userID = userID;
         this.interviewTemplateRepository = interviewTemplateRepository;
         this.userManager = userManager;
     }
 
     @Override
     public InterviewTemplate execute() {
-        UserType userType = userManager.getUserType(companyID);
-        if(userType != UserType.COMPANY){
-            throw new BadInputException("Only companies can get their interview templates");
+        UserType userType = userManager.getUserType(userID);
+        if(userType != UserType.COMPANY && userType != UserType.STUDENT){
+            throw new BadInputException("Only companies and student can get their interview templates");
         }
-        if(userManager.getCompanyById(companyID) == null){
+        if(userManager.getCompanyById(userID) == null){
             throw new NotFoundException("No company found with this id");
         }
         InterviewTemplate interviewTemplate = interviewTemplateRepository.findById(templateID).orElse(null);
         if(interviewTemplate == null){
             throw new NotFoundException("Interview template not found");
         }
-        List<Interview> interviews = userManager.getInterviewsByCompanyID(companyID);
+        List<Interview> interviews = userManager.getInterviewsByCompanyID(userID);
         if(interviews.stream().noneMatch(interview -> interview.getInterviewTemplate().getId().equals(templateID))){
             throw new UnauthorizedException("You are not authorized to get this interview template");
         }
