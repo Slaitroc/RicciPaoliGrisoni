@@ -47,7 +47,7 @@ public class InterviewManager {
     }
 
     //Because createInterviewTemplate is needed by both the sendInterview and saveInterviewTemplate methods, it is extracted to a separate method
-    @SuppressWarnings("unchecked")
+//    @SuppressWarnings("unchecked")
     /*public static InterviewTemplate createInterviewTemplate(Map<String, Object> payload, Company company) {
         InterviewTemplate interviewTemplate = new InterviewTemplate();
         interviewTemplate.setCompany(company);
@@ -88,7 +88,7 @@ public class InterviewManager {
     }
 
     public List<InternshipPosOffer> getInterviewPosOffersOfUser(String userID) throws BadInputException, NotFoundException {
-        return new GetInternshipPosOfferCommand(userID, internshipPosOfferRepository, userManager).execute();
+        return new GetInternshipPosOfferCommand(userID, userManager).execute();
     }
 
     public List<Interview> getMatchNotInterviewed(String companyID) throws BadInputException, NotFoundException{
