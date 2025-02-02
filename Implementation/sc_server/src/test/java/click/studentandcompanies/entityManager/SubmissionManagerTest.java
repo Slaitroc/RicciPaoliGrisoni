@@ -18,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Condensed style tests for SubmissionManager: one test method per public method,
- * each covering multiple scenarios (success, errors, etc.).
+ * Extended test class for SubmissionManager.
+ * Keeps the existing tests and adds new ones for methods not yet covered.
  */
 class SubmissionManagerTest extends EntityFactory {
 
@@ -31,6 +31,8 @@ class SubmissionManagerTest extends EntityFactory {
     private SpontaneousApplicationRepository spontaneousApplicationRepository;
     @Mock
     private UserManager userManager;
+    @Mock
+    private InterviewRepository interviewRepository;
 
     @InjectMocks
     private SubmissionManager submissionManager;
@@ -39,6 +41,10 @@ class SubmissionManagerTest extends EntityFactory {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
+
+    // ---------------------------------------------------------
+    // KEEPING YOUR ORIGINAL TESTS
+    // ---------------------------------------------------------
 
     @Test
     void testGetInternshipsByCompany() throws NotFoundException, NoContentException {
@@ -169,7 +175,7 @@ class SubmissionManagerTest extends EntityFactory {
         assertNotNull(created);
 
         // Updating existing offer
-        payload.put("internshipOffer_id", 999);
+        payload.put("id", 999);
         InternshipOffer existingOffer = setNewInternshipOffer(999, company);
         when(internshipOfferRepository.getInternshipOfferById(999)).thenReturn(existingOffer);
         when(internshipOfferRepository.getInternshipOfferByCompanyId("20")).thenReturn(List.of(existingOffer));
@@ -273,14 +279,9 @@ class SubmissionManagerTest extends EntityFactory {
         SpontaneousApplication result = submissionManager.submitSpontaneousApplication(999, "10");
         assertNotNull(result);
 
-        // Invalid student_id
-//        assertThrows(NotFoundException.class, () ->
-//                submissionManager.submitSpontaneousApplication(999, "99")
-//        );
-
-        // Student not found
+        // Already exists => WrongState
         when(spontaneousApplicationRepository.getSpontaneousApplicationByStudent_IdAndInternshipOffer_Id("10", 999))
-                .thenReturn( List.of(savedApp));
+                .thenReturn(List.of(savedApp));
         assertThrows(WrongStateException.class, () ->
                 submissionManager.submitSpontaneousApplication(999, "10")
         );
@@ -322,10 +323,228 @@ class SubmissionManagerTest extends EntityFactory {
 
     @Test
     void testCloseRelatedApplications() {
-        // This method returns void and simply calls removeSpontaneousApplicationByInternshipOffer_Id
+        // This method returns void and calls removeSpontaneousApplicationByInternshipOffer_Id
         doNothing().when(spontaneousApplicationRepository).removeSpontaneousApplicationByInternshipOffer_Id(888);
 
         submissionManager.closeRelatedApplications(888);
         verify(spontaneousApplicationRepository).removeSpontaneousApplicationByInternshipOffer_Id(888);
+    }
+
+    // ---------------------------------------------------------
+    // NEW TESTS FOR PREVIOUSLY UNTESTED METHODS
+    // ---------------------------------------------------------
+
+    @Test
+    void testAcceptSpontaneousApplication_Success() {
+        // Set up
+        SpontaneousApplication application = new SpontaneousApplication();
+        application.setId(123);
+        InternshipOffer offer = new InternshipOffer();
+        Company c = setNewCompany(10, "MyCompany", "IT");
+        offer.setCompany(c);
+        application.setInternshipOffer(offer);
+        application.setStatus(SpontaneousApplicationStatusEnum.toBeEvaluated);
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("company_id", "10");
+
+        when(spontaneousApplicationRepository.getSpontaneousApplicationById(123))
+                .thenReturn(application);
+
+        // The command also saves a new Interview
+        when(interviewRepository.save(any(Interview.class))).thenAnswer(i -> i.getArgument(0));
+        when(spontaneousApplicationRepository.save(any(SpontaneousApplication.class)))
+                .thenAnswer(i -> i.getArgument(0));
+
+        // Execute
+        SpontaneousApplication result = submissionManager.acceptSpontaneousApplication(123, payload);
+        assertNotNull(result);
+        assertEquals(SpontaneousApplicationStatusEnum.acceptedApplication, result.getStatus());
+        verify(interviewRepository, times(1)).save(any(Interview.class));
+        verify(spontaneousApplicationRepository, times(1)).save(application);
+    }
+
+    @Test
+    void testAcceptSpontaneousApplication_Unauthorized() {
+        // If the company_id in payload != the internship's company
+        SpontaneousApplication application = new SpontaneousApplication();
+        InternshipOffer offer = new InternshipOffer();
+        Company c = setNewCompany(11, "DiffCompany", "FR");
+        offer.setCompany(c);
+        application.setInternshipOffer(offer);
+
+        when(spontaneousApplicationRepository.getSpontaneousApplicationById(123))
+                .thenReturn(application);
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("company_id", "10"); // mismatch
+
+        assertThrows(UnauthorizedException.class, () ->
+                submissionManager.acceptSpontaneousApplication(123, payload)
+        );
+    }
+
+    @Test
+    void testAcceptSpontaneousApplication_AlreadyAccepted() {
+        SpontaneousApplication application = new SpontaneousApplication();
+        application.setStatus(SpontaneousApplicationStatusEnum.acceptedApplication);
+        application.setInternshipOffer(new InternshipOffer());
+        application.getInternshipOffer().setCompany(setNewCompany(10,"MyCompany","IT"));
+
+        when(spontaneousApplicationRepository.getSpontaneousApplicationById(321))
+                .thenReturn(application);
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("company_id", "10");
+
+        assertThrows(WrongStateException.class, () ->
+                submissionManager.acceptSpontaneousApplication(321, payload)
+        );
+    }
+
+    @Test
+    void testAcceptSpontaneousApplication_AlreadyRejected() {
+        SpontaneousApplication application = new SpontaneousApplication();
+        application.setStatus(SpontaneousApplicationStatusEnum.rejectedApplication);
+        application.setInternshipOffer(new InternshipOffer());
+        application.getInternshipOffer().setCompany(setNewCompany(10,"MyCompany","IT"));
+
+        when(spontaneousApplicationRepository.getSpontaneousApplicationById(444))
+                .thenReturn(application);
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("company_id", "10");
+
+        assertThrows(WrongStateException.class, () ->
+                submissionManager.acceptSpontaneousApplication(444, payload)
+        );
+    }
+
+    @Test
+    void testAcceptSpontaneousApplication_NotFound() {
+        when(spontaneousApplicationRepository.getSpontaneousApplicationById(999)).thenReturn(null);
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("company_id", "10");
+
+        assertThrows(NotFoundException.class, () ->
+                submissionManager.acceptSpontaneousApplication(999, payload)
+        );
+    }
+
+    @Test
+    void testRejectSpontaneousApplication_Success() {
+        // Spontaneous application in toBeEvaluated => becomes rejected
+        SpontaneousApplication application = new SpontaneousApplication();
+        application.setId(555);
+        application.setStatus(SpontaneousApplicationStatusEnum.toBeEvaluated);
+        InternshipOffer offer = new InternshipOffer();
+        Company company = setNewCompany(12,"RejectCompany","DE");
+        offer.setCompany(company);
+        application.setInternshipOffer(offer);
+
+        when(spontaneousApplicationRepository.getSpontaneousApplicationById(555))
+                .thenReturn(application);
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("company_id", "12");
+
+        when(spontaneousApplicationRepository.save(any(SpontaneousApplication.class)))
+                .thenAnswer(i -> i.getArgument(0));
+
+        SpontaneousApplication result = submissionManager.rejectSpontaneousApplication(555, payload);
+        assertEquals(SpontaneousApplicationStatusEnum.rejectedApplication, result.getStatus());
+    }
+
+    @Test
+    void testRejectSpontaneousApplication_NotFound() {
+        when(spontaneousApplicationRepository.getSpontaneousApplicationById(999)).thenReturn(null);
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("company_id", "12");
+
+        assertThrows(NotFoundException.class, () ->
+                submissionManager.rejectSpontaneousApplication(999, payload)
+        );
+    }
+
+    @Test
+    void testRejectSpontaneousApplication_Unauthorized() {
+        // mismatch company_id
+        SpontaneousApplication application = new SpontaneousApplication();
+        application.setInternshipOffer(new InternshipOffer());
+        application.getInternshipOffer().setCompany(setNewCompany(15,"SomeCompany","IT"));
+
+        when(spontaneousApplicationRepository.getSpontaneousApplicationById(123)).thenReturn(application);
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("company_id", "14");
+
+        assertThrows(UnauthorizedException.class, () ->
+                submissionManager.rejectSpontaneousApplication(123, payload)
+        );
+    }
+
+    @Test
+    void testRejectSpontaneousApplication_AlreadyAccepted() {
+        SpontaneousApplication application = new SpontaneousApplication();
+        application.setStatus(SpontaneousApplicationStatusEnum.acceptedApplication);
+        application.setInternshipOffer(new InternshipOffer());
+        application.getInternshipOffer().setCompany(setNewCompany(10,"MyCompany","IT"));
+
+        when(spontaneousApplicationRepository.getSpontaneousApplicationById(777)).thenReturn(application);
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("company_id", "10");
+
+        assertThrows(WrongStateException.class, () ->
+                submissionManager.rejectSpontaneousApplication(777, payload)
+        );
+    }
+
+    @Test
+    void testRejectSpontaneousApplication_AlreadyRejected() {
+        SpontaneousApplication application = new SpontaneousApplication();
+        application.setStatus(SpontaneousApplicationStatusEnum.rejectedApplication);
+        application.setInternshipOffer(new InternshipOffer());
+        application.getInternshipOffer().setCompany(setNewCompany(10,"MyCompany","IT"));
+
+        when(spontaneousApplicationRepository.getSpontaneousApplicationById(888)).thenReturn(application);
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("company_id", "10");
+
+        assertThrows(WrongStateException.class, () ->
+                submissionManager.rejectSpontaneousApplication(888, payload)
+        );
+    }
+
+    @Test
+    void testGetAllInternships() {
+        InternshipOffer off1 = new InternshipOffer();
+        InternshipOffer off2 = new InternshipOffer();
+        when(internshipOfferRepository.findAll()).thenReturn(List.of(off1, off2));
+
+        List<InternshipOffer> result = submissionManager.getAllInternships();
+        assertEquals(2, result.size());
+        verify(internshipOfferRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testGetSpecificInternship_Success() throws NotFoundException {
+        InternshipOffer offer = setNewInternshipOffer(123, setNewCompany(10,"TestCo","IT"));
+        when(internshipOfferRepository.findById(123)).thenReturn(Optional.of(offer));
+
+        InternshipOffer result = submissionManager.getSpecificInternship(123);
+        assertNotNull(result);
+        assertEquals(123, result.getId());
+    }
+
+    @Test
+    void testGetSpecificInternship_NotFound() {
+        when(internshipOfferRepository.findById(999)).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () ->
+                submissionManager.getSpecificInternship(999)
+        );
     }
 }

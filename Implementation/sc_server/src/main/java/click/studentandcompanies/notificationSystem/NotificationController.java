@@ -38,7 +38,7 @@ public class NotificationController {
         return notificationManager.saveTokenNotification(payload);
     }
 
-    //todo redo all the fucking things
+
     @GetMapping("/private/test-notification")
     public HttpStatus testNotification(@RequestHeader("Authorization") String authToken) {
         String userID = GetUuid.getUuid(authToken);
