@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext, createContext, useEffect } from "react";
 import { useGlobalContext } from "../../global/GlobalContext";
 import { Alert, Box, Button } from "@mui/material";
 import { SCAddIcon } from "../Shared/SCIcons";
 import * as spontaneousApplication from "../../api-calls/api-wrappers/submission-wrapper/spontaneousApplication";
 import { useNavigate } from "react-router-dom";
 
-const ApplicationContext = React.createContext();
+const ApplicationContext = createContext();
 
 export const useApplicationContext = () => {
-  const context = React.useContext(ApplicationContext);
+  const context = useContext(ApplicationContext);
   if (!context) {
     throw new Error(
       "ApplicationContext must be used within a ApplicationContextProvider"
@@ -22,11 +22,11 @@ export const ApplicationsProvider = ({ children }) => {
   const { profile } = useGlobalContext();
   const [applicationData, setApplicationData] = useState(null);
 
-  const [openAlert, setOpenAlert] = React.useState(false);
-  const [alertMessage, setAlertMessage] = React.useState("");
-  const [alertSeverity, setAlertSeverity] = React.useState("success");
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState("success");
 
-  React.useEffect(() => {
+  useEffect(() => {
     console.log("Profile from application:", profile);
     if (profile.userType == "UNIVERSITY") {
       setOpenAlert(true);
@@ -64,7 +64,9 @@ export const ApplicationsProvider = ({ children }) => {
     <ApplicationContext.Provider value={value}>
       {openAlert && (
         <>
-          <Alert severity={alertSeverity}>{alertMessage}</Alert>
+          <Alert onClose={() => setOpenAlert(false)} severity={alertSeverity}>
+            {alertMessage}
+          </Alert>
         </>
       )}
       {children}
