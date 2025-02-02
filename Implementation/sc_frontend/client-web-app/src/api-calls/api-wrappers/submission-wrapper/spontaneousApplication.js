@@ -61,12 +61,14 @@ export const submitSpontaneousApplication = async (internshipOfferID) => {
             };
           });
         } else {
-          return {
-            success: false,
-            data: null,
-            message: response.properties.error,
-            severity: "error",
-          };
+          return response.json().then((errorData) => {
+            return {
+              success: false,
+              data: null,
+              message: errorData.properties.error,
+              severity: "error",
+            };
+          });
         }
       });
   } catch (error) {

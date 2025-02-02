@@ -1,5 +1,6 @@
 import React from "react";
 import { useBrowseInternshipContext } from "./BrowseInternshipContext";
+import * as logger from "../../logger/logger";
 import {
   Box,
   Typography,
@@ -97,17 +98,20 @@ const SCInternshipOfferDetails = ({ offer, onClose, profile }) => {
   };
 
   const handleApply = (offer, onClose) => {
-    console.log("Applying to offer:", offer);
+    //console.log("Applying to offer:", offer);
     try {
       application.submitSpontaneousApplication(offer.id).then((response) => {
+        logger.debug(response);
         if (response.success === false) {
           setOpenAlert(true);
           setAlertSeverity(response.severity);
           setAlertMessage(response.message);
         } else {
-          setOpenAlert(false);
-          onClose();
+          setOpenAlert(true);
+          setAlertSeverity(response.severity);
+          setAlertMessage(response.message);
         }
+        onClose();
       });
     } catch (error) {
       throw error;

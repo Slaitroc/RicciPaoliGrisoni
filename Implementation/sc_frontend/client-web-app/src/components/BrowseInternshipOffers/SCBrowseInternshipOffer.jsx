@@ -33,7 +33,6 @@ const SCBrowseInternshipOffer = () => {
         setAlertMessage(error.message);
       }
     };
-
     fetchOffer();
   }, [id, setOpenAlert, setAlertMessage, setAlertSeverity]);
 
