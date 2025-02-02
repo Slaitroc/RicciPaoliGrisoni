@@ -1,6 +1,7 @@
 package click.studentandcompanies.APIController.APIControllerCommandCall.POST;
 
 import click.studentandcompanies.APIController.APIControllerCommandCall.APIControllerCommandCall;
+import click.studentandcompanies.Config;
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
@@ -51,7 +52,7 @@ public class EvaluateInterviewCommandCall implements APIControllerCommandCall<Re
         } catch (NotFoundException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            e.printStackTrace();
+            Config.printStackTrace(e);
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -1,6 +1,7 @@
 package click.studentandcompanies.APIController.APIControllerCommandCall.GET;
 
 import click.studentandcompanies.APIController.APIControllerCommandCall.APIControllerCommandCall;
+import click.studentandcompanies.Config;
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
@@ -42,7 +43,7 @@ public class GetAllUserCommunicationsCommandCall implements APIControllerCommand
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (Exception e){
-            e.printStackTrace();
+            Config.printStackTrace(e);
             dtos.add(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()));
             return new ResponseEntity<>(dtos, HttpStatus.INTERNAL_SERVER_ERROR);
         }
