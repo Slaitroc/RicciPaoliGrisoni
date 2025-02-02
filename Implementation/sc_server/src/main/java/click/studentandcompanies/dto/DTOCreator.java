@@ -253,7 +253,7 @@ public class DTOCreator {
             interviewDTO.addProperty("studentID", interview.getRecommendation().getCv().getStudent().getId());
         }
         else {
-            interviewDTO.addProperty("internshipTitle", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
+            interviewDTO.addProperty("internshipTitle", interview.getSpontaneousApplication().getInternshipOffer().getTitle());
             interviewDTO.addProperty("internshipOfferID", interview.getSpontaneousApplication().getInternshipOffer().getId());
             interviewDTO.addProperty("companyName", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
             interviewDTO.addProperty("companyID", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getId());
