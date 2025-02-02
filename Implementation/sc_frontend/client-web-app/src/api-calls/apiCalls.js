@@ -513,7 +513,7 @@ export const sendInterviewEvaluation = async (interviewID, evaluation) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ ...evaluation }),
+      body: JSON.stringify({ evaluation }),
     }
   );
 };
@@ -540,6 +540,19 @@ export const getMyInternshipPositionOffers = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
+};
+
+export const getMyAcceptedInternshipPositionOffers = async () => {
+  const token = await getToken();
+  return fetchWrapper(
+    "/application-api/interview/private/get-my-acc-int-pos-off",
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 };
 
 export const acceptInternshipPositionOffer = async (intPosOffID) => {

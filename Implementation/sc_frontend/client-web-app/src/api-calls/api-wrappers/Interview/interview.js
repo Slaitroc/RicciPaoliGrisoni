@@ -149,22 +149,9 @@ export const getFormattedStudentAnswers = async (quizID) => {
     .then((response) => {
       if (response.status === 200) {
         return response.json().then((payload) => {
-          const fieldMap = new Map();
-          fieldMap.set("id", "Student Answers ID"); //quizID
-          fieldMap.set("evaluation", "Evaluation");
-          fieldMap.set("answer1", "Answer 1");
-          fieldMap.set("answer2", "Answer 2");
-          fieldMap.set("answer3", "Answer 3");
-          fieldMap.set("answer4", "Answer 4");
-          fieldMap.set("answer5", "Answer 5");
-          fieldMap.set("answer6", "Answer 6");
           return {
             success: true,
-            data: wrapperUtils.formatContent(
-              fieldMap,
-              new Map(),
-              payload.properties
-            ),
+            data: payload.properties,
             message: "Student answers fetched successfully",
             severity: "success",
           };
@@ -223,7 +210,7 @@ export const sendInterviewQuestions = async (interviewID, questions) => {
   return apiCalls
     .sendInterview(interviewID, questions)
     .then((response) => {
-      if (response.status === 200) {
+      if (response.status === 201) {
         return response.json().then((payload) => {
           return {
             success: true,
@@ -279,25 +266,27 @@ export const sendInterviewAnswers = async (interviewID, answers) => {
 };
 
 export const sendEvaluation = (interviewID, evaluation) => {
-  apiCalls.sendInterviewEvaluation(interviewID, evaluation).then((reponse) => {
-    if (response.status === 201) {
-      return response.json().then((payload) => {
-        return {
-          success: true,
-          data: payload.properties,
-          message: payload.properties.message,
-          severity: "success",
-        };
-      });
-    } else {
-      return response.json().then((payload) => {
-        return {
-          success: false,
-          data: null,
-          message: payload.properties.error,
-          severity: "error",
-        };
-      });
-    }
-  });
+  return apiCalls
+    .sendInterviewEvaluation(interviewID, evaluation)
+    .then((response) => {
+      if (response.status === 201) {
+        return response.json().then((payload) => {
+          return {
+            success: true,
+            data: payload.properties,
+            message: payload.properties.message,
+            severity: "success",
+          };
+        });
+      } else {
+        return response.json().then((payload) => {
+          return {
+            success: false,
+            data: null,
+            message: payload.properties.error,
+            severity: "error",
+          };
+        });
+      }
+    });
 };

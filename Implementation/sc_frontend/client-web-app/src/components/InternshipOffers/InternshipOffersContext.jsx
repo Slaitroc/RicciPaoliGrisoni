@@ -167,11 +167,11 @@ export const InternshipOffersProvider = ({ children }) => {
 
   return (
     <InternshipOffersContext.Provider value={value}>
-      {openAlert && (
+      {/* {openAlert && (
         <>
           <Alert severity={alertSeverity}>{alertMessage}</Alert>
         </>
-      )}
+      )} */}
       {children}
     </InternshipOffersContext.Provider>
   );

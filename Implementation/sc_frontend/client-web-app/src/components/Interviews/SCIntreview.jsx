@@ -171,7 +171,7 @@ export default function SCInterview() {
                   return (
                     <Box key={uuidv4()} id={field.id} sx={{ mb: 2 }}>
                       <Box display="flex" flexDirection="column" gap={1}>
-                        <Typography variant="h6">{field[1].label}:</Typography>
+                        <Typography variant="h6">{field[1]?.label}:</Typography>
                         <Typography
                           variant="body1"
                           whiteSpace="pre-line"
