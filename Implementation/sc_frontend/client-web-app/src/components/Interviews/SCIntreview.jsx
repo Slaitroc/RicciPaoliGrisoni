@@ -15,6 +15,7 @@ import { useInterviewsContext } from "./InterviewsContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import * as logger from "../../logger/logger";
+import * as interview from "../../api-calls/api-wrappers/Interview/interview";
 import {
   COMPANY_USER_TYPE,
   STUDENT_USER_TYPE,
@@ -23,31 +24,19 @@ import {
 export default function SCInterview() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { interviewDataSnapshot, interviewID, clickBackToPreview } = useInterviewsContext();
-  const { userType } = useGlobalContext();
+  const { interviewObject, setInterviewObject } = useInterviewsContext();
+  const { userType, setLoading } = useGlobalContext();
 
-  // const onButtonClick = (status, hasAnswered) => {
-  //   if ((status, hasAnswered)) {
-  //     if (userType === STUDENT_USER_TYPE) {
-  //       if (status === "toBeSubmitted")
-  //         return; 
-  //       else if (status === "submitted" && hasAnswered === "false")
-  //       else if (
-  //         status === "passed" ||
-  //         status === "failed" ||
-  //         (status === "submitted" && hasAnswered === "true")
-  //       )
-  //     } else if (userType === COMPANY_USER_TYPE) {
-  //       if (status === "toBeSubmitted")
-  //       else 
-  //     }
-  //   } else return;
-  // };
-
-  
-
+  const interviewObjectFetch = async () => {
+    const response = await interview.getFormattedInterview(id);
+    if (response.success === true) {
+      setInterviewObject(response.data);
+    } else {
+      openAlertProc("Failed to fetch interview", "error");
+    }
+  };
   useEffect(() => {
-    interviewID.current = id;
+    interviewObjectFetch();
   }, []);
 
   const buildButton = (label, navigateTo) => {
@@ -69,14 +58,18 @@ export default function SCInterview() {
     );
   };
 
-  function returnButton(status, hasAnswered) {
+  const clickBackToPreview = async () => {
+    navigate(`/dashboard/interviews`);
+  };
+
+  const returnButton = (status, hasAnswered) => {
     if (userType === STUDENT_USER_TYPE) {
       if (status === "toBeSubmitted") {
         return; //se in toBeSubmitted non può fare nulla quindi non ritorna il button
       } else if (status === "submitted" && hasAnswered === false) {
         return buildButton(
           "Answer Interview",
-          `/dashboard/interviews/answer/${id}`
+          `/dashboard/interviews/check/${id}`
         );
       } else if (status === "submitted" && hasAnswered === true) {
         return buildButton("Show Answers", `/dashboard/interviews/check/${id}`);
@@ -88,6 +81,8 @@ export default function SCInterview() {
       }
     } else if (userType === COMPANY_USER_TYPE) {
       if (status === "toBeSubmitted") {
+        //DANGER siamo qui
+
         return buildButton(
           "Create Interview",
           `/dashboard/interviews/check/${id}`
@@ -109,7 +104,7 @@ export default function SCInterview() {
         );
       }
     } else return "ciao"; //TODO alert?;
-  }
+  };
 
   return (
     <>
@@ -139,11 +134,15 @@ export default function SCInterview() {
               </Badge>
             </Box>
             <Box display="flex" flexDirection="column" alignItems="end">
-              {interviewDataSnapshot &&
-                returnButton(
-                  interviewDataSnapshot.status.value,
-                  interviewDataSnapshot.hasAnswered.value
-                )}
+              {/* SPAWN BUTTON */}
+              {(() => {
+                if (interviewObject) {
+                  return returnButton(
+                    interviewObject.status?.value,
+                    interviewObject.hasAnswered?.value
+                  );
+                }
+              })()}
             </Box>
           </Box>
           <Box
@@ -159,13 +158,14 @@ export default function SCInterview() {
                   Interview {`ID: ` + id + ` `}
                 </Typography>
               </Box>
-              {interviewDataSnapshot &&
-                Object.entries(interviewDataSnapshot).map((field) => {
+              {interviewObject &&
+                Object.entries(interviewObject).map((field) => {
                   if (
                     field[0] === "companyID" ||
-                    field[0] === "companyName" ||
                     field[0] === "id" ||
-                    field[0] === "status"
+                    field[0] === "status" ||
+                    field[0] === "studentID" ||
+                    field[0] === "hasAnswered"
                   )
                     return null;
                   return (
@@ -177,13 +177,15 @@ export default function SCInterview() {
                           whiteSpace="pre-line"
                           color="text.secondary"
                         >
-                          {((value) => {
+                          {(((value) => {
                             if (value && value !== 0) {
                               return value;
                             } else {
                               return "No content provided.";
                             }
-                          })(field[1].value) && field[1].value}
+                          })(field[1].value) &&
+                            field[1].value) ||
+                            "To be defined"}
                         </Typography>
                       </Box>
                     </Box>
@@ -199,7 +201,7 @@ export default function SCInterview() {
             >
               <Box>
                 <Typography variant="h6">
-                  {interviewDataSnapshot?.status.label}:
+                  {interviewObject.status?.label}:
                 </Typography>
                 <Typography
                   variant="body1"
@@ -220,7 +222,7 @@ export default function SCInterview() {
                       else if (content === "passed") return "PASSED";
                       else return content;
                     }
-                  })(interviewDataSnapshot?.status.value)}
+                  })(interviewObject.status?.value)}
                 </Typography>
               </Box>
               <Box padding={5} justifyContent="center">
@@ -231,7 +233,7 @@ export default function SCInterview() {
                     color="text.secondary"
                     align="center"
                   >
-                    {interviewDataSnapshot?.hasAnswered ? "Yes" : "No"}
+                    {interviewObject.hasAnswered?.value ? "Yes" : "No"}
                   </Typography>
                 </Typography>
               </Box>

@@ -56,9 +56,9 @@ export const getFormattedInterviewsOld = async () => {
 export const getFormattedInterviews = async () => {
   return apiCalls
     .getMyInterviews()
-    .then((response) => {
+    .then(async (response) => {
       if (response.status === 200) {
-        return response.json().then((payload) => {
+        return response.json().then(async (payload) => {
           const fieldMap = new Map();
           fieldMap.set("status", "Status");
           fieldMap.set("hasAnswered", "Answered By Student");
@@ -73,7 +73,7 @@ export const getFormattedInterviews = async () => {
           fieldMap.set("interviewTemplateID", "Interview Template ID");
           return {
             success: true,
-            data: wrapperUtils.formatLabeledArrayContent(
+            data: await wrapperUtils.formatLabeledArrayContent(
               fieldMap,
               new Map(),
               payload
@@ -115,7 +115,7 @@ export const getFormattedInterview = async (interviewID) => {
           fieldMap.set("studentName", "Student Name");
           fieldMap.set("studentID", "Student ID");
           fieldMap.set("interviewQuizID", "Student Answers ID");
-          fieldMap.set("interviewTemplateID", "Student Answers ID");
+          fieldMap.set("interviewTemplateID", "Company Quesitons ID");
           return {
             success: true,
             data: wrapperUtils.formatContent(
@@ -191,22 +191,9 @@ export const getFormattedInterviewTemplateQuestions = async (interviewID) => {
     .then((response) => {
       if (response.status === 200) {
         return response.json().then((payload) => {
-          const fieldMap = new Map();
-          const typeMap = new Map();
-          fieldMap.set("id", "Interview Template ID");
-          fieldMap.set("question1", "Question 1");
-          fieldMap.set("question2", "Question 2");
-          fieldMap.set("question3", "Question 3");
-          fieldMap.set("question4", "Question 4");
-          fieldMap.set("question5", "Question 5");
-          fieldMap.set("question6", "Question 6");
           return {
             success: true,
-            data: wrapperUtils.formatContent(
-              fieldMap,
-              new Map(),
-              payload.properties
-            ),
+            data: payload.properties,
             message: "Interview questions fetched successfully",
             severity: "success",
           };
@@ -233,15 +220,8 @@ export const getFormattedInterviewTemplateQuestions = async (interviewID) => {
 };
 
 export const sendInterviewQuestions = async (interviewID, questions) => {
-  const payload = {};
-
-  questions.reduce((acc, value, index) => {
-    acc[`question${index + 1}`] = value;
-    return acc;
-  }, payload);
-  logger.debug("Question values", payload);
   return apiCalls
-    .sendInterview(interviewID, payload)
+    .sendInterview(interviewID, questions)
     .then((response) => {
       if (response.status === 200) {
         return response.json().then((payload) => {
@@ -269,13 +249,8 @@ export const sendInterviewQuestions = async (interviewID, questions) => {
 };
 
 export const sendInterviewAnswers = async (interviewID, answers) => {
-  const payload = {};
-  Object.entries(answers).reduce((acc, [key, value], index) => {
-    acc[`answer${index + 1}`] = value;
-    return acc;
-  }, payload);
   return apiCalls
-    .sendInterviewAnswer(interviewID, payload)
+    .sendInterviewAnswer(interviewID, answers)
     .then((response) => {
       if (response.ok) {
         return response.json().then((payload) => {
@@ -301,4 +276,28 @@ export const sendInterviewAnswers = async (interviewID, answers) => {
     .catch((error) => {
       throw error;
     });
+};
+
+export const sendEvaluation = (interviewID, evaluation) => {
+  apiCalls.sendInterviewEvaluation(interviewID, evaluation).then((reponse) => {
+    if (response.status === 201) {
+      return response.json().then((payload) => {
+        return {
+          success: true,
+          data: payload.properties,
+          message: payload.properties.message,
+          severity: "success",
+        };
+      });
+    } else {
+      return response.json().then((payload) => {
+        return {
+          success: false,
+          data: null,
+          message: payload.properties.error,
+          severity: "error",
+        };
+      });
+    }
+  });
 };
