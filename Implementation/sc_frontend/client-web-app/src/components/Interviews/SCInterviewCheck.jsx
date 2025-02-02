@@ -66,6 +66,9 @@ export const SCInterviewCheck = () => {
         );
         if (response.success === true) {
           setAnswers(response.data);
+          if (response.data.evaluation) {
+            setEvaluation(response.data.evaluation);
+          }
         } else {
           openAlertProc("No answer fetched", "warning");
         }
@@ -175,6 +178,7 @@ export const SCInterviewCheck = () => {
 
   const [questions, setQuestions] = useState(questionsRef.current);
   const [answers, setAnswers] = useState(answerRef.current);
+  const [evaluation, setEvaluation] = useState(null);
 
   const handleFieldChange = (toUpdate, updateValue) => {
     logger.focus("aggiorna", toUpdate, updateValue);
@@ -222,12 +226,11 @@ export const SCInterviewCheck = () => {
                             variant="outlined"
                             placeholder={"Type your answer..."}
                             id={`${key}`}
-                            onBlur={
-                              (e) =>
-                                handleFieldAnswerChange(
-                                  mapQuestionAnswer[key],
-                                  e.target.value
-                                ) //DANGER
+                            onBlur={(e) =>
+                              handleFieldAnswerChange(
+                                mapQuestionAnswer[key],
+                                e.target.value
+                              )
                             }
                             sx={{
                               flexGrow: 1,
@@ -335,8 +338,7 @@ export const SCInterviewCheck = () => {
             </Grid>
           </>
         );
-      } // TODO
-      else if (status === "submitted" && hasAnswered === true) {
+      } else if (status === "submitted" && hasAnswered === true) {
         return (
           <>
             <Grid
@@ -349,7 +351,7 @@ export const SCInterviewCheck = () => {
                   1. {questions?.question1}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
-                  {interviewObject.hasAnswered?.value && answers?.answer1}
+                  {interviewObject?.hasAnswered?.value && answers?.answer1}
                 </Typography>
               </Box>
             </Grid>
@@ -562,8 +564,7 @@ export const SCInterviewCheck = () => {
             </Grid>
           </>
         );
-      } // TODO
-      else if (status === "submitted" && hasAnswered === false) {
+      } else if (status === "submitted" && hasAnswered === false) {
         return (
           <>
             <Grid
@@ -606,6 +607,106 @@ export const SCInterviewCheck = () => {
             </Grid>
           </>
         );
+      } else if (status === "passed" || status === "failed") {
+        return (
+          <>
+            <Typography
+              padding={5}
+              variant="h3"
+              inline="true"
+              align="center"
+              display="flex"
+            >
+              {(interviewObject?.status?.value === "passed"
+                ? "PASSED"
+                : "FAILED") + (` : ${evaluation}` && "  N/A")}
+            </Typography>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer1}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  1. {questions?.question1}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer1}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer2}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  2. {questions?.question2}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer2}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer3}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  3. {questions?.question3}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer3}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer4}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  4. {questions?.question4}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer4}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer5}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  5. {questions?.question5}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer5}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer6}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  6. {questions?.question6}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer6}
+                </Typography>
+              </Box>
+            </Grid>
+          </>
+        );
       }
     }
   };
@@ -615,8 +716,7 @@ export const SCInterviewCheck = () => {
       //page is unreachable in this state
       if (status === "toBeSubmitted") return;
       //page is unreachable in this state
-      else if (status === "submitted" && hasAnswered === false) return;
-      else if (status === "passed" || status === "failed")
+      else if (status === "submitted" && hasAnswered === false)
         return (
           <Alert
             severity="info"
@@ -624,18 +724,57 @@ export const SCInterviewCheck = () => {
             onClose={() => setOpenTipAlert(false)}
           >
             <Typography variant="h6" inline="true">
-              Interview Evaluated!
+              Answer the Company questions!
               <Typography inline="true" variant="body1" color="text.secondary">
-                See the outcome in the interview details.
+                Then wait for the outcome of your interview.
               </Typography>
             </Typography>
             <Typography variant="h6" inline="true">
               Note:
               <Typography inline="true" variant="body1" color="text.secondary">
-                The evaluation is final and cannot be changed.
+                Answers are final and cannot be changed.
               </Typography>
             </Typography>
           </Alert>
+        );
+      else if (status === "passed" || status === "failed")
+        return (
+          <>
+            <Typography padding={5} variant="h3" inline="true" align="center">
+              {(interviewObject?.status?.value === "passed"
+                ? "PASSED"
+                : "FAILED") + (` : ${evaluation}` && "  N/A")}
+            </Typography>
+            <Typography variant="h6" inline="true">
+              {interviewObject.status?.value + ` : ${evaluation || "N/A"}`}
+            </Typography>
+            <Alert
+              severity="info"
+              sx={{ mb: 2 }}
+              onClose={() => setOpenTipAlert(false)}
+            >
+              <Typography variant="h6" inline="true">
+                Interview Evaluated!
+                <Typography
+                  inline="true"
+                  variant="body1"
+                  color="text.secondary"
+                >
+                  See the outcome in the interview details.
+                </Typography>
+              </Typography>
+              <Typography variant="h6" inline="true">
+                Note:
+                <Typography
+                  inline="true"
+                  variant="body1"
+                  color="text.secondary"
+                >
+                  The evaluation is final and cannot be changed.
+                </Typography>
+              </Typography>
+            </Alert>
+          </>
         );
       else if (status === "submitted" && hasAnswered === true)
         return (
@@ -706,21 +845,61 @@ export const SCInterviewCheck = () => {
         );
       else if (status === "submitted" && hasAnswered === false)
         return (
-          <Alert
-            severity="info"
-            sx={{ mb: 2 }}
-            onClose={() => setOpenTipAlert(false)}
-          >
-            <Typography variant="h6" inline="true">
-              Just wait for the student answers...
+          <>
+            <Typography variant="h4" inline="true" color="text.primary">
+              Your Questions:
             </Typography>
-            <Typography variant="h6" inline="true">
-              Note:
-              <Typography inline="true" variant="body1" color="text.secondary">
-                Answers and evaluation are final and cannot be changed.
+            <Alert
+              severity="info"
+              sx={{ mb: 2 }}
+              onClose={() => setOpenTipAlert(false)}
+            >
+              <Typography variant="h6" inline="true">
+                Just wait for the student answers...
               </Typography>
-            </Typography>
-          </Alert>
+              <Typography variant="h6" inline="true">
+                Note:
+                <Typography
+                  inline="true"
+                  variant="body1"
+                  color="text.secondary"
+                >
+                  Answers and evaluation are final and cannot be changed.
+                </Typography>
+              </Typography>
+            </Alert>
+          </>
+        );
+      else if (status === "passed" || status === "failed")
+        return (
+          <>
+            <Alert
+              severity="info"
+              sx={{ mb: 2 }}
+              onClose={() => setOpenTipAlert(false)}
+            >
+              <Typography variant="h6" inline="true">
+                Interview Evaluated!
+                <Typography
+                  inline="true"
+                  variant="body1"
+                  color="text.secondary"
+                >
+                  See the outcome in the interview details.
+                </Typography>
+              </Typography>
+              <Typography variant="h6" inline="true">
+                Note:
+                <Typography
+                  inline="true"
+                  variant="body1"
+                  color="text.secondary"
+                >
+                  The evaluation is final and cannot be changed.
+                </Typography>
+              </Typography>
+            </Alert>
+          </>
         );
     }
   };
@@ -791,7 +970,15 @@ export const SCInterviewCheck = () => {
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => evaluateInterview(id, evaluationRef.current)}
+                    onClick={async () => {
+                      const response = await evaluateInterview(
+                        id,
+                        evaluationRef.current
+                      );
+                      if (response?.success) {
+                        navigate(`/dashboard/interviews/details/${id}`);
+                      }
+                    }}
                   >
                     Send Evaluation
                   </Button>
@@ -841,7 +1028,12 @@ export const SCInterviewCheck = () => {
                   <Button
                     variant="outlined"
                     align="center"
-                    onClick={sendInterview}
+                    onClick={async () => {
+                      const response = await sendInterview();
+                      if (response?.success) {
+                        navigate(`/dashboard/interviews/details/${id}`);
+                      }
+                    }}
                     sx={{ height: 70 }}
                   >
                     <Typography
@@ -881,7 +1073,12 @@ export const SCInterviewCheck = () => {
                       <Button
                         variant="outlined"
                         align="center"
-                        onClick={sendAnswer}
+                        onClick={async () => {
+                          const response = await sendAnswer();
+                          if (response?.success) {
+                            navigate(`/dashboard/interviews/details/${id}`);
+                          }
+                        }}
                         sx={{ height: 70 }}
                       >
                         <Typography

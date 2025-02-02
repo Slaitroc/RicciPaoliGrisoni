@@ -513,7 +513,7 @@ export const sendInterviewEvaluation = async (interviewID, evaluation) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ ...evaluation }),
+      body: JSON.stringify({ evaluation }),
     }
   );
 };
