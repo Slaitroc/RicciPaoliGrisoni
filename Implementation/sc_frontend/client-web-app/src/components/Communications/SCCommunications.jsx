@@ -4,35 +4,39 @@ import { Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { CommunicationsList } from "./CommunicationsList";
 import { SCAddIcon } from "../Shared/SCIcons";
-import { useCommunicationsContext } from "./CommunicationsContext";
+import { useGlobalContext } from "../../global/GlobalContext";
 import { log } from "../../logger/logger";
 
 // SCCommunications.jsx
 export default function SCCommunications() {
+  const { profile } = useGlobalContext();
   const navigate = useNavigate();
 
+  log(profile);
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" gutterBottom>
         My Communications
       </Typography>
 
-      <Box sx={{ mb: 3, display: "flex", gap: 2 }}>
-        <Button
-          variant="outlined"
-          startIcon={<SCAddIcon />}
-          onClick={() => navigate("new/communication")}
-        >
-          New Communication
-        </Button>
-        <Button
-          variant="outlined"
-          startIcon={<SCAddIcon />}
-          onClick={() => navigate("new/complaint")}
-        >
-          New Complaint
-        </Button>
-      </Box>
+      {profile.userType !== "UNIVERSITY" && (
+        <Box sx={{ mb: 3, display: "flex", gap: 2 }}>
+          <Button
+            variant="outlined"
+            startIcon={<SCAddIcon />}
+            onClick={() => navigate("new/communication")}
+          >
+            New Communication
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={<SCAddIcon />}
+            onClick={() => navigate("new/complaint")}
+          >
+            New Complaint
+          </Button>
+        </Box>
+      )}
 
       <CommunicationsList
         onItemClick={(communication) => onItemClicked(communication)}
