@@ -5,6 +5,7 @@ import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entity.InterviewQuiz;
 import click.studentandcompanies.entity.dbEnum.InternshipPosOfferStatusEnum;
 import click.studentandcompanies.entity.dbEnum.InterviewStatusEnum;
+import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManagerCommand;
 import click.studentandcompanies.entityRepository.InternshipPosOfferRepository;
 import click.studentandcompanies.entityRepository.InterviewQuizRepository;
@@ -21,13 +22,15 @@ public class EvaluateInterviewCall implements InterviewManagerCommand<Interview>
     private final InterviewRepository interviewRepository;
     private final InterviewQuizRepository interviewQuizRepository;
     private final InternshipPosOfferRepository internshipPosOfferRepository;
+    private final UserManager userManager;
 
-    public EvaluateInterviewCall(int interviewID, Map<String, Object> payload, InterviewRepository interviewRepository, InterviewQuizRepository interviewQuizRepository, InternshipPosOfferRepository internshipPosOfferRepository) {
+    public EvaluateInterviewCall(int interviewID, Map<String, Object> payload, InterviewRepository interviewRepository, InterviewQuizRepository interviewQuizRepository, InternshipPosOfferRepository internshipPosOfferRepository, UserManager userManager) {
         this.interviewID = interviewID;
         this.payload = payload;
         this.interviewRepository = interviewRepository;
         this.interviewQuizRepository = interviewQuizRepository;
         this.internshipPosOfferRepository = internshipPosOfferRepository;
+        this.userManager = userManager;
     }
 
     @Override
@@ -36,7 +39,11 @@ public class EvaluateInterviewCall implements InterviewManagerCommand<Interview>
         if (interview == null) {
             throw new NotFoundException("Interview with ID " + interviewID + " not found");
         }
-        if(interview.getStatus()!= InterviewStatusEnum.submitted){
+        if(!interview.getHasAnswered()){
+            throw new WrongStateException("Answer not received yet");
+        }
+        if(interview.getStatus() != InterviewStatusEnum.submitted){
+            System.out.println(interview.getStatus());
             throw new WrongStateException("Interview is not in submitted status");
         }
         inputPayloadValidation(payload);
@@ -62,6 +69,9 @@ public class EvaluateInterviewCall implements InterviewManagerCommand<Interview>
     private void inputPayloadValidation(Map<String, Object> payload) {
         if(payload.get("company_id")==null){
             throw new BadInputException("Company id not found");
+        }
+        if(userManager.getCompanyById((String) payload.get("company_id"))==null){
+            throw new NotFoundException("Company not found");
         }
         if(payload.get("evaluation")==null){
             throw new BadInputException("Evaluation not found");

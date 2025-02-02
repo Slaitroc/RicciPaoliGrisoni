@@ -1,7 +1,6 @@
 package click.studentandcompanies.APIController.APIControllerCommandCall.POST;
 
 import click.studentandcompanies.APIController.APIControllerCommandCall.APIControllerCommandCall;
-import click.studentandcompanies.Config;
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
@@ -16,7 +15,6 @@ import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +54,7 @@ public class SendInterviewAnswerCommandCall implements APIControllerCommandCall<
         } catch (NotFoundException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            Config.printStackTrace(e);
+            e.printStackTrace();
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

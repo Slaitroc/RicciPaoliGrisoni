@@ -1,7 +1,6 @@
 package click.studentandcompanies.APIController.APIControllerCommandCall.GET;
 
 import click.studentandcompanies.APIController.APIControllerCommandCall.APIControllerCommandCall;
-import click.studentandcompanies.Config;
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
@@ -44,7 +43,7 @@ public class GetInterviewsCommandCall implements APIControllerCommandCall <Respo
         }catch (BadInputException e){
             return new ResponseEntity<>(List.of(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage())), HttpStatus.BAD_REQUEST);
         }catch (Exception e){
-            Config.printStackTrace(e);
+            e.printStackTrace();
             return new ResponseEntity<>(List.of(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage())), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

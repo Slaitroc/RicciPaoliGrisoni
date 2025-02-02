@@ -516,6 +516,19 @@ public class APIController {
         return new GetInternshipPositionOffersCommandCall(interviewManager, user_id).execute();
     }
 
+    @GetMapping("/interview/private/get-my-acc-int-pos-off")
+    @Operation(summary = "Get accepted internship position offer", description = "Payload will contain the 'user_id'")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Accepted internship positions offer retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "404", description = "Accepted internship position offer not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<List<DTO>> getAcceptedInternshipPositionOffers(@RequestHeader("Authorization") String token) {
+        String user_id = GetUuid.getUuid(token);
+        return new GetAcceptedInternshipPositionOffersCommandCall(interviewManager, user_id).execute();
+    }
+
     @PostMapping("/interview/private/{InterviewID}/send-interview")
     @Operation(summary = "Send interview", description = "payload will contain the 'questions1 .... question6'")
     @ApiResponses({

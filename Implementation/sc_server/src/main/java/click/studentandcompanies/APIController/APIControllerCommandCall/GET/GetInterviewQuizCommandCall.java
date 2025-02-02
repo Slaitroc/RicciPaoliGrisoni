@@ -14,25 +14,28 @@ import org.springframework.http.ResponseEntity;
 
 public class GetInterviewQuizCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
     private final InterviewManager interviewManager;
-    private final Integer interviewId;
+    private final Integer quizID;
     private final String userID;
 
-    public GetInterviewQuizCommandCall(InterviewManager interviewManager, Integer interviewId, String userID) {
+    public GetInterviewQuizCommandCall(InterviewManager interviewManager, Integer quizID, String userID) {
         this.interviewManager = interviewManager;
-        this.interviewId = interviewId;
+        this.quizID = quizID;
         this.userID = userID;
     }
 
     @Override
     public ResponseEntity<DTO> execute() {
         try{
-            InterviewQuiz interviewQuiz = interviewManager.getInterviewQuiz(interviewId, userID);
+            InterviewQuiz interviewQuiz = interviewManager.getInterviewQuiz(quizID, userID);
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.INTERVIEW_QUIZ, interviewQuiz), HttpStatus.OK);
         }catch(NotFoundException e){
+            e.printStackTrace();
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
         }catch(BadInputException | UnauthorizedException e){
+            e.printStackTrace();
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
         }catch (Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

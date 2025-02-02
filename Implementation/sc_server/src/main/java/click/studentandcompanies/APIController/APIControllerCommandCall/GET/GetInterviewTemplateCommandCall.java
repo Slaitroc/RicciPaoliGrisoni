@@ -1,11 +1,9 @@
 package click.studentandcompanies.APIController.APIControllerCommandCall.GET;
 
 import click.studentandcompanies.APIController.APIControllerCommandCall.APIControllerCommandCall;
-import click.studentandcompanies.Config;
 import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
-import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entity.InterviewTemplate;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
 import click.studentandcompanies.utils.exception.BadInputException;
@@ -34,7 +32,7 @@ public class GetInterviewTemplateCommandCall implements APIControllerCommandCall
         }catch (BadInputException | UnauthorizedException e){
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
         }catch (Exception e){
-            Config.printStackTrace(e);
+            e.printStackTrace();
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
