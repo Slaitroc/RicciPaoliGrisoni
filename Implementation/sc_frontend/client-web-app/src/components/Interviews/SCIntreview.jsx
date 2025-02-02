@@ -233,7 +233,7 @@ export default function SCInterview() {
                     color="text.secondary"
                     align="center"
                   >
-                    {interviewObject.hasAnswered.value ? "Yes" : "No"}
+                    {interviewObject.hasAnswered?.value ? "Yes" : "No"}
                   </Typography>
                 </Typography>
               </Box>
