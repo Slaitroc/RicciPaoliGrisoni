@@ -34,11 +34,20 @@ export const IntPosOfferProvider = ({ children }) => {
         .getFormattedInterviewPosOffers(profile.userID)
         .then((response) => {
           if (response.success === false) {
+            logger.focus("error", response);
             setOpenAlert(true);
             setAlertSeverity(response.severity);
             setAlertMessage(response.message);
-          } else {
-            setIntPosOfferData(response.data);
+          } else if (response.success == true) {
+            if (response.data === null) {
+              setOpenAlert(true);
+              setAlertSeverity("info");
+              setAlertMessage("No internship position offers found");
+              setIntPosOfferData([]);
+            } else {
+              setIntPosOfferData(response.data);
+              setOpenAlert(false);
+            }
           }
         });
     }

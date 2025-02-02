@@ -4,35 +4,73 @@ import { Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { CommunicationsList } from "./CommunicationsList";
 import { SCAddIcon } from "../Shared/SCIcons";
+import * as internshipPositionOffer from "../../api-calls/api-wrappers/Interview/intPosOffer";
+import { useGlobalContext } from "../../global/GlobalContext";
 import { useCommunicationsContext } from "./CommunicationsContext";
-import { log } from "../../logger/logger";
+import { log, focus } from "../../logger/logger";
 
 // SCCommunications.jsx
 export default function SCCommunications() {
+  const { profile } = useGlobalContext();
   const navigate = useNavigate();
+  const {
+    setOpenAlert,
+    setAlertMessage,
+    setAlertSeverity,
+    setInternshipPositionOffers,
+  } = useCommunicationsContext();
 
+  const handleClicked = async (type) => {
+    try {
+      const response =
+        await internshipPositionOffer.getFormattedInterviewPosOffers();
+      log(response);
+      if (!response.success) {
+        focus("error");
+        setOpenAlert(true);
+        setAlertSeverity(response.severity);
+        setAlertMessage(response.message);
+      } else {
+        setOpenAlert(false);
+        setInternshipPositionOffers(response.data); // Will be empty array if 204
+        if (type === "communication") {
+          navigate("new/communication");
+        } else if (type === "complaint") {
+          navigate("new/complaint");
+        }
+      }
+    } catch (error) {
+      setOpenAlert(true);
+      setAlertSeverity("error");
+      setAlertMessage("Error fetching communications");
+    }
+  };
+
+  log(profile);
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" gutterBottom>
         My Communications
       </Typography>
 
-      <Box sx={{ mb: 3, display: "flex", gap: 2 }}>
-        <Button
-          variant="outlined"
-          startIcon={<SCAddIcon />}
-          onClick={() => navigate("new/communication")}
-        >
-          New Communication
-        </Button>
-        <Button
-          variant="outlined"
-          startIcon={<SCAddIcon />}
-          onClick={() => navigate("new/complaint")}
-        >
-          New Complaint
-        </Button>
-      </Box>
+      {profile.userType !== "UNIVERSITY" && (
+        <Box sx={{ mb: 3, display: "flex", gap: 2 }}>
+          <Button
+            variant="outlined"
+            startIcon={<SCAddIcon />}
+            onClick={() => handleClicked("communication")}
+          >
+            New Communication
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={<SCAddIcon />}
+            onClick={() => handleClicked("complaint")}
+          >
+            New Complaint
+          </Button>
+        </Box>
+      )}
 
       <CommunicationsList
         onItemClick={(communication) => onItemClicked(communication)}

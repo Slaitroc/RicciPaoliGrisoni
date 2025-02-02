@@ -3,6 +3,7 @@ package click.studentandcompanies.entityManager.interviewManager.POST;
 import click.studentandcompanies.entity.Interview;
 import click.studentandcompanies.entity.InterviewQuiz;
 import click.studentandcompanies.entity.Student;
+import click.studentandcompanies.entity.dbEnum.InterviewStatusEnum;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.InterviewQuizRepository;
 import click.studentandcompanies.entityRepository.InterviewRepository;
@@ -29,7 +30,6 @@ public class SendInterviewAnswerCommand implements SubmissionManagerCommand<Inte
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Interview execute() {
         Interview interview = interviewRepository.getInterviewById(interviewID);
         if(interview == null){
@@ -41,15 +41,13 @@ public class SendInterviewAnswerCommand implements SubmissionManagerCommand<Inte
         if(userManager.getStudentById((String) payload.get("student_id"))==null){
             throw new NotFoundException("Student not found");
         }
-        Map<String, String> answer = (Map<String, String>) payload.get("answer");
-        if(answer == null){
-            throw new BadInputException("Bad answer");
-        }
         if(!hasAllAnswer(payload)){
             throw new BadInputException("Missing answer");
         }
         InterviewQuiz interviewQuiz = createInterviewQuiz(interview, payload);
         interview.setInterviewQuiz(interviewQuiz);
+        interview.setHasAnswered(true);
+        interview.setStatus(InterviewStatusEnum.submitted);
         return interviewRepository.save(interview);
     }
 

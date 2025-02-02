@@ -47,7 +47,7 @@ public class InterviewManager {
     }
 
     //Because createInterviewTemplate is needed by both the sendInterview and saveInterviewTemplate methods, it is extracted to a separate method
-    @SuppressWarnings("unchecked")
+//    @SuppressWarnings("unchecked")
     /*public static InterviewTemplate createInterviewTemplate(Map<String, Object> payload, Company company) {
         InterviewTemplate interviewTemplate = new InterviewTemplate();
         interviewTemplate.setCompany(company);
@@ -88,7 +88,7 @@ public class InterviewManager {
     }
 
     public List<InternshipPosOffer> getInterviewPosOffersOfUser(String userID) throws BadInputException, NotFoundException {
-        return new GetInternshipPosOfferCommand(userID, internshipPosOfferRepository, userManager).execute();
+        return new GetInternshipPosOfferCommand(userID, userManager).execute();
     }
 
     public List<Interview> getMatchNotInterviewed(String companyID) throws BadInputException, NotFoundException{
@@ -99,11 +99,11 @@ public class InterviewManager {
         return new GetSpecificInterviewCommand(interviewID, userID, interviewRepository).execute();
     }
 
-    public InterviewTemplate getInterviewTemplate(int templateID, String companyID) throws NotFoundException, BadInputException {
-        return new GetInterviewTemplateCommand(templateID, companyID, interviewTemplateRepository, userManager).execute();
+    public InterviewTemplate getInterviewTemplate(int templateID, String userID) throws NotFoundException, BadInputException {
+        return new GetInterviewTemplateCommand(templateID, userID, interviewTemplateRepository, userManager, interviewRepository ).execute();
     }
 
-    public InterviewQuiz getInterviewQuiz(int interviewID, String companyID) throws NotFoundException, BadInputException, UnauthorizedException {
-        return new GetInterviewQuizCommand(interviewID, companyID, interviewRepository, userManager).execute();
+    public InterviewQuiz getInterviewQuiz(int interviewID, String userID) throws NotFoundException, BadInputException, UnauthorizedException {
+        return new GetInterviewQuizCommand(interviewID, userID, interviewRepository, userManager).execute();
     }
 }

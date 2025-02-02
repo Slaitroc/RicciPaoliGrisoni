@@ -185,13 +185,6 @@ public abstract class EntityFactory {
         return internshipOffer;
     }
 
-    /**
-     * Creates a new Communication instance for the specified student and internship offer.
-     *
-     * @param student the student involved in the communication
-     * @param internshipOffer the internship offer related to the communication
-     * @return a new Communication instance
-     */
     public Communication setNewCommunication(Student student, Company company) {
         Communication communication = new Communication();
         communication.setId(newRandom(40001, 50000));
@@ -205,14 +198,7 @@ public abstract class EntityFactory {
         return communication;
     }
 
-    /**
-     * Creates a new Communication instance for the specified id, student and internship offer.
-     *
-     * @param id the id of the communication
-     * @param student the student involved in the communication
-     * @param internshipOffer the internship offer related to the communication
-     * @return a new Communication instance
-     */
+
     public Communication setNewCommunication(int id, Student student, Company company) {
         Communication communication = new Communication();
         communication.setId(id);
@@ -358,7 +344,7 @@ public abstract class EntityFactory {
      * @param ipo the internship position offer related to the interview
      * @return a new Interview instance
      */
-    protected Interview setNewInterview(InterviewTemplate interviewTemplate, Recommendation recommendation,
+    /*protected Interview setNewInterview(InterviewTemplate interviewTemplate, Recommendation recommendation,
                                         SpontaneousApplication spontaneousApplication, InternshipPosOffer ipo) {
         Interview interview = new Interview();
         interview.setId(newRandom(80001, 90000));
@@ -370,7 +356,7 @@ public abstract class EntityFactory {
         interview.setAnswer("No answer yet");
         interview.setEvaluation(null);
         return interview;
-    }
+    }*/
 
     /**
      * Creates a new InterviewTemplate instance for the specified company.
@@ -378,13 +364,13 @@ public abstract class EntityFactory {
      * @param company the company creating the interview template
      * @return a new InterviewTemplate instance
      */
-    protected InterviewTemplate setNewInterviewTemplate(Company company) {
+    /*protected InterviewTemplate setNewInterviewTemplate(Company company) {
         InterviewTemplate template = new InterviewTemplate();
         template.setId(newRandom(90001, 100000));
         template.setCompany(company);
         template.setQuestions("1) Tell us about yourself?\n2) Why do you want this job?");
         return template;
-    }
+    }*/
 
     /**
      * Creates a new Recommendation instance for the specified internship offer and CV.
@@ -398,7 +384,7 @@ public abstract class EntityFactory {
         recommendation.setId(newRandom(100001, 110000));
         recommendation.setInternshipOffer(internshipOffer);
         recommendation.setCv(cv);
-        recommendation.setStatus(RecommendationStatusEnum.pendingMatch);
+        recommendation.setStatus(RecommendationStatusEnum.acceptedMatch);
         recommendation.setScore(newRandomFloat(0.0f, 1.0f));
         return recommendation;
     }

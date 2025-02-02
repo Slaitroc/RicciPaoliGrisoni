@@ -1,5 +1,6 @@
 import React from "react";
 import { useBrowseInternshipContext } from "./BrowseInternshipContext";
+import * as logger from "../../logger/logger";
 import {
   Box,
   Typography,
@@ -9,6 +10,7 @@ import {
   Divider,
 } from "@mui/material";
 import * as application from "../../api-calls/api-wrappers/submission-wrapper/spontaneousApplication";
+import { focus } from "../../logger/logger";
 
 const SCInternshipOfferDetails = ({ offer, onClose, profile }) => {
   const { setOpenAlert, setAlertMessage, setAlertSeverity } =
@@ -35,7 +37,7 @@ const SCInternshipOfferDetails = ({ offer, onClose, profile }) => {
       transition: "all 0.2s ease-in-out",
     };
 
-    // Se l'utente è uno STUDENT mostra il pulsante per candidarsi e il pulsante Close
+    // If the user is a STUDENT, show both Apply and Close buttons
     if (profile.userType === "STUDENT") {
       return (
         <>
@@ -74,7 +76,7 @@ const SCInternshipOfferDetails = ({ offer, onClose, profile }) => {
         </>
       );
     } else {
-      // Se l'utente è una COMPANY mostra solo il pulsante Close
+      // If the user is a COMPANY, show only the Close button
       return (
         <Button
           variant="contained"
@@ -97,17 +99,20 @@ const SCInternshipOfferDetails = ({ offer, onClose, profile }) => {
   };
 
   const handleApply = (offer, onClose) => {
-    console.log("Applying to offer:", offer);
+    //console.log("Applying to offer:", offer);
     try {
       application.submitSpontaneousApplication(offer.id).then((response) => {
+        logger.debug(response);
         if (response.success === false) {
           setOpenAlert(true);
           setAlertSeverity(response.severity);
           setAlertMessage(response.message);
         } else {
-          setOpenAlert(false);
-          onClose();
+          setOpenAlert(true);
+          setAlertSeverity(response.severity);
+          setAlertMessage(response.message);
         }
+        onClose();
       });
     } catch (error) {
       throw error;

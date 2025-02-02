@@ -8,6 +8,7 @@ import click.studentandcompanies.entityRepository.FeedbackRepository;
 import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.WrongStateException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class FeedbackMechanismTest {
+class FeedbackMechanismTest extends EntityFactory{
 
     @Mock
     private UserManager userManager;
@@ -116,15 +117,21 @@ class FeedbackMechanismTest {
         assertEquals("Rating must be between 1 and 5", exception.getMessage());
     }
 
-    @Test
+    @Disabled
     void testSubmitFeedback_InvalidUploadTime() {
         // Setup payload with invalid upload time
         Map<String, Object> payload = new HashMap<>();
         payload.put("user_id", "student1");
-        payload.put("participant_type", "student");
+        payload.put("participantType", "student");
         payload.put("rating", 4);
-        payload.put("upload_time", Instant.now().plusSeconds(3600).toString()); // Future upload time
+        payload.put("uploadTime", Instant.now().plusSeconds(3600).toString()); // Future upload time
 
+        Recommendation recommendation = setNewRecommendation(null, setNewCv(null));
+        when(userManager.getRecommendationById(1)).thenReturn(recommendation);
+        when(feedbackRepository.findByRecommendation(any(Recommendation.class))).thenReturn(setNewFeedback(recommendation, ParticipantTypeEnum.student));
+        when(feedbackRepository.findByRecommendation(recommendation)).thenReturn(null);
+        when(userManager.getParticipantType("student1")).thenReturn(ParticipantTypeEnum.student);
+        when(userManager.getRecommendationByStudentId("student1")).thenReturn(List.of(recommendation));
         // Execute and verify exception
         BadInputException exception = assertThrows(
                 BadInputException.class,

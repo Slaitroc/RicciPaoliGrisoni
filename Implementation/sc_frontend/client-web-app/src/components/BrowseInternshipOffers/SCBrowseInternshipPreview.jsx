@@ -6,11 +6,12 @@ import SCInternshipOfferDetails from "./SCInternshipOfferDetails";
 import { log, focus } from "../../logger/logger";
 
 export const SCInternshipOfferPreview = () => {
-  const { offerData } = useBrowseInternshipContext();
+  const { offerData, setOpenAlert } = useBrowseInternshipContext();
   const [selectedOffer, setSelectedOffer] = React.useState(null);
   const { profile } = useGlobalContext();
 
   const handleClick = (offer) => {
+    setOpenAlert(false);
     setSelectedOffer(offer);
   };
 
