@@ -249,13 +249,8 @@ export const sendInterviewQuestions = async (interviewID, questions) => {
 };
 
 export const sendInterviewAnswers = async (interviewID, answers) => {
-  const payload = {};
-  Object.entries(answers).reduce((acc, [key, value], index) => {
-    acc[`answer${index + 1}`] = value;
-    return acc;
-  }, payload);
   return apiCalls
-    .sendInterviewAnswer(interviewID, payload)
+    .sendInterviewAnswer(interviewID, answers)
     .then((response) => {
       if (response.ok) {
         return response.json().then((payload) => {
@@ -281,4 +276,28 @@ export const sendInterviewAnswers = async (interviewID, answers) => {
     .catch((error) => {
       throw error;
     });
+};
+
+export const sendEvaluation = (interviewID, evaluation) => {
+  apiCalls.sendInterviewEvaluation(interviewID, evaluation).then((reponse) => {
+    if (response.status === 201) {
+      return response.json().then((payload) => {
+        return {
+          success: true,
+          data: payload.properties,
+          message: payload.properties.message,
+          severity: "success",
+        };
+      });
+    } else {
+      return response.json().then((payload) => {
+        return {
+          success: false,
+          data: null,
+          message: payload.properties.error,
+          severity: "error",
+        };
+      });
+    }
+  });
 };

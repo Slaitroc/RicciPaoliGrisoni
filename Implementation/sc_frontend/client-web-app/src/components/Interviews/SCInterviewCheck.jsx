@@ -29,7 +29,7 @@ export const SCInterviewCheck = () => {
   const { userType } = useGlobalContext();
   const { id } = useParams();
   const [openTipAlert, setOpenTipAlert] = useState(true);
-  const { interviewObject, setInterviewObject, evaluateInterview, answers } =
+  const { interviewObject, setInterviewObject, openAlertProc } =
     useInterviewsContext();
 
   const interviewObjectFetch = async () => {
@@ -42,29 +42,60 @@ export const SCInterviewCheck = () => {
   };
 
   const questionFetch = async () => {
-    try {
-      const response = await interview.getFormattedInterviewTemplateQuestions(
-        interviewObject.interviewTemplateID?.value
-      );
-      if (response.success === true) {
-        setQuestion(response.data);
-      } else {
-        openAlertProc("Failed to fetch questions", "error");
+    if (interviewObject?.interviewTemplateID?.value) {
+      try {
+        const response = await interview.getFormattedInterviewTemplateQuestions(
+          interviewObject.interviewTemplateID?.value
+        );
+        if (response.success === true) {
+          setQuestions(response.data);
+        } else {
+          openAlertProc("Failed to fetch questions", "error");
+        }
+      } catch (error) {
+        throw error;
       }
-    } catch (error) {
-      throw error;
     }
   };
 
   const answerFetch = async () => {
+    if (interviewObject.interviewQuizID?.value) {
+      try {
+        const response = await interview.getFormattedStudentAnswers(
+          interviewObject.interviewQuizID?.value
+        );
+        if (response.success === true) {
+          setAnswers(response.data);
+        } else {
+          openAlertProc("No answer fetched", "warning");
+        }
+      } catch (error) {
+        throw error;
+      }
+    }
+  };
+
+  const sendAnswer = async () => {
     try {
-      const response = await interview.getFormattedStudentAnswers(
-        interviewObject.interviewQuizID?.value
-      );
+      const response = interview.sendInterviewAnswers(id, answerRef.current);
       if (response.success === true) {
         setAnswers(response.data);
       } else {
-        openAlertProc("Failed to fetch answers", "error");
+        openAlertProc("Failed to send answers", "error");
+      }
+    } catch (e) {
+      throw error;
+    }
+  };
+
+  const evaluateInterview = (id, evaluation) => {
+    try {
+      logger.focus("evaluation", evaluationRef.current);
+      const response = interview.sendEvaluation(id, evaluation);
+      if (response.success === true) {
+        setInterviewObject(response.data);
+      } else {
+        openAlertProc("Failed to evaluate interview", "error");
       }
     } catch (error) {
       throw error;
@@ -76,6 +107,7 @@ export const SCInterviewCheck = () => {
   }, []);
   useEffect(() => {
     questionFetch();
+    answerFetch();
   }, [interviewObject]);
 
   const evaluationRef = useRef(0);
@@ -115,13 +147,22 @@ export const SCInterviewCheck = () => {
     answer6: "Answer 6",
   };
 
+  const mapQuestionAnswer = {
+    question1: "answer1",
+    question2: "answer2",
+    question3: "answer3",
+    question4: "answer4",
+    question5: "answer5",
+    question6: "answer6",
+  };
+
   const sendInterview = async () => {
     try {
       const response = await interview.sendInterviewQuestions(
         id,
         questionsRef.current
       );
-      setQuestion(questionsRef.current);
+      setQuestions(questionsRef.current);
       if (response.success === true) {
         setInterviewObject(response.data);
       } else {
@@ -132,8 +173,8 @@ export const SCInterviewCheck = () => {
     }
   };
 
-  const [question, setQuestion] = useState(questionsRef.current);
-  const [answer, setAnswer] = useState(answerRef.current);
+  const [questions, setQuestions] = useState(questionsRef.current);
+  const [answers, setAnswers] = useState(answerRef.current);
 
   const handleFieldChange = (toUpdate, updateValue) => {
     logger.focus("aggiorna", toUpdate, updateValue);
@@ -152,7 +193,6 @@ export const SCInterviewCheck = () => {
   };
 
   const returnGridElement = (status, hasAnswered) => {
-    logger.focus("fasdjfhalfjhaslkdjfhlas");
     if (userType === STUDENT_USER_TYPE) {
       if (status === "toBeSubmitted") {
         return;
@@ -166,7 +206,7 @@ export const SCInterviewCheck = () => {
               columns={12}
               alignItems="stretch"
             >
-              {Object.entries(question).map(([key, value], index) => {
+              {Object.entries(questions).map(([key, value], index) => {
                 if (key !== "id") {
                   return (
                     <Grid
@@ -180,15 +220,14 @@ export const SCInterviewCheck = () => {
                           <TextField
                             multiline
                             variant="outlined"
-                            placeholder={key}
+                            placeholder={"Type your answer..."}
                             id={`${key}`}
-                            onBlur={(e) =>
-                              logger.debug(
-                                "thighs happen here: " +
-                                  key +
-                                  "value: " +
+                            onBlur={
+                              (e) =>
+                                handleFieldAnswerChange(
+                                  mapQuestionAnswer.value,
                                   e.target.value
-                              ) || handleFieldAnswerChange(key, e.target.value)
+                                ) //DANGER
                             }
                             sx={{
                               flexGrow: 1,
@@ -216,90 +255,84 @@ export const SCInterviewCheck = () => {
             <Grid
               item="true"
               size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
-              key={answers?.answer1.value}
+              key={answers.answer1}
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  1. {questions?.question1.value}
+                  1. {questions?.question1}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
-                  {interviewDataSnapshot?.hasAnswered.value &&
-                    answers?.answer1.value}
+                  {interviewObject.hasAnswered?.value && answers?.answer1}
                 </Typography>
               </Box>
             </Grid>
             <Grid
               item="true"
               size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
-              key={answers?.answer1.value}
+              key={answers?.answer2}
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  2. {questions?.question2.value}
+                  2. {questions?.question2}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
-                  {interviewDataSnapshot?.hasAnswered.value &&
-                    answers?.answer2.value}
+                  {interviewObject.hasAnswered?.value && answers?.answer2}
                 </Typography>
               </Box>
             </Grid>
             <Grid
               item="true"
               size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
-              key={answers?.answer1.value}
+              key={answers?.answer3}
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  3. {questions?.question3.value}
+                  3. {questions?.question3}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
-                  {interviewDataSnapshot?.hasAnswered.value &&
-                    answers?.answer3.value}
+                  {interviewObject.hasAnswered?.value && answers?.answer3}
                 </Typography>
               </Box>
             </Grid>
             <Grid
               item="true"
               size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
-              key={answers?.answer1.value}
+              key={answers?.answer4}
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  4. {questions?.question4.value}
+                  4. {questions?.question4}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
-                  {interviewDataSnapshot?.hasAnswered.value &&
-                    answers?.answer4.value}
+                  {interviewObject.hasAnswered?.value && answers?.answer4}
                 </Typography>
               </Box>
             </Grid>
             <Grid
               item="true"
               size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
-              key={answers?.answer1.value}
+              key={answers?.answer5}
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  5. {questions?.question5.value}
+                  5. {questions?.question5}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
-                  {interviewDataSnapshot?.hasAnswered.value &&
-                    answers?.answer5.value}
+                  {interviewObject.hasAnswered?.value && answers?.answer5}
                 </Typography>
               </Box>
             </Grid>
             <Grid
               item="true"
               size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
-              key={answers?.answer1.value}
+              key={answers?.answer6}
             >
               <Box display="flex" flexDirection="column">
                 <Typography variant="h6" color="text.primary">
-                  6. {questions?.question6.value}
+                  6. {questions?.question6}
                 </Typography>
                 <Typography variant="h6" color="text.secondary">
-                  {interviewDataSnapshot?.hasAnswered.value &&
-                    answers?.answer6.value}
+                  {interviewObject.hasAnswered?.value && answers?.answer6}
                 </Typography>
               </Box>
             </Grid>
@@ -317,7 +350,7 @@ export const SCInterviewCheck = () => {
               columns={12}
               alignItems="stretch"
             >
-              {Object.entries(question).map(([key, value], index) => {
+              {Object.entries(questions).map(([key, value], index) => {
                 if (key !== "id") {
                   return (
                     <Grid
@@ -354,7 +387,94 @@ export const SCInterviewCheck = () => {
           </>
         );
       } else if (status === "submitted" && hasAnswered === true) {
-        return;
+        return (
+          <>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer1}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  1. {questions?.question1}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer1}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer2}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  2. {questions?.question2}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer2}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer3}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  3. {questions?.question3}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer3}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer4}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  4. {questions?.question4}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer4}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer5}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  5. {questions?.question5}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer5}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer6}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  6. {questions?.question6}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer6}
+                </Typography>
+              </Box>
+            </Grid>
+          </>
+        );
       } // TODO
       else if (status === "submitted" && hasAnswered === false) {
         return (
@@ -366,7 +486,7 @@ export const SCInterviewCheck = () => {
               columns={12}
               sx={{ flexGrow: 1 }}
             >
-              {Object.entries(question).map(([key, value], index) => {
+              {Object.entries(questions).map(([key, value], index) => {
                 if (key !== "id") {
                   return (
                     <Grid
@@ -650,32 +770,43 @@ export const SCInterviewCheck = () => {
             )}
           {userType === STUDENT_USER_TYPE && (
             <>
-              {interviewObject.hasAnswered?.value ? (
-                <Box mt={6} display="flex" justifyContent="center">
-                  <Typography variant="h6" color="text.primary" align="center">
-                    Your answers have been sent! ✈️
-                    <Typography
-                      variant="body1"
-                      color="text.secondary"
-                      align="center"
-                    >
-                      Waiting for company evaluation...
-                    </Typography>
-                  </Typography>
-                </Box>
-              ) : (
-                <Box mt={6} display="flex" justifyContent="center">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      clickSendAnswers();
-                    }}
-                  >
-                    Send Interview
-                  </Button>
-                </Box>
-              )}
+              {interviewObject.hasAnswered?.value
+                ? interviewObject.status?.value === "submitted" && (
+                    <Box mt={6} display="flex" justifyContent="center">
+                      <Typography
+                        variant="h6"
+                        color="text.primary"
+                        align="center"
+                      >
+                        Your answers have been sent! ✈️
+                        <Typography
+                          variant="body1"
+                          color="text.secondary"
+                          align="center"
+                        >
+                          Waiting for company evaluation...
+                        </Typography>
+                      </Typography>
+                    </Box>
+                  )
+                : interviewObject.status?.value === "submitted" && (
+                    <Box mt={6} display="flex" justifyContent="center">
+                      <Button
+                        variant="outlined"
+                        align="center"
+                        onClick={sendAnswer}
+                        sx={{ height: 70 }}
+                      >
+                        <Typography
+                          variant="h4"
+                          color="text.primary"
+                          align="center"
+                        >
+                          Send Answers ✈️
+                        </Typography>
+                      </Button>
+                    </Box>
+                  )}
             </>
           )}
         </Box>

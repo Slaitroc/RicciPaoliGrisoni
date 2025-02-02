@@ -459,7 +459,7 @@ export const sendInterviewAnswer = async (InterviewID, answer) => {
 export const saveInterviewTemplate = async (template) => {
   const token = await getToken();
   return fetchWrapper(
-    "/application-api/interview/private/${InterviewID}/save-template",
+    `/application-api/interview/private/${InterviewID}/save-template`,
     {
       method: "POST",
       headers: {
@@ -489,6 +489,7 @@ export const sendInterviewTemplate = async (
 };
 
 export const sendInterviewEvaluation = async (interviewID, evaluation) => {
+  logger.focus("sendInterviewEvaluation", interviewID, evaluation);
   const token = await getToken();
   return fetchWrapper(
     `/application-api/interview/private/${interviewID}/evaluate-interview`,
