@@ -39,6 +39,45 @@ export const getFormattedInterviewPosOffers = async () => {
   }
 };
 
+export const getFormattedAcceptedInterviewPosOffers = async () => {
+  try {
+    return apiCalls
+      .getMyAcceptedInternshipPositionOffers()
+      .then(async (response) => {
+        logger.debug(
+          "getFormattedAcceptedInterviewPosOffers response: ",
+          response
+        );
+        if (response.status === 200) {
+          return response.json().then((payload) => {
+            return {
+              success: true,
+              data: payload.map((item) => item.properties),
+              message: "Internship Position Offer fetched successfully",
+              severity: "success",
+            };
+          });
+        } else if (response.status === 204) {
+          return {
+            success: true,
+            data: null,
+            message: "No Internship Position Offer found",
+            severity: "info",
+          };
+        } else {
+          return {
+            success: false,
+            data: null,
+            message: response.properties.error,
+            severity: "error",
+          };
+        }
+      });
+  } catch (error) {
+    logger.error(error);
+  }
+};
+
 export const acceptInternshipPositionOffer = async (id) => {
   try {
     return apiCalls.acceptInternshipPositionOffer(id).then((response) => {

@@ -23,7 +23,7 @@ export default function SCCommunications() {
   const handleClicked = async (type) => {
     try {
       const response =
-        await internshipPositionOffer.getFormattedInterviewPosOffers();
+        await internshipPositionOffer.getFormattedAcceptedInterviewPosOffers();
       log(response);
       if (!response.success) {
         focus("error");
