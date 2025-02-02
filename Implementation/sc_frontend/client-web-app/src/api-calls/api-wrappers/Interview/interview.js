@@ -211,7 +211,6 @@ export const getFormattedInterviewTemplateQuestions = async (interviewID) => {
       }
     })
     .catch((error) => {
-      logger.error("DIOCANE", error);
       throw error;
     });
 };
