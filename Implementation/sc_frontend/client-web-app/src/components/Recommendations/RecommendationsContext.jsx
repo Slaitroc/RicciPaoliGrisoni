@@ -57,7 +57,7 @@ export const RecommendationsProvider = ({ children }) => {
         response.data.forEach((recommendationItem) => {
           logger.debug("recommendation: ", recommendationItem);
           offer
-            .getSpecificOffer(recommendationItem.internshipOfferID)
+            .getCardOffer(recommendationItem.internshipOfferID)
             .then((offerResponse) => {
               if (!offerResponse.success) {
                 logger.error(offerResponse.message);

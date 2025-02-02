@@ -10,6 +10,46 @@ export const getCompanyInternships = async (companyID) => {
   return apiCalls.getCompanyInternships(companyID);
 };
 
+export const getCardOffer = async (offerID) => {
+  try {
+    return apiCalls.getSpecificOffer(offerID).then((response) => {
+      if (response.status === 404) {
+        return {
+          success: false,
+          data: null,
+          message: response.properties.error,
+          severity: "error",
+        };
+      } else {
+        return response.json().then((payload) => {
+          const { properties } = payload;
+          return {
+            success: true,
+            data: {
+              id: properties.id,
+              title: properties.title,
+              companyID: properties.companyID,
+              companyName: properties.companyName,
+              description: properties.description,
+              startDate: properties.startDate,
+              endDate: properties.endDate,
+              duration: properties.duration,
+              location: properties.location,
+              compensation: properties.compensation,
+              numberPositions: properties.numberPositions,
+              requiredSkills: properties.requiredSkills,
+            },
+            message: "Internship offer fetched successfully",
+            severity: "success",
+          };
+        });
+      }
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getSpecificOffer = async (offerID) => {
   try {
     return apiCalls.getSpecificOffer(offerID).then((response) => {
