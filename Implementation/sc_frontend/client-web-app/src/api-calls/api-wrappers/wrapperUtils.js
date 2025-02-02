@@ -20,7 +20,6 @@ export const formatArrayContent = (fieldMap, data) => {
     });
 };
 
-
 /**
  * Formats the content of the data object based on the provided field map and field type.
  *
@@ -35,10 +34,10 @@ export const formatContent = (fieldMap, fieldType, data) => {
     if (data.hasOwnProperty(key)) {
       if (fieldMap.has(key)) {
         formattedObject[key] = {
-          serverValue: key,
           value: data[key],
-          type: fieldType.get(key) || "string",
           label: fieldMap.get(key),
+          serverValue: key,
+          type: fieldType.get(key) || "string",
         };
       }
     }
@@ -62,9 +61,9 @@ export const formatLabeledArrayContent = (fieldMap, fieldTypeMap, data) => {
     fieldMap.forEach((label, key) => {
       if (offer.properties.hasOwnProperty(key)) {
         formattedObject[key] = {
-          serverValue: key,
-          label: label, // `label` viene direttamente da `fieldMap`
           value: offer.properties[key], // Valore corrispondente da `offer`
+          label: label, // `label` viene direttamente da `fieldMap`
+          serverValue: key,
           type: fieldTypeMap.get(key) || "string", // Se il tipo non è definito, di default è "text"
         };
       }
@@ -82,9 +81,9 @@ export const formatLabeledObjectContent = (fieldMap, fieldTypeMap, offer) => {
     // Verifichiamo se l'oggetto offer contiene la proprietà desiderata
     if (offer.properties && offer.properties.hasOwnProperty(key)) {
       formattedObject[key] = {
-        serverValue: key,
-        label: label, // il label preso direttamente da fieldMap
         value: offer.properties[key], // il valore corrispondente
+        label: label, // il label preso direttamente da fieldMap
+        serverValue: key,
         type: fieldTypeMap.get(key) || "string", // se il tipo non è definito, di default è "string"
       };
     }

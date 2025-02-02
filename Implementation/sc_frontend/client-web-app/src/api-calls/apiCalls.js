@@ -416,16 +416,13 @@ export const getMyTemplateInterview = async (id) => {
 
 export const getStudentAnswers = async (quizID) => {
   const token = await getToken();
-  return fetchWrapper(
-    ` /application-api/interview/private/${quizID}/get-quiz`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  return fetchWrapper(`/application-api/interview/private/${quizID}/get-quiz`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
 export const sendInterview = async (interviewID, questions) => {

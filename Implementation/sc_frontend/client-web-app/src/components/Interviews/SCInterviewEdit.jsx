@@ -15,6 +15,7 @@ import {
 import Grid from "@mui/material/Grid2";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useInterviewsContext } from "./InterviewsContext";
+import * as logger from "../../logger/logger";
 
 export const SCInterviewEdit = () => {
   const navigate = useNavigate();
@@ -145,6 +146,7 @@ export const SCInterviewEdit = () => {
             color="primary"
             onClick={() => {
               sendInterview(id, questionValues.current);
+              navigate(`/dashboard/interviews/check/${id}`);
             }}
           >
             Send Interview

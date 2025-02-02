@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useInterviewsContext } from "./InterviewsContext";
+import { useGlobalContext } from "../../global/GlobalContext";
 import {
-  FormControl,
-  FormLabel,
-  TextField,
+  COMPANY_USER_TYPE,
+  STUDENT_USER_TYPE,
+} from "../../global/globalStatesInit";
+import {
   Button,
-  Card,
   Box,
   Badge,
   IconButton,
@@ -17,89 +19,143 @@ import * as logger from "../../logger/logger";
 import * as interview from "../../api-calls/api-wrappers/Interview/interview";
 import Grid from "@mui/material/Grid2";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useInterviewsContext } from "./InterviewsContext";
 import NumberInput from "../Shared/InputHanlders/NumberInput";
-import { DatePicker } from "@mui/x-date-pickers";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 export const SCInterviewCheck = () => {
   const navigate = useNavigate();
+  const { userType } = useGlobalContext();
   const { id } = useParams();
   const {
     interviewDataSnapshot,
-    updateInterview,
-    offersArray,
-    interviewID,
-    newOfferRef,
-    openAlertProc,
-    closeAlertWithDelay,
     setForceRender,
+    clickBackToDetails,
     evaluateInterview,
+    setInterviewDataSnapshot,
+    questions,
+    answers,
   } = useInterviewsContext();
   const [openTipAlert, setOpenTipAlert] = useState(true);
 
   const [hasAnswered, setHasAnswered] = useState(false);
-  const [questions, setQuestions] = useState({});
-  const [answers, setAnswers] = useState({});
 
-  const handleFieldChange = (field, value) => {
-    logger.focus(field, value);
-    newOfferRef.current[field].value = value;
-    setForceRender((prev) => prev + 1);
-    //TODO check data
+  const evaluationRef = useRef(0);
+
+  const returnAlertTip = (status, hasAnswered) => {
+    if ((status, hasAnswered)) {
+      if (userType === STUDENT_USER_TYPE) {
+        //page is unreachable in this state
+        if (status === "toBeSubmitted") return;
+        //page is unreachable in this state
+        else if (status === "submitted" && hasAnswered === "false") return;
+        else if (status === "passed" || status === "failed")
+          return (
+            <Alert
+              severity="info"
+              sx={{ mb: 2 }}
+              onClose={() => setOpenTipAlert(false)}
+            >
+              <Typography variant="h6" inline="true">
+                Interview Evaluated!
+                <Typography
+                  inline="true"
+                  variant="body1"
+                  color="text.secondary"
+                >
+                  See the outcome in the interview details.
+                </Typography>
+              </Typography>
+              <Typography variant="h6" inline="true">
+                Note:
+                <Typography
+                  inline="true"
+                  variant="body1"
+                  color="text.secondary"
+                >
+                  The evaluation is final and cannot be changed.
+                </Typography>
+              </Typography>
+            </Alert>
+          );
+        else if (status === "submitted" && hasAnswered === "true")
+          return (
+            <Alert
+              severity="info"
+              sx={{ mb: 2 }}
+              onClose={() => setOpenTipAlert(false)}
+            >
+              <Typography variant="h6" inline="true">
+                Wait for the evaluation...
+              </Typography>
+              <Typography variant="h6" inline="true">
+                Note:
+                <Typography
+                  inline="true"
+                  variant="body1"
+                  color="text.secondary"
+                >
+                  Your answers cannot be changed.
+                </Typography>
+              </Typography>
+            </Alert>
+          );
+      } else if (userType === COMPANY_USER_TYPE) {
+        //page is unreachable in this state
+        if (status === "toBeSubmitted") return;
+        else if (status === "submitted" && hasAnswered === "true")
+          return (
+            <Alert
+              severity="info"
+              sx={{ mb: 2 }}
+              onClose={() => setOpenTipAlert(false)}
+            >
+              <Typography variant="h6" inline="true">
+                Interview Evaluation:
+                <Typography
+                  inline="true"
+                  variant="body1"
+                  color="text.secondary"
+                >
+                  Evaluate the interview by clicking on the corresponding
+                  button.
+                </Typography>
+              </Typography>
+              <Typography variant="h6" inline="true">
+                Note:
+                <Typography
+                  inline="true"
+                  variant="body1"
+                  color="text.secondary"
+                >
+                  The evaluation is final and cannot be changed.
+                </Typography>
+              </Typography>
+            </Alert>
+          );
+        else if (status === "submitted" && hasAnswered === "false")
+          return (
+            <Alert
+              severity="info"
+              sx={{ mb: 2 }}
+              onClose={() => setOpenTipAlert(false)}
+            >
+              <Typography variant="h6" inline="true">
+                Just wait for the student answers...
+              </Typography>
+              <Typography variant="h6" inline="true">
+                Note:
+                <Typography
+                  inline="true"
+                  variant="body1"
+                  color="text.secondary"
+                >
+                  Answers and evaluation are final and cannot be changed.
+                </Typography>
+              </Typography>
+            </Alert>
+          );
+      }
+    } else return;
   };
-
-  const clickBack = () => {
-    //NAV to details
-    navigate(`/dashboard/interviews/details/${id}`);
-  };
-
-  const fetchQuestions = async () => {
-    try {
-      await interview
-        .getFormattedInterviewTemplateQuestions(
-          interviewDataSnapshot?.interviewTemplateID.value
-        )
-        .then((response) => {
-          if (response.success) {
-            logger.focus("Fetched QUESTIONS", response.data);
-            setQuestions(response.data);
-            openAlertProc(response.message, "success");
-            closeAlertWithDelay();
-          } else {
-            logger.debug("SONO DENTOR");
-            openAlertProc(response.message, "error");
-            closeAlertWithDelay();
-          }
-        });
-      setAnswers(
-        Object.entries({
-          answer1: "Risposta alla domanda 1",
-          answer2: "Risposta alla domanda 2",
-          answer3: "Risposta alla domanda 3",
-          answer4: "Risposta alla domanda 4",
-          answer5: "Risposta alla domanda 5",
-          answer6: "Risposta alla domanda 6",
-        }).reduce((acc, [key, value], index) => {
-          acc[`question${index + 1}`] = value;
-          return acc;
-        }, {})
-      );
-      // TODO aggiungere logica per fetchare le domande (credo conoscendo il template id) ---> vanno messe nelle label
-      //await interview.
-      //TODO se la domanda non ha le risposte aggiungere i bottoni passed o failed (check su hasAnswered)
-      //TODO recuperare anche lo stato della interview (se è passed o failed nascondere i bottoni e mostrare la valutazione)
-    } catch (e) {
-      logger.error("Error fetching questions", e);
-      openAlertProc(e.message, "error");
-      closeAlertWithDelay();
-    }
-  };
-
-  useEffect(() => {
-    fetchQuestions();
-  }, [interviewDataSnapshot]);
 
   return (
     <Box display="flex" flexDirection="column" height="100%" gap={2}>
@@ -111,37 +167,23 @@ export const SCInterviewCheck = () => {
           justifyContent="space-between"
           alignItems="center"
         >
+          {/* BACK TO DETAILS */}
           <Badge
             color="error"
             variant="dot"
             invisible={true}
             sx={{ [`& .${badgeClasses.badge}`]: { right: 2, top: 2 } }}
           >
-            <IconButton size="small" onClick={clickBack}>
+            <IconButton size="small" onClick={clickBackToDetails}>
               <ArrowBackIcon />
             </IconButton>
           </Badge>
         </Box>
-        {openTipAlert && (
-          <Alert
-            severity="info"
-            sx={{ mb: 2 }}
-            onClose={() => setOpenTipAlert(false)}
-          >
-            <Typography variant="h6" inline="true">
-              Interview Evaluation:
-              <Typography inline="true" variant="body1" color="text.secondary">
-                Evaluate the interview by clicking on the corresponding button.
-              </Typography>
-            </Typography>
-            <Typography variant="h6" inline="true">
-              Note:
-              <Typography inline="true" variant="body1" color="text.secondary">
-                The evaluation is final and cannot be changed.
-              </Typography>
-            </Typography>
-          </Alert>
-        )}
+        {openTipAlert &&
+          returnAlertTip(
+            interviewDataSnapshot?.status.value,
+            interviewDataSnapshot?.hasAnswered.value
+          )}
         <Grid
           container
           spacing={3}
@@ -149,84 +191,114 @@ export const SCInterviewCheck = () => {
           columns={12}
           alignItems="stretch"
         >
-          {questions &&
-            Object.entries(questions).map(([key, value], index) => {
-              return (
-                <Grid
-                  item="true"
-                  size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
-                  key={value}
-                >
-                  <Box display="flex" justifyContent="center">
+          <Grid
+            item="true"
+            size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+            key={answers.answer1.id}
+          >
+            <Box display="flex" flexDirection="column">
+              <Typography variant="h6" color="text.primary">
+                1. {questions?.question1.value}
+              </Typography>
+              <Typography variant="h6" color="text.secondary">
+                {answers?.answer1.value}
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+        <Box display="flex" justifyContent="center">
+          {((hasAnswered) => {
+            if (userType === COMPANY_USER_TYPE) {
+              if (hasAnswered) {
+                return (
+                  <Box
+                    mt={3}
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    gap={4}
+                    padding={5}
+                  >
+                    <NumberInput
+                      label="Evaluation"
+                      step={1}
+                      min={0}
+                      max={5}
+                      allowWheelScrub={true}
+                      defaultValue={0}
+                      onValueChange={(value, event) =>
+                        (evaluationRef.current = value)
+                      }
+                    />
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() =>
+                        evaluateInterview(id, evaluationRef.current)
+                      }
+                    >
+                      Send Evaluation
+                    </Button>
+                  </Box>
+                );
+              }
+              if (!hasAnswered) {
+                return (
+                  <Box mt={6} display="flex" justifyContent="center">
                     <Typography
                       variant="h6"
                       color="text.primary"
                       align="center"
                     >
-                      {value}
+                      Interview has been sent! ✈️
                       <Typography
                         variant="body1"
                         color="text.secondary"
                         align="center"
                       >
-                        {answers[key]}
+                        Waiting for student answers...
                       </Typography>
                     </Typography>
                   </Box>
-                </Grid>
-              );
-            })}
-        </Grid>
-        <Box display="flex" justifyContent="center">
-          {((hasAnswered) => {
-            if (hasAnswered) {
-              return (
-                <Box
-                  mt={3}
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="center"
-                  gap={4}
-                  padding={5}
-                >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      evaluateInterview(id, false);
-                    }}
-                  >
-                    Failed
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      evaluateInterview(id, true);
-                    }}
-                  >
-                    Passed
-                  </Button>
-                </Box>
-              );
+                );
+              }
             }
-            if (!hasAnswered) {
-              return (
-                <Box mt={6} display="flex" justifyContent="center">
-                  <Typography variant="h6" color="text.primary" align="center">
-                    Interview has been sent! ✈️
+            if (userType === STUDENT_USER_TYPE) {
+              if (hasAnswered) {
+                return (
+                  <Box mt={6} display="flex" justifyContent="center">
                     <Typography
-                      variant="body1"
-                      color="text.secondary"
+                      variant="h6"
+                      color="text.primary"
                       align="center"
                     >
-                      Waiting for student answers...
+                      Your answers has been sent! ✈️
+                      <Typography
+                        variant="body1"
+                        color="text.secondary"
+                        align="center"
+                      >
+                        Waiting for company evaluation...
+                      </Typography>
                     </Typography>
-                  </Typography>
-                </Box>
-              );
+                  </Box>
+                );
+              } else {
+                return (
+                  <Box mt={6} display="flex" justifyContent="center">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        clickSendAnswers();
+                      }}
+                    >
+                      Send Interview
+                    </Button>
+                  </Box>
+                );
+              }
             }
-            return;
           })(hasAnswered)}
         </Box>
       </Box>

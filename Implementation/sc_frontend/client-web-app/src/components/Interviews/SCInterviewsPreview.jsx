@@ -15,13 +15,8 @@ import { useNavigate } from "react-router-dom";
 
 export const SCInterviewsPreview = () => {
   const navigate = useNavigate();
-  const { interviewsArray, reloadSnapshot } = useInterviewsContext();
-
-  const handleOfferClick = (id) => {
-    reloadSnapshot(id);
-    //NAV to interview detail
-    navigate(`/dashboard/interviews/details/${id}`);
-  };
+  const { interviewsArray, reloadSnapshot, clickOfferPreview } =
+    useInterviewsContext();
 
   return (
     <>
@@ -32,7 +27,7 @@ export const SCInterviewsPreview = () => {
             return (
               <Grid2 item="true" key={item.id.value} xs={12} sm={6} md={4}>
                 <Card
-                  onClick={() => handleOfferClick(item.id.value)}
+                  onClick={() => clickOfferPreview(item.id.value)}
                   sx={{
                     height: "auto",
                     width: 500,
@@ -59,7 +54,15 @@ export const SCInterviewsPreview = () => {
                     </Typography>
                     {Object.entries(item).map((field) => {
                       //NOTE field filter
-                      if (field[0] === "id") return null;
+                      if (
+                        field[0] === "id" ||
+                        field[0] === "hasAnswered" ||
+                        field[0] === "studentID" ||
+                        field[0] === "companyID" ||
+                        field[0] === "interviewQuizID" ||
+                        field[0] === "interviewTemplateID"
+                      )
+                        return null;
                       return (
                         <Typography
                           key={field[0]}
