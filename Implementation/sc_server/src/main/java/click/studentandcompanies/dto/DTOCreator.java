@@ -32,6 +32,7 @@ public class DTOCreator {
         functionMap.put(DTOTypes.INTERVIEW_TEMPLATE, object -> createInterviewTemplateDTO((InterviewTemplate) object));
         functionMap.put(DTOTypes.INTERNSHIP_POS_OFFER, object -> createInternshipPosOfferDTO((InternshipPosOffer) object));
         functionMap.put(DTOTypes.SPONTANEOUS_APPLICATION, object -> createSpontaneousApplicationDTO((SpontaneousApplication) object));
+        functionMap.put(DTOTypes.INTERVIEW_QUIZ, object -> createInterviewQuizDTO((InterviewQuiz) object));
     }
 
     private static DTO createMessageDTO(Message object) {
@@ -42,6 +43,19 @@ public class DTOCreator {
         messageDTO.addProperty("senderName", object.getSenderName());
         messageDTO.addProperty("communicationTitle", object.getCommunication().getTitle());
         return messageDTO;
+    }
+
+    private static DTO createInterviewQuizDTO(InterviewQuiz interviewQuiz) {
+        final DTO interviewQuizDTO = new DTO();
+        interviewQuizDTO.addProperty("id", interviewQuiz.getId());
+        interviewQuizDTO.addProperty("evaluation", interviewQuiz.getEvaluation());
+        interviewQuizDTO.addProperty("answer1", interviewQuiz.getAnswer1());
+        interviewQuizDTO.addProperty("answer2", interviewQuiz.getAnswer2());
+        interviewQuizDTO.addProperty("answer3", interviewQuiz.getAnswer3());
+        interviewQuizDTO.addProperty("answer4", interviewQuiz.getAnswer4());
+        interviewQuizDTO.addProperty("answer5", interviewQuiz.getAnswer5());
+        interviewQuizDTO.addProperty("answer6", interviewQuiz.getAnswer6());
+        return interviewQuizDTO;
     }
 
     private static DTO createUniversityMapDTO(Map<String, Integer> universities) {
@@ -88,8 +102,12 @@ public class DTOCreator {
     private static DTO createInterviewTemplateDTO(InterviewTemplate interviewTemplate){
         final DTO interviewTemplateDTO = new DTO();
         interviewTemplateDTO.addProperty("id", interviewTemplate.getId());
-        interviewTemplateDTO.addProperty("questions", interviewTemplate.getQuestions());
-        interviewTemplateDTO.addProperty("company", interviewTemplate.getCompany().getName());
+        interviewTemplateDTO.addProperty("question1", interviewTemplate.getQuestion1());
+        interviewTemplateDTO.addProperty("question2", interviewTemplate.getQuestion2());
+        interviewTemplateDTO.addProperty("question3", interviewTemplate.getQuestion3());
+        interviewTemplateDTO.addProperty("question4", interviewTemplate.getQuestion4());
+        interviewTemplateDTO.addProperty("question5", interviewTemplate.getQuestion5());
+        interviewTemplateDTO.addProperty("question6", interviewTemplate.getQuestion6());
         return interviewTemplateDTO;
     }
 
@@ -228,6 +246,7 @@ public class DTOCreator {
         interviewDTO.addProperty("status", interview.getStatus().toString());
         if(interview.getSpontaneousApplication() == null) {
             interviewDTO.addProperty("internshipTitle", interview.getRecommendation().getInternshipOffer().getTitle());
+            interviewDTO.addProperty("internshipOfferID", interview.getRecommendation().getInternshipOffer().getId());
             interviewDTO.addProperty("companyName", interview.getRecommendation().getInternshipOffer().getCompany().getName());
             interviewDTO.addProperty("companyID", interview.getRecommendation().getInternshipOffer().getCompany().getId());
             interviewDTO.addProperty("studentName", interview.getRecommendation().getCv().getStudent().getName());
@@ -235,10 +254,22 @@ public class DTOCreator {
         }
         else {
             interviewDTO.addProperty("internshipTitle", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
+            interviewDTO.addProperty("internshipOfferID", interview.getSpontaneousApplication().getInternshipOffer().getId());
             interviewDTO.addProperty("companyName", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getName());
             interviewDTO.addProperty("companyID", interview.getSpontaneousApplication().getInternshipOffer().getCompany().getId());
             interviewDTO.addProperty("studentName", interview.getSpontaneousApplication().getStudent().getName());
             interviewDTO.addProperty("studentID", interview.getSpontaneousApplication().getStudent().getId());
+        }
+        interviewDTO.addProperty("hasAnswered", interview.getHasAnswered());
+        if(interview.getInterviewTemplate()!=null){
+            interviewDTO.addProperty("interviewTemplateID", interview.getInterviewTemplate().getId());
+        }else{
+            interviewDTO.addProperty("interviewTemplateID", null);
+        }
+        if(interview.getInterviewQuiz()!=null) {
+            interviewDTO.addProperty("interviewTemplateQuizID", interview.getInterviewQuiz().getId());
+        }else{
+            interviewDTO.addProperty("interviewTemplateQuizID", null);
         }
         return interviewDTO;
     }

@@ -22,7 +22,12 @@ import { log, focus, debug } from "../../logger/logger";
 
 export default function SCNewCommunication() {
   const navigate = useNavigate();
-  const { internshipPositionOffers } = useCommunicationsContext();
+  const {
+    internshipPositionOffers,
+    setOpenAlert,
+    setAlertMessage,
+    setAlertSeverity,
+  } = useCommunicationsContext();
   const { profile } = useGlobalContext();
   const { type } = useParams();
   const communicationType =
@@ -47,7 +52,7 @@ export default function SCNewCommunication() {
     setErrors((prev) => ({ ...prev, [field]: value === "" }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newErrors = {
       title: formData.title === "",
       content: formData.content === "",
@@ -62,12 +67,25 @@ export default function SCNewCommunication() {
       internshipPosOfferID: formData.selectedOffer.id,
       communicationType: type,
     };
-
     if (!Object.values(newErrors).includes(true)) {
       focus("To be send data:", toBeSentData);
       // navigate("/dashboard/communications");
+      try {
+        const response = await communication.createCommunication(toBeSentData);
+        if (!response.success) {
+          setOpenAlert(true);
+          setAlertSeverity(response.severity);
+          setAlertMessage(response.message);
+        } else {
+          navigate("/dashboard/communications");
+        }
+      } catch (error) {
+        setOpenAlert(true);
+        setAlertSeverity("error");
+        setAlertMessage("Error fetching communications");
+        logger.focus("Error fetching communications", error);
+      }
     }
-    communication.createCommunication(toBeSentData);
   };
 
   return (

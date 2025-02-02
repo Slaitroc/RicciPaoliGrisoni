@@ -37,16 +37,22 @@ public class GetCommunicationMessagesCommand implements CommunicationManagerComm
             Recommendation recommendation = interview.getRecommendation();
             SpontaneousApplication spontaneousApplication = interview.getSpontaneousApplication();
 
-            if(
-                    (recommendation!= null && recommendation.getCv().getStudent().getId().equals(userID)) ||
-                    (spontaneousApplication!= null && spontaneousApplication.getStudent().getId().equals(userID)) ||
-                    (recommendation!=null && recommendation.getCv().getStudent().getUniversity().getId().equals(userID)) ||
-                    (spontaneousApplication!=null && spontaneousApplication.getStudent().getUniversity().getId().equals(userID))
-            ){
-                return messages;
-            }else{
-                throw new UnauthorizedException("User not authorized to access this communication");
+            if(recommendation != null){
+                Student student = recommendation.getCv().getStudent();
+                if(student.getId().equals(userID) || student.getUniversity().getId().equals(userID)){
+                    return messages;
+                } else if (recommendation.getInternshipOffer().getCompany().getId().equals(userID)){
+                    return messages;
+                }
+            }else if(spontaneousApplication != null) {
+                Student student = spontaneousApplication.getStudent();
+                if (student.getId().equals(userID) || student.getUniversity().getId().equals(userID)) {
+                    return messages;
+                } else if (spontaneousApplication.getInternshipOffer().getCompany().getId().equals(userID)) {
+                    return messages;
+                }
             }
+            throw new UnauthorizedException("User not authorized to access this communication");
         }
     }
 }

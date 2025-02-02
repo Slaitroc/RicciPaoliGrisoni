@@ -44,3 +44,32 @@ export const getFormattedSpontaneousApplications = async () => {
     throw error;
   }
 };
+
+export const submitSpontaneousApplication = async (internshipOfferID) => {
+  try {
+    return apiCalls
+      .submitSpontaneousApplication(internshipOfferID)
+      .then((response) => {
+        if (response.status === 201) {
+          return response.json().then((payload) => {
+            focus("Spontaneous application submitted successfully");
+            return {
+              success: true,
+              data: payload.properties,
+              message: "Spontaneous application submitted successfully",
+              severity: "success",
+            };
+          });
+        } else {
+          return {
+            success: false,
+            data: null,
+            message: response.properties.error,
+            severity: "error",
+          };
+        }
+      });
+  } catch (error) {
+    throw error;
+  }
+};

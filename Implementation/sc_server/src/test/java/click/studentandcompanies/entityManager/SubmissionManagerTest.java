@@ -255,38 +255,36 @@ class SubmissionManagerTest extends EntityFactory {
     @Test
     void testSubmitSpontaneousApplication() throws BadInputException, NotFoundException {
         // Success
-        Map<String, Object> payload = new HashMap<>();
-        payload.put("student_id", "10");
-
         Student student = setNewStudent(10, "Alice", setNewUniversity(1, "Uni", "IT"));
         when(userManager.getStudentById("10")).thenReturn(student);
 
         InternshipOffer offer = setNewInternshipOffer(999, setNewCompany(20, "Google", "US"));
         when(internshipOfferRepository.getInternshipOfferById(999)).thenReturn(offer);
+        when(spontaneousApplicationRepository.getSpontaneousApplicationByStudent_IdAndInternshipOffer_Id("10", 999))
+                .thenReturn(null);
 
         SpontaneousApplication savedApp = new SpontaneousApplication(student, offer, SpontaneousApplicationStatusEnum.toBeEvaluated);
         when(spontaneousApplicationRepository.save(any(SpontaneousApplication.class))).thenReturn(savedApp);
 
-        SpontaneousApplication result = submissionManager.submitSpontaneousApplication(payload, 999);
+        SpontaneousApplication result = submissionManager.submitSpontaneousApplication(999, "10");
         assertNotNull(result);
+
+        // Invalid student_id
+//        assertThrows(NotFoundException.class, () ->
+//                submissionManager.submitSpontaneousApplication(999, "99")
+//        );
+
+        // Student not found
+        when(spontaneousApplicationRepository.getSpontaneousApplicationByStudent_IdAndInternshipOffer_Id("10", 999))
+                .thenReturn( List.of(savedApp));
+        assertThrows(WrongStateException.class, () ->
+                submissionManager.submitSpontaneousApplication(999, "10")
+        );
 
         // Internship not found
         when(internshipOfferRepository.getInternshipOfferById(999)).thenReturn(null);
         assertThrows(NotFoundException.class, () ->
-                submissionManager.submitSpontaneousApplication(payload, 999)
-        );
-
-        // Missing student_id
-        Map<String, Object> noStudent = new HashMap<>();
-        assertThrows(NotFoundException.class, () ->
-                submissionManager.submitSpontaneousApplication(noStudent, 999)
-        );
-
-        // Student not found
-        when(internshipOfferRepository.getInternshipOfferById(999)).thenReturn(offer);
-        when(userManager.getStudentById("10")).thenReturn(null);
-        assertThrows(BadInputException.class, () ->
-                submissionManager.submitSpontaneousApplication(payload, 999)
+                submissionManager.submitSpontaneousApplication(999, "10")
         );
     }
 

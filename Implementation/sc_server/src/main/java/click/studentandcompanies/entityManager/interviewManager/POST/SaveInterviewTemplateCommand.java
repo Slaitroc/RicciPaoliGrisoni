@@ -44,7 +44,7 @@ public class SaveInterviewTemplateCommand implements InterviewManagerCommand<Int
             System.out.println("Company not found");
             throw new NotFoundException("Company not found");
         }
-        InterviewTemplate interviewTemplate = InterviewManager.createInterviewTemplate(payload, company);
-        return interviewTemplateRepository.save(interviewTemplate);
+        //InterviewTemplate interviewTemplate = InterviewManager.createInterviewTemplate(payload, company);
+        return null;
     }
 }

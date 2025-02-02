@@ -58,8 +58,8 @@ public class SubmissionManager {
         return new GetSpontaneousApplicationsByParticipantCommand(spontaneousApplicationRepository, userManager, studentID).execute();
     }
 
-    public SpontaneousApplication submitSpontaneousApplication(Map<String, Object> payload, int internshipOfferID) throws BadInputException, NotFoundException {
-        return new SubmitSpontaneousApplicationCommand(payload, userManager, spontaneousApplicationRepository, internshipOfferRepository, internshipOfferID).execute();
+    public SpontaneousApplication submitSpontaneousApplication(int internshipOfferID, String student_id) throws BadInputException, NotFoundException {
+        return new SubmitSpontaneousApplicationCommand(userManager, spontaneousApplicationRepository, internshipOfferRepository, student_id, internshipOfferID).execute();
     }
 
     @Transactional

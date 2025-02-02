@@ -1,6 +1,8 @@
 package click.studentandcompanies.entityManager.interviewManager.POST;
 
 import click.studentandcompanies.entity.InternshipPosOffer;
+import click.studentandcompanies.entity.Recommendation;
+import click.studentandcompanies.entity.SpontaneousApplication;
 import click.studentandcompanies.entity.dbEnum.InternshipPosOfferStatusEnum;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManagerCommand;
@@ -11,6 +13,7 @@ import click.studentandcompanies.utils.exception.NotFoundException;
 import click.studentandcompanies.utils.exception.UnauthorizedException;
 import click.studentandcompanies.utils.exception.WrongStateException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -46,11 +49,21 @@ public class AcceptInternshipPositionOfferCommand implements InterviewManagerCom
         }else if(type != UserType.STUDENT){
             throw new UnauthorizedException("Only students can accept internship position offers");
         }
-        List<InternshipPosOffer> internshipPosOffers = internshipPosOfferRepository.findAll();
-        if(internshipPosOffers.stream().map(InternshipPosOffer::getStatus).toList().contains(InternshipPosOfferStatusEnum.accepted)){
-            throw new WrongStateException("Another internship position offer has already been accepted");
+        List<InternshipPosOffer> allInternshipPosOffers = internshipPosOfferRepository.findAll();
+        List<InternshipPosOffer> studentInternshipPosOffers = new ArrayList<>();
+        for(InternshipPosOffer internshipPosOffer : allInternshipPosOffers){
+            Recommendation recommendationOfIntPosOff = internshipPosOffer.getInterview().getRecommendation();
+            SpontaneousApplication spontaneousApplicationOfIntPosOff = internshipPosOffer.getInterview().getSpontaneousApplication();
+            if(recommendationOfIntPosOff != null && recommendationOfIntPosOff.getCv().getStudent().getId().equals(payload.get("student_id"))){
+                studentInternshipPosOffers.add(internshipPosOffer);
+            }else if(spontaneousApplicationOfIntPosOff != null && spontaneousApplicationOfIntPosOff.getStudent().getId().equals(payload.get("student_id"))) {
+                studentInternshipPosOffers.add(internshipPosOffer);
+            }
         }
-        InternshipPosOffer internshipPosOffer = internshipPosOffers.stream().filter(intPosOff -> Objects.equals(intPosOff.getId(), intPosOffID)).findFirst().orElse(null);
+        if (studentInternshipPosOffers.stream().map(InternshipPosOffer::getStatus).anyMatch(status -> status == InternshipPosOfferStatusEnum.accepted)) {
+            throw new WrongStateException("Student already accepted an internship position offer");
+        }
+        InternshipPosOffer internshipPosOffer = allInternshipPosOffers.stream().filter(intPosOff -> Objects.equals(intPosOff.getId(), intPosOffID)).findFirst().orElse(null);
         return checkSelectedIntPosOffStatus(internshipPosOffer);
     }
 

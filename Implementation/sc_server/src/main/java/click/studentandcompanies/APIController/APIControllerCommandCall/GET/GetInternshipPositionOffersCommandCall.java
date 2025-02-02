@@ -19,19 +19,19 @@ import java.util.List;
 public class GetInternshipPositionOffersCommandCall implements APIControllerCommandCall<ResponseEntity<List<DTO>>> {
 
     private final InterviewManager interviewManager;
-    private final String studentID;
+    private final String userID;
 
-    public GetInternshipPositionOffersCommandCall(InterviewManager interviewManager, String studentID) {
+    public GetInternshipPositionOffersCommandCall(InterviewManager interviewManager, String userID) {
         this.interviewManager = interviewManager;
-        this.studentID = studentID;
+        this.userID = userID;
     }
 
     @Override
     public ResponseEntity<List<DTO>> execute() {
         try{
-            List<InternshipPosOffer> internshipPosOffers = interviewManager.getInterviewPosOffersOfStudent(studentID);
+            List<InternshipPosOffer> internshipPosOffers = interviewManager.getInterviewPosOffersOfUser(userID);
             if(internshipPosOffers.isEmpty()){
-                throw new NotFoundException("No internship position offers found for this student");
+                throw new NotFoundException("No internship position offers found for this user");
             }
             List<DTO> DTOIntPosOff = new ArrayList<>();
             for(InternshipPosOffer internshipPosOffer : internshipPosOffers){

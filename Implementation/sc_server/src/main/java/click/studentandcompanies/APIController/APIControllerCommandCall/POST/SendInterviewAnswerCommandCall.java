@@ -5,9 +5,9 @@ import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.Interview;
-import click.studentandcompanies.notificationSystem.NotificationManager;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
 import click.studentandcompanies.notificationSystem.NotificationController;
+import click.studentandcompanies.notificationSystem.NotificationManager;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationData;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationTriggerType;
 import click.studentandcompanies.utils.exception.BadInputException;
@@ -38,19 +38,25 @@ public class SendInterviewAnswerCommandCall implements APIControllerCommandCall<
         try {
             Interview interview = interviewManager.sendInterviewAnswer(interviewID, payload);
 
-            List<String> companyID = new ArrayList<>();
-            if(interview.getSpontaneousApplication() != null) companyID.add(interview.getSpontaneousApplication().getInternshipOffer().getCompany().getId());
-            else companyID.add(interview.getRecommendation().getInternshipOffer().getCompany().getId());
+            String companyID;
+            if (interview.getSpontaneousApplication() != null) {
+                companyID = interview.getSpontaneousApplication().getInternshipOffer().getCompany().getId();
+            } else {
+                companyID = interview.getRecommendation().getInternshipOffer().getCompany().getId();
+            }
             DTO dto = DTOCreator.createDTO(DTOTypes.INTERVIEW, interview);
 
             NotificationData data = new NotificationData(NotificationTriggerType.INTERVIEW_ANSWER_SENT, dto);
-            new NotificationController(notificationManager).sendAndSaveNotification(companyID, data);
+            new NotificationController(notificationManager).sendAndSaveNotification(List.of(companyID), data);
 
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
-        } catch (BadInputException e) {
+        } catch (BadInputException | WrongThreadException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (NotFoundException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

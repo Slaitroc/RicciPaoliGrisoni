@@ -14,7 +14,6 @@ import { v4 as uuidv4 } from "uuid";
 import { useGlobalContext } from "../../global/GlobalContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useInternshipOffersContext } from "./InternshipOffersContext";
-import * as logger from "../../logger/logger";
 
 export default function SCIntOffers({ offerData }) {
   const navigate = useNavigate();

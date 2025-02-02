@@ -1,5 +1,5 @@
 import * as apiCalls from "../../apiCalls";
-import * as logger from "../../../logger/logger";
+import { log, focus, debug } from "../../../logger/logger";
 import * as wrapperUtils from "../wrapperUtils";
 
 export const getInternshipOffers = async () => {
@@ -10,7 +10,7 @@ export const getCompanyInternships = async (companyID) => {
   return apiCalls.getCompanyInternships(companyID);
 };
 
-export const getSpecificOffer = async (offerID) => {
+export const getCardOffer = async (offerID) => {
   try {
     return apiCalls.getSpecificOffer(offerID).then((response) => {
       if (response.status === 404) {
@@ -39,6 +39,64 @@ export const getSpecificOffer = async (offerID) => {
               numberPositions: properties.numberPositions,
               requiredSkills: properties.requiredSkills,
             },
+            message: "Internship offer fetched successfully",
+            severity: "success",
+          };
+        });
+      }
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getSpecificOffer = async (offerID) => {
+  try {
+    return apiCalls.getSpecificOffer(offerID).then((response) => {
+      if (response.status === 404) {
+        return {
+          success: false,
+          data: null,
+          message: response.properties.error,
+          severity: "error",
+        };
+      } else {
+        return response.json().then((payload) => {
+          // Definizione delle mappe per etichette e tipi (come già fatto per l'array)
+          const fieldMap = new Map();
+          const fieldTypeMap = new Map();
+
+          fieldMap.set("id", "Internship ID");
+          fieldMap.set("companyID", "Company ID");
+          fieldMap.set("companyName", "Company Name");
+          fieldMap.set("title", "Title");
+          fieldTypeMap.set("title", "string");
+          fieldMap.set("startDate", "Start Date");
+          fieldTypeMap.set("startDate", "date");
+          fieldMap.set("endDate", "End Date");
+          fieldTypeMap.set("endDate", "date");
+          fieldMap.set("duration", "Duration");
+          fieldTypeMap.set("duration", "int");
+          fieldMap.set("numberPositions", "Number of Positions");
+          fieldTypeMap.set("numberPositions", "int");
+          fieldMap.set("location", "Location");
+          fieldMap.set("description", "Description");
+          fieldMap.set("requiredSkills", "Required Skills");
+          fieldMap.set("compensation", "Compensation");
+          fieldTypeMap.set("compensation", "int");
+          fieldMap.set("updateTime", "Last Update");
+          fieldTypeMap.set("updateTime", "date-time");
+
+          // Formattiamo l'offerta utilizzando la funzione definita sopra
+          const formattedOffer = wrapperUtils.formatLabeledObjectContent(
+            fieldMap,
+            fieldTypeMap,
+            payload
+          );
+
+          return {
+            success: true,
+            data: formattedOffer,
             message: "Internship offer fetched successfully",
             severity: "success",
           };
@@ -114,7 +172,7 @@ export const getFormattedCompanyInternships = async (companyID) => {
 export const getFormattedInternships = async () => {
   try {
     return apiCalls.getInternshipOffers().then((response) => {
-      logger.focus("getFormattedInternships status: ", response);
+      debug("getFormattedInternships status: ", response);
       if (response.status === 204) {
         return {
           success: false,
@@ -145,7 +203,7 @@ export const sendUpdateMyOffer = async (offerData) => {
       payload[key] = offerData[key].value;
     }
   }
-  logger.focus("PRESEND DATA ", payload);
+  focus("PRESEND DATA ", payload);
   return apiCalls.updateOffer(payload).then((response) => {
     if (response.status === 201) {
       return response.json().then((payload) => {

@@ -167,7 +167,7 @@ export const SCEditCv = () => {
             color="primary"
             onClick={clickUpdateCvData}
           >
-            Salva Modifiche
+            Save Changes
           </Button>
         </Box>
       </Box>

@@ -2,6 +2,7 @@ package click.studentandcompanies.entity;
 
 import click.studentandcompanies.entity.dbEnum.InterviewStatusEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "interview")
@@ -12,13 +13,6 @@ public class Interview {
     private Integer id;
 
     @Lob
-    @Column(name = "answer", columnDefinition = "TEXT")
-    private String answer;
-
-    @Column(name="evaluation")
-    private Integer evaluation;
-
-    @Lob
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private InterviewStatusEnum status;
@@ -26,10 +20,6 @@ public class Interview {
     @OneToOne
     @JoinColumn(name = "internship_pos_offer_id")
     private InternshipPosOffer internshipPosOffer;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "interview_template_id", nullable = true)
-    private InterviewTemplate interviewTemplate;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recommendation_id")
@@ -39,6 +29,41 @@ public class Interview {
     @JoinColumn(name = "spontaneous_application_id")
     private SpontaneousApplication spontaneousApplication;
 
+    @NotNull
+    @Column(name = "has_answered", nullable = false)
+    private Boolean hasAnswered;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "interview_template_id")
+    private InterviewTemplate interviewTemplate;
+
+    @OneToOne
+    @JoinColumn(name = "interview_quiz_id")
+    private InterviewQuiz interviewQuiz;
+
+    public InterviewQuiz getInterviewQuiz() {
+        return interviewQuiz;
+    }
+
+    public void setInterviewQuiz(InterviewQuiz interviewQuiz) {
+        this.interviewQuiz = interviewQuiz;
+    }
+
+    public InterviewTemplate getInterviewTemplate() {
+        return interviewTemplate;
+    }
+
+    public void setInterviewTemplate(InterviewTemplate interviewTemplate) {
+        this.interviewTemplate = interviewTemplate;
+    }
+
+    public Boolean getHasAnswered() {
+        return hasAnswered;
+    }
+
+    public void setHasAnswered(Boolean hasAnswered) {
+        this.hasAnswered = hasAnswered;
+    }
 
     public Interview() {
         //empty constructor required by JPA
@@ -48,14 +73,7 @@ public class Interview {
         this.status = status;
         this.recommendation = recommendation;
         this.spontaneousApplication = spontaneousApplication;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
+        this.hasAnswered = false;
     }
 
 
@@ -65,14 +83,6 @@ public class Interview {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public InterviewTemplate getInterviewTemplate() {
-        return interviewTemplate;
-    }
-
-    public void setInterviewTemplate(InterviewTemplate interviewTemplate) {
-        this.interviewTemplate = interviewTemplate;
     }
 
     public Recommendation getRecommendation() {
@@ -107,12 +117,5 @@ public class Interview {
         this.status = status;
     }
 
-    public void setEvaluation(Integer evaluation) {
-        this.evaluation = evaluation;
-    }
-
-    public Integer getEvaluation() {
-        return evaluation;
-    }
 
 }
