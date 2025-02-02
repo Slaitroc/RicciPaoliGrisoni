@@ -1,8 +1,6 @@
 package click.studentandcompanies.entityManager.interviewManager.GET;
 
-import click.studentandcompanies.entity.Interview;
-import click.studentandcompanies.entity.InterviewQuiz;
-import click.studentandcompanies.entity.InterviewTemplate;
+import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManagerCommand;
@@ -42,9 +40,27 @@ public class GetInterviewQuizCommand implements InterviewManagerCommand<Intervie
             throw new NotFoundException("Interview quiz not found");
         }
         List<Interview> interviews = interviewRepository.findAll();
-        if(interviews.stream().map(Interview::getInterviewQuiz).noneMatch(interviewQuiz::equals)){
-            throw new UnauthorizedException("User is not authorized to access this interview quiz");
+        if(userType == UserType.COMPANY){
+            for(Interview i : interviews){
+                Recommendation recommendation = i.getRecommendation();
+                SpontaneousApplication spontaneousApplication = i.getSpontaneousApplication();
+                if(recommendation != null && recommendation.getInternshipOffer().getCompany().getId().equals(userID)){
+                    return interviewQuiz;
+                }else if(spontaneousApplication != null && spontaneousApplication.getInternshipOffer().getCompany().getId().equals(userID)){
+                    return interviewQuiz;
+                }
+            }
+        }else{
+            for(Interview i : interviews){
+                Recommendation recommendation = i.getRecommendation();
+                SpontaneousApplication spontaneousApplication = i.getSpontaneousApplication();
+                if(recommendation != null && recommendation.getCv().getStudent().getId().equals(userID)){
+                    return interviewQuiz;
+                }else if(spontaneousApplication != null && spontaneousApplication.getStudent().getId().equals(userID)){
+                    return interviewQuiz;
+                }
+            }
         }
-        return interviewQuiz;
+        throw new UnauthorizedException("User not authorized to access this interview quiz");
     }
 }

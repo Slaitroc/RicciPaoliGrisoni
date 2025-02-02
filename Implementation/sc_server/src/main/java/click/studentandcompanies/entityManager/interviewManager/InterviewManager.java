@@ -100,7 +100,7 @@ public class InterviewManager {
     }
 
     public InterviewTemplate getInterviewTemplate(int templateID, String userID) throws NotFoundException, BadInputException {
-        return new GetInterviewTemplateCommand(templateID, userID, interviewTemplateRepository, userManager).execute();
+        return new GetInterviewTemplateCommand(templateID, userID, interviewTemplateRepository, userManager, interviewRepository ).execute();
     }
 
     public InterviewQuiz getInterviewQuiz(int interviewID, String userID) throws NotFoundException, BadInputException, UnauthorizedException {
