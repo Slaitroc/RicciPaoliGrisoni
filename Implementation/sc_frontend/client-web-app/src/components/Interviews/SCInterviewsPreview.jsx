@@ -17,7 +17,6 @@ import { useGlobalContext } from "../../global/GlobalContext";
 
 export const SCInterviewsPreview = () => {
   const navigate = useNavigate();
-  const { setLoading } = useGlobalContext();
   const {
     interviewsArray,
     setInterviewsArray,
