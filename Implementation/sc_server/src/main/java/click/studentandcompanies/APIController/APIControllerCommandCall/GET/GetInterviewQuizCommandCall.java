@@ -15,18 +15,18 @@ import org.springframework.http.ResponseEntity;
 public class GetInterviewQuizCommandCall implements APIControllerCommandCall<ResponseEntity<DTO>> {
     private final InterviewManager interviewManager;
     private final Integer interviewId;
-    private final String companyID;
+    private final String userID;
 
-    public GetInterviewQuizCommandCall(InterviewManager interviewManager, Integer interviewId, String companyID) {
+    public GetInterviewQuizCommandCall(InterviewManager interviewManager, Integer interviewId, String userID) {
         this.interviewManager = interviewManager;
         this.interviewId = interviewId;
-        this.companyID = companyID;
+        this.userID = userID;
     }
 
     @Override
     public ResponseEntity<DTO> execute() {
         try{
-            InterviewQuiz interviewQuiz = interviewManager.getInterviewQuiz(interviewId, companyID);
+            InterviewQuiz interviewQuiz = interviewManager.getInterviewQuiz(interviewId, userID);
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.INTERVIEW_QUIZ, interviewQuiz), HttpStatus.OK);
         }catch(NotFoundException e){
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);

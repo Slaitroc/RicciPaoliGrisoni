@@ -56,7 +56,7 @@ const SCApplication = ({ item, onClose, profile }) => {
     } else {
       offer.getSpecificOffer(item.internshipOfferID).then((response) => {
         setOtherPair(response.data);
-        //logger.debug("Offer", response.data);
+        logger.debug("Offer", response.data);
       });
     }
   }, []);
@@ -247,11 +247,11 @@ const detailsSeeByCompany = (otherPair) => {
 const detailsSeeByStudent = (otherPair) => {
   return (
     <>
-      {renderDetail("Company Name", otherPair.companyName)}
-      {renderDetail("Required skills", otherPair.requiredSkills)}
-      {renderDetail("Location", otherPair.location)}
-      {renderDetail("Duration", otherPair.duration)}
-      {renderDetail("Compensation", otherPair.compensation)}
+      {renderDetail("Company Name", otherPair.companyName.value)}
+      {renderDetail("Required skills", otherPair.requiredSkills.value)}
+      {renderDetail("Location", otherPair.location.value)}
+      {renderDetail("Duration", otherPair.duration.value)}
+      {renderDetail("Compensation", otherPair.compensation.value)}
     </>
   );
 };
