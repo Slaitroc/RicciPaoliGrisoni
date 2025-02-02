@@ -44,6 +44,9 @@ public class SendInterviewAnswerCommand implements SubmissionManagerCommand<Inte
         if(!hasAllAnswer(payload)){
             throw new BadInputException("Missing answer");
         }
+        if(interview.getInterviewQuiz() != null){
+            throw new BadInputException("Already answered");
+        }
         InterviewQuiz interviewQuiz = createInterviewQuiz(interview, payload);
         interview.setInterviewQuiz(interviewQuiz);
         interview.setHasAnswered(true);

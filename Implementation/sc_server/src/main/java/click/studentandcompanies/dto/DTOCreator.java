@@ -103,13 +103,13 @@ public class DTOCreator {
     }
     private static DTO createInterviewTemplateDTO(InterviewTemplate interviewTemplate){
         final DTO interviewTemplateDTO = new DTO();
-        interviewTemplateDTO.addProperty("id", interviewTemplate.getId());
-        interviewTemplateDTO.addProperty("question1", interviewTemplate.getQuestion1());
-        interviewTemplateDTO.addProperty("question2", interviewTemplate.getQuestion2());
-        interviewTemplateDTO.addProperty("question3", interviewTemplate.getQuestion3());
-        interviewTemplateDTO.addProperty("question4", interviewTemplate.getQuestion4());
-        interviewTemplateDTO.addProperty("question5", interviewTemplate.getQuestion5());
         interviewTemplateDTO.addProperty("question6", interviewTemplate.getQuestion6());
+        interviewTemplateDTO.addProperty("question5", interviewTemplate.getQuestion5());
+        interviewTemplateDTO.addProperty("question4", interviewTemplate.getQuestion4());
+        interviewTemplateDTO.addProperty("question3", interviewTemplate.getQuestion3());
+        interviewTemplateDTO.addProperty("question2", interviewTemplate.getQuestion2());
+        interviewTemplateDTO.addProperty("question1", interviewTemplate.getQuestion1());
+        interviewTemplateDTO.addProperty("id", interviewTemplate.getId());
         return interviewTemplateDTO;
     }
 

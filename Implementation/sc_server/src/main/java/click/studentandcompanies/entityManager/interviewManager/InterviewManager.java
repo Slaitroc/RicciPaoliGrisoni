@@ -68,7 +68,7 @@ public class InterviewManager {
     }
 
     public Interview evaluateInterview(int interviewID, Map<String, Object> payload) throws NotFoundException, BadInputException {
-        return new EvaluateInterviewCall(interviewID, payload, interviewRepository, interviewQuizRepository, internshipPosOfferRepository).execute();
+        return new EvaluateInterviewCall(interviewID, payload, interviewRepository, interviewQuizRepository, internshipPosOfferRepository, userManager).execute();
     }
 
     public InternshipPosOffer sendInterviewPositionOffer(int interviewID, Map<String, Object> payload) throws NotFoundException, BadInputException {
@@ -103,7 +103,7 @@ public class InterviewManager {
         return new GetInterviewTemplateCommand(templateID, userID, interviewTemplateRepository, userManager, interviewRepository ).execute();
     }
 
-    public InterviewQuiz getInterviewQuiz(int interviewID, String userID) throws NotFoundException, BadInputException, UnauthorizedException {
-        return new GetInterviewQuizCommand(interviewID, userID, interviewRepository, userManager).execute();
+    public InterviewQuiz getInterviewQuiz(int quizID, String userID) throws NotFoundException, BadInputException, UnauthorizedException {
+        return new GetInterviewQuizCommand(quizID, userID, interviewRepository, interviewQuizRepository, userManager).execute();
     }
 }
