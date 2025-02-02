@@ -311,6 +311,20 @@ export const getCommunicationMessages = async (communicationID) => {
   );
 };
 
+export const getMatchNoInterview = async () => {
+  const token = await getToken();
+  return fetchWrapper(
+    "/application-api/interview/private/get-match-not-interviewed",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
 export const createCommunication = async (communication) => {
   const token = await getToken();
   return fetchWrapper("/application-api/comm/private/create-comm", {

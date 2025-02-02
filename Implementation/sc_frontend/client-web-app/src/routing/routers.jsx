@@ -58,6 +58,8 @@ import SCInterview from "../components/Interviews/SCIntreview";
 import InterviewPosOffer from "../pages/InterviewPosOffer";
 import { SCInterviewCheck } from "../components/Interviews/SCInterviewCheck";
 import { SCInterviewAnswer } from "../components/Interviews/SCInterviewAnswer";
+import InterviewTemplate from "../pages/InterviewTemplate";
+import InterviewTemplatePreview from "../components/InterviewTemplate/InterviewTemplatePreview";
 
 //NAV Router Configurations
 
@@ -268,7 +270,6 @@ const router = createBrowserRouter(
                 },
               ],
             },
-            //todo this should be called internship positions offers
             {
               path: "internship-positions-offers",
               element: (
@@ -286,6 +287,20 @@ const router = createBrowserRouter(
                 {
                   path: "details/:id",
                   element: <IntPosOffer />,
+                },
+              ],
+            },
+            {
+              path: "internship-offers-template",
+              element: (
+                <UserTypeRouteProtector allowedTypes={[COMPANY_USER_TYPE]}>
+                  <InterviewTemplate />
+                </UserTypeRouteProtector>
+              ),
+              children: [
+                {
+                  path: "",
+                  element: <InterviewTemplatePreview />,
                 },
               ],
             },

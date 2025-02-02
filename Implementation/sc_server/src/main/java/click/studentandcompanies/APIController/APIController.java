@@ -548,7 +548,8 @@ public class APIController {
                 .execute();
     }
 
-    //todo
+    //ACTUALLY, THIS IS NOT IMPLEMENTED YET, DO NOT USE!
+    @Deprecated
     @PostMapping("/interview/private/{InterviewID}/save-template")
     @Operation(summary = "Save interview template", description = "payload will contain the 'questions' and the 'company_id'")
     @ApiResponses({
