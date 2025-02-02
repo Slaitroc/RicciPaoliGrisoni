@@ -26,117 +26,164 @@ export const useInterviewsContext = () => {
 export const InterviewsProvider = ({ children }) => {
   const { profile } = useGlobalContext();
   const { id } = useParams();
-  const newOfferRef = useRef({});
+  const newInterviewRef = useRef({});
+  const interviewID = useRef(null);
 
-  const [offersArray, setOffersArray] = useState([]);
-  const [offerDataSnapshot, setOfferDataSnapshot] = useState(null);
+  const [interviewsArray, setInterviewsArray] = useState([]);
+  const [interviewDataSnapshot, setInterviewDataSnapshot] = useState(null);
   const [openAlert, setOpenAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("success");
+  const [alertCloseTriggered, setAlertCloseTriggered] = useState(false);
 
   const [forceRender, setForceRender] = useState(0);
 
-  //DEBUG
-  useEffect(() => {
-    logger.focus("OFFER-ARRAY", offersArray);
-    logger.focus("SNAPSHOT", offerDataSnapshot);
-    logger.focus("REF", id, newOfferRef?.current);
-  }, [offersArray, offerDataSnapshot, forceRender]);
+  // //DEBUG
+  // useEffect(() => {
+  //   logger.focus("INTERVIEW-ARRAY", interviewsArray);
+  //   logger.focus("SNAPSHOT", interviewDataSnapshot);
+  //   logger.focus("REF", id, newInterviewRef?.current);
+  // }, [interviewsArray, interviewDataSnapshot, forceRender]);
 
-  const updateInterview = (id, data) => {
-    // interview.sendUpdateMyOffer(data);
-    // setOffersArray((prev) => {
-    //   return prev.map((item) => {
-    //     if (item.id === id) {
-    //       return { ...item, ...data };
-    //     }
-    //     return item;
-    //   });
-    // });
-    reloadSnapshot(id);
+  const closeAlertWithDelay = () => {
+    //logger.debug("Closing alert with delay", alertCloseTriggered);
+    // if (!alertCloseTriggered) {
+    //   setAlertCloseTriggered(true);
+    //   setTimeout(() => {
+    //     setOpenAlert(false);
+    //     setAlertMessage("");
+    //     setAlertSeverity("success");
+    //     setAlertCloseTriggered(false);
+    //   }, 5000);
+    // }
   };
 
+  const openAlertProc = (message, severity) => {
+    logger.debug("Opening alert with message: ", openAlert);
+    setAlertSeverity(severity);
+    setAlertMessage(message);
+    setOpenAlert(true);
+  };
+
+  /**
+   * Sends the interview questions to the backend that will create a template with the questions and associate it with the interview.
+   * An interview with associated questions is automatically sent to the student, means has a state "Submitted"
+   * @param {string} id
+   * @param {string[]} data
+   */
+  const sendInterview = async (id, data) => {
+    logger.focus("Creating interview with ID: ", interviewID.current);
+    logger.focus("Creating interview with data: ", data);
+    const response = await interview.sendInterviewQuestions(
+      interviewID.current,
+      data
+    );
+    if (response.success === true) {
+      await fetchedData(); // Reload the interviewsArray
+      reloadSnapshot(response.data.id); // Reload the snapshot of the created interview (Update the status: "Submitted")
+      setAlertSeverity(response.severity);
+      setAlertMessage(response.message);
+      openAlertProc(); // Ensure alert is opened after setting message and severity
+      closeAlertWithDelay();
+      navigate(`/dashboard/interviews/details/${response.data.id}`);
+    } else {
+      setAlertSeverity(response.severity);
+      setAlertMessage(response.message);
+      openAlertProc(); // Ensure alert is opened after setting message and severity
+    }
+  };
+  /**
+   * Send the company evaluation to the student answers
+   * @param {string} id
+   * @param {int} evaluation
+   */
+  const evaluateInterview = async (id, evaluation) => {
+    //TODO
+    logger.log("Interview evaluation", evaluation);
+  };
+
+  /**
+   * Reloads the snapshot of the interview from the {@link interviewsArray}
+   *  */
   const reloadSnapshot = (OfferID) => {
-    const snapshot = offersArray.reduce((acc, item) => {
+    const snapshot = interviewsArray.reduce((acc, item) => {
       if (item.id.value == OfferID) return { ...acc, ...item };
       return acc;
     }, {});
     if (Object.keys(snapshot).length === 0) {
-      setOpenAlert(true);
-      setAlertSeverity("error");
-      setAlertMessage("Offer not found");
+      openAlertProc("Offer not Found --> this alert may be buggy", "error");
     } else {
-      setOpenAlert(false);
-      setOfferDataSnapshot(snapshot);
+      closeAlertWithDelay();
+      setInterviewDataSnapshot(snapshot);
     }
   };
 
-  useEffect(() => {
-    const fetchedData = async () => {
-      if (profile.userType != "COMPANY") {
-        setOpenAlert(true);
-        setAlertSeverity("error");
-        setAlertMessage("User is not a company");
-        console.log("User is not a company");
-        return;
+  /**
+   *
+   * @returns {Promise<Response>} Fetches the interviews data from the backend and sets the {@link interviewsArray}
+   */
+  const fetchedData = async () => {
+    return await interview.getFormattedInterviews().then((response) => {
+      if (response.success === false) {
+        logger.debug(response);
+        setAlertSeverity(response.severity);
+        setAlertMessage(response.message);
+        openAlertProc(); // Ensure alert is opened after setting message and severity
       } else {
-        // return await interview
-        //   .getFormattedCompanyInternships(profile.userID)
-        //   .then((response) => {
-        //     if (response.success === false) {
-        //       setOpenAlert(true);
-        //       setAlertSeverity(response.severity);
-        //       setAlertMessage(response.message);
-        //     } else {
-        //       setOffersArray(response.data);
-        //       setOpenAlert(false);
-        //     }
-        //   });
+        closeAlertWithDelay();
+        setInterviewsArray(response.data);
       }
-    };
+    });
+  };
 
+  useEffect(() => {
     fetchedData();
   }, []);
 
+  //obtains the snapshot of the offer data from the id url parameter
   useEffect(() => {
     if (id === undefined || id === null || id === "") {
       return;
     }
-    if (offersArray.length === 0) {
+    if (interviewsArray.length === 0) {
       return;
     }
-    const snapshot = offersArray.reduce((acc, item) => {
+    const snapshot = interviewsArray.reduce((acc, item) => {
       if (item.id.value == id) return { ...acc, ...item };
       return acc;
     }, {});
     if (Object.keys(snapshot).length === 0) {
-      setOpenAlert(true);
+      openAlertProc();
       setAlertSeverity("error");
       setAlertMessage("Offer not found");
     } else {
-      setOpenAlert(false);
-      setOfferDataSnapshot(snapshot);
-      newOfferRef.current = snapshot;
+      closeAlertWithDelay();
+      setInterviewDataSnapshot(snapshot);
+      newInterviewRef.current = snapshot;
     }
-  }, [id, offersArray]);
+  }, [id, interviewsArray]);
 
   const value = {
-    offersArray,
+    interviewsArray,
     openAlert,
-    offerDataSnapshot,
-    setOfferDataSnapshot,
-    updateInterview,
+    interviewDataSnapshot,
+    interviewID,
+    newInterviewRef,
     reloadSnapshot,
-    newOfferRef,
+    setInterviewDataSnapshot,
     setForceRender,
+    sendInterview,
+    openAlertProc,
+    closeAlertWithDelay,
+    evaluateInterview,
   };
 
   return (
     <InterviewsContext.Provider value={value}>
       {openAlert && (
-        <>
-          <Alert severity={alertSeverity}>{alertMessage}</Alert>
-        </>
+        <Alert onClose={() => setOpenAlert(false)} severity={alertSeverity}>
+          {alertMessage}
+        </Alert>
       )}
       {children}
     </InterviewsContext.Provider>
