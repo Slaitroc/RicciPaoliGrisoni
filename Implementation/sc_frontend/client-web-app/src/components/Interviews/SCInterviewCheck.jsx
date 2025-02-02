@@ -147,6 +147,15 @@ export const SCInterviewCheck = () => {
     answer6: "Answer 6",
   };
 
+  const mapQuestionAnswer = {
+    question1: "answer1",
+    question2: "answer2",
+    question3: "answer3",
+    question4: "answer4",
+    question5: "answer5",
+    question6: "answer6",
+  };
+
   const sendInterview = async () => {
     try {
       const response = await interview.sendInterviewQuestions(
@@ -213,9 +222,13 @@ export const SCInterviewCheck = () => {
                             variant="outlined"
                             placeholder={"Type your answer..."}
                             id={`${key}`}
-                            // onBlur={(e) =>
-                            //   // handleFieldAnswerChange(answerRef.current, e.target.value) //DANGER
-                            // }
+                            onBlur={
+                              (e) =>
+                                handleFieldAnswerChange(
+                                  mapQuestionAnswer.value,
+                                  e.target.value
+                                ) //DANGER
+                            }
                             sx={{
                               flexGrow: 1,
                               "& .MuiOutlinedInput-root": {
