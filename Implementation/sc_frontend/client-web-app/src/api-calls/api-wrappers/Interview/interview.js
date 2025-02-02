@@ -56,9 +56,9 @@ export const getFormattedInterviewsOld = async () => {
 export const getFormattedInterviews = async () => {
   return apiCalls
     .getMyInterviews()
-    .then((response) => {
+    .then(async (response) => {
       if (response.status === 200) {
-        return response.json().then((payload) => {
+        return response.json().then(async (payload) => {
           const fieldMap = new Map();
           fieldMap.set("status", "Status");
           fieldMap.set("hasAnswered", "Answered By Student");
@@ -73,7 +73,7 @@ export const getFormattedInterviews = async () => {
           fieldMap.set("interviewTemplateID", "Interview Template ID");
           return {
             success: true,
-            data: wrapperUtils.formatLabeledArrayContent(
+            data: await wrapperUtils.formatLabeledArrayContent(
               fieldMap,
               new Map(),
               payload

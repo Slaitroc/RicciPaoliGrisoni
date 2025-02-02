@@ -28,6 +28,7 @@ export const SCInterviewCheck = () => {
   const {
     interviewDataSnapshot,
     setForceRender,
+    fetchedData,
     clickBackToDetails,
     evaluateInterview,
     setInterviewDataSnapshot,
@@ -39,6 +40,192 @@ export const SCInterviewCheck = () => {
   const [hasAnswered, setHasAnswered] = useState(false);
 
   const evaluationRef = useRef(0);
+
+  const returnGridElement = (status, hasAnswered) => {
+    if (userType === STUDENT_USER_TYPE) {
+      if (status === "toBeSubmitted") {
+        return;
+      } else if (status === "submitted" && hasAnswered === "false") {
+        return;
+      } else if (status === "passed" || status === "failed") {
+        return;
+      } // TODO
+      else if (status === "submitted" && hasAnswered === "true") {
+        return (
+          <>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer1.value}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  1. {questions?.question1.value}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewDataSnapshot?.hasAnswered.value &&
+                    answers?.answer1.value}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer1.value}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  2. {questions?.question2.value}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewDataSnapshot?.hasAnswered.value &&
+                    answers?.answer2.value}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer1.value}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  3. {questions?.question3.value}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewDataSnapshot?.hasAnswered.value &&
+                    answers?.answer3.value}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer1.value}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  4. {questions?.question4.value}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewDataSnapshot?.hasAnswered.value &&
+                    answers?.answer4.value}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer1.value}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  5. {questions?.question5.value}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewDataSnapshot?.hasAnswered.value &&
+                    answers?.answer5.value}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer1.value}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  6. {questions?.question6.value}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewDataSnapshot?.hasAnswered.value &&
+                    answers?.answer6.value}
+                </Typography>
+              </Box>
+            </Grid>
+          </>
+        );
+      }
+    } else if (userType === COMPANY_USER_TYPE) {
+      if (status === "toBeSubmitted") {
+        return;
+      } else if (status === "submitted" && hasAnswered === "true") {
+        return;
+      } // TODO
+      else if (status === "submitted" && hasAnswered === "false") {
+        return (
+          <>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer1.value}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  1. {questions?.question1.value}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer1.value}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  2. {questions?.question2.value}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer1.value}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  3. {questions?.question3.value}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer1.value}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  4. {questions?.question4.value}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer1.value}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  5. {questions?.question5.value}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer1.value}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  6. {questions?.question6.value}
+                </Typography>
+              </Box>
+            </Grid>
+          </>
+        );
+      }
+    }
+  };
 
   const returnAlertTip = (status, hasAnswered) => {
     if ((status, hasAnswered)) {
@@ -191,20 +378,10 @@ export const SCInterviewCheck = () => {
           columns={12}
           alignItems="stretch"
         >
-          <Grid
-            item="true"
-            size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
-            key={answers.answer1.id}
-          >
-            <Box display="flex" flexDirection="column">
-              <Typography variant="h6" color="text.primary">
-                1. {questions?.question1.value}
-              </Typography>
-              <Typography variant="h6" color="text.secondary">
-                {answers?.answer1.value}
-              </Typography>
-            </Box>
-          </Grid>
+          {returnGridElement(
+            interviewDataSnapshot?.status.value,
+            interviewDataSnapshot?.hasAnswered.value
+          )}
         </Grid>
         <Box display="flex" justifyContent="center">
           {((hasAnswered) => {

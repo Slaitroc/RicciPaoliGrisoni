@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid2,
   Card,
@@ -12,11 +12,45 @@ import { SCAddIcon } from "../Shared/SCIcons";
 import { useInterviewsContext } from "./InterviewsContext";
 import * as logger from "../../logger/logger";
 import { useNavigate } from "react-router-dom";
+import * as interview from "../../api-calls/api-wrappers/Interview/interview";
+import { useGlobalContext } from "../../global/GlobalContext";
 
 export const SCInterviewsPreview = () => {
   const navigate = useNavigate();
-  const { interviewsArray, reloadSnapshot, clickOfferPreview } =
-    useInterviewsContext();
+  const { setLoading } = useGlobalContext();
+  const {
+    interviewsArray,
+    setInterviewsArray,
+    openAlertProc,
+    setInterviewObject,
+  } = useInterviewsContext();
+
+  useEffect(() => {
+    fetchInterviewArray();
+  }, []);
+
+  const fetchInterviewArray = async () => {
+    const response = await interview.getFormattedInterviews();
+    if (response.success === true) {
+      setInterviewsArray(response.data);
+    } else {
+      openAlertProc("Failed to fetch interviews", "error");
+    }
+  };
+
+  const clickOfferPreview = async (id) => {
+    try {
+      const response = await interview.getFormattedInterview(id);
+      if (response.success === true) {
+        setInterviewObject(response.data);
+      } else {
+        logger.error("Failed to fetch interview", response.error);
+      }
+      navigate(`/dashboard/interviews/details/${id}`);
+    } catch (error) {
+      throw error;
+    }
+  };
 
   return (
     <>
@@ -25,9 +59,9 @@ export const SCInterviewsPreview = () => {
         <Grid2 padding={5} container spacing={3}>
           {interviewsArray.map((item) => {
             return (
-              <Grid2 item="true" key={item.id.value} xs={12} sm={6} md={4}>
+              <Grid2 item="true" key={item?.id?.value} xs={12} sm={6} md={4}>
                 <Card
-                  onClick={() => clickOfferPreview(item.id.value)}
+                  onClick={() => clickOfferPreview(item?.id?.value)}
                   sx={{
                     height: "auto",
                     width: 500,
@@ -50,7 +84,7 @@ export const SCInterviewsPreview = () => {
                 >
                   <CardContent>
                     <Typography variant="h5" gutterBottom color="text.primary">
-                      {`ID ` + item.id.value}
+                      {`ID ` + item?.id?.value}
                     </Typography>
                     {Object.entries(item).map((field) => {
                       //NOTE field filter
@@ -75,7 +109,7 @@ export const SCInterviewsPreview = () => {
                             variant="body2"
                             sx={{ color: "text.primary" }}
                           >
-                            {field[1].label}:
+                            {field[1]?.label}:
                           </Typography>
                           {" " +
                             ((value) => {
@@ -88,7 +122,7 @@ export const SCInterviewsPreview = () => {
                                 else if (value === "passed") return "PASSED";
                                 else return value;
                               } else return "No Content";
-                            })(field[1].value)}
+                            })(field[1]?.value)}
                         </Typography>
                       );
                     })}

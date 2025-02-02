@@ -15,6 +15,7 @@ import { useInterviewsContext } from "./InterviewsContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import * as logger from "../../logger/logger";
+import * as interview from "../../api-calls/api-wrappers/Interview/interview";
 import {
   COMPANY_USER_TYPE,
   STUDENT_USER_TYPE,
@@ -23,32 +24,8 @@ import {
 export default function SCInterview() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { interviewDataSnapshot, interviewID, clickBackToPreview } = useInterviewsContext();
-  const { userType } = useGlobalContext();
-
-  // const onButtonClick = (status, hasAnswered) => {
-  //   if ((status, hasAnswered)) {
-  //     if (userType === STUDENT_USER_TYPE) {
-  //       if (status === "toBeSubmitted")
-  //         return; 
-  //       else if (status === "submitted" && hasAnswered === "false")
-  //       else if (
-  //         status === "passed" ||
-  //         status === "failed" ||
-  //         (status === "submitted" && hasAnswered === "true")
-  //       )
-  //     } else if (userType === COMPANY_USER_TYPE) {
-  //       if (status === "toBeSubmitted")
-  //       else 
-  //     }
-  //   } else return;
-  // };
-
-  
-
-  useEffect(() => {
-    interviewID.current = id;
-  }, []);
+  const { interviewObject: interviewObject } = useInterviewsContext();
+  const { userType, setLoading } = useGlobalContext();
 
   const buildButton = (label, navigateTo) => {
     return (
@@ -69,7 +46,11 @@ export default function SCInterview() {
     );
   };
 
-  function returnButton(status, hasAnswered) {
+  const clickBackToPreview = async () => {
+    navigate(`/dashboard/interviews`);
+  };
+
+  const returnButton = async (status, hasAnswered) => {
     if (userType === STUDENT_USER_TYPE) {
       if (status === "toBeSubmitted") {
         return; //se in toBeSubmitted non può fare nulla quindi non ritorna il button
@@ -109,7 +90,7 @@ export default function SCInterview() {
         );
       }
     } else return "ciao"; //TODO alert?;
-  }
+  };
 
   return (
     <>
@@ -139,10 +120,10 @@ export default function SCInterview() {
               </Badge>
             </Box>
             <Box display="flex" flexDirection="column" alignItems="end">
-              {interviewDataSnapshot &&
+              {interviewObject &&
                 returnButton(
-                  interviewDataSnapshot.status.value,
-                  interviewDataSnapshot.hasAnswered.value
+                  interviewObject.status.value,
+                  interviewObject.hasAnswered.value
                 )}
             </Box>
           </Box>
@@ -159,8 +140,8 @@ export default function SCInterview() {
                   Interview {`ID: ` + id + ` `}
                 </Typography>
               </Box>
-              {interviewDataSnapshot &&
-                Object.entries(interviewDataSnapshot).map((field) => {
+              {interviewObject &&
+                Object.entries(interviewObject).map((field) => {
                   if (
                     field[0] === "companyID" ||
                     field[0] === "companyName" ||
@@ -199,7 +180,7 @@ export default function SCInterview() {
             >
               <Box>
                 <Typography variant="h6">
-                  {interviewDataSnapshot?.status.label}:
+                  {interviewObject.status.label}:
                 </Typography>
                 <Typography
                   variant="body1"
@@ -220,7 +201,7 @@ export default function SCInterview() {
                       else if (content === "passed") return "PASSED";
                       else return content;
                     }
-                  })(interviewDataSnapshot?.status.value)}
+                  })(interviewObject?.status.value)}
                 </Typography>
               </Box>
               <Box padding={5} justifyContent="center">
@@ -231,7 +212,7 @@ export default function SCInterview() {
                     color="text.secondary"
                     align="center"
                   >
-                    {interviewDataSnapshot?.hasAnswered ? "Yes" : "No"}
+                    {interviewObject.hasAnswered ? "Yes" : "No"}
                   </Typography>
                 </Typography>
               </Box>

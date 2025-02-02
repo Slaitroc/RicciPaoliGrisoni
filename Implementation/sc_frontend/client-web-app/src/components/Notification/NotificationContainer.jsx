@@ -20,7 +20,7 @@ export const NotificationContainer = () => {
     setAnchorEl(event.currentTarget);
     apiCalls.getNotifications().then((response) => {
       response.json().then((data) => {
-        logger.debug("incoming data", data);
+        // logger.debug("incoming data", data);
         const sortedData = data.sort((a, b) => b.id - a.id);
         setNotifications(sortedData);
         setShowNotificationAlert(false);
@@ -87,8 +87,7 @@ export const NotificationContainer = () => {
                   </div>
                 </Box>
               ))
-            : (logger.debug(notifications),
-              (<div>No notification received yet</div>))}
+            : (null, (<div>No notification received yet</div>))}
         </Box>
       </Menu>
     </>
