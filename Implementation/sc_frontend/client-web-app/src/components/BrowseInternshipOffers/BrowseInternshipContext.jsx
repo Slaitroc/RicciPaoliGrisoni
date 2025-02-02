@@ -41,6 +41,9 @@ export const BrowseInternshipOffersProvider = ({ children }) => {
     offerData,
     openAlert,
     clickOnOffer,
+    setOpenAlert,
+    setAlertMessage,
+    setAlertSeverity,
   };
 
   return (

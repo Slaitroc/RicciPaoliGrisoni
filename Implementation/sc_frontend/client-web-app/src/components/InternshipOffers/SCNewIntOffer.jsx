@@ -74,13 +74,13 @@ export const SCNewIntOffer = () => {
       duration: {
         serverValue: "duration",
         label: "Duration",
-        value: undefined,
+        value: 20,
         type: "int",
       },
       numberPositions: {
         serverValue: "numberPositions",
         label: "Number of Positions",
-        value: undefined,
+        value: 1,
         type: "int",
       },
       location: {
@@ -104,7 +104,7 @@ export const SCNewIntOffer = () => {
       compensation: {
         serverValue: "compensation",
         label: "Compensation",
-        value: undefined,
+        value: 500,
         type: "int",
       },
       updateTime: {

@@ -190,6 +190,9 @@ const router = createBrowserRouter(
                   element: <SCBrowseInternshipPreview />,
                 },
                 {
+                  // it doesn't make a lot of sense but consider the utility of this page just
+                  // to see the details of the offer (students will not be able to apply to this
+                  // internship and companies will not be able to edit the offer)
                   path: "details/:id",
                   element: <SCBrowseInternshipOffer />,
                 },
