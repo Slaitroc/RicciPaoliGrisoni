@@ -247,7 +247,94 @@ export const SCInterviewCheck = () => {
           </>
         );
       } else if (status === "passed" || status === "failed") {
-        return;
+        return (
+          <>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer1}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  1. {questions?.question1}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer1}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer2}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  2. {questions?.question2}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer2}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer3}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  3. {questions?.question3}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer3}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer4}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  4. {questions?.question4}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer4}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer5}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  5. {questions?.question5}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer5}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item="true"
+              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+              key={answers?.answer6}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="h6" color="text.primary">
+                  6. {questions?.question6}
+                </Typography>
+                <Typography variant="h6" color="text.secondary">
+                  {interviewObject.hasAnswered?.value && answers?.answer6}
+                </Typography>
+              </Box>
+            </Grid>
+          </>
+        );
       } // TODO
       else if (status === "submitted" && hasAnswered === true) {
         return (

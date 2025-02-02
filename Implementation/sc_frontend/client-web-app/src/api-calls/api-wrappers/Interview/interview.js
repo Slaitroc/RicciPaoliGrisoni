@@ -223,7 +223,7 @@ export const sendInterviewQuestions = async (interviewID, questions) => {
   return apiCalls
     .sendInterview(interviewID, questions)
     .then((response) => {
-      if (response.status === 200) {
+      if (response.status === 201) {
         return response.json().then((payload) => {
           return {
             success: true,
