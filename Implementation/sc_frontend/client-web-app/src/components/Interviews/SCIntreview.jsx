@@ -50,7 +50,7 @@ export default function SCInterview() {
     navigate(`/dashboard/interviews`);
   };
 
-  const returnButton = async (status, hasAnswered) => {
+  const returnButton = (status, hasAnswered) => {
     if (userType === STUDENT_USER_TYPE) {
       if (status === "toBeSubmitted") {
         return; //se in toBeSubmitted non può fare nulla quindi non ritorna il button
