@@ -6,7 +6,9 @@ import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.InterviewTemplate;
 import click.studentandcompanies.entityManager.interviewManager.InterviewManager;
+import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NoContentException;
+import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -25,23 +27,22 @@ public class GetInterviewTemplatesCommandCall implements APIControllerCommandCal
 
     @Override
     public ResponseEntity<List<DTO>> execute() {
-        List<DTO> dtos = new ArrayList<>();
         try{
-            if (companyId == null) {
-                dtos.add(DTOCreator.createDTO(DTOTypes.ERROR, "User is not logged in"));
-                return new ResponseEntity<>(dtos, HttpStatus.NOT_FOUND);
+            List<InterviewTemplate> interviewTemplates = interviewManager.getInterviewTemplates(companyId);
+            if(interviewTemplates.isEmpty()){
+                throw new NotFoundException("No interview templates found for this company");
             }
-
-            List<InterviewTemplate> templates = interviewManager.getTemplates(companyId);
-
-            for (InterviewTemplate template : templates) {
-                dtos.add(DTOCreator.createDTO(DTOTypes.INTERVIEW_TEMPLATE, template));
+            List<DTO> interviewTemplateDTOs = new ArrayList<>();
+            for(InterviewTemplate interviewTemplate : interviewTemplates){
+                interviewTemplateDTOs.add(DTOCreator.createDTO(DTOTypes.INTERVIEW_TEMPLATE, interviewTemplate));
             }
-
-            return new ResponseEntity<>(dtos, HttpStatus.OK);
-        } catch (NoContentException e){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(interviewTemplateDTOs, HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(List.of(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage())), HttpStatus.NOT_FOUND);
+        }catch (BadInputException e){
+            return new ResponseEntity<>(List.of(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage())), HttpStatus.BAD_REQUEST);
         }catch (Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

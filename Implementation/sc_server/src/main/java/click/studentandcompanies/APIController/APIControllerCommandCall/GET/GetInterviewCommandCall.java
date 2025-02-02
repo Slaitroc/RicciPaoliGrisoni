@@ -32,6 +32,7 @@ public class GetInterviewCommandCall implements APIControllerCommandCall<Respons
         } catch (UnauthorizedException e) {
             return new ResponseEntity<>((DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage())), HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>((DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage())), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -121,7 +121,7 @@ public class RecommendationProcessUtil {
         }
         //Exponential function to ensure the threshold stays in range [0,1]
         double threshold = Math.exp(- numerator / denominator);
-        System.out.println("threshold: " + threshold);
+        System.out.println("dynamic threshold: " + threshold);
         return threshold;
     }
 
