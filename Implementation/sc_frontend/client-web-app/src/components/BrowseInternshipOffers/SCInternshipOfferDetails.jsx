@@ -10,10 +10,110 @@ import {
 } from "@mui/material";
 import * as application from "../../api-calls/api-wrappers/submission-wrapper/spontaneousApplication";
 
-const { setOpenAlert, setAlertMessage, setAlertSeverity } =
-  useBrowseInternshipContext();
-
 const SCInternshipOfferDetails = ({ offer, onClose, profile }) => {
+  const { setOpenAlert, setAlertMessage, setAlertSeverity } =
+    useBrowseInternshipContext();
+
+  const renderDetail = (label, value) => (
+    <Typography variant="body1" color="text.secondary" sx={{ my: 1 }}>
+      <Typography
+        component="span"
+        display="inline"
+        variant="body2"
+        sx={{ color: "text.primary", fontWeight: "bold" }}
+      >
+        {label}:
+      </Typography>
+      {" " + value}
+    </Typography>
+  );
+
+  const Buttons = ({ onClose, profile, offer }) => {
+    const buttonStyles = {
+      minWidth: "120px",
+      padding: "8px 24px",
+      transition: "all 0.2s ease-in-out",
+    };
+
+    // Se l'utente è uno STUDENT mostra il pulsante per candidarsi e il pulsante Close
+    if (profile.userType === "STUDENT") {
+      return (
+        <>
+          <Button
+            variant="contained"
+            onClick={() => handleApply(offer, onClose)}
+            sx={{
+              ...buttonStyles,
+              backgroundColor: "#4caf50",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "#45a049",
+                transform: "scale(1.05)",
+                boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+              },
+            }}
+          >
+            Apply
+          </Button>
+          <Button
+            variant="contained"
+            onClick={onClose}
+            sx={{
+              ...buttonStyles,
+              backgroundColor: "#ffffff",
+              color: "#000000",
+              "&:hover": {
+                backgroundColor: "#f5f5f5",
+                transform: "scale(1.05)",
+                boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+              },
+            }}
+          >
+            Close
+          </Button>
+        </>
+      );
+    } else {
+      // Se l'utente è una COMPANY mostra solo il pulsante Close
+      return (
+        <Button
+          variant="contained"
+          onClick={onClose}
+          sx={{
+            ...buttonStyles,
+            backgroundColor: "#ffffff",
+            color: "#000000",
+            "&:hover": {
+              backgroundColor: "#f5f5f5",
+              transform: "scale(1.05)",
+              boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+            },
+          }}
+        >
+          Close
+        </Button>
+      );
+    }
+  };
+
+  const handleApply = (offer, onClose) => {
+    console.log("Applying to offer:", offer);
+    try {
+      application.submitSpontaneousApplication(offer.id).then((response) => {
+        if (response.success === false) {
+          setOpenAlert(true);
+          setAlertSeverity(response.severity);
+          setAlertMessage(response.message);
+        } else {
+          setOpenAlert(false);
+          onClose();
+        }
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -73,106 +173,6 @@ const SCInternshipOfferDetails = ({ offer, onClose, profile }) => {
       </Box>
     </Box>
   );
-};
-
-const renderDetail = (label, value) => (
-  <Typography variant="body1" color="text.secondary" sx={{ my: 1 }}>
-    <Typography
-      component="span"
-      display="inline"
-      variant="body2"
-      sx={{ color: "text.primary", fontWeight: "bold" }}
-    >
-      {label}:
-    </Typography>
-    {" " + value}
-  </Typography>
-);
-
-const Buttons = ({ onClose, profile, offer }) => {
-  const buttonStyles = {
-    minWidth: "120px",
-    padding: "8px 24px",
-    transition: "all 0.2s ease-in-out",
-  };
-
-  // Se l'utente è uno STUDENT mostra il pulsante per candidarsi e il pulsante Close
-  if (profile.userType === "STUDENT") {
-    return (
-      <>
-        <Button
-          variant="contained"
-          onClick={() => handleApply(offer, onClose)}
-          sx={{
-            ...buttonStyles,
-            backgroundColor: "#4caf50",
-            color: "white",
-            "&:hover": {
-              backgroundColor: "#45a049",
-              transform: "scale(1.05)",
-              boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-            },
-          }}
-        >
-          Apply
-        </Button>
-        <Button
-          variant="contained"
-          onClick={onClose}
-          sx={{
-            ...buttonStyles,
-            backgroundColor: "#ffffff",
-            color: "#000000",
-            "&:hover": {
-              backgroundColor: "#f5f5f5",
-              transform: "scale(1.05)",
-              boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-            },
-          }}
-        >
-          Close
-        </Button>
-      </>
-    );
-  } else {
-    // Se l'utente è una COMPANY mostra solo il pulsante Close
-    return (
-      <Button
-        variant="contained"
-        onClick={onClose}
-        sx={{
-          ...buttonStyles,
-          backgroundColor: "#ffffff",
-          color: "#000000",
-          "&:hover": {
-            backgroundColor: "#f5f5f5",
-            transform: "scale(1.05)",
-            boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-          },
-        }}
-      >
-        Close
-      </Button>
-    );
-  }
-};
-
-const handleApply = (offer, onClose) => {
-  console.log("Applying to offer:", offer);
-  try {
-    application.submitSpontaneousApplication(offer.id).then((response) => {
-      if (response.success === false) {
-        setOpenAlert(true);
-        setAlertSeverity(response.severity);
-        setAlertMessage(response.message);
-      } else {
-        setOpenAlert(false);
-        onClose();
-      }
-    });
-  } catch (error) {
-    throw error;
-  }
 };
 
 export default SCInternshipOfferDetails;
