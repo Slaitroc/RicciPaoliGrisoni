@@ -45,7 +45,7 @@ const studentListItems = [
   },
   {
     key: uuidv4(),
-    text: "Interviews",
+    text: "Interviews", //FIX choose a better name
     icon: <SCIcons.SCCollectionsBookmarkIcon />,
     route: "/dashboard/interviews",
   },
@@ -129,7 +129,7 @@ const companyListItems = [
   },
   {
     key: uuidv4(),
-    text: "Interviews",
+    text: "Send Interviews",
     icon: <SCIcons.SCCollectionsBookmarkIcon />,
     route: "/dashboard/interviews",
   },

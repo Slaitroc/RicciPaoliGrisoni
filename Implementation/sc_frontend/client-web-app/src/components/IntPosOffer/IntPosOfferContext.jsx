@@ -56,7 +56,9 @@ export const IntPosOfferProvider = ({ children }) => {
     <IntPosOfferContext.Provider value={value}>
       {openAlert && (
         <>
-          <Alert severity={alertSeverity}>{alertMessage}</Alert>
+          <Alert onClose={() => setOpenAlert(false)} severity={alertSeverity}>
+            {alertMessage}
+          </Alert>
         </>
       )}
       {children}

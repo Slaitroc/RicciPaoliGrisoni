@@ -56,6 +56,8 @@ import { SCNewIntOffer } from "../components/InternshipOffers/SCNewIntOffer";
 import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
 import SCInterview from "../components/Interviews/SCIntreview";
 import InterviewPosOffer from "../pages/InterviewPosOffer";
+import { SCInterviewCheck } from "../components/Interviews/SCInterviewCheck";
+import { SCInterviewAnswer } from "../components/Interviews/SCInterviewAnswer";
 
 //NAV Router Configurations
 
@@ -253,12 +255,16 @@ const router = createBrowserRouter(
                   element: <SCInterview />,
                 },
                 {
-                  path: "edit/:id",
-                  element: <SCInterviewEdit />,
+                  path: "check/:id",
+                  element: <SCInterviewCheck />,
                 },
                 {
                   path: "create",
-                  element: <SCInterviewEdit />, //FIX put the right page
+                  element: <SCInterviewEdit />,
+                },
+                {
+                  path: "answer/:id",
+                  element: <SCInterviewAnswer />,
                 },
               ],
             },

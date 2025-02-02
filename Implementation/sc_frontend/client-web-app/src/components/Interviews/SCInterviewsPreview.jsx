@@ -15,28 +15,20 @@ import { useNavigate } from "react-router-dom";
 
 export const SCInterviewsPreview = () => {
   const navigate = useNavigate();
-  const { offersArray, reloadSnapshot } = useInterviewsContext();
+  const { interviewsArray, reloadSnapshot } = useInterviewsContext();
 
   const handleOfferClick = (id) => {
-    console.log("Selected Offer:", id);
     reloadSnapshot(id);
-    //NAV to internship detail
-    navigate(`/dashboard/internship-offers/details/${id}`);
+    //NAV to interview detail
+    navigate(`/dashboard/interviews/details/${id}`);
   };
 
   return (
     <>
       <div style={{ margin: "20px 0" }}></div>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <Box paddingLeft={5}>
-          <Button startIcon={<SCAddIcon />} variant="outlined">
-            Create New Internship Offer
-          </Button>
-        </Box>
-      </div>
-      {offersArray && (
+      {interviewsArray && (
         <Grid2 padding={5} container spacing={3}>
-          {offersArray.map((item) => {
+          {interviewsArray.map((item) => {
             return (
               <Grid2 item="true" key={item.id.value} xs={12} sm={6} md={4}>
                 <Card
@@ -63,21 +55,11 @@ export const SCInterviewsPreview = () => {
                 >
                   <CardContent>
                     <Typography variant="h5" gutterBottom color="text.primary">
-                      {item.title.value}
+                      {`ID ` + item.id.value}
                     </Typography>
                     {Object.entries(item).map((field) => {
-                      if (
-                        field[0] === "id" ||
-                        field[0] === "title" ||
-                        field[0] === "startDate" ||
-                        field[0] === "endDate" ||
-                        field[0] === "companyName" ||
-                        field[0] === "numberPositions" ||
-                        field[0] === "location" ||
-                        field[0] === "companyID" ||
-                        field[0] === "duration"
-                      )
-                        return null;
+                      //NOTE field filter
+                      if (field[0] === "id") return null;
                       return (
                         <Typography
                           key={field[0]}
@@ -92,21 +74,21 @@ export const SCInterviewsPreview = () => {
                           >
                             {field[1].label}:
                           </Typography>
-                          {" " + field[1].value}
+                          {" " +
+                            ((value) => {
+                              if (value) {
+                                if (value === "toBeSubmitted")
+                                  return "TO BE SUBMITTED";
+                                else if (value === "submitted")
+                                  return "SUBMITTED";
+                                else if (value === "failed") return "FAILED";
+                                else if (value === "passed") return "PASSED";
+                                else return value;
+                              } else return "No Content";
+                            })(field[1].value)}
                         </Typography>
                       );
                     })}
-                    <Typography variant="body1" color="text.secondary">
-                      <Typography
-                        component="span"
-                        display="inline"
-                        variant="body2"
-                        sx={{ color: "text.primary" }}
-                      >
-                        {item.duration.label}:
-                      </Typography>
-                      {" " + item.duration.value}
-                    </Typography>
                   </CardContent>
                 </Card>
               </Grid2>
@@ -117,5 +99,3 @@ export const SCInterviewsPreview = () => {
     </>
   );
 };
-
-

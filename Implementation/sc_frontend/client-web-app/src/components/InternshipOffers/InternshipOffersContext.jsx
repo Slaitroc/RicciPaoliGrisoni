@@ -88,6 +88,7 @@ export const InternshipOffersProvider = ({ children }) => {
       openAlertProc();
       closeAlertWithDelay();
       reloadSnapshot(response.data.id);
+      // NAV to internship detail
       navigate(`/dashboard/internship-offers/details/${response.data.id}`);
     } else {
       setAlertSeverity(response.severity);
@@ -115,19 +116,18 @@ export const InternshipOffersProvider = ({ children }) => {
     fetchedData();
   }, []);
   const fetchedData = async () => {
-      return await internshipOffer
-        .getFormattedCompanyInternships(profile.userID)
-        .then((response) => {
-          if (response.success === false) {
-            openAlertProc();
-            setAlertSeverity(response.severity);
-            setAlertMessage(response.message);
-          } else {
-            setOffersArray(response.data);
-            closeAlertWithDelay();
-          }
-        });
-    }
+    return await internshipOffer
+      .getFormattedCompanyInternships(profile.userID)
+      .then((response) => {
+        if (response.success === false) {
+          openAlertProc();
+          setAlertSeverity(response.severity);
+          setAlertMessage(response.message);
+        } else {
+          setOffersArray(response.data);
+          closeAlertWithDelay();
+        }
+      });
   };
 
   useEffect(() => {
@@ -147,7 +147,6 @@ export const InternshipOffersProvider = ({ children }) => {
       setAlertMessage("Offer not found");
     } else {
       closeAlertWithDelay();
-
       setOfferDataSnapshot(snapshot);
       newOfferRef.current = snapshot;
     }

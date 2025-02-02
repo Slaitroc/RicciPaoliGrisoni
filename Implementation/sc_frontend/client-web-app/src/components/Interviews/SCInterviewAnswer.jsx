@@ -16,7 +16,7 @@ import Grid from "@mui/material/Grid2";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useInterviewsContext } from "./InterviewsContext";
 
-export const SCInterviewEdit = () => {
+export const SCInterviewAnswer = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { interviewDataSnapshot, interviewID, sendInterview, setForceRender } =
@@ -24,12 +24,12 @@ export const SCInterviewEdit = () => {
   const [openTipAlert, setOpenTipAlert] = useState(true);
 
   const questionsLabels = [
-    "Question 1",
-    "Question 2",
-    "Question 3",
-    "Question 4",
-    "Question 5",
-    "Question 6",
+    "Answer 1",
+    "Answer 2",
+    "Answer 3",
+    "Answer 4",
+    "Answer 5",
+    "Answer 6",
   ];
   const questionValues = useRef([]);
 
