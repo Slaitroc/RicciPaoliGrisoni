@@ -115,7 +115,7 @@ export const getFormattedInterview = async (interviewID) => {
           fieldMap.set("studentName", "Student Name");
           fieldMap.set("studentID", "Student ID");
           fieldMap.set("interviewQuizID", "Student Answers ID");
-          fieldMap.set("interviewTemplateID", "Student Answers ID");
+          fieldMap.set("interviewTemplateID", "Company Quesitons ID");
           return {
             success: true,
             data: wrapperUtils.formatContent(

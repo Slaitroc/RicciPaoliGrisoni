@@ -44,12 +44,27 @@ export const SCInterviewCheck = () => {
   const questionFetch = async () => {
     try {
       const response = await interview.getFormattedInterviewTemplateQuestions(
-        id
+        interviewObject.interviewTemplateID?.value
       );
       if (response.success === true) {
         setQuestion(response.data);
       } else {
         openAlertProc("Failed to fetch questions", "error");
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const answerFetch = async () => {
+    try {
+      const response = await interview.getFormattedStudentAnswers(
+        interviewObject.interviewQuizID?.value
+      );
+      if (response.success === true) {
+        setAnswers(response.data);
+      } else {
+        openAlertProc("Failed to fetch answers", "error");
       }
     } catch (error) {
       throw error;
@@ -65,12 +80,21 @@ export const SCInterviewCheck = () => {
 
   const evaluationRef = useRef(0);
   const questionsRef = useRef({
-    question1: "",
-    question2: "",
-    question3: "",
-    question4: "",
-    question5: "",
     question6: "",
+    question3: "",
+    question2: "",
+    question5: "",
+    question4: "",
+    question1: "",
+  });
+
+  const answerRef = useRef({
+    answer6: "",
+    answer3: "",
+    answer2: "",
+    answer5: "",
+    answer4: "",
+    answer1: "",
   });
 
   const questionLabels = {
@@ -80,6 +104,15 @@ export const SCInterviewCheck = () => {
     question4: "Question 4",
     question5: "Question 5",
     question6: "Question 6",
+  };
+
+  const answerLabels = {
+    answer2: "Answer 2",
+    answer1: "Answer 1",
+    answer3: "Answer 3",
+    answer4: "Answer 4",
+    answer5: "Answer 5",
+    answer6: "Answer 6",
   };
 
   const sendInterview = async () => {
@@ -98,14 +131,19 @@ export const SCInterviewCheck = () => {
       throw error;
     }
   };
+
   const [question, setQuestion] = useState(questionsRef.current);
-  useEffect(() => {
-    logger.focus(question);
-  }, [question]);
+  const [answer, setAnswer] = useState(answerRef.current);
 
   const handleFieldChange = (toUpdate, updateValue) => {
     logger.focus("aggiorna", toUpdate, updateValue);
     questionsRef.current[toUpdate] = updateValue;
+    logger.focus("aggiorna", questionsRef.current);
+  };
+
+  const handleFieldAnswerChange = (toUpdate, updateValue) => {
+    logger.focus("aggiorna", toUpdate, updateValue);
+    answerRef.current[toUpdate] = updateValue;
     logger.focus("aggiorna", questionsRef.current);
   };
 
@@ -114,15 +152,60 @@ export const SCInterviewCheck = () => {
   };
 
   const returnGridElement = (status, hasAnswered) => {
+    logger.focus("fasdjfhalfjhaslkdjfhlas");
     if (userType === STUDENT_USER_TYPE) {
       if (status === "toBeSubmitted") {
         return;
-      } else if (status === "submitted" && hasAnswered === "false") {
-        return;
+      } else if (status === "submitted" && hasAnswered === false) {
+        return (
+          <>
+            <Grid
+              container
+              spacing={3}
+              display={{ xs: "block", sm: "flex" }}
+              columns={12}
+              alignItems="stretch"
+            >
+              {Object.entries(question).map(([key, value], index) => {
+                if (key !== "id") {
+                  return (
+                    <Grid
+                      item="true"
+                      size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+                      key={key}
+                    >
+                      <Box display="flex">
+                        <FormControl sx={{ flexGrow: 1 }}>
+                          <FormLabel>{value}</FormLabel>
+                          <TextField
+                            multiline
+                            variant="outlined"
+                            placeholder={key}
+                            id={`${key}`}
+                            onBlur={(e) =>
+                              handleFieldAnswerChange(answerRef.curernt[], e.target.value)
+                            }
+                            sx={{
+                              flexGrow: 1,
+                              "& .MuiOutlinedInput-root": {
+                                minHeight: "auto",
+                                height: "auto",
+                              },
+                            }}
+                          />
+                        </FormControl>
+                      </Box>
+                    </Grid>
+                  );
+                } else return null;
+              })}
+            </Grid>
+          </>
+        );
       } else if (status === "passed" || status === "failed") {
         return;
       } // TODO
-      else if (status === "submitted" && hasAnswered === "true") {
+      else if (status === "submitted" && hasAnswered === true) {
         return (
           <>
             <Grid
@@ -320,7 +403,7 @@ export const SCInterviewCheck = () => {
       //page is unreachable in this state
       if (status === "toBeSubmitted") return;
       //page is unreachable in this state
-      else if (status === "submitted" && hasAnswered === "false") return;
+      else if (status === "submitted" && hasAnswered === false) return;
       else if (status === "passed" || status === "failed")
         return (
           <Alert
@@ -342,7 +425,7 @@ export const SCInterviewCheck = () => {
             </Typography>
           </Alert>
         );
-      else if (status === "submitted" && hasAnswered === "true")
+      else if (status === "submitted" && hasAnswered === true)
         return (
           <Alert
             severity="info"
@@ -388,7 +471,7 @@ export const SCInterviewCheck = () => {
             )}
           </>
         );
-      } else if (status === "submitted" && hasAnswered === "true")
+      } else if (status === "submitted" && hasAnswered === true)
         return (
           <Alert
             severity="info"
@@ -409,7 +492,7 @@ export const SCInterviewCheck = () => {
             </Typography>
           </Alert>
         );
-      else if (status === "submitted" && hasAnswered === "false")
+      else if (status === "submitted" && hasAnswered === false)
         return (
           <Alert
             severity="info"

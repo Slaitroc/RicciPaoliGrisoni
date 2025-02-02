@@ -69,7 +69,7 @@ export default function SCInterview() {
       } else if (status === "submitted" && hasAnswered === false) {
         return buildButton(
           "Answer Interview",
-          `/dashboard/interviews/answer/${id}`
+          `/dashboard/interviews/check/${id}`
         );
       } else if (status === "submitted" && hasAnswered === true) {
         return buildButton("Show Answers", `/dashboard/interviews/check/${id}`);
@@ -162,9 +162,10 @@ export default function SCInterview() {
                 Object.entries(interviewObject).map((field) => {
                   if (
                     field[0] === "companyID" ||
-                    field[0] === "companyName" ||
                     field[0] === "id" ||
-                    field[0] === "status"
+                    field[0] === "status" ||
+                    field[0] === "studentID" ||
+                    field[0] === "hasAnswered"
                   )
                     return null;
                   return (
@@ -176,13 +177,15 @@ export default function SCInterview() {
                           whiteSpace="pre-line"
                           color="text.secondary"
                         >
-                          {((value) => {
+                          {(((value) => {
                             if (value && value !== 0) {
                               return value;
                             } else {
                               return "No content provided.";
                             }
-                          })(field[1].value) && field[1].value}
+                          })(field[1].value) &&
+                            field[1].value) ||
+                            "To be defined"}
                         </Typography>
                       </Box>
                     </Box>
