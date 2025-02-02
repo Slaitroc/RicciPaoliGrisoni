@@ -191,22 +191,9 @@ export const getFormattedInterviewTemplateQuestions = async (interviewID) => {
     .then((response) => {
       if (response.status === 200) {
         return response.json().then((payload) => {
-          const fieldMap = new Map();
-          const typeMap = new Map();
-          fieldMap.set("id", "Interview Template ID");
-          fieldMap.set("question1", "Question 1");
-          fieldMap.set("question2", "Question 2");
-          fieldMap.set("question3", "Question 3");
-          fieldMap.set("question4", "Question 4");
-          fieldMap.set("question5", "Question 5");
-          fieldMap.set("question6", "Question 6");
           return {
             success: true,
-            data: wrapperUtils.formatContent(
-              fieldMap,
-              new Map(),
-              payload.properties
-            ),
+            data: payload.properties,
             message: "Interview questions fetched successfully",
             severity: "success",
           };
@@ -233,15 +220,8 @@ export const getFormattedInterviewTemplateQuestions = async (interviewID) => {
 };
 
 export const sendInterviewQuestions = async (interviewID, questions) => {
-  const payload = {};
-
-  questions.reduce((acc, value, index) => {
-    acc[`question${index + 1}`] = value;
-    return acc;
-  }, payload);
-  logger.debug("Question values", payload);
   return apiCalls
-    .sendInterview(interviewID, payload)
+    .sendInterview(interviewID, questions)
     .then((response) => {
       if (response.status === 200) {
         return response.json().then((payload) => {

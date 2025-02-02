@@ -24,21 +24,7 @@ export const useInterviewsContext = () => {
   return context;
 };
 
-// if ((status, hasAnswered)) {
-//       if (userType === STUDENT_USER_TYPE) {
-//         if (status === "toBeSubmitted") return;
-//         else if (status === "submitted" && hasAnswered === "false") return;
-//         else if (status === "passed" || status === "failed") return;
-//         else if (status === "submitted" && hasAnswered === "true") return;
-//       } else if (userType === COMPANY_USER_TYPE) {
-//         if (status === "toBeSubmitted") return;
-//         else return;
-//       }
-//     } else return;
 export const InterviewsProvider = ({ children }) => {
-  const navigate = useNavigate();
-  const { id } = useParams();
-
   const [openAlert, setOpenAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState();
@@ -48,15 +34,38 @@ export const InterviewsProvider = ({ children }) => {
     // setOpenAlert(true);
     logger.debug("fake alert", message, severity);
   };
-
   const [interviewObject, setInterviewObject] = useState({});
   const [interviewsArray, setInterviewsArray] = useState([]);
+  const navigate = useNavigate();
+
+  //DEBUG
+  useEffect(() => {
+    logger.debug("InterviewsArray", interviewsArray);
+    logger.debug("InterviewObject", interviewObject);
+  }, [interviewsArray, interviewObject]);
+
+  const interviewArrayFetch = async () => {
+    const response = await interview.getFormattedInterviews();
+    if (response.success === true) {
+      logger.focus(response);
+      setInterviewsArray(response.data);
+    } else {
+      openAlertProc("Failed to fetch interviews", "error");
+    }
+  };
+
+  useEffect(() => {
+    interviewArrayFetch();
+  }, []);
+
   const value = {
     openAlertProc,
     interviewsArray,
     setInterviewsArray,
     interviewObject,
     setInterviewObject,
+
+    interviewArrayFetch,
   };
 
   return (

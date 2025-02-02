@@ -24,8 +24,20 @@ import {
 export default function SCInterview() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { interviewObject: interviewObject } = useInterviewsContext();
+  const { interviewObject, setInterviewObject } = useInterviewsContext();
   const { userType, setLoading } = useGlobalContext();
+
+  const interviewObjectFetch = async () => {
+    const response = await interview.getFormattedInterview(id);
+    if (response.success === true) {
+      setInterviewObject(response.data);
+    } else {
+      openAlertProc("Failed to fetch interview", "error");
+    }
+  };
+  useEffect(() => {
+    interviewObjectFetch();
+  }, []);
 
   const buildButton = (label, navigateTo) => {
     return (
@@ -69,6 +81,8 @@ export default function SCInterview() {
       }
     } else if (userType === COMPANY_USER_TYPE) {
       if (status === "toBeSubmitted") {
+        //DANGER siamo qui
+
         return buildButton(
           "Create Interview",
           `/dashboard/interviews/check/${id}`
@@ -120,11 +134,15 @@ export default function SCInterview() {
               </Badge>
             </Box>
             <Box display="flex" flexDirection="column" alignItems="end">
-              {interviewObject &&
-                returnButton(
-                  interviewObject.status.value,
-                  interviewObject.hasAnswered.value
-                )}
+              {/* SPAWN BUTTON */}
+              {(() => {
+                if (interviewObject) {
+                  return returnButton(
+                    interviewObject.status?.value,
+                    interviewObject.hasAnswered?.value
+                  );
+                }
+              })()}
             </Box>
           </Box>
           <Box
@@ -180,7 +198,7 @@ export default function SCInterview() {
             >
               <Box>
                 <Typography variant="h6">
-                  {interviewObject.status.label}:
+                  {interviewObject.status?.label}:
                 </Typography>
                 <Typography
                   variant="body1"
@@ -201,7 +219,7 @@ export default function SCInterview() {
                       else if (content === "passed") return "PASSED";
                       else return content;
                     }
-                  })(interviewObject?.status.value)}
+                  })(interviewObject.status?.value)}
                 </Typography>
               </Box>
               <Box padding={5} justifyContent="center">

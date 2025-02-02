@@ -14,6 +14,9 @@ import {
   badgeClasses,
   Typography,
   Alert,
+  FormControl,
+  FormLabel,
+  TextField,
 } from "@mui/material";
 import * as logger from "../../logger/logger";
 import * as interview from "../../api-calls/api-wrappers/Interview/interview";
@@ -25,21 +28,90 @@ export const SCInterviewCheck = () => {
   const navigate = useNavigate();
   const { userType } = useGlobalContext();
   const { id } = useParams();
-  const {
-    interviewDataSnapshot,
-    setForceRender,
-    fetchedData,
-    clickBackToDetails,
-    evaluateInterview,
-    setInterviewDataSnapshot,
-    questions,
-    answers,
-  } = useInterviewsContext();
   const [openTipAlert, setOpenTipAlert] = useState(true);
+  const { interviewObject, setInterviewObject, evaluateInterview, answers } =
+    useInterviewsContext();
 
-  const [hasAnswered, setHasAnswered] = useState(false);
+  const interviewObjectFetch = async () => {
+    const response = await interview.getFormattedInterview(id);
+    if (response.success === true) {
+      setInterviewObject(response.data);
+    } else {
+      openAlertProc("Failed to fetch interview", "error");
+    }
+  };
+
+  const questionFetch = async () => {
+    try {
+      const response = await interview.getFormattedInterviewTemplateQuestions(
+        id
+      );
+      if (response.success === true) {
+        setQuestion(response.data);
+      } else {
+        openAlertProc("Failed to fetch questions", "error");
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    interviewObjectFetch();
+  }, []);
+  useEffect(() => {
+    questionFetch();
+  }, [interviewObject]);
 
   const evaluationRef = useRef(0);
+  const questionsRef = useRef({
+    question1: "",
+    question2: "",
+    question3: "",
+    question4: "",
+    question5: "",
+    question6: "",
+  });
+
+  const questionLabels = {
+    question2: "Question 2",
+    question1: "Question 1",
+    question3: "Question 3",
+    question4: "Question 4",
+    question5: "Question 5",
+    question6: "Question 6",
+  };
+
+  const sendInterview = async () => {
+    try {
+      const response = await interview.sendInterviewQuestions(
+        id,
+        questionsRef.current
+      );
+      setQuestion(questionsRef.current);
+      if (response.success === true) {
+        setInterviewObject(response.data);
+      } else {
+        logger.error("Failed to send interview", response.error);
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+  const [question, setQuestion] = useState(questionsRef.current);
+  useEffect(() => {
+    logger.focus(question);
+  }, [question]);
+
+  const handleFieldChange = (toUpdate, updateValue) => {
+    logger.focus("aggiorna", toUpdate, updateValue);
+    questionsRef.current[toUpdate] = updateValue;
+    logger.focus("aggiorna", questionsRef.current);
+  };
+
+  const clickBackToDetails = () => {
+    navigate(`/dashboard/interviews/details/${id}`);
+  };
 
   const returnGridElement = (status, hasAnswered) => {
     if (userType === STUDENT_USER_TYPE) {
@@ -148,78 +220,94 @@ export const SCInterviewCheck = () => {
       }
     } else if (userType === COMPANY_USER_TYPE) {
       if (status === "toBeSubmitted") {
-        return;
-      } else if (status === "submitted" && hasAnswered === "true") {
-        return;
-      } // TODO
-      else if (status === "submitted" && hasAnswered === "false") {
         return (
           <>
             <Grid
-              item="true"
-              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
-              key={answers?.answer1.value}
+              container
+              spacing={3}
+              display={{ xs: "block", sm: "flex" }}
+              columns={12}
+              alignItems="stretch"
             >
-              <Box display="flex" flexDirection="column">
-                <Typography variant="h6" color="text.primary">
-                  1. {questions?.question1.value}
-                </Typography>
-              </Box>
+              {Object.entries(question).map(([key, value], index) => {
+                if (key !== "id") {
+                  return (
+                    <Grid
+                      item="true"
+                      size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+                      key={key}
+                    >
+                      <Box display="flex">
+                        <FormControl sx={{ flexGrow: 1 }}>
+                          <FormLabel>Question {index + 1}</FormLabel>
+                          <TextField
+                            multiline
+                            variant="outlined"
+                            placeholder={"Type your question"}
+                            id={`${key}`}
+                            onBlur={(e) =>
+                              handleFieldChange(key, e.target.value)
+                            }
+                            sx={{
+                              flexGrow: 1,
+                              "& .MuiOutlinedInput-root": {
+                                minHeight: "auto",
+                                height: "auto",
+                              },
+                            }}
+                          />
+                        </FormControl>
+                      </Box>
+                    </Grid>
+                  );
+                } else return null;
+              })}
             </Grid>
+          </>
+        );
+      } else if (status === "submitted" && hasAnswered === true) {
+        return;
+      } // TODO
+      else if (status === "submitted" && hasAnswered === false) {
+        return (
+          <>
             <Grid
-              item="true"
-              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
-              key={answers?.answer1.value}
+              container
+              spacing={12}
+              display={{ xs: "block", sm: "flex" }}
+              columns={12}
+              sx={{ flexGrow: 1 }}
             >
-              <Box display="flex" flexDirection="column">
-                <Typography variant="h6" color="text.primary">
-                  2. {questions?.question2.value}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid
-              item="true"
-              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
-              key={answers?.answer1.value}
-            >
-              <Box display="flex" flexDirection="column">
-                <Typography variant="h6" color="text.primary">
-                  3. {questions?.question3.value}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid
-              item="true"
-              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
-              key={answers?.answer1.value}
-            >
-              <Box display="flex" flexDirection="column">
-                <Typography variant="h6" color="text.primary">
-                  4. {questions?.question4.value}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid
-              item="true"
-              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
-              key={answers?.answer1.value}
-            >
-              <Box display="flex" flexDirection="column">
-                <Typography variant="h6" color="text.primary">
-                  5. {questions?.question5.value}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid
-              item="true"
-              size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
-              key={answers?.answer1.value}
-            >
-              <Box display="flex" flexDirection="column">
-                <Typography variant="h6" color="text.primary">
-                  6. {questions?.question6.value}
-                </Typography>
-              </Box>
+              {Object.entries(question).map(([key, value], index) => {
+                if (key !== "id") {
+                  return (
+                    <Grid
+                      item="true"
+                      size={{ xs: 12, sm: 12, md: 12, lg: 6 }}
+                      key={key}
+                    >
+                      <Box display="flex" alignItems="center" flexGrow={1}>
+                        <FormControl sx={{ flexGrow: 1 }}>
+                          <Typography
+                            align="center"
+                            variant="body1"
+                            color="text.primary"
+                          >
+                            {questionLabels[key] || key}
+                          </Typography>
+                          <Typography
+                            align="center"
+                            variant="body1"
+                            color="text.primary"
+                          >
+                            {value?.value || value}
+                          </Typography>
+                        </FormControl>
+                      </Box>
+                    </Grid>
+                  );
+                } else return null;
+              })}
             </Grid>
           </>
         );
@@ -228,120 +316,118 @@ export const SCInterviewCheck = () => {
   };
 
   const returnAlertTip = (status, hasAnswered) => {
-    if ((status, hasAnswered)) {
-      if (userType === STUDENT_USER_TYPE) {
-        //page is unreachable in this state
-        if (status === "toBeSubmitted") return;
-        //page is unreachable in this state
-        else if (status === "submitted" && hasAnswered === "false") return;
-        else if (status === "passed" || status === "failed")
-          return (
-            <Alert
-              severity="info"
-              sx={{ mb: 2 }}
-              onClose={() => setOpenTipAlert(false)}
-            >
-              <Typography variant="h6" inline="true">
-                Interview Evaluated!
-                <Typography
-                  inline="true"
-                  variant="body1"
-                  color="text.secondary"
-                >
-                  See the outcome in the interview details.
+    if (userType === STUDENT_USER_TYPE) {
+      //page is unreachable in this state
+      if (status === "toBeSubmitted") return;
+      //page is unreachable in this state
+      else if (status === "submitted" && hasAnswered === "false") return;
+      else if (status === "passed" || status === "failed")
+        return (
+          <Alert
+            severity="info"
+            sx={{ mb: 2 }}
+            onClose={() => setOpenTipAlert(false)}
+          >
+            <Typography variant="h6" inline="true">
+              Interview Evaluated!
+              <Typography inline="true" variant="body1" color="text.secondary">
+                See the outcome in the interview details.
+              </Typography>
+            </Typography>
+            <Typography variant="h6" inline="true">
+              Note:
+              <Typography inline="true" variant="body1" color="text.secondary">
+                The evaluation is final and cannot be changed.
+              </Typography>
+            </Typography>
+          </Alert>
+        );
+      else if (status === "submitted" && hasAnswered === "true")
+        return (
+          <Alert
+            severity="info"
+            sx={{ mb: 2 }}
+            onClose={() => setOpenTipAlert(false)}
+          >
+            <Typography variant="h6" inline="true">
+              Wait for the evaluation...
+            </Typography>
+            <Typography variant="h6" inline="true">
+              Note:
+              <Typography inline="true" variant="body1" color="text.secondary">
+                Your answers cannot be changed.
+              </Typography>
+            </Typography>
+          </Alert>
+        );
+    } else if (userType === COMPANY_USER_TYPE) {
+      //page is unreachable in this state
+      if (status === "toBeSubmitted") {
+        logger.focus("CIAOOO", openTipAlert, status);
+
+        return (
+          <>
+            {openTipAlert && (
+              <Alert
+                severity="info"
+                sx={{ mb: 2 }}
+                onClose={() => setOpenTipAlert(false)}
+              >
+                <Typography variant="body1">
+                  Create your Internship Offer and click Send Internship to send
+                  it to the world!
                 </Typography>
-              </Typography>
-              <Typography variant="h6" inline="true">
-                Note:
-                <Typography
-                  inline="true"
-                  variant="body1"
-                  color="text.secondary"
-                >
-                  The evaluation is final and cannot be changed.
+                <Typography variant="h6" inline="true">
+                  Remember:
+                  <Typography inline="true" variant="body1">
+                    Using keywords instead of long phrases increases the chances
+                    of getting a match in the recommendation process.
+                  </Typography>
                 </Typography>
+              </Alert>
+            )}
+          </>
+        );
+      } else if (status === "submitted" && hasAnswered === "true")
+        return (
+          <Alert
+            severity="info"
+            sx={{ mb: 2 }}
+            onClose={() => setOpenTipAlert(false)}
+          >
+            <Typography variant="h6" inline="true">
+              Interview Evaluation:
+              <Typography inline="true" variant="body1" color="text.secondary">
+                Evaluate the interview by clicking on the corresponding button.
               </Typography>
-            </Alert>
-          );
-        else if (status === "submitted" && hasAnswered === "true")
-          return (
-            <Alert
-              severity="info"
-              sx={{ mb: 2 }}
-              onClose={() => setOpenTipAlert(false)}
-            >
-              <Typography variant="h6" inline="true">
-                Wait for the evaluation...
+            </Typography>
+            <Typography variant="h6" inline="true">
+              Note:
+              <Typography inline="true" variant="body1" color="text.secondary">
+                The evaluation is final and cannot be changed.
               </Typography>
-              <Typography variant="h6" inline="true">
-                Note:
-                <Typography
-                  inline="true"
-                  variant="body1"
-                  color="text.secondary"
-                >
-                  Your answers cannot be changed.
-                </Typography>
+            </Typography>
+          </Alert>
+        );
+      else if (status === "submitted" && hasAnswered === "false")
+        return (
+          <Alert
+            severity="info"
+            sx={{ mb: 2 }}
+            onClose={() => setOpenTipAlert(false)}
+          >
+            <Typography variant="h6" inline="true">
+              Just wait for the student answers...
+            </Typography>
+            <Typography variant="h6" inline="true">
+              Note:
+              <Typography inline="true" variant="body1" color="text.secondary">
+                Answers and evaluation are final and cannot be changed.
               </Typography>
-            </Alert>
-          );
-      } else if (userType === COMPANY_USER_TYPE) {
-        //page is unreachable in this state
-        if (status === "toBeSubmitted") return;
-        else if (status === "submitted" && hasAnswered === "true")
-          return (
-            <Alert
-              severity="info"
-              sx={{ mb: 2 }}
-              onClose={() => setOpenTipAlert(false)}
-            >
-              <Typography variant="h6" inline="true">
-                Interview Evaluation:
-                <Typography
-                  inline="true"
-                  variant="body1"
-                  color="text.secondary"
-                >
-                  Evaluate the interview by clicking on the corresponding
-                  button.
-                </Typography>
-              </Typography>
-              <Typography variant="h6" inline="true">
-                Note:
-                <Typography
-                  inline="true"
-                  variant="body1"
-                  color="text.secondary"
-                >
-                  The evaluation is final and cannot be changed.
-                </Typography>
-              </Typography>
-            </Alert>
-          );
-        else if (status === "submitted" && hasAnswered === "false")
-          return (
-            <Alert
-              severity="info"
-              sx={{ mb: 2 }}
-              onClose={() => setOpenTipAlert(false)}
-            >
-              <Typography variant="h6" inline="true">
-                Just wait for the student answers...
-              </Typography>
-              <Typography variant="h6" inline="true">
-                Note:
-                <Typography
-                  inline="true"
-                  variant="body1"
-                  color="text.secondary"
-                >
-                  Answers and evaluation are final and cannot be changed.
-                </Typography>
-              </Typography>
-            </Alert>
-          );
-      }
-    } else return;
+            </Typography>
+          </Alert>
+        );
+    }
   };
 
   return (
@@ -368,8 +454,8 @@ export const SCInterviewCheck = () => {
         </Box>
         {openTipAlert &&
           returnAlertTip(
-            interviewDataSnapshot?.status.value,
-            interviewDataSnapshot?.hasAnswered.value
+            interviewObject.status?.value,
+            interviewObject.hasAnswered?.value
           )}
         <Grid
           container
@@ -379,48 +465,45 @@ export const SCInterviewCheck = () => {
           alignItems="stretch"
         >
           {returnGridElement(
-            interviewDataSnapshot?.status.value,
-            interviewDataSnapshot?.hasAnswered.value
+            interviewObject.status?.value,
+            interviewObject.hasAnswered?.value
           )}
         </Grid>
         <Box display="flex" justifyContent="center">
-          {((hasAnswered) => {
-            if (userType === COMPANY_USER_TYPE) {
-              if (hasAnswered) {
-                return (
-                  <Box
-                    mt={3}
-                    display="flex"
-                    flexDirection="column"
-                    justifyContent="center"
-                    gap={4}
-                    padding={5}
+          {userType === COMPANY_USER_TYPE && (
+            <>
+              {interviewObject.status?.value === "submitted" &&
+              interviewObject.hasAnswered?.value ? (
+                <Box
+                  mt={3}
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  gap={4}
+                  padding={5}
+                >
+                  <NumberInput
+                    label="Evaluation"
+                    step={1}
+                    min={0}
+                    max={5}
+                    allowWheelScrub={true}
+                    defaultValue={0}
+                    onValueChange={(value, event) =>
+                      (evaluationRef.current = value)
+                    }
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => evaluateInterview(id, evaluationRef.current)}
                   >
-                    <NumberInput
-                      label="Evaluation"
-                      step={1}
-                      min={0}
-                      max={5}
-                      allowWheelScrub={true}
-                      defaultValue={0}
-                      onValueChange={(value, event) =>
-                        (evaluationRef.current = value)
-                      }
-                    />
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() =>
-                        evaluateInterview(id, evaluationRef.current)
-                      }
-                    >
-                      Send Evaluation
-                    </Button>
-                  </Box>
-                );
-              }
-              if (!hasAnswered) {
-                return (
+                    Send Evaluation
+                  </Button>
+                </Box>
+              ) : (
+                !interviewObject.hasAnswered?.value &&
+                interviewObject.status?.value === "submitted" && (
                   <Box mt={6} display="flex" justifyContent="center">
                     <Typography
                       variant="h6"
@@ -437,46 +520,76 @@ export const SCInterviewCheck = () => {
                       </Typography>
                     </Typography>
                   </Box>
-                );
-              }
-            }
-            if (userType === STUDENT_USER_TYPE) {
-              if (hasAnswered) {
-                return (
-                  <Box mt={6} display="flex" justifyContent="center">
+                )
+              )}
+            </>
+          )}
+          {userType === COMPANY_USER_TYPE &&
+            interviewObject.status?.value === "toBeSubmitted" &&
+            !interviewObject.hasAnswered?.value && (
+              <>
+                <Box
+                  mt={6}
+                  display="flex"
+                  justifyContent="center"
+                  flexDirection="column"
+                  gap={3}
+                >
+                  {" "}
+                  <Typography
+                    variant="body1"
+                    color="text.primary"
+                    align="center"
+                  >
+                    Fill the data and...
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    align="center"
+                    onClick={sendInterview}
+                    sx={{ height: 70 }}
+                  >
                     <Typography
-                      variant="h6"
+                      variant="h4"
                       color="text.primary"
                       align="center"
                     >
-                      Your answers has been sent! ✈️
-                      <Typography
-                        variant="body1"
-                        color="text.secondary"
-                        align="center"
-                      >
-                        Waiting for company evaluation...
-                      </Typography>
+                      Send Interview ✈️
                     </Typography>
-                  </Box>
-                );
-              } else {
-                return (
-                  <Box mt={6} display="flex" justifyContent="center">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => {
-                        clickSendAnswers();
-                      }}
+                  </Button>
+                </Box>
+              </>
+            )}
+          {userType === STUDENT_USER_TYPE && (
+            <>
+              {interviewObject.hasAnswered?.value ? (
+                <Box mt={6} display="flex" justifyContent="center">
+                  <Typography variant="h6" color="text.primary" align="center">
+                    Your answers have been sent! ✈️
+                    <Typography
+                      variant="body1"
+                      color="text.secondary"
+                      align="center"
                     >
-                      Send Interview
-                    </Button>
-                  </Box>
-                );
-              }
-            }
-          })(hasAnswered)}
+                      Waiting for company evaluation...
+                    </Typography>
+                  </Typography>
+                </Box>
+              ) : (
+                <Box mt={6} display="flex" justifyContent="center">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      clickSendAnswers();
+                    }}
+                  >
+                    Send Interview
+                  </Button>
+                </Box>
+              )}
+            </>
+          )}
         </Box>
       </Box>
     </Box>

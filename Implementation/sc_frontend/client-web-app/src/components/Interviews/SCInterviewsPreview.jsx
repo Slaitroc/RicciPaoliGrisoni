@@ -19,27 +19,19 @@ export const SCInterviewsPreview = () => {
   const navigate = useNavigate();
   const {
     interviewsArray,
-    setInterviewsArray,
     openAlertProc,
     setInterviewObject,
+    interviewArrayFetch,
   } = useInterviewsContext();
 
   useEffect(() => {
-    fetchInterviewArray();
+    interviewArrayFetch();
   }, []);
-
-  const fetchInterviewArray = async () => {
-    const response = await interview.getFormattedInterviews();
-    if (response.success === true) {
-      setInterviewsArray(response.data);
-    } else {
-      openAlertProc("Failed to fetch interviews", "error");
-    }
-  };
 
   const clickOfferPreview = async (id) => {
     try {
       const response = await interview.getFormattedInterview(id);
+      logger.debug("fetchedArrayObject", response);
       if (response.success === true) {
         setInterviewObject(response.data);
       } else {
@@ -108,7 +100,7 @@ export const SCInterviewsPreview = () => {
                             variant="body2"
                             sx={{ color: "text.primary" }}
                           >
-                            {field[1]?.label}:
+                            {field[1].label}:
                           </Typography>
                           {" " +
                             ((value) => {
@@ -121,7 +113,7 @@ export const SCInterviewsPreview = () => {
                                 else if (value === "passed") return "PASSED";
                                 else return value;
                               } else return "No Content";
-                            })(field[1]?.value)}
+                            })(field[1].value)}
                         </Typography>
                       );
                     })}
