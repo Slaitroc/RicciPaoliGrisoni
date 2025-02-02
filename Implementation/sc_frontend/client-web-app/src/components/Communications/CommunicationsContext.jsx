@@ -1,5 +1,4 @@
 import * as communication from "../../api-calls/api-wrappers/communication-wrapper/communication";
-import * as internshipPositionOffer from "../../api-calls/api-wrappers/Interview/intPosOffer";
 import React, { createContext, useEffect } from "react";
 import * as logger from "../../logger/logger";
 import Alert from "@mui/material/Alert";
@@ -45,24 +44,6 @@ export const CommunicationsProvider = ({ children }) => {
         setAlertSeverity("error");
         setAlertMessage("Error fetching communications");
       });
-    internshipPositionOffer
-      .getFormattedInterviewPosOffers()
-      .then((response) => {
-        if (!response.success) {
-          setOpenAlert(true);
-          setAlertSeverity(response.severity);
-          setAlertMessage(response.message);
-        } else {
-          logger.log("Internship position offers fetched successfully");
-          logger.log(response.data);
-          setInternshipPositionOffers(response.data);
-        }
-      })
-      .catch((error) => {
-        setOpenAlert(true);
-        setAlertSeverity("error");
-        setAlertMessage("Error fetching internship position offers");
-      });
   }, []);
 
   const value = {
@@ -74,6 +55,7 @@ export const CommunicationsProvider = ({ children }) => {
     setOpenAlert,
     setAlertMessage,
     setAlertSeverity,
+    setInternshipPositionOffers,
   };
 
   return (

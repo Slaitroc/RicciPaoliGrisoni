@@ -7,30 +7,34 @@ export const getInterviews = async () => {
 
 export const getFormattedInterviewPosOffers = async () => {
   try {
-    return apiCalls.getMyInternshipPositionOffers().then((response) => {
+    return apiCalls.getMyInternshipPositionOffers().then(async (response) => {
       logger.debug("getFormattedInterviewPosOffers response: ", response);
-      if (response.status === 400 || response.status === 404) {
-        return response.json().then((errorData) => {
-          // Extract error message from the parsed array structure
-          const errorMessage =
-            errorData[0]?.properties?.error || "Unknown error occurred";
-          logger.error(errorMessage);
-          return {
-            success: false,
-            data: null,
-            message: errorMessage,
-            severity: response.status === 400 ? "error" : "info",
-          };
-        });
-      } else {
-        return response.json().then((payload) => {
+      if (response.status === 200) {
+        focus("here3");
+        return (payload = response.json().then((payload) => {
           return {
             success: true,
             data: payload.map((item) => item.properties),
             message: "Internship Position Offer fetched successfully",
             severity: "success",
           };
-        });
+        }));
+      } else if (response.status === 204) {
+        focus("here2");
+        return {
+          success: true,
+          data: null,
+          message: "No Internship Position Offer found", // NOTAAA response.properties.error non esisteee
+          severity: "info",
+        };
+      } else {
+        focus("here1");
+        return {
+          success: false,
+          data: null,
+          message: response.properties.error,
+          severity: "error",
+        };
       }
     });
   } catch (error) {
@@ -41,8 +45,8 @@ export const getFormattedInterviewPosOffers = async () => {
 export const acceptInternshipPositionOffer = async (id) => {
   try {
     return apiCalls.acceptInternshipPositionOffer(id).then((response) => {
+      logger.focus("here");
       if (response.status === 400 || response.status === 404) {
-        logger.debug("error occurred", response);
         // Add return here to propagate the error object
         return response.json().then((data) => {
           return {
@@ -52,12 +56,13 @@ export const acceptInternshipPositionOffer = async (id) => {
           };
         });
       } else {
-        // Success case returns directly
-        return {
-          success: true,
-          message: "Internship Position Offer accepted successfully",
-          severity: "success",
-        };
+        return response.json().then((data) => {
+          return {
+            success: true,
+            message: "Internship Position Offer accepted successfully",
+            severity: "success",
+          };
+        });
       }
     });
   } catch (error) {
