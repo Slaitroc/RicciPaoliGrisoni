@@ -30,7 +30,8 @@ const onAccept = (item, selectedStudent, onClose) => {
       itemID: item.id.value,
     });
     //should implement a error handling here
-    apiCall.sendInterviewTemplate(selectedStudent.interviewID, item.id.value);
+    apiCall.sendInterviewTemplate(item.id.value, selectedStudent.interviewID);
+    onClose();
   } catch (error) {
     logger.error("Error in onAccept:", error);
   }
