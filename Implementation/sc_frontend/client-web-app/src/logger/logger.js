@@ -63,12 +63,14 @@ export const debug = (...args) => {
 };
 
 export const focus = (...args) => {
-  console.groupCollapsed(
-    "%cFOCUS:%c",
-    "color: orange; font-weight: bold;",
-    "color: inherit;",
-    ...args
-  );
-  console.trace();
-  console.groupEnd();
+  if (debugMode) {
+    console.groupCollapsed(
+      "%cFOCUS:%c",
+      "color: orange; font-weight: bold;",
+      "color: inherit;",
+      ...args
+    );
+    console.trace();
+    console.groupEnd();
+  }
 };
