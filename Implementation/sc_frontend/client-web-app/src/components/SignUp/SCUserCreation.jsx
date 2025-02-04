@@ -243,9 +243,6 @@ export const SCUserCreation = () => {
                 <FormLabel htmlFor="birthdate">Date of Birth</FormLabel>
                 <DatePicker
                   onChange={(date) =>
-                    //DANGER date offset of one day --> day 9 became 8
-                    //viene inviata anche nel caso di company e university ma il backend la ignora
-                    //ignoring for now
                     setBirthDate(new Date(date).toISOString().split("T")[0])
                   }
                   views={["year", "month", "day"]}

@@ -168,7 +168,6 @@ export const getFormattedCompanyInternships = async (companyID) => {
     });
 };
 
-//TODO add the function to get the formatted internships
 export const getFormattedInternships = async () => {
   try {
     return apiCalls.getInternshipOffers().then((response) => {

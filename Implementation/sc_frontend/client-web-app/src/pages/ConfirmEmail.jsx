@@ -18,7 +18,6 @@ export const ConfirmEmail = () => {
         } else if (!response.ok) {
           console.log("Email not confirmed");
           response.json().then((data) => {
-            //TODO alert???
             console.log(data.properties.error);
           });
         }

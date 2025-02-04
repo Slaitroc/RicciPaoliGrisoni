@@ -81,7 +81,6 @@ export default function SCInterview() {
       }
     } else if (userType === COMPANY_USER_TYPE) {
       if (status === "toBeSubmitted") {
-        //DANGER siamo qui
 
         return buildButton(
           "Create Interview",

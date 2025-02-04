@@ -30,7 +30,6 @@ export default function SCCv() {
   const onEditClick = () => {
     //NAV to CV edit
     navigate("/dashboard/cv/edit");
-    // return () => setShowEdit(bool);
   };
 
  

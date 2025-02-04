@@ -45,7 +45,7 @@ const studentListItems = [
   },
   {
     key: uuidv4(),
-    text: "Interviews", //FIX choose a better name
+    text: "Interviews", 
     icon: <SCIcons.SCCollectionsBookmarkIcon />,
     route: "/dashboard/interviews",
   },
