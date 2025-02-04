@@ -25,7 +25,7 @@ services:
 
     networks:
       - traefik-network
-      - zerotier_network
+      # - zerotier_network
     depends_on:
       - application-database-service
       - notification-database-service
@@ -53,7 +53,7 @@ services:
 
     networks:
       - traefik-network
-      - zerotier_network
+      # - zerotier_network
     restart: always
 
   application-database-service:
@@ -150,14 +150,14 @@ services:
 
     networks:
       - traefik-network
-      - zerotier_network
+      # - zerotier_network
 
 networks:
   traefik-network:
     driver: bridge
-  zerotier_network:
-    external: true
-    name: zerotier_network
+  # zerotier_network:
+  #   external: true
+  #   name: zerotier_network
 
 volumes:
   platform_db_data:
