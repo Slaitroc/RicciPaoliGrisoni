@@ -53,7 +53,7 @@ Write-Host "Production profile selected." -ForegroundColor Cyan
 # Always rebuild for production
 Write-Host "Rebuilding containers for production..." -ForegroundColor Green
 Write-Host "Starting Maven build for production profile..." -ForegroundColor Green
-$MavenBuildProcess = Start-Process -FilePath $MavenExecutable -ArgumentList "-f $MavenProjectPath\pom.xml clean package -DskipTests" -NoNewWindow -Wait -PassThru
+$MavenBuildProcess = Start-Process -FilePath $MavenExecutable -ArgumentList "-f $MavenProjectPath\pom.xml clean package -Dmaven.test.skip=true" -NoNewWindow -Wait -PassThru
 
 if ($MavenBuildProcess.ExitCode -ne 0) {
     Write-Error "sc_server --> Maven build failed. Check your project configuration and try again."
@@ -62,7 +62,7 @@ if ($MavenBuildProcess.ExitCode -ne 0) {
 
 Write-Host "sc_server --> Maven build completed successfully." -ForegroundColor Green
 
-$MavenBuildProcess = Start-Process -FilePath $MavenExecutable -ArgumentList "-f $MavenAuthProjectPath\pom.xml clean package -DskipTests" -NoNewWindow -Wait -PassThru
+$MavenBuildProcess = Start-Process -FilePath $MavenExecutable -ArgumentList "-f $MavenAuthProjectPath\pom.xml clean package -Dmaven.test.skip=true" -NoNewWindow -Wait -PassThru
 
 if ($MavenBuildProcess.ExitCode -ne 0) {
     Write-Error "sc_auth --> Maven build failed. Check your project configuration and try again."
