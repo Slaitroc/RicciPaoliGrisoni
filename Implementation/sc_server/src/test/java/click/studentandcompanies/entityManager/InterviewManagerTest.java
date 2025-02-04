@@ -266,7 +266,9 @@ class InterviewManagerTest {
         when(interviewQuizRepository.save(any(InterviewQuiz.class))).thenAnswer(i -> i.getArgument(0));
         when(internshipPosOfferRepository.save(any(InternshipPosOffer.class))).thenAnswer(i -> i.getArgument(0));
         when(interviewRepository.save(any(Interview.class))).thenAnswer(i -> i.getArgument(0));
+        when(userManager.getCompanyById(companyID.toString())).thenReturn(company);
 
+        interview.setHasAnswered(true);
         Interview result = interviewManager.evaluateInterview(interview.getId(), payload);
         assertNotNull(result);
         assertEquals(InterviewStatusEnum.passed, result.getStatus());
@@ -469,18 +471,18 @@ class InterviewManagerTest {
         when(userManager.getUserType(studentID.toString())).thenReturn(UserType.STUDENT);
 
         interview.setInterviewQuiz(interviewQuiz);
-        // Put the quiz on the interview
-        when(interviewRepository.findById(interview.getId())).thenReturn(Optional.of(interview));
-
-        // This method loops through all interviews. We'll return just one
-        when(interviewRepository.findAll()).thenReturn(List.of(interview));
+        interviewQuiz.setInterview(interview);
+        interviewQuiz.setId(201);
 
         // The code checks if the interview belongs to the user
         Cv cv = new Cv();
         cv.setStudent(student);
         recommendation.setCv(cv);
 
-        InterviewQuiz result = interviewManager.getInterviewQuiz(interview.getId(), studentID.toString());
+        when(interviewQuizRepository.findById(interviewQuiz.getId())).thenReturn(Optional.of(interviewQuiz));
+
+
+        InterviewQuiz result = interviewManager.getInterviewQuiz(interviewQuiz.getId(), studentID.toString());
         assertNotNull(result);
         assertEquals(interviewQuiz, result);
     }
