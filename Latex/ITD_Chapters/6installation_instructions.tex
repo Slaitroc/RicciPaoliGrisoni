@@ -1,0 +1,68 @@
+\section{Installation Guide}
+
+This section provides the necessary steps to install and run the S\&C platform.
+
+\subsection{Prerequisites}
+
+Before proceeding with the installation, ensure you have the following dependencies installed on your system:
+
+\begin{itemize}
+    \item \textbf{Docker}: required to run the backend services with the \verb|docker-compose.yml| file.
+    \item \textbf{PowerShell} (Windows users only): optional, but recommended to automate the backend startup process.
+    \item \textbf{Node.js and npm}: Required to install and run the frontend application.
+\end{itemize}
+
+
+\subsection{Backend Setup}
+\subsubsection*{Docker}
+
+\begin{enumerate}
+    \item Ensure Docker is installed and running on your system.
+    \item Open a terminal and navigate to the project root directory.
+
+\end{enumerate}
+\subsubsection*{Spring .jar Files \& Containerized Environment }
+
+A PowerShell script is provided to create the \verb|.jar| files that will be needed to properly execute the backend services within the docker containers. 
+
+\begin{enumerate}
+    \item Open a PowerShell terminal.
+    \item Navigate to the "Implementation" directory.
+    \item Execute the script: 
+    \begin{verbatim}
+        .\build-and-execute.ps1
+    \end{verbatim}
+
+    \item When prompted, press \textbf{p} for production mode.
+    \item Confirm container rebuild by pressing \textbf{yes} when asked.
+\end{enumerate}
+
+The script is useful as a shorthand to create the java build files, set up the environment variables and build and execute the containers.
+
+Naturally, the same behavior could be obtained by manually compiling the Maven Java project inside the folders \verb|sc_server| and \verb|sc_auth| with the command \verb|mvn clean package| and then building the containers with \verb|docker compose up --build|
+
+
+
+\subsection{Frontend Setup}
+
+\begin{enumerate}
+    \item Ensure that \textbf{Node.js} and \textbf{npm} are installed on your system.
+    \item Open a terminal and navigate to the frontend directory.
+    \item Install dependencies by running:
+
+    \begin{verbatim}
+    npm install
+    \end{verbatim}
+
+    \item Start the frontend with API support:
+
+    \begin{verbatim}
+    npm run dev:api
+    \end{verbatim}
+
+\end{enumerate}
+
+\subsection{Final Steps}
+
+Once both the backend and frontend are running, the application should be accessible via the specified local development URL. Make sure both services are properly started before testing the platform.
+

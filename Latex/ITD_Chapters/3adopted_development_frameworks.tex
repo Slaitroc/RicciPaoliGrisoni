@@ -1,0 +1,40 @@
+Different frameworks, technologies, and languages have been used to implement the S\&C platform. The following sections provide an overview of the main frameworks used for the backend, frontend, and database layers. Each section includes a brief description of the framework, its main features, and the reasons for choosing it.
+\subsection{Framework}
+\subsubsection{Frontend}
+\paragraph{React} 
+React is a JavaScript library for building user interfaces. It is maintained by Facebook and a community of individual developers and companies. React can be used as a base in the development of single-page or mobile applications. It is a declarative, efficient, and flexible library that allows developers to compose complex UIs from small and isolated pieces of code called “components”\\
+React was chosen for the frontend layer of the S\&C platform because of its simplicity, flexibility, and performance. It allows for the creation of reusable UI components, which is essential for building a complex web application like ours. React also provides a virtual DOM, which improves performance by updating only the necessary parts of the UI when the application state changes. This feature is particularly useful for the S\&C platform, where real-time updates are required to display different aspect of the application like newly founded matches or recently received notifications. React also has a large and active community, which ensures good support, documentation, and a wide range of third-party libraries and tools that can be used to enhance the development process. In particular, libraries like Framer Motion and Material-UI have been used to create smooth animations, fluent transitions and consistent and responsive UI design.
+\subsubsection{Backend}
+\paragraph{Spring Boot}
+Spring is a popular open-source framework for building enterprise Java applications. It provides comprehensive infrastructure support for developing Java applications, including configuration management, dependency injection, and aspect-oriented programming. Spring was chosen mainly for its modularity that allow developers to use only the parts of the framework they need, as well as for its ease of use and large community support. It also integrates well with other Java technologies, such as Hibernate and JPA.  
+Spring Boot also simplifies the development process by providing a set of defaults and conventions, which reduces the amount of boilerplate code that developers need to write. This allows the team to focus on the business logic of the application, rather than dealing with low-level configuration details. The Spring Data JPA module was used to interact with the database, providing a high-level abstraction over the underlying SQL queries. This allows developers to write database queries using Java objects and annotations, rather than raw SQL statements. Spring Boot web was used to create RESTful APIs that can be consumed by the frontend layer of the application. These APIs are used to perform CRUD operations on the database such as creating, reading, updating, and deleting data. 
+
+\paragraph{Lucene}
+Lucene is a high-performance, full-featured text search engine library written in Java. It is widely used in information retrieval and text mining applications, such as web search engines, document management systems, and e-commerce platforms. Lucene provides a rich set of features for indexing, searching, and analyzing text data, including support for full-text search, faceted search, and fuzzy matching. These capabilities were used to implement the matching algorithm that is used to match students with internships. The algorithm is based on the similarity between the student's CV and the internship description requirements. Thanks to the fuzzy matching feature of Lucene, as well as it's speed and accuracy, the algorithm is able to provide a list of the most suitable internships for each student even if the CV and the internship description are not an exact word-by-word match.
+
+\paragraph{Firebase}
+Firebase is a platform developed by Google for creating mobile and web applications. It provides a variety of services, including a real-time database, authentication, cloud storage, and hosting.  It allows developers to build high-quality applications quickly and efficiently. Firebase was chosen for the backend layer of the S\&C platform because of its authentication capability, handling the users account confirmation, sign-up and login and the ability to send them notifications with the Firebase Cloud Messaging service when relevant events occur. 
+\subsubsection{Data layer}
+\paragraph{JPA}
+Java Persistence API (JPA) is a Java specification for managing relational data in Java applications. It provides a set of standard interfaces and annotations for mapping Java objects to database tables and vice versa. JPA is part of the Java EE platform and is implemented by various ORM (Object-Relational Mapping) frameworks, such as Hibernate, EclipseLink, and OpenJPA. JPA was chosen for the database layer of the S\&C platform because of its ease of use, flexibility, and compatibility with other Java technologies and framework, in particular Spring. 
+Moreover JPA  allows developers to write database queries using Java objects and annotations, rather than raw SQL statements. This makes the code more readable, maintainable, and less error-prone while providing a high-level abstraction over the underlying SQL queries, which simplifies the development process and reduces the amount of boilerplate code that developers need to write.
+
+\paragraph{Hibernate}
+Hibernate is a high-performance, object-relational mapping (ORM) framework for Java that handles the mapping between Java classes and database tables, as well as the generation of SQL queries and the management of database connections. Hibernate was chosen for the database layer of the S\&C platform because of its ease of use, flexibility, and compatibility with other Java technologies as well as the rich set of features such as caching, transaction management, and query optimization, which improve the performance and scalability of the application. \\
+Hibernate is widely used in enterprise Java applications and has a large and active community, which ensures good support, documentation, and a wide range of third-party libraries and tools that can be used to enhance the development process.
+
+\paragraph{MariaDB}
+MariaDB is an open-source relational database management system (DBMS) that is compatible with MySQL. It is widely used in web applications, e-commerce platforms, and content management systems. MariaDB was mainly chosen for its compatibility with Hibernate and JPA, which simplifies the integration with the backend layer of the S\&C platform as well as for its open-source nature, which allows developers to use it freely without any licensing costs. 
+
+\subsection{Languages}
+The following languages have been used to implement the S\&C platform:
+\begin{itemize}
+    \item \textbf{Java}: Java is a general-purpose programming language that is widely used in enterprise applications, web development, and mobile applications. It is mainly known for its portability, which allows developers to write code once and run it on any platform that supports Java and its virtual machine. Java was chosen for the backend layer of the S\&C platform because of its performance, scalability, and compatibility with other Java technologies and frameworks, such as Spring and Hibernate, as well as the team members' familiarity with the language.
+    
+    \item \textbf{JavaScript}: JavaScript is a high-level, interpreted programming language that is widely used in web development. It is mainly known for its ability to create interactive and dynamic web pages. JavaScript was chosen for the frontend layer of the S\&C platform because of its flexibility, performance, and compatibility with modern web browsers, as well as the large and active community that provides good support, documentation, and a wide range of third-party frameworks and libraries like React.
+\end{itemize}
+
+
+
+
+

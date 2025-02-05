@@ -1,0 +1,79 @@
+\subsection{Product Functions}
+This section outlines the essential functionalities and detailed requirements of the platform, structured to support the key objectives defined in the scope of the product.
+\begin{enumerate}
+    \item \textbf{\color{titleColor}User Management}: The platform allows Students, Companies, and Universities to register and login. It also provides Students with the ability to upload and modify their CVs, and Companies with the ability to view and manage their Internships Offer.
+    \item \textbf{\color{titleColor}Internship Creation and Management}: Companies can create, publish, and manage Internship Offers on the platform. They define details such as job description, requirements, location, and benefits. %Companies also have the ability to terminate Internship offers when the position are they are no longer available. (TBD if we can actually avoid deletining half of the DB)
+    \item \textbf{\color{titleColor}Student Application Process}: Students can browse available Internships and apply to Internships either through automatic matching or by submitting Spontaneous Applications. They can also track the status of their Applications throughout the process.
+    \item \textbf{\color{titleColor}Automated Recommendations}: The platform matches Students with suitable Internships based on their CVs and the specific requirements set by Companies. Once a match is found, both Students and Companies are notified, and they can accept or reject the Recommendation.
+    \item \textbf{\color{titleColor}Interview Management}: Companies can create and assign Interviews to Students, which include closed and open questions to assess their suitability for an Internship. Both Students and Companies can track the Interview progress, and Companies can evaluate Student responses. Companies can also select among students who have passed the interview those to whom they will propose an Internship Position Offer.
+    \item \textbf{\color{titleColor}Interview Reassignment}:
+    Companies can reassign Interviews question to other Students, allowing them to shorten the time needed to find the right candidate.
+    \item \textbf{\color{titleColor}Feedback for Improvement}: The platform collects Feedback from Students and Companies to improve the Recommendation Process by dynamically change the Recommendation Process
+    \item \textbf{\color{titleColor}Complaint Management}: Students and Companies can publish Complaints about Ongoing Internships, notifying Universities.
+    \item \textbf{\color{titleColor}Notification System}: Notifications are sent to Students, Companies, and Universities when relevant events occur, such as new Internships, founded matches, Interview assignments,  Internship Position Offers, Sign-up confirmation or Communications.
+\end{enumerate}
+\subsubsection{Requirements}
+The following requirements have been implemented in the S\&C platform:
+\begin{enumerate}[label={\color{titleColor}[R\arabic*]}]
+    % Login
+    \item The platform shall allow any unregistered students to register by providing personal information and selecting their University.
+    \item The platform shall allow any companies to register by providing company information.
+    \item The platform shall allow any universities to register by providing university information.
+    \item The platform shall allow Users to log in using their email and password.
+    \item The platform shall send notifications to Users when relevant events occur.
+    
+    % Application advertisement and Applications
+    \item The platform shall allow Companies to create and publish Internship offers specifying details.
+    \setcounter{enumi}{7}
+    \item The platform shall provide Students with Matches automatically obtained by the Recommendation Process.
+    \item The platform shall allow Students to view and navigate all available Internships.
+    \item The platform shall enable Students to submit Spontaneous Applications to Internships they choose.
+    \item The platform shall allow Students to submit their CV.
+    \item The platform shall allow Students to modify their CV.
+    \item The platform shall allow Students to monitor the status of their Spontaneous Applications.
+    \item The platform shall allow Students to monitor the status of their Recommendation.
+    
+    % Recommendation system
+    \item The platform shall display to Students all the Internships found by the Recommendation Process.
+    \item The platform shall display to Companies all the CVs of Matched Students obtained by the Recommendation Process.
+    \item The platform shall allow Students and Companies to accept a Recommendation.
+    \item The platform shall allow Companies to accept a Spontaneous Application.
+    \item The platform shall start a Selection Process only if both the Company and the Student have accepted the Recommendation.
+    \item The platform shall start a Selection Process only if the Company has accepted the Spontaneous Application.
+    
+    % Selection and Interview Management
+    \item The platform shall allow Companies to create Interviews.
+    \item The platform shall allow Companies to submit Interviews to Students they have initiated a Selection Process with.
+    \item The platform shall allow Students to answer Interview questions and submit them.
+    \item The platform shall allow Companies to manually evaluate Interview submissions.
+    \item The platform shall allow Students and Companies to monitor the status of their Interviews.
+    \item The platform shall enable Companies to complete the Interview process by submitting the final outcome to each candidate.
+
+    %Internship Position Offer
+    \item The platform shall enable Companies to send an Internship Position Offer to a Student only if he previously passed the relative Interview.
+    \item The platform shall enable Students to accept or reject an Internship Position Offer sent by a Company only if he previously passed the relative Interview.
+    
+    % Feedback and Suggestions for Improvements
+    \item The platform shall collect Feedback from both Students and Companies regarding the Recommendation Process.
+    \setcounter{enumi}{31}
+    % Universities Oversight and Complaint Management
+    \item The platform shall allow registered Universities to access and monitor Internship Communications related to their Students.
+    \setcounter{enumi}{32}
+    \item The platform shall provide a dedicated space for Students and Companies to exchange Communications about the current status of an Ongoing Internship.
+    \setcounter{enumi}{34}
+    \item The platform shall enable companies to assign a set of interview questions to students, allowing the same set of questions to be reassigned to multiple one.
+\end{enumerate}
+\vspace{30pt}
+
+
+The following requirements have \textbf{not} been implemented in the S\&C platform:
+\begin{enumerate}[label={\color{titleColor}[R\arabic*]}]
+    \setcounter{enumi}{6}
+    \item The platform shall allow Companies to terminate their Internship offers at their own discretion
+    \setcounter{enumi}{29}
+    \item The platform shall provide Suggestions to Students on improving their CVs
+    \item The platform shall provide Suggestions to Companies on improving Internship descriptions.
+    \setcounter{enumi}{34}
+    \item The platform shall allow registered Universities to handle Complaints and to interrupt an Internship
+at their own discretion.
+\end{enumerate}
