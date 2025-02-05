@@ -369,7 +369,7 @@ The Presentation Layer displays the retrieved matches to the Participant, allowi
     \centering
     \includegraphics[width=\linewidth]{Latex/Images/DD/SequenceDiagrams/15UserRespondsToComm.png}
     \caption{User Responds To Communication Sequence Diagram}
-    \label{fig:}
+    \label{fig: usrespondcomm}
 \end{figure}
 By clicking the Publish Answer button, the User initiates a POST private API call from the Presentation Layer to the Proxy. The request contains the CommID, the User's message, and their authentication token.\\
 The Proxy first validates the token using its authentication middleware and forwards the request to the APIController. The APIController processes the request by calling the CommunicationManager to handle the submission.\\
@@ -424,7 +424,7 @@ Finally, the Presentation Layer displays the list of communications to the User.
     \centering
     \includegraphics[width=\linewidth]{Latex/Images/DD/SequenceDiagrams/19UniversityInterruptsIntership.png}
     \caption{ University Interrupts Internship Sequence Diagram}
-    \label{fig:}
+    \label{fig:unintint}
 \end{figure}
 When the University initiates the process to interrupt an internship by clicking the appropriate button, the Presentation Layer displays a confirmation button. Upon confirmation, the Presentation Layer sends a POST request to the Proxy.\\
 The Proxy authenticates the request and forwards it to the APIController. The APIController invokes the CommunicationManager, which interacts with the PlatformEntityManager to update the internship offer in the database. The PlatformEntityManager performs the update operation by communicating with the PlatformDBMS.\\
