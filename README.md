@@ -23,6 +23,7 @@ Before proceeding with the installation, ensure you have the following dependenc
 - **Docker**: Required to run backend services using `docker-compose.yml`.
 - **PowerShell** (Windows users only): Optional, but recommended to automate the backend startup process.
 - **Node.js** and **npm**: Required to install and run the frontend application.
+- **JDK 21**: require to properly compile the code with maven
 
 ---
 
