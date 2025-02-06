@@ -23,7 +23,7 @@ Before proceeding with the installation, ensure you have the following dependenc
 - **Docker**: Required to run backend services using `docker-compose.yml`.
 - **PowerShell** (Windows users only): Optional, but recommended to automate the backend startup process.
 - **Node.js** and **npm**: Required to install and run the frontend application.
-- **JDK 21**: require to properly compile the code with maven
+- **JDK 21**: Required to properly compile the java code with maven.
 
 ---
 
@@ -86,10 +86,12 @@ in the Implementation directory
 ---
 
 ### 🚨 Frontend and Containers Hosts 🚨 (Important!)
-Typically the vite project dev environment is hosted in `http::/localhost:5173`, but sometimes, depending on the device, the port can change. 
+Typically the vite project dev environment is hosted in http::/localhost:5173`, but sometimes, depending on the device, the port can change. 
 The terminal launching the npm vite project will specify the used port. To have the email confirmation service working, you shall change the host ip coherently in the `Implementation\sc_frontend\client-web-app\src\api-calls\apiConfig.js` file.
 
 In the same file you can set the IP of the device that is running the backend container, which shall be `http://localhost` if your not using external tools like zeroTier to connect to other devices running containers.
+
+The same should be set in the docker compose file where all the traefik rules using the Host definintion syntax along the file must contain the `localhost` (for local testing) or the used host for the backend services (for other types of cunfigurations). 
 
 
 ### ✅ Final Steps

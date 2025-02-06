@@ -18,7 +18,7 @@ services:
 
       #____________ROUTERS____________#
       # APPLICATION SERVICE
-      - "traefik.http.routers.application-container.rule=Host(`10.147.19.176`) &&  PathPrefix(`/application-api`)" #!!!!
+      - "traefik.http.routers.application-container.rule=Host(`localhost`) &&  PathPrefix(`/application-api`)" #!!!!
       - "traefik.http.routers.application-container.service=application-service"
       - "traefik.http.routers.application-container.entrypoints=web"
       - "traefik.http.routers.application-container.middlewares=cors-headers"
@@ -46,7 +46,7 @@ services:
 
       #____________ROUTERS____________#
       # AUTH SERVICE
-      - "traefik.http.routers.auth-container.rule=Host(`10.147.19.176`) &&  PathPrefix(`/auth-api`)" #!!!!
+      - "traefik.http.routers.auth-container.rule=Host(`localhost`) &&  PathPrefix(`/auth-api`)" #!!!!
       - "traefik.http.routers.auth-container.service=auth-service"
       - "traefik.http.routers.auth-container.entrypoints=web"
       - "traefik.http.routers.auth-container.middlewares=cors-headers"
@@ -123,7 +123,7 @@ services:
       - "traefik.enable=true"
       #____________ROUTERS____________#
       # DASHBOARD ROUTER ---> to traefik
-      - "traefik.http.routers.traefik.rule=Host(`10.147.19.176`)" #!!!!
+      - "traefik.http.routers.traefik.rule=Host(`localhost`)" #!!!!
       - "traefik.http.routers.traefik.entrypoints=web"
       - "traefik.http.routers.traefik.service=api@internal"
       # PRIVATE CALLS ROUTER ---> to sc-auth-container
