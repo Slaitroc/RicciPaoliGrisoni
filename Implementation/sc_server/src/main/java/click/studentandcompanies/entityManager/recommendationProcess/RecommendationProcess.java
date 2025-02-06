@@ -1,0 +1,58 @@
+package click.studentandcompanies.entityManager.recommendationProcess;
+
+import click.studentandcompanies.entity.Cv;
+import click.studentandcompanies.entity.InternshipOffer;
+import click.studentandcompanies.entity.Recommendation;
+import click.studentandcompanies.entityManager.UserManager;
+import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.recommendationAlgorithm.StartRecommendationProcessCommandCV;
+import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.recommendationAlgorithm.StartRecommendationProcessCommandOffer;
+import click.studentandcompanies.entityRepository.RecommendationRepository;
+import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.GET.*;
+import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.POST.*;
+import click.studentandcompanies.utils.exception.BadInputException;
+import click.studentandcompanies.utils.exception.NoContentException;
+import click.studentandcompanies.utils.exception.NotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class RecommendationProcess {
+    private final UserManager userManager;
+    private final RecommendationRepository recommendationRepository;
+
+    public RecommendationProcess(UserManager userManager, RecommendationRepository recommendationRepository) {
+        this.userManager = userManager;
+        this.recommendationRepository = recommendationRepository;
+    }
+
+    public void startRecommendationProcess(Cv cv){
+        new StartRecommendationProcessCommandCV(userManager, cv, recommendationRepository).execute();
+    }
+
+    public void startRecommendationProcess(InternshipOffer internshipOffer){
+        new StartRecommendationProcessCommandOffer(userManager, internshipOffer, recommendationRepository).execute();
+    }
+
+
+    //Handle the acceptance of a recommendation
+    //Thx @Matteo for the Exception handling idea, it's much cleaner now
+    public Recommendation acceptRecommendation(Integer recommendationID, Map<String, Object> payload) throws BadInputException, NotFoundException{
+        return new AcceptRecommendationCommand(userManager, recommendationID, payload, recommendationRepository).execute();
+    }
+
+    public Recommendation rejectRecommendation(Integer recommendationID, Map<String, Object> payload) throws BadInputException, NotFoundException {
+        return new RejectRecommendationCommand(userManager, recommendationID, payload, recommendationRepository).execute();
+    }
+
+    public List<Recommendation> getRecommendationsByParticipant(String userID) throws BadInputException, NotFoundException, NoContentException {
+        return new GetRecommendationByParticipantCommand(userManager, recommendationRepository, userID).execute();
+    }
+
+    @Transactional
+    public void closeRelatedRecommendations(Integer internshipID) {
+        new CloseRelatedRecommendationsCommand(recommendationRepository, internshipID).execute();
+    }
+}
