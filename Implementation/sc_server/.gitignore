@@ -20,5 +20,3 @@ buildNumber.properties
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 indexDirectory/
-src/main/resources/firebaseKey.json
-src/main/resources/application.properties
