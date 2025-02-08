@@ -2,6 +2,7 @@ package click.studentandcompanies.entityManager.communicationManager.communicati
 
 import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entity.dbEnum.CommunicationTypeEnum;
+import click.studentandcompanies.entity.dbEnum.ParticipantTypeEnum;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.communicationManager.CommunicationManagerCommands;
 import click.studentandcompanies.entityRepository.CommunicationRepository;
@@ -9,7 +10,6 @@ import click.studentandcompanies.utils.exception.BadInputException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 import click.studentandcompanies.utils.exception.WrongStateException;
 
-import java.util.List;
 import java.util.Map;
 
 public class CreateCommunicationCommand implements CommunicationManagerCommands<Communication> {
@@ -26,29 +26,33 @@ public class CreateCommunicationCommand implements CommunicationManagerCommands<
     @Override
     public Communication execute() {
         validateInput(payload);
-        Student student = userManager.getStudentById((String) payload.get("student_id"));
-        InternshipOffer internshipOffer = userManager.getInternshipOfferById((Integer) payload.get("internshipOffer_id"));
-        University university = userManager.getUniversityById((String) payload.get("university_id"));
-        CommunicationTypeEnum communicationType = CommunicationTypeEnum.valueOf((String) payload.get("communication_type"));
-        Communication communication = new Communication(student, internshipOffer, university, (String) payload.get("title"), (String) payload.get("content"), communicationType);
-        communicationRepository.save(communication);
-        return communication;
+        return communicationRepository.save(createCommunication(payload));
     }
 
-    //payload will contain the 'student_id', 'internshipOffer_id', 'university_id', 'title', 'content', 'communication_type'
+    //payload will contain the 'user_id', 'internshipPosOfferID', 'title', 'content', 'communicationType'
     private void validateInput(Map<String, Object> payload) {
-        if (payload.get("student_id") == null) {
-            System.out.println("Student id not found");
-            throw new BadInputException("Student id not found");
+        if (payload.get("user_id") == null) {
+            System.out.println("User id not found");
+            throw new BadInputException("User id not found");
         }
-        if (payload.get("internshipOffer_id") == null) {
+        try {
+            ParticipantTypeEnum.valueOf(userManager.getUserType((String) payload.get("user_id")).toString().toLowerCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Only Student or Company can create communication");
+            throw new BadInputException("Only Student or Company can create communication");
+        }
+        ParticipantTypeEnum participantType = ParticipantTypeEnum.valueOf(userManager.getUserType((String) payload.get("user_id")).toString().toLowerCase());
+        validatePayloadByParticipantType(payload, participantType);
+        if (payload.get("internshipPosOfferID") == null) {
             System.out.println("Internship offer id not found");
             throw new BadInputException("Internship offer id not found");
         }
-        if (payload.get("university_id") == null) {
-            System.out.println("University id not found");
-            throw new BadInputException("University id not found");
+        InternshipPosOffer internshipPosOffer = userManager.getInternshipPosOfferById((Integer) payload.get("internshipPosOfferID"));
+        if (internshipPosOffer == null) {
+            System.out.println("Internship offer not found");
+            throw new NotFoundException("Internship offer not found");
         }
+
         if (payload.get("title") == null) {
             System.out.println("Title not found");
             throw new BadInputException("Title not found");
@@ -57,44 +61,52 @@ public class CreateCommunicationCommand implements CommunicationManagerCommands<
             System.out.println("Content not found");
             throw new BadInputException("Content not found");
         }
-        if(payload.get("communication_type") == null){
+        if (payload.get("communicationType") == null) {
             System.out.println("Communication type not found");
             throw new BadInputException("Communication type not found");
         }
-        Student student = userManager.getStudentById((String) payload.get("student_id"));
-        if (student == null) {
-            System.out.println("Student not found");
-            throw new NotFoundException("Student not found");
+        try{
+            CommunicationTypeEnum communicationType = CommunicationTypeEnum.valueOf((String) payload.get("communicationType"));
+            if(communicationType == CommunicationTypeEnum.closed){
+                System.out.println("Type cannot be closed");
+                throw new WrongStateException("Type cannot be closed");
+            }
+        }catch (IllegalArgumentException e){
+            System.out.println("Unknown communication type");
+            throw new BadInputException("Unknown communication type");
         }
-        University university = userManager.getUniversityById((String) payload.get("university_id"));
-        if (university == null) {
-            System.out.println("University not found");
-            throw new NotFoundException("University not found");
-        }
-        InternshipOffer internshipOffer = userManager.getInternshipOfferById((Integer) payload.get("internshipOffer_id"));
-        if (internshipOffer == null) {
-            System.out.println("Internship offer not found");
-            throw new NotFoundException("Internship offer not found");
-        }
-        if(student.getUniversity() != university) {
-            System.out.println("Student is not from the university");
-            throw new BadInputException("Student is not from the university");
-        }
-        if(payload.get("communication_type") == null){
-            System.out.println("Communication type not found");
-            throw new BadInputException("Communication type not found");
-        }else{
-            try{
-                CommunicationTypeEnum communicationType = CommunicationTypeEnum.valueOf((String) payload.get("communication_type"));
-                if(communicationType == CommunicationTypeEnum.closed){
-                    System.out.println("Type cannot be closed");
-                    throw new WrongStateException("Type cannot be closed");
+    }
+
+    private void validatePayloadByParticipantType(Map<String, Object> payload, ParticipantTypeEnum participantType) {
+        switch (participantType) {
+            case student -> {
+                Student student = userManager.getStudentById((String) payload.get("user_id"));
+                if (student == null) {
+                    System.out.println("Student not found");
+                    throw new NotFoundException("Student not found");
                 }
-            }catch (IllegalArgumentException e){
-                System.out.println("Unknown communication type");
-                throw new BadInputException("Unknown communication type");
+            }
+            case company -> {
+                Company company = userManager.getCompanyById((String) payload.get("user_id"));
+                if (company == null) {
+                    System.out.println("Company not found");
+                    throw new NotFoundException("Company not found");
+                }
             }
         }
     }
 
+    private Communication createCommunication(Map<String, Object> payload) {
+        Student student = null;
+        Company company = null;
+        ParticipantTypeEnum participantType = ParticipantTypeEnum.valueOf(userManager.getUserType((String) payload.get("user_id")).toString().toLowerCase());
+        if(participantType == ParticipantTypeEnum.student){
+            student = userManager.getStudentById((String) payload.get("user_id"));
+        }else{
+            company = userManager.getCompanyById((String) payload.get("user_id"));
+        }
+        InternshipPosOffer internshipPosOffer = userManager.getInternshipPosOfferById((Integer) payload.get("internshipPosOfferID"));
+        CommunicationTypeEnum communicationType = CommunicationTypeEnum.valueOf((String) payload.get("communicationType"));
+        return new Communication(student, company, participantType, internshipPosOffer, (String) payload.get("title"), (String) payload.get("content"), communicationType);
+    }
 }

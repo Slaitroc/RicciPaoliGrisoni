@@ -3,6 +3,7 @@ package click.studentandcompanies.entityManager.submissionManager.submissionMana
 import click.studentandcompanies.entity.InternshipOffer;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.InternshipOfferRepository;
+import click.studentandcompanies.utils.UserType;
 import click.studentandcompanies.utils.exception.NoContentException;
 import click.studentandcompanies.utils.exception.NotFoundException;
 

@@ -6,7 +6,7 @@ export const universities = ["Politecnico di Milano", "Alma Mater Studiorum"];
 export const INIT_IS_AUTHENTICATED = false;
 export const INIT_PROFILE = null;
 export const INIT_ERROR = false;
-export const INIT_LOADING = false;
+export const INIT_LOADING = true;
 //TODO da aggiungere la logica alla schermata di sign up per cambiare questo valore
 export const INIT_USER_TYPE = STUDENT_USER_TYPE;
 

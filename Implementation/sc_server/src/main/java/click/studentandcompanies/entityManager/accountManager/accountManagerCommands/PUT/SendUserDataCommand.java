@@ -9,12 +9,10 @@ import click.studentandcompanies.entityRepository.AccountRepository;
 import click.studentandcompanies.utils.UserType;
 import click.studentandcompanies.utils.exception.BadInputException;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class SendUserDataCommand implements AccountManagerCommand<Account> {
     private final Map<String, Object> payload;
@@ -67,12 +65,15 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
                     throw new BadInputException("the vat number of the student's university is required");
                 }
                 List<University> uniList = userManager.getUniversity();
-                uniList.stream().filter(uni -> uni.getVatNumber().equals((Integer) payload.get("uniVat"))).findFirst().orElseThrow(() -> new BadInputException("University not found"));
+                uniList.stream()
+                        .filter(uni -> uni.getVatNumber().equals(payload.get("uniVat")))
+                        .findFirst()
+                        .orElseThrow(() -> new BadInputException("University not found"));
                 if(payload.get("birthDate") == null){
                     throw new BadInputException("birthDate is required");
                 }
                 try{
-                    LocalDate birthDate = LocalDate.parse((String) payload.get("birthDate"));
+                    LocalDate.parse((String) payload.get("birthDate"));
                 }catch (DateTimeParseException e){
                     throw new BadInputException("Invalid birthDate format");
                 }
@@ -93,9 +94,13 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
                 if (payload.get("vatNumber") == null) {
                     throw new BadInputException("Vat number of university is required");
                 }
+                List<University> uniList = userManager.getUniversity();
                 Integer vatNumber = (Integer) payload.get("vatNumber");
-                if(userManager.getUniversity().stream().map(University::getVatNumber).toList().contains(vatNumber)){
+                if(uniList.stream().map(University::getVatNumber).toList().contains(vatNumber)){
                     throw new BadInputException("Vat number for this University is already in use");
+                }
+                if(uniList.stream().map(University::getName).toList().contains((String) payload.get("name"))){
+                    throw new BadInputException("Name of the university is already in use");
                 }
                 if(payload.get("uniDescription") == null){
                     throw new BadInputException("Description of the university is required");
@@ -103,6 +108,7 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
                 if(payload.get("location") == null){
                     throw new BadInputException("Location of the university is required");
                 }
+
             }
             //Default case should only be UNKNOWN when the type is not recognized
             default -> throw new BadInputException("Invalid type");
@@ -117,11 +123,11 @@ public class SendUserDataCommand implements AccountManagerCommand<Account> {
         String country = (String) payload.get("country");
         Boolean validated = false;
         //Optional fields
-        String surname = (String) payload.get("surname") != null ? (String) payload.get("surname") : null;
-        Integer uniVat = (Integer) payload.get("uniVat") != null ? (Integer) payload.get("uniVat") : null;
-        Integer vatNumber = (Integer) payload.get("vatNumber") != null ? (Integer) payload.get("vatNumber") : null;
-        String uniDescription = (String) payload.get("uniDescription") != null ? (String) payload.get("uniDescription") : null;
-        String location = (String) payload.get("location") != null ? (String) payload.get("location") : null;
+        String surname = payload.get("surname") != null ? (String) payload.get("surname") : null;
+        Integer uniVat = payload.get("uniVat") != null ? (Integer) payload.get("uniVat") : null;
+        Integer vatNumber = payload.get("vatNumber") != null ? (Integer) payload.get("vatNumber") : null;
+        String uniDescription = payload.get("uniDescription") != null ? (String) payload.get("uniDescription") : null;
+        String location = payload.get("location") != null ? (String) payload.get("location") : null;
         //BirtDate required a special parsing, so it is handled separately
         if(type == UserType.STUDENT){
             LocalDate birthDate;

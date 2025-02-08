@@ -8,6 +8,7 @@ import click.studentandcompanies.notificationSystem.senders.*;
 public enum NotificationTriggerType {
     MATCH_FOUND(new SendSelectionProcessInitiatedNotification()),
     NEW_COMMUNICATION(new SendNewCommunicationNotification()),
+    INTERVIEW_ASSIGNED(new SendInterviewAssignedNotification()),
     INTERVIEW_EVALUATED(new SendInterviewEvaluatedNotification()),
     INTERNSHIP_CANCELLED(new SendInternshipCancelledNotification()),
     INTERVIEW_ANSWER_SENT(new SendInterviewAnswerNotification()),
@@ -17,7 +18,9 @@ public enum NotificationTriggerType {
     SPONTANEOUS_APPLICATION_RECEIVED(new SendSpontaneousApplicationReceivedNotification()),
     SPONTANEOUS_APPLICATION_REJECTED(new SendSpontaneousApplicationRejectedNotification()),
     INTERNSHIP_POSITION_OFFER_ACCEPTED(new SendInternshipPositionOfferAcceptedNotification()),
-    TEST(new SendTest());
+    INTERNSHIP_POSITION_OFFER_REJECTED(new SendInternshipPositionOfferRejectedNotification()),
+    TEST(new SendTest()),
+    MESSAGE_CREATED(new SendMessageCreatedNotification());
 
     private final SenderInterface sender;
 

@@ -3,6 +3,7 @@ import click.studentandcompanies.entity.*;
 import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityRepository.CvRepository;
 import click.studentandcompanies.entityRepository.InternshipOfferRepository;
+import click.studentandcompanies.entityRepository.InterviewRepository;
 import click.studentandcompanies.entityRepository.SpontaneousApplicationRepository;
 import click.studentandcompanies.entityManager.submissionManager.submissionManagerCommands.GET.*;
 import click.studentandcompanies.entityManager.submissionManager.submissionManagerCommands.POST.*;
@@ -24,15 +25,17 @@ public class SubmissionManager {
     private final InternshipOfferRepository internshipOfferRepository;
     private final SpontaneousApplicationRepository spontaneousApplicationRepository;
     private final UserManager userManager;
+    private final InterviewRepository interviewRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public SubmissionManager(CvRepository cvRepository, InternshipOfferRepository internshipOfferRepository, SpontaneousApplicationRepository spontaneousApplicationRepository, UserManager userManager) {
+    public SubmissionManager(CvRepository cvRepository, InternshipOfferRepository internshipOfferRepository, SpontaneousApplicationRepository spontaneousApplicationRepository, UserManager userManager, InterviewRepository interviewRepository) {
         this.cvRepository = cvRepository;
         this.internshipOfferRepository = internshipOfferRepository;
         this.spontaneousApplicationRepository = spontaneousApplicationRepository;
         this.userManager = userManager;
+        this.interviewRepository = interviewRepository;
     }
 
     public List<InternshipOffer> getInternshipsByCompany(String companyID) throws NotFoundException, NoContentException {
@@ -55,8 +58,8 @@ public class SubmissionManager {
         return new GetSpontaneousApplicationsByParticipantCommand(spontaneousApplicationRepository, userManager, studentID).execute();
     }
 
-    public SpontaneousApplication submitSpontaneousApplication(Map<String, Object> payload, int internshipOfferID) throws BadInputException, NotFoundException {
-        return new SubmitSpontaneousApplicationCommand(payload, userManager, spontaneousApplicationRepository, internshipOfferRepository, internshipOfferID).execute();
+    public SpontaneousApplication submitSpontaneousApplication(int internshipOfferID, String student_id) throws BadInputException, NotFoundException {
+        return new SubmitSpontaneousApplicationCommand(userManager, spontaneousApplicationRepository, internshipOfferRepository, student_id, internshipOfferID).execute();
     }
 
     @Transactional
@@ -70,10 +73,20 @@ public class SubmissionManager {
     }
 
     public SpontaneousApplication acceptSpontaneousApplication(Integer spontaneousApplicationID, Map<String, Object> payload) {
-        return new AcceptSpontaneousApplicationCommand(spontaneousApplicationRepository, spontaneousApplicationID, payload).execute();
+        return new AcceptSpontaneousApplicationCommand(spontaneousApplicationRepository, interviewRepository, spontaneousApplicationID, payload).execute();
     }
 
     public SpontaneousApplication rejectSpontaneousApplication(Integer spontaneousApplicationID, Map<String, Object> payload) {
         return new RejectSpontaneousApplicationCommand(spontaneousApplicationRepository, spontaneousApplicationID, payload).execute();
+    }
+
+    public List<InternshipOffer> getAllInternships() {
+       return internshipOfferRepository.findAll();
+    }
+
+    public InternshipOffer getSpecificInternship(Integer internshipID) throws NotFoundException {
+        InternshipOffer internshipOffer = internshipOfferRepository.findById(internshipID).orElse(null);
+        if(internshipOffer == null) throw new NotFoundException("Internship not found");
+        return internshipOffer;
     }
 }

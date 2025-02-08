@@ -1,7 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-// DANGER do we need do make custom SC files also for these imports (I'm gonna ignore that for now)
 import { inputsCustomizations } from "../Templates/shared-theme/customizations/inputs";
 import { dataDisplayCustomizations } from "../Templates/shared-theme/customizations/dataDisplay";
 import { feedbackCustomizations } from "../Templates/shared-theme/customizations/feedback";

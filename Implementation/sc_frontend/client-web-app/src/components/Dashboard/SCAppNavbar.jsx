@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Stack from "@mui/material/Stack";
 import MuiToolbar from "@mui/material/Toolbar";
@@ -11,6 +11,7 @@ import SCColorModeIconDropdown from "./SCColorModeIconDropdown";
 import { TEXT } from "../../constants/UIConstants";
 import SCAvatarOptionsMenu from "../Shared/OptionMenu/SCAvatarOptionsMenu";
 import * as SCIcons from "../Shared/SCIcons";
+import { useMediaQuery } from "@mui/material";
 
 const Toolbar = styled(MuiToolbar)({
   width: "100%",
@@ -30,6 +31,9 @@ const Toolbar = styled(MuiToolbar)({
 
 export default function SCAppNavbar() {
   const [open, setOpen] = React.useState(false);
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -74,7 +78,7 @@ export default function SCAppNavbar() {
               component="h1"
               sx={{ color: "text.primary" }}
             >
-              {TEXT.FULL_SIGN}
+              {isSmallScreen ? TEXT.LOGO_NAME : TEXT.FULL_SIGN}
             </Typography>
           </Stack>
           <SCColorModeIconDropdown />

@@ -21,11 +21,12 @@ public class UserManager {
     private final CvRepository cvRepository;
     private final FeedbackRepository feedbackRepository;
     private final InterviewRepository interviewRepository;
+    private final InternshipPosOfferRepository internshipPosOfferRepository;
 
     public UserManager(UniversityRepository universityRepository, StudentRepository studentRepository,
                        CompanyRepository companyRepository, RecommendationRepository recommendationRepository
                        , SpontaneousApplicationRepository spontaneousApplicationRepository, InternshipOfferRepository internshipOfferRepository
-                       , CvRepository cvRepository, FeedbackRepository feedbackRepository, InterviewRepository interviewRepository) {
+                       , CvRepository cvRepository, FeedbackRepository feedbackRepository, InterviewRepository interviewRepository, InternshipPosOfferRepository internshipPosOfferRepository) {
         this.universityRepository = universityRepository;
         this.studentRepository = studentRepository;
         this.companyRepository = companyRepository;
@@ -35,6 +36,7 @@ public class UserManager {
         this.cvRepository = cvRepository;
         this.feedbackRepository = feedbackRepository;
         this.interviewRepository = interviewRepository;
+        this.internshipPosOfferRepository = internshipPosOfferRepository;
     }
 
     //CRUD operations, all of them are already implemented by the JpaRepository
@@ -80,6 +82,9 @@ public class UserManager {
     }
 
     public UserType getUserType(String id) {
+        if(id == null) {
+            return UserType.UNKNOWN;
+        }
         if (studentRepository.getStudentById(id) != null) {
             return UserType.STUDENT;
         } else if (companyRepository.getCompanyById(id) != null) {
@@ -169,6 +174,49 @@ public class UserManager {
 
     public List<Company> getCompany() {
         return companyRepository.findAll();
+    }
+
+    public List<Interview> getInterviewsByStudentID(String studentID) {
+        List<Interview> retrieveInterview = interviewRepository.findAll();
+        List<Interview> studentInterviews = new ArrayList<>();
+        for(Interview interview : retrieveInterview){
+            if(interview.getRecommendation() != null){
+                if(interview.getRecommendation().getCv().getStudent().getId().equals(studentID)){
+                    studentInterviews.add(interview);
+                }
+            }else{
+                if(interview.getSpontaneousApplication().getStudent().getId().equals(studentID)){
+                    studentInterviews.add(interview);
+                }
+            }
+        }
+        return studentInterviews;
+    }
+
+    public List<Interview> getInterviewsByCompanyID(String companyID) {
+        List<Interview> retrieveInterview = interviewRepository.findAll();
+        List<Interview> companyInterviews = new ArrayList<>();
+        for(Interview interview : retrieveInterview){
+            if(interview.getRecommendation() != null){
+                if(interview.getRecommendation().getInternshipOffer().getCompany().getId().equals(companyID)){
+                    companyInterviews.add(interview);
+                }
+            }else{
+                if(interview.getSpontaneousApplication().getInternshipOffer().getCompany().getId().equals(companyID)){
+                    companyInterviews.add(interview);
+                }
+            }
+        }
+        return companyInterviews;
+    }
+
+    public InternshipPosOffer getInternshipPosOfferById(Integer id) {
+        return internshipPosOfferRepository.getInternshipPosOfferById(id);
+    }
+
+    //Its probably a hack to make the userManager save the interview but idk how to do it from the ReccomendationManager
+    public void saveInterview(Interview interview) {
+        interviewRepository.save(interview);
     }
 }
 

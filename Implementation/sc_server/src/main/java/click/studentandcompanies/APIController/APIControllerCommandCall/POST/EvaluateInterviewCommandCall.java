@@ -36,11 +36,13 @@ public class EvaluateInterviewCommandCall implements APIControllerCommandCall<Re
     public ResponseEntity<DTO> execute() {
         try {
             Interview interview = interviewManager.evaluateInterview(interviewId, payload);
-
             List<String> userIDs = new ArrayList<>();
-            if (interview.getSpontaneousApplication() != null)
+
+            if (interview.getSpontaneousApplication() != null){
+                userIDs.add(interview.getSpontaneousApplication().getStudent().getId());
+            }else{
                 userIDs.add(interview.getRecommendation().getCv().getStudent().getId());
-            else userIDs.add(interview.getSpontaneousApplication().getStudent().getId());
+            }
 
             DTO dto = DTOCreator.createDTO(DTOTypes.INTERVIEW, interview);
             NotificationData data = new NotificationData(NotificationTriggerType.INTERVIEW_EVALUATED, dto);
@@ -52,6 +54,7 @@ public class EvaluateInterviewCommandCall implements APIControllerCommandCall<Re
         } catch (NotFoundException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

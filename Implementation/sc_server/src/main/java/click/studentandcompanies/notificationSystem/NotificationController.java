@@ -38,12 +38,18 @@ public class NotificationController {
         return notificationManager.saveTokenNotification(payload);
     }
 
-    //todo redo all the fucking things
+
     @GetMapping("/private/test-notification")
     public HttpStatus testNotification(@RequestHeader("Authorization") String authToken) {
         String userID = GetUuid.getUuid(authToken);
         this.sendAndSaveNotification(List.of(userID), new NotificationData(NotificationTriggerType.TEST, null));
         return HttpStatus.OK;
+    }
+
+    @GetMapping("/private/get-notifications")
+    public List<NotificationDTO> getNotifications(@RequestHeader("Authorization") String authToken) {
+        String userID = GetUuid.getUuid(authToken);
+        return notificationManager.getNotifications(userID).stream().map(notification -> new NotificationDTO(notification.getId(), notification.getTitle(), notification.getBody())).toList();
     }
 
 

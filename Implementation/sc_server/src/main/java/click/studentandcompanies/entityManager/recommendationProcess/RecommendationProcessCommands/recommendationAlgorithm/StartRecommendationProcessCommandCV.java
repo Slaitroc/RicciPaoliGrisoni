@@ -1,4 +1,5 @@
 package click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommands.recommendationAlgorithm;
+
 import click.studentandcompanies.entity.Cv;
 import click.studentandcompanies.entity.InternshipOffer;
 import click.studentandcompanies.entity.Recommendation;
@@ -7,7 +8,9 @@ import click.studentandcompanies.entityManager.UserManager;
 import click.studentandcompanies.entityManager.recommendationProcess.RecommendationProcessCommand;
 import click.studentandcompanies.entityRepository.RecommendationRepository;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.*;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.store.Directory;
@@ -22,6 +25,7 @@ public class StartRecommendationProcessCommandCV extends RecommendationProcessUt
     private final Cv cv;
     private final RecommendationRepository recommendationRepository;
     private final List<Recommendation> recommendationList = new ArrayList<>();
+
     public StartRecommendationProcessCommandCV(UserManager userManager, Cv cv, RecommendationRepository recommendationRepository) {
         this.userManager = userManager;
         this.cv = cv;
@@ -39,14 +43,14 @@ public class StartRecommendationProcessCommandCV extends RecommendationProcessUt
         return null;
     }
 
-    private void addDocuments(){
+    private void addDocuments() {
         List<InternshipOffer> internshipOffers = userManager.getAllInternshipOffers();
-        for(InternshipOffer internshipOffer : internshipOffers){
+        for (InternshipOffer internshipOffer : internshipOffers) {
             addInternshipOffer(writer, internshipOffer.getTitle(), internshipOffer.getDescription(), internshipOffer.getRequiredSkills(), internshipOffer.getId());
         }
     }
 
-    private void match(Query query, Directory indexDirectory){
+    private void match(Query query, Directory indexDirectory) {
         try {
             //Search through the different indexed documents
             IndexReader reader = DirectoryReader.open(indexDirectory);
@@ -67,10 +71,18 @@ public class StartRecommendationProcessCommandCV extends RecommendationProcessUt
         }
     }
 
-    private void createRecommendation(Document doc, float score){
-        if(score > computeDynamicThreshold(userManager.getAllFeedbacks())){
+    private void createRecommendation(Document doc, float score) {
+        if (score >= computeDynamicThreshold(userManager.getAllFeedbacks())) {
             int id = doc.getField("id").numericValue().intValue();
             InternshipOffer internshipOffer = userManager.getInternshipOfferById(id);
+
+            //todo se in futuro si vuole correggere sto algoritmo e eliminare i match deprecati bisogna resettare tutti i match di questo studente
+            // cosí stiamo solo facendo in modo che uno studente e una internship abbiano solo un match
+            Recommendation oldRecommendation = recommendationRepository.findRecommendationByInternshipOfferAndCv(internshipOffer, cv);
+            //The student was already matched with this internship
+            if (oldRecommendation != null){
+                return;
+            }
             Recommendation recommendation = new Recommendation(internshipOffer, cv, RecommendationStatusEnum.pendingMatch, score);
             recommendationList.add(recommendation);
         }

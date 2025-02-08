@@ -4,9 +4,8 @@ import click.studentandcompanies.notificationSystem.entity.Contact;
 import click.studentandcompanies.notificationSystem.entity.Notification;
 import click.studentandcompanies.notificationSystem.entityRepository.ContactRepository;
 import click.studentandcompanies.notificationSystem.entityRepository.NotificationRepository;
-import click.studentandcompanies.notificationSystem.notificationUtils.NotificationData;
 import click.studentandcompanies.notificationSystem.notificationUtils.NotificationPayload;
-import com.google.protobuf.MapEntry;
+import click.studentandcompanies.utils.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +31,7 @@ public class NotificationManager {
 
     //todo, device token should become primary key.
     //todo if the device token is already in the database, do nothing
-    public HttpStatus saveTokenNotification(Map<String, Object> payload) {
+    public synchronized HttpStatus saveTokenNotification(Map<String, Object> payload) {
         if (payload.get("notificationToken") == null) {
             return HttpStatus.BAD_REQUEST;
         }
@@ -41,9 +40,11 @@ public class NotificationManager {
         List<Contact> contacts = contactRepository.findAll();
         for (Contact contact : contacts) {
             if (contact.getDeviceToken().equals(deviceToken) && contact.getUserId().equals(payload.get("userID"))) {
+                System.out.println("Pair id " + contact.getContact_id() + " user: " + contact.getUserId() + " - " + contact.getDeviceToken() + " already in the database");
                 return HttpStatus.OK;
             }
         }
+        System.out.println("Pair User: " + payload.get("userID") + " - " + deviceToken + " saved in the database");
         contactRepository.save(new Contact((String) payload.get("userID"), deviceToken));
         return HttpStatus.OK;
     }
@@ -63,6 +64,11 @@ public class NotificationManager {
             }
         }
         System.out.println("notification saved for " + userIds.size() + " users.");
+    }
+
+    public List<Notification> getNotifications(String userID) {
+        Contact contact = contactRepository.getContactsByUserId(userID).getFirst();
+        return contact.getNotifications();
     }
 
     /*

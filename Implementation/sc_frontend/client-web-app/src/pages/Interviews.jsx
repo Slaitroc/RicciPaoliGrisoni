@@ -1,8 +1,13 @@
 import React from "react";
-import SCInterviews from "../components/Interviews/SCInterviews";
+import { InterviewsProvider } from "../components/Interviews/InterviewsContext";
+import { Outlet } from "react-router-dom";
 
 const Interviews = () => {
-  return <SCInterviews></SCInterviews>;
+  return (
+    <InterviewsProvider>
+      <Outlet />
+    </InterviewsProvider>
+  );
 };
 
 export default Interviews;

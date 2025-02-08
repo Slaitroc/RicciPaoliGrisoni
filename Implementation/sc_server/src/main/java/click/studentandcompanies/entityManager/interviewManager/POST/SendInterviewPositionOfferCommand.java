@@ -60,6 +60,7 @@ public class SendInterviewPositionOfferCommand implements InterviewManagerComman
         }
         InternshipPosOffer internshipPosOffer = new InternshipPosOffer();
         internshipPosOffer.setStatus(InternshipPosOfferStatusEnum.pending);
+        internshipPosOffer.setInterview(interview);
         internshipPosOfferRepository.save(internshipPosOffer);
         interview.setInternshipPosOffer(internshipPosOffer);
         interviewRepository.save(interview);

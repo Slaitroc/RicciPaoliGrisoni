@@ -6,4 +6,9 @@ const getBaseDomain = () => {
   }
 };
 
+const getFRontendDomain = () => {
+  return "http://localhost:5173";
+};
+
 export const BASE_DOMAIN = getBaseDomain();
+export const FRONTEND_DOMAIN = getFRontendDomain();

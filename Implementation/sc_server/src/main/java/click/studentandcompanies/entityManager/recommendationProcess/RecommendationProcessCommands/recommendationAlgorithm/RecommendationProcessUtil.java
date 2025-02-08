@@ -38,22 +38,23 @@ public class RecommendationProcessUtil {
         }
     }
 
+    //N.B. Special char are reserved for Lucene query language, as written in the documentation that I of course read and understood well :)
     protected String buildQueryStringFromCv(Cv cv) {
         StringBuilder queryBuilder = new StringBuilder();
         if (cv.getSkills() != null) {
-            queryBuilder.append(cv.getSkills()).append(" ");
+            queryBuilder.append(cv.getSkills().replaceAll("[^a-zA-Z0-9\\s]", "")).append(" ");
         }
         if (cv.getWorkExperiences() != null) {
-            queryBuilder.append(cv.getWorkExperiences()).append(" ");;
+            queryBuilder.append(cv.getWorkExperiences().replaceAll("[^a-zA-Z0-9\\s]", "")).append(" ");
         }
         if (cv.getEducation() != null) {
-            queryBuilder.append(cv.getEducation()).append(" ");;
+            queryBuilder.append(cv.getEducation().replaceAll("[^a-zA-Z0-9\\s]", "")).append(" ");
         }
         if (cv.getProject() != null) {
-            queryBuilder.append(cv.getProject()).append(" ");;
+            queryBuilder.append(cv.getProject().replaceAll("[^a-zA-Z0-9\\s]", "")).append(" ");
         }
         if (cv.getCertifications() != null) {
-            queryBuilder.append(cv.getCertifications()).append(" ");;
+            queryBuilder.append(cv.getCertifications().replaceAll("[^a-zA-Z0-9\\s]", "")).append(" ");
         }
         return queryBuilder.toString().trim();
     }
@@ -118,10 +119,10 @@ public class RecommendationProcessUtil {
         if (denominator == 0) {
             return RecommendationAlgortimSetting.DEFAULT_THRESHOLD.getValue();
         }
-        //Exponential function to ensure the threshold stays in range [0,1]
-        double threshold = Math.exp(- numerator / denominator);
-        System.out.println("threshold: " + threshold);
-        return threshold;
+        //Exponential function to ensure the threshold stays in range [0,1] * scaleFactor
+        double threshold = Math.exp(- numerator / denominator) * 0.5;
+        System.out.println("dynamic threshold: " + threshold);
+        return threshold*0.5;
     }
 
     private Directory loadIndexFolder(Path indexDirectoryPath){

@@ -2,6 +2,8 @@ package click.studentandcompanies.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
@@ -38,7 +40,32 @@ public class Cv {
     @Column(name = "update_time", nullable = false)
     private Instant updateTime;
 
-    public Cv(Student student, String skills, String workExperiences, String education, String project, String certifications, Instant updateTime) {
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "spoken_languages", nullable = false)
+    private String spokenLanguages;
+
+    @Size(max = 255)
+    @Column(name = "contacts")
+    private String contacts;
+
+    public String getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(String contacts) {
+        this.contacts = contacts;
+    }
+
+    public String getSpokenLanguages() {
+        return spokenLanguages;
+    }
+
+    public void setSpokenLanguages(String spokenLanguages) {
+        this.spokenLanguages = spokenLanguages;
+    }
+
+    public Cv(Student student, String skills, String workExperiences, String education, String project, String certifications, Instant updateTime, String spokenLanguages, String contacts) {
         this.student = student;
         this.skills = skills;
         this.workExperiences = workExperiences;
@@ -46,6 +73,8 @@ public class Cv {
         this.project = project;
         this.certifications = certifications;
         this.updateTime = updateTime;
+        this.spokenLanguages = spokenLanguages;
+        this.contacts = contacts;
     }
 
     public Cv() {

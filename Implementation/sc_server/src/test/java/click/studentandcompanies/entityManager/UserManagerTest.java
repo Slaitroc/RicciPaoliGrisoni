@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Condensed test style for UserManager, grouping multiple scenarios into fewer test methods.
+ * Extended test class for UserManager
  */
 class UserManagerTest extends EntityFactory {
 
@@ -36,6 +36,8 @@ class UserManagerTest extends EntityFactory {
     private FeedbackRepository feedbackRepository;
     @Mock
     private InterviewRepository interviewRepository;
+    @Mock
+    private InternshipPosOfferRepository internshipPosOfferRepository;
 
     @InjectMocks
     private UserManager userManager;
@@ -44,6 +46,10 @@ class UserManagerTest extends EntityFactory {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
+
+    // ------------------------------------------------------------------
+    // Existing tests
+    // ------------------------------------------------------------------
 
     @Test
     void testUniversityOperations() {
@@ -181,16 +187,22 @@ class UserManagerTest extends EntityFactory {
     void testGetInvolvedUsers() {
         // Applications
         Student studentA = setNewStudent(1, "Bob", setNewUniversity(10, "UniA", "IT"));
-        SpontaneousApplication appA = new SpontaneousApplication(); appA.setStudent(studentA);
-        Student studentB = setNewStudent(2, "Carol", setNewUniversity(11,"UniB","FR"));
-        SpontaneousApplication appB = new SpontaneousApplication(); appB.setStudent(studentB);
+        SpontaneousApplication appA = new SpontaneousApplication();
+        appA.setStudent(studentA);
+        Student studentB = setNewStudent(2, "Carol", setNewUniversity(11, "UniB", "FR"));
+        SpontaneousApplication appB = new SpontaneousApplication();
+        appB.setStudent(studentB);
         when(spontaneousApplicationRepository.findAllByInternshipOfferId(100)).thenReturn(List.of(appA, appB));
 
         // Recommendations
-        Cv cvC = setNewCv(setNewStudent(3, "Eve", setNewUniversity(12,"UniC","DE")));
-        Recommendation recC = new Recommendation(); recC.setCv(cvC);
-        Cv cvD = setNewCv(setNewStudent(4, "Dan", setNewUniversity(13,"UniD","ES")));
-        Recommendation recD = new Recommendation(); recD.setCv(cvD);
+        Cv cvC = setNewCv(setNewStudent(3, "Eve", setNewUniversity(12, "UniC", "DE")));
+        Recommendation recC = new Recommendation();
+        recC.setCv(cvC);
+
+        Cv cvD = setNewCv(setNewStudent(4, "Dan", setNewUniversity(13, "UniD", "ES")));
+        Recommendation recD = new Recommendation();
+        recD.setCv(cvD);
+
         when(recommendationRepository.findRecommendationByInternshipOfferId(100)).thenReturn(List.of(recC, recD));
 
         List<String> result = userManager.getInvolvedUsers(100);
@@ -204,7 +216,7 @@ class UserManagerTest extends EntityFactory {
     @Test
     void testOtherRepositories() {
         // InternshipOffer
-        InternshipOffer io = setNewInternshipOffer(setNewCompany(33,"MockCo","IT"));
+        InternshipOffer io = setNewInternshipOffer(setNewCompany(33, "MockCo", "IT"));
         io.setId(1000);
         when(internshipOfferRepository.getInternshipOfferById(1000)).thenReturn(io);
         InternshipOffer resultIO = userManager.getInternshipOfferById(1000);
@@ -218,13 +230,15 @@ class UserManagerTest extends EntityFactory {
         assertEquals(2, offers.size());
 
         // CV
-        Cv cv1 = new Cv(); Cv cv2 = new Cv();
+        Cv cv1 = new Cv();
+        Cv cv2 = new Cv();
         when(cvRepository.findAll()).thenReturn(List.of(cv1, cv2));
         List<Cv> cvs = userManager.getAllCvs();
         assertEquals(2, cvs.size());
 
         // Feedback
-        Feedback fb1 = new Feedback(); Feedback fb2 = new Feedback();
+        Feedback fb1 = new Feedback();
+        Feedback fb2 = new Feedback();
         when(feedbackRepository.findAll()).thenReturn(List.of(fb1, fb2));
         List<Feedback> fbs = userManager.getAllFeedbacks();
         assertEquals(2, fbs.size());
@@ -233,22 +247,177 @@ class UserManagerTest extends EntityFactory {
     @Test
     void testGetStudentIDByInternshipPosOfferID() {
         // Recommendation not null
-        Student s1 = setNewStudent(77, "TestStudent", setNewUniversity(1,"Uni","IT"));
+        Student s1 = setNewStudent(77, "TestStudent", setNewUniversity(1, "Uni", "IT"));
         Cv cv = setNewCv(s1);
-        Recommendation recommendation = new Recommendation(); recommendation.setCv(cv);
-        Interview interview1 = new Interview(); interview1.setRecommendation(recommendation);
+        Recommendation recommendation = new Recommendation();
+        recommendation.setCv(cv);
+        Interview interview1 = new Interview();
+        interview1.setRecommendation(recommendation);
 
         when(interviewRepository.getInterviewByInternshipPosOffer_Id(500)).thenReturn(interview1);
         String res1 = userManager.getStudentIDByInternshipPosOfferID(500);
         assertEquals("77", res1);
 
         // Recommendation null
-        Student s2 = setNewStudent(99, "John", setNewUniversity(2,"UniX","FR"));
-        SpontaneousApplication app = new SpontaneousApplication(); app.setStudent(s2);
-        Interview interview2 = new Interview(); interview2.setSpontaneousApplication(app);
+        Student s2 = setNewStudent(99, "John", setNewUniversity(2, "UniX", "FR"));
+        SpontaneousApplication app = new SpontaneousApplication();
+        app.setStudent(s2);
+        Interview interview2 = new Interview();
+        interview2.setSpontaneousApplication(app);
 
         when(interviewRepository.getInterviewByInternshipPosOffer_Id(501)).thenReturn(interview2);
         String res2 = userManager.getStudentIDByInternshipPosOfferID(501);
         assertEquals("99", res2);
+    }
+
+
+    @Test
+    void testGetCompanyIDByInternshipPosOfferID_withRecommendation() {
+        // Scenario: Interview has a Recommendation => use recommendation.internshipOffer.company
+        Company comp = setNewCompany(11, "RecCompany", "IT");
+        InternshipOffer offer = setNewInternshipOffer(111, comp);
+        Recommendation rec = new Recommendation();
+        rec.setInternshipOffer(offer);
+        Interview interview = new Interview();
+        interview.setRecommendation(rec);
+
+        when(interviewRepository.getInterviewByInternshipPosOffer_Id(100)).thenReturn(interview);
+
+        String companyID = userManager.getCompanyIDByInternshipPosOfferID(100);
+        assertEquals("11", companyID);
+    }
+
+    @Test
+    void testGetCompanyIDByInternshipPosOfferID_withSpontaneousApplication() {
+        // Scenario: Interview has a SpontaneousApplication => use spontaneous.internshipOffer.company
+        Company comp = setNewCompany(22, "SpontCompany", "FR");
+        InternshipOffer offer = setNewInternshipOffer(222, comp);
+        SpontaneousApplication app = new SpontaneousApplication();
+        app.setInternshipOffer(offer);
+
+        Interview interview = new Interview();
+        interview.setSpontaneousApplication(app);
+
+        when(interviewRepository.getInterviewByInternshipPosOffer_Id(200)).thenReturn(interview);
+
+        String companyID = userManager.getCompanyIDByInternshipPosOfferID(200);
+        assertEquals("22", companyID);
+    }
+
+    @Test
+    void testGetUniversity() {
+        University u1 = setNewUniversity(101, "MyUni1", "IT");
+        University u2 = setNewUniversity(102, "MyUni2", "US");
+        when(universityRepository.findAll()).thenReturn(List.of(u1, u2));
+
+        List<University> unis = userManager.getUniversity();
+        assertEquals(2, unis.size());
+        assertEquals("MyUni1", unis.get(0).getName());
+        assertEquals("MyUni2", unis.get(1).getName());
+        verify(universityRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testGetCompany() {
+        Company c1 = setNewCompany(201, "Comp1", "IT");
+        Company c2 = setNewCompany(202, "Comp2", "UK");
+        when(companyRepository.findAll()).thenReturn(List.of(c1, c2));
+
+        List<Company> comps = userManager.getCompany();
+        assertEquals(2, comps.size());
+        assertEquals("Comp1", comps.get(0).getName());
+        assertEquals("Comp2", comps.get(1).getName());
+        verify(companyRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testGetInterviewsByStudentID() {
+        // We'll just make a few Interviews and filter by Student ID
+        Student s1 = setNewStudent(1, "Alice", setNewUniversity(10, "UniA", "IT"));
+        Student s2 = setNewStudent(2, "Bob", setNewUniversity(11, "UniB", "FR"));
+
+        Interview i1 = new Interview();
+        Recommendation rec1 = new Recommendation();
+        Cv cv1 = setNewCv(s1);
+        rec1.setCv(cv1);
+        i1.setRecommendation(rec1);
+
+        Interview i2 = new Interview();
+        SpontaneousApplication app2 = new SpontaneousApplication();
+        app2.setStudent(s2);
+        i2.setSpontaneousApplication(app2);
+
+        Interview i3 = new Interview();
+        SpontaneousApplication app3 = new SpontaneousApplication();
+        app3.setStudent(s1);
+        i3.setSpontaneousApplication(app3);
+
+        when(interviewRepository.findAll()).thenReturn(List.of(i1, i2, i3));
+
+        List<Interview> resultForS1 = userManager.getInterviewsByStudentID("1");
+        assertEquals(2, resultForS1.size());
+        assertSame(i1, resultForS1.get(0));
+        assertSame(i3, resultForS1.get(1));
+
+        List<Interview> resultForS2 = userManager.getInterviewsByStudentID("2");
+        assertEquals(1, resultForS2.size());
+        assertSame(i2, resultForS2.getFirst());
+    }
+
+    @Test
+    void testGetInterviewsByCompanyID() {
+        Company compA = setNewCompany(100, "CompA", "IT");
+        Company compB = setNewCompany(200, "CompB", "FR");
+
+        // i1 => belongs to compA via Recommendation
+        Interview i1 = new Interview();
+        Recommendation rec1 = new Recommendation();
+        InternshipOffer offer1 = setNewInternshipOffer(111, compA);
+        rec1.setInternshipOffer(offer1);
+        i1.setRecommendation(rec1);
+
+        // i2 => belongs to compA via SpontaneousApplication
+        Interview i2 = new Interview();
+        SpontaneousApplication sa2 = new SpontaneousApplication();
+        InternshipOffer offer2 = setNewInternshipOffer(222, compA);
+        sa2.setInternshipOffer(offer2);
+        i2.setSpontaneousApplication(sa2);
+
+        // i3 => belongs to compB via Recommendation
+        Interview i3 = new Interview();
+        Recommendation rec3 = new Recommendation();
+        InternshipOffer offer3 = setNewInternshipOffer(333, compB);
+        rec3.setInternshipOffer(offer3);
+        i3.setRecommendation(rec3);
+
+        when(interviewRepository.findAll()).thenReturn(List.of(i1, i2, i3));
+
+        List<Interview> resultCompA = userManager.getInterviewsByCompanyID("100");
+        assertEquals(2, resultCompA.size());
+        assertTrue(resultCompA.contains(i1));
+        assertTrue(resultCompA.contains(i2));
+
+        List<Interview> resultCompB = userManager.getInterviewsByCompanyID("200");
+        assertEquals(1, resultCompB.size());
+        assertTrue(resultCompB.contains(i3));
+    }
+
+    @Test
+    void testGetInternshipPosOfferById() {
+        InternshipPosOffer ipo = new InternshipPosOffer();
+        ipo.setId(9999);
+        when(internshipPosOfferRepository.getInternshipPosOfferById(9999)).thenReturn(ipo);
+
+        InternshipPosOffer result = userManager.getInternshipPosOfferById(9999);
+        assertEquals(9999, result.getId());
+        verify(internshipPosOfferRepository).getInternshipPosOfferById(9999);
+    }
+
+    @Test
+    void testSaveInterview() {
+        Interview interview = new Interview();
+        interview.setId(555);
+        userManager.saveInterview(interview);
+        verify(interviewRepository, times(1)).save(interview);
     }
 }

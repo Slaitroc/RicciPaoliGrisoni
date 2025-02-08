@@ -13,12 +13,12 @@ import { useGlobalContext } from "../../global/GlobalContext";
 import * as globalStatesInit from "../../global/globalStatesInit";
 
 const studentListItems = [
-  {
-    key: uuidv4(),
-    text: "Overview",
-    icon: <SCIcons.SCDashboardIcon />,
-    route: "/dashboard",
-  },
+  // {
+  //   key: uuidv4(),
+  //   text: "Overview",
+  //   icon: <SCIcons.SCDashboardIcon />,
+  //   route: "/dashboard",
+  // },
   {
     key: uuidv4(),
     text: "Cv",
@@ -29,7 +29,7 @@ const studentListItems = [
     key: uuidv4(),
     text: "Browse Internships",
     icon: <SCIcons.SCManageSearchIcon />,
-    route: "/dashboard/internship-offers",
+    route: "/dashboard/browse-internship-offers",
   },
   {
     key: uuidv4(),
@@ -39,21 +39,21 @@ const studentListItems = [
   },
   {
     key: uuidv4(),
-    text: "Recommendation Process",
+    text: "Recommendations",
     icon: <SCIcons.SCJoinInnerIcon />,
     route: "/dashboard/recommendations",
   },
   {
     key: uuidv4(),
-    text: "Interviews",
+    text: "Interviews", 
     icon: <SCIcons.SCCollectionsBookmarkIcon />,
     route: "/dashboard/interviews",
   },
   {
     key: uuidv4(),
-    text: "Confirmed Internship",
+    text: "Internship Positions Offers",
     icon: <SCIcons.SCApartmentIcon />,
-    route: "/dashboard/confirmed-internships",
+    route: "/dashboard/internship-positions-offers",
   },
   {
     key: uuidv4(),
@@ -70,12 +70,12 @@ const studentListItems = [
 ];
 
 const univesityListItems = [
-  {
-    key: uuidv4(),
-    text: "Overview",
-    icon: <SCIcons.SCDashboardIcon />,
-    route: "/dashboard",
-  },
+  // {
+  //   key: uuidv4(),
+  //   text: "Overview",
+  //   icon: <SCIcons.SCDashboardIcon />,
+  //   route: "/dashboard",
+  // },
   {
     key: uuidv4(),
     text: "University",
@@ -84,27 +84,9 @@ const univesityListItems = [
   },
   {
     key: uuidv4(),
-    text: "Browse Internship",
+    text: "Browse All Internships",
     icon: <SCIcons.SCManageSearchIcon />,
-    route: "/dashboard/internship-offers",
-  },
-  {
-    key: uuidv4(),
-    text: "Recommendations Stats",
-    icon: <SCIcons.SCJoinInnerIcon />,
-    route: "/dashboard/recommendations",
-  },
-  {
-    key: uuidv4(),
-    text: "Interviews Stats",
-    icon: <SCIcons.SCCollectionsBookmarkIcon />,
-    route: "/dashboard/interviews",
-  },
-  {
-    key: uuidv4(),
-    text: "Confirmed Internship",
-    icon: <SCIcons.SCApartmentIcon />,
-    route: "/dashboard/confirmed-internships",
+    route: "/dashboard/browse-internship-offers",
   },
   {
     key: uuidv4(),
@@ -115,21 +97,21 @@ const univesityListItems = [
 ];
 
 const companyListItems = [
+  // {
+  //   key: uuidv4(),
+  //   text: "Overview",
+  //   icon: <SCIcons.SCDashboardIcon />,
+  //   route: "/dashboard",
+  // },
   {
     key: uuidv4(),
-    text: "Overview",
-    icon: <SCIcons.SCDashboardIcon />,
-    route: "/dashboard",
-  },
-  {
-    key: uuidv4(),
-    text: "Browse Internship",
+    text: "Browse All Internships",
     icon: <SCIcons.SCManageSearchIcon />,
-    route: "/dashboard/internship-offers",
+    route: "/dashboard/browse-internship-offers",
   },
   {
     key: uuidv4(),
-    text: "Internship Offers",
+    text: "Your Internship Offers",
     icon: <SCIcons.SCAccountBoxIcon />,
     route: "/dashboard/internship-offers",
   },
@@ -141,21 +123,28 @@ const companyListItems = [
   },
   {
     key: uuidv4(),
-    text: "Recommendation Process",
+    text: "Recommendations",
     icon: <SCIcons.SCJoinInnerIcon />,
     route: "/dashboard/recommendations",
   },
   {
     key: uuidv4(),
-    text: "Interviews",
+    text: "Send Interviews",
     icon: <SCIcons.SCCollectionsBookmarkIcon />,
     route: "/dashboard/interviews",
   },
   {
     key: uuidv4(),
-    text: "Confirmed Internship",
+    text: "Interviews Templates",
+    icon: <SCIcons.SCManageSearchIcon />,
+    route: "/dashboard/internship-offers-template",
+  },
+  // _______??__________
+  {
+    key: uuidv4(),
+    text: "Internship Positions Offers",
     icon: <SCIcons.SCApartmentIcon />,
-    route: "/dashboard/confirmed-internships",
+    route: "/dashboard/internship-positions-offers",
   },
   {
     key: uuidv4(),
@@ -163,12 +152,6 @@ const companyListItems = [
     icon: <SCIcons.SCInboxIcon />,
     route: "/dashboard/communications",
   },
-  // {
-  //   key: uuidv4(),
-  //   text: "Swipe",
-  //   icon: <SCIcons.SCHomeIcon />,
-  //   route: "/dashboard/swipe-card",
-  // },
 ];
 
 const secondaryListItems = [
@@ -192,6 +175,7 @@ export default function SCMenuContent() {
 
   const handleItemClick = (item) => {
     setSelectedItem(item.key);
+    //NAV to item.route (Menu Content)
     navigate(item.route);
   };
 

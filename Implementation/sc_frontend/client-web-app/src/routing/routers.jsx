@@ -1,10 +1,24 @@
-import React from "react";
+import {
+  STUDENT_USER_TYPE,
+  COMPANY_USER_TYPE,
+  UNIVERSITY_USER_TYPE,
+} from "../global/globalStatesInit";
+// import { SCNewIntOffer } from "../components/InternshipOffers/SCNewIntOffer";
+// import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
+import { ConfirmEmail } from "../pages/ConfirmEmail";
+import { RouteBase } from "../pages/RouteBase";
+import { SCEditCv } from "../components/CV/SCEditCV";
+import { SCSignUp } from "../components/SignUp/SCSignUp";
 import { createBrowserRouter } from "react-router-dom";
 import { SignUp } from "../pages/SignUp";
 import { SCUserCreation } from "../components/SignUp/SCUserCreation";
-import RouteProtector from "./RouteProtector";
+import SCApplicationPreview from "../components/Applications/SCApplicationPreview";
+import React from "react";
+import EmailRouteProtector from "./EmailRouteProtector";
+import AuthRouteProtector from "./AuthRouteProtector";
+import UserCreationRouteProtector from "./UserCreationRouteProtector";
+import UserTypeRouteProtector from "./UserTypeRouteProtector";
 import SCSignInSide from "../pages/SCSignInSide";
-import { SCSignUp } from "../components/SignUp/SCSignUp";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
 import Main from "../pages/Main";
@@ -16,147 +30,348 @@ import CV from "../pages/CV";
 import Overview from "../pages/Overview";
 import Applications from "../pages/Applications";
 import Interviews from "../pages/Interviews";
-import Recommendations from "../pages/Recommandations";
+import Recommendations from "../pages/Recommendations";
 import Communications from "../pages/Communications";
-import ConfInternships from "../pages/ConfInternships";
+import SCCommunications from "../components/Communications/SCCommunications";
+import SCCommunicationDetails from "../components/Communications/SCCommunicationDetails";
+import SCNewCommunication from "../components/Communications/SCNewCommunication";
 import University from "../pages/University";
 import InternshipOffers from "../pages/InternshipOffers";
 import Profile from "../pages/Profile";
 import Account from "../pages/Account";
 import SwipePage from "../pages/SwipePage";
-import { FirebaseTestPage } from "../pages/FirebaseTestPage";
-import ConfirmEmail from "../pages/ConfirmEmail";
-// Router Configurations
+import VerifyEmail from "../pages/VerifyEmail";
+import SCCv from "../components/CV/SCCV";
+import SCIntOffer from "../components/InternshipOffers/SCIntOffer";
+import SCIntOffersPreview from "../components/InternshipOffers/SCIntOffersPreview";
+import BrowseInternshipOffers from "../pages/BrowseInternshipOffers";
+import { SCInterviewsPreview } from "../components/Interviews/SCInterviewsPreview";
+import SCBrowseInternshipPreview from "../components/BrowseInternshipOffers/SCBrowseInternshipPreview";
+import SCBrowseInternshipOffer from "../components/BrowseInternshipOffers/SCBrowseInternshipOffer";
+import IntPosOfferPreview from "../components/IntPosOffer/IntPosOfferPreview";
+import IntPosOffer from "../components/IntPosOffer/IntPosOffer";
+import SCRecommendations from "../components/Recommendations/SCRecommendations";
+import { SCInterviewEdit } from "../components/interviews/SCInterviewEdit";
+import { SCNewIntOffer } from "../components/InternshipOffers/SCNewIntOffer";
+import { SCIntOfferEdit } from "../components/InternshipOffers/SCIntOfferEdit";
+import SCInterview from "../components/Interviews/SCIntreview";
+import InterviewPosOffer from "../pages/InterviewPosOffer";
+import { SCInterviewCheck } from "../components/Interviews/SCInterviewCheck";
+import { SCInterviewAnswer } from "../components/Interviews/SCInterviewAnswer";
+import InterviewTemplate from "../pages/InterviewTemplate";
+import InterviewTemplatePreview from "../components/InterviewTemplate/InterviewTemplatePreview";
+
+//NAV Router Configurations
+
 const router = createBrowserRouter(
   [
     {
       path: "/",
-      element: <Main />,
+      element: <RouteBase />,
       children: [
         {
           path: "/",
-          element: <Home />,
+          element: <Main />,
+          children: [
+            {
+              path: "/",
+              element: <Home />,
+            },
+            {
+              path: "about",
+              element: <About />,
+            },
+            {
+              path: "contacts",
+              element: <Contact />,
+            },
+          ],
         },
         {
-          path: "about",
-          element: <About />,
-        },
-        {
-          path: "contacts",
-          element: <Contact />,
-        },
-        {
-          path: "firebase-test",
-          element: <FirebaseTestPage />,
+          path: "confirm-email",
+          element: (
+            <AuthRouteProtector>
+              <EmailRouteProtector invertBehavior={true}>
+                <ConfirmEmail />
+              </EmailRouteProtector>
+            </AuthRouteProtector>
+          ),
         },
         {
           path: "email-verified",
+          element: <VerifyEmail />,
+        },
+        {
+          path: "dashboard",
           element: (
-            //<RouteProtector equals={false} navigateTo="/signin">
-            <ConfirmEmail />
-            //</RouteProtector>
+            <AuthRouteProtector>
+              <UserCreationRouteProtector>
+                <EmailRouteProtector>
+                  <Dashboard />
+                </EmailRouteProtector>
+              </UserCreationRouteProtector>
+            </AuthRouteProtector>
+          ),
+          children: [
+            {
+              path: "",
+              element: <Overview />,
+            },
+            {
+              path: "about",
+              element: <About />,
+            },
+            {
+              path: "contacts",
+              element: <Contact />,
+            },
+            {
+              path: "settings",
+              element: <Settings />,
+            },
+            {
+              path: "feedback",
+              element: <Feedback />,
+            },
+            {
+              path: "cv",
+              element: (
+                <UserTypeRouteProtector allowedTypes={[STUDENT_USER_TYPE]}>
+                  <CV />
+                </UserTypeRouteProtector>
+              ),
+              children: [
+                {
+                  path: "",
+                  element: <SCCv />,
+                },
+                {
+                  path: "edit",
+                  element: <SCEditCv />,
+                },
+              ],
+            },
+            {
+              path: "university",
+              element: (
+                <UserTypeRouteProtector allowedTypes={[UNIVERSITY_USER_TYPE]}>
+                  <University />
+                </UserTypeRouteProtector>
+              ),
+            },
+            {
+              path: "internship-offers",
+              element: (
+                <UserTypeRouteProtector allowedTypes={[COMPANY_USER_TYPE]}>
+                  <InternshipOffers />
+                </UserTypeRouteProtector>
+              ),
+              children: [
+                {
+                  path: "",
+                  element: <SCIntOffersPreview />,
+                },
+                {
+                  path: "create",
+                  element: <SCNewIntOffer />,
+                },
+                {
+                  path: "details/:id",
+                  element: <SCIntOffer />,
+                },
+                {
+                  path: "edit/:id",
+                  element: <SCIntOfferEdit />,
+                },
+              ],
+            },
+            {
+              path: "browse-internship-offers",
+              element: <BrowseInternshipOffers />,
+              children: [
+                {
+                  path: "",
+                  element: <SCBrowseInternshipPreview />,
+                },
+                {
+                  // it doesn't make a lot of sense but consider the utility of this page just
+                  // to see the details of the offer (students will not be able to apply to this
+                  // internship and companies will not be able to edit the offer)
+                  path: "details/:id",
+                  element: <SCBrowseInternshipOffer />,
+                },
+              ],
+            },
+            {
+              path: "applications",
+              element: (
+                <UserTypeRouteProtector
+                  allowedTypes={[STUDENT_USER_TYPE, COMPANY_USER_TYPE]}
+                >
+                  <Applications />
+                </UserTypeRouteProtector>
+              ),
+              children: [
+                {
+                  path: "",
+                  element: <SCApplicationPreview />,
+                },
+                //{
+                //  path: "details/:id",
+                //  element: <SCApplication />,
+                //},
+              ],
+            },
+            {
+              path: "recommendations",
+              element: (
+                <UserTypeRouteProtector
+                  allowedTypes={[STUDENT_USER_TYPE, COMPANY_USER_TYPE]}
+                >
+                  <Recommendations />
+                </UserTypeRouteProtector>
+              ),
+              children: [
+                {
+                  path: "",
+                  element: <SCRecommendations />,
+                },
+              ],
+            },
+            {
+              path: "interviews",
+              element: (
+                <UserTypeRouteProtector
+                  allowedTypes={[STUDENT_USER_TYPE, COMPANY_USER_TYPE]}
+                >
+                  <Interviews />
+                </UserTypeRouteProtector>
+              ),
+              children: [
+                {
+                  path: "",
+                  element: <SCInterviewsPreview />,
+                },
+                {
+                  path: "details/:id",
+                  element: <SCInterview />,
+                },
+                {
+                  path: "check/:id",
+                  element: <SCInterviewCheck />,
+                },
+                {
+                  path: "create",
+                  element: <SCInterviewEdit />,
+                },
+                {
+                  path: "answer/:id",
+                  element: <SCInterviewAnswer />,
+                },
+              ],
+            },
+            {
+              path: "internship-positions-offers",
+              element: (
+                <UserTypeRouteProtector
+                  allowedTypes={[STUDENT_USER_TYPE, COMPANY_USER_TYPE]}
+                >
+                  <InterviewPosOffer />
+                </UserTypeRouteProtector>
+              ),
+              children: [
+                {
+                  path: "",
+                  element: <IntPosOfferPreview />,
+                },
+                {
+                  path: "details/:id",
+                  element: <IntPosOffer />,
+                },
+              ],
+            },
+            {
+              path: "internship-offers-template",
+              element: (
+                <UserTypeRouteProtector allowedTypes={[COMPANY_USER_TYPE]}>
+                  <InterviewTemplate />
+                </UserTypeRouteProtector>
+              ),
+              children: [
+                {
+                  path: "",
+                  element: <InterviewTemplatePreview />,
+                },
+              ],
+            },
+            {
+              path: "communications",
+              element: <Communications />,
+              children: [
+                {
+                  path: "",
+                  element: <SCCommunications />,
+                },
+                {
+                  path: "details/:id",
+                  element: <SCCommunicationDetails />,
+                },
+                {
+                  path: "new/:type",
+                  element: <SCNewCommunication />,
+                },
+              ],
+            },
+            {
+              path: "profile",
+              element: <Profile />,
+            },
+            {
+              path: "account",
+              element: <Account />,
+            },
+            {
+              path: "swipe-card",
+              element: (
+                <UserTypeRouteProtector allowedTypes={[STUDENT_USER_TYPE]}>
+                  <SwipePage />
+                </UserTypeRouteProtector>
+              ),
+            },
+          ],
+        },
+        {
+          path: "signin",
+          element: (
+            <AuthRouteProtector redirectTo="/dashboard" invertBehavior={true}>
+              <SCSignInSide />
+            </AuthRouteProtector>
           ),
         },
-      ],
-    },
-    {
-      path: "dashboard",
-      element: (
-        <RouteProtector equals={false} navigateTo="/signin">
-          <Dashboard />
-        </RouteProtector>
-      ),
-      children: [
         {
-          path: "",
-          element: <Overview />,
-        },
-        {
-          path: "about",
-          element: <About />,
-        },
-        {
-          path: "contacts",
-          element: <Contact />,
-        },
-        {
-          path: "settings",
-          element: <Settings />,
-        },
-        {
-          path: "feedback",
-          element: <Feedback />,
-        },
-        {
-          path: "cv",
-          element: <CV />,
-        },
-        {
-          path: "university",
-          element: <University />,
-        },
-        {
-          path: "internship-offers",
-          element: <InternshipOffers />,
-        },
-        {
-          path: "applications",
-          element: <Applications />,
-        },
-        {
-          path: "recommendations",
-          element: <Recommendations />,
-        },
-        {
-          path: "interviews",
-          element: <Interviews />,
-        },
-        {
-          path: "confirmed-internships",
-          element: <ConfInternships />,
-        },
-        {
-          path: "communications",
-          element: <Communications />,
-        },
-        {
-          path: "profile",
-          element: <Profile />,
-        },
-        {
-          path: "account",
-          element: <Account />,
-        },
-        {
-          path: "swipe-card",
-          element: <SwipePage />,
-        },
-      ],
-    },
-    {
-      path: "signin",
-      element: (
-        <RouteProtector equals={true} navigateTo="/dashboard">
-          <SCSignInSide />
-        </RouteProtector>
-      ),
-    },
-
-    {
-      path: "signup",
-      element: <SignUp />,
-      children: [
-        {
-          path: "",
-          element: (
-            <RouteProtector equals={true} navigateTo="/dashboard">
-              <SCSignUp />
-            </RouteProtector>
-          ),
-        },
-        {
-          path: "user-creation",
-          element: <SCUserCreation />,
+          path: "signup",
+          element: <SignUp />,
+          children: [
+            {
+              path: "",
+              element: (
+                <AuthRouteProtector
+                  redirectTo="/dashboard"
+                  invertBehavior={true}
+                >
+                  <SCSignUp />
+                </AuthRouteProtector>
+              ),
+            },
+            {
+              path: "user-creation",
+              element: (
+                <UserCreationRouteProtector invertBehavior={true}>
+                  <SCUserCreation />
+                </UserCreationRouteProtector>
+              ),
+            },
+          ],
         },
       ],
     },

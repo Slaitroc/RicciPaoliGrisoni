@@ -77,30 +77,10 @@ export default function SCSignInCard() {
           });
         } else if (response.status === 200) {
           response.json().then((data) => {
-            setIsAuthenticated(true);
+            //setIsAuthenticated(true);
             setOpenAlert(true);
             setAlertSeverity("success");
             setAlertMessage(data.properties.message);
-            account.getUserData().then((response) => {
-              if (!response.ok) {
-                // DEBUG
-                console.log("debug");
-                response.json().then((data) => {
-                  setOpenAlert(true);
-                  setAlertSeverity("info");
-                  setAlertMessage(data.properties.error);
-                  navigate("/signup/user-creation");
-                });
-              } else {
-                response.json().then((data) => {
-                  //TODO verifica che la mail sia confermata
-                  setUserType(data.properties.userType);
-                  setProfile(data.properties);
-                  console.log("User data:", data);
-                });
-                navigate("/dashboard");
-              }
-            });
           });
         }
       });
@@ -222,6 +202,7 @@ export default function SCSignInCard() {
           Don&apos;t have an account?{" "}
           <span>
             <Link
+            //NAV to signup
               onClick={() => {
                 navigate("/signup");
               }}

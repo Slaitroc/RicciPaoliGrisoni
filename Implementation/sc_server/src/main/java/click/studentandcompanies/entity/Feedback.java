@@ -37,10 +37,6 @@ public class Feedback {
     @Column(name = "rating", nullable = false)
     private Integer rating;
 
-    @Lob
-    @Column(name = "comment")
-    private String comment;
-
     @NotNull
     @Column(name = "upload_time", nullable = false)
     private Instant uploadTime;
@@ -57,10 +53,9 @@ public class Feedback {
         // default constructor required by JPA
     }
 
-    public Feedback(Recommendation recommendation, ParticipantTypeEnum participantType, Integer rating, String comment, Instant uploadTime) {
+    public Feedback(Recommendation recommendation, ParticipantTypeEnum participantType, Integer rating, Instant uploadTime) {
         this.recommendation = recommendation;
         this.participantType = participantType;
-        this.comment = comment;
         this.rating = rating;
         this.uploadTime = uploadTime;
     }
@@ -112,13 +107,4 @@ public class Feedback {
     public void setRating(Integer rating) {
         this.rating = rating;
     }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
 }

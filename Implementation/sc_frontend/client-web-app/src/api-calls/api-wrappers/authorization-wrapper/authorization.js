@@ -1,7 +1,8 @@
 import * as apiCalls from "../../apiCalls";
 import * as firebaseAuth from "firebase/auth";
 import { auth } from "./firebase-utils/firebaseConfig";
-import { BASE_DOMAIN } from "../../apiConfig";
+import { FRONTEND_DOMAIN } from "../../apiConfig";
+import * as logger from "../../../logger/logger";
 
 export const login = async (email, password) => {
   try {
@@ -68,7 +69,7 @@ export const logout = async () => {
         }),
     };
   } catch (err) {
-    // DEBUG
+    enableLogger
     //console.error("Error during logout:", err.message);
     return {
       status: 500,
@@ -99,8 +100,9 @@ export const register = async (email, password) => {
 
     // Invia email di verifica
     const actionCodeSettings = {
-      //DANGER - url di reindirizzamento nella email di verifica
-      url: `${BASE_DOMAIN}:5173/email-verified`,
+      // url di reindirizzamento nella email di verifica
+      //DANGER TO CHANGE IF PC CHANGE
+      url: `${FRONTEND_DOMAIN}/email-verified`,
       handleCodeInApp: true, // Indica che l'app gestirà l'URL
     };
     await firebaseAuth.sendEmailVerification(
@@ -123,8 +125,7 @@ export const register = async (email, password) => {
         }),
     };
   } catch (err) {
-    // DEBUG
-    // console.error("Error during registration:", err.message);
+    logger.error("Error during registration:", err.message);
     if (err.code === "auth/email-already-in-use") {
       return {
         status: 500,
@@ -159,73 +160,3 @@ export const register = async (email, password) => {
     };
   }
 };
-
-// export const registerOld = async (userData, password) => {
-//   try {
-//     // Registra l'utente con email e password
-//     await firebaseAuth.createUserWithEmailAndPassword(
-//       auth,
-//       userData.email,
-//       password
-//     );
-//     const token = await auth.currentUser.getIdToken();
-
-//     // Invia la mail di verifica e imposta la procedura di verifica
-//     const actionCodeSettings = {
-//       //DANGER - url di reindirizzamento nella email di verifica
-//       url: `${BASE_DOMAIN}:5173/email-verified`,
-//       handleCodeInApp: true, // Indica che l'app gestirà l'URL
-//     };
-//     firebaseAuth.sendEmailVerification(auth.currentUser, actionCodeSettings);
-//     return response;
-//   } catch (err) {
-//     // DEBUG
-//     //console.error("Error during registration:", err.message);
-//     if (err.code === "auth/email-already-in-use") {
-//       return new Promise((resolve, reject) => {
-//         try {
-//           // Simulazione di un errore server (status 500)
-//           const response = {
-//             status: 500,
-//             ok: false, // ok è false per status >= 400
-//             json: async () => "Email already in use", // Corpo in formato JSON
-//             text: async () => "Email already in use", // Corpo come stringa
-//           };
-
-//           // Rifiuta la Promise con la risposta simulata
-//           reject(response);
-//         } catch (err) {
-//           // Gestione di eventuali errori durante la creazione della risposta
-//           reject({
-//             status: 500,
-//             ok: false,
-//             json: async () => ({ error: err.message || "Unknown error" }),
-//             text: async () => err.message || "Unknown error",
-//           });
-//         }
-//       });
-//     }
-//     return new Promise((resolve, reject) => {
-//       try {
-//         // Simulazione di un errore server (status 500)
-//         const response = {
-//           status: 500,
-//           ok: false, // ok è false per status >= 400
-//           json: async () => err.message, // Corpo in formato JSON
-//           text: async () => err.message, // Corpo come stringa
-//         };
-
-//         // Rifiuta la Promise con la risposta simulata
-//         reject(response);
-//       } catch (err) {
-//         // Gestione di eventuali errori durante la creazione della risposta
-//         reject({
-//           status: 500,
-//           ok: false,
-//           json: async () => ({ error: err.message || "Unknown error" }),
-//           text: async () => err.message || "Unknown error",
-//         });
-//       }
-//     });
-//   }
-// };

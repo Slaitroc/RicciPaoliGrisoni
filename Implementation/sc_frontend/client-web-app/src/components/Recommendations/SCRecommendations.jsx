@@ -1,147 +1,73 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Grid from "@mui/material/Grid2";
-import Typography from "@mui/material/Typography";
-import FormControl from "@mui/material/FormControl";
-import InputAdornment from "@mui/material/InputAdornment";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import { styled } from "@mui/material/styles";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import { v4 as uuidv4 } from "uuid";
-
-const cardData = [
-  {
-    key: uuidv4(),
-    image: "https://picsum.photos/800/450?random=400",
-    tag: "Feedback",
-    title: "Send Feedback",
-    description: "",
-  },
-];
-
-const StyledCard = styled(Card)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  padding: 0,
-  height: "100%",
-  backgroundColor: (theme.vars || theme).palette.background.paper,
-  "&:hover": {
-    backgroundColor: "transparent",
-    cursor: "pointer",
-  },
-  "&:focus-visible": {
-    outline: "3px solid",
-    outlineColor: "hsla(210, 98%, 48%, 0.5)",
-    outlineOffset: "2px",
-  },
-}));
-
-const StyledCardContent = styled(CardContent)({
-  display: "flex",
-  flexDirection: "column",
-  gap: 4,
-  padding: 16,
-  flexGrow: 1,
-  "&:last-child": {
-    paddingBottom: 16,
-  },
-});
-
-const StyledTypography = styled(Typography)({
-  display: "-webkit-box",
-  WebkitBoxOrient: "vertical",
-  WebkitLineClamp: 2,
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-});
-
-export function Search() {
-  return (
-    <FormControl sx={{ width: { xs: "100%", md: "25ch" } }} variant="outlined">
-      <OutlinedInput
-        size="small"
-        id="search"
-        placeholder="Search…"
-        sx={{ flexGrow: 1 }}
-        startAdornment={
-          <InputAdornment position="start" sx={{ color: "text.primary" }}>
-            <SearchRoundedIcon fontSize="small" />
-          </InputAdornment>
-        }
-        inputProps={{
-          "aria-label": "search",
-        }}
-      />
-    </FormControl>
-  );
-}
-
+import * as logger from "../../logger/logger";
+import { useRecommendationsContext } from "./RecommendationsContext";
+import AnimatedCard from "./Card/AnimatedCard";
+import { Button, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import LastCard from "./Card/LastCard";
 export default function SCRecommendations() {
-  const [focusedCardIndex, setFocusedCardIndex] = React.useState(null);
+  const { recommendationOfferList, profile } = useRecommendationsContext();
 
-  const handleFocus = (index) => {
-    setFocusedCardIndex(index);
+  const navigate = useNavigate();
+  const handleErrorButtonClick = () => {
+    profile.userType === "STUDENT"
+      ? navigate("/dashboard/browse-internship-offers")
+      : navigate("/dashboard/internship-offers");
   };
 
-  const handleBlur = (index) => {
-    setFocusedCardIndex(index);
-  };
+  const [isHiddenArray, setIsHiddenArray] = React.useState([]);
 
-  const handleClick = () => {
-    // console.info("You clicked the filter chip.");
+  const updateIsHiddenArray = (index) => {
+    setIsHiddenArray((prev) => {
+      const newArray = [...prev];
+      newArray[index] = true;
+      return newArray;
+    });
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      <div>
-        <Typography variant="h1" gutterBottom>
-          Recommendation Process
-        </Typography>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      width="100%"
+      padding={2}
+      sx={{ boxSizing: "border-box", minHeight: "80vh" }}
+    >
+      {/* Card Container */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flex: 1,
+          position: "relative",
+          width: "100%",
+          maxWidth: 500,
+        }}
+      >
+        <div style={{ position: "absolute", zIndex: 0 }}>
+          <LastCard profile={profile} />
+        </div>
+        {recommendationOfferList.map((item, index) => (
+          <AnimatedCard
+            key={item.recommendation.id}
+            item={item}
+            index={index}
+            isHidden={isHiddenArray[index]}
+            removeCard={updateIsHiddenArray}
+            style={{ position: "absolute" }}
+          />
+        ))}
       </div>
-      <Grid container spacing={2} columns={12}>
-        {cardData.map((t, index) => {
-          return (
-            <Grid key={t.key} size={{ xs: 12, md: 6 }}>
-              <StyledCard
-                variant="outlined"
-                onFocus={() => handleFocus(t.key)}
-                onBlur={() => handleBlur(t.key)}
-                tabIndex={index}
-                className={focusedCardIndex === t.key ? "Mui-focused" : ""}
-              >
-                <CardMedia
-                  component="img"
-                  alt="green iguana"
-                  image={t.image}
-                  sx={{
-                    aspectRatio: "16 / 9",
-                    borderBottom: "1px solid",
-                    borderColor: "divider",
-                  }}
-                />
-                <StyledCardContent>
-                  <Typography gutterBottom variant="caption" component="div">
-                    {t.tag}
-                  </Typography>
-                  <Typography gutterBottom variant="h6" component="div">
-                    {t.title}
-                  </Typography>
-                  <StyledTypography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                  >
-                    {t.description}
-                  </StyledTypography>
-                </StyledCardContent>
-              </StyledCard>
-            </Grid>
-          );
-        })}
-      </Grid>
+
+      {/* <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+        <Button variant="outlined" onClick={handleErrorButtonClick}>
+          {profile.userType === "STUDENT"
+            ? "Browse All Internship Offers!"
+            : "See your Offer!"}
+        </Button>
+      </Box> */}
     </Box>
   );
 }

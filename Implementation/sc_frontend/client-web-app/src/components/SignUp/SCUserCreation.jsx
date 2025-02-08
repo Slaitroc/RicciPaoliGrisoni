@@ -13,14 +13,13 @@ import { auth } from "../../api-calls/api-wrappers/authorization-wrapper/firebas
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
 import FormControl from "@mui/material/FormControl";
-import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import MuiCard from "@mui/material/Card";
 import SCSelectLogin from "../Shared/SCSelectLogin";
 import Autocomplete from "@mui/material/Autocomplete";
+import * as logger from "../../logger/logger";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -46,7 +45,8 @@ const Card = styled(MuiCard)(({ theme }) => ({
 export const SCUserCreation = () => {
   const navigate = useNavigate();
 
-  const { setIsAuthenticated, userType, setUserType } = useGlobalContext();
+  const { setIsAuthenticated, userType, setUserType, setProfile } =
+    useGlobalContext();
 
   const [country, setCountry] = React.useState(null);
   const [birthDate, setBirthDate] = React.useState(null);
@@ -65,27 +65,41 @@ export const SCUserCreation = () => {
 
   React.useEffect(() => {
     account
-      .getUniversities()
+      .getUniversitiesv2()
       .then((result) => {
-        setFetchedData(result);
-        // DEBUG
-        console.log(result.table);
+        if (result.success === true) {
+          setFetchedData(result);
+        }
+        if (result.success === false) {
+          setOpenAlert(true);
+          setAlertSeverity(result.severity);
+          setAlertMessage(result.message);
+        }
       })
       .catch((error) => {
-        console.error("Error during universities retrieval:", error.message);
+        console.error("Critical error during getUniversities:", error);
+        setOpenAlert(true);
+        setAlertSeverity("error");
+        setAlertMessage("Error: Unable to fetch universities");
       });
   }, []);
 
   React.useEffect(() => {
     account.getUserData().then((response) => {
       //TODO altro?
-      if (response.ok) navigate("/dashboard");
+      if (response.status === 200) {
+        response.json().then((data) => {
+          setProfile(data.properties);
+          //NAV to dashboard  
+          navigate("/dashboard");
+        });
+      }
     });
   }, []);
 
   //DEBUG
   React.useEffect(() => {
-    //console.log("User type:", userType);
+    logger.debug("User type:", userType);
     const userData = {
       userType: userType,
       email: auth.currentUser?.email ? auth.currentUser.email : null,
@@ -118,7 +132,7 @@ export const SCUserCreation = () => {
           ? parseInt(document.getElementById("VAT").value)
           : null,
     };
-    console.log(userData);
+    logger.debug(userData);
   });
 
   const validateInputs = (userData) => {
@@ -182,7 +196,7 @@ export const SCUserCreation = () => {
             setOpenAlert(true);
             setAlertSeverity("success");
             setAlertMessage("User created successfully");
-            navigate("/dashboard");
+            window.location.reload();
           });
         }
       });
@@ -229,9 +243,6 @@ export const SCUserCreation = () => {
                 <FormLabel htmlFor="birthdate">Date of Birth</FormLabel>
                 <DatePicker
                   onChange={(date) =>
-                    //DANGER date offset of one day --> day 9 became 8
-                    //viene inviata anche nel caso di company e university ma il backend la ignora
-                    //NOTE ignoring for now
                     setBirthDate(new Date(date).toISOString().split("T")[0])
                   }
                   views={["year", "month", "day"]}
@@ -265,7 +276,9 @@ export const SCUserCreation = () => {
                   disablePortal
                   options={fetchedData.names ? fetchedData.names : []}
                   onChange={(e, value) => {
-                    if (value) setUniVat(fetchedData.table[value]);
+                    if (value && fetchedData.table) {
+                      setUniVat(fetchedData.table[value]);
+                    }
                   }}
                   sx={{
                     width: 220,

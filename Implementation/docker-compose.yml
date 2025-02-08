@@ -18,14 +18,14 @@ services:
 
       #____________ROUTERS____________#
       # APPLICATION SERVICE
-      - "traefik.http.routers.application-container.rule=Host(`10.147.19.167`) &&  PathPrefix(`/application-api`)" #!!!!
+      - "traefik.http.routers.application-container.rule=Host(`localhost`) &&  PathPrefix(`/application-api`)" #!!!!
       - "traefik.http.routers.application-container.service=application-service"
       - "traefik.http.routers.application-container.entrypoints=web"
       - "traefik.http.routers.application-container.middlewares=cors-headers"
 
     networks:
       - traefik-network
-      - zerotier_network
+      # - zerotier_network
     depends_on:
       - application-database-service
       - notification-database-service
@@ -46,14 +46,14 @@ services:
 
       #____________ROUTERS____________#
       # AUTH SERVICE
-      - "traefik.http.routers.auth-container.rule=Host(`10.147.19.167`) &&  PathPrefix(`/auth-api`)" #!!!!
+      - "traefik.http.routers.auth-container.rule=Host(`localhost`) &&  PathPrefix(`/auth-api`)" #!!!!
       - "traefik.http.routers.auth-container.service=auth-service"
       - "traefik.http.routers.auth-container.entrypoints=web"
       - "traefik.http.routers.auth-container.middlewares=cors-headers"
 
     networks:
       - traefik-network
-      - zerotier_network
+      # - zerotier_network
     restart: always
 
   application-database-service:
@@ -123,7 +123,7 @@ services:
       - "traefik.enable=true"
       #____________ROUTERS____________#
       # DASHBOARD ROUTER ---> to traefik
-      - "traefik.http.routers.traefik.rule=Host(`10.147.19.167`)" #!!!!
+      - "traefik.http.routers.traefik.rule=Host(`localhost`)" #!!!!
       - "traefik.http.routers.traefik.entrypoints=web"
       - "traefik.http.routers.traefik.service=api@internal"
       # PRIVATE CALLS ROUTER ---> to sc-auth-container
@@ -150,14 +150,14 @@ services:
 
     networks:
       - traefik-network
-      - zerotier_network
+      # - zerotier_network
 
 networks:
   traefik-network:
     driver: bridge
-  zerotier_network:
-    external: true
-    name: zerotier_network
+  # zerotier_network:
+  #   external: true
+  #   name: zerotier_network
 
 volumes:
   platform_db_data:

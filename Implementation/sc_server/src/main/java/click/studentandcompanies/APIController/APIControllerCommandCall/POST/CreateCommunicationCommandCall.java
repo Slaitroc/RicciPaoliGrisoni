@@ -5,6 +5,8 @@ import click.studentandcompanies.dto.DTO;
 import click.studentandcompanies.dto.DTOCreator;
 import click.studentandcompanies.dto.DTOTypes;
 import click.studentandcompanies.entity.Communication;
+import click.studentandcompanies.entity.Recommendation;
+import click.studentandcompanies.entity.SpontaneousApplication;
 import click.studentandcompanies.notificationSystem.NotificationManager;
 import click.studentandcompanies.entityManager.communicationManager.CommunicationManager;
 import click.studentandcompanies.notificationSystem.NotificationController;
@@ -16,6 +18,7 @@ import click.studentandcompanies.utils.exception.WrongStateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,20 +37,35 @@ public class CreateCommunicationCommandCall implements APIControllerCommandCall<
     public ResponseEntity<DTO> execute() {
         try {
             Communication communication = communicationManager.createCommunication(payload);
+            List<String> userIDs = createUserIDs(communication);
 
-            List<String> userIDs = List.of(communication.getStudent().getId(), communication.getInternshipOffer().getCompany().getId(), communication.getUniversity().getId());
             DTO dto = DTOCreator.createDTO(DTOTypes.COMMUNICATION, communication);
             NotificationData data = new NotificationData(NotificationTriggerType.NEW_COMMUNICATION, dto);
             new NotificationController(notificationManager).sendAndSaveNotification(userIDs, data);
-
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
         } catch (BadInputException | WrongStateException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (NotFoundException e) {
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(DTOCreator.createDTO(DTOTypes.ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    private List<String> createUserIDs(Communication communication) {
+        List<String> userIDs = new ArrayList<>();
+        Recommendation recommendationOfCommunication = communication.getInternshipPosOff().getInterview().getRecommendation();
+        SpontaneousApplication spontaneousApplicationOfCommunication = communication.getInternshipPosOff().getInterview().getSpontaneousApplication();
+        if(recommendationOfCommunication != null) {
+            userIDs.add(recommendationOfCommunication.getCv().getStudent().getId());
+            userIDs.add(recommendationOfCommunication.getCv().getStudent().getUniversity().getId());
+            userIDs.add(recommendationOfCommunication.getInternshipOffer().getCompany().getId());
+        }else{
+            userIDs.add(spontaneousApplicationOfCommunication.getStudent().getId());
+            userIDs.add(spontaneousApplicationOfCommunication.getStudent().getUniversity().getId());
+            userIDs.add(spontaneousApplicationOfCommunication.getInternshipOffer().getCompany().getId());
+        }
+        return userIDs;
+    }
 }

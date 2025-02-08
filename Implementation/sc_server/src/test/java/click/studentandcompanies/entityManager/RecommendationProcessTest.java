@@ -133,7 +133,7 @@ class RecommendationProcessTest {
                 BadInputException.class,
                 () -> recommendationProcess.rejectRecommendation(1, payload)
         );
-        assertEquals("Universities can't refuse recommendations", exception.getMessage());
+        assertEquals("Universities can't reject recommendations", exception.getMessage());
 
         // Case 4: UserType UNKNOWN
         when(userManager.getUserType("user123")).thenReturn(UserType.UNKNOWN);
