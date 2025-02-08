@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "5da22ed2-ec58-4ec5-bbaa-cad6148f33b3",
-		"name": "Student&Company",
+		"name": "Student&CompanyMerge",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "41174837"
 	},
@@ -308,6 +308,384 @@
 						"sub",
 						"private",
 						"update-cv"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8443/application-api/sub/private/update-offer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"company_id\" : 1,\r\n  \"title\" : \"Physiotherapist\",\r\n  \"description\": \"Help patients recover mobility and manage pain through therapy\",\r\n  \"compensation\": 120,\r\n  \"location\": \"Milan\",\r\n  \"start_date\": \"2025-04-15\",\r\n  \"end_date\": \"2025-04-15\",\r\n  \"duration_hours\" : 8\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8443/application-api/sub/private/update-offer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"application-api",
+						"sub",
+						"private",
+						"update-offer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8443/application-api/sub/private/application/{OFFER_ID}/submit",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"student_id\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8443/application-api/sub/private/application/1/submit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"application-api",
+						"sub",
+						"private",
+						"application",
+						"1",
+						"submit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8443/application-api/sub/private/update-cv",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"student_id\": 6,\r\n    \"education\": \"Politecnico di Milano, MS Software Engineering\",\r\n    \"project\": \"TaskMaster, a project management web application\",\r\n    \"skills\": \"web-development, Java, Spring Boot\",\r\n    \"update_time\": \"2025-01-25T00:00:00Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8443/application-api/sub/private/update-cv",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"application-api",
+						"sub",
+						"private",
+						"update-cv"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8443/application-api/interviews/private/send-answer/1",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"student_id\": 1,\r\n    \"answer\": {\r\n        \"answer1\": \"A\",\r\n        \"answer2\": \"B\",\r\n        \"answer\": \"C\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8443/application-api/interviews/private/send-answer/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"application-api",
+						"interviews",
+						"private",
+						"send-answer",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8443/application-api/interviews/private/send-interview/1",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"company_id\": 1,\r\n    \"questions\": {\r\n        \"question1\": \"A\",\r\n        \"question2\": \"B\",\r\n        \"question3\": \"Is ferrari the best team?\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8443/application-api/interviews/private/send-interview/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"application-api",
+						"interviews",
+						"private",
+						"send-interview",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8443/application-api/interviews/private/save-template-interview/{INTERVIEW_ID}",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"company_id\": 1,\r\n    \"questions\": {\r\n        \"question1\": \"A\",\r\n        \"question2\": \"B\",\r\n        \"question3\": \"Is ferrari the best team?\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8443/application-api/interviews/private/save-template-interview/{INTERVIEW_ID}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"application-api",
+						"interviews",
+						"private",
+						"save-template-interview",
+						"{INTERVIEW_ID}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8443/application-api/interviews/private/{TemplateInterviewID}/send-template-interview/{InterviewID}",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"company_id\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8443/application-api/interviews/private/{TemplateInterviewID}/send-template-interview/{InterviewID}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"application-api",
+						"interviews",
+						"private",
+						"{TemplateInterviewID}",
+						"send-template-interview",
+						"{InterviewID}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8443/application-api/interviews/private/evaluate-interview/4",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"company_id\": 1,\r\n    \"evaluation\": 4,\r\n    \"status\": \"failed\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8443/application-api/interviews/private/evaluate-interview/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"application-api",
+						"interviews",
+						"private",
+						"evaluate-interview",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8443/application-api/comm/private/create",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"student_id\": 1,\r\n    \"internshipOffer_id\": 1,\r\n    \"university_id\": 1,\r\n    \"title\": \"working here sucks\",\r\n    \"content\": \"i dont make money\",\r\n    \"communication_type\": \"complaint\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8443/application-api/comm/private/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"application-api",
+						"comm",
+						"private",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8443/application-api/interviews/private/4/send-int-pos-off",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"company_id\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8443/application-api/interviews/private/4/send-int-pos-off",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"application-api",
+						"interviews",
+						"private",
+						"4",
+						"send-int-pos-off"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8443/application-api/feedback/private/4/submit",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"student_id\": 1,\r\n    \"participant_type\": \"student\",\r\n    \"rating\": 5,\r\n    \"upload_time\": \"2025-01-23T00:00:00Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8443/application-api/feedback/private/4/submit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8443",
+					"path": [
+						"application-api",
+						"feedback",
+						"private",
+						"4",
+						"submit"
 					]
 				}
 			},
