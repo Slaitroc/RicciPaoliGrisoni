@@ -132,13 +132,13 @@ export const register = async (email, password) => {
         ok: false,
         json: async () => ({
           properties: {
-            error: "Email alrready in use",
+            error: "Email already in use",
           },
         }),
         text: async () =>
           JSON.stringify({
             properties: {
-              error: "Email alrready in use",
+              error: "Email already in use",
             },
           }),
       };

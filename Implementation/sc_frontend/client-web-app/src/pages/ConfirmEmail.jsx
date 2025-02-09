@@ -1,12 +1,16 @@
 import { Box, Button } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import * as apiCalls from "../api-calls/apiCalls";
 import * as firebaseAuth from "firebase/auth";
 import { auth } from "../api-calls/api-wrappers/authorization-wrapper/firebase-utils/firebaseConfig";
 import { useGlobalContext } from "../global/GlobalContext";
 
 export const ConfirmEmail = () => {
-  const { setIsEmailVerified } = useGlobalContext();
+  const { setIsEmailVerified, isEmailVerified } = useGlobalContext();
+
+  const reloadPage = () => {
+    window.location.reload();
+  };
 
   const clickConfirmEmail = async () => {
     apiCalls
@@ -53,6 +57,11 @@ export const ConfirmEmail = () => {
         <Box margin={3} display="flex" gap={2}>
           <Button variant="contained" onClick={resendEmail}>
             Resend Email
+          </Button>
+        </Box>
+        <Box margin={3} display="flex" gap={2}>
+          <Button variant="contained" onClick={reloadPage}>
+            Check email Verification
           </Button>
         </Box>
       </Box>
