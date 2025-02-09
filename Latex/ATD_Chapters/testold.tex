@@ -1,0 +1,270 @@
+\subsubsection{Signup, CV upload, Login \& Authorization}
+This test concerns user registration on the platform, the CV upload phase, and user session validation through Log In. To check the integration between all the services, we first tested the API endpoints to determine which fields are required in the request body. Then, using the Adminer service, we verified whether the newly created user was correctly inserted into the database. As the final step, we followed the same process using the application. This approach helped us identify weaknesses or inconsistencies in the application. The direct call to the endpoint was easily handled through Postman, thanks to the Postman workspace configuration file provided in the ITD.
+\subsubsection*{Steps}
+\begin{enumerate}
+    \item Postman call to API endpoint \verb|/api/v1/auth/email/register| with the following body:
+    \begin{verbatim}
+    "email": "teststudent1@mail.com",
+    "password": "password",
+    "fullName": "Student Test",
+    "gender": "Male",
+    "phoneNumber": "00000000",
+    "aboutYou": "Student looking for an internship",
+    "address": "Padova",
+    "university": "Test University",
+    "personalEmail": "example@personal.com",
+    "attributes": "Software Engineering, Python,
+                    NodeJs, React, JavaScript, Italian, English",
+    "cv": "https://www.cv.com/link",
+    "role": 2 // Role is 1 for admin, 2 for student, 3 for company,
+                4 for university
+    \end{verbatim}
+    Result: \verb|204 No Content|\\
+    The result shows the server correctly registered the new user of type student.
+    \item Postman call to API endpoint \verb|/api/v1/auth/email/login| with body:
+    \begin{verbatim}
+    "email": "teststudent1@mail.com",
+    "password": "password"
+    \end{verbatim}
+    Result: \verb|200 OK|\\
+   The response code and response body show that the user was correctly authenticated. The response body also contains the new user's information and the necessary tokens (token and refresh token) to handle user session validation.
+    \item Database check:\\
+    Using Adminer, we checked the tables that handle the new data. The newly created user data is present and correctly inserted into the database, confirming the proper integration of all the services under analysis.
+    \item Frontend application sign up process:\\
+    Using the client application, we proceeded with the same actions, meaning we attempted to register the same user. First, we inserted all the required data. As specified in the ITD, there is no validation on the input sent by the user, as the platform assumes it to be correct. Then, we uploaded the CV file, which is handled as a link in the respective API call.
+
+    To upload the CV file, we used the Android device emulator's file system. We were able to copy a mock-up file into the emulator and then upload it to the app thanks to the provided file system interface. Additionally, we selected relevant skills from a predefined set for our test student and were also able to add custom skills.
+
+    However, after pressing the Sign Up button, the client app allowed us to create the same user twice, which should not be allowed.
+    
+    \item Database check:\\
+    Checking the database, we observed that the user was neither created twice nor updated, as the creation date remained the same as the previous entry.
+    \item Postman call to the API endpoint \verb|/api/v1/auth/email/register| using the same request body as in step one.\\
+    Result: \verb|422 Unprocessable Entity|\\
+    Body: 
+    \begin{verbatim}
+    "status": 422,
+    "errors": {
+        "email": "emailAlreadyExists"
+    }
+    \end{verbatim}
+   Since the API response indicated that it is not possible to create two users with the same email, we assume there is an anomaly in how the frontend application handles this situation.
+    
+    \item Login using frontend application:\\
+    By entering the user’s email and password, the application correctly allowed the student to access the dashboard page.
+
+    \item Postman API Call to endpoints supposed to require the Authorization header:\\
+    Despite the fact that the API call for user login responds with the necessary tokens for authorization, it seems that by removing the Authorization header, most of the calls still function as usual, returning information that should require proper authorization.
+    
+\end{enumerate}
+
+\subsection*{Tested Cases}
+\begin{itemize}
+    \item Student signup through server API request;
+    \item Student signup through frontend application;
+    \item Student signup of two users with the same data through frontend application;
+    \item CV Upload during registration through frontend application;
+    \item Signup of two users with the same data through server API request;
+    \item User login through server API request;
+    \item User login through frontend application;
+    \item Server API calls without Authorization header;
+\end{itemize}
+
+\subsubsection*{Result}
+\textbf{Partial Success:}
+The tests revealed inconsistencies between the frontend and backend. The frontend incorrectly allows duplicate user registrations, displaying a confirmation message despite the API rejecting them. A major security issue was identified: API calls that should require authorization still return data even when the Authorization header is missing. Additionally, the frontend lacks an interface to modify or view uploaded CVs.
+
+\subsubsection*{Anomalies}
+\begin{itemize}
+    \item The frontend allows duplicate user registrations, confirming them incorrectly, while the API correctly prevents this. This suggests an issue in how the frontend handles API responses.
+    \item The CV column in the database stores uploaded files as links, despite the files being provided through the device's file system. This design choice will be further tested.
+    \item The aboutYou field is missing in the frontend, as there is no input field for it.
+    \item API calls requiring the Authorization header still return sensitive information even when the header is absent, indicating a security risk.
+    \item After logging out of the application, if the “go back” gesture is performed on the device, the user is brought back to the previous user account
+    
+\end{itemize}
+
+\subsubsection*{Notes}
+\begin{itemize}
+    \item As specified in the ITD, the frontend only handles student registration. Other user types were tested via API calls, which functioned correctly.
+    \item The university selection in the frontend includes options not registered on the platform, and newly added universities do not appear in the list. However, custom universities can still be entered manually, so this is not considered an anomaly.
+    \item The frontend does not allow users to modify, view, or manage their CVs or personal data.
+    \item Expected platform suggestions during registration and CV uploading were missing, despite being included in the prototype description.
+\end{itemize}
+
+\subsubsection{Create Internship and Search Internship}
+This test concerns internship creation and filtering, which should be based on internship details. The filtering functionality is available on the dashboard page of the frontend application and is accessible to Company and Student user types. Since there are no explicit API calls for this feature, we assume it is implemented directly within the client application.
+% qui mi sembra che il problema fosse che in un qualche documento dicono che si basa sulla descrizione e sulla location tipo.
+\subsubsection*{Steps}
+\begin{enumerate}
+    \item Multiple Postman calls to the API endpoint \verb|/api/v1/internships| to create different internships.\\
+    Request body:
+    \begin{verbatim}
+  {
+  "company": {
+    "id": <id-number>
+  },
+  "title": <internship-title>,
+  "description": <internship-description>,
+  "requiredSkills": <internship-reqskills>,
+  "optionalSkills": <internship-optskills>,
+  "startDate": <internship-startdate>,
+  "endDate": <internship-enddate>,
+  "duration": <internship-duration>,
+  "salary": <internship-salary>,
+  "type": <internship-type>
+}
+    \end{verbatim}
+    The calls successfully created the internships.
+    
+    \item Internship creation using frontend application:\\
+    The frontend successfully allows the creation of internships, and database checks confirm the correct execution of the process. However, some fields that could be included in the request body are not handled by the client application. Additionally, for the next steps, it is important to note that each internship inherits its location from the company’s registered location.
+    
+    \item Available internship filtering based on location:    \\ 
+    Since internships inherit their location from the company that owns them, this feature does not seem particularly useful. Additionally, in the client application, selecting a random city for internship filtering returns the same results as applying no filter, indicating that the feature is not correctly implemented.
+    
+    \item Available internship filtering based on internship data:\\
+   This feature only works for filtering by internship title, required skills, and optional skills. However, if a company name or part of the internship description is entered, the filtering fails, indicating incomplete implementation.
+    
+\end{enumerate}
+\subsubsection*{Tested Cases}
+\begin{itemize}
+    \item Internship creation via API;
+    \item Internship creation via frontend;
+    \item Location-based filtering;
+    \item Internship data filtering;
+    
+\end{itemize}
+
+\subsubsection*{Result}
+\textbf{Partial Success}:
+The tests revealed that while the frontend successfully allows internship creation, some fields that could be included in the request body are not handled. Additionally, internship filtering presents significant issues: filtering by location does not work correctly, as internships inherit their location from the company, making this feature ineffective. Moreover, filtering based on internship data is only functional for specific fields such as title and skills, but fails when searching by company name or description. These inconsistencies suggest that the filtering functionality is not fully implemented as described in the documentation.
+\subsubsection*{Anomalies}
+\begin{itemize}
+    \item The filtering functionality does not work as expected. Searching by location does not yield meaningful results, and searching by company name or description fails entirely.
+    \item Each internship inherits its location from the company’s registered address. While this may be an intentional design choice, it renders location-based filtering ineffective, as users cannot specify a different location for individual internships.
+\end{itemize}
+\subsubsection*{Notes}
+\begin{itemize}
+    \item Some fields available in the API request body are not processed by the frontend during internship creation. 
+\end{itemize}
+
+\subsubsection{Pending Application - MATTE}
+The test concerns the ability of companies to monitor their list of pending applications. Companies should be able to review the list of candidates for their internship, along with their respective CVs, and select students who meet the requirements.
+\subsubsection*{Steps}
+\begin{enumerate}
+    \item  Register a new Company through Postman call to API endpoint \verb|/api/v1/auth/email/register| with the following body:
+    \begin{verbatim}
+    "email": "company@mail.com",
+    "password": "password",
+    "fullName": "CompanyName",
+    "phoneNumber": "00000000",
+    "address": "Street 123, Milan, Italy",
+    "image": "",
+    "role": 3 // Role is 1 for admin, 2 for student, 3 for company,
+            4 for university
+    \end{verbatim}
+    Result: \verb |204 No Content|\\
+    The result shows that the server correctly registered the new user of the type company.
+    \item Login with new Company
+    \item Create 2 Internships
+    \item Logout
+    \item Register a new Student
+    \item Login with new Student
+    \item Apply Internship1 through spontaneous application and Internship2 through recommendation (add for both the motivation)
+    \item Logout and login with Company 
+    \item Press on the relative Internship to see the list of applications
+    \item Press on the CV button
+\end{enumerate}
+\subsubsection*{Result}
+\textbf{Success}: The Company successfully retrieves the list of applications for each of his internships and is able to open the link of their candidate's CV
+\subsection*{Tested Cases}
+\begin{itemize}
+    \item Application through spontaneous application
+    \item Application through recommendation
+\end{itemize}
+\subsubsection*{Notes}
+\begin{itemize}
+    \item There is no difference on the company side between a spontaneous application and a recommendation. 
+    \item The motivation text application is not shown to the Company at any point in the execution.
+\end{itemize}
+\subsubsection{Questionnaire and Interview - LORE}
+This test concerns the selection process and more in detail the interview and questionnaire phases.
+It is worth mentioning that the developed platform handles this features by allowing the company to send two links, one for the interview, and one for the questionnaire. The link should forward to the student to the external service directly managing the selection process. 
+\subsubsection*{Steps}
+
+\subsubsection*{Result}
+\subsubsection*{Anomalies}
+\subsubsection{Notifications - SAM}
+\subsubsection*{Steps}
+\subsubsection*{Result}
+\subsubsection*{Anomalies}
+\subsubsection{Recommendation Process - MATTE}
+\subsubsection*{Steps}
+\begin{enumerate}
+    \item  Register a new Company through Postman call to API endpoint \verb|/api/v1/auth/email/register| with the following body:
+    \begin{verbatim}
+    "email": "company@mail.com",
+    "password": "password",
+    "fullName": "CompanyName",
+    "phoneNumber": "00000000",
+    "address": "Street 123, Milan, Italy",
+    "image": "",
+    "role": 3 // Role is 1 for admin, 2 for student, 3 for company,
+            4 for university
+    \end{verbatim}
+    Result: \verb |204 No Content|\\
+    The result shows that the server correctly registered the new user of the type company.
+    \item Login with new Company
+    \item Create an Internship providing skills to be checkd
+    \item Logout
+    \item Register a new Student, including skills
+    \item Login with new Student
+    \item Navigate to recommendation page and apply to Internship providing motivation message
+    \item Logout and login with Company 
+    \item Press on the relative Internship to see the list of applications
+\end{enumerate}
+\subsubsection*{Result}
+\textbf{Partial Success}: The Student successfully applies to the application and sees the relative internship status as “in pending” while the company has received the application for his Internship. However, there is a case where an internship has two compatible required skills and one incompatible required skill that causes the opening of the recommendation page to crash the application, preventing the user from accessing his recommendations.  
+\subsubsection*{Steps to recreate the bug}
+\begin{enumerate}
+    \item Signup as a Student and add the following skills: Software Engineering, React, Python
+    \item Logout and login with a company
+    \item Create an internship with the following required skills: Software Engineering, Python, Entrepreneurship.
+    \item Logout, login with student and open the recommendations page
+\end{enumerate}
+\subsection*{Tested Cases}
+\begin{itemize}
+    \item Internship has all the required skills the student has
+    \item Internship has no required skills and some optional skills
+    \item Internship has no required or optional skills
+    \item Many combinations of optional and required skills 
+\end{itemize}
+\subsubsection*{Notes}
+\begin{itemize}
+    \item The Company is completely passive during this process.
+    \item The difference between the two recommendation mechanism algorithms seems to be only about the 
+\end{itemize}
+\subsubsection*{Anomalies}
+\begin{itemize}
+    \item If the internship has no required skills, it will not be suggested by either of the two recommendation mechanisms.
+    \item The app may crash when the student opens the recommendations page, and a particular combination of skills has been chosen for an internship.
+\end{itemize}
+\subsubsection{Selection Process - MATTE}
+\subsubsection*{Steps}
+\subsubsection*{Result}
+\subsubsection*{Anomalies}
+\subsubsection{Complaints - SAM}
+\subsubsection*{Steps}
+\subsubsection*{Result}
+\subsubsection*{Anomalies}
+\subsubsection{Statistics / Feedback collection - SAM}
+\subsubsection*{Steps}
+\subsubsection*{Result}
+\subsubsection*{Anomalies}
+\subsubsection{Suggestions - SAM} 
+\subsubsection{Chat Room - SAM} 
+
+
+
+

@@ -1,0 +1,163 @@
+\documentclass [11pt,twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{import}
+\input{commandsFile}
+%References
+\usepackage{xpatch}
+\usepackage[backend=biber, style=numeric, sorting=none, defernumbers=true]{biblatex}
+\addbibresource{ATD.bib}
+\nocite{*}
+\DeclareFieldFormat{annotation}{\par\textit{#1}}
+\renewbibmacro*{begentry}{\printfield{annotation}}
+%%%
+
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\color{Gray}{\small{ATD by Ricci, Paoli, Grisoni}}}
+\lfoot{\textcolor{Gray}{\small{Copyright © 2025, Ricci, Paoli, Grisoni – All rights reserved}}}
+\rfoot{\textcolor{Gray}{\thepage}}
+\renewcommand{\headrulewidth}{0pt}
+%%
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings}
+\usepackage{alloy-style}
+\setlength{\headheight}{13.6pt}
+
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}  % Includi fino a \paragraph nel sommario
+
+\begin{document}
+
+    %TITLE PAGE
+    \begin{titlepage}
+
+        % LOGO e titolo sopra
+        \vspace*{-2cm} % (opzionale) aggiusta il margine superiore
+        \begin{center}
+            \begin{tabularx}{\textwidth}{>{\raggedleft\arraybackslash}p{0.30\textwidth}>{\raggedleft\arraybackslash}X}
+                \textcolor{titleColor}{\textbf{\small{ATD Ricci, Paoli, Grisoni}}} & \includegraphics[scale=0.5]{Images/PolimiLogo} \\
+            \end{tabularx}
+        \end{center}
+        % Spazio verticale tra logo e titolo
+        \vspace*{4cm} % Sostituito \vspace con \vspace* per garantire lo spazio anche all'inizio della pagina
+    
+        % TITLE
+        \begin{center}
+            % Titolo del documento
+            {\textcolor{titleColor}{\textbf{\Huge{ATD}}}} \\[2ex]
+            {\textcolor{titleColor}{\textbf{\Huge{Acceptance Testing Deliverable}}}} \\[1cm]
+        \end{center}
+    \end{titlepage}
+    
+    %Define deliverable specific info
+    %Replace cell contents where needed
+    \begin{table}[h!]
+        \renewcommand{\arraystretch}{1}
+        \setlength{\extrarowheight}{2pt}
+        \begin{tabularx}{\textwidth}{>{\raggedleft\arraybackslash}p{0.3\textwidth}>{\raggedright\arraybackslash}X}
+            \hline
+            \textbf{Deliverable:} & ATD \\ 
+            \textbf{Title:} & Acceptance Testing Deliverable \\ 
+            \textbf{Authors:} & Lorenzo Ricci, Matteo Giovanni Paoli, Samuele Grisoni \\ 
+            \textbf{Version:} & 1.0 \\ 
+            \textbf{Date:} & 09-02-2025 \\ 
+            \textbf{Download page:} & \url{https://github.com/Slaitroc/RicciPaoliGrisoni/} \\ 
+            \textbf{Copyright:} & Copyright © 2025, Ricci, Paoli, Grisoni – All rights reserved \\ \hline
+        \end{tabularx}
+    \end{table}
+    
+  
+    
+    \setcounter{page}{2}
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+    \newpage
+    \addcontentsline{toc}{section}{Contents}
+    \tableofcontents
+    \newpage
+    \listoffigures
+    \newpage
+
+    \listoftables
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+    \clearpage
+    \section{Introduction}
+    \label{sect:introduction}
+    \input{Latex/ATD_Chapters/1introduction}
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+    \clearpage
+    \section{Installation}
+    \label{sect:installation}
+    \input{Latex/ATD_Chapters/2installation} 
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+
+    %  \clearpage
+    % \section{Old Tests section}
+    % \label{sect:oldtest}
+    % \input{Latex/ATD_Chapters/testold} 
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+    \clearpage
+    \section{Tests}
+    \label{sect:tests}
+    \input{Latex/ATD_Chapters/3tests} 
+    %------------------------------------------------------------------------
+    \clearpage
+    \section{Conclusions}
+    \label{sect:tests}
+    \input{Latex/ATD_Chapters/4conclusions} 
+    %------------------------------------------------------------------------
+    \clearpage
+    \section{Effort Spent}
+    \label{sect:effortspent}
+    \input{Latex/ATD_Chapters/5effortspent} 
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+    
+    \clearpage
+    \section{References}
+    \label{sect:references}
+    \input{Latex/ATD_Chapters/6reference} 
+    %------------------------------------------------------------------------------------------------------------------------------------------------
+    
+    \clearpage
+    \appendix
+    \section{Assignement RDD AY 2024-2025}
+    \label{appendix:assignement}
+    Students\&Companies (S\&C) is a platform that helps match university students looking for internships
+    and companies offering them. The platform should ease the matching between students and
+    companies based on:
+    \begin{itemize}
+        \item the experiences, skills and attitudes of students, as listed in their CVs;
+        \item the projects (application domain, tasks to be performed, relevant adopted technologies-if any etc.) and terms offered by companies (for example, some company might offer paid internships and/or provide both tangible and intangible benefits, such as training, mentorships, etc.).
+    \end{itemize}
+The platform is used by companies to advertise the internships that they offer, and by students to look
+for internships. Students can be proactive when they look for internships (i.e., they initiate the process,
+go through the available internships, etc.). Moreover, the system also has mechanisms to inform
+students when an internship that might interest them becomes available and can inform companies
+about the availability of student CVs corresponding to their needs. We refer to this process as
+“recommendation”.
+Recommendation in S\&C can employ mechanisms of various levels of sophistication to match students
+with internships, from simple keyword searching, to statistical analyses based on the characteristics of
+students and internships.
+When suitable recommendations are identified and accepted by the two parties, a contact is
+established. After a contact is established, a selection process starts. During this process, companies
+interview students (and collect answers from them, possibly through structured questionnaires) to
+gauge their fit with the company and the internship. S\&C supports this selection process by helping
+manage (set up, conduct, etc.) interviews and also finalize the selections.
+To feed statistical analysis applied during recommendation, S\&C collects various kinds of information
+regarding the internships, for example by asking students and companies to provide feedback and
+suggestions.
+Moreover, S\&C should be able to provide suggestions both to companies and to students regarding
+how to make their submissions (project descriptions for companies and CVs for students) more
+appealing for their counterparts.
+In general, S\&C provides interested parties with mechanisms to keep track and monitor the execution
+and the outcomes of the matchmaking process and of the subsequent internships from the point of
+view of all interested parties. For example, it provides spaces where interested parties can complain,
+communicate problems, and provide information about the current status of the ongoing internship.
+The platform is used by students at different universities. Universities also need to monitor the situation
+of internships; in particular, they are responsible for handling complaints, especially ones that might
+require the interruption of the internship.
+    
+\end{document}
