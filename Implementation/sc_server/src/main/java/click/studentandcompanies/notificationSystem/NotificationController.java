@@ -39,6 +39,7 @@ public class NotificationController {
     }
 
 
+    @Deprecated
     @GetMapping("/private/test-notification")
     public HttpStatus testNotification(@RequestHeader("Authorization") String authToken) {
         String userID = GetUuid.getUuid(authToken);

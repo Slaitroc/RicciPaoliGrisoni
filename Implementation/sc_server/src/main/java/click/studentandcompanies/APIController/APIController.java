@@ -54,6 +54,7 @@ public class APIController {
         this.accountManager = accountManager;
     }
 
+    @Deprecated
     @GetMapping("/hello")
     public String sayHello() {
         return "Hello, Spring Boot!";
@@ -78,12 +79,25 @@ public class APIController {
     //_________________________ acc/private _________________________
 
     @GetMapping("/acc/private/get-user-data")
+    @Operation(summary = "Get user data", description = "Get the data of the user with the specified ID.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok, User data retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<DTO> getUserData(@RequestHeader("Authorization") String token) {
         String userID = GetUuid.getUuid(token);
         return new GetUserDataCommandCall(userID, accountManager).execute();
     }
 
+    //The body will contain the 'name', 'email', 'country', 'userType' and any other field relevant to the user type
     @PutMapping("/acc/private/send-user-data")
+    @Operation(summary = "Send user data", description = "Send the data of the user with the specified ID.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "User data sent successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request, invalid data"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<DTO> sendUserData(@RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
         String uuid = GetUuid.getUuid(token);
         payload.put("user_id", uuid);
@@ -91,6 +105,13 @@ public class APIController {
     }
 
     @PostMapping("/acc/private/confirm-user")
+    @Operation(summary = "Confirm user", description = "Confirm create a new entry in the database for the user with the specified ID.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "User confirmed successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request, invalid data"),
+            @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<DTO>  confirmedUser(@RequestHeader("Authorization") String token) {
         String userID = GetUuid.getUuid(token);
         return new ConfirmUserCommandCall(userID, accountManager).execute();
@@ -134,7 +155,8 @@ public class APIController {
     @Operation(summary = "Request Internship", description = "Get the Internship Offer with the specified ID.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Internship retrieved successfully"),
-            @ApiResponse(responseCode = "404", description = "Not Found, Internship ID not found"),
+            @ApiResponse(responseCode = "204", description = "No Internship found with the specified ID"),
+            @ApiResponse(responseCode = "404", description = "Internship ID not found in the request"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> getInternship(@PathVariable("internshipID") Integer internshipID, @RequestHeader("Authorization") String token) {
@@ -142,18 +164,17 @@ public class APIController {
     }
 
 
-    // The payload is a map with the "company_id", optionally the
-    // "internshipOffer_id" if we are UPDATING an existing offer (the backend will
-    // check if the company is the owner of the offer)
+    // The boyd will contain:
+    // "internshipOffer_id" if we are UPDATING an existing offer (the backend will check if the company is the owner of the offer)
     // title, description, compensation, location, start_date, end_date,
     // duration_hours and any other (optional) field
     @PostMapping("/sub/private/internship/update-my-offer")
-    @Operation(summary = "Update internship offer", description = "The payload is a map with the 'company_id', optionally the 'internshipOffer_id' if we are UPDATING an existing offer (the backend will check if the company is the owner of the offer), 'title', 'description', 'compensation', 'location', 'start_date', 'end_date', 'duration_hours', and any other (optional) field.")
+    @Operation(summary = "Update internship offer", description = "Update or create the database entry of a company's Internship Offer.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Internship offer updated successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "404", description = "Internship offer not found"),
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "404", description = "Internship offer not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> updateOffer(@RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
@@ -190,8 +211,8 @@ public class APIController {
     @Operation(summary = "Request Student CV", description = "Get the CV of a specific student.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, CV retrieved successfully"),
-            @ApiResponse(responseCode = "204", description = "No Content, No CV found"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized, User not authorized to access this resource"),
+            @ApiResponse(responseCode = "204", description = "No Content, No CV found for the specified student"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, User not logged in"),
             @ApiResponse(responseCode = "404", description = "Not Found, Student ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -200,9 +221,9 @@ public class APIController {
         return new GetStudentCVCommandCall(studentID, userID, submissionManager).execute();
     }
 
-
+    //The payload is a map with 'certifications', 'skills', 'education', 'work_experiences', 'project'
     @PostMapping("/sub/private/cv/update-my-cv")
-    @Operation(summary = "Update student's CV", description = "The payload is a map with the 'student_id', 'update_time', and other optional fields used to update a student's CV.")
+    @Operation(summary = "Update student's CV", description = "Create or update the database entry of a student's CV.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "CV updated successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -218,15 +239,13 @@ public class APIController {
 
     //_________________________ sub/private/application __________________________
 
-    // API called by student and companies when looking for their spontaneous
-    // applications
+    // API called by student and companies when looking for their spontaneous applications
     @GetMapping("/sub/private/application/get-my-applications")
     @Operation(summary = "User requests the list of his Spontaneous Applications", description = "Get a list of Spontaneous Applications submitted by a specific student or submitted to a specific company.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Spontaneous Applications retrieved successfully"),
-            @ApiResponse(responseCode = "204", description = "No Content, No Spontaneous Applications found"),
-            @ApiResponse(responseCode = "400", description = "Bad request, User is not a student or a company"),
-            @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
+            @ApiResponse(responseCode = "204", description = "No Content, No Spontaneous Applications found for the required user"),
+            @ApiResponse(responseCode = "400", description = "Bad request, User is not specified or not a student or a company"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<List<DTO>> getSpontaneousApplications(@RequestHeader("Authorization") String token) {
@@ -234,7 +253,7 @@ public class APIController {
         return new GetSpontaneousApplicationsCommandCall(userID, submissionManager).execute();
     }
 
-
+    //No body needed, the student_id is extracted from the token
     @PostMapping("/sub/private/application/{InternshipOfferID}/submit")
     @Operation(summary = "Submit spontaneous application", description = "Submits a spontaneous application to a specific Internship Offer.")
     @ApiResponses({
@@ -249,13 +268,12 @@ public class APIController {
                 notificationManager).execute();
     }
 
-
+    //No body needed, the company_id is extracted from the token
     @PostMapping("/sub/private/application/{SpontaneousApplicationID}/accept")
-    @Operation(summary = "Accept Spontaneous Application", description = "The payload is a map with the 'company_id' of the company that accepts the application.")
+    @Operation(summary = "Accept Spontaneous Application", description = "Accept a Spontaneous Application, create a toBeSubmitted interview.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "SpontaneousApplication accepted successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request, the application is already accepted"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "404", description = "SpontaneousApplication not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -266,9 +284,9 @@ public class APIController {
         return new AcceptSpontaneousApplicationCommandCall(SpontaneousApplicationID, submissionManager, notificationManager, payload).execute();
     }
 
-
+    //No body needed, the company_id is extracted from the token
     @PostMapping("/sub/private/application/{SpontaneousApplicationID}/reject")
-    @Operation(summary = "Reject Spontaneous Application", description = "The payload is a map with the 'company_id' used to reject an application.")
+    @Operation(summary = "Reject Spontaneous Application", description = "Reject a Spontaneous Application, changing the status to 'rejected'.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "SpontaneousApplication rejected successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request, the application is already rejected"),
@@ -291,7 +309,6 @@ public class APIController {
             @ApiResponse(responseCode = "200", description = "Ok, Matches retrieved successfully"),
             @ApiResponse(responseCode = "204", description = "No Content, No Matches found for required user"),
             @ApiResponse(responseCode = "400", description = "Bad request, User is not a student or a company"),
-            @ApiResponse(responseCode = "404", description = "Not Found, User ID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<List<DTO>> getRecommendations(@RequestHeader("Authorization") String token) {
@@ -300,9 +317,9 @@ public class APIController {
     }
 
 
-    // The payload is a map with the userID
+    //No body needed, the userID is extracted from the token
     @PostMapping("/recommendation/private/{RecommendationID}/accept")
-    @Operation(summary = "Accept recommendation", description = "The payload is a map with the 'userID' used to accept a recommendation.")
+    @Operation(summary = "Accept recommendation", description = "A participant (student or company) accepts a recommendation. If both participants accept, a new interview is created.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Recommendation accepted successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -317,9 +334,9 @@ public class APIController {
     }
 
 
-    // The payload is a map with the userID
+    //No body needed, the userID is extracted from the token
     @PostMapping("/recommendation/private/{RecommendationID}/reject")
-    @Operation(summary = "Reject recommendation", description = "Reject a recommendation by providing the 'userID' in the payload.")
+    @Operation(summary = "Reject recommendation", description = "A participant (student or company) rejects a recommendation. No interview can be created from this match.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Recommendation rejected successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -340,7 +357,7 @@ public class APIController {
     @Operation(summary = "User userID requests the communication commID", description = "Get the communication commID for the user userID.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Ok, Communication retrieved successfully"),
-            @ApiResponse(responseCode = "204", description = "No Content, No Communication found"),
+            @ApiResponse(responseCode = "204", description = "No Content, No Communication found for the required user"),
             @ApiResponse(responseCode = "404", description = "Not Found, userID not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -363,9 +380,9 @@ public class APIController {
         return new GetCommunicationMessagesCommandCall(commID, userID, communicationManager).execute();
     }
 
-
+    //The payload will contain 'internshipPosOfferID', 'title', 'content', 'communicationType'
     @PostMapping("/comm/private/create-comm")
-    @Operation(summary = "Create communication", description = "payload will contain the 'user_id', 'internshipPosOfferID', 'title', 'content', 'communicationType'")
+    @Operation(summary = "Create communication", description = "Create a new communication, send notification to the other participant and the university.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Communication created successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -378,12 +395,12 @@ public class APIController {
         return new CreateCommunicationCommandCall(communicationManager, notificationManager, payload).execute();
     }
 
-
+    //The payload will contain 'internshipOffer_id', 'university_id', 'title', 'content', 'communication_type' (communication, complaint)
     @PostMapping("/comm/private/{commID}/send-messages")
-    @Operation(summary = "Create communication", description = "payload will contain the 'student_id', 'internshipOffer_id', 'university_id', 'title', 'content', 'communication_type' (communication, complaint)")
+    @Operation(summary = "Create communication", description = "Send a new message to the specified communication. Notification will be sent to the other involved users.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Message created successfully"),
-            @ApiResponse(responseCode = "400", description = "payload is missing body field"),
+            @ApiResponse(responseCode = "400", description = "Bad request, not all fields are present"),
             @ApiResponse(responseCode = "401", description = "Unauthorized, User is not participating in the communication"),
             @ApiResponse(responseCode = "404", description = "Sender or Communication not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
@@ -393,18 +410,18 @@ public class APIController {
         return new CreateCommunicationMessageCommandCall(communicationManager, userID, commID, payload, notificationManager).execute();
     }
 
-
+    //No body needed, the university_id is extracted from the token
     @PostMapping("/comm/private/{commID}/terminate")
-    @Operation(summary = "Close communication", description = "payload will contain the 'university_id")
+    @Operation(summary = "Close communication", description = "Close the communication with the specified ID.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Communication created successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "404", description = "Unauthorized or not found University"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<DTO> terminateCommunication(@PathVariable Integer commID,
-                                                      @RequestBody Map<String, Object> payload, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<DTO> terminateCommunication(@PathVariable Integer commID, @RequestHeader("Authorization") String token) {
         String university_id = GetUuid.getUuid(token);
+        Map<String, Object> payload = new HashMap<>();
         payload.put("university_id", university_id);
         return new TerminateCommunicationCommandCall(communicationManager, commID, payload, notificationManager)
                 .execute();
@@ -413,12 +430,13 @@ public class APIController {
 
     //_________________________ feedback/private __________________________
 
+    //The body will contain the 'rating' of the feedback
     @PutMapping("/feedback/private/{RecommendationID}/submit")
-    @Operation(summary = "Submit feedback", description = "The payload is a map with 'user_id' (ownership is checked by the backend), 'rating', and any other optional field.")
+    @Operation(summary = "Submit feedback", description = "Submit a feedback to the platform from a student to a company.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Feedback submitted successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "404", description = "Feedback not found"),
+            @ApiResponse(responseCode = "400", description = "Bad request, missing rating or the user is not a student or a company"),
+            @ApiResponse(responseCode = "404", description = "Recommendation not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> submitFeedback(@PathVariable Integer RecommendationID,
@@ -448,6 +466,7 @@ public class APIController {
     @Operation(summary = "Get interview", description = "Get the interview with the specified ID.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Interview retrieved successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized, user is not the owner of the interview"),
             @ApiResponse(responseCode = "404", description = "Interview not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -460,7 +479,6 @@ public class APIController {
     @Operation(summary = "Get match not interviewed", description = "Get the list of students matched with the company that have not assigned an interview yet.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Match retrieved successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "404", description = "Students not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -486,8 +504,7 @@ public class APIController {
     @Operation(summary = "Get interview template", description = "Return the specified interview template")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Interview template retrieved successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "400", description = "Bad request, invalid data or the user is not the owner of the template"),
             @ApiResponse(responseCode = "404", description = "Interview template not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -498,17 +515,24 @@ public class APIController {
 
     @GetMapping("/interview/private/{quizID}/get-quiz")
     @Operation(summary = "Get interview quiz", description = "Return the specified interview quiz")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Interview quiz retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad request, invalid data or the user is not the owner of the quiz"),
+            @ApiResponse(responseCode = "404", description = "Interview quiz not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<DTO> getQuizInterview(@PathVariable Integer quizID, @RequestHeader("Authorization") String token) {
         String user_id = GetUuid.getUuid(token);
         return new GetInterviewQuizCommandCall(interviewManager, quizID, user_id).execute();
     }
 
+    //No body needed, the user_id is extracted from the token
     @GetMapping("/interview/private/get-my-int-pos-off")
-    @Operation(summary = "Get internship position offer", description = "Payload will contain the 'user_id'")
+    @Operation(summary = "Get internship position offer", description = "Return all the internship position offers of the specified user")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Internship positions offer retrieved successfully"),
+            @ApiResponse(responseCode = "204", description = "No internship position offer found for the specified user"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "404", description = "Internship position offer not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<List<DTO>> getInternshipPositionOffers(@RequestHeader("Authorization") String token) {
@@ -516,12 +540,13 @@ public class APIController {
         return new GetInternshipPositionOffersCommandCall(interviewManager, user_id).execute();
     }
 
+    //No body needed, the user_idis extracted from the token
     @GetMapping("/interview/private/get-my-acc-int-pos-off")
-    @Operation(summary = "Get accepted internship position offer", description = "Payload will contain the 'user_id'")
+    @Operation(summary = "Get accepted internship position offer", description = "Return all the accepted internship position offers of the specified user")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Accepted internship positions offer retrieved successfully"),
+            @ApiResponse(responseCode = "204", description = "No accepted internship position offer found for the specified user"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "404", description = "Accepted internship position offer not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<List<DTO>> getAcceptedInternshipPositionOffers(@RequestHeader("Authorization") String token) {
@@ -529,12 +554,13 @@ public class APIController {
         return new GetAcceptedInternshipPositionOffersCommandCall(interviewManager, user_id).execute();
     }
 
+    //The body will contain the 5 questions: 'question1', 'question2', 'question3', 'question4', 'question5', 'question6'
     @PostMapping("/interview/private/{InterviewID}/send-interview")
-    @Operation(summary = "Send interview", description = "payload will contain the 'questions1 .... question6'")
+    @Operation(summary = "Send interview", description = "Create a new interview template with the specified questions. Assign the template to the specified interview.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview sent successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
-            @ApiResponse(responseCode = "404", description = "Interview not found"),
+            @ApiResponse(responseCode = "204", description = "Interview not found for the specified ID"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<DTO> sendInterview(@PathVariable Integer InterviewID,
@@ -544,9 +570,9 @@ public class APIController {
         return new SendInterviewCommandCall(InterviewID, payload, interviewManager, notificationManager).execute();
     }
 
-
+    //The body will contain the 'answer1', 'answer2', 'answer3', 'answer4', 'answer5', 'answer6'
     @PostMapping("/interview/private/{InterviewID}/send-answer")
-    @Operation(summary = "Send interview answer", description = "payload will contain the 'answer1....answer6'")
+    @Operation(summary = "Send interview answer", description = "Create a new interview quiz with the given answers. Assign the quiz to the specified interview.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview answer sent successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -577,9 +603,9 @@ public class APIController {
         return new SaveInterviewTemplateCommandCall(InterviewID, interviewManager, payload).execute();
     }
 
-
+    //No body needed, the company_id is extracted from the token
     @PostMapping("/interview/private/{TemplateInterviewID}/send-template/{InterviewID}")
-    @Operation(summary = "Send interview template", description = "payload will contain the 'company_id'")
+    @Operation(summary = "Send interview template", description = "Assign the specified interview template to the specified interview.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview template sent successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -593,9 +619,9 @@ public class APIController {
                 .execute();
     }
 
-
+    //The body will contain the 'evaluation' (a integer from 1 to 5)
     @PostMapping("/interview/private/{InterviewID}/evaluate-interview")
-    @Operation(summary = "Evaluate interview", description = "payload will the 'evaluation' (a integer from 1 to 5) 1 or 2 means that the student has failed")
+    @Operation(summary = "Evaluate interview", description = "payload will the 'evaluation' (a integer from 1 to 5). A grade of 1 or 2 means that the student has failed")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Interview evaluated successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -609,6 +635,8 @@ public class APIController {
         return new EvaluateInterviewCommandCall(interviewManager, notificationManager, InterviewID, payload).execute();
     }
 
+    //Interview position offer is automatically created when a interview is passed. DO NOT USE THIS API CALL
+    @Deprecated
     @PostMapping("/interview/private/{InterviewID}/send-int-pos-off")
     @Operation(summary = "Send interview position offer", description = "payload will contain the 'company_id'")
     @ApiResponses({
@@ -626,8 +654,9 @@ public class APIController {
                 notificationManager).execute();
     }
 
+    //No body needed, the student_id is extracted from the token
     @PostMapping("/interview/private/{intPosOffID}/accept-int-pos-off")
-    @Operation(summary = "Close internship", description = "payload will contain the student_id")
+    @Operation(summary = "Close internship", description = "Accept the specified internship position offer, a notification will be sent to the company.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK, Internship closed successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),
@@ -642,9 +671,9 @@ public class APIController {
         return new AcceptInternshipPositionOfferCommandCall(intPosOffID, payload, interviewManager, notificationManager, userManager).execute();
     }
 
-
+    //No body needed, the student_id is extracted from the token
     @PostMapping("/interview/private/{intPosOffID}/reject-int-pos-off")
-    @Operation(summary = "Close internship", description = "payload will contain the student_id")
+    @Operation(summary = "Close internship", description = "Reject the specified internship position offer, a notification will be sent to the company.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK, Internship closed successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request"),

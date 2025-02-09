@@ -1,0 +1,2445 @@
+openapi: 3.0.1
+info:
+  title: API Documentation
+
+  version: "1.0"
+servers:
+- url: http://localhost:8443
+  description: Generated server url
+paths:
+  /application-api/feedback/private/{RecommendationID}/submit:
+    put:
+      tags:
+      - api-controller
+      summary: Submit feedback
+      description: Submit a feedback to the platform from a student to a company.
+      operationId: submitFeedback
+      parameters:
+      - name: RecommendationID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackPOST'
+        required: true
+      responses:
+        "201":
+          description: Feedback submitted successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FeedbackDTO'
+        "400":
+          description: "Bad request, missing rating or the user is not a student or\
+            \ a company"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Recommendation not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/acc/private/send-user-data:
+    put:
+      tags:
+      - api-controller
+      summary: Send user data
+      description: Send the data of the user with the specified ID.
+      operationId: sendUserData
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDataPOST'
+        required: true
+      responses:
+        "201":
+          description: User data sent successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+        "400":
+          description: "Bad request, invalid data"
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+  /notification-api/private/send-token:
+    post:
+      tags:
+      - notification-controller
+      operationId: sendTokenNotification
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationTokenPOST'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                enum:
+                - 200 OK
+  /application-api/sub/private/internship/update-my-offer:
+    post:
+      tags:
+      - api-controller
+      summary: Update internship offer
+      description: "Update or create the database entry of a company's Internship Offer."
+      operationId: updateOffer
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOfferRequest'
+        required: true
+      responses:
+        "201":
+          description: Internship offer updated successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InternshipOfferDTO'
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Internship offer not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/sub/private/cv/update-my-cv:
+    post:
+      tags:
+      - api-controller
+      summary: Update student's CV
+      description: Create or update the database entry of a student's CV.
+      operationId: updateCV
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCVRequest'
+        required: true
+      responses:
+        "201":
+          description: CV updated successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CvDTO'
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: CV not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+  /application-api/sub/private/application/{SpontaneousApplicationID}/reject:
+    post:
+      tags:
+      - api-controller
+      summary: Reject Spontaneous Application
+      description: "Reject a Spontaneous Application, changing the status to 'rejected'."
+      operationId: rejectSpontaneousApplication
+      parameters:
+      - name: SpontaneousApplicationID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: SpontaneousApplication rejected successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SpontaneousApplicationDTO'
+        "404":
+          description: SpontaneousApplication not found
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: "Bad request, the application is already rejected"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+  /application-api/sub/private/application/{SpontaneousApplicationID}/accept:
+    post:
+      tags:
+      - api-controller
+      summary: Accept Spontaneous Application
+      description: "Accept a Spontaneous Application, create a toBeSubmitted interview."
+      operationId: acceptSpontaneousApplication
+      parameters:
+      - name: SpontaneousApplicationID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: SpontaneousApplication accepted successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SpontaneousApplicationDTO'
+        "404":
+          description: SpontaneousApplication not found
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "400":
+          description: "Bad request, the application is already accepted"
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+  /application-api/sub/private/application/{InternshipOfferID}/submit:
+    post:
+      tags:
+      - api-controller
+      summary: Submit spontaneous application
+      description: Submits a spontaneous application to a specific Internship Offer.
+      operationId: submitSpontaneousApplication
+      parameters:
+      - name: InternshipOfferID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "201":
+          description: Spontaneous application submitted successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SpontaneousApplicationDTO'
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Internship not found
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/recommendation/private/{RecommendationID}/reject:
+    post:
+      tags:
+      - api-controller
+      summary: Reject recommendation
+      description: A participant (student or company) rejects a recommendation. No
+        interview can be created from this match.
+      operationId: refuseRecommendation
+      parameters:
+      - name: RecommendationID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "201":
+          description: Recommendation rejected successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RecommendationDTO'
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        "404":
+          description: Recommendation not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/recommendation/private/{RecommendationID}/accept:
+    post:
+      tags:
+      - api-controller
+      summary: Accept recommendation
+      description: "A participant (student or company) accepts a recommendation. If\
+        \ both participants accept, a new interview is created."
+      operationId: acceptRecommendation
+      parameters:
+      - name: RecommendationID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "201":
+          description: Recommendation accepted successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RecommendationDTO'
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Recommendation not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/interview/private/{intPosOffID}/reject-int-pos-off:
+    post:
+      tags:
+      - api-controller
+      summary: Close internship
+      description: "Reject the specified internship position offer, a notification\
+        \ will be sent to the company."
+      operationId: rejectInternshipPositionOffer
+      parameters:
+      - name: intPosOffID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "OK, Internship closed successfully"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InternshipPosOfferDTO'
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: "Unauthorized, User is not the owner of the internship"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Internship not found
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/interview/private/{intPosOffID}/accept-int-pos-off:
+    post:
+      tags:
+      - api-controller
+      summary: Close internship
+      description: "Accept the specified internship position offer, a notification\
+        \ will be sent to the company."
+      operationId: acceptInternshipPositionOffer
+      parameters:
+      - name: intPosOffID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "OK, Internship closed successfully"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InternshipPosOfferDTO'
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: "Unauthorized, User is not the owner of the internship"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Internship not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/interview/private/{TemplateInterviewID}/send-template/{InterviewID}:
+    post:
+      tags:
+      - api-controller
+      summary: Send interview template
+      description: Assign the specified interview template to the specified interview.
+      operationId: sendInterviewTemplate
+      parameters:
+      - name: TemplateInterviewID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: InterviewID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "201":
+          description: Interview template sent successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InterviewDTO'
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Interview template or Interview not found
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/interview/private/{InterviewID}/send-interview:
+    post:
+      tags:
+      - api-controller
+      summary: Send interview
+      description: Create a new interview template with the specified questions. Assign
+        the template to the specified interview.
+      operationId: sendInterview
+      parameters:
+      - name: InterviewID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InterviewPOST'
+        required: true
+      responses:
+        "201":
+          description: Interview sent successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InterviewDTO'
+        "204":
+          description: Interview not found for the specified ID
+          content: {}
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/interview/private/{InterviewID}/send-int-pos-off:
+    post:
+      tags:
+      - api-controller
+      summary: Send interview position offer
+      description: payload will contain the 'company_id'
+      operationId: sendInterviewPositionOffer
+      parameters:
+      - name: InterviewID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: object
+        required: true
+      responses:
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Student is not the owner of the Interview position offer
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Interview not found
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+        "201":
+          description: Interview position offer sent successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DTO'
+      deprecated: true
+  /application-api/interview/private/{InterviewID}/send-answer:
+    post:
+      tags:
+      - api-controller
+      summary: Send interview answer
+      description: Create a new interview quiz with the given answers. Assign the
+        quiz to the specified interview.
+      operationId: sendInterviewAnswer
+      parameters:
+      - name: InterviewID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnswersPOST'
+        required: true
+      responses:
+        "201":
+          description: Interview answer sent successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InterviewDTO'
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Interview not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/interview/private/{InterviewID}/save-template:
+    post:
+      tags:
+      - api-controller
+      summary: Save interview template
+      description: payload will contain the 'questions' and the 'company_id'
+      operationId: saveInterviewTemplate
+      parameters:
+      - name: InterviewID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: object
+        required: true
+      responses:
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "201":
+          description: Interview template saved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DTO'
+      deprecated: true
+  /application-api/interview/private/{InterviewID}/evaluate-interview:
+    post:
+      tags:
+      - api-controller
+      summary: Evaluate interview
+      description: payload will the 'evaluation' (a integer from 1 to 5). A grade
+        of 1 or 2 means that the student has failed
+      operationId: evaluateInterview
+      parameters:
+      - name: InterviewID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InterviewEvaluationPOST'
+        required: true
+      responses:
+        "201":
+          description: Interview evaluated successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InterviewDTO'
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Interview not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/comm/private/{commID}/terminate:
+    post:
+      tags:
+      - api-controller
+      summary: Close communication
+      description: Close the communication with the specified ID.
+      operationId: terminateCommunication
+      parameters:
+      - name: commID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Unauthorized or not found University
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "201":
+          description: Communication created successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DTO'
+      deprecated: true
+  /application-api/comm/private/{commID}/send-messages:
+    post:
+      tags:
+      - api-controller
+      summary: Create communication
+      description: Send a new message to the specified communication. Notification
+        will be sent to the other involved users.
+      operationId: createCommunicationMessage
+      parameters:
+      - name: commID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommunicationMessagePOST'
+        required: true
+      responses:
+        "201":
+          description: Message created successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CommunicationDTO'
+        "400":
+          description: "Bad request, not all fields are present"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: "Unauthorized, User is not participating in the communication"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Sender or Communication not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+  /application-api/comm/private/create-comm:
+    post:
+      tags:
+      - api-controller
+      summary: Create communication
+      description: "Create a new communication, send notification to the other participant\
+        \ and the university."
+      operationId: createCommunication
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommunicationPOST'
+        required: true
+      responses:
+        "201":
+          description: Communication created successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CommunicationDTO'
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Sender or Receiver not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+  /application-api/acc/private/confirm-user:
+    post:
+      tags:
+      - api-controller
+      summary: Confirm user
+      description: Confirm create a new entry in the database for the user with the
+        specified ID.
+      operationId: confirmedUser
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "201":
+          description: User confirmed successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+        "400":
+          description: "Bad request, invalid data"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: "Not Found, User ID not found"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /notification-api/private/test-notification:
+    get:
+      tags:
+      - notification-controller
+      operationId: testNotification
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                enum:
+                  - 200 OK
+      deprecated: true
+  /notification-api/private/get-notifications:
+    get:
+      tags:
+      - notification-controller
+      operationId: getNotifications
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NotificationDTO'
+  /application-api/sub/private/internship/{internshipID}/get-internship:
+    get:
+      tags:
+      - api-controller
+      summary: Request Internship
+      description: Get the Internship Offer with the specified ID.
+      operationId: getInternship
+      parameters:
+      - name: internshipID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "Ok, Internship retrieved successfully"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InternshipOfferDTO'
+        "204":
+          description: No Internship found with the specified ID
+          content: {}
+        "404":
+          description: Invalid internship ID found 
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+  /application-api/sub/private/internship/{companyID}/get-company-internships:
+    get:
+      tags:
+      - api-controller
+      summary: Request Company Internships
+      description: Get a list of Internship Offers advertised by a specific company.
+      operationId: getCompanyInternships
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: companyID
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "Ok, Internships retrieved successfully"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InternshipOfferDTO'
+        "204":
+          description: "No Content, No Company Internships found"
+          content: {}
+        "401":
+          description: "Unauthorized, User does not exists"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: "Not Found, Company ID not found"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+  /application-api/sub/private/internship/get-internship-offer:
+    get:
+      tags:
+      - api-controller
+      summary: Request Internships
+      description: Get a list of all Internship Offers
+      operationId: getInternships
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "Ok, Internships retrieved successfully"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InternshipOfferDTO'
+        "204":
+          description: No Internships found
+          content: {}
+        "401":
+          description: "Unauthorized, User id not found, user should probably log\
+            \ in"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                 $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+  /application-api/sub/private/cv/{studentID}/get-student-cv:
+    get:
+      tags:
+      - api-controller
+      summary: Request Student CV
+      description: Get the CV of a specific student.
+      operationId: getStudentCV
+      parameters:
+      - name: studentID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "Ok, CV retrieved successfully"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CvDTO'
+        "204":
+          description: "No Content, No CV found for the specified student"
+          content: {}
+        "401":
+          description: "Unauthorized, User not logged in"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: "Not Found, Student ID not found"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/sub/private/application/get-my-applications:
+    get:
+      tags:
+      - api-controller
+      summary: User requests the list of his Spontaneous Applications
+      description: Get a list of Spontaneous Applications submitted by a specific
+        student or submitted to a specific company.
+      operationId: getSpontaneousApplications
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "Ok, Spontaneous Applications retrieved successfully"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SpontaneousApplicationDTO'
+        "204":
+          description: "No Content, No Spontaneous Applications found"
+          content: {}
+        "400":
+          description: "Bad request, User is not specified or not a student or a company"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+  /application-api/recommendation/private/get-my-matches:
+    get:
+      tags:
+      - api-controller
+      summary: User requests the list of his Matches
+      description: Get the list of the user Recommendations.
+      operationId: getRecommendations
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "Ok, Matches retrieved successfully"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecommendationDTO'
+        "204":
+          description: "No Content, No Matches found for required user"
+          content: {}
+        "400":
+          description: "Bad request, User is not a student or a company"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+  /application-api/interview/private/{templateID}/get-template:
+    get:
+      tags:
+      - api-controller
+      summary: Get interview template
+      description: Return the specified interview template
+      operationId: getTemplateInterview
+      parameters:
+      - name: templateID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Interview template retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InterviewTemplateDTO'
+        "400":
+          description: "Bad request, invalid data or the user is not the owner of\
+            \ the template"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Interview template not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/interview/private/{quizID}/get-quiz:
+    get:
+      tags:
+      - api-controller
+      summary: Get interview quiz
+      description: Return the specified interview quiz
+      operationId: getQuizInterview
+      parameters:
+      - name: quizID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Interview quiz retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InterviewQuizDTO'
+        "400":
+          description: "Bad request, invalid data or the user is not the owner of\
+            \ the quiz"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Interview quiz not found
+          content:
+            '*/*':
+              schema:
+               $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/interview/private/{interviewID}/get-interview:
+    get:
+      tags:
+      - api-controller
+      summary: Get interview
+      description: Get the interview with the specified ID.
+      operationId: getInterview
+      parameters:
+      - name: interviewID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Interview retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InterviewDTO'
+        "401":
+          description: "Unauthorized, user is not the owner of the interview"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Interview not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/interview/private/get-my-templates:
+    get:
+      tags:
+      - api-controller
+      summary: Get interview
+      description: Return all the template of the specified company'
+      operationId: getTemplateInterviews
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Interview retrieved successfully
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InterviewTemplateDTO'
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                 $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Interview not found
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+  /application-api/interview/private/get-my-interviews:
+    get:
+      tags:
+      - api-controller
+      summary: User requests the list of his Interviews
+      description: Get the list of the user Interviews.
+      operationId: getInterviews
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "Ok, Interviews retrieved successfully"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InterviewDTO'
+        "400":
+          description: "Bad request, User is not a student or a company"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: No Interviews found for this user
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+  /application-api/interview/private/get-my-int-pos-off:
+    get:
+      tags:
+      - api-controller
+      summary: Get internship position offer
+      description: Return all the internship position offers of the specified user
+      operationId: getInternshipPositionOffers
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Internship positions offer retrieved successfully
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InternshipPosOfferDTO'
+        "204":
+          description: No internship position offer found for the specified user
+          content: {}
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+  /application-api/interview/private/get-my-acc-int-pos-off:
+    get:
+      tags:
+      - api-controller
+      summary: Get accepted internship position offer
+      description: Return all the accepted internship position offers of the specified user"
+      operationId: getAcceptedInternshipPositionOffers
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Accepted internship positions offer retrieved successfully
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InternshipPosOfferDTO'
+        "204":
+          description: No accepted internship position offer found for the specified
+            user
+          content: {}
+        "400":
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                 $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+  /application-api/interview/private/get-match-not-interviewed:
+    get:
+      tags:
+      - api-controller
+      summary: Get match not interviewed
+      description: Get the list of students matched with the company that have not
+        assigned an interview yet.
+      operationId: getMatchNotInterviewed
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Match retrieved successfully
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecommendationDTO'
+        "404":
+          description: Students not found
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                 $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+  /application-api/hello:
+    get:
+      tags:
+      - api-controller
+      operationId: sayHello
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+      deprecated: true
+  /application-api/comm/private/{commID}/get-messages:
+    get:
+      tags:
+      - api-controller
+      summary: Get communication messages
+      description: Get the messages of a specific communication.
+      operationId: getCommunication
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: commID
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "Ok, Messages retrieved successfully"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MessageDTO'
+        "401":
+          description: "Unauthorized, User is not participating in the communication"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: "Not Found, Communication ID not found"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                 $ref: '#/components/schemas/ErrorResponse'
+  /application-api/comm/private/get-my-comm:
+    get:
+      tags:
+      - api-controller
+      summary: User userID requests the communication commID
+      description: Get the communication commID for the user userID.
+      operationId: getAllUserCommunications
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "Ok, Communication retrieved successfully"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommunicationDTO'
+        "204":
+          description: "No Content, No Communication found for the required user"
+          content: {}
+        "404":
+          description: "Not Found, userID not found"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                 $ref: '#/components/schemas/ErrorResponse'
+  /application-api/acc/private/get-user-data:
+    get:
+      tags:
+      - api-controller
+      summary: Get user data
+      description: Get the data of the user with the specified ID.
+      operationId: getUserData
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "Ok, User data retrieved successfully"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+        "404":
+          description: "Not Found, User ID not found"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /application-api/acc/get-universities:
+    get:
+      tags:
+      - api-controller
+      summary: Get Universities
+      description: Get the list of all the registered Universities.
+      operationId: getUniversities
+      responses:
+        "200":
+          description: "Ok, Universities retrieved successfully"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountDTO'
+        "204":
+          description: "No Content, No Universities found in the database"
+          content: {}
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    DTO:
+      type: object
+      properties:
+        properties:
+          type: object
+          additionalProperties:
+            type: object
+    NotificationTokenPOST:
+      type: object
+      properties:
+        notificationToken:
+          type: string
+    NotificationDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        title:
+          type: string
+        body:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        properties:
+          type: object
+          properties:
+            error:
+              type: string
+              description: Error message
+    UpdateOfferRequest:
+      type: object
+      properties:
+        internshipOffer_id:
+          type: integer
+          format: int32
+          description: ID of the internship offer (required when updating an existing offer)
+        title:
+          type: string
+        description:
+          type: string
+        compensation:
+          type: number
+          format: float
+        location:
+          type: string
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        duration_hours:
+          type: integer
+    UpdateCVRequest:
+      type: object
+      properties:
+        certifications:
+          type: string
+        skills:
+          type: string
+        education:
+          type: string
+        work_experiences:
+          type: string
+        project:
+          type: string
+    EmptyRequest:
+      type: object
+      description: No body required, user_id is extracted from the token.
+    UserDataPOST:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        country:
+          type: string
+        userType:
+          type: string
+        additional_fields:
+          type: object
+          additionalProperties: {}
+          description: Any other field relevant to the user type
+    FeedbackPOST:
+      type: object
+      properties:
+        rating:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 5
+          description: Rating given in the feedback (must be between 1 and 5)
+    FeedbackDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier for the feedback.
+        participantType:
+          type: string
+          description: Type of participant who gave the feedback.
+        rating:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 5
+          description: Rating given in the feedback (must be between 1 and 5).
+        studentID:
+          type: integer
+          format: int64
+          nullable: true
+          description: ID of the student who provided feedback (if applicable).
+        companyID:
+          type: integer
+          format: int64
+          nullable: true
+          description: ID of the company that provided feedback (if applicable).
+        recommendationID:
+          type: integer
+          format: int64
+          description: ID of the recommendation related to the feedback. 
+    AccountDTO:
+      type: object
+      properties:
+        userID:
+          type: integer
+          format: int64
+          description: Unique identifier for the user account.
+        userType:
+          type: string
+          description: Type of user (e.g., student, company, university).
+        name:
+          type: string
+          description: First name of the user.
+        surname:
+          type: string
+          description: Last name of the user.
+        email:
+          type: string
+          format: email
+          description: Email address of the user.
+        uniVat:
+          type: string
+          nullable: true
+          description: University VAT number (if applicable).
+        vatNumber:
+          type: string
+          nullable: true
+          description: VAT number for companies (if applicable).
+        country:
+          type: string
+          description: Country of the user.
+        location:
+          type: string
+          description: Location details of the user.
+        validate:
+          type: boolean
+          description: Whether the account is validated.
+        uniDesc:
+          type: string
+          nullable: true
+          description: Description of the university (if applicable).
+        birthDate:
+          type: string
+          format: date
+          description: Birth date of the user (if applicable).
+    InternshipOfferDTO:
+      type: object
+      properties:
+        companyName:
+          type: string
+          description: Name of the company offering the internship.
+        companyID:
+          type: integer
+          format: int64
+          description: Unique identifier of the company.
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the internship offer.
+        updateTime:
+          type: string
+          format: date-time
+          description: Last update timestamp of the internship offer.
+        title:
+          type: string
+          description: Title of the internship position.
+        description:
+          type: string
+          description: Detailed description of the internship offer.
+        duration:
+          type: integer
+          format: int32
+          description: Duration of the internship in hours.
+        location:
+          type: string
+          description: Location of the internship.
+        numberPositions:
+          type: integer
+          format: int32
+          description: Number of positions available for the internship.
+        requiredSkills:
+          type: string
+          description: Required skills for the internship position.
+        startDate:
+          type: string
+          format: date
+          description: Start date of the internship.
+        endDate:
+          type: string
+          format: date
+          description: End date of the internship.
+        compensation:
+          type: number
+          format: double
+          nullable: true
+          description: Compensation offered for the internship, if applicable.
+    CvDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the CV.
+        certifications:
+          type: string
+          description: Certifications obtained by the student.
+        education:
+          type: string
+          description: Education details of the student.
+        project:
+          type: string
+          description: Projects completed by the student.
+        skills:
+          type: string
+          description: Skills possessed by the student.
+        updateTime:
+          type: string
+          format: date-time
+          description: Last update timestamp of the CV.
+        workExperiences:
+          type: string
+          description: Work experiences listed in the CV.
+        studentID:
+          type: integer
+          format: int64
+          description: Unique identifier of the student associated with the CV.
+        studentName:
+          type: string
+          description: Name of the student.
+        contacts:
+          type: string
+          description: Contact details of the student.
+        spokenLanguages:
+          type: string
+          description: Languages spoken by the student.
+    SpontaneousApplicationDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the spontaneous application.
+        status:
+          type: string
+          description: Current status of the application.
+        internshipOfferTitle:
+          type: string
+          description: Title of the internship offer related to the application.
+        internshipOfferID:
+          type: integer
+          format: int64
+          description: Unique identifier of the internship offer.
+        internshipOfferCompanyName:
+          type: string
+          description: Name of the company offering the internship.
+        internshipOfferCompanyID:
+          type: integer
+          format: int64
+          description: Unique identifier of the company offering the internship.
+        studentName:
+          type: string
+          description: Name of the student who applied.
+        studentID:
+          type: integer
+          format: int64
+          description: Unique identifier of the student who applied.
+    RecommendationDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the recommendation.
+        status:
+          type: string
+          description: Current status of the recommendation.
+        studentName:
+          type: string
+          description: Name of the student receiving the recommendation.
+        studentID:
+          type: integer
+          format: int64
+          description: Unique identifier of the student.
+        companyName:
+          type: string
+          description: Name of the company offering the internship.
+        companyID:
+          type: integer
+          format: int64
+          description: Unique identifier of the company.
+        internshipOfferTitle:
+          type: string
+          description: Title of the recommended internship offer.
+        internshipOfferID:
+          type: integer
+          format: int64
+          description: Unique identifier of the internship offer.
+        score:
+          type: number
+          format: double
+          description: Score assigned to the recommendation.
+    InternshipPosOfferDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the internship position offer.
+        status:
+          type: string
+          description: Current status of the internship position offer.
+        interviewID:
+          type: integer
+          format: int64
+          description: Unique identifier of the associated interview.
+        internshipTitle:
+          type: string
+          description: Title of the internship offer.
+        internshipOfferID:
+          type: integer
+          format: int64
+          description: Unique identifier of the internship offer.
+        companyName:
+          type: string
+          description: Name of the company offering the internship.
+        studentName:
+          type: string
+          description: Name of the student associated with the offer.
+        studentID:
+          type: integer
+          format: int64
+          description: Unique identifier of the student.
+    InterviewDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the interview.
+        status:
+          type: string
+          description: Current status of the interview.
+        internshipTitle:
+          type: string
+          description: Title of the internship offer.
+        internshipOfferID:
+          type: integer
+          format: int64
+          description: Unique identifier of the internship offer.
+        companyName:
+          type: string
+          description: Name of the company offering the internship.
+        companyID:
+          type: integer
+          format: int64
+          description: Unique identifier of the company.
+        studentName:
+          type: string
+          description: Name of the student being interviewed.
+        studentID:
+          type: integer
+          format: int64
+          description: Unique identifier of the student.
+        hasAnswered:
+          type: boolean
+          description: Indicates whether the student has answered the interview questions.
+        interviewTemplateID:
+          type: integer
+          format: int64
+          nullable: true
+          description: Unique identifier of the interview template (null if not available).
+        interviewQuizID:
+          type: integer
+          format: int64
+          nullable: true
+          description: Unique identifier of the interview quiz (null if not available).
+    InterviewPOST:
+      type: object
+      properties:
+        question1:
+          type: string
+        question2:
+          type: string
+        question3:
+          type: string
+        question4:
+          type: string
+        question5:
+          type: string
+        question6:
+          type: string
+    AnswersPOST:
+      type: object
+      properties:
+        answer1:
+          type: string
+        answer2:
+          type: string
+        answer3:
+          type: string
+        answer4:
+          type: string
+        answer5:
+          type: string
+        answer6:
+          type: string
+    InterviewEvaluationPOST:      
+      type: object
+      properties:
+        evaluation:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 5
+          description: Evaluation of the interview's answers (must be between 1 and 5)
+    CommunicationMessagePOST:
+        type: object
+        properties:
+          internshipOffer_id:
+            type: integer
+            format: int32
+          university_id:
+            type: integer
+            format: int32
+          title:
+            type: string
+          content:
+            type: string
+          communication_type:
+            type: string
+            enum: 
+              - communication
+              - complaint
+            description: Type of communication (either 'communication' or 'complaint')
+    CommunicationPOST:
+        type: object
+        properties:
+          internshipPosOfferID:
+            type: integer
+            format: int32
+          title:
+            type: string
+          content:
+            type: string
+          communicationType:
+            type: string
+            enum: 
+              - communication
+              - complaint
+            description: Type of communication (either 'communication' or 'complaint')
+    CommunicationDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the communication.
+        type:
+          type: string
+          description: Type of communication.
+        title:
+          type: string
+          description: Title of the communication.
+        content:
+          type: string
+          description: Content of the communication.
+        participantType:
+          type: string
+          description: Type of participant (student, company, etc.).
+        communicationType:
+          type: string
+          description: The specific type of communication.
+        updateTime:
+          type: string
+          format: date-time
+          description: Last update timestamp of the communication.
+        studentID:
+          type: integer
+          format: int64
+          description: Unique identifier of the student.
+        studentName:
+          type: string
+          description: Name of the student.
+        universityID:
+          type: integer
+          format: int64
+          description: Unique identifier of the university.
+        universityName:
+          type: string
+          description: Name of the university.
+        companyID:
+          type: integer
+          format: int64
+          description: Unique identifier of the company.
+        companyName:
+          type: string
+          description: Name of the company.
+        internshipOfferID:
+          type: integer
+          format: int64
+          description: Unique identifier of the internship offer.
+        internshipOfferTitle:
+          type: string
+          description: Title of the internship offer.
+    InterviewTemplateDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        question1:
+          type: string
+        question2:
+          type: string
+        question3:
+          type: string
+        question4:
+          type: string
+        question5:
+          type: string
+        question6:
+          type: string
+    InterviewQuizDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        evaluation:
+          type: integer
+        answer1:
+          type: string
+        answer2:
+          type: string
+        answer3:
+          type: string
+        answer4:
+          type: string
+        answer5:
+          type: string
+        answer6:
+          type: string
+    MessageDTO:
+      type: object
+      description: "DTO representing a message in the system."
+      properties:
+        id:
+          type: integer
+          description: "Unique identifier of the message."
+        body:
+          type: string
+          description: "Content of the message."
+        updateTime:
+          type: string
+          format: date-time
+          description: "Timestamp of the last update to the message."
+        senderName:
+          type: string
+          description: "Name of the sender of the message."
+        communicationTitle:
+          type: string
+          description: "Title of the communication the message belongs to."
