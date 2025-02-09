@@ -1,0 +1,503 @@
+% NEEDED DEFINITIONS 
+% skills keyword or tags
+% 
+In this chapter, we present all the tests performed on the application to ensure its quality, correctness, and compliance with the requirements identified in the RASD and ITD documents.\\
+The first batch of subsections presents, in a structured way, the results of tests conducted on one or more functionalities of the application. Each subsection describes the expected behavior of the functionality before testing it, the general steps the user must follow to interact with it, and the results, explaining how the functionality behaved during typical use. It also includes an evaluation of the functionality, a section on \textit{anomalies}, which we define as unexpected behaviors (marked with an “\(\mathsf{X}\)” as if they were bullet points), and \textit{notes} which highlighting peculiarities of the functionality and/or design choices that are not necessarily incorrect but worth mentioning (marked with a “\(\Box \)”).\\
+Additionally, each subsection contains one or more Edge Case Tests (ECT), where the functionality is tested in less common but still possible scenarios, such as signing up with a password that is too short or attempting to log in with an incorrect password. Each edge case test follows the same structure as described above.\\
+The second batch of subsections presents all the missing features of the application. Each missing feature is accompanied by a description, an explanation of why it is critical for the application's correctness, and an analysis of which requirements are partially or entirely unsatisfied due to its absence.
+\\
+
+\noindent Moreover to test some of the functionalities we had to create not only a student account but also a company one. Because of this, and the impossibility of creating a company account in the application we had to manually create the company account with POST request directly sent to the server via Postman. The call was made to the endpoint \textit{/api/v1/auth/email/register} with the following body:
+\begin{verbatim}
+    "email": "company@mail.com",
+    "password": "password",
+    "fullName": "CompanyName",
+    "phoneNumber": "00000000",
+    "address": "Street 123, Milan, Italy",
+    "image": "",
+    "role": 3 // Role is 1 for admin, 2 for student, 3 for company, 4 for university
+\end{verbatim}
+We are aware that the ITD described a procedure to populate the database with the necessary data for the tests. However, we were unable to login with the already create user in the database so we had to create new users manually. As mentioned before the lack of a sign-up functionality for companies forced us to create the company account manually.
+
+
+% ____________________EXAMPLE___________________________
+% \subsection{Implemented Feature:  <FeatureName>}
+% \subsubsection{Expected Behavior}
+% \subsubsection{Steps}
+% \subsubsection{Result}
+% \verb|PASSED|
+% \begin{itemize}
+%     \item \textbf{\color{titleColor} Description}
+%     \item \textbf{\color{titleColor} Anomalies \& Notes}
+%     \begin{itemize}
+%             \item [{\color{titleColor}\(\mathsf{X}\)}] anomalia
+%             \item [{\color{titleColor}\(\Box \)}] nota
+%         \end{itemize} 
+% \end{itemize}
+% \subsubsection{Edge Case Tests}
+% \begin{itemize} [label= {\color{titleColor}\(\diamond\)}]
+%     \item \textbf{\color{titleColor} stress test title}
+%     \begin{itemize}
+%         \item \textbf{\color{titleColor} ECT - Description}\\ (Postman qua se necessario)
+%         \item \textbf{\color{titleColor} ECT - Anomalies \& Notes}\\
+%         \begin{itemize}
+%             \item [{\color{titleColor}\(\mathsf{X}\)}] anomalia
+%             \item [{\color{titleColor}\(\Box \)}] nota
+%         \end{itemize} 
+%     \end{itemize}
+%     \item \textbf{\color{titleColor} stress test title}
+%     \begin{itemize}
+%         \item \textbf{\color{titleColor} ECT - Description}
+%         \item \textbf{\color{titleColor} ECT - Anomalies \& Notes}
+%         \begin{itemize}
+%             \item [{\color{titleColor}\(\mathsf{X}\)}] anomalia
+%             \item [{\color{titleColor}\(\Box \)}] nota
+%         \end{itemize} 
+%     \end{itemize}
+%     \item \textbf{\color{titleColor} stress test title}
+%     \begin{itemize}
+%         \item \textbf{\color{titleColor} ECT - Description}
+%         \item \textbf{\color{titleColor} ECT - Anomalies \& Notes}
+%         \begin{itemize}
+%             \item [{\color{titleColor}\(\mathsf{X}\)}] anomalia
+%             \item [{\color{titleColor}\(\Box \)}] nota
+%         \end{itemize} 
+%     \end{itemize}
+% \end{itemize}
+
+
+% ____________________SIGN-UP AND LOG-IN___________________________
+\subsection{Implemented Feature:  Signup \& Login}
+This test focuses on the registration process. As described in the ITD, the frontend application should only allow users of type student to register their accounts.
+\subsubsection{Expected Behavior}
+Students can use the frontend application to create an account and then log in using the previously provided information.
+\subsubsection{Steps}
+\begin{enumerate}
+    \item Open client application;
+    \item Click the "\verb|Sign Up|" button;
+    \item Insert requested information (Name, School Email, University, Mobile, Password, City);
+    \item Upload CV file through device's file system integration;
+    \item Add skills keywords;
+    \item Click "\verb|Signup|" button;
+    \item Insert the newly created user’s email and password;
+    \item Click the "\verb|Login| button.
+\end{enumerate}
+\subsubsection{Result}
+\verb|SUCCESS|
+\begin{itemize}
+    \item \textbf{\color{titleColor} Description}\\
+    At the end of the process, the student is successfully registered on the platform and can log in to access his/her personal pages.
+    \item \textbf{\color{titleColor} Anomalies \& Notes}\\
+    No anomalies were observed at the end of this process.
+    \begin{itemize}
+            %\item [{\color{titleColor}\(\mathsf{X}\)}] anomalia
+            \item [{\color{titleColor}\(\Box \)}]The implementation documentation states that the app does not validate user input, assuming it is correct, but it does not specify what constitutes valid input.
+        \end{itemize} 
+\end{itemize}
+\subsubsection{Edge Case Tests}
+\begin{itemize} [label= {\color{titleColor}\(\diamond\)}]
+    \item \textbf{\color{titleColor} Email Duplication }
+    \begin{itemize}
+        \item \textbf{\color{titleColor} ECT - Description}\\ 
+            We attempted to register a new user on a different device using an email that was already in use. The client application did not provide any error message and appeared to allow the registration. \\
+
+            For further testing, we directly executed the API call to \verb|/api/v1/auth/email/register| using the same email. The response body returned:
+                \begin{verbatim}
+        "status": 422,
+        "errors": {
+                "email": "emailAlreadyExists"
+                }
+                \end{verbatim}
+            This behavior highlights a flawed frontend-backend integration. Checking the database using the Adminer service confirmed that no new user was registered, nor was the existing user with the same email updated.
+            
+        \item \textbf{\color{titleColor} ECT - Anomalies \& Notes}\\
+        \begin{itemize}
+            \item [{\color{titleColor}\(\mathsf{X}\)}] The frontend appears to allow duplicate email registrations without displaying an error message.
+            \item [{\color{titleColor}\(\Box \)}] The server correctly prevents the registration of a new user with an email that is already in use.
+        \end{itemize} 
+    \end{itemize}
+    \item \textbf{\color{titleColor} Empty registration input fields}
+    \begin{itemize}
+        \item \textbf{\color{titleColor} ECT - Description}\\
+        We attempted to register a new user while leaving all fields empty except for the email and password. The client application displayed an error message requesting the CV file. After providing the file and attempting registration again, the client application appeared to allow the process to proceed.\\
+
+        Checking the database no new user were created. For further testing we execute the call to the API endpoint \verb|/api/v1/auth/email/register| that providing only email, password, cv and user type in the body. The response was:
+        \begin{verbatim}
+        "status": 422,
+        "errors": {
+                "fullName": "fullName should not be empty"
+                }
+        \end{verbatim}
+        \item \textbf{\color{titleColor} ECT - Anomalies \& Notes}
+        \begin{itemize}
+            \item [{\color{titleColor}\(\mathsf{X}\)}] The frontend appears to allow the registrations with most all the fields empty escept for email, passowrd and CV without displaying an error message.
+            \item [{\color{titleColor}\(\Box \)}] The server correctly prevents the registration of a new user with some required field recognized as empty.
+        \end{itemize} 
+    \end{itemize}
+\end{itemize}
+
+
+% ____________________ATHENTICATION SYSTEM___________________________
+\subsection{Implemented Feature: Authentication System}
+This test verifies the correctness of the authentication mechanism, which should generate an authenticated user session token. This token is required to successfully make API calls that require authentication and authorization to access restricted resources. To test this feature, we used direct API calls.
+\subsubsection{Expected Behavior}
+Upon successful login, the system should generate and provide an authenticated session token (access token and refresh token). 
+API calls requiring authentication should return a valid response only if a valid session token is included in the Authorization header. 
+If an API request is made without an authentication token or with an invalid/expired token, the system should return an appropriate authentication error response. 
+Logging out should invalidate the session token, preventing further authenticated API calls without re-authentication.
+\subsubsection{Steps}
+First phase:
+\begin{enumerate}
+    \item API call to \verb|/api/v1/auth/email/login| to obtain token and refresh token
+    \item API calls, providing the token as the Authorization header, to endpoints that require it to receive a positive response.
+    \item API calls, not providing the token as the Authorization header, to endpoints that require it, expecting a negative response.
+\end{enumerate}
+Second Phase:
+\begin{enumerate}
+    \item Login with a student profile;
+    \item Logout.
+\end{enumerate}
+\subsubsection{Result}
+\verb|FAILED|
+\begin{itemize}
+    \item \textbf{\color{titleColor} Description}\\
+    The user login request correctly returns the access token and refresh token in the response body, along with other relevant user information. When executing a set of API requests that require authentication and providing the token, the expected results are successfully obtained. However, executing the same set of calls without providing the token still allows them to execute without errors, indicating that authentication enforcement is not properly implemented. \\
+    List of tested API calls:
+    \begin{itemize}[label = \textbf{\color{titleColor} -}]
+        \item \verb|/api/v1/feedbacks| - create a new feedback
+        \item \verb|/api/v1/internships| - create a new internship
+        \item \verb|/api/v1/applications| - apply to an internship
+        \item \verb|/api/v1/applications/:companyID| - update application status
+        \item \verb|/api/v1/interviews| - send interview to student
+        \item \verb|/api/v1/questionnaires| - send questionnaire to student
+        \item \verb|/api/v1/complaints| - create a new complaint
+    \end{itemize}
+    \item \textbf{\color{titleColor} Anomalies \& Notes}\\
+    First Phase:
+    \begin{itemize}
+            \item [{\color{titleColor}\(\mathsf{X}\)}] API endpoints that require authentication process requests even without the Authorization token, allowing unauthorized access to restricted functionalities.
+            \item [{\color{titleColor}\(\mathsf{X}\)}]  The ability to create, update, or retrieve sensitive data without authentication exposes the system to potential security vulnerabilities, including data breaches and unauthorized modifications.
+            \item [{\color{titleColor}\(\Box \)}] The issue affects multiple high-impact endpoints, including internship applications, interview management, feedback submission, and complaints, which should only be accessible to authenticated users
+        \end{itemize} 
+        Second Phase
+        \begin{itemize}
+            \item [{\color{titleColor}\(\mathsf{X}\)}] After the user logs out, swiping to the right on an Android device allows returning to the previous pages, indicating that the session has not been invalidated.
+            
+        \end{itemize}
+\end{itemize}
+% ____________________CV UPLOAD & PROFILE MANAGEMENT___________________________
+\subsection{Implemented Feature:  CV Upload \& Profile Management}
+This test concerns the CV upload phase and the profile management section within the frontend application. The ITD specifies that the profile management functionality is not fully working, but since it is still considered an implemented feature, it will be tested.
+\subsubsection{Expected Behavior}
+The student should be able to upload a CV to the platform and view personal data in the corresponding section of the client application.
+\subsubsection{Steps}
+\begin{enumerate}
+    \item Register as a student;
+    \item Upload the CV using the designated input field during registration;
+    \item No additional steps available for profile management.
+\end{enumerate}
+\subsubsection{Result}
+\verb|PARTIAL SUCCESS|
+\begin{itemize}
+    \item \textbf{\color{titleColor} Description}\\
+   The client application does not include a profile management section, making it impossible to test this functionality. A student can upload a CV during registration, but there is no option to modify or update it later, as no dedicated frontend section exists for this purpose. 
+    \item \textbf{\color{titleColor} Anomalies \& Notes}
+    \begin{itemize}
+            \item [{\color{titleColor}\(\mathsf{X}\)}] The client application lacks a profile management section, preventing users from viewing or editing their personal data.
+            \item [{\color{titleColor}\(\mathsf{X}\)}] Once uploaded during registration, the CV cannot be modified or updated, as no frontend functionality exists for this.
+            \item [{\color{titleColor}\(\Box \)}] The CV upload feature functions correctly at the time of registration.
+        \end{itemize} 
+\end{itemize}
+\subsubsection{Edge Case Tests}
+\begin{itemize} [label= {\color{titleColor}\(\diamond\)}]
+    \item \textbf{\color{titleColor} CV File Format Handling}
+    \begin{itemize}
+        \item \textbf{\color{titleColor} ECT - Description}\\ 
+        The CV column in the user table of the database by default contains a link to a template PDF. However, even when a user uploads a CV file, the database does not seem to handle it correctly, as the field remains empty.
+        \item \textbf{\color{titleColor} ECT - Anomalies \& Notes}\\
+        \begin{itemize}
+            \item [{\color{titleColor}\(\mathsf{X}\)}] The uploaded CV does not appear in the user table, suggesting improper handling.
+            \item [{\color{titleColor}\(\Box \)}] Further investigation is needed to determine if the CV file is uploaded but not linked, or if the upload process itself is failing.
+        \end{itemize} 
+    \end{itemize}
+\end{itemize}
+
+
+% ____________________INTERNSHIP CREATION___________________________
+\subsection{Implemented Feature:  Uploading Internship}
+This test concerns the internship creation phase, which a company user executes to publish an internship offer on the platform.
+\subsubsection{Expected Behavior}
+The company should be able to access the frontend section that allows internship creation, enter the required data, and submit it to the server. Once submitted, the internship should become available for all students on the dashboard page.
+\subsubsection{Steps}
+\begin{enumerate}
+    \item Company clicks the \verb|Add Internship| button;
+    \item Company inserts the required  data;
+    \item Company clicks the \verb|Submit|button to send the internship data to the server;
+    \item The student views the newly created internship on the dashboard page.
+\end{enumerate}
+\subsubsection{Result}
+\verb|PASSED|
+\begin{itemize}
+    \item \textbf{\color{titleColor} Description}
+    The internship creation process works as expected, and students can successfully view newly created internships in the dashboard.
+    \item \textbf{\color{titleColor} Anomalies \& Notes}\\
+      No anomalies were noticed during the process.
+    \begin{itemize}
+            \item [{\color{titleColor}\(\Box \)}] The internship includes a location field, which is displayed in the client application. However, the company cannot modify this field during the creation phase, as it is inherited from the company’s location set during registration.
+            \item Since the ITD specifies that there is no validation on the input provided, we will not include edge case tests for this feature.
+        \end{itemize} 
+\end{itemize}
+
+% ____________________SEARCH INTERNSHIP ___________________________
+\subsection{Implemented Feature:  Search Internship}
+\subsubsection{Expected Behavior}
+The internship search functionality should allow users to filter available internships based on specific criteria. The filtering options should include:
+\begin{itemize}
+    \item The ability to search for internships in a specific location.
+    \item The ability to filter by title, required skills, optional skills, company name, and description and other relevant text information.
+\end{itemize}
+The results should only display internships matching the selected filters, and filtering should exclude non-matching entries.
+\subsubsection{Steps}
+\begin{enumerate}
+    \item Perform a search using location-based filtering within the frontend application.
+    \item Perform a search using internship data-based filtering, entering different values such as title, skills, company name, and description.
+    \item Verify whether the returned results match the expected filtered entries.
+\end{enumerate}
+\subsubsection{Result}
+\verb|PARTIAL SUCCESS|
+\begin{itemize}
+    \item \textbf{\color{titleColor} Description}\\
+    The internship search functionality partially works, as filtering by title, required skills, and optional skills functions correctly. However, filtering by location does not yield meaningful results, and searching using company name or description fails entirely.
+    \item \textbf{\color{titleColor} Anomalies \& Notes}
+    \begin{itemize}
+            \item [{\color{titleColor}\(\mathsf{X}\)}] Since internships inherit their location from the company that created them, searching by location does not produce relevant results.
+            \item [{\color{titleColor}\(\mathsf{X}\)}] Filtering by company name or internship description does not work, meaning users cannot refine searches based on these fields.
+            \item [{\color{titleColor}\(\Box \)}]  Filtering by internship title and skills is functional.
+            \item [{\color{titleColor}\(\Box \)}]  Since there are no explicit API calls for internship search, the filtering mechanism seems to be implemented directly in the frontend application.
+        \end{itemize} 
+\end{itemize}
+\subsubsection{Edge Case Tests}
+\begin{itemize} [label= {\color{titleColor}\(\diamond\)}]
+    \item \textbf{\color{titleColor} Filtering by Non-Existent Location}
+    \begin{itemize}
+        \item \textbf{\color{titleColor} ECT - Description}\\
+        We attempted to filter internships by entering a location that does not exist in the dataset. The search returned the same results as no filtering, indicating that location filtering is ineffective.
+        \item \textbf{\color{titleColor} ECT - Anomalies \& Notes}\\
+        \begin{itemize}
+            \item [{\color{titleColor}\(\mathsf{X}\)}]  The same results appear regardless of the selected location.
+            \item [{\color{titleColor}\(\Box \)}] The same result is obtained using actual internship location, meaning the filtering is not working.
+        \end{itemize} 
+    \end{itemize}
+    \item \textbf{\color{titleColor} Filtering by Partial Internship Description}
+    \begin{itemize}
+        \item \textbf{\color{titleColor} ECT - Description}\\
+        We tested searching using a keyword contained within an internship description. The filtering failed, returning no results, even when internships matching the keyword were present in the dataset.
+        \item \textbf{\color{titleColor} ECT - Anomalies \& Notes}
+        \begin{itemize}
+            \item [{\color{titleColor}\(\mathsf{X}\)}] Filtering by description does not work.
+        \end{itemize} 
+    \end{itemize}
+    \item \textbf{\color{titleColor} Filtering by Company Name}
+    \begin{itemize}
+        \item \textbf{\color{titleColor} ECT - Description}\\
+        We searched for internships using the exact name of a company that had published internships. The filtering failed, returning the same results as no filtering.
+        \item \textbf{\color{titleColor} ECT - Anomalies \& Notes}
+        \begin{itemize}
+            \item [{\color{titleColor}\(\mathsf{X}\)}]  Filtering by company name does not work.
+            \item [{\color{titleColor}\(\Box \)}] nota
+        \end{itemize} 
+    \end{itemize}
+\end{itemize}
+% ____________________PENDING APPLICATION___________________________
+\subsection{Implemented Feature:  Pending Application}
+The test concerns the ability of companies to monitor their list of pending applications. 
+\subsubsection{Expected Behavior}
+Companies should be able to review the list of candidates for their internship, along with their respective CVs, and select students who meet the requirements.
+\subsubsection{Steps}
+\begin{enumerate}
+    \item  Register a new Company 
+    \item Login with new Company
+    \item Create 2 Internships by pressing on \verb|Add Internships| and pressing on submit after providing the required informations
+    \item Logout
+    \item Register a new Student
+    \item Login with new Student
+    \item Open Internship1 and press \verb|Apply|
+    \item Navigate to \verb|Recommendation|, open Internship2 and press \verb|Apply|
+    \item Logout and login with Company 
+    \item Press on the relative Internship to see the list of applications
+    \item Press on the \verb|CV| button
+\end{enumerate}
+\subsubsection{Result} 
+\verb|PARTIAL SUCCESS|
+\begin{itemize}
+    \item \textbf{\color{titleColor} Description} \\The Company successfully retrieves the list of applications for each of his internships but is not able to view the candidate CV, as a generic sample PDF is shown instead 
+    \item \textbf{\color{titleColor} Anomalies \& Notes}
+    \begin{itemize}
+        \item [{\color{titleColor}\(\Box \)}] There is no difference on the company side between a spontaneous application and a recommendation.
+        \item [{\color{titleColor}\(\Box \)}] The motivation text application is not shown to the Company at any point in the execution.
+        \item [{\color{titleColor}\(\mathsf{X}\)}] In order to test this feature, it has been necessary to use postman to create a company account
+        \item [{\color{titleColor}\(\mathsf{X}\)}] When a company tries to visualize the applicant's CV, it is forwarded to a link pointing to a sample PDF, even if the student correctly upload it during registration.
+    \end{itemize}
+\end{itemize}
+
+
+% ____________________RECOMMENDATION PROCESS___________________________
+\subsection{Implemented Feature:  Recommendation Process}
+\subsubsection{Expected Behavior}
+The platform should use the recommendation algorithm to suggest internships that students might be interested in and to recommend students who match internship requirements to companies.
+\subsubsection{Steps}
+\begin{enumerate}
+    \item Register a new Company
+    \item Login with new Company
+    \item Create an Internship providing skills to be checkd
+    \item Logout
+    \item Register a new Student, including skills
+    \item Login with Student
+    \item Navigate to \verb|Recommendation| page and apply to Internship providing motivation message
+    \item Logout and login with Company 
+    \item Press on the relative Internship to see the list of applications
+\end{enumerate}
+\subsubsection{Result}
+\verb|PARTIAL SUCCESS|
+\begin{itemize}
+    \item \textbf{\color{titleColor} Description}
+    The student successfully applies for the internship and sees the corresponding application status as \verb|in pending| while the company has received the application for his Internship. However, in some cases, a critical application crash occurs, preventing the user from accessing their recommendations.
+    \item \textbf{\color{titleColor} Anomalies \& Notes}
+    \begin{itemize}
+        \item [{\color{titleColor}\(\Box \)}] The company is completely passive during this process.
+        \item [{\color{titleColor}\(\Box \)}] The difference between the two recommendation mechanism algorithms is not clear.
+        \item [{\color{titleColor}\(\mathsf{X}\)}] If the internship has no required skills, it will not be suggested by either of the two recommendation mechanisms.
+        \item [{\color{titleColor}\(\mathsf{X}\)}] The app may crash when the student opens the recommendations page, and a particular combination of skills has been chosen for an internship.
+        \item [{\color{titleColor}\(\mathsf{X}\)}] In order to test this feature, it has been necessary to use postman to create a company account
+    \end{itemize}
+
+\end{itemize}
+\subsubsection{Edge Case Tests}
+\begin{itemize} [label= {\color{titleColor}\(\diamond\)}]
+    \item \textbf{\color{titleColor} Internship with various skill matching scenarios}
+    \begin{itemize}
+        \item \textbf{\color{titleColor} ECT - Description}\\ Testing various combinations of required and optional skills in an internship to observe behaviour in the recommendation process.
+        \item \textbf{\color{titleColor} ECT - Anomalies \& Notes}
+        \begin{itemize}
+            \item [{\color{titleColor}\(\mathsf{X}\)}] The app crashes when an internship has two compatible required skills and one incompatible required skill. Follow this steps to recreate the error:
+            \item [{\color{titleColor}\(\mathsf{X}\)}] If an internship has no required skills, it does not appear in any recommendations.
+            \begin{enumerate}
+                \item Signup as a Student and add the following skills: skill1, skill2, skill3
+                \item Logout and login with a company
+                \item Create an internship with the following required skills: skill1, skill2, skill4
+                \item Logout, login with student and open the recommendations page
+            \end{enumerate}
+        \end{itemize} 
+    \end{itemize} 
+\end{itemize}
+
+
+% ____________________SELECTION PROCESS___________________________
+\subsection{Implemented Feature: Selection Process}
+The Selection Management feature allows companies to conduct interviews and questionnaires to systematically assess students. For this test, the steps involving the creation of the student and company, as well as the submission of the internship and the corresponding application, were omitted.
+\subsubsection{Expected Behavior}
+Companies should be able to initiate the process by providing students with a link to a pre-designed website containing the necessary instructions. Students then should be able to complete the interview or questionnaire as required. Upon submission, the company should be able to review the responses and updates the application status accordingly, determining whether the student has passed or failed.
+\subsubsection{Steps}
+\begin{enumerate}
+    \item Login as Company
+    \item Press Add Questionnaire
+    \item Logout and Login with Student
+    \item Navigate to \verb|Applications| page
+    \item Press on \verb|See Questionnaire| and press on link
+    \item Logout and Login with Company
+    \item Press on \verb|Internship|
+    \item Press on \verb|Answer| and press on \verb|accept|
+\end{enumerate}
+\subsubsection{Result}
+\verb|PARTIAL SUCCESS|
+\begin{itemize}
+    \item \textbf{\color{titleColor} Description}
+    The company can successfully send a questionnaire, including its title and link. The student is able to access the information provided by the company and navigate to the designated link. At any stage during this process, the company retains the ability to accept or reject the application. However, the student cannot see correctly the link for his interview.
+    \item \textbf{\color{titleColor} Anomalies \& Notes}
+    \begin{itemize}
+        \item [{\color{titleColor}\(\mathsf{X}\)}] The progression of the selection process differs from the state chart representation in the RASD document. In the implemented version, the company has the ability to reject the student before any submission is made and may also choose not to wait for the student's interview response before making a decision.
+        \item [{\color{titleColor}\(\mathsf{X}\)}] In order to test this feature, it has been necessary to use postman to create a company account
+        \item [{\color{titleColor}\(\Box \)}] Questionnaires or Interviews cannot be opened if a student has already been accepted for an internship 
+    \end{itemize} 
+\end{itemize}
+\subsubsection{Edge Case Tests}
+\begin{itemize} [label= {\color{titleColor}\(\diamond\)}]
+    \item \textbf{\color{titleColor} Interview sent only}
+    \begin{itemize}
+        \item \textbf{\color{titleColor} ECT - Description}\\ The company sends an interview to a candidate student, providing the internship title and the link
+        \item \textbf{\color{titleColor} ECT - Anomalies \& Notes}
+        \begin{itemize}
+            \item [{\color{titleColor}\(\mathsf{X}\)}] The application crashes when a student tries to open an interview sent alone.
+        \end{itemize} 
+    \end{itemize}
+    \item \textbf{\color{titleColor} Interview and Questionnaire sent}
+    \begin{itemize}
+        \item \textbf{\color{titleColor} ECT - Description}\\ The company sends both an interview and a questionnaire to the candidate student, including the necessary information, regardless of the order in which they are sent.
+        \item \textbf{\color{titleColor} ECT - Anomalies \& Notes}
+        \begin{itemize}
+            \item [{\color{titleColor}\(\mathsf{X}\)}] If both an interview and a questionnaire are sent, the questionnaire overrides the interview, making the interview inaccessible. This is believed to be a frontend error, as the internship results to be correctly  stored in the database
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+% ____________________FEEDBACK___________________________
+\subsection{Implemented Feature: Send Feedback}
+The Send Feedback feature allows students to provide feedback to the platform with the aim to improve the statistical analysis used during the matching of companies and students. For this test, the steps involving the creation of the student and company were omitted.
+\subsubsection{Expected Behavior}
+Students should be able to provide feedback on the platform's matching algorithm, including the ability to rate the accuracy of the matches and provide additional comments. The feedback should be stored in the database and used to improve the matching algorithm.
+\subsubsection{Steps}
+\begin{enumerate}
+    \item Login as Student
+    \item Navigate to the Account page
+    \item Press on Send Feedback button
+    \item Fill the form and press on Send
+\end{enumerate}
+\subsubsection{Result}
+\verb|PARTIAL SUCCESS|
+\begin{itemize}
+    \item \textbf{\color{titleColor} Description}
+    While a student can successfully provide feedback, including a rating and comments, the feedback is not used to improve the matching algorithm, as described in the RASD document. The feedback is correctly stored in the database but it is never accessed by the platform while matching the students profile with the internships.\\ Moreover, the UI does not explicitly state that the feedback will be used to improve the matching algorithm, as described in the RASD document, but appear as generic feedback form about the platform.
+    \item \textbf{\color{titleColor} Anomalies \& Notes}
+    \begin{itemize}
+        \item [{\color{titleColor}\(\mathsf{X}\)}] The feedback is not used to improve the matching algorithm, as described in the RASD document.
+        \item [{\color{titleColor}\(\Box \)}] The feedback form is not explicitly stated to be used to improve the matching algorithm, as described in the RASD document.
+    \end{itemize}
+\end{itemize}
+\subsubsection{Edge Case Tests}
+\begin{itemize} [label= {\color{titleColor}\(\diamond\)}]
+    \item \textbf{\color{titleColor} Feedback without filling all the fields}
+    \begin{itemize}
+        \item \textbf{\color{titleColor} ECT - Description}\\ The student sends a feedback without filling all the fields
+        \item \textbf{\color{titleColor} ECT - Anomalies \& Notes}
+        \begin{itemize}
+            \item [{\color{titleColor}\(\Box \)}] The frontend correctly handles the case where the student does not fill all the fields but the feedback is also closed deleting the content of the form. This could be improved by displaying an error message to the student without closing the feedback form, avoiding the loss of the content that was already written.
+            \item [{\color{titleColor}\(\mathsf{X}\)}] No check are made on the backend or in the database, making it possible to store a feedback without all the fields filled or with a rating that is not between 1 and 5.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+%--------------------------------------------------------
+\subsection{Missing Feature:  Notifications}
+\subsubsection{Description}
+The application does not have a notification system to inform users about important events, such as when an application is accepted, or rejected, the finding of a new job offer or candidate or important deadline such as the expiration of a job offer or an interview. In the current state of the application, users have to manually check the application to see if there are any updates, which is not user-friendly and can lead to users missing important events. 
+In the ITD the notification system was declared as a feature “out of the scope of the project”. However, we believe that this feature is critical for the application's correctness and usability as it was correctly mentioned both in the RASD and Assigment document. We also notice the presence of“mail service” in the docker-compose file that was not actually used in the application but gives us a hint that the notification system was planned to be implemented with email notifications. This would have still been different that what was described in the RASD document, where the notification system was supposed to be implemented with in-app notifications but it would have been a good alternative to the current state of the application.
+\subsubsection{Unsatisfied Requirements}
+In the RASD document the notification system was described entirely in the \textbf{R26} requirement. This requirement states that: \textit{the system shall send notifications to users regarding events such as new internship postings, new student applying, application status updates, questionnaire link and interview arrangements}. This requirement is \textbf{fully unsatisfied} due to the absence of the whole notification system, both in the front-end and back-end of the application.
+\subsection{Missing Feature:  Complaint}
+\subsubsection{Description}
+The application does not have a complaint system to allow users to report issue that may arise during an internship. While in the ITD it is correctly mentioned that the handling of the complaint by the University is out of scope for the project, the possibility to report an issue is still a critical feature that is missing in the application and should have been implemented. This feature is critical for the application's correctness and usability, and more importantly it justified the necessity of a university account to be registered in the application and the mandatory rrequirement for a student to be associated with one of them. \\
+By entirely omitting this feature including the ability to report an issue and forward it to the university, not just the university's handling of the complaint, the application could be simplified to the point where student accounts could become generic user accounts. This would allow anyone searching for an internship offer to use the platform without needing to be enrolled in a university. However, this approach would differ from the one described in the RASD document, where the application was intended to be used exclusively by students, as detailed in various requirements and the \textit{user characteristics} section.\\
+\subsubsection{Unsatisfied Requirements}
+In the RASD document the complaint system was described in the \textbf{R27} requirement, while the \textbf{R28} and \textbf{R29} requirements described the handling of the complaint by the University. The R27 requirement states that: \textit{The system shall allow students and companies to submit complaints and feedback about internships through the platform}. This requirement is \textbf{fully unsatisfied} due to the absence of the whole complaint system, both in the front-end and back-end of the application.
+
+\subsection{Missing Feature: Chat Room}
+\subsubsection{Description}
+The application does not have a chat room system to allow student, company and university to communicate with each other. This feature was described both in the RASD and DD document as a feature that was supposed to be implemented. \\
+Unfortunately, this feature was not implemented in the application, nor was it mentioned in the ITD under the *Excluded Features* section. This would have been a nice-to-have feature that would have improved the usability of the application and even compensated for the lack of a complaint system.\\
+\subsubsection{Unsatisfied Requirements}
+In the RASD document the chat room system was described in the **R31** and **R32** requirements. Both requirements state that a chat room system should be implemented to allow students, companies, and universities to communicate with each other and explaining that the chat room should be used to discuss the complaints allowing the university to handle them better. These requirements are \textbf{fully unsatisfied} due to the absence of the whole chat room system, both in the front-end and back-end of the application.
+
+%--------------------------------------------------------
+    
+
+
