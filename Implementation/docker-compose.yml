@@ -150,14 +150,31 @@ services:
 
     networks:
       - traefik-network
-      # - zerotier_network
+      - zerotier_network
+
+  adminer:
+    image: adminer
+    container_name: adminer-container
+    volumes:
+      - "./adminer/adminer.css:/var/www/html/adminer.css"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.adminer.rule=Host(`localhost`) &&  PathPrefix(`/adminer`)"
+      - "traefik.http.routers.adminer.service=adminer"
+      - "traefik.http.routers.adminer.middlewares=auth"
+      - "traefik.http.routers.adminer.entrypoints=web"
+      - "traefik.http.services.adminer.loadbalancer.server.port=8080"
+
+    networks:
+      - traefik-network
+      - zerotier_network
 
 networks:
   traefik-network:
     driver: bridge
-  # zerotier_network:
-  #   external: true
-  #   name: zerotier_network
+  zerotier_network:
+    external: true
+    name: zerotier_network
 
 volumes:
   platform_db_data:
