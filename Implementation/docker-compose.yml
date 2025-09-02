@@ -136,7 +136,7 @@ services:
       #____________MIDDLEWARES____________#
       # MIDDLEWARE AUTH DASHBOARD
       - "traefik.http.routers.traefik.middlewares=auth"
-      - "traefik.http.middlewares.auth.basicauth.users=user:$$apr1$$dtvOjBZO$$sfd2sw28jzU244hTPqN/B."
+      - "traefik.http.middlewares.auth.basicauth.users=user:$$apr1$$bTi/nshv$$Q7TjrHmzX.NtfzanJiCFR."
       # MIDDLEWARE ADD HEADER ---> adds an header when private calls are intercepted
       - "traefik.http.middlewares.add-header.headers.customrequestheaders.X-Custom-Header=TraefikMiddleware"
       # MIDDLEWARE AUTH-API CHECK---> /auth-api/validate
@@ -150,7 +150,7 @@ services:
 
     networks:
       - traefik-network
-      - zerotier_network
+      # - zerotier_network
 
   adminer:
     image: adminer
@@ -167,14 +167,14 @@ services:
 
     networks:
       - traefik-network
-      - zerotier_network
+      # - zerotier_network
 
 networks:
   traefik-network:
     driver: bridge
-  zerotier_network:
-    external: true
-    name: zerotier_network
+  # zerotier_network:
+  #   external: true
+  #   name: zerotier_network
 
 volumes:
   platform_db_data:
