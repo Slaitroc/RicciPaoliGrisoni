@@ -21,9 +21,11 @@ This section provides detailed instructions on how to install and run the projec
 Before proceeding with the installation, ensure you have the following dependencies installed:
 
 - **Docker**: Required to run backend services using `docker-compose.yml`.
+  - Docker requires *WSL 2* to work properly on Windows. 
 - **PowerShell** (Windows users only): Optional, but recommended to automate the backend startup process.
 - **Node.js** and **npm**: Required to install and run the frontend application.
-- **JDK 21**: Required to properly compile the java code with maven.
+- **JDK 21**: Required to properly compile the Java code.
+- **Maven**: Required to manage dependencies, compile Java code and run tests.
 
 ---
 
@@ -87,7 +89,7 @@ in the Implementation directory
 
 ### 🚨 Frontend and Containers Hosts 🚨 (Important!)
 Typically the vite project dev environment is hosted in http::/localhost:5173`, but sometimes, depending on the device, the port can change. 
-The terminal launching the npm vite project will specify the used port. To have the email confirmation service working, you shall change the host ip coherently in the `Implementation\sc_frontend\client-web-app\src\api-calls\apiConfig.js` file.
+The terminal launching the npm vite project will specify the used port. To have the email confirmation service working, you shall change the host ip coherently in the` `Implementation\sc_frontend\client-web-app\src\api-calls\apiConfig.js` file.
 
 In the same file you can set the IP of the device that is running the backend container, which shall be `http://localhost` if your not using external tools like zeroTier to connect to other devices running containers.
 
@@ -106,9 +108,48 @@ If anything does not work properly and you have trouble setting it up, feel free
 
 ---
 
-## Documents - MarkDown Versions
-
-- [RASD.md](./RASD.md)
-
+## Documents & Presentation
 
 The official versions of the documents are in the [Delivery Folder](./DeliveryFolder/). Please note that this markdown version may contain errors or be inconsistent with the official PDF versions.
+
+Access the final presentation slides [here](DeliveryFolder/Final%20Presentation.pdf)
+
+## Walkthrough
+
+### Traefik
+
+We use Traefik as our edge router and reverse proxy in Docker. It discovers services via labels and exposes a single HTTP entry point on port 80.
+Routing is host/path-based: 
+- `/application-api` goes to the `application-service` (port 8443);
+- `/auth-api` to the `auth-service` (port 8444);
+- `/adminer` to `adminer` (port 8080).
+
+The Traefik dashboard and Adminer are protected with Basic Auth. 
+For “private” endpoints (matched by a PathRegexp containing private), Traefik performs ForwardAuth against our auth service (`/auth-api/validate`); on success the request is forwarded to the application service, otherwise it’s rejected. We also attach CORS and a custom header via middlewares. All services run on a shared Docker network, so Traefik routes internally by service name without exposing backend ports publicly.
+
+It also provides an intuitive and useful web dashboard to understand what is going on. The dashboard is accessible via `localhost` in the browser with the following credentials:
+  - **user** = `user`
+  - **password** = `user`
+
+![Traefik1](Images/traefik1.png)
+![Traefik1](Images/traefik2.png)
+
+### Adminer  
+
+Sometimes it is useful to have a fast way to check or modify the data in the database, so we used **Adminer** as a lightweight database management tool running in Docker.  
+
+Adminer is exposed through Traefik at the path `/adminer` and is protected with Basic Auth to avoid unauthorized access. Once authenticated, it provides a simple web interface where we can connect to our MariaDB containers (`application-database-service` and `notification-database-service`) and directly inspect or modify tables, run queries, and manage the schema.  
+
+The connection parameters to use in the Adminer login page are:  
+- **System**: `MySQL/MariaDB`  
+- **Server**: `application-database-service` or `notification-database-service`  
+- **Username**: `root`  
+- **Password**: `password`  
+- **Database**: `sc_DB`  
+
+The Adminer interface is accessible via `localhost/adminer` in the browser with the following Basic Auth credentials:  
+- user = `user`  
+- password = `user`  
+
+![Adminer1](Images/adminer1.png)
+![Adminer2](Images/adminer2.png)  
