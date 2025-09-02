@@ -10,6 +10,14 @@
 
 📌 R&amp;DD &amp; IT Project 
 
+Lorenzo Ricci - Slaitroc
+
+Matteo Giovanni Paoli - Krotox
+
+Samuele Grisoni - dedepivot
+
+🧐 Grade: 30L
+
 </div>
 
 ## 📦 Installation Guide
